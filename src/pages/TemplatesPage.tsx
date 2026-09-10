@@ -7,7 +7,18 @@ export function TemplatesPage({ id }: { id?: string }) {
   const [copied, setCopied] = useState(false);
 
   const copy = async () => {
-    await navigator.clipboard.writeText(current.code);
+    try {
+      await navigator.clipboard.writeText(current.code);
+    } catch {
+      const area = document.createElement("textarea");
+      area.value = current.code;
+      area.style.position = "fixed";
+      area.style.left = "-9999px";
+      document.body.appendChild(area);
+      area.select();
+      document.execCommand("copy");
+      area.remove();
+    }
     setCopied(true);
     window.setTimeout(() => setCopied(false), 1500);
   };
@@ -16,7 +27,7 @@ export function TemplatesPage({ id }: { id?: string }) {
     <div className="layout">
       <aside className="side">
         <div className="brand-kicker">Snippets</div>
-        <h2 className="page-title">模板</h2>
+        <h2 className="side-title">模板</h2>
         <div className="template-list">
           {templates.map((item) => (
             <a

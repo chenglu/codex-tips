@@ -98,32 +98,45 @@ pre {
 .marks {
   pointer-events: none;
   position: fixed;
-  inset: 14px;
-  border: 1px solid var(--line);
+  inset: 12px;
   z-index: 2;
 }
 
-.marks::before,
-.marks::after {
-  content: "";
+.marks span {
   position: absolute;
-  width: 18px;
-  height: 18px;
-  border: 1px solid var(--copper);
+  width: 16px;
+  height: 16px;
+  border-color: var(--copper);
+  border-style: solid;
+  border-width: 0;
 }
 
-.marks::before {
-  top: -1px;
-  left: -1px;
-  border-right: 0;
-  border-bottom: 0;
+.marks .tl {
+  top: 0;
+  left: 0;
+  border-top-width: 1px;
+  border-left-width: 1px;
 }
 
-.marks::after {
-  right: -1px;
-  bottom: -1px;
-  border-left: 0;
-  border-top: 0;
+.marks .tr {
+  top: 0;
+  right: 0;
+  border-top-width: 1px;
+  border-right-width: 1px;
+}
+
+.marks .bl {
+  bottom: 0;
+  left: 0;
+  border-bottom-width: 1px;
+  border-left-width: 1px;
+}
+
+.marks .br {
+  right: 0;
+  bottom: 0;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
 }
 
 .shell {
@@ -136,11 +149,18 @@ pre {
 
 .topbar {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   gap: 24px;
   padding-bottom: 18px;
   border-bottom: 1px solid var(--line);
+}
+
+.brand-nav {
+  display: flex;
+  align-items: baseline;
+  gap: 28px;
+  min-width: 0;
 }
 
 .brand {
@@ -162,6 +182,7 @@ pre {
   font-family: var(--serif);
   font-size: 28px;
   line-height: 1;
+  white-space: nowrap;
 }
 
 .nav {
@@ -169,6 +190,7 @@ pre {
   flex-wrap: wrap;
   gap: 8px 18px;
   font-size: 14px;
+  flex: 1;
 }
 
 .nav a {
@@ -413,10 +435,16 @@ pre {
   align-self: start;
 }
 
-.side h2,
+.side-title,
 .page-title {
   font-family: var(--serif);
   font-weight: 400;
+}
+
+.side-title {
+  font-size: clamp(36px, 5vw, 56px);
+  line-height: 0.95;
+  margin: 0;
 }
 
 .page-title {
@@ -705,14 +733,49 @@ pre {
   .search-launch {
     min-width: 0;
   }
-  .marks {
-    inset: 8px;
-  }
   .shell {
     padding: 18px 16px 64px;
   }
   .side {
     position: static;
+  }
+  .topbar,
+  .brand-nav {
+    flex-wrap: wrap;
+  }
+  .nav-tools {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 720px) {
+  .hero {
+    padding: 32px 0 28px;
+    gap: 28px;
+  }
+  .hero h1 {
+    font-size: 44px;
+  }
+  .brand-title {
+    font-size: 24px;
+  }
+  .search-launch span {
+    display: none;
+  }
+  .search-launch {
+    padding: 6px 8px;
+  }
+  .nav {
+    width: 100%;
+    gap: 8px 14px;
+  }
+  .nav-tools {
+    width: auto;
+    margin-left: auto;
+  }
+  .stack {
+    padding-left: 16px;
   }
 }
 

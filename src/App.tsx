@@ -59,14 +59,20 @@ export function App() {
 
   return (
     <>
-      <div className="marks" aria-hidden="true" />
+      <div className="marks" aria-hidden="true">
+        <span className="tl" />
+        <span className="tr" />
+        <span className="bl" />
+        <span className="br" />
+      </div>
       <div className="shell">
         <header className="topbar">
-          <a className="brand" href={href({ name: "home" })}>
-            <span className="brand-kicker">Chenglu · Codex Tips</span>
-            <span className="brand-title">Codex Tips</span>
-          </a>
-          <nav className="nav">
+          <div className="brand-nav">
+            <a className="brand" href={href({ name: "home" })}>
+              <span className="brand-kicker">Chenglu · Codex Tips</span>
+              <span className="brand-title">Codex Tips</span>
+            </a>
+            <nav className="nav">
             <a
               className={navActive(route, "browse") ? "is-active" : undefined}
               href={href({ name: "browse", search: "" })}
@@ -92,6 +98,7 @@ export function App() {
               关于
             </a>
           </nav>
+          </div>
           <div className="nav-tools">
             <button className="search-launch" type="button" onClick={() => setSearchOpen(true)}>
               <span>检索手册</span>

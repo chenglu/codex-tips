@@ -24,6 +24,13 @@ export function SearchModal({
   );
 
   useEffect(() => {
+    if (open) {
+      setQuery("");
+      setActive(0);
+    }
+  }, [open]);
+
+  useEffect(() => {
     setActive(0);
   }, [query]);
 
@@ -40,7 +47,8 @@ export function SearchModal({
         setActive((value) => Math.max(value - 1, 0));
       }
       if (event.key === "Enter" && results[active]) {
-        window.location.hash = href({ name: "tip", id: results[active].id }).slice(1);
+        event.preventDefault();
+        window.location.hash = href({ name: "tip", id: results[active].id });
         onClose();
       }
     };

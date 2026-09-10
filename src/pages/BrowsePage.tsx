@@ -47,7 +47,7 @@ export function BrowsePage({ search }: { search: string }) {
     <div className="layout">
       <aside className="side">
         <div className="brand-kicker">Index</div>
-        <h2 className="page-title">目录</h2>
+        <h2 className="side-title">目录</h2>
         <div className="filters">
           <label>
             检索
