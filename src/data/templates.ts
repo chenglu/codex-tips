@@ -1347,4 +1347,26 @@ enabled = true
 client_id = "my-slack-app"
 `,
   },
+  {
+    id: "mcp-sentry-remote",
+    title: "Sentry 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.sentry.dev/mcp。能接到 org/project。add 之后 mcp login sentry。不要抄 mcp-remote 或 Claude 的 --transport http。",
+    code: `[mcp_servers.sentry]
+url = "https://mcp.sentry.dev/mcp/my-org/my-project"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-atlassian-remote",
+    title: "Atlassian 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "现行入门页是 v2/mcp。add 之后 mcp login。不要抄 /sse 或把 authv2 当唯一入口。Atlassian 要 DCR，不要抄 Slack 的预注册 client_id。",
+    code: `[mcp_servers.atlassian]
+url = "https://mcp.atlassian.com/v2/mcp"
+enabled = true
+`,
+  },
 ];

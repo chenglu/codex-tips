@@ -3400,4 +3400,102 @@ client_id = "my-slack-app"
       },
     ],
   },
+  {
+    id: "mcp-sentry-remote",
+    no: 270,
+    title: "Sentry MCP 用官方远程 URL 再 login，不要抄 mcp-remote",
+    summary:
+      "CLI：codex mcp add sentry --url https://mcp.sentry.dev/mcp，再 mcp login sentry。能接到 org/project。托管端是 OAuth，不是 PAT。旧文的 npx mcp-remote 和 Claude 的 --transport http 不要抄。",
+    body: `Learn 把 Sentry 列进推荐 MCP。官方托管地址是 Streamable HTTP，不是本地包：
+
+\`\`\`bash
+codex mcp add sentry --url https://mcp.sentry.dev/mcp
+codex mcp login sentry
+\`\`\`
+
+能接到某个 org 或项目，工具表会变短，发现类工具会被藏掉。官方建议尽量接到项目：
+
+\`\`\`toml
+[mcp_servers.sentry]
+url = "https://mcp.sentry.dev/mcp/my-org/my-project"
+enabled = true
+\`\`\`
+
+\`codex mcp login sentry\` 走浏览器 OAuth。Sentry 写明**所有连接都用 OAuth**。这是会话里拉取 issue / 堆栈，不是值班告警，也不会在你没开会话时盯着错误飙升。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`claude mcp add --transport http\`。Codex 远程用 \`--url\`，名字写在 \`add\` 后面。
+- 不要一上来套 \`npx -y mcp-remote@latest https://mcp.sentry.dev/mcp\`。现行 Codex 自己会连 HTTP。
+- 不要给托管端写 \`bearer_token_env_var\`。日文对照文有时把它当成 Sentry 主路径，那是错的。
+- 不要把官方文档里的 \`{organizationSlug}\` 花括号占位原样抄进 TOML。写成真实 slug，例如 \`my-org/my-project\`。
+- 不要默认加 \`?experimental=1\`。那是前瞻工具，会多占上下文。
+- 不要抄 \`/sse\`。也不要给它 \`required = true\` 挂全局。
+- 不要把自托管 stdio 包 \`@sentry/mcp-server\` 和托管 URL 混成一台。自托管才走 \`command\` / \`args\`，密钥用 \`env_vars\` 转发，不要把 access token 写进 \`args\`。TOML 里的美元括号不会展开。
+
+错误正文是攻击者可写的输入。从 Sentry 拉来的内容修 bug 时，保持工具批准，不要一上来 \`--yolo\`。网页 Cloud 不读这份 \`config.toml\`。改完新开会话，用 \`codex mcp get sentry\` 看传输是 streamable_http。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Sentry", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-http-not-sse", "mcp-notion-remote"],
+    sources: [
+      {
+        label: "Sentry · MCP Server",
+        url: "https://docs.sentry.io/product/sentry-mcp/",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+      {
+        label: "Use Carly · Codex to Sentry",
+        url: "https://www.usecarly.com/blog/codex-sentry-integration/",
+      },
+    ],
+  },
+  {
+    id: "mcp-atlassian-remote",
+    no: 271,
+    title: "Atlassian MCP 用现行 v2/mcp，不要抄 SSE 或 Slack 那种预注册 client_id",
+    summary:
+      "2026-09 入门页地址是 https://mcp.atlassian.com/v2/mcp。CLI：mcp add atlassian --url 再 mcp login。桌面走插件 Atlassian Rovo。不要抄已停的 /sse，也不要把 authv2 当唯一入口。Atlassian 要 DCR，和 Slack 相反。",
+    body: `Atlassian Rovo MCP 接 Jira / Confluence 等云产品。2026-09-02 的入门页把客户端指到：
+
+\`\`\`bash
+codex mcp add atlassian --url https://mcp.atlassian.com/v2/mcp
+codex mcp login atlassian
+\`\`\`
+
+网关如果要一次性完整工具表，而不是动态发现，官方另给 \`https://mcp.atlassian.com/v2/mcp?tools=all\`。桌面应用走 Plugins / Connectors 里的 **Atlassian Rovo**，不必和 CLI 抢同一条手写 TOML。
+
+\`codex mcp login atlassian\` 走 OAuth 2.1。Codex 默认会做动态客户端登记（DCR），这正是 Atlassian 远程 MCP 要的。不要抄 Slack 那套预注册 \`oauth.client_id\`：社区里用开发者控制台静态 3LO 应用能握手、列工具，一调真实工具却失败。
+
+不要做这些：
+
+- 不要抄 \`https://mcp.atlassian.com/v1/sse\`。那是旧 SSE，教程写明 2026-06 起不要新建。
+- 不要把 \`https://mcp.atlassian.com/v1/mcp/authv2\` 写成「现在唯一的官方地址」。那是 2026-05 切 DCR 授权服务器时的过渡 URL。现行入门页是 \`v2/mcp\`。
+- 不要信「\`codex mcp add\` 还没有 \`--url\`」。Learn 和本机 \`--help\` 都有；mcp.directory 那篇还停在 issue 未合入。
+- 不要把 OAuth access token 字面量写进 \`http_headers\`。交互登录用 \`mcp login\`。
+- 不要把管理员才开的 API token 当成默认。那是无头 / CI 备选，HTTP 才用 \`bearer_token_env_var\`，而且不是 Basic 邮箱拼接那种抄法的第一选择。
+- 不要给它 \`required = true\` 挂全局，也不要抄 Claude 的 \`mcpServers\` JSON。
+- 不要把 Claude Code 的 \`network.allowedDomains\` 抄进 Codex config。附件 / 白板要额外域名时，按本机沙箱和网络策略放行，不是那条键。
+
+改完新开会话。网页 Cloud 不读 \`~/.codex/config.toml\`。用 \`codex mcp get atlassian\` 核对传输是 streamable_http。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Atlassian", "Jira", "OAuth"],
+    related: ["mcp-add-and-login", "mcp-slack-remote", "mcp-http-not-sse"],
+    sources: [
+      {
+        label: "Atlassian · Getting started",
+        url: "https://developer.atlassian.com/cloud/rovo-mcp/guides/getting-started/",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
 ];

@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-11T18:30:00Z",
+  lastTick: "2026-09-11T19:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "18:30 调用前 $98.00。Spend: counts（start_time=2026-09-04T18:45:00Z，共 249 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录 Notion + Slack 远程 MCP。",
+    "19:00 调用前 $98.00。Spend: counts（start_time=2026-09-04T19:15:00Z，共 222 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录 Sentry + Atlassian 远程 MCP。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -427,6 +427,13 @@ export const loopState = {
     "github.com/openai/codex/issues/13200 Slack MCP DCR oauth-client-id",
     "Codex CLI 技巧 2026 Notion Slack MCP OAuth login",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR Notion OR Slack OR OAuth OR hooks OR AGENTS.md)',
+    "X news: Codex CLI",
+    "docs.sentry.io product sentry-mcp Codex mcp.sentry.dev",
+    "usecarly.com blog Codex Sentry MCP mcp add --url",
+    "developer.atlassian.com rovo-mcp getting-started v2/mcp Codex",
+    "mcp.directory how-to-add-atlassian-mcp-to-codex authv2",
+    "Codex CLI 技巧 2026 Sentry Atlassian MCP OAuth login",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR Sentry OR Atlassian OR Jira OR hooks OR AGENTS.md)',
     "X news: Codex CLI",
   ],
 };

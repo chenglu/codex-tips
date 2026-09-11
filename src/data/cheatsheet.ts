@@ -161,6 +161,8 @@ export const cheatSections: CheatSection[] = [
       { cmd: "codex mcp add figma --url …", meaning: "Figma 官方远程 MCP。随后 mcp login figma。不要抄 rmcp_client，也不要和 bearer 混用。本地 3845 是另一台" },
       { cmd: "codex mcp add notion --url …", meaning: "Notion 官方远程 MCP。随后 mcp login notion。OAuth 目前不能非交互。不要抄 rmcp 旗标、/sse 或 Claude 的 --transport http" },
       { cmd: "codex mcp add slack --url … --oauth-client-id", meaning: "Slack 官方远程 MCP。不带 client_id 会 DCR 失败。文档里的 --transport http 是 Claude 语法。不是 Cloud @Codex" },
+      { cmd: "codex mcp add sentry --url …", meaning: "Sentry 官方远程 MCP。随后 mcp login sentry。能接到 org/project。托管端是 OAuth。不要抄 mcp-remote 或 Claude 的 --transport http" },
+      { cmd: "codex mcp add atlassian --url …", meaning: "Atlassian 现行地址是 v2/mcp。随后 mcp login。不要抄 /sse 或 authv2 过渡 URL。Atlassian 要 DCR，和 Slack 相反" },
       { cmd: "项目 mcp_servers 写全传输", meaning: "桌面可能写丢用户层 MCP 表。项目不要只写 enabled = true，否则 invalid transport。先备份 ~/.codex/config.toml" },
       { cmd: "codex mcp add chrome-devtools -- npx …", meaning: "官方 Chrome DevTools MCP 是 stdio 包。不是 localhost:3000 HTTP。沙箱加 --headless。Windows cmd 包装不要抄进 WSL" },
       { cmd: "codex mcp add playwright -- npx …", meaning: "官方 Playwright MCP 是 stdio 包 @playwright/mcp。沙箱加 --headless --isolated。关掉 browser_run_code_unsafe。缺浏览器先 install chromium" },

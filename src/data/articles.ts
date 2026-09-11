@@ -2091,5 +2091,35 @@ export const articles: Article[] = [
     summary:
       '官方有 Codex 节，但那行 --transport http 是 Claude 语法。Codex 应写成 mcp add slack --url https://mcp.slack.com/mcp，并带 --oauth-client-id。Slack 不支持 DCR。这和 Cloud 频道 @Codex 不是同一条路。',
   },
+  {
+    title: 'Sentry MCP Server',
+    url: 'https://docs.sentry.io/product/sentry-mcp/',
+    source: 'Sentry',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Sentry', 'OAuth'],
+    summary:
+      '官方托管地址是 https://mcp.sentry.dev/mcp，可接到 org 或项目。所有连接走 OAuth。页面只示范 Claude --transport http 和 Cursor JSON。Codex 用 mcp add sentry --url 再 mcp login。不要把花括号占位原样写进 TOML。',
+  },
+  {
+    title: 'How to Connect Codex to Sentry (and What It Can\'t Do)',
+    url: 'https://www.usecarly.com/blog/codex-sentry-integration/',
+    source: 'Use Carly',
+    lang: '英文',
+    kind: '教程',
+    tags: ['MCP', 'Sentry', 'codex mcp add'],
+    summary:
+      '给出 Codex 命令 mcp add sentry --url。现行构建直接连 HTTP，不要再套 mcp-remote。它只在会话里拉取，不是值班告警。错误正文可能带提示注入，批准别关。后半是产品推销，安装步骤以官方 MCP 页为准。',
+  },
+  {
+    title: 'Getting started with the Atlassian Rovo MCP Server',
+    url: 'https://developer.atlassian.com/cloud/rovo-mcp/guides/getting-started/',
+    source: 'Atlassian',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Atlassian', 'OAuth'],
+    summary:
+      '2026-09-02 入门页把客户端指到 https://mcp.atlassian.com/v2/mcp。桌面走插件 Atlassian Rovo。CLI 用 mcp add --url 再 login。网关要完整工具表才加 tools=all。不要抄已停的 /sse，也不要把 5 月的 authv2 过渡地址当现行唯一入口。',
+  },
 ];
 
