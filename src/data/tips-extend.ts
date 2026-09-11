@@ -2325,7 +2325,7 @@ enabled = true
     level: "intermediate",
     surfaces: ["app", "cli", "ide"],
     tags: ["MCP", "桌面", "config.toml"],
-    related: ["mcp-host-split", "mcp-add-and-login", "plugin-mcp-cwd-dot"],
+    related: ["mcp-host-split", "desktop-wsl-codex-app-transport", "mcp-add-and-login"],
     sources: [
       {
         label: "openai/codex#13025",

@@ -12,6 +12,36 @@ export type CommunityItem = {
 
 export const community: CommunityItem[] = [
   {
+    title: '桌面 WSL 注入残缺 mcp_servers.codex_app，报 invalid transport',
+    url: 'https://github.com/openai/codex/issues/40819',
+    source: 'openai/codex#40819',
+    kind: '论坛',
+    date: '2026-08-26',
+    tags: ['Windows', 'WSL', 'MCP', '桌面'],
+    summary:
+      '桌面 26.820.x 在 WSL 代理路径上 thread/start、thread/resume 会注入内部服务器 codex_app，常常只有 enabled 或 enabled_tools，没有 command 或 url。报错让修 config.toml，用户文件里通常没有这张表。关捆绑插件无效。可靠权宜是 runCodexInWindowsSubsystemForLinux = false 并彻底重启，这会改成 Windows 原生代理。',
+  },
+  {
+    title: '关 codex-app-tools 插件挡不住桌面 WSL 的 invalid transport',
+    url: 'https://github.com/openai/codex/issues/40910',
+    source: 'openai/codex#40910',
+    kind: '论坛',
+    date: '2026-08-26',
+    tags: ['Windows', 'WSL', 'MCP', '插件'],
+    summary:
+      '捆绑插件 desktop-mcp.json 里的 codex_app 用 cmd.exe 启动。桌面把 app-server 丢进 WSL 后，这条 Windows 传输过不去。plugins."codex-app-tools@openai-bundled" enabled = false 无效。日志里会出现 Spawning process inside WSL。不要把 cmd.exe 启动块抄进 WSL 侧 config。',
+  },
+  {
+    title: 'OpenAI 论坛：桌面 26.820 开 WSL 后所有线程起不来',
+    url: 'https://community.openai.com/t/codex-desktop-26-820-7780-0-wsl-threads-fail-with-invalid-transport-in-mcp-servers-codex-app/1392811',
+    source: 'OpenAI Developer Community',
+    kind: '论坛',
+    date: '2026-08-26',
+    tags: ['Windows', 'WSL', '桌面', 'MCP'],
+    summary:
+      '和 GitHub 40819 同一条回归：MS Store 桌面 26.820.7780.0 自动更新后，WSL 托管线程全部 invalid transport。请求级配置里的 mcp_servers.codex_app 只有 enabled。权宜同样是关掉桌面 WSL 代理并重启，不是去修用户 MCP 表。',
+  },
+  {
     title: '桌面经常忽略项目 .codex/config.toml 里的 MCP',
     url: 'https://github.com/openai/codex/issues/13025',
     source: 'openai/codex#13025',

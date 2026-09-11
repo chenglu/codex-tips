@@ -837,7 +837,7 @@ IDE 扩展要在编辑器设置里打开 \`chatgpt.runCodexInWindowsSubsystemFor
     level: "intermediate",
     surfaces: ["cli", "ide"],
     tags: ["WSL", "Windows", "路径"],
-    related: ["windows-elevated-sandbox", "windows-app-wsl-home-split", "tui-notifications-filter"],
+    related: ["windows-app-wsl-home-split", "desktop-wsl-codex-app-transport", "windows-elevated-sandbox"],
     sources: [
       {
         label: "OpenAI · WSL",
@@ -982,7 +982,7 @@ gh auth login
     level: "intermediate",
     surfaces: ["app", "cli"],
     tags: ["Windows", "WSL", "CODEX_HOME"],
-    related: ["wsl-linux-home-not-mntc", "windows-elevated-sandbox", "integrated-terminal-ctrl-backtick"],
+    related: ["wsl-linux-home-not-mntc", "desktop-wsl-codex-app-transport", "windows-elevated-sandbox"],
     sources: [
       {
         label: "OpenAI · ChatGPT desktop app for Windows",
@@ -2674,6 +2674,59 @@ apps = false
       {
         label: "OpenAI · Apps and connectors",
         url: "https://learn.chatgpt.com/docs/enterprise/apps-and-connectors",
+      },
+    ],
+  },
+  {
+    id: "desktop-wsl-codex-app-transport",
+    no: 247,
+    title: "桌面开 WSL 报 invalid transport in mcp_servers.codex_app 时，先别改用户 MCP",
+    summary: "桌面 26.820.x 在 WSL 代理路径会注入残缺的内部服务器 codex_app，常常只有 enabled 或 enabled_tools，没有 command 或 url。报错让你修 config.toml，用户文件里通常没有这张表。关捆绑插件无效。可靠权宜是改成 Windows 原生代理并彻底重启。",
+    body: `Windows 桌面把 Agent environment 切到 WSL，或用户 config 写了：
+
+\`\`\`toml
+[desktop]
+runCodexInWindowsSubsystemForLinux = true
+\`\`\`
+
+之后新开、恢复线程都失败，文案类似：ChatGPT can't load config.toml，invalid transport in \`mcp_servers.codex_app\`。先看 About Codex 的版本。这是桌面 26.820.x 在 WSL app-server 路径上的注入问题，不是你手写 MCP 写错。有人报告后续桌面构建已经能开线程；先走商店或应用内更新，彻底退出所有 ChatGPT / Codex 进程再开，试一条**新**线程。
+
+用户、项目、WSL 家目录的 \`config.toml\` 里经常根本没有 \`[mcp_servers.codex_app]\`。桌面在 \`thread/start\` 和 \`thread/resume\` 里注入内部服务器 \`codex_app\`（来自捆绑插件 \`codex-app-tools\`）。Windows 原生路径会带上 \`cmd.exe\` 启动块；WSL 路径常常只剩下 \`enabled\` 或 \`enabled_tools\`。加载器按「没有 \`command\` 也没有 \`url\`」判 invalid transport，整条线程起不来。
+
+不要做这些：
+
+- 不要在 WSL 侧 config 手抄 \`command = "cmd.exe"\` 和 \`.cmd\` 启动脚本。Linux app-server 解析不了这条 Windows 传输。
+- 不要写 \`[plugins."codex-app-tools@openai-bundled"] enabled = false\` 当修复。请求级注入不会停，有人还看到桌面把插件写回启用。
+- 不要为了消报错去改无关的 \`mcp_servers\`，或清空 \`~/.codex\`。
+- 不要包一层 WSL app-server、改安装目录里的脚本。
+
+需要立刻能开线程时，改成 Windows 原生代理：
+
+\`\`\`toml
+[desktop]
+runCodexInWindowsSubsystemForLinux = false
+\`\`\`
+
+也可以在 Settings 里把 Agent environment 切回 Windows native。改完必须彻底退出再开，只新开会话不够。这会换执行环境，不是把 WSL 修好了。仓库在 Linux 家目录、依赖 Linux 工具链时，原生代理可能打不开同一份路径；这时用 WSL 里的 CLI，或 IDE 扩展的 \`chatgpt.runCodexInWindowsSubsystemForLinux\`（和桌面 \`[desktop]\` 键不是同一个开关）。
+
+macOS 上同一句 invalid transport 常常是另一件事（例如临时目录权限），不要把这条 WSL 权宜抄过去。对照本机 About Codex：桌面已经能在 WSL 下开新线程，就不要再关 WSL 代理。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["app", "cli", "ide"],
+    tags: ["Windows", "WSL", "MCP", "桌面"],
+    related: ["windows-app-wsl-home-split", "wsl-linux-home-not-mntc", "desktop-project-mcp"],
+    sources: [
+      {
+        label: "openai/codex#40819",
+        url: "https://github.com/openai/codex/issues/40819",
+      },
+      {
+        label: "openai/codex#40910",
+        url: "https://github.com/openai/codex/issues/40910",
+      },
+      {
+        label: "OpenAI · ChatGPT desktop app for Windows",
+        url: "https://learn.chatgpt.com/docs/windows/windows-app",
       },
     ],
   },

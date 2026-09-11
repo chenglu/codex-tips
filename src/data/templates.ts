@@ -1072,4 +1072,13 @@ enabled = true
 bearer_token_env_var = "DOCS_MCP_TOKEN"
 `,
   },
+  {
+    id: "desktop-wsl-codex-app-transport",
+    title: "桌面 WSL 报 invalid transport 时改回原生代理",
+    filename: "%USERPROFILE%\\.codex\\config.toml",
+    summary: "这会换成 Windows 原生代理，不是修好 WSL。改完彻底退出桌面再开。不要手抄 cmd.exe 进 WSL 侧 MCP。",
+    code: `[desktop]
+runCodexInWindowsSubsystemForLinux = false
+`,
+  },
 ];

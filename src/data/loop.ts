@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-11T08:00:00Z",
+  lastTick: "2026-09-11T08:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "08:00 调用前 $98.23。Spend: counts（start_time=2026-09-04T09:15:00Z，共 159 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录桌面读不到项目层 MCP。",
+    "08:30 调用前 $98.21。Spend: counts（start_time=2026-09-04T09:45:00Z，共 129 条）+ search_posts_all=10。search_news 503，未重试，未调用 get_news。新命中 @neighbads 套壳 Web 额度方案，未收录。其余仍是 tui.animations / 外链感受帖。收录桌面 WSL 注入残缺 mcp_servers.codex_app。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -287,6 +287,14 @@ export const loopState = {
     "github.com/openai/codex/issues/14449 Desktop stdio MCP cwd absolute",
     "news.qiniu.com Codex 插件全解 75 官方目录",
     "Codex CLI 技巧 2026 桌面 项目层 MCP config.toml",
+    'X: ("Codex CLI" OR #CodexCLI) (plugin OR marketplace OR worktree OR hooks OR AGENTS.md OR exec OR config.toml)',
+    "X news: Codex CLI",
+    "github.com/openai/codex/issues/40819 invalid transport mcp_servers.codex_app WSL",
+    "github.com/openai/codex/issues/40910 runCodexInWindowsSubsystemForLinux codex_app",
+    "github.com/openai/codex/issues/40894 enabled_tools without transport Desktop WSL",
+    "site:community.openai.com Codex Desktop 26.820 WSL invalid transport",
+    "learn.chatgpt.com windows-app runCodexInWindowsSubsystemForLinux",
+    "Codex CLI 技巧 2026 桌面 WSL invalid transport codex_app",
     'X: ("Codex CLI" OR #CodexCLI) (plugin OR marketplace OR worktree OR hooks OR AGENTS.md OR exec OR config.toml)',
     "X news: Codex CLI",
   ],
