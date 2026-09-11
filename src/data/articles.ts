@@ -629,7 +629,7 @@ export const articles: Article[] = [
     kind: '官方',
     tags: ['Windows', '沙箱', '排错'],
     summary:
-      '原生 Windows 沙箱两种模式：elevated 用独立低权限用户和防火墙，unelevated 是管理员批准被拦时的退路。覆盖 /sandbox-add-read-dir、错误 1385、Everyone 可写目录警告，以及把 sandbox.log 而不是 .sandbox-secrets 交给支持。',
+      '原生 Windows 沙箱两种模式：elevated 用独立低权限用户和防火墙，unelevated 是管理员批准被拦时的退路。两种模式默认都进专用桌面（sandbox_private_desktop = true）；GUI 或 Computer Use 要看见交互桌面才改 false。还覆盖 /sandbox-add-read-dir、错误 1385、Everyone 可写目录警告，以及把 sandbox.log 而不是 .sandbox-secrets 交给支持。',
   },
   {
     title: 'Permissions',

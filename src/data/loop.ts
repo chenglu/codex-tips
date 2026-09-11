@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-11T05:30:00Z",
+  lastTick: "2026-09-11T06:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "05:30 调用前 $98.27（@lucheng01）。Spend: counts（start_time=2026-09-04T07:00:00Z，共 159 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录插件 MCP OAuth camelCase，以及 MCP instructions 前 512 字符。",
+    "06:00 调用前 $98.27，调用后 $98.26。Spend: counts（start_time=2026-09-04T07:30:00Z，共 158 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录 windows.sandbox_private_desktop。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -258,6 +258,11 @@ export const loopState = {
     "Codex CLI rust-v0.155 changelog plugin mcp.json oauth callbackPort 2026",
     "site:learn.chatgpt.com extend mcp plugin-provided clientId callbackPort instructions 512",
     "Codex CLI 技巧 2026 插件 MCP OAuth camelCase instructions 512",
+    'X: ("Codex CLI" OR #CodexCLI) (plugin OR marketplace OR worktree OR hooks OR AGENTS.md OR exec OR config.toml)',
+    "X news: Codex CLI",
+    "site:learn.chatgpt.com windows.sandbox_private_desktop Winsta0 CodexSandboxDesktop",
+    "github.com/openai/codex/issues/37043 Computer Use EnumWindows private desktop",
+    "Codex CLI 技巧 2026 Windows 专用桌面 sandbox_private_desktop Computer Use",
     'X: ("Codex CLI" OR #CodexCLI) (plugin OR marketplace OR worktree OR hooks OR AGENTS.md OR exec OR config.toml)',
     "X news: Codex CLI",
   ],

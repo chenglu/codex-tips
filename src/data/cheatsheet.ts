@@ -142,6 +142,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: "--ignore-rules", meaning: "跳过用户和项目 execpolicy .rules" },
       { cmd: "--skip-git-repo-check", meaning: "允许在非 Git 目录跑 exec；一次性目录才开" },
       { cmd: "codex sandbox linux|macos|windows -- CMD", meaning: "离线用同一套 OS 沙箱试命令；macOS 可加 --log-denials" },
+      { cmd: "windows.sandbox_private_desktop", meaning: "原生 Windows 默认专用桌面；Computer Use 枚举不到窗口才改 false，然后彻底退出 ChatGPT / Codex" },
       { cmd: "codex execpolicy check --resolve-host-executables", meaning: "绝对路径按 basename 回退匹配规则" },
       { cmd: "codex debug prompt-input", meaning: "打印模型可见 prompt JSON，核对 AGENTS.md 是否真的加载" },
       { cmd: "allow_login_shell = false", meaning: "拒绝 login shell；靠 ~/.profile 注入 PATH 的远端机不要关" },

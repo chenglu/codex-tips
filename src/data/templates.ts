@@ -991,6 +991,18 @@ enabled = false
 `,
   },
   {
+    id: "windows-sandbox-private-desktop",
+    title: "Windows 沙箱专用桌面",
+    filename: "~/.codex/config.toml",
+    summary: "默认 true。Computer Use 或必须看见交互桌面的 GUI 才改 false，然后彻底退出 ChatGPT / Codex。",
+    code: `[windows]
+sandbox = "elevated"
+# 默认 true：沙盒子进程进 Winsta0\\CodexSandboxDesktop-...
+# 只要兼容交互桌面时才关：
+sandbox_private_desktop = false
+`,
+  },
+  {
     id: "plugin-mcp-oauth-json",
     title: "插件 MCP OAuth（camelCase）",
     filename: "mcp.json",

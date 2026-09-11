@@ -525,12 +525,12 @@ sandbox = "elevated"    # 推荐：独立低权限用户 + 防火墙
 
 \`setup refresh\` / \`SetNamedSecurityInfoW failed: 5\` 时，先看 \`.git\`、\`.codex\`、\`.agents\` 的所有者是不是变成了 \`CodexSandboxOffline\`。关掉所有 \`ChatGPT.exe\` 后，用管理员 PowerShell 把所有权改回自己的账户，再重开。这是 ACL 残留，不是 Git 坏了。
 
-Windows 11 是推荐基线；Windows 10 要 1809 以上且有 ConPTY。需要 Linux 工具链再回 WSL。`,
+Windows 11 是推荐基线；Windows 10 要 1809 以上且有 ConPTY。需要 Linux 工具链再回 WSL。沙箱弹出的窗口看不见，先查 \`windows.sandbox_private_desktop\`，不要改成 unelevated。`,
     category: "sandbox",
     level: "intermediate",
     surfaces: ["cli", "app", "ide"],
     tags: ["Windows", "sandbox", "elevated"],
-    related: ["two-knobs", "permissions-not-sandbox-mode", "wsl-linux-home-not-mntc"],
+    related: ["windows-sandbox-private-desktop", "two-knobs", "permissions-not-sandbox-mode"],
     sources: [
       {
         label: "OpenAI · Windows sandbox",
@@ -788,12 +788,14 @@ Windows 免询问名单写在 \`config.toml\`，不是旧的 \`computer-use/conf
 always_allowed_app_ids = ["mspaint.exe"]
 \`\`\`
 
-用 Computer Use 报给你的可执行文件名或 AppUserModelID。Always allow 只给信任的应用。企业可用 \`[features].computer_use = false\` 关掉。它不能操作终端或 ChatGPT 自己，也不能点系统的管理员/隐私授权框。`,
+用 Computer Use 报给你的可执行文件名或 AppUserModelID。Always allow 只给信任的应用。企业可用 \`[features].computer_use = false\` 关掉。它不能操作终端或 ChatGPT 自己，也不能点系统的管理员/隐私授权框。
+
+Windows 上 \`list_windows\` 返回空、EnumWindows 报 \`0x80070003\` 时，先查 \`windows.sandbox_private_desktop\`。默认专用桌面里没有你正在用的窗口。改 \`false\` 后要退出全部 Codex / ChatGPT 进程再开，不要把 \`sandbox\` 改成 unelevated 来修窗口。`,
     category: "config",
     level: "intermediate",
     surfaces: ["app"],
     tags: ["Computer Use", "桌面", "Windows"],
-    related: ["remote-control-pair", "ide-chatgpt-settings", "cleanup-playwright-chrome"],
+    related: ["windows-sandbox-private-desktop", "remote-control-pair", "windows-elevated-sandbox"],
     sources: [
       {
         label: "OpenAI · Computer Use",
@@ -2560,6 +2562,53 @@ features.plugin_sharing = false
       {
         label: "OpenAI · Configuration reference",
         url: "https://learn.chatgpt.com/docs/config-file/config-reference",
+      },
+    ],
+  },
+  {
+    id: "windows-sandbox-private-desktop",
+    no: 242,
+    title: "Windows 沙箱默认进专用桌面，看不见窗口再关",
+    summary: "elevated 和 unelevated 都默认 sandbox_private_desktop = true。沙箱 GUI 和 Computer Use 枚举不到交互桌面时才改 false，然后彻底退出 ChatGPT / Codex。",
+    body: `原生 Windows 沙箱把最终的子进程放到专用桌面，不跟你的交互桌面 \`Winsta0\\Default\` 共用。\`elevated\` 和 \`unelevated\` 都这样。源码缺省是 \`true\`，\`config.toml\` 样例经常不写这个键，看起来像「没配」。
+
+\`\`\`toml
+[windows]
+sandbox = "elevated"
+# 默认就是 true，不必写。只有要兼容旧行为才关：
+# sandbox_private_desktop = false
+\`\`\`
+
+专用桌面名字类似 \`Winsta0\\CodexSandboxDesktop-...\`。沙箱里启动的记事本、安装向导你看不到、截不到，这是 UI 隔离，不是沙箱坏了。不要为了让窗口弹到你面前就把键关掉。
+
+该关的情况：Computer Use 的 \`list_windows\` / EnumWindows 找到 0 个窗口，或必须跑在交互桌面的旧工具。这时才写：
+
+\`\`\`toml
+[windows]
+sandbox = "elevated"
+sandbox_private_desktop = false
+\`\`\`
+
+写进 \`%USERPROFILE%\\.codex\\config.toml\`。改完退出所有 \`ChatGPT.exe\` 和 Codex 进程再开；只新开会话不够，专用桌面和管道是桌面应用进程建的。关了以后文件系统和防火墙边界还在，只是放弃同一桌面的窗口隔离。
+
+这修不了 OpenSSH Session 0 里 elevated 引导失败。引导进程还没起来时，改这个键没用。企业要钉死，写云托管 \`requirements.toml\` 的 \`[windows] sandbox_private_desktop\`，不是只写用户 config。\`allowed_sandbox_implementations\` 只管 elevated / unelevated，不管桌面。`,
+    category: "sandbox",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["Windows", "sandbox", "Computer Use"],
+    related: ["windows-elevated-sandbox", "computer-use-windows-allowlist", "permissions-not-sandbox-mode"],
+    sources: [
+      {
+        label: "OpenAI · Windows sandbox",
+        url: "https://learn.chatgpt.com/docs/windows/windows-sandbox",
+      },
+      {
+        label: "OpenAI · Configuration reference",
+        url: "https://learn.chatgpt.com/docs/config-file/config-reference",
+      },
+      {
+        label: "openai/codex#37043",
+        url: "https://github.com/openai/codex/issues/37043",
       },
     ],
   },

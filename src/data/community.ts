@@ -12,6 +12,16 @@ export type CommunityItem = {
 
 export const community: CommunityItem[] = [
   {
+    title: 'Computer Use 空窗口：先关 sandbox_private_desktop',
+    url: 'https://github.com/openai/codex/issues/37043',
+    source: 'openai/codex#37043',
+    kind: '论坛',
+    date: '2026-08-05',
+    tags: ['Windows', 'sandbox', 'Computer Use'],
+    summary:
+      '助手跑在 Winsta0\\CodexSandboxDesktop-... 上时，EnumWindows 找不到你正在用的窗口。config.toml 写 sandbox_private_desktop = false 回到 Winsta0\\Default，然后彻底退出 ChatGPT / Codex 再开。不要改成 unelevated 来修窗口。',
+  },
+  {
     title: '远程精选插件会无视 per-plugin enabled = false',
     url: 'https://github.com/openai/codex/issues/28443',
     source: 'openai/codex#28443',
