@@ -1931,5 +1931,15 @@ export const articles: Article[] = [
     summary:
       '把 Streamable HTTP 和 stdio 拆开写：远程用 url，密钥写环境变量名而不是 token 本身。强调 Codex 启动时变量必须已经在进程里，事后在另一个终端 export 没用。stdio 的 env 表是额外字面量，不会自动继承整份 shell。排错先查启动环境，再查 PATH 和 startup_timeout_sec。',
   },
+  {
+    title: 'Install GitHub MCP Server in OpenAI Codex',
+    url: 'https://github.com/github/github-mcp-server/blob/main/docs/installation-guides/install-codex.md',
+    source: 'github/github-mcp-server',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'GitHub', 'bearer_token_env_var'],
+    summary:
+      'GitHub 官方把托管 MCP 接到 Codex：url 用 https://api.githubcopilot.com/mcp/，再写 bearer_token_env_var。CLI add 必须带 --bearer-token-env-var，否则配置没有鉴权。Codex 不自动读 .env，变量要进启动进程。这不是 Cloud 上的 @codex review。',
+  },
 ];
 

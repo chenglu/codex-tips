@@ -157,6 +157,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: "startup_timeout_sec = 60", meaning: "每台 MCP 启动握手默认 10 秒。冷 npx/uvx 先提到 30–60。不是 tool_timeout_sec，也不是 exec 那条 1 秒宽限" },
       { cmd: 'env_vars = ["DOCS_API_KEY"]', meaning: "stdio MCP 不继承整份 shell。env_vars 从 Codex 进程转发；env 表是字面量。占位符不会展开。不是 shell_environment_policy" },
       { cmd: 'bearer_token_env_var = "DOCS_MCP_TOKEN"', meaning: "HTTP MCP 从 Codex 进程读变量名。list 显示 Bearer 不等于请求带了头。不要写 env_vars，也不要对 bearer 跑 mcp login" },
+      { cmd: "codex mcp add github --url … --bearer-token-env-var", meaning: "托管 GitHub MCP。只 add URL 会 401。Codex 不读 .env。不要跑 mcp login，也不要写 HTTP 的 env 表" },
       { cmd: "[mcp_servers.docs.env_http_headers]", meaning: "HTTP 自定义头：左边头名，右边变量名。缺变量或空值静默不带头。密钥不要写进 http_headers" },
       { cmd: "codex mcp add sqlcl -- /abs/sql -mcp", meaning: "接 Oracle SQLcl MCP。先 conn -save -savepwd，密码不要写进 config.toml。Java 起得慢就 required = true" },
       { cmd: "stdio MCP stdout", meaning: "只允许一行一个 JSON-RPC；日志打 stderr。stdout 混了横幅会 Transport closed" },

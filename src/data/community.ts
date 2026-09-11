@@ -12,6 +12,16 @@ export type CommunityItem = {
 
 export const community: CommunityItem[] = [
   {
+    title: 'Codex 只 add GitHub MCP 的 URL 不会写入 bearer 变量名',
+    url: 'https://github.com/github/github-mcp-server/issues/2421',
+    source: 'github/github-mcp-server#2421',
+    kind: '论坛',
+    date: '2026-05-02',
+    tags: ['MCP', 'GitHub', 'bearer_token_env_var'],
+    summary:
+      '安装指南里 TOML 有 bearer_token_env_var，早期 CLI 示例却只有 --url。生成的配置能 list，请求 401。现行命令必须带 --bearer-token-env-var GITHUB_PAT_TOKEN。键是变量名，不是 PAT；Codex 也不会自动读 .env。',
+  },
+  {
     title: 'MCP OAuth 的 mcp_oauth_callback_url 会再拼 callback ID',
     url: 'https://github.com/openai/codex/issues/30460',
     source: 'openai/codex#30460',

@@ -236,7 +236,9 @@ enabled_tools = ["list_issues", "create_issue", "get_issue"]
 
 可选服务器的启动宽限是顶层 \`mcp_optional_startup_grace_ms\`，默认 \`1000\`。设成 \`0\` 则等到各服务器自己的 \`startup_timeout_sec\`。\`required = true\` 的服务器仍走各自超时，不受这段宽限影响。
 
-只读 MCP 工具在声明 \`readOnlyHint\` 时可以并发跑——接很多只读查询时很有用。`,
+只读 MCP 工具在声明 \`readOnlyHint\` 时可以并发跑——接很多只读查询时很有用。
+
+官方托管 GitHub MCP 走 Streamable HTTP，不要把 \`@modelcontextprotocol/server-github\` 当成现行官方远程。`,
     category: "mcp",
     level: "intermediate",
     surfaces: ["cli"],
@@ -251,7 +253,7 @@ enabled_tools = ["list_issues", "create_issue", "get_issue"]
         url: "https://learn.chatgpt.com/docs/extend/mcp",
       },
     ],
-    related: ["mcp-add-and-login", "mcp-startup-timeout-sec", "mcp-approval-and-output-limit"],
+    related: ["mcp-add-and-login", "mcp-github-hosted", "mcp-approval-and-output-limit"],
   },
   {
     id: "subagents-when-asked",
@@ -2753,7 +2755,7 @@ enabled = true
     level: "intermediate",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "bearer_token_env_var", "HTTP", "密钥"],
-    related: ["mcp-http-env-headers", "mcp-stdio-env-vars", "http-headers-helper"],
+    related: ["mcp-github-hosted", "mcp-http-env-headers", "mcp-stdio-env-vars"],
     sources: [
       {
         label: "OpenAI · Model Context Protocol",
@@ -2880,6 +2882,51 @@ callback_url = "http://127.0.0.1/callback"
       {
         label: "openai/codex#30460",
         url: "https://github.com/openai/codex/issues/30460",
+      },
+    ],
+  },
+  {
+    id: "mcp-github-hosted",
+    no: 260,
+    title: "托管 GitHub MCP 用 Copilot HTTP 地址，add 必须带 bearer 变量名",
+    summary:
+      "官方远程是 api.githubcopilot.com/mcp/。只 add URL 会留下能 list、请求 401 的配置。Codex 不读 .env；变量必须在启动进程里。不要对它跑 mcp login。",
+    body: `GitHub 官方托管 MCP 是 Streamable HTTP，地址是 \`https://api.githubcopilot.com/mcp/\`。这不是 Cloud 评论里的 \`@codex review\`，也不是旧的 stdio 包 \`@modelcontextprotocol/server-github\`。
+
+\`\`\`bash
+export GITHUB_PAT_TOKEN
+codex mcp add github --url https://api.githubcopilot.com/mcp/ --bearer-token-env-var GITHUB_PAT_TOKEN
+\`\`\`
+
+\`--bearer-token-env-var\` 必须带上。只写 \`--url\` 会留下一份看起来正常、发出去却 401 的配置。键里填的是变量名 \`GITHUB_PAT_TOKEN\`，不是 PAT 本身。GitHub 安装页注释写过 Replace with your real PAT，那是过时措辞，不要把 token 写进 TOML。
+
+Codex **不会**自动读项目 \`.env\`。GitHub 文档让你把 PAT 放进 \`.env\`，那只在你的 shell 已经 source 之后才进进程。从已经 \`export GITHUB_PAT_TOKEN\` 的终端启动 \`codex\`；Dock / 开始菜单打开的桌面没有 zshrc。改完彻底退出再开新进程。
+
+不要：
+
+- 对这台服务器跑 \`codex mcp login github\`（Bearer，没有 OAuth 流程）
+- 写 \`[mcp_servers.github.env]\`（HTTP 会报 env is not supported for streamable_http，整份 config 起不来）
+- 把 PAT 写进 \`http_headers\` 的 \`Authorization\`
+- 抄 Claude 的 \`mcpServers\` JSON
+
+\`codex mcp list\` 显示 Auth: Bearer 不等于请求带了头。工具 0 或 401：先查启动 Codex 的那个进程里有没有 \`GITHUB_PAT_TOKEN\`，再查 PAT 是否带了 \`repo\` 一类范围。本地 Docker 镜像是另一条 stdio 传输，不要把 \`GITHUB_PERSONAL_ACCESS_TOKEN\` 字面量抄进用户 config。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "GitHub", "bearer_token_env_var", "HTTP"],
+    related: ["mcp-http-bearer-env", "mcp-add-and-login", "github-pr-codex-review"],
+    sources: [
+      {
+        label: "GitHub · Install MCP in Codex",
+        url: "https://github.com/github/github-mcp-server/blob/main/docs/installation-guides/install-codex.md",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+      {
+        label: "github/github-mcp-server#2421",
+        url: "https://github.com/github/github-mcp-server/issues/2421",
       },
     ],
   },

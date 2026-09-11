@@ -1232,4 +1232,16 @@ url = "https://mcp.example.com/mcp"
 client_id = "my-client"
 `,
   },
+  {
+    id: "mcp-github-hosted",
+    title: "托管 GitHub MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 Copilot MCP 地址。add 必须带 --bearer-token-env-var。键是变量名。Codex 不读 .env。不要跑 mcp login。",
+    code: `[mcp_servers.github]
+url = "https://api.githubcopilot.com/mcp/"
+bearer_token_env_var = "GITHUB_PAT_TOKEN"
+enabled = true
+`,
+  },
 ];
