@@ -905,4 +905,26 @@ features.plugin_sharing = false
 enabled = false
 `,
   },
+  {
+    id: "plugin-hook-plugin-root",
+    title: "插件自带钩子（PLUGIN_ROOT）",
+    filename: "hooks/hooks.json",
+    summary: "命令走安装后的缓存根。可变数据写 PLUGIN_DATA。清单里写了 hooks 就不再读这个默认文件。",
+    code: `{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \${PLUGIN_ROOT}/hooks/session_start.py",
+            "statusMessage": "Loading plugin context"
+          }
+        ]
+      }
+    ]
+  }
+}
+`,
+  },
 ];

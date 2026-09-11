@@ -416,7 +416,7 @@ hooks = true
         url: "https://developers.openai.com/codex/hooks",
       },
     ],
-    related: ["interrupt-hook", "hooks-one-representation", "permission-request-hook"],
+    related: ["interrupt-hook", "plugin-hook-plugin-root", "permission-request-hook"],
   },
   {
     id: "rules-vs-hooks",
@@ -1943,6 +1943,58 @@ enabled = false
       {
         label: "openai/codex#28443",
         url: "https://github.com/openai/codex/issues/28443",
+      },
+    ],
+  },
+  {
+    id: "plugin-hook-plugin-root",
+    no: 237,
+    title: "插件钩子脚本用 PLUGIN_ROOT，不要写相对路径",
+    summary: "PLUGIN_ROOT 指向安装后的缓存根，不是你正在改的源码目录。可变数据写 PLUGIN_DATA。装完仍要 /hooks 信任。",
+    body: `插件自带的钩子和用户 \`~/.codex/hooks.json\` 会叠在一起跑，但脚本路径规则不同。默认找插件根下的 \`hooks/hooks.json\`。命令里用 \`PLUGIN_ROOT\`，不要写 \`./hooks/...\`（cwd 会漂，也找不到缓存里的安装副本）：
+
+\`\`\`json
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \${PLUGIN_ROOT}/hooks/session_start.py",
+            "statusMessage": "Loading plugin context"
+          }
+        ]
+      }
+    ]
+  }
+}
+\`\`\`
+
+Codex 会注入环境变量，并做行内替换（PowerShell 吃不到普通环境变量展开）：
+
+- \`PLUGIN_ROOT\`：这份插件**已经安装**的根，通常在 \`~/.codex/plugins/cache/...\`
+- \`PLUGIN_DATA\`：可写数据目录，状态文件放这里，不要写进缓存根
+- \`CLAUDE_PLUGIN_ROOT\` / \`CLAUDE_PLUGIN_DATA\`：同一套路径的兼容名
+
+改源码目录里的 \`hooks/session_start.py\` 不会立刻进正在跑的会话。要先让 marketplace 重新安装，再看 \`/hooks\`。0.154 起当前会话通常会在外部升级后刷新钩子；没有就新开。
+
+清单里如果写了 \`hooks\`（路径、路径数组或内联对象），**只走清单，不再读默认** \`hooks/hooks.json\`。路径必须以 \`./\` 开头，并留在插件根内。
+
+装上或打开插件 **不会**自动信任这些钩子。插件钩子算非托管来源，\`/hooks\` 里审查并信任当前定义之前会被跳过。网页上安装插件也不会把脚本部署到本机。企业开了 \`allow_managed_hooks_only\` 时，插件钩子整层不跑。`,
+    category: "hooks",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["hooks", "PLUGIN_ROOT", "plugins"],
+    related: ["hooks-lifecycle", "plugin-session-refresh", "managed-hooks-only"],
+    sources: [
+      {
+        label: "OpenAI · Hooks",
+        url: "https://learn.chatgpt.com/docs/hooks",
+      },
+      {
+        label: "OpenAI · Package your plugin",
+        url: "https://learn.chatgpt.com/plugins/build/plugins",
       },
     ],
   },

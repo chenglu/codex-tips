@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-11T04:00:00Z",
+  lastTick: "2026-09-11T04:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "04:00 调用前 $98.30；调用后 $98.30（@lucheng01）。Spend: counts（start_time=2026-09-04T05:00:00Z，共 165 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录项目层 plugins.\"name@marketplace\" enabled。",
+    "04:30 调用前 $98.30；调用后 $98.29（@lucheng01）。Spend: counts（start_time=2026-09-04T05:30:00Z，共 158 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录插件钩子 PLUGIN_ROOT / PLUGIN_DATA。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -242,6 +242,12 @@ export const loopState = {
     "Codex CLI 技巧 2026 AGENTS.md Skill MCP hooks exec worktree plugins enabled config.toml",
     "site:learn.chatgpt.com plugins build Enable or disable a plugin for a repo",
     "site:github.com/openai/codex plugin-creator installing-and-updating cachebuster",
+    'X: ("Codex CLI" OR #CodexCLI) (plugin OR marketplace OR worktree OR hooks OR AGENTS.md OR exec OR config.toml)',
+    "X news: Codex CLI",
+    "Codex CLI PLUGIN_ROOT PLUGIN_DATA plugin hooks hooks.json 2026",
+    "Codex CLI 技巧 2026 AGENTS.md Skill MCP hooks exec worktree plugin PLUGIN_ROOT",
+    "site:learn.chatgpt.com hooks plugin-bundled PLUGIN_ROOT PLUGIN_DATA",
+    "site:github.com/openai/codex plugin hooks PLUGIN_ROOT cache auto-upgrade",
     'X: ("Codex CLI" OR #CodexCLI) (plugin OR marketplace OR worktree OR hooks OR AGENTS.md OR exec OR config.toml)',
     "X news: Codex CLI",
   ],
