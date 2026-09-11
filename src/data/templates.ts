@@ -1244,4 +1244,15 @@ bearer_token_env_var = "GITHUB_PAT_TOKEN"
 enabled = true
 `,
   },
+  {
+    id: "mcp-figma-remote",
+    title: "Figma 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.figma.com/mcp。add 之后 mcp login figma。不要同时写 bearer。本地 3845 是另一台服务。",
+    code: `[mcp_servers.figma]
+url = "https://mcp.figma.com/mcp"
+enabled = true
+`,
+  },
 ];

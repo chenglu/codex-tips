@@ -1941,5 +1941,25 @@ export const articles: Article[] = [
     summary:
       'GitHub 官方把托管 MCP 接到 Codex：url 用 https://api.githubcopilot.com/mcp/，再写 bearer_token_env_var。CLI add 必须带 --bearer-token-env-var，否则配置没有鉴权。Codex 不自动读 .env，变量要进启动进程。这不是 Cloud 上的 @codex review。',
   },
+  {
+    title: 'Set up the remote Figma MCP server (Codex)',
+    url: 'https://developers.figma.com/docs/figma-mcp-server/remote-server-installation/',
+    source: 'Figma Developers',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Figma', 'OAuth'],
+    summary:
+      'Figma 给 Codex 的官方远程安装：桌面应用走插件 Install Figma；CLI 用 codex mcp add figma --url https://mcp.figma.com/mcp，随后 OAuth。不要抄 Claude 的 claude mcp add。本地桌面 MCP 是另一条企业路径。',
+  },
+  {
+    title: 'Codex and Figma: Set up the MCP server',
+    url: 'https://help.figma.com/hc/en-us/articles/39888629089175-Codex-and-Figma-Set-up-the-MCP-server',
+    source: 'Figma Help',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Figma', '桌面'],
+    summary:
+      '帮助中心把远程 MCP 写成首选。本地桌面服务要先在 Figma 桌面 Dev Mode 打开，再在 Codex 里加 Streamable HTTP，地址 http://127.0.0.1:3845/mcp。管理员关掉第三方插件时，工具会看不见。',
+  },
 ];
 

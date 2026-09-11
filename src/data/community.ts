@@ -12,6 +12,16 @@ export type CommunityItem = {
 
 export const community: CommunityItem[] = [
   {
+    title: '桌面 Figma MCP 换账号要 mcp logout 再 login',
+    url: 'https://community.openai.com/t/codex-app-cannot-re-authenticate-figma-mcp-old-credentials-are-always-reused-with-no-way-to-switch-account/1373470',
+    source: 'OpenAI Developer Community',
+    kind: '论坛',
+    date: '2026-04-01',
+    tags: ['MCP', 'Figma', 'OAuth'],
+    summary:
+      '重装插件或关掉再开会复用旧 Figma 登录。权宜是终端里 codex mcp logout figma，再 codex mcp login figma。不要去翻钥匙串当第一手段。官方远程地址是 https://mcp.figma.com/mcp。',
+  },
+  {
     title: 'Codex 只 add GitHub MCP 的 URL 不会写入 bearer 变量名',
     url: 'https://github.com/github/github-mcp-server/issues/2421',
     source: 'github/github-mcp-server#2421',

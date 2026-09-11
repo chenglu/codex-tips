@@ -691,7 +691,7 @@ url = "https://mcp.linear.app/mcp"
     level: "intermediate",
     surfaces: ["cli", "app", "ide", "cloud"],
     tags: ["Linear", "MCP", "@Codex"],
-    related: ["mcp-add-and-login", "mcp-http-not-sse", "gitlab-mr-codex-review"],
+    related: ["mcp-add-and-login", "mcp-http-not-sse", "mcp-figma-remote"],
     sources: [
       {
         label: "OpenAI · Use Codex in Linear",
@@ -2927,6 +2927,53 @@ Codex **不会**自动读项目 \`.env\`。GitHub 文档让你把 PAT 放进 \`.
       {
         label: "github/github-mcp-server#2421",
         url: "https://github.com/github/github-mcp-server/issues/2421",
+      },
+    ],
+  },
+  {
+    id: "mcp-figma-remote",
+    no: 261,
+    title: "Figma MCP 用官方远程 URL 再 login，不要抄过时的 rmcp 开关",
+    summary:
+      "CLI 先 add https://mcp.figma.com/mcp，再 mcp login figma。桌面应用走插件安装。这是 OAuth，不是 GitHub 那种 PAT。本地 3845 是另一台企业桌面服务。",
+    body: `Figma 官方推荐**远程** MCP。CLI：
+
+\`\`\`bash
+codex mcp add figma --url https://mcp.figma.com/mcp
+codex mcp login figma
+\`\`\`
+
+桌面应用优先走插件：左上角 Plugins → Figma 旁边的 + → Install Figma → Allow access。网页 Work 读不到这份本机配置。
+
+这是 OAuth。不要对它套 GitHub 那套 \`--bearer-token-env-var\`。换账号不要只重装插件：先 \`codex mcp logout figma\`，再 \`codex mcp login figma\`。
+
+配置参考里有一份带 \`bearer_token_env_var = "FIGMA_OAUTH_TOKEN"\` 和 \`X-Figma-Region\` 的示例。那是「进程里已经有令牌」的写法。显式 bearer 优先于已登录的 OAuth；变量缺失时请求可能不带头，看起来像 login 失效。走官方 add / login 就不要同时写 bearer。旧文里的 \`experimental_use_rmcp_client\` / \`rmcp_client = true\` 已经不是现行前置条件，不要再抄。
+
+企业才需要 Figma **桌面应用**里的本地 MCP。先在 Figma 桌面开 Dev Mode 启用服务器，再加：
+
+\`\`\`toml
+[mcp_servers.figma_desktop]
+url = "http://127.0.0.1:3845/mcp"
+\`\`\`
+
+Figma 帮助中心用名 \`figma-desktop\`。本机 HTTP 表用下划线更稳。Figma 桌面必须开着。不要抄 \`/sse\`，也不要抄 Claude 的 \`claude mcp add --transport http\`。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Figma", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-github-hosted", "mcp-http-not-sse"],
+    sources: [
+      {
+        label: "Figma · Remote MCP for Codex",
+        url: "https://developers.figma.com/docs/figma-mcp-server/remote-server-installation/",
+      },
+      {
+        label: "Figma Help · Codex and Figma",
+        url: "https://help.figma.com/hc/en-us/articles/39888629089175-Codex-and-Figma-Set-up-the-MCP-server",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
       },
     ],
   },

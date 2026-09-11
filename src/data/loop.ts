@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-11T15:00:00Z",
+  lastTick: "2026-09-11T15:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "15:00 调用前 $98.06。Spend: counts（start_time=2026-09-04T15:15:00Z，共 223 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录托管 GitHub MCP。",
+    "15:30 调用前 $98.05。Spend: counts（start_time=2026-09-04T15:45:00Z，共 260 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录 Figma 远程 MCP。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -381,6 +381,12 @@ export const loopState = {
     "github.com/github/github-mcp-server/issues/2421 Codex add URL unauthenticated",
     "Codex CLI 技巧 2026 托管 GitHub MCP PAT",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR GitHub OR hooks OR worktree OR exec OR AGENTS.md)',
+    "X news: Codex CLI",
+    "developers.figma.com figma-mcp-server Codex mcp add",
+    "help.figma.com Codex and Figma Set up the MCP server",
+    "codex mcp add figma mcp.figma.com login",
+    "Codex CLI 技巧 2026 Figma MCP OAuth 远程",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR Figma OR hooks OR worktree OR exec OR AGENTS.md)',
     "X news: Codex CLI",
   ],
 };
