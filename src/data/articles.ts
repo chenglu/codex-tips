@@ -1811,5 +1811,15 @@ export const articles: Article[] = [
     summary:
       '官方打包页：用 $plugin-creator 或手写 .codex-plugin/plugin.json。工作区 Publish 只给当前 ChatGPT 工作区角色，不上公共目录；CLI 分发仍走 marketplace。企业用 requirements.toml 的 features.plugin_sharing = false 关掉分享。',
   },
+  {
+    title: 'plugin-creator marketplace JSON spec',
+    url: 'https://github.com/openai/codex/blob/main/codex-rs/skills/src/assets/samples/plugin-creator/references/plugin-json-spec.md',
+    source: 'openai/codex',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'marketplace', 'plugin.json'],
+    summary:
+      '内置 $plugin-creator 的清单样例。个人 marketplace 在 ~/.agents/plugins/marketplace.json，仓库清单在 .agents/plugins/marketplace.json。同一条 ./plugins/my-plugin 在个人清单解析到 ~/plugins/my-plugin，不是 ~/.agents/plugins 下面。每条都要有 policy.installation、policy.authentication 和 category。',
+  },
 ];
 

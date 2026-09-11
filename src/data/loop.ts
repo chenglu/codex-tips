@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-11T03:00:00Z",
+  lastTick: "2026-09-11T03:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "03:00 调用前 $98.33；调用后 $98.32（@lucheng01）。Spend: counts（start_time=2026-09-04T04:00:00Z，约 164 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖（Google 插件、tui.animations、0.154 --worktree、exec stdout 均已收录；日文帖只有外链）。收录 0.154 会话内刷新插件，以及 features.plugin_sharing。",
+    "03:30 调用前 $98.31；调用后 $98.30（@lucheng01）。Spend: counts（start_time=2026-09-04T04:30:00Z，共 165 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖（Google 插件、tui.animations、0.154 --worktree、日文外链均已收录）。收录 marketplace.json 的 source.path 相对 marketplace 根。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -230,6 +230,12 @@ export const loopState = {
     "Codex CLI 0.154 0.155 changelog plugin_sharing workspace_dependencies 2026",
     "Codex CLI 技巧 2026 AGENTS.md Skill MCP hooks exec worktree config.toml",
     "site:learn.chatgpt.com features.plugin_sharing features.workspace_dependencies",
+    'X: ("Codex CLI" OR #CodexCLI) (plugin OR marketplace OR worktree OR hooks OR AGENTS.md OR exec OR config.toml)',
+    "X news: Codex CLI",
+    "Codex CLI 0.155 changelog rust-v0.155 plugin.json marketplace 2026",
+    "Codex CLI 技巧 2026 AGENTS.md Skill MCP hooks exec worktree config.toml marketplace.json source.path",
+    "site:learn.chatgpt.com plugins build marketplace.json source.path personal",
+    "site:github.com/openai/codex plugin-json-spec marketplace root source.path",
     'X: ("Codex CLI" OR #CodexCLI) (plugin OR marketplace OR worktree OR hooks OR AGENTS.md OR exec OR config.toml)',
     "X news: Codex CLI",
   ],

@@ -2551,7 +2551,7 @@ features.plugin_sharing = false
     level: "advanced",
     surfaces: ["cli", "app"],
     tags: ["plugins", "plugin_sharing", "企业"],
-    related: ["remote-plugin-catalog", "plugins-vs-skills", "marketplace-allowed-sources"],
+    related: ["remote-plugin-catalog", "marketplace-source-path-root", "marketplace-allowed-sources"],
     sources: [
       {
         label: "OpenAI · Package your plugin",

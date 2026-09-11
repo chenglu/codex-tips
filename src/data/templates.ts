@@ -869,4 +869,31 @@ remote_plugin = false
 features.plugin_sharing = false
 `,
   },
+  {
+    id: "marketplace-source-path-root",
+    title: "个人 marketplace.json（source.path 相对家目录）",
+    filename: "~/.agents/plugins/marketplace.json",
+    summary: "./plugins/my-plugin 解析到 ~/plugins/my-plugin，不是 ~/.agents/plugins/plugins/my-plugin。",
+    code: `{
+  "name": "personal",
+  "interface": {
+    "displayName": "My plugins"
+  },
+  "plugins": [
+    {
+      "name": "my-plugin",
+      "source": {
+        "source": "local",
+        "path": "./plugins/my-plugin"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
+`,
+  },
 ];
