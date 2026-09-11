@@ -1163,7 +1163,7 @@ enabled = true
     title: "给慢启动 MCP 加 startup_timeout_sec",
     filename: "~/.codex/config.toml",
     summary:
-      "默认 10 秒经常不够冷 npx / uvx。改完新开会话。不要给主机自带的 codex_apps 写这个表。",
+      "默认 10 秒经常不够冷启动的 npx / uvx。改完新开会话。不要给主机自带的 codex_apps 写这个表。",
     code: `[mcp_servers.docs]
 command = "npx"
 args = ["-y", "@example/docs-mcp"]
