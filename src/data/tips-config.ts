@@ -2506,7 +2506,7 @@ codex features disable remote_plugin
     level: "intermediate",
     surfaces: ["cli", "app"],
     tags: ["plugins", "remote_plugin", "features"],
-    related: ["tool-suggest-disabled", "plugins-vs-skills", "marketplace-allowed-sources"],
+    related: ["tool-suggest-disabled", "plugin-sharing-workspace", "marketplace-allowed-sources"],
     sources: [
       {
         label: "OpenAI · Configuration reference",
@@ -2519,6 +2519,47 @@ codex features disable remote_plugin
       {
         label: "openai/codex#28443",
         url: "https://github.com/openai/codex/issues/28443",
+      },
+    ],
+  },
+  {
+    id: "plugin-sharing-workspace",
+    no: 234,
+    title: "工作区分享插件：ChatGPT 里 Publish，企业关分享写 plugin_sharing",
+    summary: "工作区管理员才可以把本机插件 Publish 给指定角色。这不会上架公共目录。CLI 分发仍走 marketplace。企业关掉写 requirements.toml。",
+    body: `要把刚打好的本机插件给同事用，先分清三条路：
+
+| 路径 | 做什么 | 给谁 |
+| --- | --- | --- |
+| ChatGPT Plugins → Personal → 三点菜单 → Publish | 发到当前 ChatGPT 工作区 | 你选的工作区角色 |
+| \`codex plugin marketplace add\` | 仓库 / Git / 本地 marketplace | CLI 和桌面 |
+| 公共 Plugins Directory | 提交门户审核 | 所有人 |
+
+工作区 Publish **不会**进 ChatGPT / Codex 共用的公共插件目录。没登录这个工作区的账号看不到。给 CLI 同事用，走 marketplace，不要以为 Publish 了 \`codex plugin list\` 就会出现。
+
+企业禁止把本机插件发进工作区，写云托管 \`requirements.toml\`，不要只写用户 \`config.toml\`：
+
+\`\`\`toml
+# requirements.toml，不是 ~/.codex/config.toml
+features.plugin_sharing = false
+\`\`\`
+
+这不是 \`features.remote_plugin = false\`（关远程目录），也不是 \`features.plugins = false\`（关整个插件面）。用户层同名键管不了组织策略。
+
+必须是工作区管理员才能 Publish。改完同事仍要在自己的客户端安装或刷新；CLI 侧 0.154 起当前会话通常会捡起新装工具。`,
+    category: "config",
+    level: "advanced",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "plugin_sharing", "企业"],
+    related: ["remote-plugin-catalog", "marketplace-source-path-root", "marketplace-allowed-sources"],
+    sources: [
+      {
+        label: "OpenAI · Package your plugin",
+        url: "https://learn.chatgpt.com/plugins/build/plugins",
+      },
+      {
+        label: "OpenAI · Configuration reference",
+        url: "https://learn.chatgpt.com/docs/config-file/config-reference",
       },
     ],
   },

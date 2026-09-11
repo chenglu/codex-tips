@@ -860,4 +860,71 @@ disabled_tools = [
 remote_plugin = false
 `,
   },
+  {
+    id: "plugin-sharing-workspace",
+    title: "企业关掉工作区插件分享",
+    filename: "requirements.toml",
+    summary: "只在云托管 requirements.toml 生效。不是 remote_plugin，也不是 features.plugins。",
+    code: `# requirements.toml，不是用户 config.toml
+features.plugin_sharing = false
+`,
+  },
+  {
+    id: "marketplace-source-path-root",
+    title: "个人 marketplace.json（source.path 相对家目录）",
+    filename: "~/.agents/plugins/marketplace.json",
+    summary: "./plugins/my-plugin 解析到 ~/plugins/my-plugin，不是 ~/.agents/plugins/plugins/my-plugin。",
+    code: `{
+  "name": "personal",
+  "interface": {
+    "displayName": "My plugins"
+  },
+  "plugins": [
+    {
+      "name": "my-plugin",
+      "source": {
+        "source": "local",
+        "path": "./plugins/my-plugin"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
+`,
+  },
+  {
+    id: "plugin-repo-enabled",
+    title: "仓库里关掉一条本地 marketplace 插件",
+    filename: ".codex/config.toml",
+    summary: "只关这个仓库，不卸载。键必须是 name@marketplace。远程精选经常拦不住。",
+    code: `[plugins."my-plugin@local-repo"]
+enabled = false
+`,
+  },
+  {
+    id: "plugin-hook-plugin-root",
+    title: "插件自带钩子（PLUGIN_ROOT）",
+    filename: "hooks/hooks.json",
+    summary: "命令走安装后的缓存根。可变数据写 PLUGIN_DATA。清单里写了 hooks 就不再读这个默认文件。",
+    code: `{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \${PLUGIN_ROOT}/hooks/session_start.py",
+            "statusMessage": "Loading plugin context"
+          }
+        ]
+      }
+    ]
+  }
+}
+`,
+  },
 ];

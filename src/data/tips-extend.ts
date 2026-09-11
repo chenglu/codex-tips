@@ -117,12 +117,12 @@ v0.146+ 起有可移植 Agent Plugins，可搜本地、个人、工作区和远�
 
 从 Claude Code 或 Cursor 迁过来，可用 \`/import\` 迁设置、MCP、插件、会话和命令。
 
-IDE 扩展没有插件目录。装完要新开会话。API key 登录时，部分需要 OAuth 的官方插件会不可用。\`/plugins\` 浏览器里 Space 只开关，不卸载。`,
+IDE 扩展没有插件目录。0.154 起当前会话通常会捡起新装的插件工具；\`/plugins\` 里没有再新开。API key 登录时，部分需要 OAuth 的官方插件会不可用。\`/plugins\` 浏览器里 Space 只开关，不卸载。`,
     category: "skills",
     level: "intermediate",
     surfaces: ["cli", "app"],
     tags: ["plugins", "marketplace", "/import"],
-    related: ["unity-codex-plugin", "plugin-marketplace-ref-sparse", "remote-plugin-catalog"],
+    related: ["plugin-session-refresh", "plugin-marketplace-ref-sparse", "marketplace-source-path-root"],
     sources: [
       {
         label: "OpenAI · Plugins",
@@ -416,7 +416,7 @@ hooks = true
         url: "https://developers.openai.com/codex/hooks",
       },
     ],
-    related: ["interrupt-hook", "hooks-one-representation", "permission-request-hook"],
+    related: ["interrupt-hook", "plugin-hook-plugin-root", "permission-request-hook"],
   },
   {
     id: "rules-vs-hooks",
@@ -504,7 +504,7 @@ Learn 页的旗标表目前只列了 \`--pretty\` 和 \`--rules\`；本机 \`cod
     summary: "桌面应用、CLI、IDE 扩展共用一份 config.toml。托管的 ChatGPT Work 不读这文件。",
     body: `\`codex mcp add …\` 写进 \`~/.codex/config.toml\` 之后，本地 CLI、IDE 扩展和 ChatGPT 桌面应用能看见。ChatGPT 网页上的 Work 不读这份文件。在网页里缺工具，先确认你是不是走了另一套主机，而不是怀疑 MCP 没装上。
 
-插件也按表面拆：CLI 用 \`/plugins\`，桌面应用有插件目录，IDE 扩展不支持插件。装完后要新开会话，捆绑的 Skill / MCP 才会出现。
+插件也按表面拆：CLI 用 \`/plugins\`，桌面应用有插件目录，IDE 扩展不支持插件。0.154 起当前会话通常会刷新捆绑技能和 MCP；没有再新开。
 
 仓库里的 \`.codex/config.toml\` 只覆盖这个项目被信任后的行为，而且不能写凭证类主机键。把 Key 写进仓库配置，迟早会被提交。`,
     category: "mcp",
@@ -1613,7 +1613,7 @@ Learn 的 MCP 页目前写成「广告值优先于 config」。那是过时摘�
     id: "unity-codex-plugin",
     no: 225,
     title: "Unity 官方技能用 marketplace 装，不要拷到 ~/.codex/skills",
-    summary: "marketplace add 仓库，再 plugin add unity@unity-agent-plugin。只要技能，没有 MCP 和钩子。装完必须新开会话。",
+    summary: "marketplace add 仓库，再 plugin add unity@unity-agent-plugin。只要技能，没有 MCP 和钩子。0.154 起先看当前会话，没有再新开。",
     body: `Unity 6 起可以用官方 Agent 插件给 Codex 一批第一方技能（2D、UI Toolkit、本地化、多人、内购等）。走插件目录，不要手拷文件夹：
 
 \`\`\`bash
@@ -1622,7 +1622,7 @@ codex plugin add unity@unity-agent-plugin
 codex plugin list
 \`\`\`
 
-\`codex plugin list\` 应看到 \`unity@unity-agent-plugin\` 为 installed, enabled。然后**新开**会话，合成器里输入 \`/unity:\` 才会出现技能。只开着旧会话时，目录里有插件、斜杠里却没有。
+\`codex plugin list\` 应看到 \`unity@unity-agent-plugin\` 为 installed, enabled。0.154 起当前会话通常会刷新技能；合成器里输入 \`/unity:\` 仍没有，再新开会话。
 
 更新和卸载：
 
@@ -1638,7 +1638,7 @@ IDE 扩展没有 \`/plugins\` 目录。装插件用 CLI 或桌面应用。API ke
     level: "starter",
     surfaces: ["cli", "app"],
     tags: ["plugins", "Unity", "marketplace"],
-    related: ["plugins-vs-skills", "plugin-marketplace-ref-sparse", "skill-locations"],
+    related: ["plugins-vs-skills", "plugin-marketplace-ref-sparse", "plugin-session-refresh"],
     sources: [
       {
         label: "Unity · plugin for Codex",
@@ -1654,7 +1654,7 @@ IDE 扩展没有 \`/plugins\` 目录。装插件用 CLI 或桌面应用。API ke
     id: "plugin-marketplace-ref-sparse",
     no: 228,
     title: "marketplace add 用 --ref 钉版本，用 --sparse 只拉插件目录",
-    summary: "Git 源用 --ref 或 owner/repo@ref 钉提交。大仓加 --sparse 只 checkout 插件路径。加完还要 plugin add 并新开会话。",
+    summary: "Git 源用 --ref 或 owner/repo@ref 钉提交。大仓加 --sparse 只 checkout 插件路径。加完还要 plugin add；0.154 起先看当前会话。",
     body: `\`codex plugin marketplace add\` 接受 GitHub 简写、HTTPS / SSH Git URL，以及本地 marketplace 根目录。Git 源把整仓 clone 进来很慢，也容易超时。官方 CLI 参考给了钉 ref 和稀疏检出：
 
 \`\`\`bash
@@ -1674,12 +1674,12 @@ codex plugin add name@marketplace
 codex plugin list --json
 \`\`\`
 
-装完**新开**会话，\`/plugins\` 和斜杠技能才会出现。不要写成 \`codex marketplace add\`（少了 \`plugin\`）。也不要把 \`features.plugins = true\` 抄进用户 \`config.toml\` 当现行必写键；个人机默认就能用插件，企业关插件是另一套 \`requirements.toml\`。`,
+0.154 起当前会话通常会捡起新装的插件工具；\`/plugins\` 和斜杠技能仍没有再新开。不要写成 \`codex marketplace add\`（少了 \`plugin\`）。也不要把 \`features.plugins = true\` 抄进用户 \`config.toml\` 当现行必写键；个人机默认就能用插件，企业关插件是另一套 \`requirements.toml\`。`,
     category: "skills",
     level: "intermediate",
     surfaces: ["cli", "app"],
     tags: ["plugins", "marketplace", "--sparse"],
-    related: ["unity-codex-plugin", "google-cloud-developer-plugin", "plugin-mcp-exec-key"],
+    related: ["marketplace-source-path-root", "google-cloud-developer-plugin", "plugin-session-refresh"],
     sources: [
       {
         label: "OpenAI · CLI reference",
@@ -1766,7 +1766,7 @@ codex mcp list
 
 marketplace 清单在 \`.agents/plugins/marketplace.json\`，名字是 \`google-plugins\`。本地插件源是 \`./plugins/cloud/google-cloud-developer\`，所以两条 \`--sparse\` 都要。清单里其它数据库插件多半是外链 Git，不会跟着这次稀疏检出进来。
 
-装完**新开**会话。\`/plugins\` 里应看到 \`google-cloud-developer@google-plugins\`；\`/mcp\` 里应有 \`developer-knowledge\`。exec 里审批插件 MCP 必须写带 marketplace 后缀的键，不要只写 \`google-cloud-developer\`。
+0.154 起当前会话通常会刷新。\`/plugins\` 里应看到 \`google-cloud-developer@google-plugins\`；\`/mcp\` 里应有 \`developer-knowledge\`。没有就新开会话。exec 里审批插件 MCP 必须写带 marketplace 后缀的键，不要只写 \`google-cloud-developer\`。
 
 不要用 \`npx skills add google/skills\` 当 Codex 插件安装器：那是给技能目录拷 SKILL.md 的另一条路，不会装这份 MCP。也不要手拷到 \`~/.codex/skills\`。IDE 扩展没有 \`/plugins\`。
 
@@ -1775,7 +1775,7 @@ BigQuery / Spanner 这类 Data Cloud 插件是另一个 marketplace：\`GoogleCl
     level: "intermediate",
     surfaces: ["cli", "app"],
     tags: ["plugins", "Google Cloud", "MCP"],
-    related: ["plugin-marketplace-ref-sparse", "unity-codex-plugin", "plugin-mcp-exec-key"],
+    related: ["plugin-marketplace-ref-sparse", "unity-codex-plugin", "plugin-session-refresh"],
     sources: [
       {
         label: "google/skills",
@@ -1784,6 +1784,217 @@ BigQuery / Spanner 这类 Data Cloud 插件是另一个 marketplace：\`GoogleCl
       {
         label: "google-cloud-developer plugin",
         url: "https://github.com/google/skills/tree/main/plugins/cloud/google-cloud-developer",
+      },
+    ],
+  },
+  {
+    id: "plugin-session-refresh",
+    no: 233,
+    title: "0.154 起装插件后先看当前会话，不要立刻 /new",
+    summary: "现有会话会捡起新装的插件工具，外部升级或回滚后也会刷新技能和钩子。桌面改 marketplace 文件仍要重启应用。低于 0.154 才必须新开。",
+    body: `\`codex plugin add\` 或 \`plugin marketplace upgrade\` 之后，先在**当前** TUI 里核对，不要习惯性 \`/new\`：
+
+\`\`\`bash
+codex --version
+codex plugin list
+codex mcp list
+\`\`\`
+
+0.154 起：已经打开的会话会捡起新装的插件工具；插件在会话外被升级或回滚时，技能和钩子也会刷新。\`/plugins\`、斜杠技能和 \`/mcp\` 对上了，就继续当前线程。
+
+仍要新开会话的情况：
+
+- \`codex --version\` 低于 0.154
+- 当前会话的 \`/plugins\` 或 \`/mcp\` 还是空的
+- 改的是 ChatGPT 桌面应用的本地 \`marketplace.json\`（官方打包页仍要求重启桌面应用）
+- 改的是 \`AGENTS.md\`（运行中的会话不会持续重扫）
+
+不要把这条理解成「永远不用新开」。exec 一次性进程没有「当前会话可刷新」这一说，脚本里装完插件再 \`codex exec\` 即可。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "0.154", "会话"],
+    related: ["plugins-vs-skills", "unity-codex-plugin", "google-cloud-developer-plugin"],
+    sources: [
+      {
+        label: "openai/codex rust-v0.154.0",
+        url: "https://github.com/openai/codex/releases/tag/rust-v0.154.0",
+      },
+      {
+        label: "OpenAI · Package your plugin",
+        url: "https://learn.chatgpt.com/plugins/build/plugins",
+      },
+    ],
+  },
+  {
+    id: "marketplace-source-path-root",
+    no: 235,
+    title: "marketplace 的 source.path 相对仓根或家目录，不是 json 所在文件夹",
+    summary: "个人清单里 ./plugins/foo 解析到 ~/plugins/foo，不是 ~/.agents/plugins/plugins/foo。必须以 ./ 开头，并写在 marketplace 根内。",
+    body: `手写 \`marketplace.json\` 时，\`source.path\` 不是相对这份 json 所在的 \`.agents/plugins/\`，而是相对 **marketplace 根**：
+
+| 清单位置 | marketplace 根 | \`./plugins/my-plugin\` 实际落到 |
+| --- | --- | --- |
+| \`~/.agents/plugins/marketplace.json\` | 家目录 \`~\` | \`~/plugins/my-plugin\` |
+| 仓库 \`.agents/plugins/marketplace.json\` | 仓库根 | 仓库根下的 \`plugins/my-plugin\` |
+
+这是最常见的踩坑：把插件拷进 \`~/.agents/plugins/plugins/my-plugin\`，清单里写 \`./plugins/my-plugin\`，桌面和 CLI 都找不到。官方 plugin-creator 规范写明：个人清单里的 \`./plugins/foo\` 解析到 \`~/plugins/foo\`。
+
+个人机两种都能用，选一种并让路径对上：
+
+\`\`\`bash
+mkdir -p ~/plugins/my-plugin ~/.agents/plugins
+# 把插件目录拷到 ~/plugins/my-plugin（里面要有 plugin.json 或 .codex-plugin/plugin.json）
+\`\`\`
+
+\`~/.agents/plugins/marketplace.json\`：
+
+\`\`\`json
+{
+  "name": "personal",
+  "interface": {
+    "displayName": "My plugins"
+  },
+  "plugins": [
+    {
+      "name": "my-plugin",
+      "source": {
+        "source": "local",
+        "path": "./plugins/my-plugin"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}
+\`\`\`
+
+官方打包页另一种个人布局是插件放 \`~/.codex/plugins/my-plugin\`，对应 \`source.path\` 写成 \`"./.codex/plugins/my-plugin"\`。两种都合法，因为都相对家目录；不要混用。
+
+本地条目也可以把 \`source\` 写成字符串 \`"./plugins/my-plugin"\`。必须以 \`./\` 开头，留在 marketplace 根内，不能写 \`../\`。插件就在仓根（仓本身就是一份插件）时，现行代码允许 \`"."\` 或 \`"./"\`。空路径、不带 \`./\`、带 \`..\` 的路径会被拒。
+
+每条还必须有 \`policy.installation\`（\`AVAILABLE\` / \`INSTALLED_BY_DEFAULT\` / \`NOT_AVAILABLE\`）、\`policy.authentication\`（\`ON_INSTALL\` / \`ON_USE\`）和 \`category\`。
+
+Git 源不要抄成本地 path。插件在仓根用 \`"source": "url"\`；在子目录用 \`"source": "git-subdir"\` 再给 \`path\` 和 \`ref\` / \`sha\`。某一条解析失败时 **跳过该插件**，整份 marketplace 还在。npm 源是 \`"source": "npm"\` 加 \`package\`，本机要有 \`npm\`，安装时不跑 lifecycle 脚本。
+
+\`codex plugin marketplace add\` 的 \`--sparse\` 是 Git clone 的稀疏检出路径，相对被 clone 的仓库根，**不是** 这份 json 里的 \`source.path\`。本地 marketplace 把含 \`.agents/plugins/marketplace.json\` 的根目录交给 \`marketplace add .\`，不要把 json 文件路径当根。
+
+个人清单默认就会被扫到。改完先核对解析根，再装：
+
+\`\`\`bash
+codex plugin marketplace list --json
+codex plugin add my-plugin@personal
+codex plugin list --json
+\`\`\`
+
+ChatGPT 桌面改本地 \`marketplace.json\` 后仍要重启应用。CLI 0.154 起 \`plugin add\` 后先看当前会话的 \`/plugins\`。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "marketplace", "source.path"],
+    related: ["plugin-marketplace-ref-sparse", "plugin-sharing-workspace", "plugin-repo-enabled"],
+    sources: [
+      {
+        label: "OpenAI · Package your plugin",
+        url: "https://learn.chatgpt.com/plugins/build/plugins",
+      },
+      {
+        label: "openai/codex · plugin-json-spec",
+        url: "https://github.com/openai/codex/blob/main/codex-rs/skills/src/assets/samples/plugin-creator/references/plugin-json-spec.md",
+      },
+    ],
+  },
+  {
+    id: "plugin-repo-enabled",
+    no: 236,
+    title: "仓库里关插件：写 plugins.\"name@marketplace\"，不要卸 marketplace",
+    summary: "项目 .codex/config.toml 里 enabled = false 只关这个仓库，不卸载。刷新仍会更新缓存。Admin 导入的工作区插件不吃这套键。",
+    body: `仓库 marketplace 只负责让插件被发现。某个项目不想用其中一条时，写项目 \`.codex/config.toml\`，不要 \`plugin remove\` 或把整份 marketplace 删掉：
+
+\`\`\`toml
+[plugins."my-plugin@local-repo"]
+enabled = false
+\`\`\`
+
+引号里的键是 \`name@marketplace\`：左边对清单里那条 \`name\`，右边对 marketplace 文件顶层的 \`name\`（上例是 \`local-repo\`）。写成 \`[plugins.my-plugin]\` 或漏掉 \`@marketplace\`，运行时对不上。
+
+\`enabled = false\` **不是卸载**。marketplace 刷新时，Codex 仍可能给已配置的插件更新缓存文件；连上的服务还要再认证。只是这个仓库的会话不再启用它。
+
+项目 \`.codex/config.toml\` 只在目录受信任时加载。未信任仓库会跳过这份开关，看起来像「写了也不生效」。先 \`codex plugin list --json\` 核对 \`name@marketplace\` 是否对上；TUI 里用 \`/status\` 看工作区是否受信任。
+
+不要用这套键去关远程精选目录：给 \`openai-curated-remote\` 写 \`enabled = false\` 经常拦不住注入。那种情况用 \`features.remote_plugin = false\`，或只关某条安装建议的 \`[tool_suggest].disabled_tools\`。
+
+工作区管理员从 Admin > Plugins 导入的插件走工作区策略，不读仓库里的 \`[plugins."name@marketplace"]\`。即使源是 GitHub 仓，也要在 Admin 里改安装策略。
+
+这套设置作用于 Codex CLI 和 ChatGPT 桌面里的本地 marketplace 插件。IDE 扩展没有插件目录。0.154 起改完先看当前会话的 \`/plugins\`；桌面改项目配置后若没捡到，再新开。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "config.toml", "enabled"],
+    related: ["marketplace-source-path-root", "remote-plugin-catalog", "plugin-mcp-exec-key"],
+    sources: [
+      {
+        label: "OpenAI · Package your plugin",
+        url: "https://learn.chatgpt.com/plugins/build/plugins",
+      },
+      {
+        label: "openai/codex#28443",
+        url: "https://github.com/openai/codex/issues/28443",
+      },
+    ],
+  },
+  {
+    id: "plugin-hook-plugin-root",
+    no: 237,
+    title: "插件钩子脚本用 PLUGIN_ROOT，不要写相对路径",
+    summary: "PLUGIN_ROOT 指向安装后的缓存根，不是你正在改的源码目录。可变数据写 PLUGIN_DATA。装完仍要 /hooks 信任。",
+    body: `插件自带的钩子和用户 \`~/.codex/hooks.json\` 会叠在一起跑，但脚本路径规则不同。默认找插件根下的 \`hooks/hooks.json\`。命令里用 \`PLUGIN_ROOT\`，不要写 \`./hooks/...\`（cwd 会漂，也找不到缓存里的安装副本）：
+
+\`\`\`json
+{
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \${PLUGIN_ROOT}/hooks/session_start.py",
+            "statusMessage": "Loading plugin context"
+          }
+        ]
+      }
+    ]
+  }
+}
+\`\`\`
+
+Codex 会注入环境变量，并做行内替换（PowerShell 吃不到普通环境变量展开）：
+
+- \`PLUGIN_ROOT\`：这份插件**已经安装**的根，通常在 \`~/.codex/plugins/cache/...\`
+- \`PLUGIN_DATA\`：可写数据目录，状态文件放这里，不要写进缓存根
+- \`CLAUDE_PLUGIN_ROOT\` / \`CLAUDE_PLUGIN_DATA\`：同一套路径的兼容名
+
+改源码目录里的 \`hooks/session_start.py\` 不会立刻进正在跑的会话。要先让 marketplace 重新安装，再看 \`/hooks\`。0.154 起当前会话通常会在外部升级后刷新钩子；没有就新开。
+
+清单里如果写了 \`hooks\`（路径、路径数组或内联对象），**只走清单，不再读默认** \`hooks/hooks.json\`。路径必须以 \`./\` 开头，并留在插件根内。
+
+装上或打开插件 **不会**自动信任这些钩子。插件钩子算非托管来源，\`/hooks\` 里审查并信任当前定义之前会被跳过。网页上安装插件也不会把脚本部署到本机。企业开了 \`allow_managed_hooks_only\` 时，插件钩子整层不跑。`,
+    category: "hooks",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["hooks", "PLUGIN_ROOT", "plugins"],
+    related: ["hooks-lifecycle", "plugin-session-refresh", "managed-hooks-only"],
+    sources: [
+      {
+        label: "OpenAI · Hooks",
+        url: "https://learn.chatgpt.com/docs/hooks",
+      },
+      {
+        label: "OpenAI · Package your plugin",
+        url: "https://learn.chatgpt.com/plugins/build/plugins",
       },
     ],
   },
