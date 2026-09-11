@@ -1267,4 +1267,17 @@ bearer_token_env_var = "DOCS_MCP_TOKEN"
 enabled = true
 `,
   },
+  {
+    id: "chrome-devtools-mcp",
+    title: "Chrome DevTools MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方是 stdio 包，不是 localhost:3000 HTTP。冷 npx 把 startup_timeout_sec 提到 20。沙箱加 --headless。Windows 的 cmd 包装不要抄进 WSL。",
+    code: `[mcp_servers.chrome-devtools]
+command = "npx"
+args = ["-y", "chrome-devtools-mcp@latest"]
+startup_timeout_sec = 20
+enabled = true
+`,
+  },
 ];

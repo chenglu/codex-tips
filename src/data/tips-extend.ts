@@ -586,6 +586,8 @@ approval_mode = "approve"
 output_token_limit = 8000
 \`\`\`
 
+这张表示例里的 \`url = "http://localhost:3000/mcp"\` 是**已经在跑**的 Streamable HTTP 服务。官方 Chrome DevTools MCP 包是 stdio：\`codex mcp add chrome-devtools -- npx chrome-devtools-mcp@latest\`，不要把两套抄成一台。
+
 \`writes\` 只对没标只读的工具提问；\`approve\` / \`prompt\` 更严；\`auto\` 几乎不问。\`disabled_tools\` 在白名单之后再生效。
 
 维护 MCP 服务器时，初始化返回的 \`instructions\` 前 512 个字符要能独立看懂：跨工具约束、限流、什么时候不该调用。Codex 拿这段决定要不要用这个服务器。
@@ -597,7 +599,7 @@ output_token_limit = 8000
     level: "intermediate",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "审批", "output_token_limit"],
-    related: ["mcp-required-and-allowlist", "plugin-mcp-exec-key", "tool-output-token-limit"],
+    related: ["mcp-required-and-allowlist", "chrome-devtools-mcp", "tool-output-token-limit"],
     sources: [
       {
         label: "OpenAI · Model Context Protocol",
@@ -3019,6 +3021,52 @@ stdio 同样要写全 \`command\`、\`args\`、绝对 \`cwd\`。密钥继续用�
       {
         label: "openai/codex#36465",
         url: "https://github.com/openai/codex/issues/36465",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "chrome-devtools-mcp",
+    no: 263,
+    title: "Chrome DevTools MCP 用官方 npx stdio，不要抄 localhost HTTP 示例",
+    summary:
+      "CLI：codex mcp add chrome-devtools -- npx chrome-devtools-mcp@latest。要本机 Chrome 稳定版。Learn 里 localhost:3000/mcp 是另一台已在跑的 HTTP 服务。沙箱再加 --headless。不要抄 Claude 的 mcpServers JSON。",
+    body: `官方给 Codex 的安装是 **stdio** 包：
+
+\`\`\`bash
+codex mcp add chrome-devtools -- npx -y chrome-devtools-mcp@latest
+\`\`\`
+
+需要 Node.js LTS、npm，以及 **Chrome 稳定版**（官方也支持 Chrome for Testing）。别的 Chromium / Edge 不保证能用。\`codex mcp get chrome-devtools --json\` 应看到 \`transport.type\` 是 stdio、命令是 \`npx\`。只 add 成功不会自动开浏览器；第一次调用需要浏览器的工具时才会拉起。
+
+不要做这些：
+
+- 不要把 Learn 配置参考里的 \`[mcp_servers.chrome_devtools] url = "http://localhost:3000/mcp"\` 当成这个包。那是另一台已经在监听的 HTTP 服务。
+- 不要把 Claude / Cursor 的 \`mcpServers\` JSON 贴进 Codex。Codex 写 \`~/.codex/config.toml\`。
+- 不要和 \`@playwright/mcp\`、内置 Computer Use / Browser 混成一套。Playwright 管跨浏览器 E2E；这台管 DevTools 调试和性能追踪。
+- 不要给它 \`required = true\` 挂在全局。用完会留下无头 Chrome，见残留进程那条。
+
+冷启动 \`npx\` 常超过默认 10 秒，把 \`startup_timeout_sec\` 提到 20–30。旧文里的 \`startup_timeout_ms\` 只是毫秒别名。沙箱或无显示环境再给包传 \`--headless\`、\`--isolated\`；默认可视窗口在 Codex 沙箱里打不开。
+
+Windows 11 上 \`npx\` 直接 spawn 失败时，Chrome 官方文档才写 \`command = "cmd"\` 加 \`args = ["/c", "npx", ...]\`，并带 \`SystemRoot\`。这是**原生 Windows**。不要把这块抄进 WSL，也不要和内部 \`codex_app\` 的 invalid transport 混在一起。现行超时键仍写 \`startup_timeout_sec = 20\`。
+
+默认会向 Google 打用量统计；不想要就加 \`--no-usage-statistics\`。连着已登录的日常 Chrome 配置文件等于把页面内容交给模型，敏感会话用 \`--isolated\` 或单独的用户数据目录。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Chrome", "stdio"],
+    related: ["mcp-add-and-login", "mcp-approval-and-output-limit", "cleanup-playwright-chrome"],
+    sources: [
+      {
+        label: "Chrome · DevTools for agents",
+        url: "https://developer.chrome.com/docs/devtools/agents/get-started",
+      },
+      {
+        label: "ChromeDevTools/chrome-devtools-mcp",
+        url: "https://github.com/ChromeDevTools/chrome-devtools-mcp",
       },
       {
         label: "OpenAI · Model Context Protocol",

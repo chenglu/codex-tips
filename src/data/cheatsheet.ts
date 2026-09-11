@@ -160,6 +160,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: "codex mcp add github --url … --bearer-token-env-var", meaning: "托管 GitHub MCP。只 add URL 会 401。Codex 不读 .env。不要跑 mcp login，也不要写 HTTP 的 env 表" },
       { cmd: "codex mcp add figma --url …", meaning: "Figma 官方远程 MCP。随后 mcp login figma。不要抄 rmcp_client，也不要和 bearer 混用。本地 3845 是另一台" },
       { cmd: "项目 mcp_servers 写全传输", meaning: "桌面可能写丢用户层 MCP 表。项目不要只写 enabled = true，否则 invalid transport。先备份 ~/.codex/config.toml" },
+      { cmd: "codex mcp add chrome-devtools -- npx …", meaning: "官方 Chrome DevTools MCP 是 stdio 包。不是 localhost:3000 HTTP。沙箱加 --headless。Windows cmd 包装不要抄进 WSL" },
       { cmd: "[mcp_servers.docs.env_http_headers]", meaning: "HTTP 自定义头：左边头名，右边变量名。缺变量或空值静默不带头。密钥不要写进 http_headers" },
       { cmd: "codex mcp add sqlcl -- /abs/sql -mcp", meaning: "接 Oracle SQLcl MCP。先 conn -save -savepwd，密码不要写进 config.toml。Java 起得慢就 required = true" },
       { cmd: "stdio MCP stdout", meaning: "只允许一行一个 JSON-RPC；日志打 stderr。stdout 混了横幅会 Transport closed" },

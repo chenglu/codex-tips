@@ -1961,5 +1961,35 @@ export const articles: Article[] = [
     summary:
       '帮助中心把远程 MCP 写成首选。本地桌面服务要先在 Figma 桌面 Dev Mode 打开，再在 Codex 里加 Streamable HTTP，地址 http://127.0.0.1:3845/mcp。管理员关掉第三方插件时，工具会看不见。',
   },
+  {
+    title: 'Get started with Chrome DevTools for agents',
+    url: 'https://developer.chrome.com/docs/devtools/agents/get-started',
+    source: 'Chrome for Developers',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Chrome', 'stdio'],
+    summary:
+      '官方给 Codex 的安装是 codex mcp add chrome-devtools -- npx chrome-devtools-mcp@latest。要 Node LTS 和 Chrome 稳定版。这是 stdio，不是 Learn 示例里的 localhost HTTP。测通提示是检查 developers.chrome.com 的性能。不要抄 Claude 的 mcpServers JSON。',
+  },
+  {
+    title: 'ChromeDevTools/chrome-devtools-mcp',
+    url: 'https://github.com/ChromeDevTools/chrome-devtools-mcp',
+    source: 'ChromeDevTools',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Chrome', 'stdio'],
+    summary:
+      'stdio 包 chrome-devtools-mcp。只连上 MCP 不会自动开浏览器。沙箱用 --headless / --isolated。Windows 11 文档才写 cmd /c npx 包装，不要抄进 WSL。现行 Codex 超时键是 startup_timeout_sec。默认会打 Google 用量统计，可 --no-usage-statistics。',
+  },
+  {
+    title: 'How to add Chrome DevTools MCP server to Codex',
+    url: 'https://www.simplified.guide/codex/chrome-devtools-mcp-server-add',
+    source: 'Simplified Guide',
+    lang: '英文',
+    kind: '教程',
+    tags: ['MCP', 'Chrome', 'codex mcp add'],
+    summary:
+      '按 Codex 的 add / get --json / list 核对：传输必须是 stdio，命令是 npx。建议带 -y，避免首次 npx 交互卡住启动。包参数写在包名后面。已经打开的会话要重启才加载。',
+  },
 ];
 

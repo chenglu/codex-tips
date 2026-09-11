@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-11T16:00:00Z",
+  lastTick: "2026-09-11T16:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "16:00 调用前 $98.05。Spend: counts（start_time=2026-09-04T16:15:00Z，共 258 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录桌面写丢用户 MCP。",
+    "16:30 调用前 $98.04。Spend: counts（start_time=2026-09-04T16:45:00Z，共 258 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录 Chrome DevTools MCP stdio。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -392,6 +392,12 @@ export const loopState = {
     "learn.chatgpt.com docs extend mcp enabled required project config",
     "Codex CLI 技巧 2026 桌面写丢 mcp_servers 项目 enabled",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR config.toml OR hooks OR worktree OR exec OR AGENTS.md)',
+    "X news: Codex CLI",
+    "developer.chrome.com docs devtools agents get-started Codex mcp add",
+    "github.com/ChromeDevTools/chrome-devtools-mcp Codex CLI npx",
+    "codex mcp add chrome-devtools npx chrome-devtools-mcp",
+    "Codex CLI 技巧 2026 Chrome DevTools MCP stdio headless",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR Chrome OR Playwright OR hooks OR worktree OR exec)',
     "X news: Codex CLI",
   ],
 };
