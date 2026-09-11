@@ -1322,4 +1322,29 @@ startup_timeout_sec = 20
 enabled = true
 `,
   },
+  {
+    id: "mcp-notion-remote",
+    title: "Notion 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.notion.com/mcp。add 之后 mcp login notion。不要抄 rmcp 旗标、/sse 或 Claude 的 --transport http。",
+    code: `[mcp_servers.notion]
+url = "https://mcp.notion.com/mcp"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-slack-remote",
+    title: "Slack 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.slack.com/mcp。必须带预注册 oauth.client_id，否则 DCR 失败。不要抄 --transport http。",
+    code: `[mcp_servers.slack]
+url = "https://mcp.slack.com/mcp"
+enabled = true
+
+[mcp_servers.slack.oauth]
+client_id = "my-slack-app"
+`,
+  },
 ];

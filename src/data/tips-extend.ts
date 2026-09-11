@@ -2965,7 +2965,7 @@ Figma 帮助中心用名 \`figma-desktop\`。本机 HTTP 表用下划线更稳�
     level: "starter",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "Figma", "OAuth", "HTTP"],
-    related: ["mcp-add-and-login", "mcp-github-hosted", "mcp-http-not-sse"],
+    related: ["mcp-add-and-login", "mcp-notion-remote", "mcp-http-not-sse"],
     sources: [
       {
         label: "Figma · Remote MCP for Codex",
@@ -3287,6 +3287,112 @@ enabled = true
       {
         label: "openai/codex#4643",
         url: "https://github.com/openai/codex/issues/4643",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "mcp-notion-remote",
+    no: 268,
+    title: "Notion MCP 用官方远程 URL 再 login，不要抄 rmcp 或 SSE",
+    summary:
+      "CLI：codex mcp add notion --url https://mcp.notion.com/mcp，再 mcp login notion。这是 OAuth，目前不能非交互授权。中文教程说 mcp add 不能加 URL、还要 experimental_use_rmcp_client，那是过时路径。",
+    body: `Notion 官方给 Codex 的是**远程** Streamable HTTP，不是本地包。CLI 可以一次加完，不必先手改 TOML：
+
+\`\`\`bash
+codex mcp add notion --url https://mcp.notion.com/mcp
+codex mcp login notion
+\`\`\`
+
+官方文档只示范了写 \`~/.codex/config.toml\` 再 login，效果一样：
+
+\`\`\`toml
+[mcp_servers.notion]
+url = "https://mcp.notion.com/mcp"
+enabled = true
+\`\`\`
+
+\`codex mcp login notion\` 会走浏览器 OAuth。Notion 写明目前**没有**非交互授权，不能靠 PAT / bearer 在 CI 里静默登录。网页 Work / Cloud **不读**这份本机配置。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`claude mcp add --transport http\`。Codex 远程用 \`--url\`，名字写在 \`add\` 后面。
+- 不要抄 \`/sse\`。Codex 只要 Streamable HTTP；Notion 的 SSE 是给旧客户端的退路。
+- 不要一上来套 \`npx mcp-remote\`。Codex 自己会连 HTTP。
+- 不要开 \`experimental_use_rmcp_client\` / \`features.rmcp_client\` 当现行前置。那是早期 HTTP 客户端旗标，Figma 那条已经说过不要再抄。
+- 不要信「\`codex mcp add\` 只能加本地 stdio」。Learn 和本机 \`codex mcp add --help\` 都有 \`--url\`。
+- 不要贴 Claude / Cursor 的 \`mcpServers\` JSON，也不要装已经停更的 \`notion-mcp-server\` 开源包当默认。
+- 不要给它 \`required = true\` 挂全局。文档库不是每条会话都要的依赖。
+- 不要和 bearer 混用。显式 \`bearer_token_env_var\` 会盖掉已登录的 OAuth。
+
+项目层 \`.codex/config.toml\` 可以给同事同一条 \`url\`，每人仍要自己 \`mcp login\`。桌面和 IDE 经常只读 \`~/.codex\`，见项目层 MCP 那条。改完新开会话，用 \`codex mcp get notion\` 看传输是 streamable_http。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Notion", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-figma-remote", "mcp-http-not-sse"],
+    sources: [
+      {
+        label: "Notion · Connect to Notion MCP",
+        url: "https://developers.notion.com/guides/mcp/get-started-with-mcp",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "mcp-slack-remote",
+    no: 269,
+    title: "Slack MCP 用 --url 加预注册 client_id，不要抄 --transport http",
+    summary:
+      "官方远程是 https://mcp.slack.com/mcp。Codex 写法是 mcp add slack --url … --oauth-client-id。Slack 文档那行 --transport http 是 Claude 语法。不带 client_id 会 DCR 失败。这不是 Cloud 里的 @Codex。",
+    body: `这是把 Slack **工作区**接到本机 Codex 的远程 MCP，不是 Cloud 频道里的 \`@Codex\`。官方地址是 Streamable HTTP：\`https://mcp.slack.com/mcp\`。Slack 不支持动态客户端登记（DCR），必须带你自己 Slack 应用的 client ID：
+
+\`\`\`bash
+codex mcp add slack --url https://mcp.slack.com/mcp --oauth-client-id my-slack-app
+codex mcp login slack
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.slack]
+url = "https://mcp.slack.com/mcp"
+enabled = true
+
+[mcp_servers.slack.oauth]
+client_id = "my-slack-app"
+\`\`\`
+
+把 \`codex mcp add\` 打印的完整 OAuth callback URL 登到 Slack 应用。无端口的 \`127.0.0.1\` 规则见回调那几条。工作区管理员还要批准 MCP 集成；未上架的 Slack 应用不能用这套 MCP。
+
+不要做这些：
+
+- 不要抄 Slack 文档 Codex 节里的 \`codex mcp add --transport http slack https://mcp.slack.com/mcp\`。那是 Claude Code 的语序。Codex 是 \`add\` 名字 \`--url\` 地址。
+- 不要把 \`[mcp_servers.slack]url = …auth = "oauth"\` 粘成一行。键要分行。\`auth = "oauth"\` 是 HTTP 默认，真正缺的是 \`oauth.client_id\`。
+- 不要空表跑 \`codex mcp login slack\`。开放问题会立刻报 Dynamic client registration not supported。
+- 不要去抄 Claude 插件清单里那串现成 \`clientId\`。那是 Claude Skills 插件的客户端，不是你的 Slack 应用。
+- 不要和 Cloud \`@Codex\`、精选插件 \`slack@openai-curated\` 混成一套。
+- 不要抄 \`/sse\`，也不要给它 \`required = true\` 挂全局。
+- 不要把用户 token 当第一手段写进 \`bearer_token_env_var\`。官方路径是预注册 OAuth + \`mcp login\`。
+
+改完新开会话。\`codex mcp list\` 应看到 slack；网页 Cloud 仍不读这份 \`config.toml\`。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Slack", "OAuth", "HTTP"],
+    related: ["mcp-oauth-loopback-callback", "mcp-add-and-login", "slack-at-codex-env"],
+    sources: [
+      {
+        label: "Slack · Connect to Codex",
+        url: "https://docs.slack.dev/ai/slack-mcp-server/connect-to-harnesses",
+      },
+      {
+        label: "openai/codex#13200",
+        url: "https://github.com/openai/codex/issues/13200",
       },
       {
         label: "OpenAI · Model Context Protocol",

@@ -2061,5 +2061,35 @@ export const articles: Article[] = [
     summary:
       'Context7 文档检索 MCP 的仓库。Codex 用 stdio 包 @upstash/context7-mcp，远程入口是 https://mcp.context7.com/mcp。不要把 Claude 的 mcpServers JSON 或密钥写进 args。',
   },
+  {
+    title: 'Connect to Notion MCP',
+    url: 'https://developers.notion.com/guides/mcp/get-started-with-mcp',
+    source: 'Notion Developers',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Notion', 'OAuth'],
+    summary:
+      '官方 Codex 节：写 ~/.codex/config.toml 的 [mcp_servers.notion]，url 用 https://mcp.notion.com/mcp，再 codex mcp login notion。目前必须交互 OAuth，没有 PAT 静默登录。项目层同名表只共享 url，每人仍要自己 login。不要抄 /sse 或停更的开源包。',
+  },
+  {
+    title: 'How to Set Up the Notion MCP Server with OpenAI Codex',
+    url: 'https://www.flowdevs.io/blog/post/how-to-set-up-the-notion-mcp-server-with-openai-codex',
+    source: 'FlowDevs',
+    lang: '英文',
+    kind: '教程',
+    tags: ['MCP', 'Notion', 'codex mcp add'],
+    summary:
+      '把 Claude 的 --transport http 换成 Codex 的 mcp add notion --url。认证用 codex mcp login notion；TUI 里 /mcp 是查看工具，不是唯一登录入口。不要再加 experimental_use_rmcp_client。',
+  },
+  {
+    title: 'Connecting the Slack MCP server to agent harnesses',
+    url: 'https://docs.slack.dev/ai/slack-mcp-server/connect-to-harnesses',
+    source: 'Slack',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Slack', 'OAuth'],
+    summary:
+      '官方有 Codex 节，但那行 --transport http 是 Claude 语法。Codex 应写成 mcp add slack --url https://mcp.slack.com/mcp，并带 --oauth-client-id。Slack 不支持 DCR。这和 Cloud 频道 @Codex 不是同一条路。',
+  },
 ];
 

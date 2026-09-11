@@ -22,6 +22,16 @@ export const community: CommunityItem[] = [
       '有人只装了全局 @playwright/cli，以为 Codex 没有 Playwright 技能。回复给出 /skills → skill-installer → playwright。原帖确认能用。这和 Playwright MCP、以及默认写进 .claude 的 install --skills 不是同一条路。',
   },
   {
+    title: '官方 Slack MCP 不支持 DCR，login 要预注册 client_id',
+    url: 'https://github.com/openai/codex/issues/13200',
+    source: 'openai/codex#13200',
+    kind: '论坛',
+    date: '2026-03-02',
+    tags: ['MCP', 'Slack', 'OAuth', 'DCR'],
+    summary:
+      '开放问题。只写 url 再 mcp login slack，会报 Dynamic client registration not supported。Slack 官方 MCP 要求预注册应用。0.142 起用 --oauth-client-id 或 [mcp_servers.slack.oauth] client_id，再 login。不要抄文档里的 --transport http。',
+  },
+  {
     title: 'Linux 上 Playwright MCP 只有 snapshot：stdio 要转发 DISPLAY',
     url: 'https://github.com/openai/codex/issues/4643',
     source: 'openai/codex#4643',

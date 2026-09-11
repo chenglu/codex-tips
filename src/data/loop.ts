@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-11T18:00:00Z",
+  lastTick: "2026-09-11T18:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "18:00 调用前 $98.01。Spend: counts（start_time=2026-09-04T18:15:00Z，共 256 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录 Context7 MCP + stdio DISPLAY。",
+    "18:30 调用前 $98.00。Spend: counts（start_time=2026-09-04T18:45:00Z，共 249 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录 Notion + Slack 远程 MCP。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -419,6 +419,14 @@ export const loopState = {
     "github.com/openai/codex/issues/4643 Playwright MCP DISPLAY env_vars",
     "Codex CLI 技巧 2026 Context7 MCP env_vars DISPLAY WAYLAND",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR Context7 OR Playwright OR DISPLAY OR hooks OR AGENTS.md)',
+    "X news: Codex CLI",
+    "developers.notion.com Codex mcp login notion mcp.notion.com",
+    "flowdevs.io Notion MCP OpenAI Codex mcp add --url",
+    "wellstsai add-local-mcp-notion experimental_use_rmcp_client",
+    "docs.slack.dev slack-mcp-server connect-to-harnesses Codex",
+    "github.com/openai/codex/issues/13200 Slack MCP DCR oauth-client-id",
+    "Codex CLI 技巧 2026 Notion Slack MCP OAuth login",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR Notion OR Slack OR OAuth OR hooks OR AGENTS.md)',
     "X news: Codex CLI",
   ],
 };
