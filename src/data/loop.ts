@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-11T20:00:00Z",
+  lastTick: "2026-09-11T20:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "20:00 调用前 $97.98。Spend: counts（start_time=2026-09-04T20:15:00Z，共 215 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 仍是 worktree 转述、GTM MCP Bench、ChatGPT Pro 配额、Mistral Vibe、@barbarosdev、SQLcl 转帖、日文 changelog、Miles Ma 外链，无新可执行帖。收录 Cloudflare 插件 + 远程 MCP。",
+    "20:30 调用前 $97.97。Spend: counts（start_time=2026-09-04T20:45:00Z，共 184 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 仍是 GTM MCP Bench、Mistral Vibe、@barbarosdev、SQLcl 转帖、套壳 Web 额度，无新可执行帖。收录 Hugging Face + Amplitude 远程 MCP。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -446,6 +446,12 @@ export const loopState = {
     "huggingface.co mcp Codex CLI HF_TOKEN bearer_token_env_var",
     "Codex CLI 技巧 2026 Cloudflare Hugging Face MCP plugin marketplace",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR Cloudflare OR HuggingFace OR AGENTS.md OR skills OR worktree)',
+    "X news: Codex CLI",
+    "huggingface.co docs hub agents-mcp Codex settings/mcp HF_TOKEN",
+    "amplitude.com docs amplitude-mcp Codex CLI mcp.eu.amplitude.com",
+    "docs.datadoghq.com mcp_server Codex X-Datadog-MCP-Toolsets",
+    "Codex CLI 技巧 2026 Hugging Face Amplitude Datadog MCP OAuth",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR HuggingFace OR Amplitude OR Datadog OR AGENTS.md OR skills)',
     "X news: Codex CLI",
   ],
 };

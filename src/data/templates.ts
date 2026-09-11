@@ -1402,4 +1402,26 @@ url = "https://mcp.cloudflare.com/mcp"
 enabled = true
 `,
   },
+  {
+    id: "mcp-huggingface-remote",
+    title: "Hugging Face 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 huggingface.co/mcp。add 之后 mcp login。token 用 bearer_token_env_var。不要抄 Claude 的 -t http，也不要把 hf_ 写进 http_headers。",
+    code: `[mcp_servers.huggingface]
+url = "https://huggingface.co/mcp"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-amplitude-remote",
+    title: "Amplitude 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方 Codex 页是 mcp.amplitude.com/mcp。EU 换成 mcp.eu.amplitude.com/mcp 再 add 覆盖。随后 OAuth。不是埋点摄入。",
+    code: `[mcp_servers.amplitude]
+url = "https://mcp.amplitude.com/mcp"
+enabled = true
+`,
+  },
 ];

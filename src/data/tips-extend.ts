@@ -3727,4 +3727,120 @@ codex mcp add cloudflare-docs --url https://docs.mcp.cloudflare.com/mcp
       },
     ],
   },
+  {
+    id: "mcp-huggingface-remote",
+    no: 276,
+    title: "Hugging Face MCP 用 huggingface.co/mcp，不要把 token 写进 http_headers",
+    summary:
+      "CLI：codex mcp add huggingface --url https://huggingface.co/mcp，再 mcp login。受限路径走 bearer_token_env_var = HF_TOKEN。不要抄 Claude 的 -t http，也不要把 hf_ 写进 TOML。这不是 Inference Providers 那条 model_providers。",
+    body: `Hugging Face 托管的是远程 Streamable HTTP。公开 Server Card 给的规范地址是 \`https://huggingface.co/mcp\`，不带登录查询参数：
+
+\`\`\`bash
+codex mcp add huggingface --url https://huggingface.co/mcp
+codex mcp login huggingface
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.huggingface]
+url = "https://huggingface.co/mcp"
+enabled = true
+\`\`\`
+
+OAuth 走 \`mcp login huggingface\`。Claude / Gemini 文档用 \`https://huggingface.co/mcp?login\` 打开登录页；Codex 先加规范 URL 再 login。login 起不来时，才把 \`?login\` 写进 url，不要把 token 塞进查询串。
+
+无头备选是进程环境里的 \`HF_TOKEN\`：
+
+\`\`\`toml
+[mcp_servers.huggingface]
+url = "https://huggingface.co/mcp"
+bearer_token_env_var = "HF_TOKEN"
+enabled = true
+\`\`\`
+
+键是变量**名**。不要和已经 login 的 OAuth 写在同一张表。Cursor / VS Code 那份 JSON 把 Bearer 写进 \`headers\`，抄进 Codex 的 \`http_headers\` 会把密钥提交进 config。
+
+连上之后去 \`https://huggingface.co/settings/mcp\` 勾工具和 Gradio Spaces。改完要新开会话，\`tools/list\` 才会变。Hub 浏览多用内置 \`hf_fs\`。这**不是** \`[model_providers.huggingface]\` 那条 Inference Providers 路由；MCP 查 Hub，模型供应商改的是你用哪颗模型。
+
+不要做这些：
+
+- 不要抄 \`claude mcp add hf-mcp-server -t http\`。Codex 远程用 \`--url\`，名字写在 \`add\` 后面。
+- 不要把 \`hf_\` 字面量写进 TOML、URL 或 \`http_headers\`。
+- 不要把本地 \`npx @llmindset/hf-mcp-server\` / Docker stdio 当成 Codex 默认。那是自托管。
+- 不要给它 \`required = true\` 挂全局。
+- 不要抄 \`mcpServers\` JSON，也不要套 \`mcp-remote\`。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完用 \`codex mcp get huggingface\` 看传输是 streamable_http。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Hugging Face", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-http-bearer-env", "mcp-http-not-sse"],
+    sources: [
+      {
+        label: "Hugging Face · MCP Server",
+        url: "https://huggingface.co/docs/hub/en/agents-mcp",
+      },
+      {
+        label: "huggingface/hf-mcp-server",
+        url: "https://github.com/huggingface/hf-mcp-server",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "mcp-amplitude-remote",
+    no: 277,
+    title: "Amplitude MCP 用官方 --url 再 OAuth，EU 换 mcp.eu 覆盖同名表",
+    summary:
+      "官方 Codex 页：codex mcp add amplitude --url https://mcp.amplitude.com/mcp，然后走 OAuth。EU 用 mcp.eu.amplitude.com/mcp 再 add 一次覆盖。这不是埋点摄入，也不是只读文档 MCP。",
+    body: `Amplitude 给 Codex CLI 单独写了一页。美国区：
+
+\`\`\`bash
+codex mcp add amplitude --url https://mcp.amplitude.com/mcp
+\`\`\`
+
+EU 数据驻留用 \`https://mcp.eu.amplitude.com/mcp\`。\`add\` 之后按提示做 Amplitude OAuth；也可以再跑 \`codex mcp login amplitude\`。
+
+\`\`\`toml
+[mcp_servers.amplitude]
+url = "https://mcp.amplitude.com/mcp"
+enabled = true
+\`\`\`
+
+从美国切到 EU：用 EU 地址再 \`mcp add\` 一次会覆盖同名表，然后重新授权。权限跟你登录的 Amplitude 账号走，MCP 不会多给你权限。
+
+这台服务器能读也能改图表、实验、队列和跟踪计划，**不是**生产埋点入口。\`manage_amp_events\` 改的是跟踪计划定义，不会把事件流打进 Amplitude。公开文档另有只读 Docs MCP，不要和这台分析 MCP 配成一台。写跟踪计划需要账号上的 Use MCP (write) 权限。
+
+不要做这些：
+
+- 不要抄 Claude / Cursor 的 \`mcpServers\` JSON 和 \`transport: streamable-http\`。Codex 远程用 \`--url\`。
+- 不要抄 Amplitude 插件仓那行 \`/plugin marketplace add amplitude/mcp-marketplace\`。那是 Claude 语法；Codex CLI 官方页只有 \`mcp add\`。
+- 不要把 \`?discovery=progressive\` 当成必加。那是缩工具表的可选项；主路径仍是 \`/mcp\`。
+- 不要给它 \`required = true\` 挂全局。也不要和 bearer 混用——官方路径是 OAuth。
+- 不要抄 Linear 旧文的 \`rmcp_client\`。现行 Codex 自己连 HTTP。
+
+网页 Cloud 不读这份 \`config.toml\`。改完新开会话。用 \`codex mcp get amplitude\` 看传输是 streamable_http。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Amplitude", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-huggingface-remote", "mcp-http-not-sse"],
+    sources: [
+      {
+        label: "Amplitude · Codex CLI",
+        url: "https://amplitude.com/docs/amplitude-ai/amplitude-mcp/codex-cli",
+      },
+      {
+        label: "Amplitude · MCP Server",
+        url: "https://amplitude.com/docs/amplitude-ai/amplitude-mcp",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
 ];

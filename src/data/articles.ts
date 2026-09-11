@@ -2161,5 +2161,25 @@ export const articles: Article[] = [
     summary:
       'Codex 命令是 plugin marketplace add cloudflare/skills，再 plugin add cloudflare@cloudflare。插件会装 Skills 并登记主 MCP。不要用 npx skills add 当安装器，也不要只把 SKILL.md 拷进 ~/.codex/skills。Claude 的 /plugin install 不要抄。',
   },
+  {
+    title: 'Hugging Face MCP Server',
+    url: 'https://huggingface.co/docs/hub/en/agents-mcp',
+    source: 'Hugging Face',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Hugging Face', 'hf_fs'],
+    summary:
+      '官方入口是 https://huggingface.co/mcp。设置页 huggingface.co/settings/mcp 勾工具和 Spaces。Codex 用 mcp add huggingface --url 再 mcp login；token 走 bearer_token_env_var = HF_TOKEN。不要把 Bearer 抄进 http_headers。这不是 Inference Providers 的 model_providers。内置工具 hf_fs 用来逛 Hub。',
+  },
+  {
+    title: 'How to connect Amplitude MCP to Codex CLI',
+    url: 'https://amplitude.com/docs/amplitude-ai/amplitude-mcp/codex-cli',
+    source: 'Amplitude',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Amplitude', 'OAuth'],
+    summary:
+      '官方 Codex 命令是 mcp add amplitude --url https://mcp.amplitude.com/mcp，然后 OAuth。EU 用 mcp.eu.amplitude.com/mcp 再 add 一次覆盖同名表。权限跟登录账号走。不是埋点摄入，也不是只读文档 MCP。',
+  },
 ];
 
