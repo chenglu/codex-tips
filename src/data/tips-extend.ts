@@ -2043,7 +2043,7 @@ OpenAI 专用展示、已注册 MCP 映射和钩子路径写在根清单的 \`ex
     level: "intermediate",
     surfaces: ["cli", "app"],
     tags: ["plugins", "plugin.json", "mcp.json"],
-    related: ["plugin-mcp-oauth-json", "plugin-hook-plugin-root", "plugins-vs-skills"],
+    related: ["plugin-mcp-json-wrapper", "plugin-mcp-oauth-json", "plugin-hook-plugin-root"],
     sources: [
       {
         label: "OpenAI · Package your plugin",
@@ -2144,7 +2144,7 @@ default_tools_approval_mode = "prompt"
     level: "advanced",
     surfaces: ["cli", "app"],
     tags: ["plugins", "MCP", "OAuth"],
-    related: ["mcp-oauth-loopback-callback", "plugin-portable-json", "plugin-mcp-exec-key"],
+    related: ["plugin-mcp-json-wrapper", "mcp-oauth-loopback-callback", "plugin-portable-json"],
     sources: [
       {
         label: "OpenAI · Model Context Protocol",
@@ -2173,6 +2173,77 @@ default_tools_approval_mode = "prompt"
       {
         label: "OpenAI · Model Context Protocol",
         url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "plugin-mcp-json-wrapper",
+    no: 244,
+    title: "插件 mcp.json 包装键是 mcpServers，不要抄 TOML 的 mcp_servers",
+    summary: "serde 按 camelCase 读包装对象。写成 mcp_servers 会变成一台名叫 mcp_servers 的假服务器，没有警告。用户策略仍写 plugins.\"name@market\".mcp_servers。",
+    body: `兼容布局的官方打包页仍写：清单里的 \`mcpServers\` 可以指向一份 \`.mcp.json\`，文件里是「直接服务器表」或「包一层 \`mcp_servers\`」。后半句不要照抄。加载器 \`PluginMcpServersFile\` 用 \`rename_all = "camelCase"\`，Rust 字段 \`mcp_servers\` 对应的 JSON 键是 \`mcpServers\`。
+
+两处 \`mcpServers\` 不是同一种值：
+
+- 清单 \`.codex-plugin/plugin.json\` 或可移植 \`plugin.json\` overlay 里，它是路径字符串，例如 \`"./.mcp.json"\`。
+- \`mcp.json\` / \`.mcp.json\` 里，它是包装对象，下面才是各台服务器。
+
+包装对象必须写成 camelCase：
+
+\`\`\`json
+{
+  "mcpServers": {
+    "docs": {
+      "command": "docs-mcp",
+      "args": ["--stdio"]
+    }
+  }
+}
+\`\`\`
+
+可移植包再加 \`$schema\` 和每台服务器的 \`type\`（例如 \`streamable-http\`）。不要只把 \`.mcp.json\` 改名。
+
+也可以不包一层，直接把服务器名放在根上：
+
+\`\`\`json
+{
+  "docs": {
+    "command": "docs-mcp",
+    "args": ["--stdio"]
+  }
+}
+\`\`\`
+
+写成 \`"mcp_servers": { "docs": { ... } }\` 时，包装解析失败，整份 JSON 会落到「根上就是服务器表」这条回退：你会得到一台名叫 \`mcp_servers\` 的服务器，真正的 \`docs\` 进不去。\`codex mcp list\` 里出现 \`mcp_servers\` 这个名字，就是踩中了。没有告警。有人给 serde 提过 \`alias = "mcp_servers"\`，没有进主干；跨宿主的 \`.mcp.json\` 仍以 \`mcpServers\` 为准。
+
+用户侧开关和审批仍是 TOML 蛇形，不要把 JSON 的驼峰抄过来：
+
+\`\`\`toml
+[plugins."my-plugin@local-dev".mcp_servers.docs]
+enabled = true
+default_tools_approval_mode = "prompt"
+\`\`\`
+
+本机 \`[mcp_servers.docs]\` 改的是用户自己装的 MCP，改不了插件自带服务器的启动命令。
+
+服务器名用下划线。写成 \`context-library\` 时，\`codex mcp get\` 还能看见，模型却调不到 \`mcp__context-library__...\` 这类工具；改成 \`context_library\` 立刻可调。连接器路径会把连字符收成下划线，插件 MCP 目前不会。改完重新安装插件并新开会话，不要只靠当前会话的 \`/mcp\`。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "MCP", "mcp.json"],
+    related: ["plugin-portable-json", "plugin-mcp-oauth-json", "plugin-mcp-exec-key"],
+    sources: [
+      {
+        label: "OpenAI · Package your plugin",
+        url: "https://learn.chatgpt.com/plugins/build/plugins",
+      },
+      {
+        label: "openai/codex#22105",
+        url: "https://github.com/openai/codex/issues/22105",
+      },
+      {
+        label: "openai/codex#33063",
+        url: "https://github.com/openai/codex/issues/33063",
       },
     ],
   },

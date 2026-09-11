@@ -955,7 +955,7 @@ enabled = false
     id: "plugin-portable-mcp",
     title: "可移植 mcp.json（带 transport type）",
     filename: "mcp.json",
-    summary: "和 plugin.json 放在同一层。不要只把 .mcp.json 改名。兼容布局还要把 mcpServers 指到 ./.mcp.json。",
+    summary: "包装键是 mcpServers，不要抄 TOML 的 mcp_servers。不要只把 .mcp.json 改名。兼容布局还要把清单里的 mcpServers 指到 ./.mcp.json。",
     code: `{
   "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
   "mcpServers": {

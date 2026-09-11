@@ -1809,7 +1809,7 @@ export const articles: Article[] = [
     kind: '官方',
     tags: ['plugins', 'marketplace', '企业'],
     summary:
-      '官方打包页：新包用根目录 plugin.json（Agent Plugins schema）和带 type 的 mcp.json。$plugin-creator 仍脚手架 .codex-plugin 兼容布局，不要只把 .mcp.json 改名。extensions.com.openai 会整份替换 overlay。工作区 Publish 不上公共目录；CLI 分发仍走 marketplace。',
+      '官方打包页：新包用根目录 plugin.json（Agent Plugins schema）和带 type 的 mcp.json。$plugin-creator 仍脚手架 .codex-plugin 兼容布局，不要只把 .mcp.json 改名。兼容节仍可能把包装对象写成 mcp_servers，加载器认的是 mcpServers。extensions.com.openai 会整份替换 overlay。工作区 Publish 不上公共目录；CLI 分发仍走 marketplace。',
   },
   {
     title: 'plugin-creator marketplace JSON spec',
@@ -1850,6 +1850,16 @@ export const articles: Article[] = [
     tags: ['连接器', 'plugins', '企业'],
     summary:
       '工作区里插件能不能装、连接器能不能用、连接器能做哪些动作，是三层控制。CLI 用户 config 的 [apps._default] 只管本机工具审批和 destructive / open_world 提示，盖不了工作区关掉的连接器。插件捆里若带了连接器，仍要在 Workspace apps 里授权。',
+  },
+  {
+    title: 'Codex 插件开发实战：从 plugin.json 到公共市场',
+    url: 'https://news.qiniu.com/archives/1786326734143',
+    source: '七牛云',
+    lang: '中文',
+    kind: '教程',
+    tags: ['plugins', 'plugin.json', 'marketplace'],
+    summary:
+      '中文对照 $plugin-creator、三种 marketplace 和 PLUGIN_ROOT 钩子。例子仍是 .codex-plugin 兼容布局；现行可移植包要把身份放在根目录 plugin.json。文中 .mcp.json 示例用的是 mcpServers，不要改回官方兼容节里的 mcp_servers。基于 0.117 前后的文档，字段以 Learn 现行页为准。',
   },
 ];
 

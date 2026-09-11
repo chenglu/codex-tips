@@ -12,6 +12,26 @@ export type CommunityItem = {
 
 export const community: CommunityItem[] = [
   {
+    title: '插件 .mcp.json 包装键必须是 mcpServers',
+    url: 'https://github.com/openai/codex/issues/22105',
+    source: 'openai/codex#22105',
+    kind: '论坛',
+    date: '2026-05-11',
+    tags: ['plugins', 'MCP', 'mcp.json'],
+    summary:
+      '官方兼容布局示例把包装对象写成 mcp_servers。加载器按 camelCase 读，蛇形键会回退成一台名叫 mcp_servers 的假服务器，没有警告。改成 mcpServers，或直接把服务器表放在根上。TOML 策略仍写 plugins."name".mcp_servers。serde alias 补丁没有进主干。',
+  },
+  {
+    title: '插件 MCP 服务器名带连字符时 list 看得到、模型调不到',
+    url: 'https://github.com/openai/codex/issues/33063',
+    source: 'openai/codex#33063',
+    kind: '论坛',
+    date: '2026-07-14',
+    tags: ['plugins', 'MCP', '工具名'],
+    summary:
+      'key 写成 context-library 时，mcp get 显示已启用，exec 却发现不了 mcp__context-library__... 工具。改成 context_library 立刻可调。连接器路径会把连字符收成下划线，插件 MCP 目前按原名进工具命名空间。',
+  },
+  {
     title: 'Computer Use 空窗口：先关 sandbox_private_desktop',
     url: 'https://github.com/openai/codex/issues/37043',
     source: 'openai/codex#37043',
