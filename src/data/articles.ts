@@ -1911,5 +1911,15 @@ export const articles: Article[] = [
     summary:
       '从 codex mcp add 讲到 TOML：stdio 用 command，远程用 url。把 startup_timeout_sec 和 tool_timeout_sec 拆开，并提醒项目层配置会盖用户层。远程登录仍要 mcp login；npx -y 每次拉最新包，团队配置应钉版本。',
   },
+  {
+    title: 'Codex MCP Servers: Config, Transports, and What Works',
+    url: 'https://www.usecarly.com/blog/codex-mcp-servers/',
+    source: 'Use Carly',
+    lang: '英文',
+    kind: '教程',
+    tags: ['MCP', 'env_vars', 'stdio'],
+    summary:
+      '强调 Codex 用 command 或 url 隐式选传输，两套键不能同时写。stdio 的 env 是字面量，env_vars 才从启动进程转发密钥。远程走 Streamable HTTP，不要先套 mcp-remote。具体超时和 OAuth 步骤以 Learn 现行页为准。',
+  },
 ];
 

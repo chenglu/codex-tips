@@ -155,6 +155,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: "codex mcp add linear --url …", meaning: "本机接 Linear MCP，随后 mcp login linear" },
       { cmd: "HTTP MCP url", meaning: "只要 Streamable HTTP。不要抄 /sse；OAuth 过了 initialize 仍 404 就改成 /mcp" },
       { cmd: "startup_timeout_sec = 60", meaning: "每台 MCP 启动握手默认 10 秒。冷 npx/uvx 先提到 30–60。不是 tool_timeout_sec，也不是 exec 那条 1 秒宽限" },
+      { cmd: 'env_vars = ["DOCS_API_KEY"]', meaning: "stdio MCP 不继承整份 shell。env_vars 从 Codex 进程转发；env 表是字面量。占位符不会展开。不是 shell_environment_policy" },
       { cmd: "codex mcp add sqlcl -- /abs/sql -mcp", meaning: "接 Oracle SQLcl MCP。先 conn -save -savepwd，密码不要写进 config.toml。Java 起得慢就 required = true" },
       { cmd: "stdio MCP stdout", meaning: "只允许一行一个 JSON-RPC；日志打 stderr。stdout 混了横幅会 Transport closed" },
       { cmd: "Windows MCP stderr", meaning: "原生 Windows 上 stderr 太吵会堵约 4KB 管道。cmd /c 重定向到日志文件，不要默认 2>NUL，也不要抄进 WSL" },

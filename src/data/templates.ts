@@ -1171,4 +1171,20 @@ startup_timeout_sec = 60
 enabled = true
 `,
   },
+  {
+    id: "mcp-stdio-env-vars",
+    title: "stdio MCP 用 env_vars 转发密钥",
+    filename: "~/.codex/config.toml",
+    summary:
+      "子进程不继承整份 shell。env_vars 转发启动进程里的变量名；env 表只放 PATH 这类字面量。不要写占位符指望展开。",
+    code: `[mcp_servers.docs]
+command = "npx"
+args = ["-y", "@example/docs-mcp"]
+env_vars = ["DOCS_API_KEY"]
+enabled = true
+
+[mcp_servers.docs.env]
+PATH = "/opt/homebrew/bin:/usr/bin:/bin"
+`,
+  },
 ];

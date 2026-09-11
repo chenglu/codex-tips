@@ -12,6 +12,26 @@ export type CommunityItem = {
 
 export const community: CommunityItem[] = [
   {
+    title: 'stdio MCP 默认不继承 shell 里的密钥和会话变量',
+    url: 'https://github.com/openai/codex/issues/19023',
+    source: 'openai/codex#19023',
+    kind: '论坛',
+    date: '2026-04-22',
+    tags: ['MCP', 'env_vars', 'stdio'],
+    summary:
+      'Bitwarden 一类包装在终端能握手，Codex 里却像没装。维护者说明 env_vars 从启动进程转发变量名，env 表是写进 config 的字面量。不要指望 ${VAR} 会展开，也不要把会话 token 写进仓库。',
+  },
+  {
+    title: '代理注入的 HTTPS_PROXY 和 NODE_EXTRA_CA_CERTS 会被 MCP 子进程丢掉',
+    url: 'https://github.com/openai/codex/issues/29124',
+    source: 'openai/codex#29124',
+    kind: '论坛',
+    date: '2026-06-19',
+    tags: ['MCP', 'env_vars', '代理'],
+    summary:
+      'Codex 清掉 stdio MCP 环境后只放行 PATH/HOME 一类默认变量。公司 MITM 注入的证书和代理变量不在名单里，npx 拉包会 EACCES。权宜是把 HTTPS_PROXY 和 NODE_EXTRA_CA_CERTS 写进该服务器的 env_vars。改 inherit=all 管不到这条。',
+  },
+  {
     title: '冷 npx / uvx 经常超过 MCP 默认 10 秒启动超时',
     url: 'https://github.com/openai/codex/issues/2905',
     source: 'openai/codex#2905',

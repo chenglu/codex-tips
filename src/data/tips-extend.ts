@@ -1038,7 +1038,7 @@ experimental_environment = "remote"
 env_vars = ["LOCAL_TOKEN", { name = "REMOTE_TOKEN", source = "remote" }]
 \`\`\`
 
-\`env_vars\` 里字符串和 \`source = "local"\` 读本机环境。\`source = "remote"\` 读远端执行器环境，而且**要求**这条 stdio 已经走 remote。
+\`env_vars\` 里字符串和 \`source = "local"\` 读本机环境。\`source = "remote"\` 读远端执行器环境，而且**要求**这条 stdio 已经走 remote。本机密钥转发见 stdio \`env_vars\` 那条，不要和这条混用。
 
 还没做的：
 
@@ -1050,7 +1050,7 @@ env_vars = ["LOCAL_TOKEN", { name = "REMOTE_TOKEN", source = "remote" }]
     level: "advanced",
     surfaces: ["cli", "app"],
     tags: ["MCP", "stdio", "Remote"],
-    related: ["mcp-add-and-login", "http-headers-helper", "mcp-oauth-loopback-callback"],
+    related: ["mcp-add-and-login", "mcp-stdio-env-vars", "http-headers-helper"],
     sources: [
       {
         label: "OpenAI · Model Context Protocol",
@@ -2425,7 +2425,7 @@ enabled = true
     level: "intermediate",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "macOS", "0.154"],
-    related: ["mcp-add-and-login", "plugin-mcp-cwd-dot", "sqlcl-oracle-mcp"],
+    related: ["mcp-add-and-login", "mcp-stdio-env-vars", "plugin-mcp-cwd-dot"],
     sources: [
       {
         label: "openai/codex#42192",
@@ -2673,6 +2673,59 @@ Windows 冷启动建议 60；本机已经装过的包 30 往往够。改完必�
       {
         label: "openai/codex#29396",
         url: "https://github.com/openai/codex/issues/29396",
+      },
+    ],
+  },
+  {
+    id: "mcp-stdio-env-vars",
+    no: 256,
+    title: "stdio MCP 不继承整份 shell，密钥用 env_vars 转发",
+    summary:
+      "子进程只拿到一小份默认环境。env_vars 从启动 Codex 的进程转发名字；env 表是字面量。TOML 里的占位符不会展开。这不是 shell_environment_policy。",
+    body: `stdio MCP **不会**继承你整个 shell。Codex 清掉环境后，只放行一小份默认名单（\`PATH\`、\`HOME\`、\`USER\`、\`TERM\`、\`LANG\` 一类），再加上 \`env_vars\` 和 \`[mcp_servers.docs.env]\` 里的字面量。\`codex mcp list\` 显示 enabled、终端里同一条命令也通，会话里却 Unauthorized、密钥管理器显示 locked、或 \`npx\` 报 \`EACCES\`：先查环境，不要先换服务器。
+
+\`\`\`toml
+[mcp_servers.docs]
+command = "npx"
+args = ["-y", "@example/docs-mcp"]
+env_vars = ["DOCS_API_KEY"]
+enabled = true
+
+[mcp_servers.docs.env]
+PATH = "/opt/homebrew/bin:/usr/bin:/bin"
+\`\`\`
+
+\`env_vars\` 从**启动 Codex 的那个进程**按名字转发。\`env\` 表写入的是字面量，下面这样子进程拿到的是字符串本身，不是密钥：
+
+\`\`\`toml
+[mcp_servers.docs.env]
+DOCS_API_KEY = "\${DOCS_API_KEY}"
+\`\`\`
+
+\`args\` 里的 \`\${DOCS_API_KEY}\` 同样不会被 Codex 展开；要靠服务器自己读环境，名字必须先出现在 \`env_vars\` 或 \`env\`。
+
+公司代理注入的 \`HTTPS_PROXY\`、\`NODE_EXTRA_CA_CERTS\` 也不在默认名单里。冷 \`npx\` 拉包证书失败时把它们加进 \`env_vars\`。
+
+这和 \`shell_environment_policy\` 不是同一条闸：后者管模型跑的 shell 命令，改 \`inherit = "all"\` 填不满 MCP 子进程。插件 \`mcp.json\` 的 \`env_vars\` 是另一份清单。\`source = "remote"\` 只有远端执行器那条才有效。HTTP MCP 用 \`bearer_token_env_var\` / \`env_http_headers\`，写 \`env_vars\` 无效。
+
+从 Dock 打开的桌面常常没有你在 zshrc 里 export 的变量。\`env_vars\` 转发的是桌面自己的环境；终端里有、桌面没有时，彻底退出后再从已 export 的终端启动，或把非密钥的 PATH 写进 \`env\`。改完新开会话。\`codex doctor\` 会标出点了名却缺失的 \`env_vars\`。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "env_vars", "stdio", "密钥"],
+    related: ["mcp-stdio-remote-executor", "macos-mcp-bare-command", "shell-environment-policy"],
+    sources: [
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+      {
+        label: "openai/codex#19023",
+        url: "https://github.com/openai/codex/issues/19023",
+      },
+      {
+        label: "openai/codex#29124",
+        url: "https://github.com/openai/codex/issues/29124",
       },
     ],
   },
