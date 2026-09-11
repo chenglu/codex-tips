@@ -1294,4 +1294,32 @@ disabled_tools = ["browser_run_code_unsafe"]
 enabled = true
 `,
   },
+  {
+    id: "mcp-context7",
+    title: "Context7 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "Learn 免费入门不强制 API key。密钥用 env_vars 转发，不要写进 args。冷 npx 把 startup_timeout_sec 提到 20。远程改 url + bearer_token_env_var。",
+    code: `[mcp_servers.context7]
+command = "npx"
+args = ["-y", "@upstash/context7-mcp"]
+env_vars = ["CONTEXT7_API_KEY"]
+startup_timeout_sec = 20
+enabled = true
+`,
+  },
+  {
+    id: "mcp-stdio-display-env",
+    title: "stdio MCP 转发 DISPLAY",
+    filename: "~/.codex/config.toml",
+    summary:
+      "本机有显示器、MCP 却只有 snapshot 时转发图形会话变量。键是 env_vars，不是 env_args。修不了沙箱。",
+    code: `[mcp_servers.playwright]
+command = "npx"
+args = ["-y", "@playwright/mcp@latest"]
+env_vars = ["DISPLAY", "WAYLAND_DISPLAY", "XAUTHORITY", "XDG_RUNTIME_DIR"]
+startup_timeout_sec = 20
+enabled = true
+`,
+  },
 ];

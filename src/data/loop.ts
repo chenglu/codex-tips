@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-11T17:30:00Z",
+  lastTick: "2026-09-11T18:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "17:30 调用前 $98.02。Spend: counts（start_time=2026-09-04T17:45:00Z，共 256 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录 Playwright CLI skill。",
+    "18:00 调用前 $98.01。Spend: counts（start_time=2026-09-04T18:15:00Z，共 256 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录 Context7 MCP + stdio DISPLAY。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -412,6 +412,13 @@ export const loopState = {
     "github.com/openai/codex/issues/16174 playwright skill listen EPERM",
     "Codex CLI 技巧 2026 $skill-installer playwright playwright-cli skills",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR skills OR hooks OR worktree OR exec OR AGENTS.md OR config.toml)',
+    "X news: Codex CLI",
+    "learn.chatgpt.com extend mcp context7 @upstash/context7-mcp",
+    "context7.com docs clients Codex startup_timeout_ms bearer_token_env_var",
+    "github.com/upstash/context7 Codex mcp add npx",
+    "github.com/openai/codex/issues/4643 Playwright MCP DISPLAY env_vars",
+    "Codex CLI 技巧 2026 Context7 MCP env_vars DISPLAY WAYLAND",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR Context7 OR Playwright OR DISPLAY OR hooks OR AGENTS.md)',
     "X news: Codex CLI",
   ],
 };

@@ -2041,5 +2041,25 @@ export const articles: Article[] = [
     summary:
       'Playwright 自己的技能教代理怎么用 playwright-cli：snapshot、mock、trace、storage state。也可以不装技能，只让代理读 playwright-cli --help。这和 Codex 精选技能 $skill-installer playwright 是两条安装通道。',
   },
+  {
+    title: 'Using Context7 with OpenAI Codex',
+    url: 'https://context7.com/docs/clients/codex',
+    source: 'Context7',
+    lang: '英文',
+    kind: '教程',
+    tags: ['MCP', 'Context7', 'stdio'],
+    summary:
+      '厂商 Codex 页。Learn 免费入门不强制 API key。页上的 --api-key、startup_timeout_ms、字面量 http_headers 不要抄进 Codex：密钥用 env_vars 或 bearer_token_env_var，超时用 startup_timeout_sec。npx ctx7 setup --codex 还会改 AGENTS.md。网页 Cloud 不读 ~/.codex/config.toml。',
+  },
+  {
+    title: 'upstash/context7',
+    url: 'https://github.com/upstash/context7',
+    source: 'upstash/context7',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Context7', 'stdio'],
+    summary:
+      'Context7 文档检索 MCP 的仓库。Codex 用 stdio 包 @upstash/context7-mcp，远程入口是 https://mcp.context7.com/mcp。不要把 Claude 的 mcpServers JSON 或密钥写进 args。',
+  },
 ];
 

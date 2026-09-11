@@ -2719,7 +2719,7 @@ DOCS_API_KEY = "\${DOCS_API_KEY}"
     level: "intermediate",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "env_vars", "stdio", "密钥"],
-    related: ["mcp-http-bearer-env", "macos-mcp-bare-command", "shell-environment-policy"],
+    related: ["mcp-http-bearer-env", "mcp-stdio-display-env", "shell-environment-policy"],
     sources: [
       {
         label: "OpenAI · Model Context Protocol",
@@ -3058,7 +3058,7 @@ Windows 11 上 \`npx\` 直接 spawn 失败时，Chrome 官方文档才写 \`comm
     level: "starter",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "Chrome", "stdio"],
-    related: ["mcp-add-and-login", "playwright-mcp", "cleanup-playwright-chrome"],
+    related: ["mcp-add-and-login", "playwright-mcp", "mcp-stdio-display-env"],
     sources: [
       {
         label: "Chrome · DevTools for agents",
@@ -3114,12 +3114,12 @@ enabled = true
 
 中文教程里的服务器级 \`approval_mode = "prompt"\` 不是 Codex 现行键。服务器用 \`default_tools_approval_mode\`；真要开这个工具，再给它单独写 \`[mcp_servers.playwright.tools.browser_run_code_unsafe]\` 的 \`approval_mode = "approve"\`。
 
-Playwright 另有 \`playwright-cli\` + skills 路径，那是 shell 命令，不是这台 MCP。安装见 Playwright 浏览器技能那条。不要两套都 \`required = true\`。`,
+Playwright 另有 \`playwright-cli\` + skills 路径，那是 shell 命令，不是这台 MCP。安装见 Playwright 浏览器技能那条。不要两套都 \`required = true\`。本机 Linux 明明有显示器，MCP 却只回 snapshot、窗口管理器里看不到 Chromium：stdio 默认不转发 \`DISPLAY\`，见那条。`,
     category: "mcp",
     level: "starter",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "Playwright", "stdio"],
-    related: ["chrome-devtools-mcp", "playwright-cli-skill", "cleanup-playwright-chrome"],
+    related: ["chrome-devtools-mcp", "playwright-cli-skill", "mcp-stdio-display-env"],
     sources: [
       {
         label: "Playwright · Other clients (Codex)",
@@ -3184,6 +3184,113 @@ $playwright
       {
         label: "Playwright · Installation",
         url: "https://playwright.dev/agent-cli/installation",
+      },
+    ],
+  },
+  {
+    id: "mcp-context7",
+    no: 266,
+    title: "Context7 MCP 跟 Learn 示例走 stdio，密钥不要写进 args",
+    summary:
+      "Learn 免费入门：codex mcp add context7 -- npx -y @upstash/context7-mcp。厂商页的 --api-key、startup_timeout_ms、字面量 http_headers 不要抄。Cloud 不读这份 config.toml。",
+    body: `Learn 的 MCP 页用 Context7 当 **stdio** 示例。CLI 要把命令写在 \`--\` 后面：
+
+\`\`\`bash
+codex mcp add context7 -- npx -y @upstash/context7-mcp
+\`\`\`
+
+免费额度不强制 API key。\`codex mcp get context7 --json\` 应看到传输是 stdio、命令是 \`npx\`、参数里是 \`@upstash/context7-mcp\`。冷 \`npx\` 把 \`startup_timeout_sec\` 提到 20。
+
+要提高限额时，密钥从**启动 Codex 的进程**转发，不要写进 \`args\`（会进进程列表和 config）：
+
+\`\`\`toml
+[mcp_servers.context7]
+command = "npx"
+args = ["-y", "@upstash/context7-mcp"]
+env_vars = ["CONTEXT7_API_KEY"]
+startup_timeout_sec = 20
+enabled = true
+\`\`\`
+
+远程托管也可以，地址是 \`https://mcp.context7.com/mcp\`。用 \`bearer_token_env_var\`，不要把 token 写进 TOML：
+
+\`\`\`toml
+[mcp_servers.context7]
+url = "https://mcp.context7.com/mcp"
+bearer_token_env_var = "CONTEXT7_API_KEY"
+enabled = true
+\`\`\`
+
+不要做这些：
+
+- 不要抄厂商 Codex 页里的 \`args\` 带 \`--api-key\`，也不要把 \`startup_timeout_ms = 20_000\` 当主键。现行键是 \`startup_timeout_sec\`。
+- 不要把 \`Authorization: Bearer …\` 或 \`CONTEXT7_API_KEY\` 字面量写进 \`http_headers\`。HTTP 走 \`bearer_token_env_var\`，自定义头走 \`env_http_headers\`。
+- 不要贴 Claude / Cursor 的 \`mcpServers\` JSON。Codex 写 \`~/.codex/config.toml\`。
+- 不要给这台 \`required = true\` 挂全局。文档检索不是每条会话都要的依赖。
+- 不要给这台 stdio 再写 \`--port\` 当 HTTP。已经在跑的托管服务才用上面的 \`url\`。
+- 不要把 Windows 的 \`npx.cmd\` + \`SystemRoot\` 抄进 WSL。原生 Windows 超时见启动超时那条。
+- 不要写 \`args\` 里的 \`\${CONTEXT7_API_KEY}\`。TOML 占位符不会展开；stdio 靠服务器读环境，名字必须先出现在 \`env_vars\`。
+
+\`npx ctx7 setup --codex\` 会改 \`config.toml\` **和** \`AGENTS.md\`。提交前自己审 diff，不要当成静默的官方唯一路径。插件备选是 \`codex plugin marketplace add upstash/context7\`，再 \`codex plugin add context7@context7-marketplace\`，然后**新开线程**。这不比 Learn 的 \`mcp add\` 更「官方」。
+
+厂商文宣称 CLI / 桌面 / IDE / Cloud 共用 \`~/.codex/config.toml\`。本站已核对：网页 Work / Cloud **不读**这份文件。Cloud 要在网页环境的工具里单独加。改完新开会话。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Context7", "stdio", "env_vars"],
+    related: ["mcp-add-and-login", "mcp-stdio-env-vars", "mcp-http-bearer-env"],
+    sources: [
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+      {
+        label: "Context7 · Codex",
+        url: "https://context7.com/docs/clients/codex",
+      },
+      {
+        label: "upstash/context7",
+        url: "https://github.com/upstash/context7",
+      },
+    ],
+  },
+  {
+    id: "mcp-stdio-display-env",
+    no: 267,
+    title: "本机 GUI 的 stdio MCP 要转发 DISPLAY，键名是 env_vars",
+    summary:
+      "Codex 默认不把 DISPLAY 交给 stdio 子进程。Playwright 有本机显示器却只有 snapshot 时，把 DISPLAY、WAYLAND_DISPLAY、XAUTHORITY、XDG_RUNTIME_DIR 写进 env_vars。这修不了沙箱。评论里的 env_args 不是现行键。",
+    body: `stdio MCP **不会**继承你整个图形会话。Linux 上 Playwright / Chrome DevTools 默认可视窗口时，子进程看不到 \`DISPLAY\`，就会只回 accessibility snapshot，窗口管理器里没有 Chromium。本机终端跑 \`npx playwright test --headed\` 能弹出窗口，不能证明 Codex 的 MCP 子进程也能看到显示器。
+
+把图形会话变量按名字转发出去。键是 \`env_vars\`，不是评论里写的 \`env_args\`：
+
+\`\`\`toml
+[mcp_servers.playwright]
+command = "npx"
+args = ["-y", "@playwright/mcp@latest"]
+env_vars = ["DISPLAY", "WAYLAND_DISPLAY", "XAUTHORITY", "XDG_RUNTIME_DIR"]
+startup_timeout_sec = 20
+enabled = true
+\`\`\`
+
+这只修「本机有显示器、stdio 子进程却看不到」这一条。**修不了沙箱**：默认沙箱里仍然打不开窗口，继续加 \`--headless --isolated\`，见 Playwright MCP 那条。也不要把它写成「桌面忽略已配置 MCP」的修法。
+
+从**已经在图形会话里**的终端启动 Codex。Dock / 开始菜单打开的桌面常常没有 \`DISPLAY\`；\`env_vars\` 转发的是桌面自己的环境。Wayland 为主的机器 \`WAYLAND_DISPLAY\` 和 \`XDG_RUNTIME_DIR\` 更关键。改完彻底退出再开新进程。
+
+\`codex doctor\` 会标出点了名却缺失的 \`env_vars\`。变量在你的终端里有、桌面里没有时，不要把显示套接字路径当字面量抄进 \`env\` 表——那会绑死到错误的会话。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "env_vars", "DISPLAY", "Playwright"],
+    related: ["mcp-stdio-env-vars", "playwright-mcp", "chrome-devtools-mcp"],
+    sources: [
+      {
+        label: "openai/codex#4643",
+        url: "https://github.com/openai/codex/issues/4643",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
       },
     ],
   },

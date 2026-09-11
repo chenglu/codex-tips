@@ -22,6 +22,16 @@ export const community: CommunityItem[] = [
       '有人只装了全局 @playwright/cli，以为 Codex 没有 Playwright 技能。回复给出 /skills → skill-installer → playwright。原帖确认能用。这和 Playwright MCP、以及默认写进 .claude 的 install --skills 不是同一条路。',
   },
   {
+    title: 'Linux 上 Playwright MCP 只有 snapshot：stdio 要转发 DISPLAY',
+    url: 'https://github.com/openai/codex/issues/4643',
+    source: 'openai/codex#4643',
+    kind: '论坛',
+    date: '2025-10-03',
+    tags: ['MCP', 'Playwright', 'DISPLAY', 'env_vars'],
+    summary:
+      '本机 headed Playwright 能弹窗，Codex 的 MCP 却只回 snapshot。维护者说明默认不把 DISPLAY 交给 stdio。评论写成 env_args，现行键是 env_vars。同时转发 WAYLAND_DISPLAY、XAUTHORITY、XDG_RUNTIME_DIR。这修不了沙箱。',
+  },
+  {
     title: '桌面默认沙箱里 Playwright 技能会 listen EPERM',
     url: 'https://github.com/openai/codex/issues/16174',
     source: 'openai/codex#16174',
