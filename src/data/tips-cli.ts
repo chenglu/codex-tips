@@ -581,14 +581,14 @@ submit = []
 
 \`/apps\` 会把 \`$app-slug\` 插进当前提示，马上就能点名要用的连接器。IDE 里没有 \`/plugins\`：要装插件，去 ChatGPT 桌面应用或 CLI。网页 Work 的插件目录也不读 \`~/.codex\`。
 
-装完必须新开会话，捆绑技能和 MCP 才会出现。API key 登录只能装一部分官方目录；需要 OAuth 的连接器会缺。浏览器里 Space 只开关已装插件，不会卸载。
+0.154 起当前会话通常会捡起新装的插件工具。\`/plugins\` 或 \`/mcp\` 仍没有再新开。API key 登录只能装一部分官方目录；需要 OAuth 的连接器会缺。浏览器里 Space 只开关已装插件，不会卸载。
 
 \`features.network_proxy\` 管的是沙箱里跑的命令，不管 Apps、MCP、网页搜索这些托管通道。`,
     category: "commands",
     level: "intermediate",
     surfaces: ["cli", "app", "ide"],
     tags: ["/apps", "/plugins", "IDE"],
-    related: ["plugins-vs-skills", "tool-suggest-disabled", "slash-command-map"],
+    related: ["plugins-vs-skills", "tool-suggest-disabled", "plugin-session-refresh"],
     sources: [
       {
         label: "OpenAI · Plugins",

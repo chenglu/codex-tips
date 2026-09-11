@@ -23,6 +23,8 @@ export const cheatSections: CheatSection[] = [
       { cmd: "codex plugin marketplace add google/skills --sparse .agents/plugins --sparse plugins/cloud/google-cloud-developer", meaning: "加 Google marketplace；再 plugin add google-cloud-developer@google-plugins；不要用 npx skills add" },
       { cmd: "[tool_suggest] disabled_tools", meaning: "关掉某条插件/连接器安装建议；不是卸载。id 用 name@marketplace" },
       { cmd: "codex features disable remote_plugin", meaning: "关掉远程插件目录；不是 features.plugins = false。键名是 remote_plugin" },
+      { cmd: "codex plugin add 后先看当前会话", meaning: "0.154 起现有会话会捡起新装插件工具；/plugins 没有再新开。桌面改 marketplace.json 仍要重启应用" },
+      { cmd: "features.plugin_sharing = false", meaning: "只在云托管 requirements.toml 生效；禁止把本机插件 Publish 到 ChatGPT 工作区" },
       { cmd: "restrict_to_allowed_sources", meaning: "只在 requirements.toml 生效；拦 add/install/refresh，并在运行时过滤 marketplace" },
       { cmd: "codex completion zsh|bash|fish|powershell", meaning: "生成 shell 补全；zsh 先 compinit" },
       { cmd: "codex doctor", meaning: "环境体检" },

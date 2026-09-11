@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-11T02:30:00Z",
+  lastTick: "2026-09-11T03:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "02:30 调用前 $98.34；调用后 $98.33（@lucheng01）。Spend: counts（start_time=2026-09-04T03:30:00Z，约 163 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖（Google 插件、tui.animations、0.154 --worktree、exec stdout 均已收录）。credential_broker 官方参考未列，未写成稳定技巧。收录 features.remote_plugin；社区补 openai/codex#28443。",
+    "03:00 调用前 $98.33；调用后 $98.32（@lucheng01）。Spend: counts（start_time=2026-09-04T04:00:00Z，约 164 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖（Google 插件、tui.animations、0.154 --worktree、exec stdout 均已收录；日文帖只有外链）。收录 0.154 会话内刷新插件，以及 features.plugin_sharing。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -225,6 +225,11 @@ export const loopState = {
     "Codex CLI 0.155 changelog plugin exec hooks AGENTS.md 2026",
     "Codex CLI 技巧 2026 AGENTS.md Skill MCP hooks exec worktree config.toml",
     "Codex CLI features.network_proxy.credential_broker resume_cwd remote_plugin 2026",
+    'X: ("Codex CLI" OR #CodexCLI) (plugin OR marketplace OR worktree OR hooks OR AGENTS.md OR exec OR config.toml)',
+    "X news: Codex CLI",
+    "Codex CLI 0.154 0.155 changelog plugin_sharing workspace_dependencies 2026",
+    "Codex CLI 技巧 2026 AGENTS.md Skill MCP hooks exec worktree config.toml",
+    "site:learn.chatgpt.com features.plugin_sharing features.workspace_dependencies",
     'X: ("Codex CLI" OR #CodexCLI) (plugin OR marketplace OR worktree OR hooks OR AGENTS.md OR exec OR config.toml)',
     "X news: Codex CLI",
   ],

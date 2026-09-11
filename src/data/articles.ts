@@ -1801,5 +1801,15 @@ export const articles: Article[] = [
     summary:
       'Google 官方 Agent Skills 与插件仓。Codex 用 plugin marketplace add google/skills，marketplace 名是 google-plugins。google-cloud-developer 是本地路径插件，带 Developer Knowledge MCP。不要用 npx skills add 当 Codex 插件安装器。',
   },
+  {
+    title: 'Package your plugin',
+    url: 'https://learn.chatgpt.com/plugins/build/plugins',
+    source: 'ChatGPT Learn',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'marketplace', '企业'],
+    summary:
+      '官方打包页：用 $plugin-creator 或手写 .codex-plugin/plugin.json。工作区 Publish 只给当前 ChatGPT 工作区角色，不上公共目录；CLI 分发仍走 marketplace。企业用 requirements.toml 的 features.plugin_sharing = false 关掉分享。',
+  },
 ];
 

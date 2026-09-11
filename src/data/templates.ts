@@ -860,4 +860,13 @@ disabled_tools = [
 remote_plugin = false
 `,
   },
+  {
+    id: "plugin-sharing-workspace",
+    title: "企业关掉工作区插件分享",
+    filename: "requirements.toml",
+    summary: "只在云托管 requirements.toml 生效。不是 remote_plugin，也不是 features.plugins。",
+    code: `# requirements.toml，不是用户 config.toml
+features.plugin_sharing = false
+`,
+  },
 ];
