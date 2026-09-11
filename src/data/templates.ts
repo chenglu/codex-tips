@@ -1449,4 +1449,33 @@ env_key = "HF_TOKEN"
 wire_api = "responses"
 `,
   },
+  {
+    id: "mcp-grafana-stdio",
+    title: "Grafana OSS stdio MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "uvx mcp-grafana。GRAFANA_URL 写 env 表。token 用 env_vars。不要抄 startup_timeout_ms，也不要把 token 写进 env。",
+    code: `[mcp_servers.grafana]
+command = "uvx"
+args = ["mcp-grafana"]
+env_vars = ["GRAFANA_SERVICE_ACCOUNT_TOKEN"]
+startup_timeout_sec = 60
+enabled = true
+
+[mcp_servers.grafana.env]
+GRAFANA_URL = "http://localhost:3000"
+`,
+  },
+  {
+    id: "mcp-grafana-cloud",
+    title: "Grafana Cloud 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "托管是 mcp.grafana.com/mcp。login 若 302 到文档，补 Accept 和 X-Grafana-URL。名字用 grafana_cloud，不要覆盖本机 grafana 表。",
+    code: `[mcp_servers.grafana_cloud]
+url = "https://mcp.grafana.com/mcp"
+http_headers = { "X-Grafana-URL" = "https://myinstance.grafana.net", "Accept" = "application/json, text/event-stream" }
+enabled = true
+`,
+  },
 ];

@@ -12,6 +12,16 @@ export type CommunityItem = {
 
 export const community: CommunityItem[] = [
   {
+    title: 'Grafana Cloud MCP login 失败：OAuth 探测没带 Accept 头',
+    url: 'https://github.com/openai/codex/issues/37830',
+    source: 'openai/codex#37830',
+    kind: '论坛',
+    date: '2026-08-10',
+    tags: ['MCP', 'Grafana', 'OAuth'],
+    summary:
+      '开放问题。codex mcp login grafana 探测 GET 不带 Accept: application/json, text/event-stream 时，mcp.grafana.com/mcp 会 302 到文档站，Codex 拒绝跨源跳转。权宜是 http_headers 写上这颗 Accept，以及可选的 X-Grafana-URL。',
+  },
+  {
     title: 'Connect Codex to OpenAI Developer Docs via MCP',
     url: 'https://community.openai.com/t/connect-codex-to-openai-developer-docs-via-mcp/1371352',
     source: 'OpenAI Developer Community',

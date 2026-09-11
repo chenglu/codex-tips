@@ -2201,5 +2201,25 @@ export const articles: Article[] = [
     summary:
       '用户 config 写 [model_providers.huggingface]，base_url 是 https://router.huggingface.co/v1，env_key = HF_TOKEN，wire_api = responses。Profile 是 ~/.codex/huggingface.config.toml，用 --profile huggingface。这不是 Hub MCP，项目层也改不了供应商。',
   },
+  {
+    title: 'Codex CLI · Grafana MCP',
+    url: 'https://grafana.com/docs/grafana/latest/developer-resources/mcp/clients/codex/',
+    source: 'Grafana',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Grafana', 'stdio'],
+    summary:
+      '官方 Codex 页是本机 mcp-grafana。Codex 把 GRAFANA_URL 写进 env 表可以；GRAFANA_SERVICE_ACCOUNT_TOKEN 要用 env_vars 转发，不要把 token 抄进 env。startup_timeout_ms 改成 startup_timeout_sec。只读加 --disable-write。',
+  },
+  {
+    title: 'Grafana Cloud MCP server',
+    url: 'https://grafana.com/docs/grafana-cloud/ai-tools/mcp-servers/cloud-mcp/',
+    source: 'Grafana Cloud',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Grafana', 'OAuth'],
+    summary:
+      '托管入口是 https://mcp.grafana.com/mcp，OAuth，只要 Grafana Cloud。页面没有 Codex 专页。Codex 用 mcp add grafana_cloud --url。login 若 302 到文档，http_headers 写 Accept 和 X-Grafana-URL。这不是本机 uvx mcp-grafana。',
+  },
 ];
 

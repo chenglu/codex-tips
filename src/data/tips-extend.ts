@@ -2719,7 +2719,7 @@ DOCS_API_KEY = "\${DOCS_API_KEY}"
     level: "intermediate",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "env_vars", "stdio", "密钥"],
-    related: ["mcp-http-bearer-env", "mcp-stdio-display-env", "shell-environment-policy"],
+    related: ["mcp-http-bearer-env", "mcp-stdio-display-env", "mcp-grafana-stdio"],
     sources: [
       {
         label: "OpenAI · Model Context Protocol",
@@ -2815,7 +2815,7 @@ stdio 的 \`env_vars\` 对 HTTP 无效。会过期、要每条连接刷新的票
     level: "intermediate",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "env_http_headers", "HTTP", "密钥"],
-    related: ["mcp-http-bearer-env", "http-headers-helper", "mcp-datadog-remote"],
+    related: ["mcp-http-bearer-env", "mcp-datadog-remote", "mcp-grafana-cloud"],
     sources: [
       {
         label: "OpenAI · Model Context Protocol",
@@ -3902,6 +3902,133 @@ GovCloud（\`app.ddog-gov.com\` / \`us2.ddog-gov.com\`）没有这台 MCP。站�
       {
         label: "Datadog · Agent Observability MCP",
         url: "https://docs.datadoghq.com/llm_observability/build_with_ai/mcp_server/",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "mcp-grafana-stdio",
+    no: 280,
+    title: "Grafana OSS MCP 用 uvx mcp-grafana，token 走 env_vars 不要写进 env",
+    summary:
+      "CLI：codex mcp add grafana -- uvx mcp-grafana。GRAFANA_URL 可以写进 env 表；GRAFANA_SERVICE_ACCOUNT_TOKEN 用 env_vars 转发。厂商 Codex 页的 startup_timeout_ms 和把 token 写进 env 不要抄。",
+    body: `开源 \`mcp-grafana\` 是 **stdio**，本机跑、连你的 Grafana（自托管或 Grafana Cloud 实例 URL 都行）。官方 Codex 页假设二进制已在 PATH；没有的话用 \`uvx\`：
+
+\`\`\`bash
+codex mcp add grafana -- uvx mcp-grafana
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.grafana]
+command = "uvx"
+args = ["mcp-grafana"]
+env_vars = ["GRAFANA_SERVICE_ACCOUNT_TOKEN"]
+startup_timeout_sec = 60
+enabled = true
+
+[mcp_servers.grafana.env]
+GRAFANA_URL = "http://localhost:3000"
+\`\`\`
+
+连 Grafana Cloud 实例时，把 \`GRAFANA_URL\` 换成 \`https://myinstance.grafana.net\`。这仍是本机 stdio + 服务账号，**不是**托管的 \`mcp.grafana.com\`。
+
+\`env\` 表是字面量。厂商 Codex 页把 \`GRAFANA_SERVICE_ACCOUNT_TOKEN\` 写进 \`env\`，等于把密钥提交进 config。\`codex mcp add --env GRAFANA_SERVICE_ACCOUNT_TOKEN=...\` 同样会落成字面量。密钥用 \`env_vars\` 从启动 Codex 的进程转发。过期的 \`GRAFANA_API_KEY\` 不要再用。
+
+只读会话加 \`--disable-write\`（会拿掉写入工具，也默认拿掉会改数据的原始 SQL 查询工具）：
+
+\`\`\`toml
+[mcp_servers.grafana]
+command = "uvx"
+args = ["mcp-grafana", "--disable-write"]
+env_vars = ["GRAFANA_SERVICE_ACCOUNT_TOKEN"]
+enabled = true
+
+[mcp_servers.grafana.env]
+GRAFANA_URL = "http://localhost:3000"
+\`\`\`
+
+不要做这些：
+
+- 不要抄 \`startup_timeout_ms\` / \`tool_timeout_ms\`。现行键是 \`startup_timeout_sec\` 和 \`tool_timeout_sec\`。
+- 不要把 token 写进 \`args\`，也不要抄 \`mcpServers\` JSON。
+- 不要给它 \`required = true\` 挂全局。冷 \`uvx\` 超时会让 Codex 起不来。
+- 不要把用户名密码当成推荐路径。服务账号 token 才是现行鉴权。
+- 不要和托管 Cloud MCP 写成同一张表：有 \`command\` 就不能再写 \`url\`。
+
+网页 Cloud 不读这份 \`config.toml\`。改完新开会话。用 \`codex mcp get grafana\` 核对 command 是 \`uvx\`。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Grafana", "stdio", "env_vars"],
+    related: ["mcp-stdio-env-vars", "mcp-startup-timeout-sec", "mcp-grafana-cloud"],
+    sources: [
+      {
+        label: "Grafana · Codex CLI",
+        url: "https://grafana.com/docs/grafana/latest/developer-resources/mcp/clients/codex/",
+      },
+      {
+        label: "grafana/mcp-grafana",
+        url: "https://github.com/grafana/mcp-grafana",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "mcp-grafana-cloud",
+    no: 281,
+    title: "Grafana Cloud MCP 用 mcp.grafana.com/mcp，login 失败先补 Accept 头",
+    summary:
+      "托管地址是 https://mcp.grafana.com/mcp，OAuth。Codex 官方页没有这一条。login 若被 302 到文档，在 http_headers 写 Accept 和 X-Grafana-URL。这不是本机 mcp-grafana。",
+    body: `Grafana Cloud **托管**的是远程 Streamable HTTP，只要 Grafana Cloud，不要自托管。权限跟你登录的 Grafana 用户走，还要有 Assistant Cloud MCP User（或 \`grafana-assistant-app.cloud-mcp:access\`）。官方客户端列表没有 Codex 专页，按「其它 MCP 客户端」写 TOML：
+
+\`\`\`bash
+codex mcp add grafana_cloud --url https://mcp.grafana.com/mcp
+codex mcp login grafana_cloud
+\`\`\`
+
+名字用下划线。已经占用了 \`grafana\` 给本机 stdio 时，不要覆盖那张表。
+
+\`X-Grafana-URL\` 是栈地址，不是密钥，能跳过授权页上的 URL 输入。\`codex mcp login\` 的探测请求默认不带 MCP 的 \`Accept\` 头时，Grafana 会 302 到文档站，Codex 会拒绝跨源跳转（开放问题 openai/codex#37830）。login 报 OAuth discovery redirect 时，把这两颗头写进 \`http_headers\`：
+
+\`\`\`toml
+[mcp_servers.grafana_cloud]
+url = "https://mcp.grafana.com/mcp"
+http_headers = { "X-Grafana-URL" = "https://myinstance.grafana.net", "Accept" = "application/json, text/event-stream" }
+enabled = true
+\`\`\`
+
+然后再 \`codex mcp login grafana_cloud\`。不要把服务账号 token 写进这张 HTTP 表。
+
+授权页可以只勾 Read。Query 仍会跑原始 SQL；Write 会改 dashboard / incident。这台会计入 Grafana Assistant 用量。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`--transport http\`，也不要抄 Cursor JSON。
+- 不要抄 \`/sse\`，也不要套 \`mcp-remote\`。
+- 不要给自托管 Grafana 配这个 URL。自托管走 \`uvx mcp-grafana\`。
+- 不要给它 \`required = true\` 挂全局。
+- 不要把 \`X-Grafana-URL\` 写成带尖括号的占位符。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get grafana_cloud\` 看传输是 streamable_http。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Grafana", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-http-env-headers", "mcp-grafana-stdio"],
+    sources: [
+      {
+        label: "Grafana Cloud · MCP server",
+        url: "https://grafana.com/docs/grafana-cloud/ai-tools/mcp-servers/cloud-mcp/",
+      },
+      {
+        label: "openai/codex#37830",
+        url: "https://github.com/openai/codex/issues/37830",
       },
       {
         label: "OpenAI · Model Context Protocol",

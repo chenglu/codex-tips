@@ -170,6 +170,8 @@ export const cheatSections: CheatSection[] = [
       { cmd: "codex mcp add huggingface --url …", meaning: "官方远程是 huggingface.co/mcp。随后 mcp login。token 用 bearer_token_env_var = HF_TOKEN。不要抄 -t http，也不要把 hf_ 写进 http_headers" },
       { cmd: "codex mcp add amplitude --url …", meaning: "官方 Codex 页。美国区 mcp.amplitude.com/mcp，EU 用 mcp.eu 再 add 覆盖。随后 OAuth。不是埋点摄入" },
       { cmd: "codex mcp add datadog --url …", meaning: "US1 是 mcp.datadoghq.com/api/unstable/mcp-server/mcp。随后 mcp login。工具集写 X-Datadog-MCP-Toolsets，不要把 ?toolsets= 拼进 URL" },
+      { cmd: "codex mcp add grafana -- uvx mcp-grafana", meaning: "Grafana OSS stdio。GRAFANA_URL 写 env 表；token 用 env_vars，不要写进 env。厂商页的 startup_timeout_ms 不要抄" },
+      { cmd: "codex mcp add grafana_cloud --url …", meaning: "托管是 mcp.grafana.com/mcp。随后 mcp login。login 若 302 到文档，http_headers 写 Accept 和 X-Grafana-URL" },
       { cmd: "codex --profile huggingface", meaning: "[model_providers.huggingface] 走 router.huggingface.co/v1，wire_api = responses，env_key = HF_TOKEN。不是 Hub MCP，也不是 --oss" },
       { cmd: "项目 mcp_servers 写全传输", meaning: "桌面可能写丢用户层 MCP 表。项目不要只写 enabled = true，否则 invalid transport。先备份 ~/.codex/config.toml" },
       { cmd: "codex mcp add chrome-devtools -- npx …", meaning: "官方 Chrome DevTools MCP 是 stdio 包。不是 localhost:3000 HTTP。沙箱加 --headless。Windows cmd 包装不要抄进 WSL" },
