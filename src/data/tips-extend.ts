@@ -2302,7 +2302,7 @@ stdio 服务器用相对 \`cwd\`。它相对**已经安装**的插件根解析�
     summary: "受信任项目的 .codex/config.toml 可以写 mcp_servers，CLI 通常能加载。桌面和 IDE 扩展经常只读 ~/.codex。stdio 还要把 command 和 cwd 写成绝对路径，并彻底退出后新开线程。",
     body: `官方允许在**已信任**项目的 \`.codex/config.toml\` 里写 \`[mcp_servers.docs]\`。未信任时项目层整份跳过（config、hooks、rules 一起），看起来像 MCP 没配。先在本机 CLI 里确认信任，再用 \`codex mcp list\` / \`codex mcp get docs\` 看 CLI 能不能看见。
 
-桌面应用和不少 IDE 扩展会话仍可能只加载 \`~/.codex/config.toml\`。2026-08 仍有人在桌面 26.707 上复现：项目层 stdio 服务器进不了新任务的工具表。\`/mcp\` 在桌面线程里也常只列用户层；设置页或 \`codex mcp list\` 看得到，不等于当前线程已经注入 \`mcp__docs__...\`。
+桌面应用和不少 IDE 扩展会话仍可能只加载 \`~/.codex/config.toml\`。2026-08 仍有人在桌面 26.707 上复现：项目层 stdio 服务器进不了新任务的工具表。\`/mcp\` 在桌面线程里也常只列用户层；设置页或 \`codex mcp list\` 看得到，不等于当前线程已经注入这台服务器的工具。
 
 桌面要用同一台服务器时：
 
