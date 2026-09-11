@@ -12,6 +12,16 @@ export type CommunityItem = {
 
 export const community: CommunityItem[] = [
   {
+    title: 'Connect Codex to OpenAI Developer Docs via MCP',
+    url: 'https://community.openai.com/t/connect-codex-to-openai-developer-docs-via-mcp/1371352',
+    source: 'OpenAI Developer Community',
+    kind: '论坛',
+    date: '2026-01-09',
+    tags: ['MCP', '文档', 'openaiDeveloperDocs'],
+    summary:
+      '论坛把官方 Docs MCP 命令贴了一遍：mcp add openaiDeveloperDocs --url。AGENTS.md 那句是可选提醒，不写就要在提示里点名这台服务器。这不是桌面浏览器的 WebMCP，也不要抄 Claude 的 --transport http。',
+  },
+  {
     title: 'Codex 用浏览器：/skills 里装精选 playwright 技能',
     url: 'https://community.openai.com/t/how-do-i-get-codex-to-use-the-browser/1373178',
     source: 'OpenAI Developer Community',

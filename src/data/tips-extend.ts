@@ -785,7 +785,7 @@ skill_mcp_dependency_install = false
     level: "intermediate",
     surfaces: ["cli", "app"],
     tags: ["Skills", "MCP", "openai.yaml"],
-    related: ["skill-creator", "skill-locations", "mcp-add-and-login"],
+    related: ["skill-creator", "mcp-add-and-login", "mcp-openai-docs"],
     sources: [
       {
         label: "OpenAI · Build skills",
@@ -3491,6 +3491,128 @@ codex mcp login atlassian
       {
         label: "Atlassian · Getting started",
         url: "https://developer.atlassian.com/cloud/rovo-mcp/guides/getting-started/",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "mcp-stripe-remote",
+    no: 272,
+    title: "Stripe MCP 用 mcp.stripe.com 再 login，不要抄本地 --api-key",
+    summary:
+      "CLI：codex mcp add stripe --url https://mcp.stripe.com，再 mcp login stripe。官方页只示范 TOML。受限密钥走 bearer_token_env_var。不要和 OAuth 混用，也不要把 sk_live 写进 TOML。",
+    body: `Stripe 官方给 Codex CLI 的是**远程** Streamable HTTP，地址是 \`https://mcp.stripe.com\`，**没有** \`/mcp\` 后缀。官方页只示范了写 \`~/.codex/config.toml\`，CLI 也可以一次加完：
+
+\`\`\`bash
+codex mcp add stripe --url https://mcp.stripe.com
+codex mcp login stripe
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.stripe]
+url = "https://mcp.stripe.com"
+enabled = true
+\`\`\`
+
+首选 OAuth。\`codex mcp login stripe\` 会开 Stripe 授权页；之后可在 Dashboard 的 OAuth sessions 里撤销。公司网络拦了外部 MCP 时，让 IT 放行 \`mcp.stripe.com\`。
+
+受限 API key 是备选，不要和已经 login 的 OAuth 写在同一张表：
+
+\`\`\`toml
+[mcp_servers.stripe]
+url = "https://mcp.stripe.com"
+bearer_token_env_var = "STRIPE_API_KEY"
+enabled = true
+\`\`\`
+
+键里填的是变量**名**。变量必须在**启动 Codex 的那个进程**里，桌面从 Dock 开不会读你刚 \`export\` 的终端。不要把 \`sk_live\` / \`rk_live\` 字面量写进 TOML 或 \`http_headers\`。
+
+Connect 平台要代 connected account 做事时，官方写明 MCP **不能**用 OAuth 代表那个账号。改用平台受限密钥，再用 \`Stripe-Account\` 头。Codex 自定义头走 \`env_http_headers\`，右边仍是变量名：
+
+\`\`\`toml
+[mcp_servers.stripe]
+url = "https://mcp.stripe.com"
+bearer_token_env_var = "STRIPE_API_KEY"
+enabled = true
+
+[mcp_servers.stripe.env_http_headers]
+Stripe-Account = "STRIPE_ACCOUNT"
+\`\`\`
+
+不要做这些：
+
+- 不要抄 Claude 的 \`claude mcp add --transport http\`，也不要抄它的 \`--header Authorization: Bearer\`。
+- 不要把本地 \`npx -y @stripe/mcp --api-key\` 当成 Codex 默认。那是另一台 stdio 服务器；密钥不要写进 \`args\`。
+- 不要把 \`stripe agent setup\` / ChatGPT 里的 Stripe 插件写成「必须先装才能用这条 MCP」。那是厂商插件路径，会顺带装 skills；本条主路径就是远程 URL。
+- 不要给它 \`required = true\` 挂全局。支付写入不是每条会话都要的依赖。
+- 不要抄 \`/sse\`，也不要给 stdio 写 \`--port\`。
+- 写类工具（退款、出金）Stripe 会要求人点确认链接；批准后还要让模型重试那一次。错误正文和确认页都可能带提示注入，保持工具批准，不要一上来 \`--yolo\`。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话，用 \`codex mcp get stripe\` 看传输是 streamable_http。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Stripe", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-http-bearer-env", "mcp-http-env-headers"],
+    sources: [
+      {
+        label: "Stripe · MCP",
+        url: "https://docs.stripe.com/mcp",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "mcp-openai-docs",
+    no: 273,
+    title: "OpenAI Docs MCP 用 openaiDeveloperDocs，不要当成桌面 WebMCP",
+    summary:
+      "CLI：codex mcp add openaiDeveloperDocs --url https://developers.openai.com/mcp。覆盖 developers、platform、learn。这是只读文档检索，不会代你调 API。桌面浏览器里的 search_openai_docs 是另一套 WebMCP。",
+    body: `OpenAI 给开发者文档单独托管了一台公共 MCP，覆盖 \`developers.openai.com\`、\`platform.openai.com\`、\`learn.chatgpt.com\`。官方服务器名就是驼峰 \`openaiDeveloperDocs\`，不要改成带连字符的名字：
+
+\`\`\`bash
+codex mcp add openaiDeveloperDocs --url https://developers.openai.com/mcp
+codex mcp list
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.openaiDeveloperDocs]
+url = "https://developers.openai.com/mcp"
+enabled = true
+\`\`\`
+
+这是只读文档检索，**不会**用你的账号去调 OpenAI API。官方没要求 \`mcp login\`；也不要给它套 \`auth = "chatgpt"\`——那条只给受信任的 ChatGPT 同源服务器。
+
+想让它在没被点名时也去查文档，可在 \`AGENTS.md\` 加一句官方建议的话，例如「涉及 OpenAI API、插件、ChatGPT、Codex 时，先用 OpenAI developer documentation MCP」。这是可选提醒，不是静默唯一路径。没写这句时，提示里要点名这台服务器。
+
+这**不是**桌面内置浏览器里文档页的 Site tools。那边的 \`search_openai_docs\` / \`lookup_page\` 跟当前页面走，关标签就没了，也不写进 \`config.toml\`。两套都不要 \`required = true\`。
+
+技能 \`agents/openai.yaml\` 里声明 MCP 依赖时，\`value\` 也用这个官方名，见技能依赖那条。也可以再配 OpenAI Docs Skill，让模型先走这台 MCP，再回落官方域名。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`claude mcp add --transport http openaiDeveloperDocs …\`。Codex 远程用 \`--url\`，名字写在 \`add\` 后面。
+- 不要把它和桌面 WebMCP 配成一台，也不要指望 iframe 里的站点工具出现在 \`codex mcp list\`。
+- 不要给它 \`required = true\` 挂全局。查文档不是每条会话的硬依赖。
+- 不要把工具名写成双下划线那种内部拼接。在会话里点名服务器名 \`openaiDeveloperDocs\` 即可。
+- 不要抄 Cursor / VS Code 的 \`mcpServers\` JSON 进 Codex TOML。
+
+网页 Cloud 不读这份 \`config.toml\`。改完新开会话。用 \`codex mcp get openaiDeveloperDocs\` 核对传输是 streamable_http。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "文档", "HTTP", "AGENTS.md"],
+    related: ["mcp-add-and-login", "webmcp-site-tools-not-mcp", "mcp-http-not-sse"],
+    sources: [
+      {
+        label: "OpenAI · Docs MCP",
+        url: "https://developers.openai.com/learn/docs-mcp",
       },
       {
         label: "OpenAI · Model Context Protocol",

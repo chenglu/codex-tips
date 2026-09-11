@@ -1077,7 +1077,7 @@ if (typeof document.modelContext?.registerTool === "function") {
     level: "intermediate",
     surfaces: ["app"],
     tags: ["WebMCP", "浏览器", "桌面"],
-    related: ["mcp-add-and-login", "computer-use-windows-allowlist", "apps-not-plugins"],
+    related: ["mcp-add-and-login", "mcp-openai-docs", "apps-not-plugins"],
     sources: [
       {
         label: "OpenAI · Site tools",

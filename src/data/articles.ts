@@ -2121,5 +2121,25 @@ export const articles: Article[] = [
     summary:
       '2026-09-02 入门页把客户端指到 https://mcp.atlassian.com/v2/mcp。桌面走插件 Atlassian Rovo。CLI 用 mcp add --url 再 login。网关要完整工具表才加 tools=all。不要抄已停的 /sse，也不要把 5 月的 authv2 过渡地址当现行唯一入口。',
   },
+  {
+    title: 'Model Context Protocol (MCP)',
+    url: 'https://docs.stripe.com/mcp',
+    source: 'Stripe',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Stripe', 'OAuth'],
+    summary:
+      '官方 Codex CLI 节：url 用 https://mcp.stripe.com（没有 /mcp 后缀），再 mcp login stripe。受限密钥走 bearer_token_env_var，键里是变量名 STRIPE_API_KEY。Connect 平台不能用 OAuth 代 connected account，改走平台密钥加 Stripe-Account。不要抄 Claude 的 --transport http，也不要把 sk_live 写进 TOML。',
+  },
+  {
+    title: 'Docs MCP',
+    url: 'https://developers.openai.com/learn/docs-mcp',
+    source: 'OpenAI Developers',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', '文档', 'openaiDeveloperDocs'],
+    summary:
+      '官方 Codex 命令是 mcp add openaiDeveloperDocs --url https://developers.openai.com/mcp。覆盖 developers.openai.com、platform.openai.com、learn.chatgpt.com。只读文档，不会代调 API。AGENTS.md 那句是可选提醒。这不是桌面浏览器里的 WebMCP。不要抄 Claude 的 --transport http。',
+  },
 ];
 

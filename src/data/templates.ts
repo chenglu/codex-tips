@@ -1369,4 +1369,26 @@ url = "https://mcp.atlassian.com/v2/mcp"
 enabled = true
 `,
   },
+  {
+    id: "mcp-stripe-remote",
+    title: "Stripe 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.stripe.com，没有 /mcp 后缀。add 之后 mcp login stripe。受限密钥用 bearer_token_env_var。不要和 OAuth 混用。",
+    code: `[mcp_servers.stripe]
+url = "https://mcp.stripe.com"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-openai-docs",
+    title: "OpenAI Docs MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方服务器名是驼峰 openaiDeveloperDocs。只读文档检索。不要当成桌面 WebMCP，也不要抄 --transport http。",
+    code: `[mcp_servers.openaiDeveloperDocs]
+url = "https://developers.openai.com/mcp"
+enabled = true
+`,
+  },
 ];
