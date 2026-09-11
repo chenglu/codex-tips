@@ -207,7 +207,7 @@ HTTP 服务器用 \`bearer_token_env_var\` 读环境变量，不要把 token 写
     level: "starter",
     surfaces: ["cli"],
     tags: ["codex mcp", "OAuth", "stdio"],
-    related: ["mcp-http-auth-chatgpt", "mcp-oauth-resource", "sqlcl-oracle-mcp"],
+    related: ["mcp-http-auth-chatgpt", "mcp-oauth-resource", "sqlcl-oracle-mcp", "mcp-stdio-stdout-jsonrpc"],
     sources: [
       {
         label: "Codex CLI Cheat Sheet",
@@ -2492,6 +2492,44 @@ Java 起 MCP 经常超过可选服务器默认 1 秒宽限。\`codex exec\` 要�
       {
         label: "Oracle · DEV.to 转载",
         url: "https://dev.to/oracledevs/how-to-build-a-controlled-mcp-workflow-for-codex-and-oracle-ai-database-5e90",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "mcp-stdio-stdout-jsonrpc",
+    no: 251,
+    title: "stdio MCP 的 stdout 只能是 JSON-RPC，日志打 stderr",
+    summary: "Codex 把 stdout 当严格协议。启动横幅、console.log、Content-Length 头都会 Transport closed 或列不出工具。探测用换行分隔的 initialize。",
+    body: `stdio MCP 的 \`stdout\` 是协议通道，不是日志。Codex 按**一行一条** JSON-RPC 读，比不少其它客户端更严。\`mcp list\` 显示 enabled、你在终端里手工探测也通，但会话里一调工具就 \`Transport closed\`，先查有没有非 JSON 打到了 stdout。
+
+自己探测时用换行，不要用 LSP 那种 \`Content-Length\` 头：
+
+\`\`\`bash
+printf '%s\\n' '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","capabilities":{},"clientInfo":{"name":"probe","version":"0"}}}' | node ./server.js
+\`\`\`
+
+第一行必须是 \`{\` 开头的 JSON。出现 \`[MCP Bridge]\`、\`loaded\`、\`console.log\` 横幅，就是协议被污染。把诊断改到 \`stderr\` 或文件，Windows 上 \`console.debug\` 有时仍会进 stdout，改成明确写 stderr。
+
+只讲 \`Content-Length\` 的自写服务器，Codex 可能列得出 enabled、会话里却没有工具。改成默认输出换行 JSON，并**新开会话**再测。
+
+这和另外两条 Windows 坑不是同一件事：Python stdio 握手字节根本到不了客户端，Node 往往正常；stderr 太吵可能堵满管道。日志已经离开 stdout 仍失败，再查那两条，不要先换服务器实现。HTTP MCP 走 \`url\`，不受这条 stdout 规则影响。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "stdio", "Transport closed"],
+    related: ["mcp-add-and-login", "macos-mcp-bare-command", "sqlcl-oracle-mcp"],
+    sources: [
+      {
+        label: "openai/codex#18486",
+        url: "https://github.com/openai/codex/issues/18486",
+      },
+      {
+        label: "openai/codex#21406",
+        url: "https://github.com/openai/codex/issues/21406",
       },
       {
         label: "OpenAI · Model Context Protocol",

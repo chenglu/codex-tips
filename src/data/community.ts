@@ -12,6 +12,16 @@ export type CommunityItem = {
 
 export const community: CommunityItem[] = [
   {
+    title: 'stdio MCP 往 stdout 打日志，Codex 会 Transport closed',
+    url: 'https://github.com/openai/codex/issues/18486',
+    source: 'openai/codex#18486',
+    kind: '论坛',
+    date: '2026-04-28',
+    tags: ['MCP', 'stdio', '桌面'],
+    summary:
+      '桌面比不少客户端更严：stdout 必须是换行分隔的 JSON-RPC。Unity MCP 把队列状态打到 stdout 后工具调用立刻 Transport closed，改到 stderr 并写绝对 node.exe 后恢复。Content-Length 帧、Python 握手和 stderr 堵管道是另几条坑。',
+  },
+  {
     title: 'Oracle：用 SQLcl MCP 把 Codex CLI 接到数据库',
     url: 'https://blogs.oracle.com/developers/how-to-build-a-controlled-mcp-workflow-for-codex-and-oracle-ai-database',
     source: 'Oracle Developers',
