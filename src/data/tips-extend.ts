@@ -207,7 +207,7 @@ HTTP 服务器用 \`bearer_token_env_var\` 读环境变量，不要把 token 写
     level: "starter",
     surfaces: ["cli"],
     tags: ["codex mcp", "OAuth", "stdio"],
-    related: ["mcp-http-auth-chatgpt", "mcp-oauth-resource", "mcp-http-not-sse", "mcp-stdio-stdout-jsonrpc"],
+    related: ["mcp-http-auth-chatgpt", "mcp-http-bearer-env", "mcp-http-not-sse", "mcp-stdio-stdout-jsonrpc"],
     sources: [
       {
         label: "Codex CLI Cheat Sheet",
@@ -1306,7 +1306,7 @@ http_headers_helper = "python3 /home/you/.codex/mcp-headers.py"
     level: "advanced",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "http_headers_helper", "鉴权"],
-    related: ["mcp-oauth-loopback-callback", "mcp-stdio-remote-executor", "mcp-add-and-login"],
+    related: ["mcp-http-bearer-env", "mcp-stdio-remote-executor", "mcp-add-and-login"],
     sources: [
       {
         label: "OpenAI · Model Context Protocol",
@@ -2619,7 +2619,7 @@ Linear 官方就是 \`https://mcp.linear.app/mcp\`。桌面和 IDE 添加服务�
     level: "starter",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "HTTP", "SSE", "OAuth"],
-    related: ["mcp-add-and-login", "linear-mcp-add", "mcp-oauth-resource"],
+    related: ["mcp-add-and-login", "mcp-http-bearer-env", "linear-mcp-add"],
     sources: [
       {
         label: "OpenAI · Model Context Protocol",
@@ -2706,14 +2706,14 @@ DOCS_API_KEY = "\${DOCS_API_KEY}"
 
 公司代理注入的 \`HTTPS_PROXY\`、\`NODE_EXTRA_CA_CERTS\` 也不在默认名单里。冷 \`npx\` 拉包证书失败时把它们加进 \`env_vars\`。
 
-这和 \`shell_environment_policy\` 不是同一条闸：后者管模型跑的 shell 命令，改 \`inherit = "all"\` 填不满 MCP 子进程。插件 \`mcp.json\` 的 \`env_vars\` 是另一份清单。\`source = "remote"\` 只有远端执行器那条才有效。HTTP MCP 用 \`bearer_token_env_var\` / \`env_http_headers\`，写 \`env_vars\` 无效。
+这和 \`shell_environment_policy\` 不是同一条闸：后者管模型跑的 shell 命令，改 \`inherit = "all"\` 填不满 MCP 子进程。插件 \`mcp.json\` 的 \`env_vars\` 是另一份清单。\`source = "remote"\` 只有远端执行器那条才有效。HTTP MCP 用 \`bearer_token_env_var\` / \`env_http_headers\`，写 \`env_vars\` 无效；HTTP 进程环境见 bearer 那条。
 
 从 Dock 打开的桌面常常没有你在 zshrc 里 export 的变量。\`env_vars\` 转发的是桌面自己的环境；终端里有、桌面没有时，彻底退出后再从已 export 的终端启动，或把非密钥的 PATH 写进 \`env\`。改完新开会话。\`codex doctor\` 会标出点了名却缺失的 \`env_vars\`。`,
     category: "mcp",
     level: "intermediate",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "env_vars", "stdio", "密钥"],
-    related: ["mcp-stdio-remote-executor", "macos-mcp-bare-command", "shell-environment-policy"],
+    related: ["mcp-http-bearer-env", "macos-mcp-bare-command", "shell-environment-policy"],
     sources: [
       {
         label: "OpenAI · Model Context Protocol",
@@ -2726,6 +2726,46 @@ DOCS_API_KEY = "\${DOCS_API_KEY}"
       {
         label: "openai/codex#29124",
         url: "https://github.com/openai/codex/issues/29124",
+      },
+    ],
+  },
+  {
+    id: "mcp-http-bearer-env",
+    no: 257,
+    title: "HTTP MCP 的 bearer_token_env_var 读 Codex 进程，不是刚 export 的 shell",
+    summary:
+      "变量必须在启动 Codex 的那个进程里。mcp list 显示 Bearer 不等于请求带了头。不要对 bearer 跑 mcp login，也不要把 HTTP 写成 env_vars。",
+    body: `HTTP MCP 的 \`bearer_token_env_var\` 读的是**启动 Codex 的那个进程**里的环境变量，不是你刚在另一个终端 \`export\` 的值，也不是 stdio 那套 \`env_vars\`。
+
+\`\`\`toml
+[mcp_servers.docs]
+url = "https://mcp.example.com/mcp"
+bearer_token_env_var = "DOCS_MCP_TOKEN"
+enabled = true
+\`\`\`
+
+先 \`codex mcp add docs --url https://mcp.example.com/mcp\`，再在 TOML 里写这个键。本机 \`codex mcp add --help\` 若列出 \`--bearer-token-env-var\` 也可以一次加完。键里填的是变量**名**，不是 token 本身。
+
+\`codex mcp list\` / \`codex mcp get docs\` 只要配置了这个键，就可能显示 Auth: Bearer token，即使当前进程里变量缺失、发出去的 \`initialize\` 根本没有 \`Authorization\`。工具数为 0、HTTP 401、或提示去 \`codex mcp login docs\`：先查进程环境。Bearer 服务器没有 OAuth 流程，不要跑 login。\`codex doctor\` 有时会标缺失的 MCP 环境变量，list 却仍看起来正常。
+
+从已经 \`export DOCS_MCP_TOKEN\` 的终端启动 \`codex\`。Dock / 开始菜单打开的桌面没有 zshrc / bashrc。改完环境必须彻底退出再开新进程，旧线程不会热加载。不要把 token 字面量写进 \`config.toml\` 或 \`http_headers\`。自定义头用 \`env_http_headers\`，同样读进程环境。stdio 的 \`env_vars\` 对 HTTP 无效。OAuth 服务器继续 \`codex mcp login docs\`。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "bearer_token_env_var", "HTTP", "密钥"],
+    related: ["mcp-stdio-env-vars", "mcp-add-and-login", "http-headers-helper"],
+    sources: [
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+      {
+        label: "openai/codex#30125",
+        url: "https://github.com/openai/codex/issues/30125",
+      },
+      {
+        label: "openai/codex#26760",
+        url: "https://github.com/openai/codex/issues/26760",
       },
     ],
   },

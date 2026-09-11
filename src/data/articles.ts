@@ -1921,5 +1921,15 @@ export const articles: Article[] = [
     summary:
       '强调 Codex 用 command 或 url 隐式选传输，两套键不能同时写。stdio 的 env 是字面量，env_vars 才从启动进程转发密钥。远程走 Streamable HTTP，不要先套 mcp-remote。具体超时和 OAuth 步骤以 Learn 现行页为准。',
   },
+  {
+    title: 'Codex CLI MCP: How OpenAI Codex Connects to Tools',
+    url: 'https://www.verdent.ai/guides/codex-cli-mcp-setup-guide',
+    source: 'Verdent Guides',
+    lang: '英文',
+    kind: '教程',
+    tags: ['MCP', 'bearer_token_env_var', 'config.toml'],
+    summary:
+      '把 Streamable HTTP 和 stdio 拆开写：远程用 url，密钥写环境变量名而不是 token 本身。强调 Codex 启动时变量必须已经在进程里，事后在另一个终端 export 没用。stdio 的 env 表是额外字面量，不会自动继承整份 shell。排错先查启动环境，再查 PATH 和 startup_timeout_sec。',
+  },
 ];
 

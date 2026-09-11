@@ -1187,4 +1187,16 @@ enabled = true
 PATH = "/opt/homebrew/bin:/usr/bin:/bin"
 `,
   },
+  {
+    id: "mcp-http-bearer-env",
+    title: "HTTP MCP 用 bearer_token_env_var 读进程环境",
+    filename: "~/.codex/config.toml",
+    summary:
+      "变量必须在启动 Codex 的进程里。Dock 打开的桌面没有 zshrc。改完彻底退出再从已 export 的终端启动。不要写 env_vars，也不要对 bearer 跑 mcp login。",
+    code: `[mcp_servers.docs]
+url = "https://mcp.example.com/mcp"
+bearer_token_env_var = "DOCS_MCP_TOKEN"
+enabled = true
+`,
+  },
 ];

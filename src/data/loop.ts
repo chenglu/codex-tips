@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-11T13:00:00Z",
+  lastTick: "2026-09-11T13:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "13:00 调用前 $98.09。Spend: counts（start_time=2026-09-04T13:15:00Z，共 258 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录 stdio MCP env_vars。",
+    "13:30 调用前 $98.08。Spend: counts（start_time=2026-09-04T13:45:00Z，共 259 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录 HTTP MCP bearer_token_env_var 进程环境。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -356,6 +356,13 @@ export const loopState = {
     "usecarly.com blog Codex MCP servers env_vars",
     "Codex CLI 技巧 2026 MCP env_vars 不继承 shell",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR env_vars OR hooks OR worktree OR exec OR config.toml)',
+    "X news: Codex CLI",
+    "github.com/openai/codex/issues/30125 bearer_token_env_var mcp list",
+    "github.com/openai/codex/issues/26760 mcp login bearer-token",
+    "learn.chatgpt.com docs extend mcp bearer_token_env_var env_http_headers",
+    "verdent.ai guides Codex CLI MCP bearer-token-env-var",
+    "Codex CLI 技巧 2026 HTTP MCP bearer_token_env_var 进程环境",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR bearer OR hooks OR worktree OR exec OR config.toml)',
     "X news: Codex CLI",
   ],
 };

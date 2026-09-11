@@ -12,6 +12,26 @@ export type CommunityItem = {
 
 export const community: CommunityItem[] = [
   {
+    title: 'mcp list 显示 Bearer 不等于请求真带了 Authorization',
+    url: 'https://github.com/openai/codex/issues/30125',
+    source: 'openai/codex#30125',
+    kind: '论坛',
+    date: '2026-06-25',
+    tags: ['MCP', 'bearer_token_env_var', '桌面'],
+    summary:
+      'HTTP MCP 配了 bearer_token_env_var 后，mcp list / mcp get 仍显示 Auth: Bearer token，即使当前进程里没有这个变量。真正发出的 initialize 没有 Authorization，工具直接消失。codex doctor 有时能标缺失环境变量。从 Dock 打开的桌面看不到 zshrc。改完环境必须彻底重启进程。',
+  },
+  {
+    title: 'Bearer MCP 鉴权失败时不要先跑 mcp login',
+    url: 'https://github.com/openai/codex/issues/26760',
+    source: 'openai/codex#26760',
+    kind: '论坛',
+    date: '2026-06-06',
+    tags: ['MCP', 'bearer_token_env_var', 'OAuth'],
+    summary:
+      '远程服务器用 bearer_token_env_var 时，启动报 Auth required 仍可能被映射成没登录，提示去 codex mcp login。Bearer 服务器没有 OAuth 流程。先确认启动 Codex 的进程里有这个变量、token 没过期，再考虑 OAuth。',
+  },
+  {
     title: 'stdio MCP 默认不继承 shell 里的密钥和会话变量',
     url: 'https://github.com/openai/codex/issues/19023',
     source: 'openai/codex#19023',
