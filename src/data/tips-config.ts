@@ -653,12 +653,12 @@ network_proxy = true
 - \`/apps\` 连接器
 - MCP 服务器自己的 HTTP / OAuth
 
-不要把 \`network_proxy\` 当成「Codex 所有出站」的总闸。连接器权限在各自的服务登录里审；MCP 用 \`default_tools_approval_mode\` 和工具白名单。`,
+不要把 \`network_proxy\` 当成「Codex 所有出站」的总闸。连接器权限在各自的服务登录里审，本机默认档写 \`[apps._default]\`；MCP 用 \`default_tools_approval_mode\` 和工具白名单。`,
     category: "sandbox",
     level: "advanced",
     surfaces: ["cli", "app", "ide"],
     tags: ["network_proxy", "MCP", "安全"],
-    related: ["permissions-not-sandbox-mode", "apps-not-plugins", "mcp-approval-and-output-limit"],
+    related: ["apps-default-policy", "apps-not-plugins", "mcp-approval-and-output-limit"],
     sources: [
       {
         label: "OpenAI · Permissions",
@@ -2609,6 +2609,71 @@ sandbox_private_desktop = false
       {
         label: "openai/codex#37043",
         url: "https://github.com/openai/codex/issues/37043",
+      },
+    ],
+  },
+  {
+    id: "apps-default-policy",
+    no: 243,
+    title: "连接器策略写 [apps._default]，不要抄 [plugins]",
+    summary: "已装连接器的开关、破坏性工具和开放世界工具走 apps._default 和 apps.id。这不是插件键，也不走 network_proxy。带斜杠的工具名必须加引号。",
+    body: `\`/apps\` 插进提示的是连接器。本机策略写在 \`[apps]\`，不是 \`[plugins]\`，也不是 \`[mcp_servers]\`。
+
+全站默认用带下划线的 \`_default\`：
+
+\`\`\`toml
+[apps._default]
+enabled = true
+destructive_enabled = false
+open_world_enabled = false
+default_tools_approval_mode = "prompt"
+approvals_reviewer = "user"
+\`\`\`
+
+写成 \`[apps.default]\` 不会当默认档。省略 \`approvals_reviewer\` 时继承顶层 \`approvals_reviewer\`。
+
+单台覆盖、以及带 \`/\` 的工具名：
+
+\`\`\`toml
+[apps.google_drive]
+enabled = true
+destructive_enabled = false
+default_tools_approval_mode = "prompt"
+
+[apps.google_drive.tools."files/delete"]
+enabled = false
+approval_mode = "approve"
+\`\`\`
+
+工具 id 含斜杠时，表头必须加引号，否则 TOML 会拆成嵌套表。\`destructive_enabled\` 管声明了 \`destructive_hint\` 的工具；\`open_world_enabled\` 管 \`open_world_hint\`。审批取值和 MCP 一样：\`auto\`、\`prompt\`、\`writes\`、\`approve\`。
+
+本机 \`enabled = true\` 救不回工作区管理员在 Workspace apps 里关掉的连接器。插件捆里若带了连接器，仍要在工作区给这个连接器授权，装插件不等于连上了服务。
+
+整面关掉连接器：
+
+\`\`\`toml
+[features]
+apps = false
+\`\`\`
+
+官方标稳定、默认开。\`network_proxy\` 不管 Apps 出站。只想少看见「要不要装 Calendar」建议，用 \`[tool_suggest] disabled_tools\`，那条不关已经连上的工具。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["apps", "连接器", "config.toml"],
+    related: ["apps-not-plugins", "network-proxy-not-apps", "tool-suggest-disabled"],
+    sources: [
+      {
+        label: "OpenAI · Configuration reference",
+        url: "https://learn.chatgpt.com/docs/config-file/config-reference",
+      },
+      {
+        label: "OpenAI · Sample configuration",
+        url: "https://learn.chatgpt.com/docs/config-file/config-sample",
+      },
+      {
+        label: "OpenAI · Apps and connectors",
+        url: "https://learn.chatgpt.com/docs/enterprise/apps-and-connectors",
       },
     ],
   },

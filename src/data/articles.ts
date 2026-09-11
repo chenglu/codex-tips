@@ -1841,5 +1841,15 @@ export const articles: Article[] = [
     summary:
       '中文对照：可移植核心是根目录 plugin.json、skills/、mcp.json；钩子和分发仍是各客户端自己的层。Codex / ChatGPT 公共目录还要保留 .codex-plugin overlay。IDE 扩展没有插件目录。不要把密钥写进 mcp.json，也不要把 mcpServers 塞进顶层 plugin.json。',
   },
+  {
+    title: 'Plugin controls (apps and connectors)',
+    url: 'https://learn.chatgpt.com/docs/enterprise/apps-and-connectors',
+    source: 'ChatGPT Learn',
+    lang: '英文',
+    kind: '官方',
+    tags: ['连接器', 'plugins', '企业'],
+    summary:
+      '工作区里插件能不能装、连接器能不能用、连接器能做哪些动作，是三层控制。CLI 用户 config 的 [apps._default] 只管本机工具审批和 destructive / open_world 提示，盖不了工作区关掉的连接器。插件捆里若带了连接器，仍要在 Workspace apps 里授权。',
+  },
 ];
 

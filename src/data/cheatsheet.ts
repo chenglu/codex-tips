@@ -26,6 +26,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: '[plugins."name@marketplace"] enabled = false', meaning: "项目层关掉本地 marketplace 插件，不卸载。刷新仍会更新文件。远程精选经常拦不住" },
       { cmd: "codex plugin marketplace add google/skills --sparse .agents/plugins --sparse plugins/cloud/google-cloud-developer", meaning: "加 Google marketplace；再 plugin add google-cloud-developer@google-plugins；不要用 npx skills add" },
       { cmd: "[tool_suggest] disabled_tools", meaning: "关掉某条插件/连接器安装建议；不是卸载。id 用 name@marketplace" },
+      { cmd: "[apps._default]", meaning: "已装连接器的默认开关、破坏性工具和开放世界工具；不是 [plugins]。工具名带斜杠要加引号" },
       { cmd: "codex features disable remote_plugin", meaning: "关掉远程插件目录；不是 features.plugins = false。键名是 remote_plugin" },
       { cmd: "codex plugin add 后先看当前会话", meaning: "0.154 起现有会话会捡起新装插件工具；/plugins 没有再新开。桌面改 marketplace.json 仍要重启应用" },
       { cmd: "features.plugin_sharing = false", meaning: "只在云托管 requirements.toml 生效；禁止把本机插件 Publish 到 ChatGPT 工作区" },

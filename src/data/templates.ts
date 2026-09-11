@@ -1003,6 +1003,27 @@ sandbox_private_desktop = false
 `,
   },
   {
+    id: "apps-default-policy",
+    title: "连接器默认策略",
+    filename: "~/.codex/config.toml",
+    summary: "写 apps._default，不要写成 apps.default。带斜杠的工具名必须加引号。",
+    code: `[apps._default]
+enabled = true
+destructive_enabled = false
+open_world_enabled = false
+default_tools_approval_mode = "prompt"
+approvals_reviewer = "user"
+
+[apps.google_drive]
+enabled = true
+destructive_enabled = false
+
+[apps.google_drive.tools."files/delete"]
+enabled = false
+approval_mode = "approve"
+`,
+  },
+  {
     id: "plugin-mcp-oauth-json",
     title: "插件 MCP OAuth（camelCase）",
     filename: "mcp.json",
