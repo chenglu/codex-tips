@@ -251,7 +251,7 @@ enabled_tools = ["list_issues", "create_issue", "get_issue"]
         url: "https://learn.chatgpt.com/docs/extend/mcp",
       },
     ],
-    related: ["mcp-add-and-login", "exec-mcp-optional-grace", "mcp-approval-and-output-limit"],
+    related: ["mcp-add-and-login", "macos-mcp-bare-command", "mcp-approval-and-output-limit"],
   },
   {
     id: "subagents-when-asked",
@@ -2389,6 +2389,55 @@ enabled = true
       {
         label: "OpenAI · ChatGPT desktop app for Windows",
         url: "https://learn.chatgpt.com/docs/windows/windows-app",
+      },
+    ],
+  },
+  {
+    id: "macos-mcp-bare-command",
+    no: 249,
+    title: "macOS 0.154 起 MCP 可用 uvx、npx 和相对路径，不必再写绝对路径",
+    summary: "以前原生 spawn 只认绝对路径，裸命令会掉进 shell。0.154 起按子进程 PATH 解析 uvx / npx，相对可执行文件也走原生启动。没有 shebang 仍回退 shell。Dock 打开的桌面经常没有 Homebrew PATH。",
+    body: `\`codex --version\` 到 0.154 之后，macOS 上用户 config 可以这样写：
+
+\`\`\`toml
+[mcp_servers.docs]
+command = "uvx"
+args = ["docs-mcp@latest"]
+enabled = true
+\`\`\`
+
+仓库里的启动脚本用相对路径，配绝对 \`cwd\`：
+
+\`\`\`toml
+[mcp_servers.local_docs]
+command = "./scripts/mcp-server"
+args = ["--stdio"]
+cwd = "/Users/you/src/app"
+enabled = true
+\`\`\`
+
+以前只有绝对 \`command\` 才走原生 spawn；\`uvx\`、\`npx\`、\`./scripts/...\` 会落到 shell，隔离和报错都不一样。0.154 按**子进程**配置的 \`PATH\` 解析裸命令（空条目、未设置时的默认 PATH 都算），并保留原来的 \`argv[0]\`。找不到可执行文件、或目标没有 shebang，才回退原来的 shell 启动器。
+
+桌面应用从 Dock 打开时，子进程 PATH 常常没有 Homebrew。\`codex mcp list\` 报 command not found，先查这个，不要先换服务器。把 PATH 写进这台服务器的 \`env\`，或把 \`command\` 改成 \`/opt/homebrew/bin/uvx\`。
+
+这不是插件 \`mcp.json\`：那里的 \`command\` 仍然不展开 \`PLUGIN_ROOT\`，相对路径跟安装后的插件根，见插件 MCP 用 cwd \".\" 那条。HTTP MCP 走 \`url\`，不受这条 spawn 规则影响。改完新开会话，用 \`codex mcp get docs\` 核对实际启动命令。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "macOS", "0.154"],
+    related: ["mcp-add-and-login", "plugin-mcp-cwd-dot", "mcp-required-and-allowlist"],
+    sources: [
+      {
+        label: "openai/codex#42192",
+        url: "https://github.com/openai/codex/pull/42192",
+      },
+      {
+        label: "openai/codex rust-v0.154.0",
+        url: "https://github.com/openai/codex/releases/tag/rust-v0.154.0",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
       },
     ],
   },

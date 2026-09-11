@@ -12,6 +12,16 @@ export type CommunityItem = {
 
 export const community: CommunityItem[] = [
   {
+    title: '0.154：macOS MCP 裸命令和相对路径改走原生 spawn',
+    url: 'https://github.com/openai/codex/pull/42192',
+    source: 'openai/codex#42192',
+    kind: '论坛',
+    date: '2026-09-02',
+    tags: ['MCP', 'macOS', '0.154'],
+    summary:
+      '合并进 0.154：macOS 启动器不再只对绝对路径做原生 spawn。uvx、npx 一类裸命令按子进程 PATH 解析，相对可执行文件同样原生启动。没有 shebang 或找不到文件才回退 shell。从 Dock 开桌面时记得给 MCP 子进程补 PATH。',
+  },
+  {
     title: '桌面 WSL 代理下列得出 MCP，线程里却没有工具',
     url: 'https://github.com/openai/codex/issues/13690',
     source: 'openai/codex#13690',

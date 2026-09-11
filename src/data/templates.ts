@@ -1094,4 +1094,18 @@ startup_timeout_sec = 40
 enabled = true
 `,
   },
+  {
+    id: "macos-mcp-bare-command",
+    title: "macOS 用 uvx 起 MCP",
+    filename: "~/.codex/config.toml",
+    summary: "0.154 起裸命令走原生 spawn。Dock 打开的桌面若找不到 uvx，把 Homebrew 写进这台服务器的 PATH。",
+    code: `[mcp_servers.docs]
+command = "uvx"
+args = ["docs-mcp@latest"]
+enabled = true
+
+[mcp_servers.docs.env]
+PATH = "/opt/homebrew/bin:/usr/bin:/bin"
+`,
+  },
 ];
