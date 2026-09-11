@@ -12,6 +12,16 @@ export type CommunityItem = {
 
 export const community: CommunityItem[] = [
   {
+    title: '桌面 WSL 代理下列得出 MCP，线程里却没有工具',
+    url: 'https://github.com/openai/codex/issues/13690',
+    source: 'openai/codex#13690',
+    kind: '论坛',
+    date: '2026-03-06',
+    tags: ['Windows', 'WSL', 'MCP', '桌面'],
+    summary:
+      'Agent environment 走 WSL 时，WSL 里的 npx/node stdio 服务器 mcp list 显示 enabled，手工 initialize 也能列出工具，桌面新线程却不注入。改成 Windows 侧 node.exe 启动器后工具出现。这和内部 codex_app 的 invalid transport 不是同一条。不要为了对齐配置去共用 CODEX_HOME。',
+  },
+  {
     title: '桌面 WSL 注入残缺 mcp_servers.codex_app，报 invalid transport',
     url: 'https://github.com/openai/codex/issues/40819',
     source: 'openai/codex#40819',

@@ -1081,4 +1081,17 @@ bearer_token_env_var = "DOCS_MCP_TOKEN"
 runCodexInWindowsSubsystemForLinux = false
 `,
   },
+  {
+    id: "desktop-wsl-user-mcp",
+    title: "桌面 WSL 下用 Windows 侧 Node 起 MCP",
+    filename: "%USERPROFILE%\\.codex\\config.toml",
+    summary: "给桌面 WSL 代理用。不要 export CODEX_HOME 硬共用这份和 Linux npx。改完彻底退出桌面。",
+    code: `[mcp_servers.docs]
+command = "/mnt/c/Program Files/nodejs/node.exe"
+args = ["C:\\\\Program Files\\\\nodejs\\\\node_modules\\\\npm\\\\bin\\\\npx-cli.js", "-y", "@example/docs-mcp"]
+cwd = "/mnt/c/Users/you"
+startup_timeout_sec = 40
+enabled = true
+`,
+  },
 ];

@@ -2325,7 +2325,7 @@ enabled = true
     level: "intermediate",
     surfaces: ["app", "cli", "ide"],
     tags: ["MCP", "桌面", "config.toml"],
-    related: ["mcp-host-split", "desktop-wsl-codex-app-transport", "mcp-add-and-login"],
+    related: ["mcp-host-split", "desktop-wsl-codex-app-transport", "desktop-wsl-user-mcp"],
     sources: [
       {
         label: "openai/codex#13025",
@@ -2338,6 +2338,57 @@ enabled = true
       {
         label: "OpenAI · Model Context Protocol",
         url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "desktop-wsl-user-mcp",
+    no: 248,
+    title: "桌面 WSL 代理下列得出 MCP、线程里没有工具时，换 Windows 启动器",
+    summary: "Agent environment 走 WSL 时，WSL 里的 node / npx stdio 服务器在 mcp list 显示 enabled，桌面线程却常常不注入工具。CLI 在发行版里通常正常。权宜是改成 Windows 侧启动器，或切回原生代理。不要和内部 codex_app 的 invalid transport 混成一件事。",
+    body: `先分流。线程完全起不来、文案是 invalid transport in \`mcp_servers.codex_app\`，看「桌面开 WSL 报 invalid transport」那条，不要先改用户 MCP。
+
+线程能开，但 \`codex mcp list\` / 设置页显示 enabled，当前对话工具表却没有这台服务器：这是桌面 WSL 代理路径上的用户 MCP 注入问题。2026-06 仍有人在桌面 26.609 上复现：WSL 里的 \`npx\` 命令自己 \`initialize\` / \`tools/list\` 都成功，桌面新线程就是不露工具。
+
+对照：
+
+1. 在 **WSL CLI** 里 \`codex mcp list\`、\`codex mcp get docs\`。这里看得见，说明用户 config 和 Linux 二进制没坏。
+2. 桌面 Settings 把 Agent environment 设成 WSL，彻底退出后再开**新**线程。不要只看旧会话。
+3. 确认这段写在 Windows 桌面读的 \`%USERPROFILE%\\.codex\\config.toml\`，不是只写在 WSL 家目录。两条家目录默认不共用。
+
+权宜之一：把 stdio 启动器改成 Windows 侧的 Node，让桌面去 spawn 它。路径按本机改，带空格必须加引号：
+
+\`\`\`toml
+[mcp_servers.docs]
+command = "/mnt/c/Program Files/nodejs/node.exe"
+args = ["C:\\\\Program Files\\\\nodejs\\\\node_modules\\\\npm\\\\bin\\\\npx-cli.js", "-y", "@example/docs-mcp"]
+cwd = "/mnt/c/Users/you"
+startup_timeout_sec = 40
+enabled = true
+\`\`\`
+
+改完彻底退出 ChatGPT / Codex，再开新线程。服务器名不要用连字符，避免 list 看得到、模型调不到。
+
+另一条路：Settings 把代理切回 Windows native，或 \`[desktop] runCodexInWindowsSubsystemForLinux = false\`。这会换执行环境。仓库在 Linux 家目录时，原生代理可能打不开同一份路径，这时用 WSL 里的 CLI 调这些 MCP，不要为了对齐配置去 \`export CODEX_HOME\`：一份 TOML 很难同时伺候 Linux \`npx\` 和 \`node.exe\`。
+
+不要把 WSL 的 \`/home/you/.nvm/...\` 启动块写进桌面还指望工具出现。HTTP MCP 不受这条 stdio 启动器限制。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["app", "cli"],
+    tags: ["MCP", "WSL", "桌面", "Windows"],
+    related: ["desktop-wsl-codex-app-transport", "desktop-project-mcp", "windows-app-wsl-home-split"],
+    sources: [
+      {
+        label: "openai/codex#13690",
+        url: "https://github.com/openai/codex/issues/13690",
+      },
+      {
+        label: "openai/codex#14449",
+        url: "https://github.com/openai/codex/issues/14449",
+      },
+      {
+        label: "OpenAI · ChatGPT desktop app for Windows",
+        url: "https://learn.chatgpt.com/docs/windows/windows-app",
       },
     ],
   },

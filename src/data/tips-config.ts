@@ -2714,7 +2714,7 @@ macOS 上同一句 invalid transport 常常是另一件事（例如临时目录�
     level: "intermediate",
     surfaces: ["app", "cli", "ide"],
     tags: ["Windows", "WSL", "MCP", "桌面"],
-    related: ["windows-app-wsl-home-split", "wsl-linux-home-not-mntc", "desktop-project-mcp"],
+    related: ["windows-app-wsl-home-split", "desktop-wsl-user-mcp", "desktop-project-mcp"],
     sources: [
       {
         label: "openai/codex#40819",
