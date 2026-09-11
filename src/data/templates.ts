@@ -1059,4 +1059,17 @@ approval_mode = "approve"
 }
 `,
   },
+  {
+    id: "desktop-project-mcp",
+    title: "桌面读不到项目 MCP 时的用户层副本",
+    filename: "~/.codex/config.toml",
+    summary: "先确认项目已信任。stdio 用绝对路径。仓库本地二进制不要拷成全局项。改完彻底退出桌面再开新线程。",
+    code: `[mcp_servers.docs]
+command = "/usr/bin/node"
+args = ["/home/you/src/app/servers/docs.mjs"]
+cwd = "/home/you/src/app"
+enabled = true
+bearer_token_env_var = "DOCS_MCP_TOKEN"
+`,
+  },
 ];

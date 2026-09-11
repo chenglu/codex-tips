@@ -511,7 +511,7 @@ Learn 页的旗标表目前只列了 \`--pretty\` 和 \`--rules\`；本机 \`cod
     level: "intermediate",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "config.toml", "ChatGPT"],
-    related: ["mcp-add-and-login", "three-layer-config"],
+    related: ["desktop-project-mcp", "mcp-add-and-login", "three-layer-config"],
     sources: [
       {
         label: "OpenAI · Advanced configuration",
@@ -2292,6 +2292,52 @@ stdio 服务器用相对 \`cwd\`。它相对**已经安装**的插件根解析�
       {
         label: "OpenAI · Hooks",
         url: "https://learn.chatgpt.com/docs/hooks",
+      },
+    ],
+  },
+  {
+    id: "desktop-project-mcp",
+    no: 246,
+    title: "桌面读不到项目层 MCP 时，先确认信任再拷到用户 config",
+    summary: "受信任项目的 .codex/config.toml 可以写 mcp_servers，CLI 通常能加载。桌面和 IDE 扩展经常只读 ~/.codex。stdio 还要把 command 和 cwd 写成绝对路径，并彻底退出后新开线程。",
+    body: `官方允许在**已信任**项目的 \`.codex/config.toml\` 里写 \`[mcp_servers.docs]\`。未信任时项目层整份跳过（config、hooks、rules 一起），看起来像 MCP 没配。先在本机 CLI 里确认信任，再用 \`codex mcp list\` / \`codex mcp get docs\` 看 CLI 能不能看见。
+
+桌面应用和不少 IDE 扩展会话仍可能只加载 \`~/.codex/config.toml\`。2026-08 仍有人在桌面 26.707 上复现：项目层 stdio 服务器进不了新任务的工具表。\`/mcp\` 在桌面线程里也常只列用户层；设置页或 \`codex mcp list\` 看得到，不等于当前线程已经注入 \`mcp__docs__...\`。
+
+桌面要用同一台服务器时：
+
+1. 把这段拷到 \`~/.codex/config.toml\`（密钥仍用 \`bearer_token_env_var\`，不要写进仓库）。
+2. 彻底退出 ChatGPT / Codex，不要只新开会话。旧线程可能挂着过期的 MCP 进程。
+3. 在这个项目里开**新**线程。工具看起来像默认集、缺项目参数时，先杀掉那台残留进程再开。
+
+stdio 还有一层：桌面任务的 cwd 有时是 \`/\`，相对 \`command\` / \`./vendor/bin/...\` 会起不来。用户层写成绝对路径：
+
+\`\`\`toml
+[mcp_servers.docs]
+command = "/usr/bin/node"
+args = ["/home/you/src/app/servers/docs.mjs"]
+cwd = "/home/you/src/app"
+enabled = true
+\`\`\`
+
+仓库里跑本地二进制、\`cwd = "."\` 的服务器不要拷成全局项：它会在别人的机器上用错目录，也绕开项目信任边界。这种只给 CLI 用，或等桌面真正加载项目层。HTTP MCP 拷用户层相对安全。网页 Work 仍然不读 \`~/.codex\`。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["app", "cli", "ide"],
+    tags: ["MCP", "桌面", "config.toml"],
+    related: ["mcp-host-split", "mcp-add-and-login", "plugin-mcp-cwd-dot"],
+    sources: [
+      {
+        label: "openai/codex#13025",
+        url: "https://github.com/openai/codex/issues/13025",
+      },
+      {
+        label: "openai/codex#14449",
+        url: "https://github.com/openai/codex/issues/14449",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
       },
     ],
   },

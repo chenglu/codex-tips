@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-11T07:30:00Z",
+  lastTick: "2026-09-11T08:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "07:30 调用前 $98.24。Spend: counts（start_time=2026-09-04T09:00:00Z，共 159 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录插件 MCP cwd \".\" / 不要在 command 里写 PLUGIN_ROOT。",
+    "08:00 调用前 $98.23。Spend: counts（start_time=2026-09-04T09:15:00Z，共 159 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录桌面读不到项目层 MCP。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -281,6 +281,12 @@ export const loopState = {
     "github.com/openai/codex/discussions/28145 CLAUDE_PLUGIN_ROOT cwd",
     "github.com/openai/codex/issues/38438 env_vars Agent Plugin mcp.json",
     "Codex CLI 技巧 2026 插件 MCP cwd PLUGIN_ROOT",
+    'X: ("Codex CLI" OR #CodexCLI) (plugin OR marketplace OR worktree OR hooks OR AGENTS.md OR exec OR config.toml)',
+    "X news: Codex CLI",
+    "github.com/openai/codex/issues/13025 Desktop project config.toml MCP",
+    "github.com/openai/codex/issues/14449 Desktop stdio MCP cwd absolute",
+    "news.qiniu.com Codex 插件全解 75 官方目录",
+    "Codex CLI 技巧 2026 桌面 项目层 MCP config.toml",
     'X: ("Codex CLI" OR #CodexCLI) (plugin OR marketplace OR worktree OR hooks OR AGENTS.md OR exec OR config.toml)',
     "X news: Codex CLI",
   ],

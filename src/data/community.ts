@@ -12,6 +12,26 @@ export type CommunityItem = {
 
 export const community: CommunityItem[] = [
   {
+    title: '桌面经常忽略项目 .codex/config.toml 里的 MCP',
+    url: 'https://github.com/openai/codex/issues/13025',
+    source: 'openai/codex#13025',
+    kind: '论坛',
+    date: '2026-02-27',
+    tags: ['MCP', '桌面', 'config.toml'],
+    summary:
+      '受信任项目的项目层 mcp_servers，CLI 通常能加载，桌面和 IDE 扩展经常只读用户 config。2026-07 仍有人在桌面 26.707 复现。权宜之计是把同一段拷到 ~/.codex/config.toml，彻底退出后新开线程，并杀掉过期 MCP 进程。仓库本地二进制不要变成全局项。',
+  },
+  {
+    title: '桌面 stdio MCP 常常要绝对 cwd 才能露工具',
+    url: 'https://github.com/openai/codex/issues/14449',
+    source: 'openai/codex#14449',
+    kind: '论坛',
+    date: '2026-03-12',
+    tags: ['MCP', '桌面', 'cwd'],
+    summary:
+      'Laravel Boost 一类本地 stdio 服务器在 CLI 能用，桌面任务里 cwd 有时是 /，相对 command 起不来。项目层补绝对 command 和绝对 cwd 后才露工具。这和「桌面完全不读项目 config」是两条线，先看进程实际工作目录。',
+  },
+  {
     title: '插件 MCP 的 command 不会展开 PLUGIN_ROOT',
     url: 'https://github.com/openai/codex/issues/35762',
     source: 'openai/codex#35762',

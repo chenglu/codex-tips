@@ -107,6 +107,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: "/hooks", meaning: "浏览、信任、开关钩子" },
       { cmd: "${PLUGIN_ROOT}", meaning: "插件钩子脚本用安装后的缓存根，不是源码目录。可变数据写 PLUGIN_DATA。装完仍要 /hooks 信任" },
       { cmd: 'mcp.json cwd "."', meaning: "插件 stdio MCP 的相对工作目录相对安装根。command/args 不会展开 PLUGIN_ROOT，不要抄钩子写法" },
+      { cmd: "桌面项目层 MCP", meaning: "CLI 能加载受信任项目的 mcp_servers，桌面常只读 ~/.codex。stdio 用绝对 command/cwd，彻底退出后新开线程" },
       { cmd: "/import", meaning: "从 Claude Code / Cursor 迁配置；任务中不可用" },
       { cmd: "/undo", meaning: "回滚本会话最近一次文件快照；需 features.undo" },
       { cmd: "@codex review", meaning: "GitHub PR / GitLab MR 精确审查触发词" },

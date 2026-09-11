@@ -1861,5 +1861,15 @@ export const articles: Article[] = [
     summary:
       '中文对照 $plugin-creator、三种 marketplace 和 PLUGIN_ROOT 钩子。例子仍是 .codex-plugin 兼容布局；现行可移植包要把身份放在根目录 plugin.json。文中 .mcp.json 示例用的是 mcpServers，不要改回官方兼容节里的 mcp_servers。基于 0.117 前后的文档，字段以 Learn 现行页为准。',
   },
+  {
+    title: 'Codex 插件全解：官方目录 75 个插件按 11 大类',
+    url: 'https://news.qiniu.com/archives/1789094413719',
+    source: '七牛云',
+    lang: '中文',
+    kind: '教程',
+    tags: ['plugins', '目录', '桌面'],
+    summary:
+      '按官方目录分类介绍到 2026-09 的 75 个插件。安装后要新开会话；CLI 用 /plugins，桌面有插件页，IDE 扩展没有插件目录。带 MCP 的 Admin 导入插件仍是 Desktop only。具体字段和 mcp.json 包装键以 Learn 现行页为准，不要只按文中的兼容布局抄。',
+  },
 ];
 
