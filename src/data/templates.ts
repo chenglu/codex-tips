@@ -1391,4 +1391,15 @@ url = "https://developers.openai.com/mcp"
 enabled = true
 `,
   },
+  {
+    id: "mcp-cloudflare-remote",
+    title: "Cloudflare 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.cloudflare.com/mcp。add 之后 mcp login。Cloudflare 的 Code Mode 不是 Codex 的 features.code_mode。文档服务器另加 cloudflare-docs。",
+    code: `[mcp_servers.cloudflare]
+url = "https://mcp.cloudflare.com/mcp"
+enabled = true
+`,
+  },
 ];

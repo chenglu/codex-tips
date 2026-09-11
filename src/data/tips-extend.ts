@@ -1779,7 +1779,7 @@ BigQuery / Spanner 这类 Data Cloud 插件是另一个 marketplace：\`GoogleCl
     level: "intermediate",
     surfaces: ["cli", "app"],
     tags: ["plugins", "Google Cloud", "MCP"],
-    related: ["plugin-marketplace-ref-sparse", "unity-codex-plugin", "plugin-session-refresh"],
+    related: ["plugin-marketplace-ref-sparse", "unity-codex-plugin", "cloudflare-skills-plugin"],
     sources: [
       {
         label: "google/skills",
@@ -3613,6 +3613,113 @@ enabled = true
       {
         label: "OpenAI · Docs MCP",
         url: "https://developers.openai.com/learn/docs-mcp",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "cloudflare-skills-plugin",
+    no: 274,
+    title: "Cloudflare 官方插件用 marketplace 装，不要 npx skills add",
+    summary:
+      "marketplace add cloudflare/skills，再 plugin add cloudflare@cloudflare。这会装 Skills 并登记主 MCP。不要用 npx skills add，也不要手拷到 ~/.codex/skills。",
+    body: `Cloudflare 官方 Codex 页的主路径是装插件：Skills 教 Workers / Wrangler，插件同时登记主 MCP。仓库 README 给的 Codex 命令是：
+
+\`\`\`bash
+codex plugin marketplace add cloudflare/skills
+codex plugin add cloudflare@cloudflare
+codex plugin list
+codex mcp list
+\`\`\`
+
+marketplace 名是 \`cloudflare\`，插件 id 是 \`cloudflare@cloudflare\`。TUI 里 \`/plugins\` 搜 Cloudflare，桌面走 Plugins 装 Cloudflare，效果一样。清单写明安装时会要授权（\`authentication: ON_INSTALL\`）。
+
+0.154 起先在当前会话核对 \`/plugins\` 和 \`/mcp\`。README 仍写「装完新开会话」：当前会话看不到 \`cloudflare@cloudflare\` 或 \`cloudflare\` MCP 时再新开。IDE 扩展没有 \`/plugins\`。
+
+插件自带的斜杠命令是 \`/cloudflare:build-agent\`（Agents SDK 脚手架）和 \`/cloudflare:build-mcp\`（远程 MCP 脚手架）。这是插件技能，不是 Codex 内置。
+
+不要做这些：
+
+- 不要用 \`npx skills add https://github.com/cloudflare/skills\` 当 Codex 插件安装器。那只会拷 SKILL.md，不会登记 MCP。
+- 不要手拷技能目录到 \`~/.codex/skills\`。那条 Clone/Copy 表给的是纯技能回退，插件路径才会带 MCP。
+- 不要抄 Claude 的 \`/plugin marketplace add\` / \`/plugin install\`。Codex 是 \`codex plugin marketplace add\` 和 \`plugin add\`。
+- 不要把 Google 那套 \`--sparse\` 抄过来。Cloudflare README 没有这条；Google 仓才需要稀疏检出。
+- 不要把厂商的 Code Mode 说成 Codex 配置键 \`features.code_mode\`。那是 Cloudflare 这台 API MCP 自己的搜-执行模式，见 MCP 那条。
+
+网页 Cloud 不读本机 marketplace。改完用 \`codex plugin list\` 看到 \`cloudflare@cloudflare\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Cloudflare", "MCP", "Skills"],
+    related: ["google-cloud-developer-plugin", "plugin-session-refresh", "mcp-cloudflare-remote"],
+    sources: [
+      {
+        label: "Cloudflare · Codex agent setup",
+        url: "https://developers.cloudflare.com/agent-setup/codex/",
+      },
+      {
+        label: "cloudflare/skills",
+        url: "https://github.com/cloudflare/skills",
+      },
+    ],
+  },
+  {
+    id: "mcp-cloudflare-remote",
+    no: 275,
+    title: "Cloudflare MCP 用 mcp.cloudflare.com/mcp，不要把 Code Mode 写成 Codex 配置",
+    summary:
+      "CLI：codex mcp add cloudflare --url https://mcp.cloudflare.com/mcp，再 mcp login cloudflare。这是 Cloudflare 自己的 Code Mode MCP，不是 features.code_mode。文档服务器是另一台。",
+    body: `官方 Codex 排错页把连不上的 Cloudflare MCP 指到这条远程 Streamable HTTP：
+
+\`\`\`bash
+codex mcp add cloudflare --url https://mcp.cloudflare.com/mcp
+codex mcp login cloudflare
+codex mcp list
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.cloudflare]
+url = "https://mcp.cloudflare.com/mcp"
+enabled = true
+\`\`\`
+
+已经用 \`cloudflare@cloudflare\` 插件装过时，\`codex mcp list\` 里可能已经有 \`cloudflare\`，不必再手加一台同名服务器。插件没登记成功时，才走上面的 \`mcp add\`。
+
+这台服务器覆盖整份 Cloudflare API（两千多个端点），但暴露给模型的是 \`search\` / \`execute\` 两个工具：模型写一小段 JavaScript，在隔离 Worker 里执行。Cloudflare 把这套叫 **Code Mode**。它**不是** Codex 的 \`features.code_mode\`，不要把这个词写进 \`config.toml\`。
+
+文档过时就另加文档服务器，不要把所有产品 MCP 一次 \`required = true\`：
+
+\`\`\`bash
+codex mcp add cloudflare-docs --url https://docs.mcp.cloudflare.com/mcp
+\`\`\`
+
+无头 / CI 才用 Cloudflare API token。Codex 走 \`bearer_token_env_var\`，键是变量名，不要把 token 写进 \`http_headers\`，也不要和已经 login 的 OAuth 混用。
+
+不要做这些：
+
+- 不要抄 Cursor / Claude 的 \`mcpServers\` JSON，也不要抄 \`--transport http\`。
+- 不要把历史 \`/sse\` 配成 SSE 传输。Cloudflare 写明 \`/sse\` 只是同一套 Streamable HTTP 的别名；Codex 用 \`/mcp\`。
+- 不要把 Bindings / Builds / Observability / Radar 十几台一次性挂全局。插件默认只带主 \`cloudflare\`。
+- 不要给它 \`required = true\` 挂全局。账号写入不是每条会话的硬依赖。
+- 认证失败就 \`codex mcp logout cloudflare\` 再 \`mcp login\`，或按官方排错先 remove 再 add。不要用 \`mcp-remote\` 包一层。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get cloudflare\` 看传输是 streamable_http。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Cloudflare", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "cloudflare-skills-plugin", "mcp-http-bearer-env"],
+    sources: [
+      {
+        label: "Cloudflare · Codex agent setup",
+        url: "https://developers.cloudflare.com/agent-setup/codex/",
+      },
+      {
+        label: "Cloudflare · MCP servers",
+        url: "https://developers.cloudflare.com/agents/model-context-protocol/cloudflare/servers-for-cloudflare/",
       },
       {
         label: "OpenAI · Model Context Protocol",

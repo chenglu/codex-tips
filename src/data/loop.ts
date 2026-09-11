@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-11T19:30:00Z",
+  lastTick: "2026-09-11T20:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "19:30 调用前 $97.99。Spend: counts（start_time=2026-09-04T19:45:00Z，共 216 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 仍是 worktree 转述、GTM MCP Bench、ChatGPT Pro 配额、Mistral Vibe、@barbarosdev、SQLcl 转帖、日文 changelog、Miles Ma 外链，无新可执行帖。收录 Stripe + OpenAI Docs MCP。",
+    "20:00 调用前 $97.98。Spend: counts（start_time=2026-09-04T20:15:00Z，共 215 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 仍是 worktree 转述、GTM MCP Bench、ChatGPT Pro 配额、Mistral Vibe、@barbarosdev、SQLcl 转帖、日文 changelog、Miles Ma 外链，无新可执行帖。收录 Cloudflare 插件 + 远程 MCP。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -440,6 +440,12 @@ export const loopState = {
     "community.openai.com connect Codex developer docs MCP openaiDeveloperDocs",
     "Codex CLI 技巧 2026 Stripe OpenAI Docs MCP OAuth login",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR Stripe OR Cloudflare OR AGENTS.md OR skills OR worktree)',
+    "X news: Codex CLI",
+    "developers.cloudflare.com agent-setup Codex plugin marketplace MCP",
+    "github.com/cloudflare/skills Codex plugin add cloudflare@cloudflare",
+    "huggingface.co mcp Codex CLI HF_TOKEN bearer_token_env_var",
+    "Codex CLI 技巧 2026 Cloudflare Hugging Face MCP plugin marketplace",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR Cloudflare OR HuggingFace OR AGENTS.md OR skills OR worktree)',
     "X news: Codex CLI",
   ],
 };

@@ -2141,5 +2141,25 @@ export const articles: Article[] = [
     summary:
       '官方 Codex 命令是 mcp add openaiDeveloperDocs --url https://developers.openai.com/mcp。覆盖 developers.openai.com、platform.openai.com、learn.chatgpt.com。只读文档，不会代调 API。AGENTS.md 那句是可选提醒。这不是桌面浏览器里的 WebMCP。不要抄 Claude 的 --transport http。',
   },
+  {
+    title: 'Codex + Cloudflare',
+    url: 'https://developers.cloudflare.com/agent-setup/codex/',
+    source: 'Cloudflare',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Cloudflare', 'plugins'],
+    summary:
+      '官方 Codex 页：/plugins 装 Cloudflare，或排错用 mcp add cloudflare --url https://mcp.cloudflare.com/mcp。厂商 Code Mode 是这台 API MCP 的搜-执行，不要写成 Codex 的 features.code_mode。文档过时另加 docs.mcp.cloudflare.com/mcp。',
+  },
+  {
+    title: 'cloudflare/skills',
+    url: 'https://github.com/cloudflare/skills',
+    source: 'cloudflare/skills',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['plugins', 'Cloudflare', 'Skills'],
+    summary:
+      'Codex 命令是 plugin marketplace add cloudflare/skills，再 plugin add cloudflare@cloudflare。插件会装 Skills 并登记主 MCP。不要用 npx skills add 当安装器，也不要只把 SKILL.md 拷进 ~/.codex/skills。Claude 的 /plugin install 不要抄。',
+  },
 ];
 
