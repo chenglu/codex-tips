@@ -21,6 +21,8 @@ export const cheatSections: CheatSection[] = [
       { cmd: "codex plugin marketplace add Unity-Technologies/unity-agent-plugin", meaning: "加 Unity 官方 marketplace；再 plugin add unity@unity-agent-plugin；0.154 起先看当前会话" },
       { cmd: "codex plugin marketplace add owner/repo --ref main --sparse PATH --json", meaning: "钉 Git ref；--sparse 只对 Git 源，可重复；加完仍要 plugin add；0.154 起先看当前会话" },
       { cmd: "source.path ./plugins/foo", meaning: "相对 marketplace 根，不是 json 所在目录。个人清单解析到 ~/plugins/foo" },
+      { cmd: "plugin.json + mcp.json", meaning: "可移植包放插件根；每台 MCP 要有 type。不要只把 .mcp.json 改名。$plugin-creator 仍脚手架 .codex-plugin" },
+      { cmd: "Admin 导入带 MCP 的插件", meaning: "标成 Desktop only，CLI / IDE 用不了；远程 HTTPS 也一样。本机 marketplace add 才是 CLI 路径" },
       { cmd: '[plugins."name@marketplace"] enabled = false', meaning: "项目层关掉本地 marketplace 插件，不卸载。刷新仍会更新文件。远程精选经常拦不住" },
       { cmd: "codex plugin marketplace add google/skills --sparse .agents/plugins --sparse plugins/cloud/google-cloud-developer", meaning: "加 Google marketplace；再 plugin add google-cloud-developer@google-plugins；不要用 npx skills add" },
       { cmd: "[tool_suggest] disabled_tools", meaning: "关掉某条插件/连接器安装建议；不是卸载。id 用 name@marketplace" },

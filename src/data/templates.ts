@@ -927,4 +927,67 @@ enabled = false
 }
 `,
   },
+  {
+    id: "plugin-portable-json",
+    title: "可移植 plugin.json（Agent Plugins）",
+    filename: "plugin.json",
+    summary: "放在插件根。技能走 skills/，MCP 另写 mcp.json。OpenAI 专用字段进 extensions.com.openai，会整份替换 overlay。",
+    code: `{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "my-first-plugin",
+  "version": "1.0.0",
+  "description": "Reusable greeting workflow",
+  "extensions": {
+    "com.openai": {
+      "hooks": "./hooks/hooks.json",
+      "interface": {
+        "displayName": "My Plugin",
+        "shortDescription": "Reusable skills and MCP servers",
+        "developerName": "Your team",
+        "category": "Productivity"
+      }
+    }
+  }
+}
+`,
+  },
+  {
+    id: "plugin-portable-mcp",
+    title: "可移植 mcp.json（带 transport type）",
+    filename: "mcp.json",
+    summary: "和 plugin.json 放在同一层。不要只把 .mcp.json 改名。兼容布局还要把 mcpServers 指到 ./.mcp.json。",
+    code: `{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "docs": {
+      "type": "streamable-http",
+      "url": "https://example.com/mcp"
+    }
+  }
+}
+`,
+  },
+  {
+    id: "plugin-admin-mcp-desktop",
+    title: "把已有工作区插件交给 GitHub 管",
+    filename: ".agents/plugins/marketplace.json",
+    summary: "pluginId 从 Admin URL /admin/plugins/ 后面抄。带 MCP 的导入插件仍是 Desktop only。",
+    code: `{
+  "name": "team-plugins",
+  "interface": {
+    "displayName": "Team plugins"
+  },
+  "plugins": [
+    {
+      "name": "team-tools",
+      "pluginId": "plugin_00000000000000000000000000000000",
+      "source": {
+        "source": "local",
+        "path": "./plugins/team-tools"
+      }
+    }
+  ]
+}
+`,
+  },
 ];

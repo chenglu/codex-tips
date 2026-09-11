@@ -122,7 +122,7 @@ IDE 扩展没有插件目录。0.154 起当前会话通常会捡起新装的插�
     level: "intermediate",
     surfaces: ["cli", "app"],
     tags: ["plugins", "marketplace", "/import"],
-    related: ["plugin-session-refresh", "plugin-marketplace-ref-sparse", "marketplace-source-path-root"],
+    related: ["plugin-portable-json", "plugin-session-refresh", "marketplace-source-path-root"],
     sources: [
       {
         label: "OpenAI · Plugins",
@@ -1934,7 +1934,7 @@ enabled = false
     level: "intermediate",
     surfaces: ["cli", "app"],
     tags: ["plugins", "config.toml", "enabled"],
-    related: ["marketplace-source-path-root", "remote-plugin-catalog", "plugin-mcp-exec-key"],
+    related: ["marketplace-source-path-root", "plugin-admin-mcp-desktop", "plugin-mcp-exec-key"],
     sources: [
       {
         label: "OpenAI · Package your plugin",
@@ -1986,7 +1986,7 @@ Codex 会注入环境变量，并做行内替换（PowerShell 吃不到普通环
     level: "intermediate",
     surfaces: ["cli", "app"],
     tags: ["hooks", "PLUGIN_ROOT", "plugins"],
-    related: ["hooks-lifecycle", "plugin-session-refresh", "managed-hooks-only"],
+    related: ["hooks-lifecycle", "plugin-portable-json", "plugin-session-refresh"],
     sources: [
       {
         label: "OpenAI · Hooks",
@@ -1995,6 +1995,110 @@ Codex 会注入环境变量，并做行内替换（PowerShell 吃不到普通环
       {
         label: "OpenAI · Package your plugin",
         url: "https://learn.chatgpt.com/plugins/build/plugins",
+      },
+    ],
+  },
+  {
+    id: "plugin-portable-json",
+    no: 238,
+    title: "新插件用根目录 plugin.json，不要只把 .mcp.json 改名",
+    summary: "$plugin-creator 仍脚手架 .codex-plugin。可移植包是根目录 plugin.json 加带 type 的 mcp.json。extensions.com.openai 会整份替换 overlay，两套不合并。",
+    body: `现行可移植包把身份放在插件根的 \`plugin.json\`，不要把 MCP、钩子、技能路径塞进这份清单的顶层。最小可用：
+
+\`\`\`json
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "my-first-plugin",
+  "version": "1.0.0",
+  "description": "Reusable greeting workflow"
+}
+\`\`\`
+
+\`name\` 用 kebab-case，宿主拿它当插件标识和组件命名空间。技能固定从根目录 \`skills/\` 发现，清单里不必写 \`skills\` 字段。
+
+带 MCP 时在**同一层**放 \`mcp.json\`，并声明 Agent Plugins schema 和每台服务器的 transport \`type\`：
+
+\`\`\`json
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "docs": {
+      "type": "streamable-http",
+      "url": "https://example.com/mcp"
+    }
+  }
+}
+\`\`\`
+
+\`$plugin-creator\` / \`@plugin-creator\` **仍脚手架兼容布局**：\`.codex-plugin/plugin.json\`、\`.mcp.json\`、\`.app.json\`。这套还支持，没有作废。不要只把 \`.mcp.json\` 改名为 \`mcp.json\`：可移植格式还要给每台服务器写 \`type\`（例如 \`streamable-http\`）。兼容布局里，根目录的 \`.mcp.json\` 只有清单把 \`mcpServers\` 指到 \`./.mcp.json\` 才会被导入，否则会被忽略。
+
+OpenAI 专用展示、已注册 MCP 映射和钩子路径写在根清单的 \`extensions.com.openai\`。这个对象一旦出现，会**整份替换** \`.codex-plugin/plugin.json\` overlay，两套不合并。没有这个对象时，才回退读兼容 overlay。可移植包里，overlay 或 extension 里的 \`skills\` / \`mcpServers\` **改不了、关不掉、也加不了** 根目录已经发现的技能和 MCP。
+
+加 Codex overlay 时，**只有** \`plugin.json\` 放进 \`.codex-plugin/\`。\`skills/\`、\`hooks/\`、\`assets/\`、\`.mcp.json\`、\`.app.json\` 留在插件根。路径一律相对插件根并以 \`./\` 开头。\`app.json\`（没有前导点）不是合法文件名。
+
+公共目录投稿的 ZIP 检查更严：根上还要有 \`.codex-plugin/plugin.json\`、\`.agent-plugin/plugin.json\` 或 \`.claude-plugin/plugin.json\` 之一，只有根目录 \`plugin.json\` 会报 \`plugin_manifest_missing\`。本地 marketplace 测试用可移植根清单即可；要上公共目录，保留一份 overlay。密钥不要写进 \`mcp.json\`。
+
+装进 marketplace 后，CLI 0.154 起先看当前会话的 \`/plugins\`。IDE 扩展没有插件目录。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "plugin.json", "mcp.json"],
+    related: ["plugin-hook-plugin-root", "plugins-vs-skills", "marketplace-source-path-root"],
+    sources: [
+      {
+        label: "OpenAI · Package your plugin",
+        url: "https://learn.chatgpt.com/plugins/build/plugins",
+      },
+      {
+        label: "OpenAI · Plugin submission errors",
+        url: "https://learn.chatgpt.com/plugins/deploy/submission-errors",
+      },
+    ],
+  },
+  {
+    id: "plugin-admin-mcp-desktop",
+    no: 239,
+    title: "Admin 导入带 MCP 的插件只在桌面能用",
+    summary: "工作区从 GitHub 导入的插件，只要声明了 mcp.json、.mcp.json 或内联 MCP，就会标成 Desktop only。CLI 和 IDE 装不上，远程 HTTPS 也不例外。",
+    body: `工作区管理员走 Admin > Plugins > Import marketplace 时，源填仓库 URL（不要带分支或文件夹），Path 填含 \`marketplace.json\` 的目录，不要填文件名。导入成功后，**任何**在 \`mcp.json\`、\`.mcp.json\` 或内联字段里声明了 MCP 的插件都会标成 Desktop only：只在 ChatGPT 桌面里能用，Codex CLI 和 IDE 扩展都跑不了。远程 HTTPS MCP 也一样，不是「只有本地 stdio 才被挡」。
+
+这和本机 \`codex plugin marketplace add\` 不是一条路。本地 / 仓库 marketplace 装上的带 MCP 插件，CLI 仍按 \`[plugins."name@marketplace".mcp_servers.server]\` 管开关和审批。Admin 导入的副本走工作区策略，不读项目 \`.codex/config.toml\` 里的 \`enabled\`，也进不了 CLI 的插件目录。
+
+需要 CLI 用同一份技能+MCP 时：
+
+\`\`\`bash
+codex plugin marketplace add owner/repo --ref main --sparse .agents/plugins --json
+codex plugin add my-plugin@team-plugins
+codex plugin list --json
+\`\`\`
+
+不要指望把 Admin 插件再写进项目 \`[plugins."name@marketplace"] enabled = true\` 来「解锁」CLI。那套键只对本地 marketplace 插件有效。
+
+把已有工作区插件交给这份 GitHub 源管，在 marketplace 条目里加 \`pluginId\`（从该插件 Admin URL 里 \`/admin/plugins/\` 后面那段抄）。它必须和 \`name\`、\`source\` 并列，且插件已在同一工作区：
+
+\`\`\`json
+{
+  "name": "team-tools",
+  "pluginId": "plugin_00000000000000000000000000000000",
+  "source": {
+    "source": "local",
+    "path": "./plugins/team-tools"
+  }
+}
+\`\`\`
+
+接管后更新来自 GitHub，不能再用上传包覆盖；已被别的 GitHub 源管的插件不能再抢。
+
+删掉 marketplace 条目不会删除已导入的工作区副本，只会标成 No longer in source。删整个 marketplace 才会清掉它导入的插件。重连 GitHub 不要先删 marketplace。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["app", "cli"],
+    tags: ["plugins", "企业", "MCP"],
+    related: ["plugin-repo-enabled", "plugin-portable-json", "plugin-mcp-exec-key"],
+    sources: [
+      {
+        label: "OpenAI · Plugin management",
+        url: "https://learn.chatgpt.com/docs/enterprise/plugin-management",
       },
     ],
   },

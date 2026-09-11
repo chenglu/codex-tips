@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-11T04:30:00Z",
+  lastTick: "2026-09-11T05:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "04:30 调用前 $98.30；调用后 $98.29（@lucheng01）。Spend: counts（start_time=2026-09-04T05:30:00Z，共 158 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录插件钩子 PLUGIN_ROOT / PLUGIN_DATA。",
+    "05:00 调用前 $98.28；调用后 $98.27（@lucheng01）。Spend: counts（start_time=2026-09-04T06:00:00Z，共 159 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录可移植 plugin.json / mcp.json type，以及 Admin 导入 MCP 插件 Desktop only。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -248,6 +248,11 @@ export const loopState = {
     "Codex CLI 技巧 2026 AGENTS.md Skill MCP hooks exec worktree plugin PLUGIN_ROOT",
     "site:learn.chatgpt.com hooks plugin-bundled PLUGIN_ROOT PLUGIN_DATA",
     "site:github.com/openai/codex plugin hooks PLUGIN_ROOT cache auto-upgrade",
+    'X: ("Codex CLI" OR #CodexCLI) (plugin OR marketplace OR worktree OR hooks OR AGENTS.md OR exec OR config.toml)',
+    "X news: Codex CLI",
+    "Codex CLI rust-v0.155 rust-v0.156 changelog 2026",
+    "site:learn.chatgpt.com plugin.json mcp.json extensions.com.openai portable Agent Plugins",
+    "Codex CLI 技巧 2026 plugin.json mcp.json Desktop only 可移植 Agent Plugins",
     'X: ("Codex CLI" OR #CodexCLI) (plugin OR marketplace OR worktree OR hooks OR AGENTS.md OR exec OR config.toml)',
     "X news: Codex CLI",
   ],

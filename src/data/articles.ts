@@ -1759,7 +1759,7 @@ export const articles: Article[] = [
     kind: '官方',
     tags: ['plugins', '企业', 'marketplace'],
     summary:
-      '工作区管理员从 GitHub 导入 marketplace.json，默认每日同步。路径填含清单的目录，不要填文件名。GitHub 导入不套用仓库里的 INSTALLED_BY_DEFAULT 等策略，要在 Admin 里给每个插件设安装策略。带 mcp.json 的导入插件会标成 Desktop only，CLI / IDE 用不了。',
+      '工作区管理员从 GitHub 导入 marketplace.json，默认每日同步。路径填含清单的目录，不要填文件名。GitHub 导入不套用仓库里的 INSTALLED_BY_DEFAULT 等策略，要在 Admin 里给每个插件设安装策略。带 mcp.json 的导入插件会标成 Desktop only，CLI / IDE 用不了。把已有工作区插件交给 GitHub 管，在条目里加 pluginId。',
   },
   {
     title: 'Codex CLI × MCP 开始 Raspberry Pi 温湿度监控（MiniViz MCP）',
@@ -1809,7 +1809,7 @@ export const articles: Article[] = [
     kind: '官方',
     tags: ['plugins', 'marketplace', '企业'],
     summary:
-      '官方打包页：用 $plugin-creator 或手写 .codex-plugin/plugin.json。工作区 Publish 只给当前 ChatGPT 工作区角色，不上公共目录；CLI 分发仍走 marketplace。企业用 requirements.toml 的 features.plugin_sharing = false 关掉分享。',
+      '官方打包页：新包用根目录 plugin.json（Agent Plugins schema）和带 type 的 mcp.json。$plugin-creator 仍脚手架 .codex-plugin 兼容布局，不要只把 .mcp.json 改名。extensions.com.openai 会整份替换 overlay。工作区 Publish 不上公共目录；CLI 分发仍走 marketplace。',
   },
   {
     title: 'plugin-creator marketplace JSON spec',
@@ -1820,6 +1820,26 @@ export const articles: Article[] = [
     tags: ['plugins', 'marketplace', 'plugin.json'],
     summary:
       '内置 $plugin-creator 的清单样例。个人 marketplace 在 ~/.agents/plugins/marketplace.json，仓库清单在 .agents/plugins/marketplace.json。同一条 ./plugins/my-plugin 在个人清单解析到 ~/plugins/my-plugin，不是 ~/.agents/plugins 下面。每条都要有 policy.installation、policy.authentication 和 category。',
+  },
+  {
+    title: 'Plugin submission errors',
+    url: 'https://learn.chatgpt.com/plugins/deploy/submission-errors',
+    source: 'ChatGPT Learn',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'plugin.json', '投稿'],
+    summary:
+      '公共目录投稿的错误码对照。ZIP 必须带 .codex-plugin/plugin.json、.agent-plugin/plugin.json 或 .claude-plugin/plugin.json 之一，只有根目录 plugin.json 会报 plugin_manifest_missing。根上的 .mcp.json 只有清单把 mcpServers 指到 ./.mcp.json 才会导入。技能-only 包不能夹带 MCP。',
+  },
+  {
+    title: 'Agent Plugins 1.0 开发教程：Skills＋MCP 跨 Codex、Copilot、VS Code',
+    url: 'https://aistacknav.com/agent-plugins-1-0-skills-mcp-codex-copilot-vscode/',
+    source: 'AI Stack Nav',
+    lang: '中文',
+    kind: '教程',
+    tags: ['plugins', 'plugin.json', 'MCP'],
+    summary:
+      '中文对照：可移植核心是根目录 plugin.json、skills/、mcp.json；钩子和分发仍是各客户端自己的层。Codex / ChatGPT 公共目录还要保留 .codex-plugin overlay。IDE 扩展没有插件目录。不要把密钥写进 mcp.json，也不要把 mcpServers 塞进顶层 plugin.json。',
   },
 ];
 
