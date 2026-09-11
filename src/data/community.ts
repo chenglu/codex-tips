@@ -12,6 +12,16 @@ export type CommunityItem = {
 
 export const community: CommunityItem[] = [
   {
+    title: 'Windows 路径未转义会让整份 config.toml 解析失败，桌面卡在启动页',
+    url: 'https://github.com/openai/codex/issues/37616',
+    source: 'openai/codex#37616',
+    kind: '论坛',
+    date: '2026-08-08',
+    tags: ['MCP', 'Windows', 'TOML', '桌面'],
+    summary:
+      '商店版桌面 26.803 卡在加载页、没有明确报错。双引号里的 Windows 路径把 \\d、\\P 当成非法转义，整份配置加载失败。改成单引号、正斜杠，或把每个反斜杠写成两个。这不是 invalid transport，也不是 MCP 进程本身挂了。',
+  },
+  {
     title: 'Windows 上 MCP stderr 管道堵死，Codex 报 Transport closed',
     url: 'https://github.com/openai/codex/issues/7155',
     source: 'openai/codex#7155',

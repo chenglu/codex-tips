@@ -156,6 +156,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: "codex mcp add sqlcl -- /abs/sql -mcp", meaning: "接 Oracle SQLcl MCP。先 conn -save -savepwd，密码不要写进 config.toml。Java 起得慢就 required = true" },
       { cmd: "stdio MCP stdout", meaning: "只允许一行一个 JSON-RPC；日志打 stderr。stdout 混了横幅会 Transport closed" },
       { cmd: "Windows MCP stderr", meaning: "原生 Windows 上 stderr 太吵会堵约 4KB 管道。cmd /c 重定向到日志文件，不要默认 2>NUL，也不要抄进 WSL" },
+      { cmd: "TOML Windows 路径", meaning: "双引号里反斜杠是转义。路径用单引号或正斜杠，否则整份 config.toml 解析失败，桌面可能卡在启动页" },
       { cmd: "codex mcp login NAME --scopes a,b", meaning: "HTTP MCP 登录时请求范围；逗号分隔；顺序是 CLI、config、广告 scopes_supported" },
       { cmd: "codex mcp add NAME --url … --oauth-client-id", meaning: "预注册 OAuth；回调用无端口 127.0.0.1，不要写 localhost" },
       { cmd: "npx @openai/codex-security scan DIR", meaning: "Security CLI；--output-dir 放仓外；先 --dry-run" },

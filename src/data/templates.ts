@@ -1134,4 +1134,17 @@ startup_timeout_sec = 60
 enabled = true
 `,
   },
+  {
+    id: "toml-windows-path-quotes",
+    title: "Windows MCP 路径用单引号",
+    filename: "~/.codex/config.toml",
+    summary:
+      "TOML 双引号会把反斜杠当转义。Windows 路径用单引号或正斜杠，否则整份配置解析失败，桌面可能卡在启动页。",
+    code: `[mcp_servers.docs]
+command = 'C:\\Users\\you\\mcp-server\\start.ps1'
+args = ["-stdio"]
+startup_timeout_sec = 30
+enabled = true
+`,
+  },
 ];

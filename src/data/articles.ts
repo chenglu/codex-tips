@@ -1881,5 +1881,15 @@ export const articles: Article[] = [
     summary:
       'Oracle 官方把 Codex CLI 接到 SQLcl MCP：先用 conn -save -savepwd 把连接存进 ~/.dbtools，再让 Codex 用绝对路径启动 sql -mcp。密码不要写进 config.toml。后半讲的 Agent Memory 和 LangChain 是应用层，不是 Codex 配置。DEV.to 同文转载。',
   },
+  {
+    title: 'Codex MCP Not Working? Every Windows Fix (2026)',
+    url: 'https://mcp.directory/blog/codex-mcp-windows-fix-guide-2026',
+    source: 'MCP Directory',
+    lang: '英文',
+    kind: '清单',
+    tags: ['MCP', 'Windows', '排错'],
+    summary:
+      '按报错拆 Windows 上 Codex MCP：program not found、TOML 路径转义、超时、项目层配置被桌面忽略、SSE 与 streamable HTTP。0.154 起裸 npx 通常能解析 .cmd，路径仍要用单引号或正斜杠。对照本机 /help，不要把 cmd /c 包装抄进 WSL。',
+  },
 ];
 

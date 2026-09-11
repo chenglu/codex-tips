@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-11T11:06:00Z",
+  lastTick: "2026-09-11T11:38:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "11:06 调用前 $98.14。Spend: counts（start_time=2026-09-04T11:15:00Z，共 256 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录 Windows stderr 管道堵死 stdio MCP。",
+    "11:38 调用前 $98.13。Spend: counts（start_time=2026-09-04T11:50:00Z，共 219 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录 TOML Windows 路径转义。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -331,6 +331,11 @@ export const loopState = {
     "Codex CLI 0.154 0.155 MCP Windows stderr stdout JSON-RPC",
     "Codex CLI 技巧 2026 Windows MCP stderr 管道 Transport closed",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR stderr OR Windows OR worktree OR hooks OR exec)',
+    "X news: Codex CLI",
+    "github.com/openai/codex/issues/37616 TOML Windows path quotes config.toml",
+    "mcp.directory Codex MCP Windows Fix 2026 TOML backslash",
+    "Codex CLI 技巧 2026 Windows 路径 TOML 单引号 config.toml",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR TOML OR Windows OR hooks OR worktree OR exec)',
     "X news: Codex CLI",
   ],
 };

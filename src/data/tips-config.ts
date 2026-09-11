@@ -2730,4 +2730,59 @@ macOS 上同一句 invalid transport 常常是另一件事（例如临时目录�
       },
     ],
   },
+  {
+    id: "toml-windows-path-quotes",
+    no: 253,
+    title: "Windows 路径写进 TOML 要用单引号或正斜杠",
+    summary:
+      "双引号里的反斜杠是转义。未转义的盘符路径会让整份 config.toml 解析失败，商店版桌面卡在启动页、没有明确报错。改用单引号、正斜杠，或把每个反斜杠写成两个。",
+    body: `商店版桌面能开窗口，却一直停在加载页，重装、修复都没用：先看 \`%USERPROFILE%\\.codex\\config.toml\` 里有没有双引号包着的 Windows 路径，不要先清整个 Codex 目录。
+
+TOML 双引号把 \`\\\` 当转义。\`\\n\` 变成换行，\`\\t\` 变成制表符，\`\\d\`、\`\\P\`、\`\\U\` 这类非法序列直接让整份配置加载失败。日志类似：
+
+\`\`\`text
+failed to reload config: C:\\Users\\you\\.codex\\config.toml:150:77:
+missing escaped value, expected b, e, f, n, r, \\, ", x, u, U
+\`\`\`
+
+桌面这边往往没有把这行展示出来，\`config/read\`、插件列表、Windows 沙箱初始化一起卡住，看起来像应用坏了。CLI 用 \`codex --strict-config\` 或 \`codex mcp list\` 会更快暴露同一处语法错误。
+
+三种写法都可以：
+
+\`\`\`toml
+# 推荐：单引号，反斜杠按字面保存
+command = 'C:\\Users\\you\\mcp-server\\start.ps1'
+
+# 正斜杠，Node / PowerShell -File 都认
+command = "C:/Users/you/mcp-server/start.ps1"
+
+# 双引号就必须把每个反斜杠写成两个
+command = "C:\\\\Users\\\\you\\\\mcp-server\\\\start.ps1"
+\`\`\`
+
+不要写 \`command = "C:\\Users\\you\\start.ps1"\` 这种未转义双引号。能交给 \`codex mcp add\` 的服务器，让 CLI 写 TOML，不要手抄资源管理器路径。这和 invalid transport、stderr 管道堵死不是同一件事：配置文件根本没解析成功，MCP 进程还没启动。改完必须彻底退出 ChatGPT / Codex 再开。`,
+    category: "config",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["TOML", "Windows", "MCP", "config.toml"],
+    related: [
+      "debug-config-strict",
+      "desktop-wsl-codex-app-transport",
+      "windows-mcp-stderr-pipe",
+    ],
+    sources: [
+      {
+        label: "openai/codex#37616",
+        url: "https://github.com/openai/codex/issues/37616",
+      },
+      {
+        label: "OpenAI · Configuration reference",
+        url: "https://learn.chatgpt.com/docs/config-file/config-reference",
+      },
+      {
+        label: "MCP Directory · Codex Windows MCP fixes",
+        url: "https://mcp.directory/blog/codex-mcp-windows-fix-guide-2026",
+      },
+    ],
+  },
 ];

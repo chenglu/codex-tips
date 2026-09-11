@@ -2567,7 +2567,7 @@ enabled = true
     related: [
       "mcp-stdio-stdout-jsonrpc",
       "desktop-wsl-codex-app-transport",
-      "mcp-add-and-login",
+      "toml-windows-path-quotes",
     ],
     sources: [
       {
