@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-11T12:00:00Z",
+  lastTick: "2026-09-11T12:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "12:00 调用前 $98.12。Spend: counts（start_time=2026-09-04T12:15:00Z，共 218 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录 HTTP MCP 不要抄 /sse。",
+    "12:30 调用前 $98.10。Spend: counts（start_time=2026-09-04T12:50:00Z，共 256 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录 startup_timeout_sec。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -341,6 +341,14 @@ export const loopState = {
     "learn.chatgpt.com docs extend mcp Streamable HTTP stdio",
     "Codex CLI 技巧 2026 HTTP MCP sse mcp-remote",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR HTTP OR SSE OR hooks OR worktree OR exec)',
+    "X news: Codex CLI",
+    "github.com/openai/codex/issues/2905 MCP startup_timeout_sec default 10",
+    "github.com/openai/codex/issues/29396 mcp_servers.codex_apps invalid transport",
+    "learn.chatgpt.com docs extend mcp startup_timeout_sec tool_timeout_sec",
+    "brightdata.com best MCP servers Codex startup_timeout_sec",
+    "tembo.io blog Codex CLI MCP startup_timeout_sec",
+    "Codex CLI 技巧 2026 MCP 启动超时 npx uvx",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR hooks OR skills OR worktree OR exec OR config.toml OR AGENTS.md)',
     "X news: Codex CLI",
   ],
 };

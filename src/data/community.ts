@@ -12,6 +12,26 @@ export type CommunityItem = {
 
 export const community: CommunityItem[] = [
   {
+    title: '冷 npx / uvx 经常超过 MCP 默认 10 秒启动超时',
+    url: 'https://github.com/openai/codex/issues/2905',
+    source: 'openai/codex#2905',
+    kind: '论坛',
+    date: '2025-08-29',
+    tags: ['MCP', 'startup_timeout_sec', 'Windows'],
+    summary:
+      'Windows 上 Context7 / Playwright 冷启动报 request timed out。维护者在 rust-v0.31.0 合入可配置超时后关单。现行键是每台服务器的 startup_timeout_sec，默认 10 秒；startup_timeout_ms 只是毫秒别名。先预热 npx 缓存，再把超时提到 30–60。',
+  },
+  {
+    title: 'TUI 建议给 codex_apps 写 startup_timeout_sec，照做会 invalid transport',
+    url: 'https://github.com/openai/codex/issues/29396',
+    source: 'openai/codex#29396',
+    kind: '论坛',
+    date: '2026-06-22',
+    tags: ['MCP', 'codex_apps', 'config.toml'],
+    summary:
+      '主机自带的 Apps 连接器超时后，TUI 仍套用用户 MCP 的修法，让人写 [mcp_servers.codex_apps]。那台没有用户可配的 transport，config 会直接加载失败。这不是桌面 WSL 注入的残缺 codex_app，也不是给自己的 npx 服务器加超时。',
+  },
+  {
     title: 'Codex 远程 MCP 只支持 Streamable HTTP，/sse 会在 initialize 时 404',
     url: 'https://github.com/openai/codex/issues/5634',
     source: 'openai/codex#5634',

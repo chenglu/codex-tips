@@ -251,7 +251,7 @@ enabled_tools = ["list_issues", "create_issue", "get_issue"]
         url: "https://learn.chatgpt.com/docs/extend/mcp",
       },
     ],
-    related: ["mcp-add-and-login", "macos-mcp-bare-command", "mcp-approval-and-output-limit"],
+    related: ["mcp-add-and-login", "mcp-startup-timeout-sec", "mcp-approval-and-output-limit"],
   },
   {
     id: "subagents-when-asked",
@@ -2479,7 +2479,7 @@ Java 起 MCP 经常超过可选服务器默认 1 秒宽限。\`codex exec\` 要�
     level: "intermediate",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "Oracle", "SQLcl"],
-    related: ["mcp-add-and-login", "macos-mcp-bare-command", "exec-mcp-optional-grace"],
+    related: ["mcp-add-and-login", "mcp-startup-timeout-sec", "exec-mcp-optional-grace"],
     sources: [
       {
         label: "Oracle Developers · Codex + SQLcl MCP",
@@ -2632,6 +2632,47 @@ Linear 官方就是 \`https://mcp.linear.app/mcp\`。桌面和 IDE 添加服务�
       {
         label: "OpenAI · Use Codex in Linear",
         url: "https://learn.chatgpt.com/docs/third-party/linear",
+      },
+    ],
+  },
+  {
+    id: "mcp-startup-timeout-sec",
+    no: 255,
+    title: "冷 npx / uvx 先把 startup_timeout_sec 提到 30–60",
+    summary:
+      "每台 MCP 启动握手默认 10 秒。冷缓存经常超时，失败很安静：像没装，或 request timed out。这不是 Transport closed，也不是 exec 那条 1 秒宽限。",
+    body: `官方给每台服务器 \`startup_timeout_sec\` 默认 **10** 秒，覆盖 initialize 和第一轮 \`tools/list\`。冷的 \`npx -y\`、\`uvx\`、Java（SQLcl）经常超过这个预算：要拉包、过 Defender，有时还要编译。失败常常不响：\`/mcp\` 或 \`codex mcp list\` 里名字在、工具 0；日志写 aggregating 0 tools；或 \`MCP client for docs timed out after 10 seconds\`。先加超时，再换服务器。
+
+\`\`\`toml
+[mcp_servers.docs]
+command = "npx"
+args = ["-y", "@example/docs-mcp"]
+startup_timeout_sec = 60
+enabled = true
+\`\`\`
+
+Windows 冷启动建议 60；本机已经装过的包 30 往往够。改完必须**新开会话**。终端先跑同一条 \`npx\` / \`uvx\` 命令预热缓存，再开 Codex。
+
+\`tool_timeout_sec\` 是**调用工具**的超时，默认 60，不是启动握手。旧文里的 \`startup_timeout_ms\` 只是毫秒别名，现行键写秒。不要把 \`required = true\` 当成「再多等一会儿」：必达服务器失败会让 Codex 起不来。exec 里可选服务器还有顶层 \`mcp_optional_startup_grace_ms\`（默认 1 秒），那是另一条宽限，见 exec 可选 MCP 那条。
+
+握手已经成功、随后 \`Transport closed\`，查 stdout 混了非 JSON 或 Windows stderr 堵管道，不是这条。TUI 若建议给主机自带的 \`codex_apps\` 写 \`[mcp_servers.codex_apps]\` 来抬超时，不要照做：那台没有用户可配的 transport，只会 invalid transport。桌面 WSL 注入的残缺 \`codex_app\` 是另一条坑。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "startup_timeout_sec", "npx", "超时"],
+    related: ["mcp-required-and-allowlist", "exec-mcp-optional-grace", "sqlcl-oracle-mcp"],
+    sources: [
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+      {
+        label: "openai/codex#2905",
+        url: "https://github.com/openai/codex/issues/2905",
+      },
+      {
+        label: "openai/codex#29396",
+        url: "https://github.com/openai/codex/issues/29396",
       },
     ],
   },

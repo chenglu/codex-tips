@@ -1891,5 +1891,25 @@ export const articles: Article[] = [
     summary:
       '按报错拆 Windows 上 Codex MCP：program not found、TOML 路径转义、超时、项目层配置被桌面忽略、SSE 与 streamable HTTP。0.154 起裸 npx 通常能解析 .cmd，路径仍要用单引号或正斜杠。对照本机 /help，不要把 cmd /c 包装抄进 WSL。',
   },
+  {
+    title: 'The 10 Best MCP Servers for OpenAI Codex in 2026',
+    url: 'https://brightdata.com/blog/ai/best-mcp-servers-for-codex',
+    source: 'Bright Data',
+    lang: '英文',
+    kind: '清单',
+    tags: ['MCP', 'startup_timeout_sec', '清单'],
+    summary:
+      '真正有用的是开头那两行默认值：启动 10 秒、工具调用 60 秒。冷 npx / uvx 超时后会话会 aggregating 0 tools，看起来像没装。先把 startup_timeout_sec 提到 30–60，用 /mcp 一台一台确认。后半的服务器推荐按本机需求筛选，不要整表抄进 config.toml。',
+  },
+  {
+    title: 'Codex CLI MCP: Setup + Best Servers (2026)',
+    url: 'https://www.tembo.io/blog/codex-cli-mcp',
+    source: 'Tembo',
+    lang: '英文',
+    kind: '教程',
+    tags: ['MCP', 'config.toml', '超时'],
+    summary:
+      '从 codex mcp add 讲到 TOML：stdio 用 command，远程用 url。把 startup_timeout_sec 和 tool_timeout_sec 拆开，并提醒项目层配置会盖用户层。远程登录仍要 mcp login；npx -y 每次拉最新包，团队配置应钉版本。',
+  },
 ];
 

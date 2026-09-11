@@ -1616,7 +1616,7 @@ codex exec --sandbox read-only "列出已连接 MCP 工具名，不要调用写�
     level: "advanced",
     surfaces: ["cli", "ci"],
     tags: ["MCP", "exec", "mcp_optional_startup_grace_ms"],
-    related: ["mcp-required-and-allowlist", "codex-exec-basics", "sqlcl-oracle-mcp"],
+    related: ["mcp-required-and-allowlist", "mcp-startup-timeout-sec", "sqlcl-oracle-mcp"],
     sources: [
       {
         label: "OpenAI · Model Context Protocol",
