@@ -12,6 +12,16 @@ export type CommunityItem = {
 
 export const community: CommunityItem[] = [
   {
+    title: '桌面写回 config.toml 可能删掉用户登记的 MCP',
+    url: 'https://github.com/openai/codex/issues/36465',
+    source: 'openai/codex#36465',
+    kind: '论坛',
+    date: '2026-09-11',
+    tags: ['MCP', '桌面', 'config.toml'],
+    summary:
+      '开放 bug。桌面改设置、插件或项目信任后，用户 ~/.codex/config.toml 里的 mcp_servers 整表可能消失。项目只写 enabled = true 会 invalid transport。权宜是项目里写全 command 或 url，并自己留备份。不要清空家目录。这不是内部 codex_app。',
+  },
+  {
     title: '桌面 Figma MCP 换账号要 mcp logout 再 login',
     url: 'https://community.openai.com/t/codex-app-cannot-re-authenticate-figma-mcp-old-credentials-are-always-reused-with-no-way-to-switch-account/1373470',
     source: 'OpenAI Developer Community',

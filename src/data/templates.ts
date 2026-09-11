@@ -1255,4 +1255,16 @@ url = "https://mcp.figma.com/mcp"
 enabled = true
 `,
   },
+  {
+    id: "desktop-mcp-config-clobber",
+    title: "项目层写全 MCP 传输",
+    filename: ".codex/config.toml",
+    summary:
+      "不要只写 enabled = true。用户层表被桌面写丢时，残缺覆盖会 invalid transport。密钥用变量名。",
+    code: `[mcp_servers.docs]
+url = "https://mcp.example.com/mcp"
+bearer_token_env_var = "DOCS_MCP_TOKEN"
+enabled = true
+`,
+  },
 ];

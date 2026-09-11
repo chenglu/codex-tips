@@ -2322,12 +2322,14 @@ cwd = "/home/you/src/app"
 enabled = true
 \`\`\`
 
-仓库里跑本地二进制、\`cwd = "."\` 的服务器不要拷成全局项：它会在别人的机器上用错目录，也绕开项目信任边界。这种只给 CLI 用，或等桌面真正加载项目层。HTTP MCP 拷用户层相对安全。网页 Work 仍然不读 \`~/.codex\`。`,
+仓库里跑本地二进制、\`cwd = "."\` 的服务器不要拷成全局项：它会在别人的机器上用错目录，也绕开项目信任边界。这种只给 CLI 用，或等桌面真正加载项目层。HTTP MCP 拷用户层相对安全。网页 Work 仍然不读 \`~/.codex\`。
+
+反过来：桌面改设置、插件或项目信任时，有时会把用户层 \`mcp_servers\` 整表写丢。项目里如果只写了 \`enabled = true\`、没有 \`command\` 或 \`url\`，线程会直接 invalid transport。那条权宜见「桌面写丢用户 MCP」。`,
     category: "mcp",
     level: "intermediate",
     surfaces: ["app", "cli", "ide"],
     tags: ["MCP", "桌面", "config.toml"],
-    related: ["mcp-host-split", "desktop-wsl-codex-app-transport", "desktop-wsl-user-mcp"],
+    related: ["mcp-host-split", "desktop-mcp-config-clobber", "desktop-wsl-codex-app-transport"],
     sources: [
       {
         label: "openai/codex#13025",
@@ -2970,6 +2972,53 @@ Figma 帮助中心用名 \`figma-desktop\`。本机 HTTP 表用下划线更稳�
       {
         label: "Figma Help · Codex and Figma",
         url: "https://help.figma.com/hc/en-us/articles/39888629089175-Codex-and-Figma-Set-up-the-MCP-server",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "desktop-mcp-config-clobber",
+    no: 262,
+    title: "桌面写丢用户 MCP 时，项目层要写完整传输，不要只写 enabled",
+    summary:
+      "开放 bug：桌面改设置、插件或信任，可能把 ~/.codex 里的 mcp_servers 整表写没。项目只剩 enabled = true 会 invalid transport。权宜是项目里写全 command 或 url，并自己留备份。",
+    body: `这是开放缺陷，不是功能。Windows 桌面、以及 macOS 桌面连远程 Linux 主机，都有人复现：用户 \`~/.codex/config.toml\` 被桌面原子写回之后，原来的 \`[mcp_servers.docs]\` 整张表消失。上游 MCP 还活着，环境变量也还在，但：
+
+- \`codex mcp get docs\` 变成 No MCP server named docs found
+- 当前任务看不到这台服务器的工具
+- 项目 \`.codex/config.toml\` 如果只写了 \`enabled = true\` 去覆盖用户层定义，加载器会报 invalid transport in \`mcp_servers.docs\`，桌面甚至开不了新任务
+
+先和内部 \`codex_app\` 那条分流。报错名字是 \`codex_app\`、而且开了 WSL 代理，走「桌面开 WSL 报 invalid transport」那条。这里说的是**你自己登记的服务器**被写丢。
+
+权宜（社区在隔离家目录里对 CLI 0.153.4 / 0.154.0 验证过）：
+
+1. 从备份恢复用户 \`config.toml\`，不要清空 \`~/.codex\` 来「重装」。
+2. 受信任项目里不要只写开关。把完整传输写进项目层，这样用户层表没了也不会变成无 \`command\` / 无 \`url\` 的残表：
+
+\`\`\`toml
+[mcp_servers.docs]
+url = "https://mcp.example.com/mcp"
+bearer_token_env_var = "DOCS_MCP_TOKEN"
+enabled = true
+\`\`\`
+
+stdio 同样要写全 \`command\`、\`args\`、绝对 \`cwd\`。密钥继续用变量名，不要写进仓库。
+
+桌面线程经常仍只读用户层。项目里写全传输能挡住 invalid transport，但桌面要用工具，还是得把用户 \`config.toml\` 找回来，然后彻底退出再开新线程。网页 Work 不读这份文件。
+
+不要把「桌面开着时 CLI add、过一会儿设置页写回」当成已定位的唯一触发器；维护者还没钉死是哪一次写入。先备份，再避免项目层只有 \`enabled\`。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["app", "cli"],
+    tags: ["MCP", "桌面", "config.toml"],
+    related: ["desktop-project-mcp", "desktop-wsl-codex-app-transport", "three-layer-config"],
+    sources: [
+      {
+        label: "openai/codex#36465",
+        url: "https://github.com/openai/codex/issues/36465",
       },
       {
         label: "OpenAI · Model Context Protocol",

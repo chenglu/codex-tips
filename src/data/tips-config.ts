@@ -2693,6 +2693,8 @@ runCodexInWindowsSubsystemForLinux = true
 
 用户、项目、WSL 家目录的 \`config.toml\` 里经常根本没有 \`[mcp_servers.codex_app]\`。桌面在 \`thread/start\` 和 \`thread/resume\` 里注入内部服务器 \`codex_app\`（来自捆绑插件 \`codex-app-tools\`）。Windows 原生路径会带上 \`cmd.exe\` 启动块；WSL 路径常常只剩下 \`enabled\` 或 \`enabled_tools\`。加载器按「没有 \`command\` 也没有 \`url\`」判 invalid transport，整条线程起不来。
 
+同一句 invalid transport，如果名字不是 \`codex_app\`，而是你自己的服务器，先看用户 \`config.toml\` 里那张表是不是被桌面写丢了、项目层是否只剩 \`enabled = true\`。那是「桌面写丢用户 MCP」那条，不要按 WSL 权宜去关代理。
+
 不要做这些：
 
 - 不要在 WSL 侧 config 手抄 \`command = "cmd.exe"\` 和 \`.cmd\` 启动脚本。Linux app-server 解析不了这条 Windows 传输。
@@ -2714,7 +2716,7 @@ macOS 上同一句 invalid transport 常常是另一件事（例如临时目录�
     level: "intermediate",
     surfaces: ["app", "cli", "ide"],
     tags: ["Windows", "WSL", "MCP", "桌面"],
-    related: ["windows-app-wsl-home-split", "desktop-wsl-user-mcp", "desktop-project-mcp"],
+    related: ["windows-app-wsl-home-split", "desktop-wsl-user-mcp", "desktop-mcp-config-clobber"],
     sources: [
       {
         label: "openai/codex#40819",
