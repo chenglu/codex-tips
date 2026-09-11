@@ -3058,7 +3058,7 @@ Windows 11 上 \`npx\` 直接 spawn 失败时，Chrome 官方文档才写 \`comm
     level: "starter",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "Chrome", "stdio"],
-    related: ["mcp-add-and-login", "mcp-approval-and-output-limit", "cleanup-playwright-chrome"],
+    related: ["mcp-add-and-login", "playwright-mcp", "cleanup-playwright-chrome"],
     sources: [
       {
         label: "Chrome · DevTools for agents",
@@ -3067,6 +3067,67 @@ Windows 11 上 \`npx\` 直接 spawn 失败时，Chrome 官方文档才写 \`comm
       {
         label: "ChromeDevTools/chrome-devtools-mcp",
         url: "https://github.com/ChromeDevTools/chrome-devtools-mcp",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "playwright-mcp",
+    no: 264,
+    title: "Playwright MCP 用官方 @playwright/mcp stdio，不要抄 Claude JSON",
+    summary:
+      "CLI：codex mcp add playwright -- npx -y @playwright/mcp@latest。包名是 @playwright/mcp，不是 executeautomation 那套。沙箱加 --headless --isolated。关掉 browser_run_code_unsafe。缺浏览器先 npx playwright install chromium。",
+    body: `官方给 Codex 的安装是 **stdio** 包。CLI 要把命令写在 \`--\` 后面，否则 \`npx\` 会被当成 add 的参数：
+
+\`\`\`bash
+codex mcp add playwright -- npx -y @playwright/mcp@latest
+\`\`\`
+
+Playwright 文档里那行省略了 \`--\`。\`codex mcp get playwright --json\` 应看到 \`transport.type\` 是 stdio、命令是 \`npx\`、参数里是 \`@playwright/mcp@latest\`。需要 Node.js 20+。只 add 成功不会自动开浏览器；第一次调用需要浏览器的工具时才会拉起。
+
+不要做这些：
+
+- 不要把 Claude / Cursor 的 \`mcpServers\` JSON 贴进 Codex。Codex 写 \`~/.codex/config.toml\`。
+- 不要抄 \`@executeautomation/playwright-mcp-server\` 或其它第三方 Playwright MCP 包名。官方包是 \`@playwright/mcp\`。
+- 不要和 Chrome DevTools MCP、内置 Computer Use / Browser 混成一套。这台管跨浏览器 E2E 和 accessibility snapshot。
+- 不要给它 \`required = true\` 挂在全局。用完会留下无头浏览器，见残留进程那条。
+- 不要给这台 stdio 再写 \`--port\` 当远程。Codex 远程只要 Streamable HTTP；已经在跑的服务才用 \`url = "http://127.0.0.1:8931/mcp"\`，不要抄 \`/sse\`。
+- 不要把 \`--extension\` 当成默认路径。那要先装 Playwright 浏览器扩展，而且只连已打开的 Edge / Chrome。
+
+冷启动 \`npx\` 常超过默认 10 秒，把 \`startup_timeout_sec\` 提到 20。旧文里的 \`startup_timeout_ms\` 只是毫秒别名。沙箱或无显示环境把 \`--headless\`、\`--isolated\` 写进 \`args\`；默认可视窗口在 Codex 沙箱里打不开。并发客户端不要共用同一份持久 profile。
+
+报 \`"chrome" executable not found\` 时，先在同一环境跑 \`npx playwright install chromium\`，不要默认假设系统已经装了 Chrome。这不是「桌面忽略已配置 MCP」的已确认修法。有人用 \`PLAYWRIGHT_BROWSERS_PATH\` 把浏览器缓存钉死；stdio 的 \`env\` 是字面量，要从 Codex 进程转发才写 \`env_vars\`。
+
+官方工具表里有高风险的 \`browser_run_code_unsafe\`：在 Playwright 服务进程里跑任意脚本，等价于远程代码执行。默认关掉：
+
+\`\`\`toml
+[mcp_servers.playwright]
+command = "npx"
+args = ["-y", "@playwright/mcp@latest"]
+startup_timeout_sec = 20
+disabled_tools = ["browser_run_code_unsafe"]
+enabled = true
+\`\`\`
+
+中文教程里的服务器级 \`approval_mode = "prompt"\` 不是 Codex 现行键。服务器用 \`default_tools_approval_mode\`；真要开这个工具，再给它单独写 \`[mcp_servers.playwright.tools.browser_run_code_unsafe]\` 的 \`approval_mode = "approve"\`。
+
+Playwright 另有 \`playwright-cli\` + skills 路径，那是 shell 命令，不是这台 MCP。不要两套都 \`required = true\`。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Playwright", "stdio"],
+    related: ["chrome-devtools-mcp", "cleanup-playwright-chrome", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "Playwright · Other clients (Codex)",
+        url: "https://playwright.dev/mcp/clients/other-clients",
+      },
+      {
+        label: "microsoft/playwright-mcp",
+        url: "https://github.com/microsoft/playwright-mcp",
       },
       {
         label: "OpenAI · Model Context Protocol",

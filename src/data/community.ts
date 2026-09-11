@@ -12,6 +12,16 @@ export type CommunityItem = {
 
 export const community: CommunityItem[] = [
   {
+    title: 'Playwright MCP 报 chrome executable not found 时先装 Chromium',
+    url: 'https://github.com/openai/codex/issues/16696',
+    source: 'openai/codex#16696',
+    kind: '论坛',
+    date: '2026-04-03',
+    tags: ['MCP', 'Playwright', 'Chrome'],
+    summary:
+      '标题写成桌面忽略已配置的 Playwright MCP，但复现后能跑通的步骤是 npm 装包再 npx playwright install chromium。缺浏览器二进制时不要假设系统 Chrome。--extension 是另一条路径，要装 Playwright 扩展，不是默认配置。',
+  },
+  {
     title: '桌面写回 config.toml 可能删掉用户登记的 MCP',
     url: 'https://github.com/openai/codex/issues/36465',
     source: 'openai/codex#36465',

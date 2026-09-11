@@ -856,7 +856,7 @@ Codex 已被报告并打过补丁。你仍应：
     level: "intermediate",
     surfaces: ["app", "cli"],
     tags: ["Playwright", "Chrome", "MCP", "排错"],
-    related: ["mcp-required-and-allowlist", "chrome-devtools-mcp", "session-hygiene"],
+    related: ["playwright-mcp", "chrome-devtools-mcp", "mcp-required-and-allowlist"],
     sources: [
       {
         label: "openai/codex #28352",

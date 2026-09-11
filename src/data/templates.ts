@@ -1280,4 +1280,18 @@ startup_timeout_sec = 20
 enabled = true
 `,
   },
+  {
+    id: "playwright-mcp",
+    title: "Playwright MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方是 stdio 包 @playwright/mcp。冷 npx 把 startup_timeout_sec 提到 20。沙箱加 --headless --isolated。默认关掉 browser_run_code_unsafe。",
+    code: `[mcp_servers.playwright]
+command = "npx"
+args = ["-y", "@playwright/mcp@latest"]
+startup_timeout_sec = 20
+disabled_tools = ["browser_run_code_unsafe"]
+enabled = true
+`,
+  },
 ];

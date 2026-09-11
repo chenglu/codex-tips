@@ -1991,5 +1991,35 @@ export const articles: Article[] = [
     summary:
       '按 Codex 的 add / get --json / list 核对：传输必须是 stdio，命令是 npx。建议带 -y，避免首次 npx 交互卡住启动。包参数写在包名后面。已经打开的会话要重启才加载。',
   },
+  {
+    title: 'Other Clients',
+    url: 'https://playwright.dev/mcp/clients/other-clients',
+    source: 'Playwright',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Playwright', 'stdio'],
+    summary:
+      '官方给 Codex 的安装是 codex mcp add playwright，命令用 npx，包名 @playwright/mcp@latest。文档示例省略了 --；Codex 习惯把 npx 写在 -- 后面。配置进 ~/.codex/config.toml 的 [mcp_servers.playwright]，不要贴 Claude 的 mcpServers JSON。',
+  },
+  {
+    title: 'microsoft/playwright-mcp',
+    url: 'https://github.com/microsoft/playwright-mcp',
+    source: 'microsoft/playwright-mcp',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Playwright', 'stdio'],
+    summary:
+      'stdio 包 @playwright/mcp。默认可视窗口；沙箱加 --headless / --isolated。--extension 要先装浏览器扩展。工具表里的 browser_run_code_unsafe 标注为 RCE-equivalent。远程另开 --port 时走 /mcp，不要抄 /sse。',
+  },
+  {
+    title: 'Playwright MCP：让 Claude、Codex、Cursor 控制浏览器',
+    url: 'https://eastondev.com/blog/zh/posts/ai/20260904-playwright-mcp-browser-automation-claude-codex-cursor/',
+    source: 'Easton',
+    lang: '中文',
+    kind: '教程',
+    tags: ['MCP', 'Playwright', 'disabled_tools'],
+    summary:
+      '中文把三种客户端的官方包名写清楚，并标出 browser_run_code_unsafe 的风险。Codex 示例里的服务器级 approval_mode 不是现行键，应写成 default_tools_approval_mode，或用 disabled_tools 直接关掉。安装仍以 Playwright 给 Codex 的 stdio 示例为准。',
+  },
 ];
 
