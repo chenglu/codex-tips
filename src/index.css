@@ -410,6 +410,14 @@ pre {
   border: 1px solid var(--line);
   padding: 1px 7px;
   color: var(--muted);
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+}
+
+.chip.is-on {
+  border-color: var(--ink);
+  color: var(--ink);
 }
 
 .chip.level-starter {
@@ -717,6 +725,43 @@ pre {
   padding: 4px 0 4px 14px;
   color: var(--muted);
   margin: 18px 0 28px;
+}
+
+.chip-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.feed {
+  display: grid;
+  gap: 12px;
+}
+
+.feed-item {
+  display: block;
+  border: 1px solid var(--line);
+  padding: 18px 18px 16px;
+  text-decoration: none;
+  background: color-mix(in srgb, var(--paper) 70%, transparent);
+}
+
+.feed-item:hover {
+  border-color: var(--copper);
+}
+
+.feed-item h3 {
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 400;
+  margin: 8px 0;
+  line-height: 1.2;
+}
+
+.feed-item p {
+  margin: 0;
+  color: var(--muted);
 }
 
 @media (max-width: 960px) {

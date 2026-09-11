@@ -2,8 +2,10 @@ import { useEffect, useState } from "react";
 import { SearchModal } from "./components/SearchModal";
 import { href, parseHash, type Route } from "./lib/routes";
 import { AboutPage } from "./pages/AboutPage";
+import { ArticlesPage } from "./pages/ArticlesPage";
 import { BrowsePage } from "./pages/BrowsePage";
 import { CheatsheetPage } from "./pages/CheatsheetPage";
+import { CommunityPage } from "./pages/CommunityPage";
 import { HomePage } from "./pages/HomePage";
 import { TemplatesPage } from "./pages/TemplatesPage";
 import { TipPage } from "./pages/TipPage";
@@ -11,15 +13,14 @@ import { TipPage } from "./pages/TipPage";
 function useHashRoute(): Route {
   const [route, setRoute] = useState<Route>(() => parseHash(window.location.hash));
   useEffect(() => {
-    const onChange = () => setRoute(parseHash(window.location.hash));
-    window.addEventListener("hashchange", onHashSafe);
-    function onHashSafe() {
-      onChange();
+    const onChange = () => {
+      setRoute(parseHash(window.location.hash));
       if (parseHash(window.location.hash).name !== "browse") {
         window.scrollTo(0, 0);
       }
-    }
-    return () => window.removeEventListener("hashchange", onHashSafe);
+    };
+    window.addEventListener("hashchange", onChange);
+    return () => window.removeEventListener("hashchange", onChange);
   }, []);
   return route;
 }
@@ -92,6 +93,18 @@ export function App() {
               模板
             </a>
             <a
+              className={navActive(route, "articles") ? "is-active" : undefined}
+              href={href({ name: "articles" })}
+            >
+              文章
+            </a>
+            <a
+              className={navActive(route, "community") ? "is-active" : undefined}
+              href={href({ name: "community" })}
+            >
+              社区
+            </a>
+            <a
               className={navActive(route, "about") ? "is-active" : undefined}
               href={href({ name: "about" })}
             >
@@ -119,6 +132,8 @@ export function App() {
         {route.name === "tip" && <TipPage id={route.id} />}
         {route.name === "cheatsheet" && <CheatsheetPage />}
         {route.name === "templates" && <TemplatesPage id={route.id} />}
+        {route.name === "articles" && <ArticlesPage />}
+        {route.name === "community" && <CommunityPage />}
         {route.name === "about" && <AboutPage />}
 
         <footer className="footer">

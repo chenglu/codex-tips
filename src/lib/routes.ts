@@ -4,6 +4,8 @@ export type Route =
   | { name: "tip"; id: string }
   | { name: "cheatsheet" }
   | { name: "templates"; id?: string }
+  | { name: "articles" }
+  | { name: "community" }
   | { name: "about" };
 
 export function parseHash(hash: string): Route {
@@ -16,6 +18,8 @@ export function parseHash(hash: string): Route {
   if (parts[0] === "tips") return { name: "browse", search };
   if (parts[0] === "cheatsheet") return { name: "cheatsheet" };
   if (parts[0] === "templates") return { name: "templates", id: parts[1] };
+  if (parts[0] === "articles") return { name: "articles" };
+  if (parts[0] === "community") return { name: "community" };
   if (parts[0] === "about") return { name: "about" };
   return { name: "home" };
 }
@@ -32,6 +36,10 @@ export function href(route: Route): string {
       return "#/cheatsheet";
     case "templates":
       return route.id ? `#/templates/${route.id}` : "#/templates";
+    case "articles":
+      return "#/articles";
+    case "community":
+      return "#/community";
     case "about":
       return "#/about";
   }

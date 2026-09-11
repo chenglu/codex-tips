@@ -29,7 +29,7 @@ export const coreTips: Tip[] = [
         url: "https://developers.openai.com/codex/learn/best-practices",
       },
     ],
-    related: ["four-part-prompt", "agents-md-readme", "repeat-becomes-skill"],
+    related: ["four-part-prompt", "agents-md-readme", "repeat-becomes-skill", "agents-md-as-index"],
   },
   {
     id: "five-surfaces",
@@ -39,7 +39,7 @@ export const coreTips: Tip[] = [
     body: `同一套 GPT-5.x-Codex、同一套 \`config.toml\` 和 \`AGENTS.md\`，五个入口解决不同形状的工作：
 
 - **CLI**：离 Git、测试、日志最近，适合脚本和确定性仓库操作
-- **桌面 App**：多线程、worktree、定时任务、审 diff
+- **桌面 App**：多线程、worktree、定时任务、审 diff；Linux 预览有独立安装包，Computer Use 还没有
 - **IDE 扩展**：改-编-测闭环，适合贴着编辑器改代码
 - **Cloud**：异步、隔离环境、Best-of-N
 - **浏览器扩展**：已登录站点上的浏览器工作流
@@ -88,7 +88,7 @@ Plan 模式可以单独提高：\`plan_mode_reasoning_effort = "high"\`，实现
         url: "https://developers.openai.com/codex/config-reference",
       },
     ],
-    related: ["plan-first", "status-watch-tokens"],
+    related: ["plan-first", "status-watch-tokens", "model-reasoning-summary"],
   },
   {
     id: "dont-watch-every-step",
@@ -245,7 +245,10 @@ Agent 必须能看见构建、测试、类型检查的真实输出，才能闭�
     summary: "CLI 的 -i 可以在第一条提示里附上图片。设计稿、报错弹窗、产品草图都能直接当规格。",
     body: `\`\`\`bash
 codex -i screenshot.png "按这张图做页面。约束：只用现有设计 token，不要引入新的 UI 库。"
+codex --image before.png,after.png "对比这两张，只列回归，不要改行为。"
 \`\`\`
+
+多图用逗号，或重复 \`--image\`。IDE 里按住 Shift 再把图片拖进合成器，否则编辑器会抢走 drop。
 
 适合：
 
@@ -259,6 +262,10 @@ codex -i screenshot.png "按这张图做页面。约束：只用现有设计 tok
     surfaces: ["cli", "app"],
     tags: ["图片", "UI", "-i"],
     sources: [
+      {
+        label: "OpenAI · Image inputs",
+        url: "https://learn.chatgpt.com/docs/image-inputs",
+      },
       {
         label: "Codex CLI Cheat Sheet",
         url: "https://www.agenticcodingweekly.com/p/codex-cli-cheat-sheet",
@@ -317,7 +324,7 @@ codex -i screenshot.png "按这张图做页面。约束：只用现有设计 tok
         url: "https://developers.openai.com/codex/learn/best-practices",
       },
     ],
-    related: ["interview-first", "pick-reasoning-effort"],
+    related: ["interview-first", "pick-reasoning-effort", "update-plan-opt-in"],
   },
   {
     id: "ask-tradeoffs",
@@ -565,6 +572,38 @@ project_doc_fallback_filenames = ["TEAM_GUIDE.md", ".agents.md"]
         url: "https://developers.openai.com/codex/learn/best-practices",
       },
     ],
+    related: ["agents-md-as-index", "model-instructions-file"],
+  },
+  {
+    id: "agents-md-as-index",
+    no: 95,
+    title: "AGENTS.md 只当目录，细节放 docs/index.md",
+    summary: "主文件只教怎么找上下文。架构、领域和跨目录概念放到带 index.md 和 @tag 的文档树。",
+    body: `\`AGENTS.md\` 适合当入口，不适合当百科。社区里一套可执行的拆法：
+
+1. \`AGENTS.md\` 只写导航：先搜哪、必读哪份、完成后要不要回写文档
+2. 结构化说明进 \`docs/\`，每个有意义的目录放 \`index.md\`，用一两句话指向子页
+3. 跨目录概念用 \`@tag:auth-bootstrap\` 这类记号同时标在文档和代码注释里
+4. 用一份短的 \`docs/tags.md\` 给每个 tag 一个含义，避免同名乱飘
+
+这仍然是 Markdown + 文本搜索，不依赖某家 IDE 的向量索引。Codex、人类和 \`rg\` 走同一层。
+
+不要把临时环境状态写进这棵树。瞬时事实让它开工时自己探测。`,
+    category: "agents-md",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["AGENTS.md", "文档", "检索"],
+    related: ["keep-agents-md-short", "project-doc-max-bytes"],
+    sources: [
+      {
+        label: "OpenAI Community · repo-native context pattern",
+        url: "https://community.openai.com/t/a-repo-native-context-pattern-for-codex-agents-md-index-md-searchable-tags/1386068",
+      },
+      {
+        label: "mpashka/llm-wiki-tags",
+        url: "https://github.com/mpashka/llm-wiki-tags",
+      },
+    ],
   },
   {
     id: "retrospective-into-agents",
@@ -605,24 +644,28 @@ project_doc_fallback_filenames = ["TEAM_GUIDE.md", ".agents.md"]
 
 写规则时：说明要抓住的行为、安全路径或例外。格式和 lint 交给 CI，不要占审查配额。
 
-OpenAI 内部对 100% 的 PR 开 Codex 审查。你可以自动审，或在评论里 \`@Codex\` 触发。`,
+GitHub 评论必须写精确触发词 \`@codex review\`，不要只写 \`@codex\`。仓库级规则放根 \`AGENTS.md\`，服务特有规则放靠近代码的嵌套文件。`,
     category: "agents-md",
     level: "intermediate",
     surfaces: ["cloud", "app"],
     tags: ["code review", "GitHub", "规则"],
     sources: [
       {
+        label: "OpenAI · Review GitHub pull requests",
+        url: "https://learn.chatgpt.com/docs/third-party/github",
+      },
+      {
         label: "OpenAI · AGENTS.md",
         url: "https://developers.openai.com/codex/guides/agents-md",
       },
     ],
-    related: ["review-before-commit"],
+    related: ["review-before-commit", "github-pr-codex-review"],
   },
   {
     id: "untrusted-skips-project-agents",
     no: 23,
     title: "不信任的项目不会加载项目级 AGENTS.md",
-    summary: "从 v0.150 起，未信任项目不再提供项目级 AGENTS.md，避免恶意仓库用指令链劫持代理。",
+    summary: "0.150 起未信任项目按设计不提供项目 AGENTS.md。0.150.1 有人复现仍会注入；用 debug prompt-input 核对。",
     body: `项目级 \`AGENTS.md\` 和 \`.codex/config.toml\` 都依赖目录信任。
 
 刚克隆一个陌生仓库时：
@@ -631,7 +674,17 @@ OpenAI 内部对 100% 的 PR 开 Codex 审查。你可以自动审，或在评�
 2. 再把目录标为信任
 3. 不要在未审查前开 \`--yolo\`
 
-这是供应链防护，不是故障。指导「没加载」时，先看信任状态，再查文件是否为空。`,
+0.150.0 说明未信任项目不再提供项目级 \`AGENTS.md\`。有人在 0.150.1 用隔离 \`CODEX_HOME\` 复现：标成 \`untrusted\` 后，项目指令仍出现在模型可见输入里。不要只信发布说明，用本机二进制核对：
+
+\`\`\`bash
+codex -C /path/to/repo debug prompt-input \\
+  -c 'projects."/path/to/repo".trust_level="untrusted"' \\
+  "probe input"
+\`\`\`
+
+在 JSON 里搜仓库里的哨兵字符串。还在就当供应链防护失效，先自己读文件，或把仓库放到不加载项目文档的环境。
+
+指导「没加载」时，先看信任状态，再查文件是否为空，再查权限档是否根本读不到 \`AGENTS.md\`。`,
     category: "agents-md",
     level: "advanced",
     surfaces: ["cli"],
@@ -641,7 +694,40 @@ OpenAI 内部对 100% 的 PR 开 Codex 审查。你可以自动审，或在评�
         label: "Blake Crosley · Codex CLI Guide",
         url: "https://blakecrosley.com/guides/codex",
       },
+      {
+        label: "openai/codex#41499",
+        url: "https://github.com/openai/codex/issues/41499",
+      },
     ],
-    related: ["agents-supply-chain", "project-config-trust"],
+    related: ["agents-supply-chain", "project-config-trust", "permission-profile-agents-read"],
+  },
+  {
+    id: "github-pr-codex-review",
+    no: 145,
+    title: "GitHub 评论用 @codex review，不要只写 @codex",
+    summary: "精确触发词才会发审查。@codex 单独出现会开 Cloud 聊天。安全审查和修 P1 也有固定写法。",
+    body: `仓库先接通 Codex cloud，并在 Codex settings 打开 Code review。评论里写：
+
+\`\`\`text
+@codex review
+@codex review for issues in the database migration
+@codex security review
+@codex fix the P1 issue
+\`\`\`
+
+\`@codex review\` 会在 PR 上发标准 GitHub review，只标 P0/P1。\`@codex security review\` 是另一条更深的安全审查（研究预览）。只写 \`@codex\` 或 \`@codex fix the CI failures\` 会开 Cloud 聊天，不是审查。
+
+自动审在 Codex settings 打开 Automatic reviews。规则写在靠近改动的 \`AGENTS.md\` 的 \`## Code Review Rules\`。Codex 点了 👀 却不发评论时，核对 cloud 是否覆盖该仓、触发词是否完全一致。`,
+    category: "cloud",
+    level: "starter",
+    surfaces: ["cloud"],
+    tags: ["GitHub", "@codex", "code review"],
+    related: ["code-review-rules-section", "codex-security-cli-scan", "gitlab-mr-codex-review"],
+    sources: [
+      {
+        label: "OpenAI · Review GitHub pull requests",
+        url: "https://learn.chatgpt.com/docs/third-party/github",
+      },
+    ],
   },
 ];

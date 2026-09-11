@@ -1,3 +1,5 @@
+import { articles } from "../data/articles";
+import { community } from "../data/community";
 import type { CategoryId, Level, Surface, Tip } from "../types";
 
 export interface Filters {
@@ -70,4 +72,59 @@ export function searchTips(tips: Tip[], filters: Filters): Tip[] {
     if (aliased && tip.surfaces.includes(aliased)) return true;
     return haystack(tip).includes(query);
   });
+}
+
+export type SearchHit = {
+  kind: "tip" | "article" | "community";
+  title: string;
+  summary: string;
+  href: string;
+  kicker: string;
+};
+
+export function searchCatalog(query: string, tips: Tip[], limit = 10): SearchHit[] {
+  const needle = query.trim().toLowerCase();
+  const hits: SearchHit[] = [];
+
+  for (const tip of searchTips(tips, {
+    query,
+    category: "all",
+    level: "all",
+    surface: "all",
+  })) {
+    hits.push({
+      kind: "tip",
+      title: tip.title,
+      summary: tip.summary,
+      href: `#/tips/${tip.id}`,
+      kicker: `TIP ${String(tip.no).padStart(3, "0")}`,
+    });
+  }
+
+  if (needle) {
+    for (const article of articles) {
+      const text = `${article.title} ${article.source} ${article.summary} ${article.tags.join(" ")}`.toLowerCase();
+      if (!text.includes(needle)) continue;
+      hits.push({
+        kind: "article",
+        title: article.title,
+        summary: article.summary,
+        href: article.url,
+        kicker: `文章 · ${article.source}`,
+      });
+    }
+    for (const item of community) {
+      const text = `${item.title} ${item.source} ${item.summary} ${item.tags.join(" ")}`.toLowerCase();
+      if (!text.includes(needle)) continue;
+      hits.push({
+        kind: "community",
+        title: item.title,
+        summary: item.summary,
+        href: item.url,
+        kicker: `社区 · ${item.kind}`,
+      });
+    }
+  }
+
+  return hits.slice(0, limit);
 }

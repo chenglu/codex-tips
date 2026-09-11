@@ -1,6 +1,6 @@
 # Codex Tips
 
-一份给 OpenAI Codex 的现场手册：把散落在官方文档和社区里的实用技巧编成可检索的网站。
+一份给 OpenAI Codex 的现场手册：把散落在官方文档、社区长文和社交媒体里的实用技巧编成可检索的网站。
 
 覆盖 CLI、桌面 App、IDE 扩展与 Cloud：提示与规划、`AGENTS.md`、`config.toml`、沙箱、斜杠命令、会话、Skills、MCP、子代理、Hooks、CI 与安全。
 
@@ -26,6 +26,9 @@ npm run preview
 - `src/data/cheatsheet.ts` — 速查表
 - `src/data/templates.ts` — 可复制模板
 - `src/data/categories.ts` — 章节
+- `src/data/articles.ts` — 官方文档、教程、清单、示例仓库目录
+- `src/data/community.ts` — X、论坛和话题摘要
+- `src/data/loop.ts` — 收录循环用的已见链接
 
 新增一条技巧：在对应数据文件里追加 `Tip` 对象（唯一 `id` 与递增 `no`），并尽量附上来源链接。
 

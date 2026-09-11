@@ -1,7 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { tips } from "../data/tips";
-import { href } from "../lib/routes";
-import { searchTips } from "../lib/search";
+import { searchCatalog } from "../lib/search";
 
 export function SearchModal({
   open,
@@ -12,16 +11,7 @@ export function SearchModal({
 }) {
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
-  const results = useMemo(
-    () =>
-      searchTips(tips, {
-        query,
-        category: "all",
-        level: "all",
-        surface: "all",
-      }).slice(0, 10),
-    [query],
-  );
+  const results = useMemo(() => searchCatalog(query, tips, 10), [query]);
 
   useEffect(() => {
     if (open) {
@@ -48,7 +38,12 @@ export function SearchModal({
       }
       if (event.key === "Enter" && results[active]) {
         event.preventDefault();
-        window.location.hash = href({ name: "tip", id: results[active].id });
+        const hit = results[active];
+        if (hit.href.startsWith("#")) {
+          window.location.hash = hit.href.replace(/^#/, "");
+        } else {
+          window.open(hit.href, "_blank", "noreferrer");
+        }
         onClose();
       }
     };
@@ -63,27 +58,29 @@ export function SearchModal({
       <div
         className="modal"
         role="dialog"
-        aria-label="搜索技巧"
+        aria-label="搜索手册"
         onClick={(event) => event.stopPropagation()}
       >
         <input
           autoFocus
-          placeholder="搜索技巧、命令、配置键…"
+          placeholder="搜索技巧、文章、社区动态…"
           value={query}
           onChange={(event) => setQuery(event.target.value)}
         />
         <div className="modal-list">
-          {results.map((tip, index) => (
+          {results.map((hit, index) => (
             <a
-              key={tip.id}
+              key={`${hit.kind}-${hit.href}`}
               className={index === active ? "is-active" : undefined}
-              href={href({ name: "tip", id: tip.id })}
+              href={hit.href}
+              target={hit.href.startsWith("#") ? undefined : "_blank"}
+              rel={hit.href.startsWith("#") ? undefined : "noreferrer"}
               onClick={onClose}
             >
               <div className="kicker">
-                TIP {String(tip.no).padStart(3, "0")} · {tip.title}
+                {hit.kicker} · {hit.title}
               </div>
-              <div style={{ color: "var(--muted)", fontSize: 14 }}>{tip.summary}</div>
+              <div style={{ color: "var(--muted)", fontSize: 14 }}>{hit.summary}</div>
             </a>
           ))}
           {results.length === 0 && (

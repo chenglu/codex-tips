@@ -1,4 +1,6 @@
 import { categories } from "../data/categories";
+import { articles } from "../data/articles";
+import { community } from "../data/community";
 import { featuredTips, tips } from "../data/tips";
 import { href } from "../lib/routes";
 import { TipCard } from "../components/TipCard";
@@ -20,7 +22,8 @@ export function HomePage() {
           </p>
           <div className="meta-row">
             <span>{tips.length} 条技巧</span>
-            <span>{categories.length} 个章节</span>
+            <span>{articles.length} 篇文章</span>
+            <span>{community.length} 条社区动态</span>
             <span>按 / 键检索</span>
           </div>
         </div>
@@ -56,6 +59,31 @@ export function HomePage() {
         {featuredTips.slice(0, 6).map((tip) => (
           <TipCard key={tip.id} tip={tip} />
         ))}
+      </div>
+
+      <div className="section-head" style={{ marginTop: 48 }}>
+        <h2>社区刚在说什么</h2>
+        <a href={href({ name: "community" })}>全部动态 →</a>
+      </div>
+      <div className="feed">
+        {[...community]
+          .sort((a, b) => (a.date < b.date ? 1 : -1))
+          .slice(0, 4)
+          .map((item) => (
+            <a
+              key={item.url}
+              className="feed-item"
+              href={item.url}
+              target="_blank"
+              rel="noreferrer"
+            >
+              <div className="kicker">
+                {item.source} · {item.kind} · {item.date}
+              </div>
+              <h3>{item.title}</h3>
+              <p>{item.summary}</p>
+            </a>
+          ))}
       </div>
 
       <div className="section-head" style={{ marginTop: 48 }}>

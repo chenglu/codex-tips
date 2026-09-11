@@ -1,7 +1,7 @@
 # AGENTS.md
 
 ## 仓库地图
-- `src/data/` 技巧、速查、模板
+- `src/data/` 技巧、速查、模板、文章目录、社区动态
 - `src/pages/` 页面
 - `src/components/` UI
 - `src/index.css` 视觉系统
@@ -20,3 +20,4 @@
 ## 完成定义
 - `npm run build` 通过
 - 新增技巧可在目录检索到，详情页能打开
+- 文章和社区页能打开，外链指向原文
