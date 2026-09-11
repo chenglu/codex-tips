@@ -12,6 +12,16 @@ export type CommunityItem = {
 
 export const community: CommunityItem[] = [
   {
+    title: 'Codex 远程 MCP 只支持 Streamable HTTP，/sse 会在 initialize 时 404',
+    url: 'https://github.com/openai/codex/issues/5634',
+    source: 'openai/codex#5634',
+    kind: '论坛',
+    date: '2025-10-24',
+    tags: ['MCP', 'HTTP', 'SSE'],
+    summary:
+      '维护者确认 Codex 不接旧版 SSE。url 写成 /sse 时 OAuth 往往能过，随后 initialize 报 404。改成供应商的 /mcp 或 /v1/mcp。不要先用 mcp-remote 把远程服务变回 stdio。',
+  },
+  {
     title: 'Windows 路径未转义会让整份 config.toml 解析失败，桌面卡在启动页',
     url: 'https://github.com/openai/codex/issues/37616',
     source: 'openai/codex#37616',

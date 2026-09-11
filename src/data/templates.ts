@@ -1147,4 +1147,15 @@ startup_timeout_sec = 30
 enabled = true
 `,
   },
+  {
+    id: "mcp-http-not-sse",
+    title: "HTTP MCP 用 Streamable HTTP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "Codex 远程 MCP 只有 Streamable HTTP。不要把 url 写成 /sse。Linear 官方入口是 /mcp。",
+    code: `[mcp_servers.docs]
+url = "https://mcp.example.com/mcp"
+enabled = true
+`,
+  },
 ];

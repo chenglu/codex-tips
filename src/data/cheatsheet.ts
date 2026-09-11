@@ -153,6 +153,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: "--thread-source", meaning: "新建或 fork 时标注来源；resume 不改已保存来源" },
       { cmd: "openai/codex-action@v1", meaning: "官方 GH Action；prompt 与 prompt-file 二选一" },
       { cmd: "codex mcp add linear --url …", meaning: "本机接 Linear MCP，随后 mcp login linear" },
+      { cmd: "HTTP MCP url", meaning: "只要 Streamable HTTP。不要抄 /sse；OAuth 过了 initialize 仍 404 就改成 /mcp" },
       { cmd: "codex mcp add sqlcl -- /abs/sql -mcp", meaning: "接 Oracle SQLcl MCP。先 conn -save -savepwd，密码不要写进 config.toml。Java 起得慢就 required = true" },
       { cmd: "stdio MCP stdout", meaning: "只允许一行一个 JSON-RPC；日志打 stderr。stdout 混了横幅会 Transport closed" },
       { cmd: "Windows MCP stderr", meaning: "原生 Windows 上 stderr 太吵会堵约 4KB 管道。cmd /c 重定向到日志文件，不要默认 2>NUL，也不要抄进 WSL" },

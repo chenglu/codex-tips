@@ -194,8 +194,8 @@ Codex 支持 STDIO 和 Streamable HTTP（含 OAuth）。
     summary: "list / add / remove / login / logout。TUI 里 /mcp 看当前可用工具，加 verbose 看细节。",
     body: `\`\`\`bash
 codex mcp add docs -- npx -y @example/docs-mcp
-codex mcp add --url https://mcp.example.com/sse
-codex mcp login <server>
+codex mcp add docs --url https://mcp.example.com/mcp
+codex mcp login docs
 codex mcp list --json
 codex mcp remove docs
 \`\`\`
@@ -207,7 +207,7 @@ HTTP 服务器用 \`bearer_token_env_var\` 读环境变量，不要把 token 写
     level: "starter",
     surfaces: ["cli"],
     tags: ["codex mcp", "OAuth", "stdio"],
-    related: ["mcp-http-auth-chatgpt", "mcp-oauth-resource", "sqlcl-oracle-mcp", "mcp-stdio-stdout-jsonrpc"],
+    related: ["mcp-http-auth-chatgpt", "mcp-oauth-resource", "mcp-http-not-sse", "mcp-stdio-stdout-jsonrpc"],
     sources: [
       {
         label: "Codex CLI Cheat Sheet",
@@ -689,7 +689,7 @@ url = "https://mcp.linear.app/mcp"
     level: "intermediate",
     surfaces: ["cli", "app", "ide", "cloud"],
     tags: ["Linear", "MCP", "@Codex"],
-    related: ["mcp-add-and-login", "slack-at-codex-env", "gitlab-mr-codex-review"],
+    related: ["mcp-add-and-login", "mcp-http-not-sse", "gitlab-mr-codex-review"],
     sources: [
       {
         label: "OpenAI · Use Codex in Linear",
@@ -2581,6 +2581,57 @@ enabled = true
       {
         label: "OpenAI · Model Context Protocol",
         url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "mcp-http-not-sse",
+    no: 254,
+    title: "HTTP MCP 只接 Streamable HTTP，不要抄 /sse",
+    summary:
+      "Codex 的远程 MCP 只有 Streamable HTTP。url 写成 /sse 时 OAuth 往往能过，initialize 却 404 或 connection closed。改成供应商的 /mcp，不要先套 mcp-remote。",
+    body: `官方文档写明 Codex 主机支持 **stdio** 和 **Streamable HTTP**，没有旧版 SSE 传输。从 Claude / Cursor 教程抄来的地址常常以 \`/sse\` 结尾：
+
+\`\`\`toml
+[mcp_servers.docs]
+url = "https://mcp.example.com/v1/sse"
+\`\`\`
+
+\`codex mcp login docs\` 可能弹出浏览器并显示成功，随后握手失败：\`HTTP 404 ... when send initialize\`，或 \`connection closed: initialize response\`。这不是 token 坏了，是这条 URL 根本不是 Streamable HTTP。
+
+改成供应商现在的 HTTP 入口，通常是同主机的 \`/mcp\` 或 \`/v1/mcp\`：
+
+\`\`\`bash
+codex mcp remove docs
+codex mcp add docs --url https://mcp.example.com/mcp
+codex mcp login docs
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.docs]
+url = "https://mcp.example.com/mcp"
+\`\`\`
+
+Linear 官方就是 \`https://mcp.linear.app/mcp\`。桌面和 IDE 添加服务器时选 Streamable HTTP，不要选已经过时的 SSE。改完新开会话，用 \`codex mcp get docs\` 看 transport 是否为 streamable_http。
+
+不要一上来用 \`npx -y mcp-remote https://.../sse\` 当修法：那会把远程服务变回本地 stdio，Windows 上又会撞上路径、stderr 管道那些坑。只有供应商确实只提供 SSE、没有 \`/mcp\` 时才考虑桥接。HTTP MCP 走 \`url\`，不受 stdout JSON-RPC 那条规则影响。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "HTTP", "SSE", "OAuth"],
+    related: ["mcp-add-and-login", "linear-mcp-add", "mcp-oauth-resource"],
+    sources: [
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+      {
+        label: "openai/codex#5634",
+        url: "https://github.com/openai/codex/issues/5634",
+      },
+      {
+        label: "OpenAI · Use Codex in Linear",
+        url: "https://learn.chatgpt.com/docs/third-party/linear",
       },
     ],
   },
