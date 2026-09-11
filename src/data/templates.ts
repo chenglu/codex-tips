@@ -1043,4 +1043,20 @@ approval_mode = "approve"
 }
 `,
   },
+  {
+    id: "plugin-mcp-cwd-dot",
+    title: "插件 MCP 用 cwd . 找安装根",
+    filename: "mcp.json",
+    summary: "command/args 不会展开 PLUGIN_ROOT。相对 cwd 相对安装后的插件根，写成 . 再配相对 args。",
+    code: `{
+  "mcpServers": {
+    "docs": {
+      "command": "node",
+      "args": ["./start.mjs"],
+      "cwd": "."
+    }
+  }
+}
+`,
+  },
 ];

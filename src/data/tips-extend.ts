@@ -1986,7 +1986,7 @@ Codex 会注入环境变量，并做行内替换（PowerShell 吃不到普通环
     level: "intermediate",
     surfaces: ["cli", "app"],
     tags: ["hooks", "PLUGIN_ROOT", "plugins"],
-    related: ["hooks-lifecycle", "plugin-portable-json", "plugin-session-refresh"],
+    related: ["plugin-mcp-cwd-dot", "hooks-lifecycle", "plugin-portable-json"],
     sources: [
       {
         label: "OpenAI · Hooks",
@@ -2231,7 +2231,7 @@ default_tools_approval_mode = "prompt"
     level: "intermediate",
     surfaces: ["cli", "app"],
     tags: ["plugins", "MCP", "mcp.json"],
-    related: ["plugin-portable-json", "plugin-mcp-oauth-json", "plugin-mcp-exec-key"],
+    related: ["plugin-mcp-cwd-dot", "plugin-portable-json", "plugin-mcp-oauth-json"],
     sources: [
       {
         label: "OpenAI · Package your plugin",
@@ -2244,6 +2244,54 @@ default_tools_approval_mode = "prompt"
       {
         label: "openai/codex#33063",
         url: "https://github.com/openai/codex/issues/33063",
+      },
+    ],
+  },
+  {
+    id: "plugin-mcp-cwd-dot",
+    no: 245,
+    title: "插件 MCP 不要在 command 里写 PLUGIN_ROOT，用 cwd \".\"",
+    summary: "钩子会展开 PLUGIN_ROOT，mcp.json 的 command/args 不会，字面会进启动命令。相对 cwd 相对安装后的插件根，写成 \".\" 再配相对 args。",
+    body: `钩子脚本里写 \`\${PLUGIN_ROOT}/hooks/session_start.py\` 能跑，是因为钩子加载器会做占位符替换。同一段抄进插件 \`mcp.json\` / \`.mcp.json\` 的 \`command\` 或 \`args\`，Codex 会原样拿去 spawn：启动的是字面量 \`\${PLUGIN_ROOT}/bin/demo-mcp\`，不是缓存里的安装目录。\`\${CLAUDE_PLUGIN_ROOT}\` 同样不会在 MCP 配置里展开。
+
+stdio 服务器用相对 \`cwd\`。它相对**已经安装**的插件根解析，出不了这个根：
+
+\`\`\`json
+{
+  "mcpServers": {
+    "docs": {
+      "command": "node",
+      "args": ["./start.mjs"],
+      "cwd": "."
+    }
+  }
+}
+\`\`\`
+
+\`"."\` 就是插件根；\`"server"\` 会落到插件根下的 \`server/\`。\`args\` 里的相对路径跟着这个 cwd，不要再假设是你开 Codex 时的仓库目录。可移植包照样要给服务器写 \`type\`（stdio 用 \`stdio\`）。HTTP MCP 不靠 cwd。
+
+这不是用户 \`[mcp_servers.docs] cwd\`。那条改的是你自己装的服务器；插件自带服务器的启动命令用户改不了。
+
+\`env\` 里目前只保证 \`\${PLUGIN_ROOT}\` 和 \`\${PLUGIN_DATA}\` 会展开。写成 \`\${DB_PASSWORD}\` 会把字面量传给子进程。0.150 起若要转发本机环境变量：可移植 \`mcp.json\` 仍是源，另外在 \`.codex-plugin/.mcp.json\` 给**同名**服务器写 \`env_vars\` 列表，不要把密钥写进清单。
+
+改完重新安装插件并新开会话。用 \`codex mcp get docs\` 看 cwd 是不是缓存根，命令里有没有残留的 \`\${PLUGIN_ROOT}\`。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "MCP", "PLUGIN_ROOT"],
+    related: ["plugin-hook-plugin-root", "plugin-portable-json", "plugin-mcp-json-wrapper"],
+    sources: [
+      {
+        label: "openai/codex#35762",
+        url: "https://github.com/openai/codex/issues/35762",
+      },
+      {
+        label: "openai/codex#28145",
+        url: "https://github.com/openai/codex/discussions/28145",
+      },
+      {
+        label: "OpenAI · Hooks",
+        url: "https://learn.chatgpt.com/docs/hooks",
       },
     ],
   },

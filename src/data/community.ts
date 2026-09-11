@@ -12,6 +12,26 @@ export type CommunityItem = {
 
 export const community: CommunityItem[] = [
   {
+    title: '插件 MCP 的 command 不会展开 PLUGIN_ROOT',
+    url: 'https://github.com/openai/codex/issues/35762',
+    source: 'openai/codex#35762',
+    kind: '论坛',
+    date: '2026-07-28',
+    tags: ['plugins', 'MCP', 'PLUGIN_ROOT'],
+    summary:
+      '钩子会替换 ${PLUGIN_ROOT}，插件 mcp.json 的 command/args 不会，字面会进启动命令。相对 cwd 相对安装后的插件根；写成 "." 再配相对 args。讨论 28145 也是这条路，不要抄 Claude 的 CLAUDE_PLUGIN_ROOT。',
+  },
+  {
+    title: '可移植 mcp.json 的 env 不会展开任意 ${VAR}',
+    url: 'https://github.com/openai/codex/issues/38438',
+    source: 'openai/codex#38438',
+    kind: '论坛',
+    date: '2026-08-13',
+    tags: ['plugins', 'MCP', 'env_vars'],
+    summary:
+      'Agent Plugin 的 env 目前只展开 PLUGIN_ROOT 和 PLUGIN_DATA。其它 ${VAR} 会原样传给子进程。0.150 起可在 .codex-plugin/.mcp.json 给同名服务器写 env_vars 做本机转发，可移植 mcp.json 仍是源。不要把密钥写进清单。',
+  },
+  {
     title: '插件 .mcp.json 包装键必须是 mcpServers',
     url: 'https://github.com/openai/codex/issues/22105',
     source: 'openai/codex#22105',
