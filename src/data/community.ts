@@ -12,6 +12,26 @@ export type CommunityItem = {
 
 export const community: CommunityItem[] = [
   {
+    title: '自定义 MCP 头可以不用 Authorization，省略 bearer 键即可',
+    url: 'https://github.com/openai/codex/issues/5180',
+    source: 'openai/codex#5180',
+    kind: '论坛',
+    date: '2025-10-14',
+    tags: ['MCP', 'env_http_headers', 'HTTP'],
+    summary:
+      '有人问目标服务器只要自定义头、不要 Authorization。维护者确认可以省略 bearer_token_env_var，另外用 http_headers 或 env_http_headers。密钥写环境变量名，不要把字面量提交进 config.toml。',
+  },
+  {
+    title: 'Streamable HTTP MCP 增加 http_headers 和 env_http_headers',
+    url: 'https://github.com/openai/codex/issues/5241',
+    source: 'openai/codex#5241',
+    kind: '论坛',
+    date: '2025-10-16',
+    tags: ['MCP', 'env_http_headers', 'http_headers'],
+    summary:
+      '给 Streamable HTTP 加上静态头和从环境变量解析的头，所有对该服务器的 MCP 请求都会带上。env_http_headers 在请求时读进程环境；缺变量或空值会静默跳过这颗头。这不是 stdio 的 env_vars。',
+  },
+  {
     title: 'mcp list 显示 Bearer 不等于请求真带了 Authorization',
     url: 'https://github.com/openai/codex/issues/30125',
     source: 'openai/codex#30125',

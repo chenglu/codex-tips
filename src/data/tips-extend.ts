@@ -1306,7 +1306,7 @@ http_headers_helper = "python3 /home/you/.codex/mcp-headers.py"
     level: "advanced",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "http_headers_helper", "鉴权"],
-    related: ["mcp-http-bearer-env", "mcp-stdio-remote-executor", "mcp-add-and-login"],
+    related: ["mcp-http-env-headers", "mcp-http-bearer-env", "mcp-add-and-login"],
     sources: [
       {
         label: "OpenAI · Model Context Protocol",
@@ -2753,7 +2753,7 @@ enabled = true
     level: "intermediate",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "bearer_token_env_var", "HTTP", "密钥"],
-    related: ["mcp-stdio-env-vars", "mcp-add-and-login", "http-headers-helper"],
+    related: ["mcp-http-env-headers", "mcp-stdio-env-vars", "http-headers-helper"],
     sources: [
       {
         label: "OpenAI · Model Context Protocol",
@@ -2766,6 +2766,62 @@ enabled = true
       {
         label: "openai/codex#26760",
         url: "https://github.com/openai/codex/issues/26760",
+      },
+    ],
+  },
+  {
+    id: "mcp-http-env-headers",
+    no: 258,
+    title: "HTTP MCP 自定义头用 env_http_headers，缺变量会静默不带头",
+    summary:
+      "左边是头名，右边是环境变量名。http_headers 是字面量，不要把密钥写进仓库。变量缺失或为空时这颗头直接丢掉，请求照样发出去。",
+    body: `服务器要的是 \`X-Api-Key\` 这类自定义头，而不是 \`Authorization: Bearer\` 时，用 \`env_http_headers\`。左边是头名，右边是启动 Codex 的进程里的变量**名**。
+
+\`\`\`toml
+[mcp_servers.docs]
+url = "https://mcp.example.com/mcp"
+enabled = true
+
+[mcp_servers.docs.env_http_headers]
+X-Api-Key = "DOCS_API_KEY"
+\`\`\`
+
+\`http_headers\` 写入的是字面量。下面这样会把密钥提交进 config，项目层文件还可能进 Git：
+
+\`\`\`toml
+[mcp_servers.docs.http_headers]
+X-Api-Key = "sk-live-do-not-commit"
+\`\`\`
+
+Bearer 继续用 \`bearer_token_env_var\`，不要拿这张表去填 \`Authorization\`。维护者说明可以省略 Bearer 键，只配自定义头。不要为了自定义头去跑 \`codex mcp login docs\`。
+
+变量缺失或值为空时，这颗头会被静默丢掉，请求照样发出去。\`codex mcp get docs\` 仍可能列出 \`env_http_headers\`，工具却 401 或直接消失。从已经 \`export DOCS_API_KEY\` 的终端启动；Dock / 开始菜单打开的桌面没有 zshrc。改完彻底退出再开新进程。
+
+TOML 占位符不会展开，下面右边是字符串本身，不是密钥：
+
+\`\`\`toml
+[mcp_servers.docs.env_http_headers]
+X-Api-Key = "\${DOCS_API_KEY}"
+\`\`\`
+
+stdio 的 \`env_vars\` 对 HTTP 无效。会过期、要每条连接刷新的票用 \`http_headers_helper\`。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "env_http_headers", "HTTP", "密钥"],
+    related: ["mcp-http-bearer-env", "http-headers-helper", "mcp-stdio-env-vars"],
+    sources: [
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+      {
+        label: "openai/codex#5180",
+        url: "https://github.com/openai/codex/issues/5180",
+      },
+      {
+        label: "openai/codex#5241",
+        url: "https://github.com/openai/codex/issues/5241",
       },
     ],
   },

@@ -1199,4 +1199,18 @@ bearer_token_env_var = "DOCS_MCP_TOKEN"
 enabled = true
 `,
   },
+  {
+    id: "mcp-http-env-headers",
+    title: "HTTP MCP 用 env_http_headers 读自定义头",
+    filename: "~/.codex/config.toml",
+    summary:
+      "左边是头名，右边是变量名。缺变量会静默不带头。密钥不要写进 http_headers。Bearer 仍用 bearer_token_env_var。",
+    code: `[mcp_servers.docs]
+url = "https://mcp.example.com/mcp"
+enabled = true
+
+[mcp_servers.docs.env_http_headers]
+X-Api-Key = "DOCS_API_KEY"
+`,
+  },
 ];
