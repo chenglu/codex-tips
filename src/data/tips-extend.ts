@@ -1895,7 +1895,7 @@ ChatGPT 桌面改本地 \`marketplace.json\` 后仍要重启应用。CLI 0.154 �
     level: "intermediate",
     surfaces: ["cli", "app"],
     tags: ["plugins", "marketplace", "source.path"],
-    related: ["plugin-marketplace-ref-sparse", "plugin-sharing-workspace", "plugins-vs-skills"],
+    related: ["plugin-marketplace-ref-sparse", "plugin-sharing-workspace", "plugin-repo-enabled"],
     sources: [
       {
         label: "OpenAI · Package your plugin",
@@ -1904,6 +1904,45 @@ ChatGPT 桌面改本地 \`marketplace.json\` 后仍要重启应用。CLI 0.154 �
       {
         label: "openai/codex · plugin-json-spec",
         url: "https://github.com/openai/codex/blob/main/codex-rs/skills/src/assets/samples/plugin-creator/references/plugin-json-spec.md",
+      },
+    ],
+  },
+  {
+    id: "plugin-repo-enabled",
+    no: 236,
+    title: "仓库里关插件：写 plugins.\"name@marketplace\"，不要卸 marketplace",
+    summary: "项目 .codex/config.toml 里 enabled = false 只关这个仓库，不卸载。刷新仍会更新缓存。Admin 导入的工作区插件不吃这套键。",
+    body: `仓库 marketplace 只负责让插件被发现。某个项目不想用其中一条时，写项目 \`.codex/config.toml\`，不要 \`plugin remove\` 或把整份 marketplace 删掉：
+
+\`\`\`toml
+[plugins."my-plugin@local-repo"]
+enabled = false
+\`\`\`
+
+引号里的键是 \`name@marketplace\`：左边对清单里那条 \`name\`，右边对 marketplace 文件顶层的 \`name\`（上例是 \`local-repo\`）。写成 \`[plugins.my-plugin]\` 或漏掉 \`@marketplace\`，运行时对不上。
+
+\`enabled = false\` **不是卸载**。marketplace 刷新时，Codex 仍可能给已配置的插件更新缓存文件；连上的服务还要再认证。只是这个仓库的会话不再启用它。
+
+项目 \`.codex/config.toml\` 只在目录受信任时加载。未信任仓库会跳过这份开关，看起来像「写了也不生效」。先 \`codex plugin list --json\` 核对 \`name@marketplace\` 是否对上；TUI 里用 \`/status\` 看工作区是否受信任。
+
+不要用这套键去关远程精选目录：给 \`openai-curated-remote\` 写 \`enabled = false\` 经常拦不住注入。那种情况用 \`features.remote_plugin = false\`，或只关某条安装建议的 \`[tool_suggest].disabled_tools\`。
+
+工作区管理员从 Admin > Plugins 导入的插件走工作区策略，不读仓库里的 \`[plugins."name@marketplace"]\`。即使源是 GitHub 仓，也要在 Admin 里改安装策略。
+
+这套设置作用于 Codex CLI 和 ChatGPT 桌面里的本地 marketplace 插件。IDE 扩展没有插件目录。0.154 起改完先看当前会话的 \`/plugins\`；桌面改项目配置后若没捡到，再新开。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "config.toml", "enabled"],
+    related: ["marketplace-source-path-root", "remote-plugin-catalog", "plugin-mcp-exec-key"],
+    sources: [
+      {
+        label: "OpenAI · Package your plugin",
+        url: "https://learn.chatgpt.com/plugins/build/plugins",
+      },
+      {
+        label: "openai/codex#28443",
+        url: "https://github.com/openai/codex/issues/28443",
       },
     ],
   },

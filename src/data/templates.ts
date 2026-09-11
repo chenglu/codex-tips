@@ -896,4 +896,13 @@ features.plugin_sharing = false
 }
 `,
   },
+  {
+    id: "plugin-repo-enabled",
+    title: "仓库里关掉一条本地 marketplace 插件",
+    filename: ".codex/config.toml",
+    summary: "只关这个仓库，不卸载。键必须是 name@marketplace。远程精选经常拦不住。",
+    code: `[plugins."my-plugin@local-repo"]
+enabled = false
+`,
+  },
 ];
