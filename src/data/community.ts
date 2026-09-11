@@ -12,6 +12,16 @@ export type CommunityItem = {
 
 export const community: CommunityItem[] = [
   {
+    title: 'MCP OAuth 的 mcp_oauth_callback_url 会再拼 callback ID',
+    url: 'https://github.com/openai/codex/issues/30460',
+    source: 'openai/codex#30460',
+    kind: '论坛',
+    date: '2026-06-28',
+    tags: ['MCP', 'OAuth', 'callback'],
+    summary:
+      '有人把基址当最终 redirect_uri 登到 Keycloak，精确匹配失败。Learn 现行规则就是无 issuer 支持时拼上服务器特定 callback ID。把 add 打印的完整 URL 登上去。不要写成已修 bug，也不要等未合入的 callback-url 子命令。',
+  },
+  {
     title: '自定义 MCP 头可以不用 Authorization，省略 bearer 键即可',
     url: 'https://github.com/openai/codex/issues/5180',
     source: 'openai/codex#5180',

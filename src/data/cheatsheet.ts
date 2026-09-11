@@ -164,6 +164,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: "TOML Windows 路径", meaning: "双引号里反斜杠是转义。路径用单引号或正斜杠，否则整份 config.toml 解析失败，桌面可能卡在启动页" },
       { cmd: "codex mcp login NAME --scopes a,b", meaning: "HTTP MCP 登录时请求范围；逗号分隔；顺序是 CLI、config、广告 scopes_supported" },
       { cmd: "codex mcp add NAME --url … --oauth-client-id", meaning: "预注册 OAuth；回调用无端口 127.0.0.1，不要写 localhost" },
+      { cmd: "mcp_oauth_callback_url", meaning: "OAuth 回调基址。无 issuer 支持时 redirect_uri 会再拼 callback ID。登记 add 打印的完整 URL，不要只登基址" },
       { cmd: "npx @openai/codex-security scan DIR", meaning: "Security CLI；--output-dir 放仓外；先 --dry-run" },
       { cmd: "Enable Prisma AIRS", meaning: "保存连接之后还要再开扫描；API key 会话不覆盖" },
       { cmd: "allow_local_binding = true", meaning: "权限档下主机名解析到私网仍被拦时才开；先精确放行 localhost" },

@@ -298,7 +298,8 @@ glob_scan_max_depth = 3
     id: "mcp-oauth-callback",
     title: "MCP OAuth 回调",
     filename: "~/.codex/config.toml",
-    summary: "无端口 127.0.0.1 才会插入监听端口。localhost 或已带端口的 URL 不会替换。",
+    summary:
+      "无端口 127.0.0.1 才会插入监听端口。localhost 或已带端口的 URL 不会替换。登记 add 打印的完整 URL（含 callback ID），不要只登基址。",
     code: `mcp_oauth_callback_port = 5555
 
 [mcp_servers.example]
@@ -1211,6 +1212,24 @@ enabled = true
 
 [mcp_servers.docs.env_http_headers]
 X-Api-Key = "DOCS_API_KEY"
+`,
+  },
+  {
+    id: "mcp-oauth-callback-id",
+    title: "MCP OAuth 登记完整回调",
+    filename: "~/.codex/config.toml",
+    summary:
+      "mcp_oauth_callback_url 是基址。无 issuer 支持时 redirect_uri 会再拼 callback ID。把 add 打印的完整 URL 登到 IdP。",
+    code: `# 这是基址。发给授权服务器的 redirect_uri 常会再拼 callback ID。
+# 把 codex mcp add 打印的完整 OAuth callback URL 原样登到 IdP。
+mcp_oauth_callback_url = "http://127.0.0.1/callback"
+mcp_oauth_callback_port = 5555
+
+[mcp_servers.docs]
+url = "https://mcp.example.com/mcp"
+
+[mcp_servers.docs.oauth]
+client_id = "my-client"
 `,
   },
 ];

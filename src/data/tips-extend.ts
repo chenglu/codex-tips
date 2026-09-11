@@ -737,7 +737,7 @@ HTTP 头不要写进仓库：用 \`http_headers_helper\` 打出 JSON 头，或 \
     level: "advanced",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "OAuth", "回调"],
-    related: ["plugin-mcp-oauth-json", "mcp-oauth-resource", "mcp-oauth-scopes"],
+    related: ["mcp-oauth-callback-id", "plugin-mcp-oauth-json", "mcp-oauth-resource"],
     sources: [
       {
         label: "OpenAI · Model Context Protocol",
@@ -2144,7 +2144,7 @@ default_tools_approval_mode = "prompt"
     level: "advanced",
     surfaces: ["cli", "app"],
     tags: ["plugins", "MCP", "OAuth"],
-    related: ["plugin-mcp-json-wrapper", "mcp-oauth-loopback-callback", "plugin-portable-json"],
+    related: ["plugin-mcp-json-wrapper", "mcp-oauth-loopback-callback", "mcp-oauth-callback-id"],
     sources: [
       {
         label: "OpenAI · Model Context Protocol",
@@ -2822,6 +2822,64 @@ stdio 的 \`env_vars\` 对 HTTP 无效。会过期、要每条连接刷新的票
       {
         label: "openai/codex#5241",
         url: "https://github.com/openai/codex/issues/5241",
+      },
+    ],
+  },
+  {
+    id: "mcp-oauth-callback-id",
+    no: 259,
+    title: "MCP OAuth 登记完整回调，不要只登 mcp_oauth_callback_url 基址",
+    summary:
+      "配置里的基址不是最终 redirect_uri。无 issuer 支持时会再拼 callback ID。把 add 打印的完整 URL 登到 IdP。",
+    body: `\`mcp_oauth_callback_url\` 和 \`[mcp_servers.docs.oauth] callback_url\` 写的是**基址**。发给授权服务器的 \`redirect_uri\` 常常还要再拼这台 MCP 的 callback ID。这个 ID 从服务器 URL（含路径和查询串）算出来，跨 \`mcp remove\` / \`mcp add\` 可复现，不是每次随机。
+
+Keycloak、Auth0、企业 OIDC 若精确匹配，只把基址登上去会报 \`invalid_request\`，或说 \`redirect_uri\` 不在客户端配置里。GitHub #30460 把这当成 bug；Learn 配置参考已经写成现行规则：授权服务器不广告 issuer 绑定时就会拼后缀。不要等「exact URI」补丁，也不要去跑还没合入的 \`codex mcp callback-url\`。
+
+先加服务器，再抄终端打印的完整地址：
+
+\`\`\`bash
+codex mcp add docs --url https://mcp.example.com/mcp --oauth-client-id my-client
+codex mcp login docs
+\`\`\`
+
+把打印出的 \`OAuth callback URL\` 原样登到授权服务器，包含 \`/callback/XXXX\` 那段 ID。不要只登记下面这份基址：
+
+\`\`\`toml
+mcp_oauth_callback_url = "http://127.0.0.1/callback"
+mcp_oauth_callback_port = 5555
+
+[mcp_servers.docs]
+url = "https://mcp.example.com/mcp"
+
+[mcp_servers.docs.oauth]
+client_id = "my-client"
+callback_url = "http://127.0.0.1/callback"
+\`\`\`
+
+预注册客户端且 \`callback_url\` 缺正确 callback ID、授权服务器又不广告 issuer 绑定时，这份配置会被忽略。Codex 改用全局 \`mcp_oauth_callback_url\`（未设则 \`http://127.0.0.1/callback\`）再拼 ID。磁盘里的 TOML 不会被改写，所以看起来「配置写对了却登不上」。
+
+新加的预注册客户端只有在授权服务器广告 \`authorization_response_iss_parameter_supported\` 且 metadata 里有 \`issuer\` 时，才可能用不带 ID 的稳定回调。否则仍拼 ID。改了 MCP 的 \`url\` 路径或查询串，callback ID 会变，要重新登记。
+
+无端口的 \`http://127.0.0.1\` 才会在授权时插入监听端口；\`localhost\`、已带端口、IPv6、HTTPS 都不会。端口规则见「用无端口的 127.0.0.1」那条。插件 \`mcp.json\` 的 \`callbackUrl\` 缺 ID 时同样会被忽略。
+
+不要把讨论里的 \`mcp_oauth_callback_path_mode\` 抄进配置，那条提案还没落地。`,
+    category: "mcp",
+    level: "advanced",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "OAuth", "mcp_oauth_callback_url", "callback"],
+    related: ["mcp-oauth-loopback-callback", "plugin-mcp-oauth-json", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+      {
+        label: "OpenAI · Configuration reference",
+        url: "https://developers.openai.com/codex/config-reference",
+      },
+      {
+        label: "openai/codex#30460",
+        url: "https://github.com/openai/codex/issues/30460",
       },
     ],
   },
