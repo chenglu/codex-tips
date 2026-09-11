@@ -1500,4 +1500,28 @@ url = "https://mcp.supabase.com/mcp?project_ref=abc123&read_only=true"
 enabled = true
 `,
   },
+  {
+    id: "vercel-ai-gateway",
+    title: "Vercel AI Gateway 模型供应商",
+    filename: "~/.codex/config.toml",
+    summary:
+      "Codex 兼容入口是 ai-gateway.vercel.sh/codex/v1，wire_api = responses，env_key = AI_GATEWAY_API_KEY。再用 vercel.config.toml 和 --profile vercel。不是 Vercel MCP。",
+    code: `[model_providers.vercel]
+name = "Vercel AI Gateway"
+base_url = "https://ai-gateway.vercel.sh/codex/v1"
+env_key = "AI_GATEWAY_API_KEY"
+wire_api = "responses"
+`,
+  },
+  {
+    id: "mcp-netlify-remote",
+    title: "Netlify 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 netlify-mcp.netlify.app/mcp。add 之后 mcp login netlify。远程被拦才改 stdio npx @netlify/mcp。不要把 npx add-mcp 当 Codex 主路径。",
+    code: `[mcp_servers.netlify]
+url = "https://netlify-mcp.netlify.app/mcp"
+enabled = true
+`,
+  },
 ];

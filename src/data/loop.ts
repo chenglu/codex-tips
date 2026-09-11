@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-11T22:00:00Z",
+  lastTick: "2026-09-11T22:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "22:00 调用前 $97.96。Spend: counts（start_time=2026-09-04T22:15:00Z，共 229 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 仍是 Packt 书、GTM MCP Bench、Mistral Vibe、@barbarosdev、SQLcl 转帖、0.154 营销、套壳 Web 额度，无新可执行帖。收录 Vercel 远程 MCP + Supabase 远程 MCP。",
+    "22:30 调用前 $97.95。Spend: counts（start_time=2026-09-04T22:45:00Z，共 246 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 仍是 Packt 书、0.154 worktree 营销、GTM MCP Bench、tmux-agent-pulse、Mistral Vibe、@barbarosdev、套壳额度，无新可执行帖。收录 Vercel AI Gateway 模型供应商 + Netlify 远程 MCP。PostHog MCP 留给下一轮。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -471,6 +471,12 @@ export const loopState = {
     "community.vercel.com Codex CLI vercel MCP redirect URL is invalid",
     "Codex CLI 技巧 2026 Vercel Supabase MCP OAuth login",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR Vercel OR Supabase OR Grafana OR AGENTS.md OR skills)',
+    "X news: Codex CLI",
+    "vercel.com docs ai-gateway coding-agents openai-codex codex/v1",
+    "docs.netlify.com set-up-codex-for-netlify netlify-mcp.netlify.app",
+    "posthog.com docs model-context-protocol Codex mcp.posthog.com",
+    "Codex CLI 技巧 2026 Vercel AI Gateway Netlify MCP model_providers",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR Vercel OR Netlify OR Gateway OR AGENTS.md OR skills)',
     "X news: Codex CLI",
   ],
 };

@@ -2846,11 +2846,84 @@ http_headers = { "X-HF-Bill-To" = "your-org-name" }
     level: "intermediate",
     surfaces: ["cli"],
     tags: ["model_providers", "Hugging Face", "wire_api", "profile"],
-    related: ["oss-provider", "profile-files-not-tables", "mcp-huggingface-remote"],
+    related: ["oss-provider", "profile-files-not-tables", "vercel-ai-gateway"],
     sources: [
       {
         label: "Hugging Face · Codex",
         url: "https://huggingface.co/docs/inference-providers/en/integrations/codex",
+      },
+      {
+        label: "OpenAI · Advanced configuration",
+        url: "https://learn.chatgpt.com/docs/config-file/config-advanced",
+      },
+    ],
+  },
+  {
+    id: "vercel-ai-gateway",
+    no: 284,
+    title: "Vercel AI Gateway 当模型供应商：codex/v1 且 wire_api = responses",
+    summary:
+      "用户 config 写 [model_providers.vercel]，base_url 是 https://ai-gateway.vercel.sh/codex/v1，env_key = AI_GATEWAY_API_KEY，wire_api = responses。再用 ~/.codex/vercel.config.toml 和 --profile vercel。这不是 Vercel MCP，也不是 --oss。",
+    body: `这是换 Codex **背后那颗模型**，不是再加一台 MCP。官方 Codex 兼容入口是 \`https://ai-gateway.vercel.sh/codex/v1\`，不是普通的 \`/v1\`：启动时它按 Codex 的 \`ModelsResponse\` 吐 \`/codex/v1/models\`，\`/model\` 才能列出网关目录。
+
+一键（只配 Codex，先 \`--dry-run\` 看会改哪些文件）：
+
+\`\`\`bash
+vercel ai-gateway coding-agents setup --agent codex --dry-run
+vercel ai-gateway coding-agents setup --agent codex
+\`\`\`
+
+不要省略 \`--agent codex\`。不带这个旗标会改所有检测到的 agent。命令会写 \`~/.codex/config.toml\`、在 shell 启动文件里导出 \`AI_GATEWAY_API_KEY\`（macOS 可进钥匙串），并备份 \`.bak\`。它还会把桌面旧会话复制成走 \`vercel\` 供应商的新 ID；原文件不动。不想搬会话就加 \`--no-session-migration\`。压缩的 \`.jsonl.zst\` 要先解压。
+
+手写时，供应商表放**用户** \`~/.codex/config.toml\`：
+
+\`\`\`toml
+[model_providers.vercel]
+name = "Vercel AI Gateway"
+base_url = "https://ai-gateway.vercel.sh/codex/v1"
+env_key = "AI_GATEWAY_API_KEY"
+wire_api = "responses"
+\`\`\`
+
+\`env_key\` 是变量**名**。密钥必须在**启动 Codex 的那个进程**里。不要把网关 key 字面量写进 TOML。从已经 \`export AI_GATEWAY_API_KEY\` 的终端启动；Dock 打开的桌面不会读你刚改的 zshrc。
+
+不要把顶层 \`model_provider = "vercel"\` 一上来写进用户 config，除非你就是要把**所有**会话都改走网关。CLI setup 会写成默认。更稳妥是独立 profile：
+
+\`\`\`toml
+# ~/.codex/vercel.config.toml
+model_provider = "vercel"
+model = "openai/gpt-6-astra"
+\`\`\`
+
+\`\`\`bash
+codex --profile vercel
+codex --profile vercel -m openai/gpt-5.5-pro
+\`\`\`
+
+0.134 起不要再写 \`[profiles.vercel]\`。网关官方页也写了：旧表要搬进 \`~/.codex/fast.config.toml\` 这种文件。
+
+自定义供应商必须 \`wire_api = "responses"\`。模型 slug 是 \`厂商/型号\`，例如 \`openai/gpt-6-astra\`、\`anthropic/claude-sonnet-4.6\`。非 OpenAI 模型可能警告找不到 metadata，可以忽略。
+
+不要做这些：
+
+- 不要把这张表当成 Vercel MCP。管项目 / 部署走 \`codex mcp add vercel --url https://mcp.vercel.com\`。
+- 不要写 \`base_url = "https://ai-gateway.vercel.sh/v1"\`。那是通用 Responses 入口；Codex 要用 \`/codex/v1\`。
+- 不要抄 Claude Code 的 \`https://ai-gateway.vercel.sh/claude-code\`。
+- 不要写进项目 \`.codex/config.toml\`。项目文件改不了 \`model_provider\` / \`model_providers\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`vercel\` 是新 ID，可以。
+- 不要和 \`--oss\` / \`oss_provider\` 混成一条。
+- 不要把厂商页的 \`[features] responses_websockets_v2\` 和 \`supports_websockets = true\` 当 Learn 现行主键抄进去。非 OpenAI 模型会报 Model is not available over WebSocket。
+
+改完新开会话。\`codex --profile vercel\` 起得来，说明供应商和 token 都进了这一进程。用量看 Vercel 的 AI Gateway Overview。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["model_providers", "Vercel", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "hf-inference-providers", "mcp-vercel-remote"],
+    sources: [
+      {
+        label: "Vercel · OpenAI Codex with AI Gateway",
+        url: "https://vercel.com/docs/ai-gateway/coding-agents/openai-codex",
       },
       {
         label: "OpenAI · Advanced configuration",

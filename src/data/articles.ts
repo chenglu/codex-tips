@@ -2241,5 +2241,25 @@ export const articles: Article[] = [
     summary:
       '官方 Codex 节是 mcp add supabase --url https://mcp.supabase.com/mcp，再 mcp login supabase。查询参数 ?read_only=true、?project_ref=abc123、?features=database,docs 写进 url。托管走 OAuth DCR，不要 PAT 当主路径。CI 才用 bearer_token_env_var。不要抄 experimental_use_rmcp_client。',
   },
+  {
+    title: 'OpenAI Codex with AI Gateway',
+    url: 'https://vercel.com/docs/ai-gateway/coding-agents/openai-codex',
+    source: 'Vercel AI Gateway',
+    lang: '英文',
+    kind: '官方',
+    tags: ['model_providers', 'Vercel', 'wire_api'],
+    summary:
+      'Codex 兼容入口是 https://ai-gateway.vercel.sh/codex/v1，env_key = AI_GATEWAY_API_KEY，wire_api = responses。一键是 vercel ai-gateway coding-agents setup --agent codex。0.134 起不要写 [profiles.vercel]，改用 ~/.codex/vercel.config.toml。这不是 Vercel MCP，也不是 --oss。',
+  },
+  {
+    title: 'Set up Codex for Netlify',
+    url: 'https://docs.netlify.com/build/build-with-ai/agent-setup-guides/set-up-codex-for-netlify/',
+    source: 'Netlify',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Netlify', 'OAuth'],
+    summary:
+      '官方推荐 codex mcp add netlify --url https://netlify-mcp.netlify.app/mcp。远程被拦再改 npx @netlify/mcp。npx add-mcp 会改所有检测到的 agent，不要当 Codex 主路径。技能安装必须带 --agent codex。',
+  },
 ];
 

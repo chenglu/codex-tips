@@ -4078,7 +4078,7 @@ enabled = true
     level: "starter",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "Vercel", "OAuth", "HTTP"],
-    related: ["mcp-add-and-login", "mcp-oauth-callback-id", "mcp-stripe-remote"],
+    related: ["mcp-add-and-login", "mcp-oauth-callback-id", "vercel-ai-gateway"],
     sources: [
       {
         label: "Vercel · MCP",
@@ -4158,6 +4158,69 @@ enabled = true
       {
         label: "Supabase · MCP Server",
         url: "https://supabase.com/docs/guides/ai-tools/mcp",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "mcp-netlify-remote",
+    no: 285,
+    title: "Netlify MCP 用 netlify-mcp.netlify.app/mcp，远程被拦再改 stdio",
+    summary:
+      "CLI：codex mcp add netlify --url https://netlify-mcp.netlify.app/mcp，再 mcp login netlify。远程被拦才改 npx @netlify/mcp。不要把 npx add-mcp 当 Codex 主路径。",
+    body: `Netlify 官方给 Codex 的主路径是**远程** Streamable HTTP：
+
+\`\`\`bash
+codex mcp add netlify --url https://netlify-mcp.netlify.app/mcp
+codex mcp login netlify
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.netlify]
+url = "https://netlify-mcp.netlify.app/mcp"
+enabled = true
+\`\`\`
+
+公司网络拦了远程 MCP 时，才改本机 stdio（会占用同一个服务器名 \`netlify\`，不要两台一起加）：
+
+\`\`\`bash
+codex mcp add netlify -- npx -y @netlify/mcp
+\`\`\`
+
+本地包要 Node 24+。stdio 起得慢就加 \`startup_timeout_sec\`，不要抄别家的 \`startup_timeout_ms\`。
+
+授权按提示走。HTTP 没弹出浏览器就再跑 \`codex mcp login netlify\`。连上之后可以让它调 \`get-user\` 做一次只读探测。保持工具批准，不要一上来 \`--yolo\`。密钥和 Netlify CLI 配置不要提交进仓库。
+
+技能是另一条路，不是这台 MCP。Codex 专用安装要带 \`--agent codex\`：
+
+\`\`\`bash
+npx -y skills add netlify/context-and-tools --skill '*' --yes --agent codex
+\`\`\`
+
+不要省略 \`--agent codex\`。不带这个旗标会按默认 agent 落盘，Codex 看不见。\`fetch https://netlify.ai\` 是给会话的提示，不会写 \`mcp_servers\`。网页上的 Agent Runners 也不读这份本机配置。
+
+不要做这些：
+
+- 不要把 \`npx add-mcp https://netlify-mcp.netlify.app/mcp\` 当 Codex 主路径。它会改所有检测到的 agent。
+- 不要抄 Claude 的 \`--transport http\`，也不要抄 \`mcpServers\` JSON。
+- 不要套 \`mcp-remote\`。
+- 不要给它 \`required = true\` 挂全局。
+- 不要把 \`netlify login\` / 个人访问令牌写进 TOML 或 \`http_headers\`。
+- 不要和 Vercel MCP（\`mcp.vercel.com\`）或 AI Gateway 的 \`[model_providers.vercel]\` 搞混。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get netlify\` 看传输是 streamable_http（远程）或 stdio（本机包）。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Netlify", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-vercel-remote", "mcp-http-not-sse"],
+    sources: [
+      {
+        label: "Netlify · Set up Codex",
+        url: "https://docs.netlify.com/build/build-with-ai/agent-setup-guides/set-up-codex-for-netlify/",
       },
       {
         label: "OpenAI · Model Context Protocol",
