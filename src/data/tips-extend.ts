@@ -4228,4 +4228,135 @@ npx -y skills add netlify/context-and-tools --skill '*' --yes --agent codex
       },
     ],
   },
+  {
+    id: "mcp-posthog-remote",
+    no: 286,
+    title: "PostHog MCP 用 mcp.posthog.com/mcp，Codex 默认是 CLI 模式",
+    summary:
+      "CLI：codex mcp add posthog --url https://mcp.posthog.com/mcp，再 mcp login。账号自动走美区或欧盟。Codex 默认 CLI 模式。查询 readonly=true 写进 url。不要把 wizard 当 Codex 主路径。",
+    body: `PostHog **托管**的是远程 Streamable HTTP。官方 Codex 节：
+
+\`\`\`bash
+codex mcp add posthog --url https://mcp.posthog.com/mcp
+codex mcp login posthog
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.posthog]
+url = "https://mcp.posthog.com/mcp"
+enabled = true
+\`\`\`
+
+登录账号会把流量指到对应的美区或欧盟，不必自己换主机。连上之后权限跟这个账号的当前组织 / 项目走。
+
+Codex **默认是 CLI 模式**：不会把几百个工具 schema 全塞进上下文，而是一台叫 \`exec\` 的工具按需列出、搜索、调用。看起来工具很少，并不等于没装上。要标准「每个工具一张表」时，把查询写进 \`url\`：
+
+\`\`\`toml
+[mcp_servers.posthog]
+url = "https://mcp.posthog.com/mcp?mode=tools"
+enabled = true
+\`\`\`
+
+常用查询（和 Datadog 不同，PostHog 官方就是拼进 URL）：
+
+- \`?readonly=true\`：只留读工具
+- \`?features=flags,insights\`：按产品组过滤
+- \`?project_id=12345\`：钉死项目，并关掉 switch-project / switch-organization
+
+可以组合：\`https://mcp.posthog.com/mcp?readonly=true&features=flags,insights\`。
+
+日常用 OAuth，不要 PAT。CI 不能开浏览器时，用「MCP Server」预设的个人 API key，走 \`bearer_token_env_var\`，不要把 \`Authorization: Bearer\` 写进 \`http_headers\`。钉组织 / 项目这类**不是密钥**的头可以写 \`http_headers\`（\`x-posthog-project-id\`），或继续用查询参数。
+
+插件是另一条路，会顺带装技能，不是这条 MCP 的前提：
+
+\`\`\`bash
+codex plugin marketplace add PostHog/ai-plugin
+\`\`\`
+
+然后在会话里 \`/plugins\` 选 PostHog 安装。不要抄 Claude 的 \`/plugin marketplace add\`。
+
+不要做这些：
+
+- 不要把 \`npx @posthog/wizard mcp add\` 当 Codex 主路径。Wizard 会改所有检测到的客户端。
+- 不要抄 Cursor JSON，也不要把 \`phx_\` 写进 TOML。
+- 不要抄 Claude 的 \`--transport http\`，也不要套 \`mcp-remote\`。
+- 不要给它 \`required = true\` 挂全局。写开关、改工单不是每条会话都要的依赖。
+- 不要一上来 \`--yolo\`。官方自己强调提示注入，保持工具批准。
+- 不要把 Amplitude 那台分析 MCP 和这条搞混。
+
+部分工具会在 PostHog 里走 AI 用量，组织还要打开 AI data processing。网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get posthog\` 看传输是 streamable_http。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "PostHog", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-http-bearer-env", "mcp-supabase-remote"],
+    sources: [
+      {
+        label: "PostHog · MCP for Codex",
+        url: "https://posthog.com/docs/model-context-protocol/codex",
+      },
+      {
+        label: "PostHog · MCP FAQ",
+        url: "https://posthog.com/docs/model-context-protocol/faq",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "mcp-prisma-remote",
+    no: 287,
+    title: "Prisma MCP 用 mcp.prisma.io/mcp，插件只是顺带装技能",
+    summary:
+      "CLI：codex mcp add prisma --url https://mcp.prisma.io/mcp，再 mcp login prisma。插件路径是 marketplace add prisma/codex-plugin。不要抄 mcpServers JSON。这不是 Prisma AIRS。",
+    body: `Prisma 给 Codex 的远程 MCP 是 Streamable HTTP，地址是 \`https://mcp.prisma.io/mcp\`。官方页先讲插件，JSON 示例是 Cursor 形状。Codex 本机主路径仍是：
+
+\`\`\`bash
+codex mcp add prisma --url https://mcp.prisma.io/mcp
+codex mcp login prisma
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.prisma]
+url = "https://mcp.prisma.io/mcp"
+enabled = true
+\`\`\`
+
+第一次用会打开 Prisma Console，选这个 Codex 能进的 workspace。连上之后可以列 Prisma Postgres、建库、备份、连接串、跑 SQL、看 schema。保持工具批准。Prisma ORM 会拦 \`prisma migrate reset --force\` 这类破坏性命令，除非你明确同意。
+
+只要技能、顺带登记这台 MCP 时，走插件：
+
+\`\`\`bash
+codex plugin marketplace add prisma/codex-plugin
+\`\`\`
+
+然后新开会话（或 0.154 起看当前会话），在插件目录里选 Prisma marketplace，再装 \`Prisma\` 插件。\`plugin marketplace add\` 还不认识时，先升级 Codex。不要抄 Claude 的 \`/plugin marketplace add\`。
+
+不要做这些：
+
+- 不要把官方页那份 \`mcpServers\` JSON 抄进 \`config.toml\`。Codex 远程用 \`--url\`。
+- 不要抄 Claude 的 \`--transport http\`，也不要套 \`mcp-remote\`。
+- 不要给它 \`required = true\` 挂全局。
+- 不要和桌面「Enable Prisma AIRS」搞混。那是安全扫描连接器，不是这台 Postgres MCP。
+- 不要把密钥写进 \`http_headers\`。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get prisma\` 看传输是 streamable_http。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Prisma", "OAuth", "plugins"],
+    related: ["mcp-add-and-login", "cloudflare-skills-plugin", "mcp-posthog-remote"],
+    sources: [
+      {
+        label: "Prisma · Codex",
+        url: "https://www.prisma.io/docs/ai/tools/codex",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
 ];

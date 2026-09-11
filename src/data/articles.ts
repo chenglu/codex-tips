@@ -2261,5 +2261,25 @@ export const articles: Article[] = [
     summary:
       '官方推荐 codex mcp add netlify --url https://netlify-mcp.netlify.app/mcp。远程被拦再改 npx @netlify/mcp。npx add-mcp 会改所有检测到的 agent，不要当 Codex 主路径。技能安装必须带 --agent codex。',
   },
+  {
+    title: 'PostHog MCP for Codex',
+    url: 'https://posthog.com/docs/model-context-protocol/codex',
+    source: 'PostHog',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'PostHog', 'OAuth'],
+    summary:
+      '官方 Codex 节是 mcp add posthog --url https://mcp.posthog.com/mcp。账号自动走美区或欧盟。Codex 默认 CLI 模式，可用 ?mode=tools。只读用 ?readonly=true。不要把 npx @posthog/wizard mcp add 当 Codex 主路径。插件是 marketplace add PostHog/ai-plugin。',
+  },
+  {
+    title: 'Using Prisma with Codex',
+    url: 'https://www.prisma.io/docs/ai/tools/codex',
+    source: 'Prisma',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Prisma', 'plugins'],
+    summary:
+      '官方远程是 https://mcp.prisma.io/mcp。Codex 用 mcp add prisma --url 再 mcp login。插件是 marketplace add prisma/codex-plugin，不要抄页上的 mcpServers JSON。这不是 Prisma AIRS。破坏性 migrate reset 仍要人同意。',
+  },
 ];
 

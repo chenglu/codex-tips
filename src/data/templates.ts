@@ -1524,4 +1524,26 @@ url = "https://netlify-mcp.netlify.app/mcp"
 enabled = true
 `,
   },
+  {
+    id: "mcp-posthog-remote",
+    title: "PostHog 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.posthog.com/mcp。Codex 默认 CLI 模式。只读用 ?readonly=true。随后 mcp login。不要把 wizard 当 Codex 主路径。",
+    code: `[mcp_servers.posthog]
+url = "https://mcp.posthog.com/mcp?readonly=true"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-prisma-remote",
+    title: "Prisma 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.prisma.io/mcp。add 之后 mcp login prisma。插件是 marketplace add prisma/codex-plugin。不要抄 mcpServers JSON。",
+    code: `[mcp_servers.prisma]
+url = "https://mcp.prisma.io/mcp"
+enabled = true
+`,
+  },
 ];

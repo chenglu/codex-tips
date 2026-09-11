@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-11T22:30:00Z",
+  lastTick: "2026-09-11T23:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "22:30 调用前 $97.95。Spend: counts（start_time=2026-09-04T22:45:00Z，共 246 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 仍是 Packt 书、0.154 worktree 营销、GTM MCP Bench、tmux-agent-pulse、Mistral Vibe、@barbarosdev、套壳额度，无新可执行帖。收录 Vercel AI Gateway 模型供应商 + Netlify 远程 MCP。PostHog MCP 留给下一轮。",
+    "23:00 调用前 $97.94。Spend: counts（start_time=2026-09-04T23:15:00Z，共 246 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 仍是 Packt 书、0.154 worktree 营销、GTM MCP Bench、tmux-agent-pulse、Mistral Vibe、@barbarosdev、套壳额度，无新可执行帖。收录 PostHog 远程 MCP + Prisma 远程 MCP。Neon MCP 留给下一轮。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -477,6 +477,12 @@ export const loopState = {
     "posthog.com docs model-context-protocol Codex mcp.posthog.com",
     "Codex CLI 技巧 2026 Vercel AI Gateway Netlify MCP model_providers",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR Vercel OR Netlify OR Gateway OR AGENTS.md OR skills)',
+    "X news: Codex CLI",
+    "posthog.com docs model-context-protocol Codex mcp.posthog.com readonly",
+    "prisma.io docs ai tools Codex mcp.prisma.io plugin marketplace",
+    "neon.tech docs ai connect-mcp-clients Codex mcp.neon.tech",
+    "Codex CLI 技巧 2026 PostHog Prisma Neon MCP OAuth login",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR PostHog OR Prisma OR Neon OR AGENTS.md OR skills)',
     "X news: Codex CLI",
   ],
 };
