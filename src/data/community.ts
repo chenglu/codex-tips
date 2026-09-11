@@ -12,6 +12,26 @@ export type CommunityItem = {
 
 export const community: CommunityItem[] = [
   {
+    title: 'Codex 用浏览器：/skills 里装精选 playwright 技能',
+    url: 'https://community.openai.com/t/how-do-i-get-codex-to-use-the-browser/1373178',
+    source: 'OpenAI Developer Community',
+    kind: '论坛',
+    date: '2026-02-02',
+    tags: ['Skills', 'Playwright', '$skill-installer'],
+    summary:
+      '有人只装了全局 @playwright/cli，以为 Codex 没有 Playwright 技能。回复给出 /skills → skill-installer → playwright。原帖确认能用。这和 Playwright MCP、以及默认写进 .claude 的 install --skills 不是同一条路。',
+  },
+  {
+    title: '桌面默认沙箱里 Playwright 技能会 listen EPERM',
+    url: 'https://github.com/openai/codex/issues/16174',
+    source: 'openai/codex#16174',
+    kind: '论坛',
+    date: '2026-03-29',
+    tags: ['Skills', 'Playwright', '沙箱'],
+    summary:
+      '开放问题。内置 playwright 技能在桌面默认沙箱拉浏览器时，本机 CDP listen 被拒，报 EPERM。把 Playwright 缓存改到工作区只修文件权限。不要把关掉沙箱写成官方第一步。',
+  },
+  {
     title: 'Playwright MCP 报 chrome executable not found 时先装 Chromium',
     url: 'https://github.com/openai/codex/issues/16696',
     source: 'openai/codex#16696',

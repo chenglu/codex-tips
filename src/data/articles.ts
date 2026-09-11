@@ -2021,5 +2021,25 @@ export const articles: Article[] = [
     summary:
       '中文把三种客户端的官方包名写清楚，并标出 browser_run_code_unsafe 的风险。Codex 示例里的服务器级 approval_mode 不是现行键，应写成 default_tools_approval_mode，或用 disabled_tools 直接关掉。安装仍以 Playwright 给 Codex 的 stdio 示例为准。',
   },
+  {
+    title: 'Installation',
+    url: 'https://playwright.dev/agent-cli/installation',
+    source: 'Playwright',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'Playwright', 'playwright-cli'],
+    summary:
+      '官方 playwright-cli 安装。无参数的 install --skills 默认等于 --skills=claude，会写进 .claude/skills。Codex 要仓库技能必须加 --skills=agents；-g 才进 ~/.agents/skills。没有 --skills=codex。浏览器可另外 install-browser。',
+  },
+  {
+    title: 'Skills',
+    url: 'https://playwright.dev/agent-cli/skills',
+    source: 'Playwright',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'Playwright', 'playwright-cli'],
+    summary:
+      'Playwright 自己的技能教代理怎么用 playwright-cli：snapshot、mock、trace、storage state。也可以不装技能，只让代理读 playwright-cli --help。这和 Codex 精选技能 $skill-installer playwright 是两条安装通道。',
+  },
 ];
 

@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-11T17:00:00Z",
+  lastTick: "2026-09-11T17:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "17:00 调用前 $98.03。Spend: counts（start_time=2026-09-04T17:15:00Z，共 220 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录 Playwright MCP stdio。",
+    "17:30 调用前 $98.02。Spend: counts（start_time=2026-09-04T17:45:00Z，共 256 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录 Playwright CLI skill。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -405,6 +405,13 @@ export const loopState = {
     "eastondev.com Playwright MCP Codex browser_run_code_unsafe",
     "Codex CLI 技巧 2026 Playwright MCP @playwright/mcp stdio",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR Playwright OR hooks OR worktree OR exec OR AGENTS.md OR config.toml)',
+    "X news: Codex CLI",
+    "playwright.dev agent-cli installation --skills=agents Codex",
+    "github.com/openai/skills curated playwright SKILL.md",
+    "community.openai.com how do I get Codex to use the browser skill-installer",
+    "github.com/openai/codex/issues/16174 playwright skill listen EPERM",
+    "Codex CLI 技巧 2026 $skill-installer playwright playwright-cli skills",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR skills OR hooks OR worktree OR exec OR AGENTS.md OR config.toml)',
     "X news: Codex CLI",
   ],
 };

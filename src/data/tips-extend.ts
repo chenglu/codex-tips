@@ -148,7 +148,7 @@ $skill-installer linear
     level: "starter",
     surfaces: ["cli", "app"],
     tags: ["$skill-installer", "Skills", "路径"],
-    related: ["skill-creator", "skill-locations", "unity-codex-plugin"],
+    related: ["skill-creator", "skill-locations", "playwright-cli-skill"],
     sources: [
       {
         label: "OpenAI · Agent Skills",
@@ -3114,12 +3114,12 @@ enabled = true
 
 中文教程里的服务器级 \`approval_mode = "prompt"\` 不是 Codex 现行键。服务器用 \`default_tools_approval_mode\`；真要开这个工具，再给它单独写 \`[mcp_servers.playwright.tools.browser_run_code_unsafe]\` 的 \`approval_mode = "approve"\`。
 
-Playwright 另有 \`playwright-cli\` + skills 路径，那是 shell 命令，不是这台 MCP。不要两套都 \`required = true\`。`,
+Playwright 另有 \`playwright-cli\` + skills 路径，那是 shell 命令，不是这台 MCP。安装见 Playwright 浏览器技能那条。不要两套都 \`required = true\`。`,
     category: "mcp",
     level: "starter",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "Playwright", "stdio"],
-    related: ["chrome-devtools-mcp", "cleanup-playwright-chrome", "mcp-add-and-login"],
+    related: ["chrome-devtools-mcp", "playwright-cli-skill", "cleanup-playwright-chrome"],
     sources: [
       {
         label: "Playwright · Other clients (Codex)",
@@ -3132,6 +3132,58 @@ Playwright 另有 \`playwright-cli\` + skills 路径，那是 shell 命令，不
       {
         label: "OpenAI · Model Context Protocol",
         url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "playwright-cli-skill",
+    no: 265,
+    title: "Playwright 浏览器技能用 $skill-installer，不要装进 .claude/skills",
+    summary:
+      "本机：$skill-installer playwright，或 /skills 里选 skill-installer。Playwright 自己的安装器必须 --skills=agents，默认会写进 .claude。不要手拷 ~/.codex/skills。桌面默认沙箱可能 listen EPERM。",
+    body: `要让 Codex **用终端里的浏览器**，官方精选技能叫 \`playwright\`，不是 MCP 包。CLI / TUI：
+
+\`\`\`text
+$skill-installer playwright
+\`\`\`
+
+或 \`/skills\` → skill-installer → 列表里的 playwright。装完新开一轮，\`/skills\` 应能看见。需要 Node.js 20+ 和 \`npx\`。全局 \`npm install -g @playwright/cli@latest\` 可选；精选技能自带 wrapper，用 \`npx --package @playwright/cli playwright-cli\`。
+
+不要做这些：
+
+- 不要跑无参数的 \`playwright-cli install --skills\`。Playwright 文档写明默认等于 \`--skills=claude\`，技能会进 \`.claude/skills/playwright-cli\`，Codex 看不到。
+- 仓库要用 Playwright 自己的安装器时，必须写成 \`playwright-cli install --skills=agents\`，才会进 \`.agents/skills/playwright-cli\`。要跟你走再加 \`-g\`，进 \`~/.agents/skills\`。没有 \`--skills=codex\` 这种旗标。
+- 不要手拷到 \`~/.codex/skills\`。精选技能正文里有时还写 \`CODEX_HOME/skills\`，那是过期路径。现行个人目录是 \`~/.agents/skills\`，见技能安装器那条。
+- 不要去开 \`js_repl\` 或 \`playwright-interactive\`。\`js_repl\` 已 removed，桌面还可能把 \`features.js_repl = false\` 写回 config.toml。
+- 不要和 Playwright MCP 两套都 \`required = true\`。技能走 shell 命令和 snapshot；MCP 走工具表。挑一条主路径。
+
+桌面默认沙箱里，这套技能拉浏览器常报 \`listen EPERM: operation not permitted\`：Playwright 要在本机 listen CDP 端口，沙箱不让。把缓存目录改到工作区只修文件权限，修不了 listen。这是开放问题，不要把关掉沙箱写成官方第一步。CLI 里按提示批准网络/沙箱升级，或改走无头 MCP。
+
+显式点名技能，避免它空转几分钟试各种启动脚本：
+
+\`\`\`text
+$playwright
+打开 https://example.com，snapshot，返回标题。
+\`\`\`
+
+浏览器二进制仍可能要 \`playwright-cli install-browser\` 或 \`npx playwright install chromium\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["Skills", "Playwright", "$skill-installer"],
+    related: ["skill-installer", "playwright-mcp", "skill-locations"],
+    sources: [
+      {
+        label: "OpenAI · Agent Skills",
+        url: "https://developers.openai.com/codex/skills",
+      },
+      {
+        label: "openai/skills · playwright",
+        url: "https://github.com/openai/skills/blob/main/skills/.curated/playwright/SKILL.md",
+      },
+      {
+        label: "Playwright · Installation",
+        url: "https://playwright.dev/agent-cli/installation",
       },
     ],
   },
