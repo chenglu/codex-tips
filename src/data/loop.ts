@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-11T21:30:00Z",
+  lastTick: "2026-09-11T22:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "21:30 调用前 $97.96。Spend: counts（start_time=2026-09-04T21:45:00Z，共 227 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 仍是 GTM MCP Bench、Mistral Vibe、@barbarosdev、SQLcl 转帖、0.154 营销、套壳 Web 额度，无新可执行帖。收录 Grafana OSS stdio + Grafana Cloud 远程 MCP。",
+    "22:00 调用前 $97.96。Spend: counts（start_time=2026-09-04T22:15:00Z，共 229 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 仍是 Packt 书、GTM MCP Bench、Mistral Vibe、@barbarosdev、SQLcl 转帖、0.154 营销、套壳 Web 额度，无新可执行帖。收录 Vercel 远程 MCP + Supabase 远程 MCP。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -465,6 +465,12 @@ export const loopState = {
     "vercel.com docs agent-resources vercel-mcp Codex mcp add",
     "Codex CLI 技巧 2026 Grafana MCP uvx mcp-grafana grafana_cloud OAuth",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR Grafana OR Vercel OR Datadog OR AGENTS.md OR skills)',
+    "X news: Codex CLI",
+    "vercel.com docs agent-resources vercel-mcp Codex mcp.vercel.com",
+    "supabase.com docs guides ai-tools mcp Codex mcp.supabase.com read_only",
+    "community.vercel.com Codex CLI vercel MCP redirect URL is invalid",
+    "Codex CLI 技巧 2026 Vercel Supabase MCP OAuth login",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR Vercel OR Supabase OR Grafana OR AGENTS.md OR skills)',
     "X news: Codex CLI",
   ],
 };

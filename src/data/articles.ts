@@ -2221,5 +2221,25 @@ export const articles: Article[] = [
     summary:
       '托管入口是 https://mcp.grafana.com/mcp，OAuth，只要 Grafana Cloud。页面没有 Codex 专页。Codex 用 mcp add grafana_cloud --url。login 若 302 到文档，http_headers 写 Accept 和 X-Grafana-URL。这不是本机 uvx mcp-grafana。',
   },
+  {
+    title: 'Use Vercel',
+    url: 'https://vercel.com/docs/agent-resources/vercel-mcp',
+    source: 'Vercel',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Vercel', 'OAuth'],
+    summary:
+      '官方 Codex 节是 mcp add vercel --url https://mcp.vercel.com（没有 /mcp 后缀），add 时会探测 OAuth。npx add-mcp 会改所有检测到的 agent，不要当 Codex 主路径。vercel mcp CLI 的客户端名单没有 Codex。不要抄 Gemini 的 npx mcp-remote 或 Claude 的 --transport http。',
+  },
+  {
+    title: 'Supabase MCP Server',
+    url: 'https://supabase.com/docs/guides/ai-tools/mcp',
+    source: 'Supabase',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Supabase', 'OAuth'],
+    summary:
+      '官方 Codex 节是 mcp add supabase --url https://mcp.supabase.com/mcp，再 mcp login supabase。查询参数 ?read_only=true、?project_ref=abc123、?features=database,docs 写进 url。托管走 OAuth DCR，不要 PAT 当主路径。CI 才用 bearer_token_env_var。不要抄 experimental_use_rmcp_client。',
+  },
 ];
 

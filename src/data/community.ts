@@ -12,6 +12,16 @@ export type CommunityItem = {
 
 export const community: CommunityItem[] = [
   {
+    title: 'Codex CLI 连 Vercel MCP：OAuth 报 The app redirect URL is invalid',
+    url: 'https://community.vercel.com/t/codex-cli-vercel-mcp-login-fails-with-the-app-redirect-url-is-invalid/42756',
+    source: 'Vercel Community',
+    kind: '论坛',
+    date: '2026-05-27',
+    tags: ['MCP', 'Vercel', 'OAuth'],
+    summary:
+      '报告 codex mcp add vercel --url https://mcp.vercel.com 后，浏览器停在 The app redirect URL is invalid。redirect_uri 形如 http://127.0.0.1:49683/callback/J69OfRTZqnV5。这是 Vercel 拒带 callback ID 的 loopback，不是 TOML 能改掉的。官方仍列 Codex CLI。',
+  },
+  {
     title: 'Grafana Cloud MCP login 失败：OAuth 探测没带 Accept 头',
     url: 'https://github.com/openai/codex/issues/37830',
     source: 'openai/codex#37830',

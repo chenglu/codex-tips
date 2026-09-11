@@ -3556,7 +3556,7 @@ Stripe-Account = "STRIPE_ACCOUNT"
     level: "starter",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "Stripe", "OAuth", "HTTP"],
-    related: ["mcp-add-and-login", "mcp-http-bearer-env", "mcp-http-env-headers"],
+    related: ["mcp-add-and-login", "mcp-http-bearer-env", "mcp-vercel-remote"],
     sources: [
       {
         label: "Stripe · MCP",
@@ -4029,6 +4029,135 @@ enabled = true
       {
         label: "openai/codex#37830",
         url: "https://github.com/openai/codex/issues/37830",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "mcp-vercel-remote",
+    no: 282,
+    title: "Vercel MCP 用 mcp.vercel.com，不要加 /mcp 后缀",
+    summary:
+      "CLI：codex mcp add vercel --url https://mcp.vercel.com，再 mcp login vercel。官方远程没有 /mcp 后缀。不要把 npx add-mcp 或 vercel mcp 当 Codex 主路径。",
+    body: `Vercel 官方给 Codex CLI 的是**远程** Streamable HTTP，地址是 \`https://mcp.vercel.com\`，**没有** \`/mcp\` 后缀（和 Stripe 一样）。官方 Codex 节：
+
+\`\`\`bash
+codex mcp add vercel --url https://mcp.vercel.com
+codex mcp login vercel
+\`\`\`
+
+\`add\` 时会探测 OAuth 并开浏览器；没弹出再跑 \`codex mcp login vercel\`。手写 TOML 效果一样：
+
+\`\`\`toml
+[mcp_servers.vercel]
+url = "https://mcp.vercel.com"
+enabled = true
+\`\`\`
+
+连上之后权限跟你的 Vercel 账号走。公开工具（搜文档）可以不登录；管项目、部署、日志、Web Analytics 要 OAuth。保持工具批准，不要一上来 \`--yolo\`。
+
+要限定到某个项目时，把 URL 写成 \`https://mcp.vercel.com/acme/my-app\`（团队 slug / 项目名），再 \`mcp add\` / \`mcp login\`。这是自己写进 \`url\`，不是跑 \`vercel mcp --project\`。
+
+若浏览器停在 **The app redirect URL is invalid**，\`redirect_uri\` 会带 callback ID，形如 \`http://127.0.0.1:49683/callback/J69OfRTZqnV5\`。这是 Vercel 侧 allowlist 拒这种 loopback，不是你能在 TOML 里修好的。不要自己建 Sign in with Vercel 应用去打 \`mcp.vercel.com\`——那些 token 只对 REST，不是 MCP。官方页仍列 Codex CLI，不要当成「现行一定失败」。完整回调规则见「MCP OAuth 登记完整回调」那条。
+
+不要做这些：
+
+- 不要把 \`npx add-mcp https://mcp.vercel.com\` 当 Codex 主路径。它会改所有检测到的 agent。
+- 不要跑 \`vercel mcp\`。那条 CLI 的客户端名单只有 Claude Code、Claude.ai、Cursor、VS Code，没有 Codex。
+- 不要抄 Gemini 的 \`npx mcp-remote\`，也不要抄 Claude 的 \`--transport http\`。
+- 不要把 \`npx plugins add vercel/vercel-plugin\` 当成这条 MCP。那是插件 / 技能路径。
+- 不要和 AI Gateway 的 \`[model_providers.vercel]\` 搞混。那是模型供应商，不是这台 MCP。
+- 不要给它 \`required = true\` 挂全局。
+- 不要抄 \`/sse\`，也不要给 HTTP 写 \`env\` 表。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get vercel\` 看传输是 streamable_http。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Vercel", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-oauth-callback-id", "mcp-stripe-remote"],
+    sources: [
+      {
+        label: "Vercel · MCP",
+        url: "https://vercel.com/docs/agent-resources/vercel-mcp",
+      },
+      {
+        label: "Vercel Community · redirect URL is invalid",
+        url: "https://community.vercel.com/t/codex-cli-vercel-mcp-login-fails-with-the-app-redirect-url-is-invalid/42756",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "mcp-supabase-remote",
+    no: 283,
+    title: "Supabase MCP 用 mcp.supabase.com/mcp，查询参数写进 url",
+    summary:
+      "CLI：codex mcp add supabase --url https://mcp.supabase.com/mcp，再 mcp login。官方查询 read_only=true、project_ref=abc123 写进 url。不要 PAT 当主路径，也不要抄 experimental_use_rmcp_client。",
+    body: `Supabase **托管**的是远程 Streamable HTTP + OAuth（动态客户端登记）。官方 Codex 节：
+
+\`\`\`bash
+codex mcp add supabase --url "https://mcp.supabase.com/mcp"
+codex mcp login supabase
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.supabase]
+url = "https://mcp.supabase.com/mcp"
+enabled = true
+\`\`\`
+
+这和 Datadog 不同：Datadog 在 Codex 里要用 \`http_headers\` 选工具集；Supabase 官方就是把查询参数写进 \`url\`。常用三个：
+
+- \`?read_only=true\`：SQL 以只读 Postgres 用户跑
+- \`?project_ref=abc123\`：限定到一个项目（官方表示例就是 \`abc123\`）。加上之后 **account** 类工具会关掉
+- \`?features=database,docs\`：只开指定工具组。Storage 组**默认关**，要用再写进 \`features\`
+
+可以组合：
+
+\`\`\`toml
+[mcp_servers.supabase]
+url = "https://mcp.supabase.com/mcp?project_ref=abc123&read_only=true"
+enabled = true
+\`\`\`
+
+本机 Supabase CLI 是另一台：\`http://localhost:54321/mcp\`，工具子集，**没有** OAuth。不要把托管 URL 抄到本地，也不要把本地地址拿去 \`mcp login\`。
+
+日常不要 PAT。CI 不能开浏览器时才用个人访问令牌，走 \`bearer_token_env_var\`，变量必须在**启动 Codex 的那个进程**里。不要把 \`Authorization: Bearer\` 写进 \`http_headers\`：
+
+\`\`\`toml
+[mcp_servers.supabase]
+url = "https://mcp.supabase.com/mcp?project_ref=abc123&read_only=true"
+bearer_token_env_var = "SUPABASE_ACCESS_TOKEN"
+enabled = true
+\`\`\`
+
+键里是变量**名**。不要和已经 \`mcp login\` 的 OAuth 写在同一张表。
+
+不要做这些：
+
+- 不要抄旧文的 \`experimental_use_rmcp_client\`，也不要抄 \`[mcp] remote_mcp_client_enabled = true\`。那是 Studio / 旧客户端旗标，不是 Codex 配置面；Supabase 自己已经从流程里删掉。
+- 不要抄 Claude 的 \`--transport http\`，也不要抄 \`mcpServers\` JSON。
+- 不要套 \`mcp-remote\`。
+- 不要给它 \`required = true\` 挂全局。生产库带着写工具不是每条会话都要的依赖。
+- 不要一上来 \`--yolo\`。SQL 结果和工单正文都可能带提示注入，保持工具批准。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get supabase\` 看传输是 streamable_http。会话里 \`/mcp\` 只是核对工具，不是唯一登录入口。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Supabase", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-http-bearer-env", "mcp-vercel-remote"],
+    sources: [
+      {
+        label: "Supabase · MCP Server",
+        url: "https://supabase.com/docs/guides/ai-tools/mcp",
       },
       {
         label: "OpenAI · Model Context Protocol",

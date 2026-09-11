@@ -1478,4 +1478,26 @@ http_headers = { "X-Grafana-URL" = "https://myinstance.grafana.net", "Accept" = 
 enabled = true
 `,
   },
+  {
+    id: "mcp-vercel-remote",
+    title: "Vercel 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.vercel.com，没有 /mcp 后缀。add 之后 mcp login vercel。不要把 npx add-mcp 或 vercel mcp 当 Codex 主路径。",
+    code: `[mcp_servers.vercel]
+url = "https://mcp.vercel.com"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-supabase-remote",
+    title: "Supabase 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.supabase.com/mcp。查询 read_only=true 和 project_ref=abc123 写进 url。随后 mcp login。不要 PAT 当主路径。",
+    code: `[mcp_servers.supabase]
+url = "https://mcp.supabase.com/mcp?project_ref=abc123&read_only=true"
+enabled = true
+`,
+  },
 ];
