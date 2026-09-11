@@ -1871,5 +1871,15 @@ export const articles: Article[] = [
     summary:
       '按官方目录分类介绍到 2026-09 的 75 个插件。安装后要新开会话；CLI 用 /plugins，桌面有插件页，IDE 扩展没有插件目录。带 MCP 的 Admin 导入插件仍是 Desktop only。具体字段和 mcp.json 包装键以 Learn 现行页为准，不要只按文中的兼容布局抄。',
   },
+  {
+    title: 'How to Build a Controlled MCP Workflow for Codex and Oracle AI Database',
+    url: 'https://blogs.oracle.com/developers/how-to-build-a-controlled-mcp-workflow-for-codex-and-oracle-ai-database',
+    source: 'Oracle Developers',
+    lang: '英文',
+    kind: '教程',
+    tags: ['MCP', 'Oracle', 'SQLcl'],
+    summary:
+      'Oracle 官方把 Codex CLI 接到 SQLcl MCP：先用 conn -save -savepwd 把连接存进 ~/.dbtools，再让 Codex 用绝对路径启动 sql -mcp。密码不要写进 config.toml。后半讲的 Agent Memory 和 LangChain 是应用层，不是 Codex 配置。DEV.to 同文转载。',
+  },
 ];
 

@@ -1108,4 +1108,17 @@ enabled = true
 PATH = "/opt/homebrew/bin:/usr/bin:/bin"
 `,
   },
+  {
+    id: "sqlcl-oracle-mcp",
+    title: "SQLcl MCP 接 Oracle",
+    filename: "~/.codex/config.toml",
+    summary: "密码用 SQLcl 的 conn -save -savepwd 存进 ~/.dbtools。command 写 sql 的绝对路径。Java 起得慢就 required = true。",
+    code: `[mcp_servers.sqlcl]
+command = "/opt/oracle/sqlcl/bin/sql"
+args = ["-mcp"]
+required = true
+startup_timeout_sec = 40
+enabled = true
+`,
+  },
 ];

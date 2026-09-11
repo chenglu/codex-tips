@@ -12,6 +12,16 @@ export type CommunityItem = {
 
 export const community: CommunityItem[] = [
   {
+    title: 'Oracle：用 SQLcl MCP 把 Codex CLI 接到数据库',
+    url: 'https://blogs.oracle.com/developers/how-to-build-a-controlled-mcp-workflow-for-codex-and-oracle-ai-database',
+    source: 'Oracle Developers',
+    kind: '论坛',
+    date: '2026-08-12',
+    tags: ['MCP', 'Oracle', 'SQLcl'],
+    summary:
+      '官方步骤：SQLcl 25.2+ 用 sql -mcp，连接先 conn -save -savepwd 存进 ~/.dbtools。Codex 只写绝对 command 和 args = ["-mcp"]，密码不要进 config.toml。后半的 Agent Memory / LangChain 是应用层，不是 Codex 配置。',
+  },
+  {
     title: '0.154：macOS MCP 裸命令和相对路径改走原生 spawn',
     url: 'https://github.com/openai/codex/pull/42192',
     source: 'openai/codex#42192',

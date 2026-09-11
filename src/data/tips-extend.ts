@@ -207,7 +207,7 @@ HTTP 服务器用 \`bearer_token_env_var\` 读环境变量，不要把 token 写
     level: "starter",
     surfaces: ["cli"],
     tags: ["codex mcp", "OAuth", "stdio"],
-    related: ["mcp-http-auth-chatgpt", "mcp-oauth-resource", "mcp-oauth-scopes"],
+    related: ["mcp-http-auth-chatgpt", "mcp-oauth-resource", "sqlcl-oracle-mcp"],
     sources: [
       {
         label: "Codex CLI Cheat Sheet",
@@ -2425,7 +2425,7 @@ enabled = true
     level: "intermediate",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "macOS", "0.154"],
-    related: ["mcp-add-and-login", "plugin-mcp-cwd-dot", "mcp-required-and-allowlist"],
+    related: ["mcp-add-and-login", "plugin-mcp-cwd-dot", "sqlcl-oracle-mcp"],
     sources: [
       {
         label: "openai/codex#42192",
@@ -2434,6 +2434,64 @@ enabled = true
       {
         label: "openai/codex rust-v0.154.0",
         url: "https://github.com/openai/codex/releases/tag/rust-v0.154.0",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "sqlcl-oracle-mcp",
+    no: 250,
+    title: "接 Oracle 用 SQLcl MCP，密码放 ~/.dbtools 不要写进 config.toml",
+    summary: "SQLcl 25.2+ 用 sql -mcp。先 conn -save -savepwd 存别名。command 写绝对路径，Java 起得慢就 required = true。不要抄 Claude 的 mcpServers JSON。",
+    body: `先装 Oracle SQLcl 25.2 或更高，以及 Java 17 或 21。在 SQLcl 里自己存好连接，密码进 \`~/.dbtools\`，不要让 Codex 拼连接串：
+
+\`\`\`text
+sql
+SQL> conn -save devdb -savepwd
+\`\`\`
+
+别名要先能手工连上。然后用绝对路径把 SQLcl 注册成 MCP，不要只写 \`sql\`：
+
+\`\`\`bash
+codex mcp add sqlcl -- /opt/oracle/sqlcl/bin/sql -mcp
+\`\`\`
+
+或写用户配置：
+
+\`\`\`toml
+[mcp_servers.sqlcl]
+command = "/opt/oracle/sqlcl/bin/sql"
+args = ["-mcp"]
+required = true
+startup_timeout_sec = 40
+enabled = true
+\`\`\`
+
+Windows 把 \`command\` 换成 \`sql.exe\` 的绝对路径。从 Dock 打开的桌面经常没有 SQLcl 的 PATH，裸命令会 command not found，见 macOS 裸命令那条。
+
+Java 起 MCP 经常超过可选服务器默认 1 秒宽限。\`codex exec\` 要用到它时必须 \`required = true\`，或把 \`mcp_optional_startup_grace_ms\` 改成 \`0\`。不要抄 Cline / Claude 的 \`mcpServers\` JSON 进 Codex。
+
+改完新开会话，用 \`codex mcp list\` 和 \`/mcp\` 核对工具。先让它连已保存的 \`devdb\`，只跑只读查询。工具名以本机 \`/mcp\` 为准，常见是 \`list-connections\`、\`connect\`、\`run-sql\`。写操作另开审批，不要把连接串或密码写进 \`AGENTS.md\`。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Oracle", "SQLcl"],
+    related: ["mcp-add-and-login", "macos-mcp-bare-command", "exec-mcp-optional-grace"],
+    sources: [
+      {
+        label: "Oracle Developers · Codex + SQLcl MCP",
+        url: "https://blogs.oracle.com/developers/how-to-build-a-controlled-mcp-workflow-for-codex-and-oracle-ai-database",
+      },
+      {
+        label: "Oracle SQLcl · Preparing Your Environment",
+        url: "https://docs.oracle.com/en/database/oracle/sql-developer-command-line/25.4/sqcug/preparing-your-environment.html",
+      },
+      {
+        label: "Oracle · DEV.to 转载",
+        url: "https://dev.to/oracledevs/how-to-build-a-controlled-mcp-workflow-for-codex-and-oracle-ai-database-5e90",
       },
       {
         label: "OpenAI · Model Context Protocol",

@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-11T09:30:00Z",
+  lastTick: "2026-09-11T10:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "09:30 调用前 $98.20。Spend: counts（start_time=2026-09-04T10:45:00Z，共 128 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 仍报 $98.20。X 无新可执行帖。收录 macOS 0.154 MCP 裸命令原生 spawn。",
+    "10:00 调用前 $98.20。Spend: counts（start_time=2026-09-04T10:20:00Z，共 258 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录 SQLcl MCP 接 Oracle。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -311,6 +311,14 @@ export const loopState = {
     "Codex CLI 0.155.0-alpha.1 changelog rust-v0.155",
     "Codex CLI 技巧 2026 macOS MCP uvx 裸命令 spawn",
     'X: ("Codex CLI" OR #CodexCLI) (plugin OR marketplace OR worktree OR hooks OR AGENTS.md OR exec OR config.toml)',
+    "X news: Codex CLI",
+    "github.com/openai/codex rust-v0.155.0-alpha.1 changelog",
+    "github.com/openai/codex/pull/42406 plugin mention MCP startup",
+    "github.com/openai/codex/pull/43352 MCP user-verification experimental",
+    "blogs.oracle.com Codex CLI SQLcl MCP savepwd",
+    "docs.oracle.com sqlcl preparing-your-environment MCP -savepwd",
+    "Codex CLI 技巧 2026 SQLcl Oracle MCP sql -mcp",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR hooks OR skills OR worktree OR exec OR config.toml OR AGENTS.md)',
     "X news: Codex CLI",
   ],
 };

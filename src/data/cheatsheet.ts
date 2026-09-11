@@ -153,6 +153,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: "--thread-source", meaning: "新建或 fork 时标注来源；resume 不改已保存来源" },
       { cmd: "openai/codex-action@v1", meaning: "官方 GH Action；prompt 与 prompt-file 二选一" },
       { cmd: "codex mcp add linear --url …", meaning: "本机接 Linear MCP，随后 mcp login linear" },
+      { cmd: "codex mcp add sqlcl -- /abs/sql -mcp", meaning: "接 Oracle SQLcl MCP。先 conn -save -savepwd，密码不要写进 config.toml。Java 起得慢就 required = true" },
       { cmd: "codex mcp login NAME --scopes a,b", meaning: "HTTP MCP 登录时请求范围；逗号分隔；顺序是 CLI、config、广告 scopes_supported" },
       { cmd: "codex mcp add NAME --url … --oauth-client-id", meaning: "预注册 OAuth；回调用无端口 127.0.0.1，不要写 localhost" },
       { cmd: "npx @openai/codex-security scan DIR", meaning: "Security CLI；--output-dir 放仓外；先 --dry-run" },
