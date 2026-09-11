@@ -4359,4 +4359,170 @@ codex plugin marketplace add prisma/codex-plugin
       },
     ],
   },
+  {
+    id: "mcp-neon-remote",
+    no: 288,
+    title: "Neon MCP 用 mcp.neon.tech/mcp，不要抄 /sse 或本地 stdio 包",
+    summary:
+      "CLI：codex mcp add neon --url https://mcp.neon.tech/mcp，再 mcp login。查询 projectId= 和 readonly=true 写进 url。不要把 npx add-mcp 或已弃用的 /sse、@neondatabase/mcp-server-neon 当 Codex 主路径。",
+    body: `Neon **托管**的是远程 Streamable HTTP。Codex 本机主路径是：
+
+\`\`\`bash
+codex mcp add neon --url https://mcp.neon.tech/mcp
+codex mcp login neon
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.neon]
+url = "https://mcp.neon.tech/mcp"
+enabled = true
+\`\`\`
+
+第一次会打开 Neon 授权。连上之后可以建分支、跑 SQL、看 schema。官方自己把这台 MCP 定位成开发 / 测试，不要挂生产库，保持工具批准。
+
+常用查询写进 \`url\`（和 PostHog 一样拼进 URL，不是 Datadog 那种工具集头）：
+
+- \`?readonly=true\`：只留读工具。\`SELECT\` 和看 schema 还在，建分支 / 跑迁移会关掉
+- \`?projectId=prj_abc123\`：钉死一个项目（键是驼峰 \`projectId\`，不是 Supabase 的 \`project_ref\`）
+- \`?category=querying\`：按工具组过滤，可重复。常见还有 \`schema\`、\`branches\`、\`docs\`
+
+可以组合：
+
+\`\`\`toml
+[mcp_servers.neon]
+url = "https://mcp.neon.tech/mcp?readonly=true&projectId=prj_abc123"
+enabled = true
+\`\`\`
+
+CI 不能开浏览器时，走 API key，**不要**把 \`Authorization: Bearer\` 写进 \`http_headers\`：
+
+\`\`\`toml
+[mcp_servers.neon]
+url = "https://mcp.neon.tech/mcp?projectId=prj_abc123"
+bearer_token_env_var = "NEON_API_KEY"
+enabled = true
+\`\`\`
+
+键里是变量**名**。变量必须在启动 Codex 的那个进程里，Codex 不读 \`.env\`。不要和已经 \`mcp login\` 的 OAuth 写在同一张表。官方 Codex 分支工作流还会在项目里跑 \`neon set-context\`，生成 \`.neon\` 给模型看项目 ID，那不是 MCP 登录本身。
+
+只要技能、顺带登记这台 MCP 时，用 Neon CLI，**必须**钉死 Codex：
+
+\`\`\`bash
+npx neon@latest plugins --agent codex -y
+\`\`\`
+
+只接线、不装插件时：\`npx neon@latest mcp --oauth --agent codex\`。不要跑不带 \`--agent\` 的 \`neon mcp -y\`，它会改所有检测到的客户端，默认还会把新铸的 API key 写进配置。git 跟踪的项目配置里不要落密钥。
+
+不要做这些：
+
+- 不要把 \`npx add-mcp https://mcp.neon.tech/mcp\` 当 Codex 主路径。它会改所有检测到的 agent。
+- 不要抄 \`https://mcp.neon.tech/sse\`。这条 HTTP+SSE 已弃用，2026-10-01 起会 \`410 Gone\`。SSE 也不支持 API key。
+- 不要装本地 \`@neondatabase/mcp-server-neon\`。那包已弃用。
+- 不要套 \`mcp-remote\`，也不要抄 Claude Desktop 那份 \`mcpServers\` JSON。
+- 不要抄 Claude 的 \`--transport http\`。
+- 不要给它 \`required = true\` 挂全局。
+- 不要一上来 \`--yolo\`。分支和 SQL 都可能带提示注入。
+
+项目开了 IP Allow 时，要把托管出口 \`34.192.103.46\` 和 \`23.22.233.166\` 加进白名单，否则 MCP 连不上库。网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get neon\` 看传输是 streamable_http。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Neon", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-http-bearer-env", "mcp-posthog-remote"],
+    sources: [
+      {
+        label: "Neon · MCP Server",
+        url: "https://neon.com/docs/ai/neon-mcp-server",
+      },
+      {
+        label: "Neon · Connect MCP clients",
+        url: "https://neon.com/docs/ai/connect-mcp-clients-to-neon",
+      },
+      {
+        label: "Neon · Codex branching guide",
+        url: "https://neon.com/guides/openai-codex-neon-mcp",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "mcp-planetscale-remote",
+    no: 289,
+    title: "PlanetScale MCP 用 mcp.pscale.dev/mcp/planetscale，OAuth 是主路径",
+    summary:
+      "CLI：codex mcp add planetscale --url https://mcp.pscale.dev/mcp/planetscale，随后浏览器授权。CI 才用 bearer_token_env_var = PLANETSCALE_API_TOKEN。不要抄 REST API 的 id:secret，也不要把已删除的 pscale mcp 当现行路径。",
+    body: `PlanetScale **托管**的是远程 Streamable HTTP。官方 Codex 节：
+
+\`\`\`bash
+codex mcp add planetscale --url https://mcp.pscale.dev/mcp/planetscale
+\`\`\`
+
+官方说这条 \`add\` 会马上弹出浏览器。若没有，再跑 \`codex mcp login planetscale\`。
+
+\`\`\`toml
+[mcp_servers.planetscale]
+url = "https://mcp.pscale.dev/mcp/planetscale"
+enabled = true
+\`\`\`
+
+连上之后可以列组织 / 库 / 分支、看 schema、跑 Insights、读查询。写查询会拦没有 \`WHERE\` 的 \`UPDATE\` / \`DELETE\`，也会拦 \`TRUNCATE\`；DDL 仍要人同意。生产库不要一上来给写权限。
+
+只要 Insights 和 Schema Recommendations、不要执行 SQL 时，换 insights-only 地址。服务器名用下划线，不要把 URL 路径里的连字符抄成表名：
+
+\`\`\`toml
+[mcp_servers.planetscale_insights]
+url = "https://mcp.pscale.dev/mcp/planetscale-insights-only"
+enabled = true
+\`\`\`
+
+项目只对着一个库时，把组织 / 库 / 分支写进仓库 \`AGENTS.md\`，少让模型先扫一遍所有组织。
+
+CI 不能开浏览器时，用组织设置里的 service token，走 \`bearer_token_env_var\`。官方变量名是 \`PLANETSCALE_API_TOKEN\`，值是 \`pscale_tkn_\` 开头的**密钥本身**，不要 \`Bearer ...\`，也不要 PlanetScale REST API 那种 \`id:secret\`：
+
+\`\`\`bash
+codex mcp add planetscale --url https://mcp.pscale.dev/mcp/planetscale --bearer-token-env-var PLANETSCALE_API_TOKEN
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.planetscale]
+url = "https://mcp.pscale.dev/mcp/planetscale"
+bearer_token_env_var = "PLANETSCALE_API_TOKEN"
+enabled = true
+\`\`\`
+
+变量必须在启动 Codex 的那个进程里。不要和已经 \`mcp login\` 的 OAuth 写在同一张表。不要把 \`Authorization: Bearer\` 写进 \`http_headers\`。工具回 \`invalid_token\` 多半是把 token ID 或 \`id:secret\` 塞进去了。
+
+不要做这些：
+
+- 不要抄页上的 \`mcpServers\` JSON，也不要抄 Claude 的 \`--transport http\`。
+- 不要抄 Claude 的 \`/plugin marketplace add planetscale/claude-plugin\`。那是 Claude 插件，不是 Codex 命令。
+- 不要跑已删除的 \`pscale mcp\` 本地服务器。
+- 不要抄 Claude Code 那条 \`--header "Authorization: Bearer …"\`：shell 会把密钥展开写进配置。Codex 要的是变量**名**。
+- 不要给它 \`required = true\` 挂全局。
+- 不要一上来 \`--yolo\`，也不要把支付方式的写权限随手授给 token。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get planetscale\` 看传输是 streamable_http。会话里 \`/mcp\` 应显示 Auth: OAuth（或 bearer）。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "PlanetScale", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-http-bearer-env", "mcp-neon-remote"],
+    sources: [
+      {
+        label: "PlanetScale · MCP",
+        url: "https://planetscale.com/docs/connect/mcp",
+      },
+      {
+        label: "PlanetScale · MCP service token",
+        url: "https://planetscale.com/docs/connect/mcp-service-token",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
 ];

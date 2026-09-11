@@ -1546,4 +1546,26 @@ url = "https://mcp.prisma.io/mcp"
 enabled = true
 `,
   },
+  {
+    id: "mcp-neon-remote",
+    title: "Neon 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.neon.tech/mcp。查询 projectId=prj_abc123 写进 url。随后 mcp login。不要抄 /sse 或本地 stdio 包。",
+    code: `[mcp_servers.neon]
+url = "https://mcp.neon.tech/mcp?projectId=prj_abc123"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-planetscale-remote",
+    title: "PlanetScale 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.pscale.dev/mcp/planetscale。add 之后应弹出 OAuth。CI 才用 PLANETSCALE_API_TOKEN。不要抄 id:secret。",
+    code: `[mcp_servers.planetscale]
+url = "https://mcp.pscale.dev/mcp/planetscale"
+enabled = true
+`,
+  },
 ];

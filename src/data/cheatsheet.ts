@@ -177,6 +177,8 @@ export const cheatSections: CheatSection[] = [
       { cmd: "codex mcp add netlify --url …", meaning: "官方远程是 netlify-mcp.netlify.app/mcp。随后 mcp login。远程被拦才改 stdio npx @netlify/mcp。不要把 npx add-mcp 当 Codex 主路径" },
       { cmd: "codex mcp add posthog --url …", meaning: "官方远程是 mcp.posthog.com/mcp。随后 mcp login。Codex 默认 CLI 模式。只读用 ?readonly=true。不要把 wizard 当 Codex 主路径" },
       { cmd: "codex mcp add prisma --url …", meaning: "官方远程是 mcp.prisma.io/mcp。随后 mcp login。插件是 marketplace add prisma/codex-plugin。不要抄 mcpServers JSON，也不是 Prisma AIRS" },
+      { cmd: "codex mcp add neon --url …", meaning: "官方远程是 mcp.neon.tech/mcp。随后 mcp login。?projectId=prj_abc123 写进 url。不要抄 /sse 或已弃用的 @neondatabase/mcp-server-neon" },
+      { cmd: "codex mcp add planetscale --url …", meaning: "官方远程是 mcp.pscale.dev/mcp/planetscale。add 后应弹出 OAuth。CI 才用 PLANETSCALE_API_TOKEN。不要抄 REST API 的 id:secret，本地 pscale mcp 已删除" },
       { cmd: "codex --profile huggingface", meaning: "[model_providers.huggingface] 走 router.huggingface.co/v1，wire_api = responses，env_key = HF_TOKEN。不是 Hub MCP，也不是 --oss" },
       { cmd: "codex --profile vercel", meaning: "[model_providers.vercel] 走 ai-gateway.vercel.sh/codex/v1，wire_api = responses，env_key = AI_GATEWAY_API_KEY。不是 Vercel MCP，也不是 --oss" },
       { cmd: "项目 mcp_servers 写全传输", meaning: "桌面可能写丢用户层 MCP 表。项目不要只写 enabled = true，否则 invalid transport。先备份 ~/.codex/config.toml" },

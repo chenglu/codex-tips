@@ -2281,5 +2281,25 @@ export const articles: Article[] = [
     summary:
       '官方远程是 https://mcp.prisma.io/mcp。Codex 用 mcp add prisma --url 再 mcp login。插件是 marketplace add prisma/codex-plugin，不要抄页上的 mcpServers JSON。这不是 Prisma AIRS。破坏性 migrate reset 仍要人同意。',
   },
+  {
+    title: 'Neon MCP Server overview',
+    url: 'https://neon.com/docs/ai/neon-mcp-server',
+    source: 'Neon',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Neon', 'OAuth'],
+    summary:
+      '官方远程是 https://mcp.neon.tech/mcp。Codex 用 mcp add neon --url 再 mcp login。钉项目用 ?projectId=prj_abc123。不要抄已弃用的 /sse（2026-10-01 起 410 Gone），也不要装 @neondatabase/mcp-server-neon。npx add-mcp 会改所有 agent，不要当 Codex 主路径。CI 才用 bearer_token_env_var = NEON_API_KEY。',
+  },
+  {
+    title: 'PlanetScale Model Context Protocol',
+    url: 'https://planetscale.com/docs/connect/mcp',
+    source: 'PlanetScale',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'PlanetScale', 'OAuth'],
+    summary:
+      '官方 Codex 节是 mcp add planetscale --url https://mcp.pscale.dev/mcp/planetscale。add 后应弹出 OAuth。只要 Insights 换 planetscale-insights-only。CI 用 PLANETSCALE_API_TOKEN，值是 pscale_tkn_ 密钥本身，不要 REST API 的 id:secret。本地 pscale mcp 已删除。',
+  },
 ];
 
