@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-11T04:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "04:00 调用前 $98.30。Spend: counts（start_time=2026-09-04T05:00:00Z，共 165 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录项目层 plugins.\"name@marketplace\" enabled。",
+    "04:00 调用前 $98.30；调用后 $98.30（@lucheng01）。Spend: counts（start_time=2026-09-04T05:00:00Z，共 165 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录项目层 plugins.\"name@marketplace\" enabled。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
