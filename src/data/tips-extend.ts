@@ -737,7 +737,7 @@ HTTP 头不要写进仓库：用 \`http_headers_helper\` 打出 JSON 头，或 \
     level: "advanced",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "OAuth", "回调"],
-    related: ["mcp-http-auth-chatgpt", "mcp-oauth-resource", "mcp-oauth-scopes"],
+    related: ["plugin-mcp-oauth-json", "mcp-oauth-resource", "mcp-oauth-scopes"],
     sources: [
       {
         label: "OpenAI · Model Context Protocol",
@@ -2043,7 +2043,7 @@ OpenAI 专用展示、已注册 MCP 映射和钩子路径写在根清单的 \`ex
     level: "intermediate",
     surfaces: ["cli", "app"],
     tags: ["plugins", "plugin.json", "mcp.json"],
-    related: ["plugin-hook-plugin-root", "plugins-vs-skills", "marketplace-source-path-root"],
+    related: ["plugin-mcp-oauth-json", "plugin-hook-plugin-root", "plugins-vs-skills"],
     sources: [
       {
         label: "OpenAI · Package your plugin",
@@ -2094,11 +2094,85 @@ codex plugin list --json
     level: "intermediate",
     surfaces: ["app", "cli"],
     tags: ["plugins", "企业", "MCP"],
-    related: ["plugin-repo-enabled", "plugin-portable-json", "plugin-mcp-exec-key"],
+    related: ["plugin-repo-enabled", "plugin-portable-json", "plugin-mcp-oauth-json"],
     sources: [
       {
         label: "OpenAI · Plugin management",
         url: "https://learn.chatgpt.com/docs/enterprise/plugin-management",
+      },
+    ],
+  },
+  {
+    id: "plugin-mcp-oauth-json",
+    no: 240,
+    title: "插件 MCP 的 OAuth 写 camelCase，不要抄 config.toml 的蛇形键",
+    summary: "mcp.json 里是 clientId、callbackUrl、callbackPort。callbackUrl 里的端口不会改监听口；没写 callbackPort 就走全局或临时端口。带 clientId 但回调缺 ID 时，这份 URL 会被忽略。",
+    body: `用户 \`~/.codex/config.toml\` 用蛇形：\`client_id\`、\`callback_url\`、\`callback_port\`。插件自带的 HTTP MCP 写在根目录 \`mcp.json\` 或 \`.mcp.json\`，字段是 camelCase。抄成 \`client_id\` 不会被当成插件 OAuth。
+
+\`\`\`json
+{
+  "mcpServers": {
+    "sample": {
+      "type": "http",
+      "url": "https://mcp.example.com/mcp",
+      "oauth": {
+        "clientId": "my-pre-registered-client",
+        "callbackUrl": "http://127.0.0.1/callback/registered",
+        "callbackPort": 4321
+      }
+    }
+  }
+}
+\`\`\`
+
+可移植 Agent Plugins 包还可以给文件加 \`$schema\`，并把 \`type\` 写成 \`streamable-http\`。OAuth 对象规则一样。密钥不要写进这份 json。
+
+\`callbackUrl\` 里的端口不会选择监听口。要固定本机回环端口，\`callbackUrl\` 和 \`callbackPort\` 写成同一个数，例如 \`http://127.0.0.1:4321/callback/registered\` 配 \`"callbackPort": 4321\`。插件的 \`callbackPort\` 盖过全局 \`mcp_oauth_callback_port\`；两边都空就用操作系统临时端口。代理入口的 URL 端口和本机监听口可以故意不同。
+
+插件给了 \`clientId\`、授权服务器又不广告 issuer-bound 回调、而且 \`callbackUrl\` 缺少这台服务器的 callback ID 时，Codex 会忽略这份 URL，改用 \`mcp_oauth_callback_url\`（未设则 \`http://127.0.0.1/callback\`）再拼上 callback ID。磁盘里的 \`callbackUrl\` 不会被改写，所以看起来「清单写对了却登不上」。登录时登记终端打印出的完整回调，不要只抄清单。
+
+用户侧仍只能改开关和审批，改不了插件 MCP 的启动命令：
+
+\`\`\`toml
+[plugins."sample@test".mcp_servers.sample]
+enabled = true
+default_tools_approval_mode = "prompt"
+\`\`\`
+
+兼容布局里，根上的 \`.mcp.json\` 还要在 overlay 把 \`mcpServers\` 指到 \`./.mcp.json\`，否则这份 OAuth 根本不会被导入。Admin 导入带 MCP 的插件仍是 Desktop only。`,
+    category: "mcp",
+    level: "advanced",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "MCP", "OAuth"],
+    related: ["mcp-oauth-loopback-callback", "plugin-portable-json", "plugin-mcp-exec-key"],
+    sources: [
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "mcp-instructions-512",
+    no: 241,
+    title: "MCP instructions 把硬约束放进前 512 个字符",
+    summary: "Codex 读初始化返回的 instructions 当整台服务器的跨工具说明。决定怎么用这台服务器时，只保证前 512 个字符在场。限流、禁止事项不要埋在后半段。",
+    body: `给 Codex 用的 MCP 服务器，初始化握手可以返回 \`instructions\`。Codex 把它当成这台服务器的全局说明，和工具列表一起看：跨工具工作流、约束、限流写这里，不要只写在某一个 tool description 里。
+
+决定「这台服务器怎么用」时，官方要求前 512 个字符自成一段。超长说明的后半段在选型阶段可能还没进上下文，于是限流、只读边界、禁止写操作会看起来像没声明。
+
+把这些放在开头：这台服务器能做什么、绝对不能做什么、速率限制、要先登录还是永远只读。细节、示例、字段对照可以放在 512 之后。
+
+这不是 \`SKILL.md\`，也不是 \`AGENTS.md\`。技能和仓库规则管的是 Codex 自己的工作流；\`instructions\` 管的是这台 MCP 对所有工具生效的边界。改完重启 MCP 或新开会话再 \`/mcp\` 核对。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "instructions", "上下文"],
+    related: ["mcp-add-and-login", "plugin-mcp-oauth-json", "skill-declare-mcp-in-openai-yaml"],
+    sources: [
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
       },
     ],
   },

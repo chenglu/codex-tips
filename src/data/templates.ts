@@ -990,4 +990,24 @@ enabled = false
 }
 `,
   },
+  {
+    id: "plugin-mcp-oauth-json",
+    title: "插件 MCP OAuth（camelCase）",
+    filename: "mcp.json",
+    summary: "不要抄 config.toml 的 client_id。callbackUrl 里的端口不会改监听口，要同时写 callbackPort。",
+    code: `{
+  "mcpServers": {
+    "sample": {
+      "type": "http",
+      "url": "https://mcp.example.com/mcp",
+      "oauth": {
+        "clientId": "my-pre-registered-client",
+        "callbackUrl": "http://127.0.0.1:4321/callback/registered",
+        "callbackPort": 4321
+      }
+    }
+  }
+}
+`,
+  },
 ];

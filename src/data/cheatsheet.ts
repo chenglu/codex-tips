@@ -206,6 +206,8 @@ export const cheatSections: CheatSection[] = [
       { cmd: "oauth_resource", meaning: "HTTP MCP 登录附加 RFC 8707 resource；stdio 写了无效" },
       { cmd: "forced_login_method", meaning: "chatgpt|api；还可钉 forced_chatgpt_workspace_id；不符会登出退出" },
       { cmd: "mcp_servers.NAME.scopes", meaning: "OAuth 范围回退列表；CLI --scopes 优先于它，再才是广告；不是 oauth_resource" },
+      { cmd: "mcp.json oauth.callbackPort", meaning: "插件 MCP 用 camelCase。callbackUrl 里的端口不会改监听口。不要抄 config.toml 的 client_id" },
+      { cmd: "MCP instructions 前 512 字符", meaning: "选型时只保证这段在场；限流和禁止事项写开头，不是 SKILL.md" },
       { cmd: "features.shell_snapshot = false", meaning: "关掉默认开的环境快照；刚改 PATH / nvm 后命令仍旧时用；改完新开会话" },
       { cmd: "experimental_use_profile", meaning: "生成子进程时跑用户 profile；默认关、实验键；钉 PATH 用 set" },
     ],

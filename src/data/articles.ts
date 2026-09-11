@@ -689,7 +689,7 @@ export const articles: Article[] = [
     kind: '官方',
     tags: ['MCP', '配置', '插件'],
     summary:
-      '本地 CLI / IDE / 桌面应用共用一份 MCP 配置；ChatGPT 网页 Work 只走插件，不读 ~/.codex。覆盖 STDIO 与 Streamable HTTP、OAuth CIMD/DCR、auth=oauth|chatgpt（chatgpt 仅同源）、oauth_resource、scopes（源码顺序是 --scopes、config、广告 scopes_supported；Learn 页写成广告优先是过时摘要）、default_tools_approval_mode、单工具 output_token_limit，以及插件自带服务器只能改开关不能改启动命令。',
+      '本地 CLI / IDE / 桌面应用共用一份 MCP 配置；ChatGPT 网页 Work 只走插件，不读 ~/.codex。覆盖 STDIO 与 Streamable HTTP、OAuth CIMD/DCR、auth=oauth|chatgpt（chatgpt 仅同源）。插件自带 HTTP MCP 的 OAuth 在 mcp.json 里用 camelCase（clientId / callbackUrl / callbackPort），不要抄 config.toml 的蛇形键。instructions 前 512 个字符要自成一段。插件自带服务器只能改开关不能改启动命令。',
   },
   {
     title: 'Advanced configuration (ChatGPT Learn)',
