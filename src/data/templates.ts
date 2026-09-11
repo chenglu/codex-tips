@@ -1121,4 +1121,17 @@ startup_timeout_sec = 40
 enabled = true
 `,
   },
+  {
+    id: "windows-mcp-stderr-pipe",
+    title: "Windows 把 MCP stderr 重定向到文件",
+    filename: "~/.codex/config.toml",
+    summary:
+      "原生 Windows 上 stderr 太吵会堵死 stdio。用 cmd /c 重定向到日志，不要 2>NUL，也不要抄进 WSL。",
+    code: `[mcp_servers.docs]
+command = "cmd"
+args = ["/c", "node C:\\\\Users\\\\you\\\\mcp-server\\\\index.js 2>C:\\\\temp\\\\mcp-stderr.log"]
+startup_timeout_sec = 60
+enabled = true
+`,
+  },
 ];

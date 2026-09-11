@@ -12,6 +12,16 @@ export type CommunityItem = {
 
 export const community: CommunityItem[] = [
   {
+    title: 'Windows 上 MCP stderr 管道堵死，Codex 报 Transport closed',
+    url: 'https://github.com/openai/codex/issues/7155',
+    source: 'openai/codex#7155',
+    kind: '论坛',
+    date: '2025-11-22',
+    tags: ['MCP', 'Windows', 'stdio'],
+    summary:
+      'stdout 已是干净 JSON-RPC，手工探测和 Claude / Copilot 都正常，只有原生 Windows 上的 Codex 立刻 Transport closed。约 4KB 的 stderr 管道没人读就会堵死子进程。权宜是 cmd /c 把 stderr 重定向到日志文件，不要默认丢进 NUL；不要把 command = cmd 抄进 WSL。',
+  },
+  {
     title: 'stdio MCP 往 stdout 打日志，Codex 会 Transport closed',
     url: 'https://github.com/openai/codex/issues/18486',
     source: 'openai/codex#18486',

@@ -2521,7 +2521,7 @@ printf '%s\\n' '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protoco
     level: "intermediate",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "stdio", "Transport closed"],
-    related: ["mcp-add-and-login", "macos-mcp-bare-command", "sqlcl-oracle-mcp"],
+    related: ["mcp-add-and-login", "macos-mcp-bare-command", "windows-mcp-stderr-pipe"],
     sources: [
       {
         label: "openai/codex#18486",
@@ -2530,6 +2530,53 @@ printf '%s\\n' '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protoco
       {
         label: "openai/codex#21406",
         url: "https://github.com/openai/codex/issues/21406",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "windows-mcp-stderr-pipe",
+    no: 252,
+    title: "Windows 上 stderr 太吵会堵死 stdio MCP",
+    summary:
+      "stdout 已经是干净 JSON-RPC，Windows 上 Codex 仍 Transport closed。约 4KB 的 stderr 管道没人读就会堵死子进程。把 stderr 重定向到日志文件，不要默认丢进 NUL。",
+    body: `stdout 探测第一行已经是 \`{\` 开头的 JSON，手工 \`printf\` 管道也能握手，Claude / Copilot / Cursor 都正常，只有 **原生 Windows** 上的 Codex 报 \`Transport closed\`：先查 stderr，不要先换服务器实现。
+
+Windows 给子进程的 stderr 管道大约 4KB。MCP 服务器启动时把依赖树、SQL 警告、框架横幅打到 stderr，没人读就会把写端堵住，进程看起来像立刻断连。这和 stdout 混了非 JSON 不是同一条坑；也不是 Python 握手字节到不了客户端——Node 服务器往往还能被别的客户端正常调用。
+
+权宜是让 \`cmd\` 把 stderr 重定向到文件，并给够启动超时：
+
+\`\`\`toml
+[mcp_servers.docs]
+command = "cmd"
+args = ["/c", "node C:\\\\Users\\\\you\\\\mcp-server\\\\index.js 2>C:\\\\temp\\\\mcp-stderr.log"]
+startup_timeout_sec = 60
+enabled = true
+\`\`\`
+
+优先写日志文件，不要一上来 \`2>NUL\`：管道不堵了，启动失败也看不见。改完必须**新开会话**，旧线程不会重拉 MCP。
+
+这条只针对原生 Windows。桌面开了 WSL 代理时，不要把 \`command = "cmd"\` 抄进 Linux 侧 config——那会变成另一条 invalid transport。WSL 里用 bash 重定向：\`args = ["-lc", "node ./server.js 2>/tmp/mcp-stderr.log"]\`。HTTP MCP 走 \`url\`，不受这条管道限制。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Windows", "stdio", "Transport closed"],
+    related: [
+      "mcp-stdio-stdout-jsonrpc",
+      "desktop-wsl-codex-app-transport",
+      "mcp-add-and-login",
+    ],
+    sources: [
+      {
+        label: "openai/codex#7155",
+        url: "https://github.com/openai/codex/issues/7155",
+      },
+      {
+        label: "openai/codex#18486",
+        url: "https://github.com/openai/codex/issues/18486",
       },
       {
         label: "OpenAI · Model Context Protocol",

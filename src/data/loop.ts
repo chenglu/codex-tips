@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-11T10:30:00Z",
+  lastTick: "2026-09-11T11:06:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "10:30 调用前 $98.15。Spend: counts（start_time=2026-09-04T10:45:00Z，共 257 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录 stdio MCP stdout 必须是 JSON-RPC。",
+    "11:06 调用前 $98.14。Spend: counts（start_time=2026-09-04T11:15:00Z，共 256 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 无新可执行帖。收录 Windows stderr 管道堵死 stdio MCP。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -326,6 +326,11 @@ export const loopState = {
     "github.com/openai/codex rust-v0.155.0-alpha.2 releases",
     "Codex CLI 技巧 2026 stdio MCP stdout stderr Transport closed",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR hooks OR skills OR worktree OR exec OR config.toml OR AGENTS.md)',
+    "X news: Codex CLI",
+    "github.com/openai/codex/issues/7155 Windows MCP stderr pipe Transport closed",
+    "Codex CLI 0.154 0.155 MCP Windows stderr stdout JSON-RPC",
+    "Codex CLI 技巧 2026 Windows MCP stderr 管道 Transport closed",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR stderr OR Windows OR worktree OR hooks OR exec)',
     "X news: Codex CLI",
   ],
 };
