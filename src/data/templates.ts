@@ -1424,4 +1424,29 @@ url = "https://mcp.amplitude.com/mcp"
 enabled = true
 `,
   },
+  {
+    id: "mcp-datadog-remote",
+    title: "Datadog 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "US1 是 mcp.datadoghq.com/api/unstable/mcp-server/mcp。随后 mcp login。工具集写 X-Datadog-MCP-Toolsets，不要把 ?toolsets= 拼进 URL。",
+    code: `[mcp_servers.datadog]
+url = "https://mcp.datadoghq.com/api/unstable/mcp-server/mcp"
+http_headers = { "X-Datadog-MCP-Toolsets" = "apm,llmobs" }
+enabled = true
+`,
+  },
+  {
+    id: "hf-inference-providers",
+    title: "Hugging Face 模型供应商",
+    filename: "~/.codex/config.toml",
+    summary:
+      "router.huggingface.co/v1，env_key = HF_TOKEN，wire_api = responses。再用 huggingface.config.toml 和 --profile huggingface。不是 Hub MCP。",
+    code: `[model_providers.huggingface]
+name = "Hugging Face"
+base_url = "https://router.huggingface.co/v1"
+env_key = "HF_TOKEN"
+wire_api = "responses"
+`,
+  },
 ];

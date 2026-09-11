@@ -2181,5 +2181,25 @@ export const articles: Article[] = [
     summary:
       '官方 Codex 命令是 mcp add amplitude --url https://mcp.amplitude.com/mcp，然后 OAuth。EU 用 mcp.eu.amplitude.com/mcp 再 add 一次覆盖同名表。权限跟登录账号走。不是埋点摄入，也不是只读文档 MCP。',
   },
+  {
+    title: 'Set Up the Datadog MCP Server',
+    url: 'https://docs.datadoghq.com/mcp_server/setup/',
+    source: 'Datadog',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Datadog', 'OAuth'],
+    summary:
+      'Codex 页写 ~/.codex/config.toml 的 [mcp_servers.datadog]，US1 是 https://mcp.datadoghq.com/api/unstable/mcp-server/mcp，然后 mcp login datadog。工具集用 http_headers 里的 X-Datadog-MCP-Toolsets，不要把 ?toolsets= 拼进 URL。GovCloud 没有这台服务。',
+  },
+  {
+    title: 'Codex · Hugging Face Inference Providers',
+    url: 'https://huggingface.co/docs/inference-providers/en/integrations/codex',
+    source: 'Hugging Face',
+    lang: '英文',
+    kind: '官方',
+    tags: ['model_providers', 'Hugging Face', 'wire_api'],
+    summary:
+      '用户 config 写 [model_providers.huggingface]，base_url 是 https://router.huggingface.co/v1，env_key = HF_TOKEN，wire_api = responses。Profile 是 ~/.codex/huggingface.config.toml，用 --profile huggingface。这不是 Hub MCP，项目层也改不了供应商。',
+  },
 ];
 

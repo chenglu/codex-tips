@@ -2815,7 +2815,7 @@ stdio 的 \`env_vars\` 对 HTTP 无效。会过期、要每条连接刷新的票
     level: "intermediate",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "env_http_headers", "HTTP", "密钥"],
-    related: ["mcp-http-bearer-env", "http-headers-helper", "mcp-stdio-env-vars"],
+    related: ["mcp-http-bearer-env", "http-headers-helper", "mcp-datadog-remote"],
     sources: [
       {
         label: "OpenAI · Model Context Protocol",
@@ -3774,7 +3774,7 @@ enabled = true
     level: "starter",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "Hugging Face", "OAuth", "HTTP"],
-    related: ["mcp-add-and-login", "mcp-http-bearer-env", "mcp-http-not-sse"],
+    related: ["mcp-add-and-login", "mcp-http-bearer-env", "hf-inference-providers"],
     sources: [
       {
         label: "Hugging Face · MCP Server",
@@ -3836,6 +3836,72 @@ enabled = true
       {
         label: "Amplitude · MCP Server",
         url: "https://amplitude.com/docs/amplitude-ai/amplitude-mcp",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "mcp-datadog-remote",
+    no: 278,
+    title: "Datadog MCP 用区域 mcp. 地址再 login，工具集写 X-Datadog-MCP-Toolsets",
+    summary:
+      "US1：codex mcp add datadog --url https://mcp.datadoghq.com/api/unstable/mcp-server/mcp，再 mcp login。Codex 用 http_headers 里的 X-Datadog-MCP-Toolsets，不要把 ?toolsets= 拼进 URL。这颗头是工具集名单，不是密钥。",
+    body: `Datadog 托管的是远程 Streamable HTTP。地址按你登录 Datadog 的站点来，US1 是：
+
+\`\`\`bash
+codex mcp add datadog --url https://mcp.datadoghq.com/api/unstable/mcp-server/mcp
+codex mcp login datadog
+\`\`\`
+
+官方 Codex 页只示范了手写 \`~/.codex/config.toml\`，效果一样。路径里的 \`/api/unstable/\` 是现行入口，不要擅自改成 \`/mcp\` 或 \`/sse\`。
+
+\`\`\`toml
+[mcp_servers.datadog]
+url = "https://mcp.datadoghq.com/api/unstable/mcp-server/mcp"
+http_headers = { "X-Datadog-MCP-Toolsets" = "apm,llmobs" }
+enabled = true
+\`\`\`
+
+\`X-Datadog-MCP-Toolsets\` 是工具集名单，例如 \`apm,llmobs\` 或 \`all\`（一般可用的全套）。这不是密钥，写进 \`http_headers\` 合法。其它客户端把 \`?toolsets=\` 拼进 URL；**Codex 要用这颗头**，不要把查询参数抄进 \`url\`。
+
+其它站点把主机换成对应的 \`mcp.\` 前缀，再 \`mcp login\`：
+
+- US3：\`https://mcp.us3.datadoghq.com/api/unstable/mcp-server/mcp\`
+- US5：\`https://mcp.us5.datadoghq.com/api/unstable/mcp-server/mcp\`
+- EU1：\`https://mcp.datadoghq.eu/api/unstable/mcp-server/mcp\`
+- AP1：\`https://mcp.ap1.datadoghq.com/api/unstable/mcp-server/mcp\`
+- AP2：\`https://mcp.ap2.datadoghq.com/api/unstable/mcp-server/mcp\`
+- UK1：\`https://mcp.uk1.datadoghq.com/api/unstable/mcp-server/mcp\`
+
+GovCloud（\`app.ddog-gov.com\` / \`us2.ddog-gov.com\`）没有这台 MCP。站点选错，OAuth 会空转。以 Datadog 文档右侧的 Site 选择器为准。
+
+连上之后，账号还要有 Datadog 的 MCP 读权限。传输正常但工具没数据，先查角色，不要重装。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`--transport http\`，也不要抄 \`/plugin install datadog@claude-plugins-official\`。Codex 远程用 \`--url\`。
+- 不要把 \`DD_API_KEY\` / Application Key 写进 \`http_headers\`。Codex 这条主路径是 OAuth。密钥类自定义头走 \`env_http_headers\`。
+- 不要给它 \`required = true\` 挂全局。
+- 不要把桌面 ChatGPT 应用里的 Datadog Codex Plugin（Preview，目前只写 US1）当成 CLI 配置。那是另一条安装器。
+- 不要抄 \`mcpServers\` JSON，也不要套 \`mcp-remote\`。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get datadog\` 看传输是 streamable_http。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Datadog", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-http-env-headers", "mcp-amplitude-remote"],
+    sources: [
+      {
+        label: "Datadog · Set Up the MCP Server",
+        url: "https://docs.datadoghq.com/mcp_server/setup/",
+      },
+      {
+        label: "Datadog · Agent Observability MCP",
+        url: "https://docs.datadoghq.com/llm_observability/build_with_ai/mcp_server/",
       },
       {
         label: "OpenAI · Model Context Protocol",

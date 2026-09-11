@@ -103,6 +103,7 @@ Profile 文件只写与个人默认的差异。不要再把配置嵌进 \`[profi
     surfaces: ["cli"],
     tags: ["profile", "--profile", "过时博客"],
     featured: true,
+    related: ["hf-inference-providers", "three-layer-config", "oss-provider"],
     sources: [
       {
         label: "OpenAI · Advanced configuration",
@@ -1937,7 +1938,7 @@ codex --oss --local-provider ollama --sandbox read-only
     level: "intermediate",
     surfaces: ["cli"],
     tags: ["oss_provider", "--oss", "Ollama"],
-    related: ["project-config-cannot-override-auth", "model-catalog-json", "ephemeral-ci"],
+    related: ["project-config-cannot-override-auth", "model-catalog-json", "hf-inference-providers"],
     sources: [
       {
         label: "OpenAI · Advanced configuration",
@@ -2784,6 +2785,76 @@ command = "C:\\\\Users\\\\you\\\\mcp-server\\\\start.ps1"
       {
         label: "MCP Directory · Codex Windows MCP fixes",
         url: "https://mcp.directory/blog/codex-mcp-windows-fix-guide-2026",
+      },
+    ],
+  },
+  {
+    id: "hf-inference-providers",
+    no: 279,
+    title: "Hugging Face 当模型供应商：router.huggingface.co 且 wire_api = responses",
+    summary:
+      "用户 config 写 [model_providers.huggingface]，base_url 是 https://router.huggingface.co/v1，env_key = HF_TOKEN，wire_api = responses。再用 ~/.codex/huggingface.config.toml 和 --profile huggingface。这不是 Hub MCP，也不是 --oss。",
+    body: `这是换 Codex **背后那颗模型**，不是再加一台 MCP。Hugging Face Inference Providers 走 OpenAI 兼容的 Responses API：
+
+\`\`\`toml
+# ~/.codex/config.toml
+[model_providers.huggingface]
+name = "Hugging Face"
+base_url = "https://router.huggingface.co/v1"
+env_key = "HF_TOKEN"
+wire_api = "responses"
+\`\`\`
+
+\`env_key\` 是变量**名**。令牌要有 Make calls to Inference Providers 权限，并且出现在**启动 Codex 的进程**里。不要把 \`hf_\` 字面量写进 TOML。从已经 \`export HF_TOKEN\` 的终端启动；Dock 打开的桌面不会读你刚 export 的 shell。
+
+自定义供应商必须 \`wire_api = "responses"\`。选的模型还要在 Inference Providers 上提供 chat completion。Profile 写成独立文件，不要再塞 \`[profiles.huggingface]\`（0.134 之前的旧表会被拒绝）：
+
+\`\`\`toml
+# ~/.codex/huggingface.config.toml
+model_provider = "huggingface"
+model = "openai/gpt-oss-120b"
+\`\`\`
+
+\`\`\`bash
+codex --profile huggingface
+codex exec --profile huggingface "Explain what this repository does."
+\`\`\`
+
+模型 slug 换成 Inference Providers 上任何可用的。加 \`:groq\` 钉后端；省略后缀则由路由回退。也可以加 \`:fastest\` 或 \`:cheapest\`。单次覆盖用 \`-m\`，不必改 profile 文件。
+
+组织账单（把用量记到 HF org，账号要有 Write）在供应商表加字面量头，这是 org 名不是密钥：
+
+\`\`\`toml
+[model_providers.huggingface]
+name = "Hugging Face"
+base_url = "https://router.huggingface.co/v1"
+env_key = "HF_TOKEN"
+wire_api = "responses"
+http_headers = { "X-HF-Bill-To" = "your-org-name" }
+\`\`\`
+
+不要做这些：
+
+- 不要把这张表当成 Hub MCP。查 Hub / Spaces 走 \`codex mcp add huggingface --url https://huggingface.co/mcp\`。
+- 不要写进项目 \`.codex/config.toml\`。项目文件改不了 \`model_provider\` / \`model_providers\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`huggingface\` 是新 ID，可以。
+- 不要把它和 \`--oss\` / \`oss_provider\` 混成一条。\`--oss\` 是本机 Ollama / LM Studio。
+- 不要抄 \`mcpServers\` JSON，也不要给这张供应商表写 \`url =\` MCP 地址。
+
+改完新开会话。\`codex --profile huggingface\` 起得来，说明供应商和 token 都进了这一进程。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli"],
+    tags: ["model_providers", "Hugging Face", "wire_api", "profile"],
+    related: ["oss-provider", "profile-files-not-tables", "mcp-huggingface-remote"],
+    sources: [
+      {
+        label: "Hugging Face · Codex",
+        url: "https://huggingface.co/docs/inference-providers/en/integrations/codex",
+      },
+      {
+        label: "OpenAI · Advanced configuration",
+        url: "https://learn.chatgpt.com/docs/config-file/config-advanced",
       },
     ],
   },
