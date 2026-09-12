@@ -2801,5 +2801,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex：mcp add terraform -- docker run -i --rm hashicorp/terraform-mcp-server。查公共 registry 不用 token。HCP / TFE 才 env_vars 转发 TFE_TOKEN / TFE_ADDRESS。不要 mcp login，也不要把密钥写进 env 表。',
   },
+  {
+    title: "Use Clerk's MCP server (Beta)",
+    url: 'https://clerk.com/docs/guides/ai/mcp/clerk-mcp-server',
+    source: 'Clerk',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Clerk', 'stdio'],
+    summary:
+      '官方现行是 clerk mcp install --client codex，等价 mcp add clerk -- clerk mcp run。文档 Codex 节缺 --url 且带 rmcp，不要抄。托管地址是 mcp.clerk.com/mcp。不要 mcp login。',
+  },
 ];
 

@@ -7980,4 +7980,63 @@ enabled = true
       },
     ],
   },
+  {
+    id: "clerk-mcp-run",
+    no: 339,
+    title: "Clerk MCP 现行是 clerk mcp run，不要抄缺 --url 的文档",
+    summary:
+      "官方现行：clerk mcp install --client codex，等价 mcp add clerk -- clerk mcp run。文档 Codex 节缺 --url 且带 rmcp，不要抄。这是 stdio 桥，不要 mcp login。",
+    body: `Clerk 给 Codex 有专节，但手册里的 Codex 命令已经过时。现行安装是 Clerk CLI 把本机 \`clerk mcp run\` 登记成 **stdio 桥**，桥在运行时再连托管 \`https://mcp.clerk.com/mcp\`。官方 CLI 源码就是 \`codex mcp add clerk -- clerk mcp run\`。最快：
+
+\`\`\`bash
+clerk mcp install --client codex
+\`\`\`
+
+等价手动登记：
+
+\`\`\`bash
+codex mcp add clerk -- clerk mcp run
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.clerk]
+command = "clerk"
+args = ["mcp", "run"]
+enabled = true
+\`\`\`
+
+用户层表名官方就是 \`clerk\`。\`--client\` 的 id 是 \`codex\`。\`clerk\` 必须在 PATH 里；没装就先 \`npm install -g clerk\` 或 \`brew install clerk/stable/clerk\`。Dock 打开的桌面经常没有 Homebrew PATH。这是 stdio，**不要** \`codex mcp login\`。这台是 SDK 片段服务器，FAQ 没写 OAuth。不要抄 Claude 的 \`--scope user\`。不要抄 JSON \`mcpServers\`。不要抄 \`npx mcp-remote\`。不要发明 \`codex plugin add clerk@openai-curated\`。不要和 \`clerk/skills\` 技能仓库搞成一台。
+
+文档 Codex 节仍写 \`codex mcp add clerk https://mcp.clerk.com/mcp\`（缺 \`--url\`）、\`[beta] rmcp = true\`、\`type = "url"\`。这些不要抄。不用 Clerk CLI、走 Codex 原生 HTTP 时才是：
+
+\`\`\`bash
+codex mcp add clerk --url https://mcp.clerk.com/mcp
+\`\`\`
+
+URL **带** \`/mcp\` 后缀。不要和 \`clerk mcp run\` 那张表配成一台。不要 \`mcp login\`。不要把 \`--transport http\` 抄进 \`mcp add\`。不要写 \`type = "url"\`。
+
+\`clerk mcp run\` 不再接受 \`--url\`；目标是环境变量 \`CLERK_MCP_URL\` 或默认托管。不要把 URL 写进 args。不要 \`required = true\` 挂全局。不要一上来 \`--yolo\`。网页 Cloud 不读 \`~/.codex/config.toml\`，也跑不了本机 \`clerk\`。改完用 \`codex mcp get clerk\` 看 command 是 clerk，或跑 \`clerk doctor\`。
+
+不要做这些：
+
+- 不要抄缺 \`--url\` 的 \`codex mcp add clerk https://mcp.clerk.com/mcp\`。
+- 不要抄 \`[beta] rmcp = true\` 或 \`type = "url"\`。
+- 不要发明 \`codex plugin add clerk@openai-curated\`。
+- 不要 \`mcp login\`，也不要把 stdio 桥和 \`--url\` 配成一张表。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Clerk", "stdio"],
+    related: ["mcp-add-and-login", "macos-mcp-bare-command", "mcp-http-not-sse"],
+    sources: [
+      {
+        label: "Clerk · Use Clerk's MCP server",
+        url: "https://clerk.com/docs/guides/ai/mcp/clerk-mcp-server",
+      },
+      {
+        label: "Clerk Changelog · clerk mcp install",
+        url: "https://clerk.com/changelog/2026-07-22-clerk-mcp",
+      },
+    ],
+  },
 ];

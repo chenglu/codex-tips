@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T21:14:00Z",
+  lastTick: "2026-09-12T21:36:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "21:14 定时器。调用前 $97.42。Spend: counts（start_time=2026-09-05T21:20:00Z，共 236 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.41。CDP 81 项全过（预览 4318）。收录 HashiCorp Terraform MCP（mcp add terraform -- docker run -i --rm hashicorp/terraform-mcp-server）。不要 mcp login，HCP / TFE 才 env_vars 转发 TFE_TOKEN / TFE_ADDRESS。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Yellow 交易营销。Buildkite 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。1Password Codex shell plugin 页 Step 1 仍缺完整 init 命令。Meilisearch 仍是 Claude Desktop。Clerk 有 Codex 专节但命令缺 --url 且带 rmcp / type = url，留给下一轮纠正后再写。",
+    "21:36 定时器。调用前 $97.41。Spend: counts（start_time=2026-09-05T21:42:00Z，共 237 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Clerk MCP（clerk mcp install --client codex / mcp add clerk -- clerk mcp run）。不要抄文档缺 --url 的命令、rmcp、type = url。不要 mcp login。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Microsoft AI Engineer Coach。Buildkite 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。1Password Codex shell plugin 页仍缺完整 init 命令。Meilisearch 仍是 Claude Desktop。clerk/skills 有 Codex marketplace，但 README 只写 /plugins 装 clerk-skills，没有 plugin add 的 @id，留给下一轮。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -853,6 +853,15 @@ export const loopState = {
     "docs.digitalocean.com do-app-platform-skills --agent codex",
     "meilisearch.com docs integrations mcp Codex",
     "Codex CLI 技巧 2026 HashiCorp Terraform MCP",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "clerk.com docs mcp Codex clerk mcp run --client codex",
+    "github.com/clerk/cli codex mcp add clerk mcp run",
+    "github.com/clerk/skills marketplace clerk-skills Codex plugin",
+    "developer.1password.com cli shell-plugins openai-codex op plugin init",
+    "buildkite.com docs mcp-server Codex configuring-ai-tools",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "Codex CLI 技巧 2026 Clerk MCP clerk mcp run",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

@@ -2180,4 +2180,16 @@ codex plugin add incident-io@incident-io-skills
 # 二进制：codex mcp add terraform -- terraform-mcp-server stdio
 `,
   },
+  {
+    id: "clerk-mcp-run",
+    title: "Clerk MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 clerk mcp install --client codex，等价 mcp add clerk -- clerk mcp run。文档缺 --url 且带 rmcp，不要抄。不要 mcp login。",
+    code: `codex mcp add clerk -- clerk mcp run
+
+# 或：clerk mcp install --client codex
+# 不用 Clerk CLI 才：codex mcp add clerk --url https://mcp.clerk.com/mcp
+`,
+  },
 ];
