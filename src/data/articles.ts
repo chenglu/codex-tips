@@ -2791,5 +2791,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex：mcp add codesign -- npx -y @imgly/codesign-mcp@latest stdio。stdio 是子命令。加完当前会话不可用，新开后再发 start the CoDesign onboarding。不要抄 --scope user 或 JSON mcpServers。不要 mcp login。',
   },
+  {
+    title: 'Terraform MCP Server',
+    url: 'https://github.com/hashicorp/terraform-mcp-server',
+    source: 'HashiCorp',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Terraform', 'stdio', 'Docker'],
+    summary:
+      '官方 Codex：mcp add terraform -- docker run -i --rm hashicorp/terraform-mcp-server。查公共 registry 不用 token。HCP / TFE 才 env_vars 转发 TFE_TOKEN / TFE_ADDRESS。不要 mcp login，也不要把密钥写进 env 表。',
+  },
 ];
 

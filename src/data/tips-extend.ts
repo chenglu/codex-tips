@@ -7921,4 +7921,63 @@ enabled = true
       },
     ],
   },
+  {
+    id: "terraform-mcp-stdio",
+    no: 338,
+    title: "HashiCorp Terraform MCP 官方 Codex 走 docker stdio",
+    summary:
+      "官方 Codex：mcp add terraform -- docker run -i --rm hashicorp/terraform-mcp-server。查公共 registry 不用 token。HCP / TFE 才 env_vars 转发 TFE_TOKEN / TFE_ADDRESS。不要 mcp login，也不要把密钥写进 env 表。",
+    body: `HashiCorp 给 Codex 有专节。这是**本地 stdio**，靠本机 Docker 起 \`hashicorp/terraform-mcp-server\`，不是远程托管 MCP。查公共 Terraform Registry **不用 token**。官方 Codex 主路径：
+
+\`\`\`bash
+codex mcp add terraform -- docker run -i --rm hashicorp/terraform-mcp-server
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.terraform]
+command = "docker"
+args = ["run", "-i", "--rm", "hashicorp/terraform-mcp-server"]
+enabled = true
+\`\`\`
+
+用户层表名官方就是 \`terraform\`。这是 stdio，**不要** \`codex mcp login\`。不要抄 Claude / Cursor / VS Code 的 JSON \`mcpServers\`。不要抄 \`npx mcp-remote\`。不要发明 \`codex plugin add terraform@openai-curated\`。不要抄 Gemini 的 \`gemini extensions install\`。
+
+要接 HCP Terraform / Terraform Enterprise 时，先在启动 Codex 的进程里 export \`TFE_TOKEN\` 和 \`TFE_ADDRESS\`（地址带 \`https://\`，HCP 默认是 \`https://app.terraform.io\`）。Docker 用 \`-e TFE_TOKEN\` / \`-e TFE_ADDRESS\` 把名字传进容器，Codex 再用 \`env_vars\` 转发。**不要**把 token 写进 \`env\` 表，也不要 \`codex mcp add --env TFE_TOKEN=...\`。
+
+\`\`\`toml
+[mcp_servers.terraform]
+command = "docker"
+args = ["run", "-i", "--rm", "-e", "TFE_TOKEN", "-e", "TFE_ADDRESS", "hashicorp/terraform-mcp-server"]
+env_vars = ["TFE_TOKEN", "TFE_ADDRESS"]
+enabled = true
+\`\`\`
+
+本机有二进制才改走 \`codex mcp add terraform -- terraform-mcp-server stdio\`。\`stdio\` 是子命令。不在 PATH 时写绝对路径。
+
+另一条是本机 HTTP：先 \`docker run --rm -p 127.0.0.1:8080:8080 -e TRANSPORT_MODE=streamable-http -e TRANSPORT_HOST=0.0.0.0 hashicorp/terraform-mcp-server\`，再 \`codex mcp add terraform --url http://localhost:8080/mcp\`。URL **带** \`/mcp\` 后缀。不要和 stdio 那张表配成一台。不要 \`mcp login\`。不要把 \`--transport http\` 抄进 \`mcp add\`。
+
+\`ENABLE_TF_OPERATIONS\` 默认关着；没打算让模型改 workspace / run 就不要打开。不要 \`required = true\` 挂全局。不要一上来 \`--yolo\`。网页 Cloud 不读 \`~/.codex/config.toml\`，也跑不了你这台 Docker。\`docker\` 不在 PATH 时改绝对路径。冷启动拉镜像慢就加 \`startup_timeout_sec\`。改完用 \`codex mcp get terraform\` 看 command 是 docker。
+
+不要做这些：
+
+- 不要抄 Claude / Cursor / VS Code 的 JSON \`mcpServers\`。
+- 不要发明 \`codex plugin add terraform@openai-curated\`。
+- 不要 \`mcp login\`，也不要把 \`TFE_TOKEN\` 写进 \`env\` 表。
+- 不要把 stdio 和 \`http://localhost:8080/mcp\` 配成一张表。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Terraform", "HashiCorp", "stdio"],
+    related: ["mcp-add-and-login", "mcp-stdio-env-vars", "macos-mcp-bare-command"],
+    sources: [
+      {
+        label: "hashicorp/terraform-mcp-server",
+        url: "https://github.com/hashicorp/terraform-mcp-server",
+      },
+      {
+        label: "HashiCorp Developer · Terraform MCP server",
+        url: "https://developer.hashicorp.com/terraform/mcp-server",
+      },
+    ],
+  },
 ];

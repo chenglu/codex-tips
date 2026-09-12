@@ -2168,4 +2168,16 @@ codex plugin add incident-io@incident-io-skills
 # enabled = true
 `,
   },
+  {
+    id: "terraform-mcp-stdio",
+    title: "HashiCorp Terraform MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add terraform -- docker run -i --rm hashicorp/terraform-mcp-server。查公共 registry 不用 token。HCP / TFE 才 env_vars 转发 TFE_TOKEN。不要 mcp login。",
+    code: `codex mcp add terraform -- docker run -i --rm hashicorp/terraform-mcp-server
+
+# HCP / TFE：env_vars 转发，docker 用 -e TFE_TOKEN -e TFE_ADDRESS
+# 二进制：codex mcp add terraform -- terraform-mcp-server stdio
+`,
+  },
 ];

@@ -236,6 +236,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: "codex mcp add 1password -- 1password-mcp", meaning: "官方 Codex 是本地 stdio。先在桌面 Settings → Labs 打开 Enable local MCP server。Mac / Linux。不要抄 Claude 的 /plugin install 1password@1password，也不要发明 plugin add。不要 mcp login" },
       { cmd: "npx skills add imgly/agent-skills -a codex", meaning: "官方 Codex 技能。不要省略 -a codex。实时文档才 mcp add imgly_docs --url https://mcp.img.ly/mcp，无鉴权不要 mcp login。不要抄 Claude 的 cesdk@imgly 或 @imgly/codesign-mcp" },
       { cmd: "codex mcp add codesign -- npx -y @imgly/codesign-mcp@latest stdio", meaning: "官方 CoDesign 本地 stdio。必须保留 @latest，stdio 是子命令。不要抄 --scope user。不要 mcp login。不要和 imgly_docs 搞成一台。加完新开会话再发 start the CoDesign onboarding" },
+      { cmd: "codex mcp add terraform -- docker run -i --rm hashicorp/terraform-mcp-server", meaning: "官方 Codex 本地 stdio。查公共 registry 不用 token。HCP / TFE 才 env_vars 转发 TFE_TOKEN / TFE_ADDRESS。不要 mcp login，也不要把密钥写进 env 表。二进制才 terraform-mcp-server stdio" },
       { cmd: "codex mcp add convex -- npx … mcp start", meaning: "插件装不上才用手写 stdio。官方 MCP 是 npx convex mcp start，不是远程 URL。不要加 --dangerously-enable-production-deployments" },
       { cmd: "codex --profile huggingface", meaning: "[model_providers.huggingface] 走 router.huggingface.co/v1，wire_api = responses，env_key = HF_TOKEN。不是 Hub MCP，也不是 --oss" },
       { cmd: "codex --profile vercel", meaning: "[model_providers.vercel] 走 ai-gateway.vercel.sh/codex/v1，wire_api = responses，env_key = AI_GATEWAY_API_KEY。不是 Vercel MCP，也不是 --oss" },
