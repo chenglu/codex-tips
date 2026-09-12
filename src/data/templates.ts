@@ -1702,4 +1702,14 @@ url = "https://mcp.resend.com/mcp"
 enabled = true
 `,
   },
+  {
+    id: "railway-skills-plugin",
+    title: "Railway 源仓 marketplace",
+    filename: "terminal",
+    summary:
+      "公共目录仍是 /plugins 搜 Railway。源仓才 marketplace add railwayapp/railway-skills，再从 Railway marketplace 装。不要抄 Claude 的 plugin install。",
+    code: `codex plugin marketplace add railwayapp/railway-skills
+codex plugin list
+`,
+  },
 ];

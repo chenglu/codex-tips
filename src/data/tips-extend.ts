@@ -5301,4 +5301,55 @@ startup_timeout_sec = 60
       },
     ],
   },
+  {
+    id: "railway-skills-plugin",
+    no: 301,
+    title: "Railway 先 Plugins 搜 Railway，源仓才 railwayapp/railway-skills",
+    summary:
+      "公共目录：TUI /plugins 或桌面 Plugins 搜 Railway，OAuth 后新开会话。源仓才 codex plugin marketplace add railwayapp/railway-skills。不要抄 Claude 的 railway@claude-plugins-official，也不要把 curl agents.railway.com 当 Codex 唯一路径。",
+    body: `Railway 官方给 Codex 的**推荐路径**是公共插件目录（捆绑 \`use-railway\` 技能 + 托管 MCP）。官方没给出 \`codex plugin add railway@…\` 那种带 marketplace 的 id，不要自己编。TUI \`/plugins\` 或桌面 Plugins 搜 Railway，点安装，用 Railway 账号做 OAuth。装完**新开会话**。0.154 起也可以先在当前会话看 \`/plugins\`；当前会话没有再新开。IDE 扩展没有 \`/plugins\`。
+
+要从源仓库装（跟公共目录那份不完全同一条发布线）时，先加 marketplace，再进 \`/plugins\` 选 Railway marketplace 里的 Railway 插件：
+
+\`\`\`bash
+codex plugin marketplace add railwayapp/railway-skills
+codex plugin list
+\`\`\`
+
+不要把 Claude 的 \`/plugin marketplace add\` / \`/plugin install railway@railway-skills\` 抄进 Codex。Codex 是 \`codex plugin marketplace add\`，装插件仍走 \`/plugins\`。清单写明安装时要授权。
+
+插件会登记托管 MCP，地址是 \`https://mcp.railway.com\`，**没有** \`/mcp\` 后缀（不要按 Resend 那种带后缀去改）。这是插件 \`mcp.json\` 里的 HTTP 服务器，不是你手写的用户层表。插件已经带了 MCP 时，不要再 \`codex mcp add railway\`。网页 Cloud 用 Plugins 搜 Railway，不读 \`~/.codex/config.toml\`。
+
+\`use-railway\` 覆盖建项目、部署、日志、环境变量、域名、数据库和存储桶。技能会在你说「部署到 Railway」时自己被选中，不必先手敲技能名。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`/plugin install railway@claude-plugins-official\`，也不要抄 \`/plugin install railway@railway-skills\`。
+- 不要抄 Cursor 的 \`/add-plugin railway\`。
+- 不要把 \`curl -fsSL agents.railway.com | sh\` 或 \`railway setup agent\` 当成 Codex 唯一主路径。那条会改**所有检测到的客户端**，还会装 CLI。
+- 不要用 \`npx skills add railwayapp/railway-skills\` 当插件安装器。那只会拷 SKILL.md，不会按 Codex 插件去登记托管 MCP。不确定就别跑。也不要手拷到 \`~/.codex/skills\`。
+- 不要给它 \`required = true\` 挂全局。部署、改域名、改环境变量不是每条会话都要的依赖。
+- 不要一上来 \`--yolo\`。这台会真部署、改 DNS、改密钥。
+
+改完用 \`codex plugin list\` 看 Railway 是否已装；当前会话没有就新开。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Railway", "MCP", "Skills"],
+    related: ["cloudflare-skills-plugin", "plugin-session-refresh", "mcp-resend-remote"],
+    sources: [
+      {
+        label: "Railway · Codex plugin",
+        url: "https://docs.railway.com/ai/codex-plugin",
+      },
+      {
+        label: "railwayapp/railway-skills",
+        url: "https://github.com/railwayapp/railway-skills",
+      },
+      {
+        label: "Railway · Agent skills",
+        url: "https://docs.railway.com/ai/agent-skills",
+      },
+    ],
+  },
 ];

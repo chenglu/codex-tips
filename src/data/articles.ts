@@ -2421,5 +2421,15 @@ export const articles: Article[] = [
     summary:
       'Codex 插件优先：/plugins 或桌面 Plugins 搜 Resend。只要 MCP 才 codex mcp add resend --url https://mcp.resend.com/mcp。无头才 bearer_token_env_var。不要把密钥写进 --env 或 http_headers，也不要抄 Claude 的 plugin install 或 Cursor 的 /add-plugin。',
   },
+  {
+    title: 'Railway plugin for Codex',
+    url: 'https://docs.railway.com/ai/codex-plugin',
+    source: 'Railway',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'Railway', 'MCP', 'Skills'],
+    summary:
+      'Codex 公共目录是 /plugins 搜 Railway。源仓才 codex plugin marketplace add railwayapp/railway-skills，再从 Railway marketplace 装。捆绑 use-railway 和托管 MCP（mcp.railway.com，没有 /mcp 后缀）。不要抄 Claude 的 railway@claude-plugins-official 或 Cursor 的 /add-plugin railway。',
+  },
 ];
 

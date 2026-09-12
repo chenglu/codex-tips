@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T02:30:00Z",
+  lastTick: "2026-09-12T03:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "02:30 定时器。调用前 $97.73。Spend: counts（start_time=2026-09-05T02:45:00Z，共 246 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾余额 $97.72。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra 营销，无新可执行帖。本轮收录 Resend（Plugins 搜 Resend + mcp add resend --url https://mcp.resend.com/mcp）。Railway / MongoDB 留给更晚轮。HubSpot 本地 hs mcp setup 仍未核对手写 TOML。Browserbase 仍不收录。",
+    "03:00 定时器。调用前 $97.72。Spend: counts（start_time=2026-09-05T03:15:00Z，共 239 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾余额待收尾 get_usage_credits。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra 营销、Muse 许愿，无新可执行帖。本轮收录 Railway（/plugins 搜 Railway + marketplace add railwayapp/railway-skills）。MongoDB / HubSpot 留给更晚轮。Browserbase 仍不收录。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -539,6 +539,14 @@ export const loopState = {
     "mongodb.com docs Codex plugin marketplace add mongodb/agent-skills",
     "developers.hubspot.com hs mcp setup Codex CLI HubSpotDev",
     "Codex CLI 技巧 2026 Resend MCP Railway MongoDB HubSpot",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "docs.railway.com ai Codex plugin railwayapp/railway-skills use-railway",
+    "github.com/railwayapp/railway-skills Codex plugin marketplace add",
+    "docs.railway.com ai agent-skills agents.railway.com Codex",
+    "mongodb.com docs Codex plugin marketplace add mongodb/agent-skills",
+    "developers.hubspot.com hs mcp setup Codex CLI HubSpotDev",
+    "Codex CLI 技巧 2026 Railway plugin marketplace MCP",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],
