@@ -2621,5 +2621,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex 是 marketplace add upstash/skills，再 plugin add upstash@upstash。插件会登记远程 mcp.upstash.com/mcp。不要抄本地 --email / --api-key。不是 Context7，也不是单库 redis-mcp。',
   },
+  {
+    title: 'GitLab MCP server',
+    url: 'https://docs.gitlab.com/user/model_context_protocol/mcp_server/',
+    source: 'GitLab',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'GitLab', 'OAuth'],
+    summary:
+      '官方 Codex 是 mcp add GitLab --url https://gitlab.com/api/v4/mcp，再 mcp login GitLab。不要抄 features.rmcp_client，也不要抄 mcp-remote。不是 Cloud 评论审查，也不是 Orbit 的 api/v4/orbit/mcp。',
+  },
 ];
 

@@ -1945,4 +1945,14 @@ codex plugin add upstash@upstash
 # codex mcp login upstash
 `,
   },
+  {
+    id: "gitlab-mcp-http",
+    title: "GitLab 远程 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add GitLab --url https://gitlab.com/api/v4/mcp，再 mcp login。不要抄 rmcp_client 或 mcp-remote。自建实例只换主机名。",
+    code: `codex mcp add GitLab --url https://gitlab.com/api/v4/mcp
+codex mcp login GitLab
+`,
+  },
 ];

@@ -6827,4 +6827,65 @@ enabled = true
       },
     ],
   },
+  {
+    id: "gitlab-mcp-http",
+    no: 321,
+    title: "GitLab MCP 用 api/v4/mcp，不要抄 rmcp_client",
+    summary:
+      "官方 Codex：mcp add GitLab --url https://gitlab.com/api/v4/mcp，再 mcp login GitLab。不要抄 features.rmcp_client，也不要抄 mcp-remote。不是 Cloud 评论审查，也不是 Orbit。",
+    body: `GitLab 给 Codex 的**官方主路径**是远程 HTTP MCP，不是 \`mcp-remote\`，也不是 Cloud 评论审查。官方 Codex 节是：
+
+\`\`\`bash
+codex mcp add GitLab --url https://gitlab.com/api/v4/mcp
+codex mcp login GitLab
+\`\`\`
+
+自建 / Dedicated 把 \`gitlab.com\` 换成实例主机名，路径仍是 \`/api/v4/mcp\`。用户层表名官方就是驼峰 \`GitLab\`（这不是插件 \`mcp.json\`）。随后 \`mcp login\` 打开浏览器做 OAuth DCR。不要抄 Claude 的 \`--transport http\`，也不要抄 Cursor 的 \`type: http\` JSON。
+
+**不要抄**官方紧跟着的 \`[features] "rmcp_client" = true\`。那是早期 HTTP 客户端旗标，Figma / Notion / Linear / Supabase 几条已经说过：现行 Codex 自己连 Streamable HTTP，再开这个旗标不是前置条件。
+
+先在**顶级组**打开 MCP 服务器访问：Settings → General → Permissions and group features → Allow connection to GitLab。19.2 起这是独立开关，GitLab.com 上 Free 也能用（Beta）。返回 \`404\` 且带 \`no_enabled_namespace\`，就是没开这扇门。不要和 Duo 的「Allow external MCP tools」搞混：那是 GitLab Duo **当客户端**去连别人的 MCP；这台是 Codex **连进** GitLab。
+
+连上后先问 \`get_mcp_server_version\`。工具能列/建 issue、改 MR、\`add_commit\`、管流水线，保持工具批准。不要一上来 \`--yolo\`。不要给它 \`required = true\` 挂全局。官方提醒：只对你信任的 GitLab 对象用这些工具，防提示注入。
+
+\`\`\`toml
+[mcp_servers.GitLab]
+url = "https://gitlab.com/api/v4/mcp"
+enabled = true
+\`\`\`
+
+多实例才考虑给工具名加前缀。前缀本身不是密钥，走 \`env_http_headers\` 的 \`X-Gitlab-Mcp-Server-Tool-Name-Prefix\`（最长 32 字符）。不要把 PAT 写进 \`http_headers\`。主路径是 OAuth，不要发明 PAT / \`bearer_token_env_var\` 当 Codex 主路径。
+
+管理员关掉 DCR 时才要预注册 OAuth 应用：范围勾 \`mcp\`，清掉 Confidential。官方只给了 \`mcp.json\` 的 \`clientId\`，不要把那份 JSON 抄进 Codex。同一共享应用不能服务不同回调 URL。
+
+也不要和这几条搞混：
+
+- Cloud 评论审查是另一条线，要项目环境和 webhook，不是这台 MCP。
+- Orbit 知识图谱是 \`https://gitlab.com/api/v4/orbit/mcp\`。官方给 Codex 的示例仍是 \`mcp-remote\`，不要和 \`GitLab\` 写成同一张表。
+- \`glab mcp serve\` 是实验性本地 stdio，文档面向 Claude Code，不要当 Codex 主路径。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add gitlab@…\`。
+- 不要抄 \`npx mcp-remote https://gitlab.com/api/v4/mcp\`。Codex 自己走 HTTP。
+- 不要抄博客里把 \`--url\` 写在名字前面的变体；官方顺序是 \`mcp add GitLab --url\`。
+- 不要把私有令牌写进 URL、\`args\` 或提示词。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完用 \`codex mcp get GitLab\` 看传输是 streamable_http。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "GitLab", "OAuth"],
+    related: ["mcp-add-and-login", "gitlab-mr-codex-review", "upstash-codex-plugin"],
+    sources: [
+      {
+        label: "GitLab · MCP server",
+        url: "https://docs.gitlab.com/user/model_context_protocol/mcp_server/",
+      },
+      {
+        label: "GitLab · MCP server tools",
+        url: "https://docs.gitlab.com/user/model_context_protocol/mcp_server_tools/",
+      },
+    ],
+  },
 ];

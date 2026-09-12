@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T12:30:00Z",
+  lastTick: "2026-09-12T13:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "12:30 定时器。调用前 $97.59。Spend: counts（start_time=2026-09-05T12:45:00Z，共 230 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.59。CDP 40 项全过（预览 4300）。X 仍是 Packt、tmux-agent-pulse、Google Cloud Developer Plugin 营销、hermes import-agent、日文 AGENTS.md、韩文 0.154 / GPT-6-Astra、粘贴截图、Claude vs Codex，无新可执行厂商路径。本轮收录 Upstash 插件（marketplace add upstash/skills，再 plugin add upstash@upstash）。远程是 mcp.upstash.com/mcp。不要抄本地 --email / --api-key。不要和 Context7 搞混。GitLab 官方 Codex 节仍要求 rmcp_client，下一轮按「不要抄该旗标」写。Intercom / Asana 仍是 mcp-remote。Meilisearch / Fly.io / Elastic / Heroku / PagerDuty 无可靠 Codex 专节。DigitalOcean MCP 官方把 token 写进 env / headers。Pinecone 官方是 npx skills add。下一轮优先 GitLab MCP / Intercom / Sanity / Honeycomb / Axiom / Semgrep。",
+    "13:00 定时器。调用前 $97.59。Spend: counts（start_time=2026-09-05T13:15:00Z，共 229 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度待本轮 CDP 后回写。X 仍是 Packt、tmux-agent-pulse、Google Cloud Developer Plugin 营销、hermes import-agent、日文 AGENTS.md、韩文 0.154 / GPT-6-Astra、粘贴截图、Claude vs Codex，无新可执行厂商路径。本轮收录 GitLab 远程 MCP（mcp add GitLab --url https://gitlab.com/api/v4/mcp，再 mcp login）。不要抄 rmcp_client / mcp-remote。不是 Cloud 评论审查，也不是 Orbit。Intercom / Asana 仍是 mcp-remote。Sanity 官方有 Codex mcp add Sanity --url https://mcp.sanity.io，插件没给 plugin add id。下一轮优先 Sanity / Honeycomb / Axiom / Semgrep / Intercom。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -705,6 +705,17 @@ export const loopState = {
     "docs.honeycomb.io mcp Codex",
     "docs.axiom.co mcp Codex",
     "Codex CLI 技巧 2026 Upstash plugin MCP upstash@upstash",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "docs.gitlab.com user model_context_protocol mcp_server Codex mcp add GitLab",
+    "docs.gitlab.com mcp_server_tools get_mcp_server_version add_commit",
+    "www.sanity.io docs ai mcp-server Codex mcp.sanity.io",
+    "github.com/sanity-io/agent-toolkit Codex plugin marketplace",
+    "developers.intercom.com mcp.intercom.com Codex mcp-remote",
+    "docs.honeycomb.io mcp Codex",
+    "docs.axiom.co mcp Codex",
+    "docs.semgrep.dev mcp Codex",
+    "Codex CLI 技巧 2026 GitLab MCP api/v4/mcp rmcp_client",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],
