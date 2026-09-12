@@ -6019,4 +6019,66 @@ enabled = true
       },
     ],
   },
+  {
+    id: "turso-codex-plugin",
+    no: 312,
+    title: "Turso Cloud 插件用 turso@turso，OAuth 不要抄 API token",
+    summary:
+      "官方：codex plugin marketplace add tursodatabase/turso-mcp，再 plugin add turso@turso，再 mcp login turso。不要抄 Claude 的 /plugin install。只要 MCP 才手写 mcp.turso.ai/mcp。",
+    body: `Turso Cloud 给 Codex 的主路径是官方插件：捆绑 Turso 技能，并指向托管 MCP \`https://mcp.turso.ai/mcp\`。鉴权是 OAuth 2.1 + PKCE，**没有** API token 可抄，也不要发明环境变量把密钥写进仓库。
+
+\`\`\`bash
+codex plugin marketplace add tursodatabase/turso-mcp
+codex plugin add turso@turso
+codex mcp login turso
+\`\`\`
+
+\`codex plugin list\` 里应看到 \`turso@turso\`。随后 \`codex mcp login turso\` 会打开浏览器。登录 Turso（若还没登），到同意页：先选组织；可选单个 group 把令牌收窄到那一组（只读 / 全开 / 自定义权限），或选整个组织。批准后 Codex 存令牌并自动刷新。换组织或改范围：先断开再重新 login，不能在现有连接上加权限。
+
+0.154 起先看**当前会话**；当前会话没有再新开。桌面改 marketplace.json 仍要重启应用。之后用 \`codex plugin marketplace upgrade\`，再跑一次 \`plugin add\`。
+
+插件已经登记 MCP 时，不要再手写同一张用户层表。只要 MCP、不要技能时，才在 \`~/.codex/config.toml\`（或受信任项目的 \`.codex/config.toml\`）写：
+
+\`\`\`toml
+[mcp_servers.turso]
+url = "https://mcp.turso.ai/mcp"
+enabled = true
+\`\`\`
+
+然后同样 \`codex mcp login turso\`。地址带 \`/mcp\` 后缀，**不是**光秃的主机名。用户层表名官方就是 \`turso\`（这不是插件 \`mcp.json\` 的连字符坑）。自托管 / BYOC / 试验才改 \`url\` 指向你自己的部署，不要另起一张同职责的表。
+
+连上后可以：列出/查看/创建/删除/分支数据库（含时间点分支）、改删除保护、IP/VPC 允许列表、大小上限；只读 SQL、写入、删除、DDL 各是独立工具，写工具会拒绝 DELETE/DROP；还有按库的 Insight（高频/高延迟查询）。只读和破坏性操作有标注，保持工具批准。不要一上来 \`--yolo\`。不要给它 \`required = true\` 挂全局。这台能删库、改 schema、跑写入。
+
+令牌在 Turso 平台 API 层强制组织绑定、角色和范围，并进审计。MCP 层自己不做授权决定。未绑定组织或 group 的令牌会被拒。同意页只出现在 Turso 控制台。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`/plugin marketplace add tursodatabase/turso-mcp\` 或 \`/plugin install turso@turso\`。Codex 是 \`codex plugin add turso@turso\`。
+- 不要抄 Cursor 的 \`mcpServers\` JSON、Customize → Plugins，或 \`mcp-remote\`。
+- 不要发明 \`codex plugin add turso@openai-curated\` 或其他 marketplace id。官方给的就是 \`turso@turso\`。
+- 不要找 API token、不要 \`bearer_token_env_var\`，也不要把密钥写进 \`http_headers\`、\`env\` 或 \`args\`。官方写明没有 token 可复制。
+- 不要和 libSQL 本机、SQLite 文件、或别家托管 SQL MCP 配成一台。
+- 不要把网页 Codex Cloud 或 Cursor 云代理当成会读 \`~/.codex/config.toml\`。
+
+改完用 \`codex mcp get turso\` 看传输是 streamable_http。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["plugins", "Turso", "MCP", "OAuth", "Skills"],
+    related: ["convex-codex-plugin", "mcp-add-and-login", "mcp-typesense-cloud"],
+    sources: [
+      {
+        label: "Turso · MCP (AI agents)",
+        url: "https://docs.turso.tech/integrations/mcp",
+      },
+      {
+        label: "tursodatabase/turso-mcp",
+        url: "https://github.com/tursodatabase/turso-mcp",
+      },
+      {
+        label: "Codex plugin README",
+        url: "https://github.com/tursodatabase/turso-mcp/blob/main/codex/README.md",
+      },
+    ],
+  },
 ];

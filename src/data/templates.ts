@@ -1831,4 +1831,20 @@ url = "https://cloud.typesense.org/mcp/v1"
 enabled = true
 `,
   },
+  {
+    id: "turso-codex-plugin",
+    title: "Turso Cloud 插件与远程 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 marketplace add tursodatabase/turso-mcp，再 plugin add turso@turso，再 mcp login。只要 MCP 才手写这张 turso 表。地址带 /mcp 后缀。",
+    code: `codex plugin marketplace add tursodatabase/turso-mcp
+codex plugin add turso@turso
+codex mcp login turso
+
+# 只要 MCP、不要技能时：
+# [mcp_servers.turso]
+# url = "https://mcp.turso.ai/mcp"
+# enabled = true
+`,
+  },
 ];

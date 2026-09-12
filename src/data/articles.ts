@@ -2531,5 +2531,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex 是 mcp add typesense-cloud --url https://cloud.typesense.org/mcp/v1，再 mcp login。授权页先选最小权限。无头才 bearer_token_env_var。不要抄 Claude 的 --transport http 或把密钥写进 --header。',
   },
+  {
+    title: 'MCP (AI agents)',
+    url: 'https://docs.turso.tech/integrations/mcp',
+    source: 'Turso',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'Turso', 'MCP', 'OAuth', 'Skills'],
+    summary:
+      '官方 Codex 是 marketplace add tursodatabase/turso-mcp，再 plugin add turso@turso，再 mcp login turso。只要 MCP 才手写 mcp.turso.ai/mcp。OAuth，没有 API token 可抄。不要抄 Claude 的 /plugin install 或 Cursor 的 mcp-remote。',
+  },
 ];
 
