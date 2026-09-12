@@ -6443,4 +6443,130 @@ HUBSPOT_MCP_STANDALONE = "true"
       },
     ],
   },
+  {
+    id: "azure-skills-plugin",
+    no: 317,
+    title: "Azure Skills 用 marketplace 加源，不要抄 Copilot 的 plugin install",
+    summary:
+      "官方 Codex：marketplace add microsoft/azure-skills，再 /plugins 装 azure。官方没给 plugin add id。插件 MCP 是 npx @azure/mcp@latest server start。先 az login。不要抄 Copilot 的 azure@azure-skills。",
+    body: `Azure 给 Codex 的**官方主路径**是装 Azure Skills 插件，不是手拷 SKILL.md。仓库 README 和 [Azure Skills 站点](https://microsoft.github.io/azure-skills/) 的 Codex CLI 节都是：
+
+\`\`\`bash
+codex plugin marketplace add microsoft/azure-skills
+\`\`\`
+
+然后 TUI \`/plugins\` 或桌面 Plugins 装 **azure**。官方**没给** \`codex plugin add azure@…\` 这种 id，不要把 Copilot CLI 的 \`/plugin install azure@azure-skills\` 抄过来。也不要抄 Claude 的 \`/plugin install azure@claude-plugins-official\`。Learn 安装页目前写的是 Copilot / Claude / Cursor / IntelliJ，**没有** Codex 专节；Codex 命令以仓库 README 为准。
+
+0.154 起先看**当前会话**；当前会话 \`/plugins\` 没有 azure 再新开。桌面改 marketplace.json 仍要重启应用。IDE 扩展没有 \`/plugins\`。CLI 装好的插件，Codex 桌面也能用。
+
+marketplace 清单名是 \`azure-skills\`，主插件名是 \`azure\`。同一份源里还有 \`azure-kusto-graph-skills\`（Kusto 图分析），不要和 azure 当成同一份。
+
+前提：\`PATH\` 上有 Node.js 18+（\`npx\`），以及已登录的 Azure CLI：
+
+\`\`\`bash
+az login
+az account show
+\`\`\`
+
+要用 \`azure-prepare\` / \`azure-deploy\` 这类 azd 工作流，再额外 \`azd auth login\`。只列资源、查价格、查日志时不必先装 azd。
+
+插件自带的 \`.mcp.json\` **目前只有一台** \`azure\`：
+
+\`\`\`json
+{
+  "mcpServers": {
+    "azure": {
+      "command": "npx",
+      "args": ["-y", "@azure/mcp@latest", "server", "start"]
+    }
+  }
+}
+\`\`\`
+
+这是 stdio，鉴权走本机 \`az login\`，不要再 \`mcp login\`。npx 冷启动慢，\`startup_timeout_sec\` 不够会超时。关遥测是开关，可以留在 \`env\` 表：
+
+\`\`\`toml
+[mcp_servers.azure.env]
+AZURE_MCP_COLLECT_TELEMETRY = "false"
+\`\`\`
+
+README 文案还提 Foundry MCP，但当前插件 \`.mcp.json\` **没有第二台** Foundry 表。不要另外手写 Foundry 用户层 MCP。Foundry 场景走技能（如 \`microsoft-foundry\`）和这台 Azure MCP。也不要抄 Copilot 博客里那份带 Context7 的 \`.mcp.json\`。
+
+**用户层回退**（插件装不上、只要 MCP）对照同一条命令：
+
+\`\`\`bash
+codex mcp add azure -- npx -y @azure/mcp@latest server start
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.azure]
+command = "npx"
+args = ["-y", "@azure/mcp@latest", "server", "start"]
+enabled = true
+startup_timeout_sec = 60
+\`\`\`
+
+用户层表名跟官方一样用 \`azure\`（这不是插件 \`mcp.json\` 的连字符坑）。\`npx\` 不在 PATH 时写成 \`which npx\` 的绝对路径。这台会改订阅、部署、RBAC，保持工具批准。不要一上来 \`--yolo\`。不要给它 \`required = true\` 挂全局。
+
+CI / 服务账号才用服务主体。**不要**把 \`AZURE_CLIENT_SECRET\` 写进 \`env\` 表或 \`args\`。用 \`env_vars\` 转发启动 Codex 那个进程里的名字：
+
+\`\`\`toml
+[mcp_servers.azure]
+command = "npx"
+args = ["-y", "@azure/mcp@latest", "server", "start"]
+env_vars = ["AZURE_TENANT_ID", "AZURE_CLIENT_ID", "AZURE_CLIENT_SECRET"]
+enabled = true
+startup_timeout_sec = 60
+\`\`\`
+
+从已经 export 的终端启动。跑在 Azure 里才靠托管标识，不要把托管标识环境变量抄进本机 \`config.toml\`。
+
+**主权云不是默认。** README 的 \`/mcp edit azure\` 加 \`--cloud AzureChinaCloud\` / \`AzureUSGovernment\` 是 Copilot 语法。插件 MCP 不好改 args 时，才手写用户层并加 \`--cloud\`，而且先把本机 CLI 切到同一朵云：
+
+\`\`\`bash
+az cloud set --name AzureUSGovernment
+az login
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.azure]
+command = "npx"
+args = ["-y", "@azure/mcp@latest", "server", "start", "--cloud", "AzureUSGovernment"]
+enabled = true
+startup_timeout_sec = 60
+\`\`\`
+
+中国区把 \`AzureUSGovernment\` 换成 \`AzureChinaCloud\`。也可以 \`env_vars\` 转发 \`AZURE_CLOUD\`，不要把云名写错成密钥。不要默认打开主权云。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add azure@azure-skills\` 或其他 curated id。
+- 不要用 \`npx skills add … -a github-copilot\` 当 Codex 安装器。那是 IntelliJ Copilot 路径。
+- 不要把 \`apm install microsoft/azure-skills\` 当 Codex 主路径。多 harness 才用 APM。
+- 不要手拷技能到 \`~/.codex/skills\`。现行个人目录是 \`~/.agents/skills\`，而且那条不会登记 MCP。Microsoft Learn training 的 Azure Agent Skills 也不是这份插件。
+- 不要和 Google Cloud 的 \`google-cloud-developer@google-plugins\` 抄成同一个 marketplace。
+- 不要和 Azure DevOps 远程 \`mcp.dev.azure.com\` 配成一台。官方写明 Codex 走不了那条 Entra DCR；看板/仓库是另一条本地 ADO MCP。
+- 不要抄 Claude / Cursor / VS Code 的 JSON，也不要把 client secret 写进 \`http_headers\`。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完用 \`codex plugin list\` 看插件，用 \`codex mcp get azure\` 看 command 是 \`npx\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Azure", "MCP", "Skills"],
+    related: ["google-cloud-developer-plugin", "mcp-add-and-login", "hubspot-dev-mcp"],
+    sources: [
+      {
+        label: "microsoft/azure-skills",
+        url: "https://github.com/microsoft/azure-skills",
+      },
+      {
+        label: "Azure Skills for AI coding agents",
+        url: "https://microsoft.github.io/azure-skills/",
+      },
+      {
+        label: "Azure MCP · Sovereign clouds",
+        url: "https://learn.microsoft.com/en-us/azure/developer/azure-mcp-server/how-to/connect-sovereign-clouds",
+      },
+    ],
+  },
 ];

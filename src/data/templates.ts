@@ -1897,4 +1897,17 @@ codex mcp login motherduck
 codex mcp add HubSpotDev -- hs mcp start --ai-agent codex
 `,
   },
+  {
+    id: "azure-skills-plugin",
+    title: "Azure Skills 插件与 Azure MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 marketplace add microsoft/azure-skills，再 /plugins 装 azure。官方没给 plugin add id。只要 MCP 才手写 @azure/mcp。",
+    code: `codex plugin marketplace add microsoft/azure-skills
+# 然后 TUI /plugins 装 azure
+
+# 只要 MCP、插件装不上时：
+codex mcp add azure -- npx -y @azure/mcp@latest server start
+`,
+  },
 ];
