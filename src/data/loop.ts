@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-12T04:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "04:30 定时器。调用前 $97.70。Spend: counts（start_time=2026-09-05T04:45:00Z，共 256 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾余额待收尾 get_usage_credits。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md 并用文、Muse 许愿，无新可执行帖。本轮收录 Render 托管 MCP（/plugins 搜 Render；手写 codex mcp add render --url https://mcp.render.com/mcp --oauth-client-id codex）。HubSpot 本地 hs mcp setup 仍未核对手写 TOML。Tinybird / MotherDuck 官方示例把 token 写进 --env，不收录。Sequel / Snowflake Merge 不收录。Browserbase 仍不收录。",
+    "04:30 定时器。调用前 $97.70。Spend: counts（start_time=2026-09-05T04:45:00Z，共 256 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.69。CDP 39 项全过（预览 4284）。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md 并用文、Muse 许愿，无新可执行帖。本轮收录 Render 托管 MCP（/plugins 搜 Render；手写 codex mcp add render --url https://mcp.render.com/mcp --oauth-client-id codex）。HubSpot 本地 hs mcp setup 仍未核对手写 TOML。Tinybird / MotherDuck 官方示例把 token 写进 --env，不收录。Sequel / Snowflake Merge 不收录。Browserbase 仍不收录。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
