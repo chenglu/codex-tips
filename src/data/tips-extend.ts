@@ -8027,7 +8027,7 @@ URL **带** \`/mcp\` 后缀。不要和 \`clerk mcp run\` 那张表配成一台�
     level: "starter",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "Clerk", "stdio"],
-    related: ["mcp-add-and-login", "macos-mcp-bare-command", "mcp-http-not-sse"],
+    related: ["mcp-add-and-login", "macos-mcp-bare-command", "mcp-http-not-sse", "clerk-skills-plugin"],
     sources: [
       {
         label: "Clerk · Use Clerk's MCP server",
@@ -8036,6 +8036,48 @@ URL **带** \`/mcp\` 后缀。不要和 \`clerk mcp run\` 那张表配成一台�
       {
         label: "Clerk Changelog · clerk mcp install",
         url: "https://clerk.com/changelog/2026-07-22-clerk-mcp",
+      },
+    ],
+  },
+  {
+    id: "clerk-skills-plugin",
+    no: 340,
+    title: "Clerk Skills 官方 Codex 走 marketplace，不要发明 plugin add",
+    summary:
+      "官方 Codex：plugin marketplace add clerk/skills，再 /plugins 装 clerk-skills。不要发明 plugin add 的 @id。不要抄 npx skills add 当 Codex 专节，也不要和 clerk mcp run 搞成一台。",
+    body: `Clerk Skills 给 Codex 有专节，写在仓库 README，不在技能总览那页。官方 Codex 主路径是加 marketplace，再在 TUI 里装插件：
+
+\`\`\`bash
+codex plugin marketplace add clerk/skills
+\`\`\`
+
+加完重启 Codex（0.154 起也可先看当前会话），打开 \`/plugins\`，选 **Clerk Skills**，安装并启用 \`clerk-skills\`，然后开新线程。官方**没有**写出 \`codex plugin add …@…\` 这种带 marketplace 的 id，不要自己编。\`codex plugin list\` 应看到 \`clerk-skills\` 为 installed, enabled。当前会话没有技能，再新开。
+
+这是**技能捆**，不带 MCP。不要指望它登记 \`mcp_servers.clerk\`。接 Clerk SDK 片段仍走 \`codex mcp add clerk -- clerk mcp run\`，见 Clerk MCP 那条。不要把两台配成一张表。
+
+技能总览页写的是 \`npx skills add clerk/skills\`，并说兼容 Codex，但**没有**钉 \`-a codex\` / \`--agent codex\`。那是通用 Agent Skills 安装器，不要当成 Codex 专节。也不要抄 Claude 的 \`git clone … ~/.claude/skills/clerk\`。不要抄 \`/plugin install\`。\`clerk init\` 可能顺手装技能，那不是这条 marketplace。
+
+升级用 \`codex plugin marketplace upgrade\`，名字以 \`codex plugin marketplace list\` 为准。卸载在 \`/plugins\` 关掉，或 \`codex plugin remove\`（仍不要猜 @id）。IDE 扩展没有 \`/plugins\`，用 CLI 加 marketplace，再到 CLI TUI 或桌面去装。不要 \`required = true\`。不要一上来 \`--yolo\`。网页 Cloud 不读你这台 \`CODEX_HOME\` 插件缓存。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add clerk-skills@clerk\` 或 \`clerk@openai-curated\`。
+- 不要把 \`npx skills add clerk/skills\` 当成 Codex 专节。
+- 不要抄 Claude 的 \`~/.claude/skills\` 软链。
+- 不要和 \`clerk mcp run\` 那台 MCP 搞成一张表。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Clerk", "Skills", "marketplace"],
+    related: ["clerk-mcp-run", "plugin-session-refresh", "plugins-vs-skills"],
+    sources: [
+      {
+        label: "clerk/skills",
+        url: "https://github.com/clerk/skills",
+      },
+      {
+        label: "Clerk · Clerk Skills",
+        url: "https://clerk.com/docs/guides/ai/skills",
       },
     ],
   },

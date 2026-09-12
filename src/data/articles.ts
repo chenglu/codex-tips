@@ -2811,5 +2811,15 @@ export const articles: Article[] = [
     summary:
       '官方现行是 clerk mcp install --client codex，等价 mcp add clerk -- clerk mcp run。文档 Codex 节缺 --url 且带 rmcp，不要抄。托管地址是 mcp.clerk.com/mcp。不要 mcp login。',
   },
+  {
+    title: 'clerk/skills',
+    url: 'https://github.com/clerk/skills',
+    source: 'Clerk',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['plugins', 'Clerk', 'Skills', 'marketplace'],
+    summary:
+      '官方 Codex：plugin marketplace add clerk/skills，再 /plugins 装 clerk-skills。不要发明 plugin add 的 @id。不要抄 npx skills add 当 Codex 专节。不要和 clerk mcp run 搞成一台。',
+  },
 ];
 

@@ -2192,4 +2192,16 @@ codex plugin add incident-io@incident-io-skills
 # 不用 Clerk CLI 才：codex mcp add clerk --url https://mcp.clerk.com/mcp
 `,
   },
+  {
+    id: "clerk-skills-plugin",
+    title: "Clerk Skills marketplace",
+    filename: "terminal",
+    summary:
+      "主路径是 plugin marketplace add clerk/skills，再 /plugins 装 clerk-skills。不要发明 plugin add。不要抄 npx skills add 当 Codex 专节。",
+    code: `codex plugin marketplace add clerk/skills
+
+# 然后 TUI /plugins 选 Clerk Skills，安装并启用 clerk-skills
+# 不要发明 plugin add 的 @id
+`,
+  },
 ];
