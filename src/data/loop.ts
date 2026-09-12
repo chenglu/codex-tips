@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-12T13:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "13:30 定时器。窗口内先落地 Sanity（TIP 322）。本轮续搜：调用前 $97.58。Spend: counts（start_time=2026-09-05T13:45:00Z，共 229 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度待测后回写。X 仍是 Google Cloud 插件营销、hermes import-agent、日文 AGENTS.md、韩文 0.154 / GPT-6-Astra、粘贴截图、Claude vs Codex，无新可执行厂商路径。本轮收录 Honeycomb 插件（marketplace add honeycombio/agent-skill，再 plugin add honeycomb@honeycomb-plugins）。远程是 mcp.honeycomb.io/mcp。不要抄 mcp-remote / /honeycomb-setup。Axiom 仍无 Codex 专节。下一轮优先 Semgrep / Axiom / Intercom。",
+    "13:30 定时器。窗口内先落地 Sanity（TIP 322）。本轮续搜：调用前 $97.58。Spend: counts（start_time=2026-09-05T13:45:00Z，共 229 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.57。CDP 46 项全过（预览 4303）。X 仍是 Google Cloud 插件营销、hermes import-agent、日文 AGENTS.md、韩文 0.154 / GPT-6-Astra、粘贴截图、Claude vs Codex，无新可执行厂商路径。本轮收录 Honeycomb 插件（marketplace add honeycombio/agent-skill，再 plugin add honeycomb@honeycomb-plugins）。远程是 mcp.honeycomb.io/mcp。不要抄 mcp-remote / /honeycomb-setup。Axiom 仍无 Codex 专节。下一轮优先 Semgrep / Axiom / Intercom。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
