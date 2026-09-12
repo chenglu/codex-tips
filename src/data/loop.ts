@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-12T17:36:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "17:36 定时器。调用前 $97.49。Spend: counts（start_time=2026-09-05T17:40:00Z，共 232 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾待测。X 仍是 Claude vs Codex、GPT-6-Astra、Yellow 交易营销、日文 0.154 worktree、tmux-agent-pulse、Google Cloud 插件营销、AGENTS.md 入门，无新可执行厂商路径。DigitalOcean 博客是 npx skills add 且未钉 --agent codex，README 仍链 ~/.codex/skills，本轮不收录。Splunk o11y 有 --ide codex 但会把 token 写入 http_headers，留给下一轮。本轮收录 Atlan 托管 MCP（atlan@atlan + mcp.atlan.com/mcp）。装了插件仍要 mcp add。",
+    "17:36 定时器。调用前 $97.49。Spend: counts（start_time=2026-09-05T17:40:00Z，共 232 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.48。CDP 50 项全过（预览 4311）。X 仍是 Claude vs Codex、GPT-6-Astra、Yellow 交易营销、日文 0.154 worktree、tmux-agent-pulse、Google Cloud 插件营销、AGENTS.md 入门，无新可执行厂商路径。DigitalOcean 博客是 npx skills add 且未钉 --agent codex，README 仍链 ~/.codex/skills，本轮不收录。Splunk o11y 有 --ide codex 但会把 token 写入 http_headers，留给下一轮。本轮收录 Atlan 托管 MCP（atlan@atlan + mcp.atlan.com/mcp）。装了插件仍要 mcp add。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
