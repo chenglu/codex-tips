@@ -2481,5 +2481,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex CLI 是 ~/.codex/config.toml 写 [mcp_servers.mixpanel]，url 为 https://mcp.mixpanel.com/mcp，再 mcp login mixpanel。EU/IN 换区域主机。服务账号不要抄 headers 密钥，改走 env_http_headers。不要抄 Claude 的 --transport http 或 Cursor 的 mcp-remote。',
   },
+  {
+    title: 'Get started with Algolia Productivity MCP',
+    url: 'https://www.algolia.com/doc/guides/model-context-protocol/productivity-mcp',
+    source: 'Algolia',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Algolia', 'OAuth'],
+    summary:
+      '官方 Codex 节是 mcp add algolia --url https://mcp.algolia.com/mcp，再 mcp login algolia。先在控制台打开 Productivity MCP。只读。不要抄 Claude 的 --transport http。不要和 DocSearch 或 Public MCP 配成一台。',
+  },
 ];
 

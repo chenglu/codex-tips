@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T05:30:00Z",
+  lastTick: "2026-09-12T06:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "05:30 定时器。调用前 $97.69。Spend: counts（start_time=2026-09-05T05:45:00Z，共 234 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.68。CDP 39 项全过（预览 4286）。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md 并用文、Muse 许愿，无新可执行帖。本轮收录 Mixpanel 托管 MCP（codex mcp add mixpanel --url https://mcp.mixpanel.com/mcp）。DigitalOcean / Fly / Heroku 官方没有 Codex 节，不收录。HubSpot 仍无手写 TOML。Asana 仍是 mcp-remote。Tinybird / MotherDuck 仍把 token 写进 --env。",
+    "06:00 定时器。调用前 $97.68。Spend: counts（start_time=2026-09-05T06:15:00Z，共 233 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度见本轮提交。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md 并用文、Muse 许愿，无新可执行帖。本轮收录 Algolia Productivity MCP（codex mcp add algolia --url https://mcp.algolia.com/mcp）。Pinecone 官方 Codex 路径是 npx skills add，不收录。DigitalOcean / Fly / Heroku 仍无 Codex 节。HubSpot / Asana / Tinybird / MotherDuck 理由同前。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -584,6 +584,13 @@ export const loopState = {
     "devcenter.heroku.com heroku-mcp-server mcp:start Codex",
     "developers.hubspot.com hs mcp setup Codex CLI HubSpotDev",
     "Codex CLI 技巧 2026 Mixpanel MCP OAuth env_http_headers",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "algolia.com doc productivity-mcp Codex mcp add mcp.algolia.com/mcp",
+    "algolia.com doc public-mcp DocSearch MCP Codex",
+    "docs.pinecone.io mcp-server Codex npx skills add pinecone-io/skills",
+    "developers.hubspot.com hs mcp setup Codex CLI HubSpotDev",
+    "Codex CLI 技巧 2026 Algolia MCP Productivity DocSearch",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

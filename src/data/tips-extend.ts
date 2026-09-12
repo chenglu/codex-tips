@@ -5690,4 +5690,61 @@ export MIXPANEL_MCP_AUTHORIZATION="Bearer Basic $(printf '%s:%s' "$MIXPANEL_SA_U
       },
     ],
   },
+  {
+    id: "mcp-algolia-productivity",
+    no: 307,
+    title: "Algolia Productivity MCP 用 mcp.algolia.com/mcp 再 login，不要和 DocSearch 搞混",
+    summary:
+      "CLI：codex mcp add algolia --url https://mcp.algolia.com/mcp，再 mcp login。先在控制台打开 Productivity MCP。只读。不要抄 Claude 的 --transport http，也不要和 DocSearch 或 Public MCP 配成一台。",
+    body: `Algolia **Productivity** MCP 是远程 Streamable HTTP，给组织内部按你本人权限查索引和 analytics。官方 Codex 节是：
+
+\`\`\`bash
+codex mcp add algolia --url https://mcp.algolia.com/mcp
+codex mcp login algolia
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.algolia]
+url = "https://mcp.algolia.com/mcp"
+enabled = true
+\`\`\`
+
+地址**有** \`/mcp\` 后缀。不要填 OAuth client id / secret；客户端问这两项就留空。先在 Algolia 控制台 Generative AI → MCP Servers → Productivity 打开开关。关掉会立刻停掉已连接的客户端。权限跟你登录的 Algolia 账号走。
+
+这台是**只读**：能搜、看 facet、看推荐、跑 analytics（零结果、无点击、热门搜索等）。不能建索引、改记录或改设置。连上后仍把提示和输出当内部数据。不要给它 \`required = true\` 挂全局。
+
+不要和另外两条 Algolia MCP 配成一台：
+
+- **DocSearch MCP** 搜公开开发者文档，地址是 \`https://mcp.algolia.com/1/docsearch/mcp\`，无鉴权、进不了你的应用数据。另起表名，不要 \`mcp login\`。不要用 \`npx @docsearch/cli setup --codex\` 去覆盖上面这张 Productivity 表。
+- **Public MCP** 对外暴露精选索引，URL 在控制台复制，形如应用主机 \`algolia.net\` 下面的 \`/mcp/1/…/mcp\`，无鉴权。官方没有 Codex 节，不要发明一条固定 \`mcp add\`。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`claude mcp add --transport http algolia …\`，也不要抄 \`claude plugin marketplace add algolia/skills\`。那是 Claude 插件。
+- 不要用 \`npx skills add algolia/skills\` 当 Codex 插件安装器，也不要手拷到 \`~/.codex/skills\`。
+- 不要抄 Cursor / VS Code 的 \`mcpServers\` JSON。
+- 不要发明 \`codex plugin add algolia@…\`。
+- 不要把 Algolia CLI（\`algolia auth login\`）当成这台 MCP。CLI 能改索引；这台 MCP 不能。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get algolia\` 看传输是 streamable_http。会话里 \`/mcp\` 只是核对工具，不是唯一登录入口。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Algolia", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-mixpanel-remote", "mcp-exa-remote"],
+    sources: [
+      {
+        label: "Algolia · Productivity MCP",
+        url: "https://www.algolia.com/doc/guides/model-context-protocol/productivity-mcp",
+      },
+      {
+        label: "Algolia · MCP overview",
+        url: "https://www.algolia.com/doc/guides/model-context-protocol",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
 ];

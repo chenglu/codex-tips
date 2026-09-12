@@ -1773,4 +1773,15 @@ url = "https://mcp.mixpanel.com/mcp"
 enabled = true
 `,
   },
+  {
+    id: "mcp-algolia-productivity",
+    title: "Algolia Productivity 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.algolia.com/mcp。随后 mcp login。先在控制台打开 Productivity。不要和 DocSearch 搞混。",
+    code: `[mcp_servers.algolia]
+url = "https://mcp.algolia.com/mcp"
+enabled = true
+`,
+  },
 ];
