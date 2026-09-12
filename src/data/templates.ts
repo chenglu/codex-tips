@@ -2023,4 +2023,17 @@ codex plugin add honeycomb@honeycomb-plugins
 # codex mcp add pinecone -- npx -y @pinecone-database/mcp
 `,
   },
+  {
+    id: "heroku-mcp-http",
+    title: "Heroku 远程 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add heroku --url https://mcp.heroku.com/mcp，再 mcp login。不要抄 mcp-remote。本地才 heroku mcp:start；npx 才 env_vars。",
+    code: `codex mcp add heroku --url https://mcp.heroku.com/mcp
+codex mcp login heroku
+
+# 本地 stdio（不要和远程同名混用）：
+# codex mcp add heroku -- heroku mcp:start
+`,
+  },
 ];

@@ -7251,4 +7251,78 @@ startup_timeout_sec = 60
       },
     ],
   },
+  {
+    id: "heroku-mcp-http",
+    no: 327,
+    title: "Heroku 远程 MCP 用 mcp.heroku.com/mcp，不要抄 mcp-remote",
+    summary:
+      "官方远程是 mcp.heroku.com/mcp，Codex 对照 mcp add heroku --url 再 mcp login。不要抄 mcp-remote 或 Cursor JSON。本地才 heroku mcp:start；npx 才 env_vars 转发 HEROKU_API_KEY。",
+    body: `Heroku 给 Codex 没有专节。远程页只写「按客户端文档加 URL」，地址是 \`https://mcp.heroku.com/mcp\`（**带** \`/mcp\` 后缀），鉴权是 OAuth 2.0，浏览器走 \`id.heroku.com\`。Codex 原生 Streamable HTTP + \`mcp login\` 就是这条对照，不是发明插件。
+
+主路径：
+
+\`\`\`bash
+codex mcp add heroku --url https://mcp.heroku.com/mcp
+codex mcp login heroku
+\`\`\`
+
+用户层表名跟官方示例一样用小写 \`heroku\`。不要抄 Cursor 的 \`mcpServers\` JSON，也不要抄 VS Code 的 MCP Add Server 步骤原文。不要抄博客里的 \`npx mcp-remote https://mcp.heroku.com/mcp\`：Codex 自己走 HTTP。客户端必须支持 Streamable HTTP，不是 SSE。
+
+\`\`\`toml
+[mcp_servers.heroku]
+url = "https://mcp.heroku.com/mcp"
+enabled = true
+\`\`\`
+
+连上后保持工具批准。不要一上来 \`--yolo\`。不要给它 \`required = true\` 挂全局。远程页**没列**工具名；应用列表、日志、Postgres 查询只写在 STDIO 文档，不要当成远程已核对清单。
+
+登录卡住时：清掉 \`mcp.heroku.com\` 的浏览器 cookie，删掉这张表再 \`mcp add\`，再 \`mcp login\`。不要去跑 \`rm -rf ~/.mcp-auth\`——那是 \`mcp-remote\` 客户端的复位步骤。
+
+本地 STDIO 是另一条线，官方标 early development，推荐 Heroku CLI 10.8.1+ 的 \`heroku mcp:start\`，用现有 \`heroku login\` 会话，**不要** \`HEROKU_API_KEY\`。官方不少 JSON 把 command 写成一整串 \`heroku mcp:start\`，Codex 要拆开：
+
+\`\`\`bash
+codex mcp add heroku -- heroku mcp:start
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.heroku]
+command = "heroku"
+args = ["mcp:start"]
+enabled = true
+\`\`\`
+
+这是 stdio，**不要** \`codex mcp login\`。\`heroku\` 不在 PATH 时写成 \`which heroku\` 的绝对路径。远程表和 stdio 表不要同名混用。
+
+npx 备选才用 \`npx -y @heroku/mcp-server\`，必须 \`env_vars\` 转发 \`HEROKU_API_KEY\`。**不要抄** JSON \`env\` 表里的 token 字面量。token 用 \`heroku authorizations:create\` 或 \`heroku auth:token\`。这张表也不要 \`mcp login\`。npx 冷启动慢就加 \`startup_timeout_sec\`。
+
+也不要和 Railway 搞混：Railway 托管是 \`mcp.railway.com\`，**没有** \`/mcp\` 后缀，主路径是 \`/plugins\` 搜 Railway。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add heroku@…\`。
+- 不要抄 \`npx mcp-remote https://mcp.heroku.com/mcp\`。
+- 不要把 \`HEROKU_API_KEY\` 写进 \`env\` 表或 \`args\`。
+- 不要给它 \`required = true\` 挂全局。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get heroku\` 看传输是 streamable_http 还是 stdio。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Heroku", "OAuth"],
+    related: ["mcp-add-and-login", "gitlab-mcp-http", "mcp-stdio-env-vars"],
+    sources: [
+      {
+        label: "Heroku · Remote MCP Server",
+        url: "https://devcenter.heroku.com/articles/heroku-remote-mcp-server",
+      },
+      {
+        label: "Heroku · MCP Server STDIO",
+        url: "https://devcenter.heroku.com/articles/heroku-mcp-server",
+      },
+      {
+        label: "heroku/heroku-mcp-server",
+        url: "https://github.com/heroku/heroku-mcp-server",
+      },
+    ],
+  },
 ];

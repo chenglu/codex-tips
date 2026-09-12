@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T15:18:00Z",
+  lastTick: "2026-09-12T15:38:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "15:18 定时器。调用前 $97.55。Spend: counts（start_time=2026-09-05T15:30:00Z，共 229 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.54。CDP 47 项全过（预览 4306）。X 仍是 Claude vs Codex、hermes import-agent、日文 AGENTS.md、韩文 0.154 / GPT-6-Astra、Google Cloud 插件营销、tmux-agent-pulse、额度定价讨论，无新可执行厂商路径。本轮收录 Pinecone Agent Skills（npx skills add pinecone-io/skills --agent codex）。MCP 才 @pinecone-database/mcp + env_vars。不要抄 Claude plugin / Cursor /add-plugin。Axiom / Intercom / PagerDuty 仍无 Codex 专节。下一轮优先 Axiom / Intercom / Heroku。",
+    "15:38 定时器。调用前 $97.54。Spend: counts（start_time=2026-09-05T15:50:00Z，共 229 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 仍是 Claude vs Codex、hermes import-agent、日文 AGENTS.md、韩文 0.154 / GPT-6-Astra、Google Cloud 插件营销、tmux-agent-pulse、额度定价、Yellow 交易营销，无新可执行厂商路径。本轮收录 Heroku 远程 MCP（mcp.heroku.com/mcp + mcp login）。不要抄 mcp-remote。本地才 heroku mcp:start；npx 才 @heroku/mcp-server + env_vars。Axiom / Intercom / PagerDuty 仍无 Codex 专节。下一轮优先 Litestream（官方有 Codex 节）。收尾额度见本轮结束提交。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -759,6 +759,15 @@ export const loopState = {
     "developers.intercom.com mcp.intercom.com Codex mcp-remote",
     "pagerduty.github.io pagerduty-mcp-server Codex",
     "Codex CLI 技巧 2026 Pinecone Agent Skills MCP",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "devcenter.heroku.com heroku-remote-mcp-server Codex mcp.heroku.com/mcp",
+    "devcenter.heroku.com heroku-mcp-server heroku mcp:start Codex",
+    "github.com/heroku/heroku-mcp-server Codex @heroku/mcp-server",
+    "docs.litestream.io mcp Codex mcp-addr localhost:3001",
+    "axiom.co docs console intelligence mcp-server Codex mcp.axiom.co mcp-remote",
+    "developers.intercom.com mcp.intercom.com Codex mcp-remote",
+    "Codex CLI 技巧 2026 Heroku Remote MCP mcp.heroku.com",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

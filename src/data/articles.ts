@@ -2681,5 +2681,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex 是 npx skills add pinecone-io/skills --agent codex。不要抄 Claude plugin 或 Cursor /add-plugin。MCP 才 mcp add pinecone -- npx -y @pinecone-database/mcp，密钥用 env_vars。',
   },
+  {
+    title: 'Heroku Remote MCP Server',
+    url: 'https://devcenter.heroku.com/articles/heroku-remote-mcp-server',
+    source: 'Heroku',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Heroku', 'OAuth'],
+    summary:
+      '官方远程是 mcp.heroku.com/mcp，Codex 对照 mcp add heroku --url 再 mcp login。不要抄 mcp-remote。本地才 heroku mcp:start。npx 才 @heroku/mcp-server + env_vars。',
+  },
 ];
 

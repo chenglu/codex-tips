@@ -225,6 +225,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: "codex mcp add semgrep -- semgrep mcp", meaning: "本地 stdio。先 pipx 或 uv 装 CLI，再 semgrep login && semgrep install-semgrep-pro。不要 mcp login。不要抄 Claude 远程插件或 uvx semgrep-mcp。CI 才 env_vars 转发 SEMGREP_APP_TOKEN" },
       { cmd: "codex mcp add kagi -- uvx kagimcp", meaning: "官方 Codex 是本地 stdio。不要抄 --env KAGI_API_KEY=。用 env_vars。托管才 mcp.kagi.com/mcp + bearer_token_env_var。不要 mcp login" },
       { cmd: "npx skills add pinecone-io/skills --agent codex", meaning: "官方 Codex 是 Agent Skills，不是 /plugins。MCP 才 mcp add pinecone -- npx -y @pinecone-database/mcp。不要抄 Claude plugin 或 Cursor /add-plugin。密钥用 env_vars" },
+      { cmd: "codex mcp add heroku --url https://mcp.heroku.com/mcp", meaning: "官方远程带 /mcp 后缀。随后 mcp login heroku。不要抄 mcp-remote 或 Cursor JSON。本地才 heroku mcp:start；npx 才 env_vars 转发 HEROKU_API_KEY。不是 Railway" },
       { cmd: "codex mcp add convex -- npx … mcp start", meaning: "插件装不上才用手写 stdio。官方 MCP 是 npx convex mcp start，不是远程 URL。不要加 --dangerously-enable-production-deployments" },
       { cmd: "codex --profile huggingface", meaning: "[model_providers.huggingface] 走 router.huggingface.co/v1，wire_api = responses，env_key = HF_TOKEN。不是 Hub MCP，也不是 --oss" },
       { cmd: "codex --profile vercel", meaning: "[model_providers.vercel] 走 ai-gateway.vercel.sh/codex/v1，wire_api = responses，env_key = AI_GATEWAY_API_KEY。不是 Vercel MCP，也不是 --oss" },
