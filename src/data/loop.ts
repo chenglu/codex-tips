@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-12T06:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "06:30 定时器。调用前 $97.67。Spend: counts（start_time=2026-09-05T06:45:00Z，共 232 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度见本轮提交。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md 并用文、Muse 许愿，无新可执行帖。本轮收录 Algolia DocSearch MCP（codex mcp add algolia-docsearch --url https://mcp.algolia.com/1/docsearch/mcp）。Temporal 官方 Codex 节是 /plugins 搜 temporal，未给 plugin add id，下一轮再核。PagerDuty 官方无 Codex 节且不支持 DCR。Elastic 官方走 mcp-remote。Pinecone / HubSpot / Asana / Tinybird / MotherDuck 理由同前。",
+    "06:30 定时器。调用前 $97.67。Spend: counts（start_time=2026-09-05T06:45:00Z，共 232 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 仍为 $97.67。CDP 35 项全过（预览 4288）。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md 并用文、Muse 许愿，无新可执行帖。本轮收录 Algolia DocSearch MCP（codex mcp add algolia-docsearch --url https://mcp.algolia.com/1/docsearch/mcp）。Temporal 官方 Codex 节是 /plugins 搜 temporal，未给 plugin add id，下一轮再核。PagerDuty 官方无 Codex 节且不支持 DCR。Elastic 官方走 mcp-remote。Pinecone / HubSpot / Asana / Tinybird / MotherDuck 理由同前。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
