@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-12T14:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "14:00 定时器。调用前 $97.57。Spend: counts（start_time=2026-09-05T14:15:00Z，共 230 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 仍是 Claude vs Codex、hermes import-agent、日文 AGENTS.md、韩文 0.154 / GPT-6-Astra、粘贴截图、Google Cloud 插件营销，无新可执行厂商路径。本轮收录 Semgrep Guardian 本地 MCP（mcp add semgrep -- semgrep mcp）。不要抄 Claude 远程插件 / uvx semgrep-mcp / Windsurf hooks。Axiom / Intercom 仍无 Codex 专节。收尾额度待验证后写入。",
+    "14:00 定时器。调用前 $97.57。Spend: counts（start_time=2026-09-05T14:15:00Z，共 230 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.56。CDP 48 项全过（预览 4304）。X 仍是 Claude vs Codex、hermes import-agent、日文 AGENTS.md、韩文 0.154 / GPT-6-Astra、粘贴截图、Google Cloud 插件营销，无新可执行厂商路径。本轮收录 Semgrep Guardian 本地 MCP（mcp add semgrep -- semgrep mcp）。不要抄 Claude 远程插件 / uvx semgrep-mcp / Windsurf hooks。Axiom / Intercom 仍无 Codex 专节。下一轮优先 Axiom / Intercom / Kagi。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
