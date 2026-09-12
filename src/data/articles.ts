@@ -2781,5 +2781,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex：npx skills add imgly/agent-skills -a codex。实时文档才 mcp add imgly_docs --url https://mcp.img.ly/mcp，无鉴权。不要抄 Claude 的 cesdk@imgly 或 CoDesign 的 @imgly/codesign-mcp。',
   },
+  {
+    title: 'Install IMG.LY CoDesign in your coding agent',
+    url: 'https://img.ly/codesign/install/',
+    source: 'IMG.LY',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'IMG.LY', 'CoDesign', 'stdio'],
+    summary:
+      '官方 Codex：mcp add codesign -- npx -y @imgly/codesign-mcp@latest stdio。stdio 是子命令。加完当前会话不可用，新开后再发 start the CoDesign onboarding。不要抄 --scope user 或 JSON mcpServers。不要 mcp login。',
+  },
 ];
 

@@ -7862,7 +7862,7 @@ URL **带** \`/mcp\` 后缀。用户层表名官方就是 \`imgly_docs\`。这�
     level: "starter",
     surfaces: ["cli", "app", "ide"],
     tags: ["Skills", "IMG.LY", "CE.SDK", "MCP"],
-    related: ["pinecone-agent-skills", "mcp-add-and-login", "mcp-langfuse-docs"],
+    related: ["imgly-codesign-mcp", "pinecone-agent-skills", "mcp-add-and-login", "mcp-langfuse-docs"],
     sources: [
       {
         label: "IMG.LY · Set up CE.SDK with OpenAI Codex",
@@ -7871,6 +7871,53 @@ URL **带** \`/mcp\` 后缀。用户层表名官方就是 \`imgly_docs\`。这�
       {
         label: "imgly/agent-skills",
         url: "https://github.com/imgly/agent-skills",
+      },
+    ],
+  },
+  {
+    id: "imgly-codesign-mcp",
+    no: 337,
+    title: "IMG.LY CoDesign 是本地 stdio MCP，不要抄 --scope user",
+    summary:
+      "官方 Codex：mcp add codesign -- npx -y @imgly/codesign-mcp@latest stdio。必须保留 @latest，stdio 是子命令。加完新开会话再发 start the CoDesign onboarding。不要抄 --scope user，也不要 mcp login。",
+    body: `IMG.LY CoDesign 给 Codex 有专节。这是**本地 stdio**，不是远程 HTTP，也不是 CE.SDK 那套 Agent Skills。官方 Codex 主路径：
+
+\`\`\`bash
+codex mcp add codesign -- npx -y @imgly/codesign-mcp@latest stdio
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.codesign]
+command = "npx"
+args = ["-y", "@imgly/codesign-mcp@latest", "stdio"]
+enabled = true
+\`\`\`
+
+用户层表名官方就是 \`codesign\`。必须保留 \`@latest\`，让 npx 重新解析，不要用缓存旧包。\`stdio\` 是**子命令**，不是旗标，不要漏掉。本机需要 Node.js 22 及以上（CE.SDK 技能是 20，不要抄错）。Codex **没有** \`--scope user\`，那是 Claude 的 \`claude mcp add --scope user codesign -- ...\`。不要抄过来。官方给其它客户端的 JSON \`mcpServers\` 也不要当 Codex 主路径。
+
+这是 stdio，**不要** \`codex mcp login\`。不要给它配 \`https://mcp.img.ly/mcp\`，那是 CE.SDK **文档** MCP，表名是 \`imgly_docs\`。不要发明 \`codex plugin add codesign@openai-curated\`。不要抄 \`npx mcp-remote\`。不要抄 \`--transport http\`。
+
+加完**当前会话不可用**。退出再开，然后发 \`start the CoDesign onboarding\`。无需账号；免费 IMG.LY 账号只给 AI 生图。\`npx\` 不在 PATH 时把 \`command\` 改成绝对路径；Dock 打开的桌面经常没有 Homebrew PATH。冷启动慢就给这台加 \`startup_timeout_sec\`。不要 \`required = true\` 挂全局。不要一上来 \`--yolo\`。网页 Cloud 不读 \`~/.codex/config.toml\`，也跑不了本机 stdio。用 \`codex mcp list\` / \`codex mcp get codesign\` 看 command 是 npx。
+
+不要做这些：
+
+- 不要抄 \`claude mcp add --scope user codesign -- ...\`。
+- 不要抄 JSON \`mcpServers\` 进 Codex。
+- 不要发明 \`codex plugin add codesign@openai-curated\`。
+- 不要 \`mcp login\`，也不要把 CoDesign 和 \`imgly_docs\` 配成一张表。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "IMG.LY", "CoDesign", "stdio"],
+    related: ["imgly-cesdk-skills", "mcp-add-and-login", "macos-mcp-bare-command"],
+    sources: [
+      {
+        label: "IMG.LY · Install CoDesign in your coding agent",
+        url: "https://img.ly/codesign/install/",
+      },
+      {
+        label: "IMG.LY · Install CoDesign in any MCP client",
+        url: "https://img.ly/codesign/other-clients/",
       },
     ],
   },

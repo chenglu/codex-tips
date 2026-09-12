@@ -2154,4 +2154,18 @@ codex plugin add incident-io@incident-io-skills
 # codex mcp add imgly_docs --url https://mcp.img.ly/mcp
 `,
   },
+  {
+    id: "imgly-codesign-mcp",
+    title: "IMG.LY CoDesign 本地 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add codesign -- npx -y @imgly/codesign-mcp@latest stdio。加完新开会话再发 start the CoDesign onboarding。不要抄 --scope user。",
+    code: `codex mcp add codesign -- npx -y @imgly/codesign-mcp@latest stdio
+
+# [mcp_servers.codesign]
+# command = "npx"
+# args = ["-y", "@imgly/codesign-mcp@latest", "stdio"]
+# enabled = true
+`,
+  },
 ];
