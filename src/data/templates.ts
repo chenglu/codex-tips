@@ -1620,4 +1620,26 @@ enabled = true
 x-api-key = "EXA_API_KEY"
 `,
   },
+  {
+    id: "mcp-langfuse-docs",
+    title: "Langfuse 文档 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 langfuse.com/api/mcp。表名是 langfuse-docs。无鉴权。不要抄 mcp-remote，也不是产品 MCP。",
+    code: `[mcp_servers.langfuse-docs]
+url = "https://langfuse.com/api/mcp"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-launchdarkly-remote",
+    title: "LaunchDarkly 托管 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.launchdarkly.com/mcp/launchdarkly。随后 mcp login。不要抄本地 npx --api-key。联邦区和欧盟没有托管。",
+    code: `[mcp_servers.launchdarkly]
+url = "https://mcp.launchdarkly.com/mcp/launchdarkly"
+enabled = true
+`,
+  },
 ];

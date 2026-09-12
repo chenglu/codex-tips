@@ -4846,4 +4846,125 @@ x-api-key = "EXA_API_KEY"
       },
     ],
   },
+  {
+    id: "mcp-langfuse-docs",
+    no: 294,
+    title: "Langfuse 文档 MCP 用 langfuse-docs，无鉴权，不是观测产品",
+    summary:
+      "官方 Codex 节：codex mcp add langfuse-docs --url https://langfuse.com/api/mcp。无鉴权、只读文档。不要抄 mcp-remote 或 Claude 的 --transport http。这不是 cloud.langfuse.com 那台带 Basic Auth 的产品 MCP。",
+    body: `Langfuse **文档** MCP 有官方 Codex 节。无鉴权，Streamable HTTP：
+
+\`\`\`bash
+codex mcp add langfuse-docs --url https://langfuse.com/api/mcp
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.langfuse-docs]
+url = "https://langfuse.com/api/mcp"
+enabled = true
+\`\`\`
+
+用户层表名官方就是带连字符的 \`langfuse-docs\`（这不是插件 \`mcp.json\`，#33063 那套连字符问题不套这里）。新开会话后跑 \`codex mcp list\` 确认已登记。官方没要求 \`mcp login\`。
+
+这台只暴露文档工具：\`searchLangfuseDocs\`（语义检索）、\`getLangfuseDocsPage\`（按路径或 langfuse.com URL 取 Markdown）、以及总览。核心用途是让模型按文档把 Tracing 接到你的仓库，不是去改生产观测数据。
+
+同一家还有**另一台**已鉴权的产品 MCP：\`https://cloud.langfuse.com/api/public/mcp\`（美区 \`us.cloud.langfuse.com\`，日本 \`jp\`，HIPAA \`hipaa\`）。那台要 Basic Auth，官方 Codex 示例把 token 写进 \`http_headers\`，**不要**抄进仓库。文档 MCP 和产品 MCP 不要写成同一张表。
+
+可选技能：官方写 \`npx skills add langfuse/skills --skill langfuse\`。那是 Agent Skills 安装器，可能改所有检测到的客户端。只要 Codex 时钉死：
+
+\`\`\`bash
+npx skills add langfuse/skills --skill langfuse --agent codex
+\`\`\`
+
+这不是 Codex \`/plugins\` 主路径。不确定就别装。技能底层会用 \`npx langfuse-cli\`，那是 CLI，不是这台文档 MCP。
+
+不要做这些：
+
+- 不要套 \`mcp-remote\`。那是 Windsurf 回退。Codex 自己会连 Streamable HTTP。
+- 不要抄 Claude 的 \`--transport http\` 或 \`mcpServers\` JSON。
+- 不要把 \`https://langfuse.com/api/search-docs\` 当 MCP。那是同一套检索的 REST。
+- 不要给它 \`required = true\` 挂全局。
+- 不要一上来 \`--yolo\`。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get langfuse-docs\` 看传输是 streamable_http。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Langfuse", "文档", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-openai-docs", "mcp-launchdarkly-remote"],
+    sources: [
+      {
+        label: "Langfuse · Docs MCP",
+        url: "https://langfuse.com/docs/docs-mcp",
+      },
+      {
+        label: "Langfuse · Agent Skill",
+        url: "https://langfuse.com/docs/api-and-data-platform/features/agent-skill",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "mcp-launchdarkly-remote",
+    no: 295,
+    title: "LaunchDarkly 托管 MCP 用 mcp.launchdarkly.com，OAuth 不要抄 --api-key",
+    summary:
+      "商业区：codex mcp add launchdarkly --url https://mcp.launchdarkly.com/mcp/launchdarkly，再 mcp login。官方页没有 Codex 节，不要抄 Cursor JSON 或本地 npx --api-key。联邦区和欧盟实例没有这台托管服务。",
+    body: `LaunchDarkly **商业区**的现行默认是托管 Streamable HTTP + OAuth。官方安装页只列 Cursor / Claude / Windsurf / Copilot，没有 Codex 按钮。本机主路径自己 \`add\`：
+
+\`\`\`bash
+codex mcp add launchdarkly --url https://mcp.launchdarkly.com/mcp/launchdarkly
+codex mcp login launchdarkly
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.launchdarkly]
+url = "https://mcp.launchdarkly.com/mcp/launchdarkly"
+enabled = true
+\`\`\`
+
+连上之后可以管 feature flag、AgentControl 配置、查可观测性。例如：「在默认项目建一个叫 example feature 的 flag」「把这个 flag 在所有环境打开」。OAuth 过了仍 \`403\` 多半是账号权限，不是登录失败：至少要 Writer 基线、Developer 预设，或能在目标项目里创建 / 读 / 改 / 删 flag 和 AgentControl。改完权限后重新 \`mcp login\`。
+
+**联邦区和欧盟实例没有托管 MCP。** 那些环境才考虑本地 \`@launchdarkly/mcp-server\`。不要把 \`--api-key\` 和 token 写进 \`args\`；Codex **不会**展开 \`args\` 里的 \`$LD_ACCESS_TOKEN\`。EU 要额外的 \`--server-url https://app.eu.launchdarkly.com\`，联邦区是 \`https://app.launchdarkly.us\`。商业区不要再开本地包，官方说托管更完整、更新更快。
+
+从旧本地配置迁过来时：删掉 \`npx @launchdarkly/mcp-server\`、\`--api-key\` 和 \`LD_ACCESS_TOKEN\`，换成上面那张 \`url\` 表，然后新开会话再 \`mcp login\`。
+
+可选技能官方写 \`npx skills add launchdarkly/agent-skills\`，并点名 Codex 兼容。那是 Agent Skills 安装器，可能改所有检测到的客户端，**不是** \`/plugins\`。不确定就别装。技能负责工作流顺序（例如 flag cleanup 的就绪评估），MCP 才真正调 API。
+
+不要做这些：
+
+- 不要抄 \`mcpServers\` JSON，也不要抄 Claude 的 \`--transport http\`。
+- 不要把安装页或 Cursor 一键装当 Codex 主路径。
+- 不要给商业区再叠一台本地 \`LaunchDarkly\` stdio。
+- 不要给它 \`required = true\` 挂全局。
+- 不要一上来 \`--yolo\`。改 targeting、开关生产环境都是写操作。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get launchdarkly\` 看传输是 streamable_http。会话里 \`/mcp\` 应显示 Auth: OAuth。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "LaunchDarkly", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-stdio-env-vars", "mcp-langfuse-docs"],
+    sources: [
+      {
+        label: "LaunchDarkly · Hosted MCP",
+        url: "https://launchdarkly.com/docs/home/getting-started/mcp-hosted",
+      },
+      {
+        label: "LaunchDarkly · MCP server",
+        url: "https://launchdarkly.com/docs/home/getting-started/mcp",
+      },
+      {
+        label: "LaunchDarkly · Local MCP",
+        url: "https://launchdarkly.com/docs/home/getting-started/mcp-local",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
 ];

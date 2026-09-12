@@ -2341,5 +2341,25 @@ export const articles: Article[] = [
     summary:
       '官方推荐 chatgpt.com/plugins/exa，插件自带 MCP 和技能。手工才是 mcp add exa --url https://mcp.exa.ai/mcp。不要套 mcp-remote。生产密钥用 env_http_headers 的 x-api-key，不要把 key 写进 URL 或 http_headers 字面量。',
   },
+  {
+    title: 'Langfuse Docs MCP Server',
+    url: 'https://langfuse.com/docs/docs-mcp',
+    source: 'Langfuse',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Langfuse', '文档'],
+    summary:
+      '官方 Codex 节是 mcp add langfuse-docs --url https://langfuse.com/api/mcp。无鉴权、只读文档。不要抄 mcp-remote。这不是 cloud.langfuse.com 那台带 Basic Auth 的产品 MCP。技能安装必须带 --agent codex。',
+  },
+  {
+    title: 'LaunchDarkly hosted MCP server',
+    url: 'https://launchdarkly.com/docs/home/getting-started/mcp-hosted',
+    source: 'LaunchDarkly',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'LaunchDarkly', 'OAuth'],
+    summary:
+      '托管地址是 https://mcp.launchdarkly.com/mcp/launchdarkly，走 OAuth。官方安装页没有 Codex，本机用 mcp add 再 mcp login。不要抄本地 npx --api-key。联邦区和欧盟实例没有这台托管服务。OAuth 后 403 多半是 Writer 权限。',
+  },
 ];
 
