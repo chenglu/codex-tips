@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-12T13:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "13:00 定时器。调用前 $97.59。Spend: counts（start_time=2026-09-05T13:15:00Z，共 229 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度待本轮 CDP 后回写。X 仍是 Packt、tmux-agent-pulse、Google Cloud Developer Plugin 营销、hermes import-agent、日文 AGENTS.md、韩文 0.154 / GPT-6-Astra、粘贴截图、Claude vs Codex，无新可执行厂商路径。本轮收录 GitLab 远程 MCP（mcp add GitLab --url https://gitlab.com/api/v4/mcp，再 mcp login）。不要抄 rmcp_client / mcp-remote。不是 Cloud 评论审查，也不是 Orbit。Intercom / Asana 仍是 mcp-remote。Sanity 官方有 Codex mcp add Sanity --url https://mcp.sanity.io，插件没给 plugin add id。下一轮优先 Sanity / Honeycomb / Axiom / Semgrep / Intercom。",
+    "13:00 定时器。调用前 $97.59。Spend: counts（start_time=2026-09-05T13:15:00Z，共 229 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.58。CDP 41 项全过（预览 4301）。X 仍是 Packt、tmux-agent-pulse、Google Cloud Developer Plugin 营销、hermes import-agent、日文 AGENTS.md、韩文 0.154 / GPT-6-Astra、粘贴截图、Claude vs Codex，无新可执行厂商路径。本轮收录 GitLab 远程 MCP（mcp add GitLab --url https://gitlab.com/api/v4/mcp，再 mcp login）。不要抄 rmcp_client / mcp-remote。不是 Cloud 评论审查，也不是 Orbit。Intercom / Asana 仍是 mcp-remote。Sanity 官方有 Codex mcp add Sanity --url https://mcp.sanity.io，插件没给 plugin add id。下一轮优先 Sanity / Honeycomb / Axiom / Semgrep / Intercom。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
