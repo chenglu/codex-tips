@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-12T08:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "08:00 定时器。调用前 $97.66。Spend: counts（start_time=2026-09-05T08:15:00Z，共 232 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度待本轮 CDP 后回写。本轮收录 Typesense Cloud MCP（codex mcp add typesense-cloud --url https://cloud.typesense.org/mcp/v1）。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md 并用文，另有 hermes import-agent 营销帖，无新可执行用法。下一轮优先 Intercom：官方远程是 mcp.intercom.com/mcp，但仍无 Codex 专节，不要发明 mcp add。Airtable 第三方指南会发明 mcp add，等官方 Codex 节。Meilisearch 是 stdio 无 Codex 节。DigitalOcean 示例把 token 写进 --env。PagerDuty / Elastic / Pinecone / HubSpot / Asana / Tinybird / MotherDuck / Fly.io 理由同前。",
+    "08:00 定时器。调用前 $97.66。Spend: counts（start_time=2026-09-05T08:15:00Z，共 232 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.65。CDP 36 项全过（预览 4291）。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md 并用文，另有 hermes import-agent 营销帖，无新可执行用法。本轮收录 Typesense Cloud MCP（codex mcp add typesense-cloud --url https://cloud.typesense.org/mcp/v1）。下一轮优先 Intercom：官方远程是 mcp.intercom.com/mcp，但仍无 Codex 专节，不要发明 mcp add。Airtable 第三方指南会发明 mcp add，等官方 Codex 节。Meilisearch 是 stdio 无 Codex 节。DigitalOcean 示例把 token 写进 --env。PagerDuty / Elastic / Pinecone / HubSpot / Asana / Tinybird / MotherDuck / Fly.io 理由同前。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
