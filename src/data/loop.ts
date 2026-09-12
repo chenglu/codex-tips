@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-12T17:15:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "17:15 定时器。调用前 $97.50。Spend: counts（start_time=2026-09-05T17:20:00Z，共 232 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾待测。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Yellow 交易营销、tmux-agent-pulse、Google Cloud 插件营销、AGENTS.md 入门、DevDay 营销，无新可执行厂商路径。Meilisearch / Axiom / Intercom 仍是 Claude + mcp-remote。DigitalOcean App Platform skills 官方未钉 --agent codex，本轮不收录。本轮收录 Fly.io 本地 stdio MCP（fly mcp server）。没有 --codex，不要对 config.toml 跑 --config。下一轮可再核 DigitalOcean skills。",
+    "17:15 定时器。调用前 $97.50。Spend: counts（start_time=2026-09-05T17:20:00Z，共 232 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.49。CDP 50 项全过（预览 4310）。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Yellow 交易营销、tmux-agent-pulse、Google Cloud 插件营销、AGENTS.md 入门、DevDay 营销，无新可执行厂商路径。Meilisearch / Axiom / Intercom 仍是 Claude + mcp-remote。DigitalOcean App Platform skills 官方未钉 --agent codex，本轮不收录。本轮收录 Fly.io 本地 stdio MCP（fly mcp server）。没有 --codex，不要对 config.toml 跑 --config。下一轮可再核 DigitalOcean skills。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
