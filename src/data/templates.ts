@@ -2036,4 +2036,17 @@ codex mcp login heroku
 # codex mcp add heroku -- heroku mcp:start
 `,
   },
+  {
+    id: "litestream-mcp-http",
+    title: "Litestream 本地 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add litestream --url http://localhost:3001。先在 YAML 开 mcp-addr，再 litestream replicate。不要 mcp login，也不要抄 --transport http。",
+    code: `codex mcp add litestream --url http://localhost:3001
+
+# litestream.yml:
+# mcp-addr: "127.0.0.1:3001"
+# 然后：litestream replicate -config litestream.yml
+`,
+  },
 ];

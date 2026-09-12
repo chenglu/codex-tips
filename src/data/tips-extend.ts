@@ -7325,4 +7325,64 @@ npx 备选才用 \`npx -y @heroku/mcp-server\`，必须 \`env_vars\` 转发 \`HE
       },
     ],
   },
+  {
+    id: "litestream-mcp-http",
+    no: 328,
+    title: "Litestream MCP 先开 mcp-addr，再连 localhost:3001",
+    summary:
+      "官方 Codex：mcp add litestream --url http://localhost:3001。先在 litestream.yml 写 mcp-addr，再 litestream replicate。没有 litestream mcp 子命令。不要 mcp login，也不要抄 Claude 的 --transport http。",
+    body: `Litestream 给 Codex 的官方节就是这一条：
+
+\`\`\`bash
+codex mcp add litestream --url http://localhost:3001
+\`\`\`
+
+URL **没有** \`/mcp\` 后缀，协议是 \`http\` 不是 \`https\`。这是本机 Streamable HTTP，**不要** \`codex mcp login\`：官方写明 MCP **没有内建鉴权**。不要抄 Claude 的 \`--transport http\`，也不要抄 Cursor / Claude Desktop 的 \`mcpServers\` JSON。
+
+MCP 不是单独进程。没有 \`litestream mcp\` 子命令，也没有等价 CLI 旗标。要先在 Litestream 自己的 YAML 里开 \`mcp-addr\`（0.5.0 起），再跑 replicate：
+
+\`\`\`yaml
+mcp-addr: "127.0.0.1:3001"
+\`\`\`
+
+\`\`\`bash
+litestream replicate -config litestream.yml
+\`\`\`
+
+日志里应出现 \`Starting MCP Streamable HTTP server\`。只绑回环，不要写成 \`0.0.0.0\`。不要把这台暴露到公网。远程访问官方建议 SSH 隧道或反向代理；Fly.io 的 \`flyctl mcp proxy --stream\` 是给 Claude Desktop 的 stdio 包装，**不要**当 Codex 主路径。
+
+\`\`\`toml
+[mcp_servers.litestream]
+url = "http://localhost:3001"
+enabled = true
+\`\`\`
+
+先让 Litestream 起来，再开 Codex。连上后可问状态（\`litestream_info\` / \`litestream_databases\` / \`litestream_status\`），列恢复点（\`litestream_ltx\`）。\`litestream_restore\` 和 \`litestream_reset\` 会动库，保持工具批准。不要一上来 \`--yolo\`。不要给它 \`required = true\` 挂全局。
+
+GitHub 上的 Agent Skill 还是提案，不要发明 \`npx skills add\` 或 \`codex plugin add litestream@…\`。
+
+不要做这些：
+
+- 不要抄 \`claude mcp add litestream --transport http\`。
+- 不要发明 \`https://localhost:3001/mcp\`。
+- 不要把 Fly.io 的 \`flyctl mcp proxy\` JSON 抄进 Codex。
+- 不要给它 \`required = true\` 挂全局。
+
+网页 Cloud 够不到你笔记本上的 3001。改完新开会话。用 \`codex mcp get litestream\` 看传输是 streamable_http。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Litestream", "SQLite"],
+    related: ["mcp-add-and-login", "heroku-mcp-http", "mcp-http-not-sse"],
+    sources: [
+      {
+        label: "Litestream · MCP Server",
+        url: "https://litestream.io/reference/mcp/",
+      },
+      {
+        label: "Litestream · Configuration",
+        url: "https://litestream.io/reference/config/",
+      },
+    ],
+  },
 ];

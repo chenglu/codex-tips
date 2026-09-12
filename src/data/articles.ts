@@ -2691,5 +2691,15 @@ export const articles: Article[] = [
     summary:
       '官方远程是 mcp.heroku.com/mcp，Codex 对照 mcp add heroku --url 再 mcp login。不要抄 mcp-remote。本地才 heroku mcp:start。npx 才 @heroku/mcp-server + env_vars。',
   },
+  {
+    title: 'Litestream MCP Server',
+    url: 'https://litestream.io/reference/mcp/',
+    source: 'Litestream',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Litestream', 'SQLite'],
+    summary:
+      '官方 Codex 是 mcp add litestream --url http://localhost:3001。先在 YAML 写 mcp-addr，再 litestream replicate。没有 litestream mcp 子命令。不要 mcp login。恢复用 litestream_restore，保持批准。',
+  },
 ];
 
