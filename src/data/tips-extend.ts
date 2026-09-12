@@ -5352,4 +5352,70 @@ codex plugin list
       },
     ],
   },
+  {
+    id: "mongodb-agent-skills",
+    no: 302,
+    title: "MongoDB 自建用 marketplace add mongodb/agent-skills，Atlas 托管搜 mongodb-atlas",
+    summary:
+      "Atlas 托管：/plugins 搜 mongodb-atlas，走 OAuth。自建才 codex plugin marketplace add mongodb/agent-skills，再装 mongodb 插件，然后用 env_vars 配 MCP。不要把连接串写进 args，也不要抄 Claude / Cursor 插件命令。",
+    body: `MongoDB 给 Codex 两条线，不要混成一台服务器。
+
+**Atlas 托管 MCP（推荐连 Atlas 集群）：** TUI \`/plugins\` 或桌面 Settings → Plugins 搜 \`mongodb-atlas\` / MongoDB Atlas，点安装，走 Atlas OAuth。官方没给出 \`codex plugin add mongodb-atlas@…\` 那种 id，不要自己编。组织管理员要先打开 AI Clients，否则成员连不上。装完新开会话。0.154 起也可以先看当前会话。这台**不要**再手写 \`mongodb-atlas-mcp-remote\`。
+
+**自建 / 连接串（Community、Enterprise Advanced、或任何能连上的部署）：** 官方 Codex 页是加 marketplace，再在 \`/plugins\` 的 MongoDB Agent Skills 里装 \`mongodb\` 插件：
+
+\`\`\`bash
+codex plugin marketplace add mongodb/agent-skills
+codex plugin list
+\`\`\`
+
+装完**还要**配 MCP，技能才能连库。可用插件自带的 \`mongodb-mcp-setup\` 技能走一遍，或手写用户层表。Node.js 要 22.12.0 以上。密钥用 \`env_vars\` 转发名字，不要写进 \`env\` 表或 \`args\`。\`--connectionString\` 已弃用。默认先加 \`--readOnly\`：
+
+\`\`\`bash
+codex mcp add mongodb -- npx -y mongodb-mcp-server@latest --readOnly
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.mongodb]
+command = "npx"
+args = ["-y", "mongodb-mcp-server@latest", "--readOnly"]
+env_vars = ["MDB_MCP_CONNECTION_STRING"]
+enabled = true
+startup_timeout_sec = 60
+\`\`\`
+
+从已经 \`export MDB_MCP_CONNECTION_STRING\` 的终端启动 Codex。Dock 打开的桌面没有你刚 export 的变量。冷 \`npx\` 握手把 \`startup_timeout_sec\` 提到 30–60。
+
+Atlas **服务账号**（不是普通 Atlas API key）走 \`MDB_MCP_API_CLIENT_ID\` / \`MDB_MCP_API_CLIENT_SECRET\`，同样进 \`env_vars\`。不要抄官方 get-started 里那份 heredoc：它会在生成 TOML 时把密钥写进 \`config.toml\`。也不要在 \`env\` 表里写字面量 \`$CLIENT_ID\`。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`/plugin install mongodb-atlas@claude-plugins-official\` 或 \`/plugin install mongodb\`。
+- 不要抄 Cursor 的 \`/add-plugin mongodb-atlas\` 或 \`/add-plugin mongodb\`。
+- 不要用 \`npx skills add mongodb/agent-skills\` 当 Codex 插件安装器。那只会拷 SKILL.md。也不要手拷 \`.codex-plugin/\` 到仓库根。
+- 不要把 \`npx mongodb-mcp-server@latest setup\` 当成 Codex 唯一主路径。那条向导常写出 JSON，不是 \`config.toml\`。
+- 不要给它 \`required = true\` 挂全局。不要一上来 \`--yolo\`。没加 \`--readOnly\` 时这台会写库。
+- 不要把 \`mongodb-atlas\` 插件和本地 \`[mcp_servers.mongodb]\` 当成同一张表。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 MongoDB Atlas。改完用 \`codex plugin list\` 和 \`codex mcp get mongodb\` 核对。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["plugins", "MongoDB", "MCP", "Skills"],
+    related: ["railway-skills-plugin", "mcp-stdio-env-vars", "plugin-session-refresh"],
+    sources: [
+      {
+        label: "MongoDB · Codex",
+        url: "https://www.mongodb.com/docs/codex/",
+      },
+      {
+        label: "MongoDB · MCP Server Get Started",
+        url: "https://www.mongodb.com/docs/mcp-server/get-started/",
+      },
+      {
+        label: "mongodb/agent-skills",
+        url: "https://github.com/mongodb/agent-skills",
+      },
+    ],
+  },
 ];

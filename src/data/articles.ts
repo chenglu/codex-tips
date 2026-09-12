@@ -2431,5 +2431,15 @@ export const articles: Article[] = [
     summary:
       'Codex 公共目录是 /plugins 搜 Railway。源仓才 codex plugin marketplace add railwayapp/railway-skills，再从 Railway marketplace 装。捆绑 use-railway 和托管 MCP（mcp.railway.com，没有 /mcp 后缀）。不要抄 Claude 的 railway@claude-plugins-official 或 Cursor 的 /add-plugin railway。',
   },
+  {
+    title: 'MongoDB with Codex',
+    url: 'https://www.mongodb.com/docs/codex/',
+    source: 'MongoDB',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'MongoDB', 'MCP', 'Skills'],
+    summary:
+      'Atlas 托管走 /plugins 搜 mongodb-atlas。自建才 codex plugin marketplace add mongodb/agent-skills，再装 mongodb 插件，并用 env_vars 配 MDB_MCP_CONNECTION_STRING。不要把连接串写进 args，也不要抄 Claude 或 Cursor 的插件命令。',
+  },
 ];
 

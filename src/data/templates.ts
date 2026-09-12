@@ -1712,4 +1712,18 @@ enabled = true
 codex plugin list
 `,
   },
+  {
+    id: "mongodb-agent-skills",
+    title: "MongoDB 本地 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "自建才用 mongodb-mcp-server。连接串走 env_vars。默认 --readOnly。Atlas 托管主路径仍是 /plugins 搜 mongodb-atlas。",
+    code: `[mcp_servers.mongodb]
+command = "npx"
+args = ["-y", "mongodb-mcp-server@latest", "--readOnly"]
+env_vars = ["MDB_MCP_CONNECTION_STRING"]
+enabled = true
+startup_timeout_sec = 60
+`,
+  },
 ];
