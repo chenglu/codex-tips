@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-12T08:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "08:30 定时器。调用前 $97.65。Spend: counts（start_time=2026-09-05T08:45:00Z，共 233 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度待本轮验证后回写。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md、hermes import-agent、Codex_Base 日文入门文，无新可执行用法。本轮收录 Turso Cloud 官方插件（marketplace add tursodatabase/turso-mcp，plugin add turso@turso）。Intercom 仍无 Codex 专节，不要发明 mcp add。下一轮优先 CockroachDB：有 cockroachdb/codex-plugin，但 Cloud MCP 页的 Codex 专节还需核对，stdio --env 字面量不要抄。Airtable 第三方会发明 mcp add。Meilisearch / DigitalOcean / PagerDuty / Elastic / Pinecone / HubSpot / Asana / Tinybird / MotherDuck / Fly.io 理由同前。",
+    "08:30 定时器。调用前 $97.65。Spend: counts（start_time=2026-09-05T08:45:00Z，共 233 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.64。CDP 37 项全过（预览 4292）。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md、hermes import-agent、Codex_Base 日文入门文，无新可执行用法。本轮收录 Turso Cloud 官方插件（marketplace add tursodatabase/turso-mcp，plugin add turso@turso）。Intercom 仍无 Codex 专节，不要发明 mcp add。下一轮优先 CockroachDB：有 cockroachdb/codex-plugin，但 Cloud MCP 页的 Codex 专节还需核对，stdio --env 字面量不要抄。Airtable 第三方会发明 mcp add。Meilisearch / DigitalOcean / PagerDuty / Elastic / Pinecone / HubSpot / Asana / Tinybird / MotherDuck / Fly.io 理由同前。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
