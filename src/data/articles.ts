@@ -2471,5 +2471,15 @@ export const articles: Article[] = [
     summary:
       '完整版是 marketplace add get-convex/convex-codex-plugin，再 plugin add convex@convex-codex-plugin。openai-curated 只是轻量连接器。插件已带 MCP 时不要再 mcp add。不要抄 Claude 或 Cursor 的插件命令。',
   },
+  {
+    title: 'Mixpanel MCP Server',
+    url: 'https://docs.mixpanel.com/docs/mcp',
+    source: 'Mixpanel',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Mixpanel', 'OAuth'],
+    summary:
+      '官方 Codex CLI 是 ~/.codex/config.toml 写 [mcp_servers.mixpanel]，url 为 https://mcp.mixpanel.com/mcp，再 mcp login mixpanel。EU/IN 换区域主机。服务账号不要抄 headers 密钥，改走 env_http_headers。不要抄 Claude 的 --transport http 或 Cursor 的 mcp-remote。',
+  },
 ];
 

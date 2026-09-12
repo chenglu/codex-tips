@@ -5623,4 +5623,71 @@ startup_timeout_sec = 60
       },
     ],
   },
+  {
+    id: "mcp-mixpanel-remote",
+    no: 306,
+    title: "Mixpanel MCP 用 mcp.mixpanel.com/mcp 再 login，服务账号不要抄 headers 密钥",
+    summary:
+      "CLI：codex mcp add mixpanel --url https://mcp.mixpanel.com/mcp，再 mcp login。EU/IN 换区域主机。CI 用 env_http_headers。不要抄官方 headers 密钥、Claude 的 --transport http 或 Cursor 的 mcp-remote。",
+    body: `Mixpanel 托管的是远程 Streamable HTTP。官方 Codex CLI 节只写了手写 TOML；本机等价命令是：
+
+\`\`\`bash
+codex mcp add mixpanel --url https://mcp.mixpanel.com/mcp
+codex mcp login mixpanel
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.mixpanel]
+url = "https://mcp.mixpanel.com/mcp"
+enabled = true
+\`\`\`
+
+地址**有** \`/mcp\` 后缀。EU 换成 \`https://mcp-eu.mixpanel.com/mcp\`，印度换成 \`https://mcp-in.mixpanel.com/mcp\`。同名表再 \`mcp add\` 一次会覆盖，然后重新授权。桌面走 Settings → MCP Servers → Add Server，传输选 Streamable HTTP，填同一条 URL。
+
+多数账号要组织管理员先在 Settings → Org → Overview 打开 MCP。2026 年 8 月 1 日之后新建的 Free / Growth 默认已开，管理员仍可关掉。改完最多等 15 分钟。报 MCP access is not enabled 时先查这一项，不要重装客户端。权限跟你登录的 Mixpanel 账号走，MCP 不会多给你项目。
+
+这台能读也能改：看板、Lexicon、cohort、实验和功能开关都在工具表里。不是生产埋点入口，也不是只读文档。保持工具批准。不要一上来 \`--yolo\`。Mixpanel 写明 MCP 目前不覆盖 HIPAA BAA。每用户大约 600 次请求/小时。
+
+无头 / CI 才用服务账号（Beta）。官方 Codex CLI 示例把 \`headers = { Authorization = "Bearer Basic …" }\` 写进 \`config.toml\`，**不要抄**：\`headers\` 不是 Codex 键，密钥还会进仓库。Codex 用 \`env_http_headers\`，左边是头名，右边是启动 Codex 那个进程里的变量**名**。头值必须是完整的 \`Bearer Basic \` 加上 \`用户名:secret\` 的 base64，缺 \`Basic \` 会 401：
+
+\`\`\`toml
+[mcp_servers.mixpanel]
+url = "https://mcp.mixpanel.com/mcp"
+enabled = true
+
+[mcp_servers.mixpanel.env_http_headers]
+Authorization = "MIXPANEL_MCP_AUTHORIZATION"
+\`\`\`
+
+\`\`\`bash
+export MIXPANEL_MCP_AUTHORIZATION="Bearer Basic $(printf '%s:%s' "$MIXPANEL_SA_USER" "$MIXPANEL_SA_SECRET" | base64 | tr -d '\\n')"
+\`\`\`
+
+从已经 export 的终端启动 \`codex\`。Dock / 开始菜单打开的桌面没有 zshrc。Codex 不读 \`.env\`。变量缺失时这颗头会被静默丢掉。不要用 \`bearer_token_env_var\` 只塞那段 base64：它会发出 \`Authorization: Bearer …\`，这里要的是 \`Bearer Basic …\`。服务账号路径不要再跑 \`mcp login\`。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`claude mcp add --transport http mixpanel …\`，也不要抄 \`claude plugin marketplace add mixpanel/ai-plugins\`。那是 Claude 插件，不是 Codex 命令。
+- 不要抄 Cursor / Gemini 的 \`npx mcp-remote\`。Codex 自己连 HTTP。
+- 不要发明 \`https://mcp.mixpanel.com\` 这种不带 \`/mcp\` 的地址，也不要发明 \`codex plugin add mixpanel@…\`。
+- 不要把 Mixpanel Headless Python SDK 当这台 MCP。Headless 是另一条编码入口。
+- 不要给它 \`required = true\` 挂全局。也不要和 Amplitude / PostHog 那台分析 MCP 配成一台。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get mixpanel\` 看传输是 streamable_http。会话里 \`/mcp\` 只是核对工具，不是唯一登录入口。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Mixpanel", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-amplitude-remote", "mcp-http-env-headers"],
+    sources: [
+      {
+        label: "Mixpanel · MCP Server",
+        url: "https://docs.mixpanel.com/docs/mcp",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
 ];

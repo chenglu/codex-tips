@@ -1762,4 +1762,15 @@ codex plugin add convex@convex-codex-plugin
 codex plugin list
 `,
   },
+  {
+    id: "mcp-mixpanel-remote",
+    title: "Mixpanel 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.mixpanel.com/mcp。随后 mcp login。CI 才 env_http_headers。不要抄官方 headers 密钥或 mcp-remote。",
+    code: `[mcp_servers.mixpanel]
+url = "https://mcp.mixpanel.com/mcp"
+enabled = true
+`,
+  },
 ];

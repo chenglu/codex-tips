@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T05:00:00Z",
+  lastTick: "2026-09-12T05:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "05:00 定时器。调用前 $97.69。Spend: counts（start_time=2026-09-05T05:15:00Z，共 255 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 仍为 $97.69。CDP 39 项全过（预览 4285）。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md 并用文、Muse 许愿，无新可执行帖。本轮收录 Convex 完整插件（codex plugin marketplace add get-convex/convex-codex-plugin；plugin add convex@convex-codex-plugin）。HubSpot 本地 hs mcp setup 仍未核对手写 TOML。Asana 官方 Codex 节是 mcp-remote，不收录。Tinybird / MotherDuck 官方示例把 token 写进 --env，不收录。",
+    "05:30 定时器。调用前 $97.69。Spend: counts（start_time=2026-09-05T05:45:00Z，共 234 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度见本轮提交。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md 并用文、Muse 许愿，无新可执行帖。本轮收录 Mixpanel 托管 MCP（codex mcp add mixpanel --url https://mcp.mixpanel.com/mcp）。DigitalOcean / Fly / Heroku 官方没有 Codex 节，不收录。HubSpot 仍无手写 TOML。Asana 仍是 mcp-remote。Tinybird / MotherDuck 仍把 token 写进 --env。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -576,6 +576,14 @@ export const loopState = {
     "developers.asana.com Codex mcp-remote v2/mcp",
     "developers.hubspot.com hs mcp setup Codex CLI HubSpotDev",
     "Codex CLI 技巧 2026 Convex plugin MCP AGENTS.md",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "docs.mixpanel.com mcp Codex CLI mcp.mixpanel.com/mcp mcp login",
+    "docs.digitalocean.com reference mcp Codex @digitalocean/mcp",
+    "fly.io docs flyctl mcp server Codex config.toml",
+    "devcenter.heroku.com heroku-mcp-server mcp:start Codex",
+    "developers.hubspot.com hs mcp setup Codex CLI HubSpotDev",
+    "Codex CLI 技巧 2026 Mixpanel MCP OAuth env_http_headers",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],
