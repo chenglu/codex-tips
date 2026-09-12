@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-12T15:38:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "15:38 定时器。调用前 $97.54。Spend: counts（start_time=2026-09-05T15:50:00Z，共 229 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 仍是 Claude vs Codex、hermes import-agent、日文 AGENTS.md、韩文 0.154 / GPT-6-Astra、Google Cloud 插件营销、tmux-agent-pulse、额度定价、Yellow 交易营销，无新可执行厂商路径。本轮收录 Heroku 远程 MCP（mcp.heroku.com/mcp + mcp login）。不要抄 mcp-remote。本地才 heroku mcp:start；npx 才 @heroku/mcp-server + env_vars。Axiom / Intercom / PagerDuty 仍无 Codex 专节。下一轮优先 Litestream（官方有 Codex 节）。收尾额度见本轮结束提交。",
+    "15:38 定时器。调用前 $97.54。Spend: counts（start_time=2026-09-05T15:50:00Z，共 229 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.53。CDP 51 项全过（预览 4307）。X 仍是 Claude vs Codex、hermes import-agent、日文 AGENTS.md、韩文 0.154 / GPT-6-Astra、Google Cloud 插件营销、tmux-agent-pulse、额度定价、Yellow 交易营销，无新可执行厂商路径。本轮收录 Heroku 远程 MCP（mcp.heroku.com/mcp + mcp login）。不要抄 mcp-remote。本地才 heroku mcp:start；npx 才 @heroku/mcp-server + env_vars。Axiom / Intercom / PagerDuty 仍无 Codex 专节。下一轮优先 Litestream（官方有 Codex 节）。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
