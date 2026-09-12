@@ -2361,5 +2361,25 @@ export const articles: Article[] = [
     summary:
       '托管地址是 https://mcp.launchdarkly.com/mcp/launchdarkly，走 OAuth。官方安装页没有 Codex，本机用 mcp add 再 mcp login。不要抄本地 npx --api-key。联邦区和欧盟实例没有这台托管服务。OAuth 后 403 多半是 Writer 权限。',
   },
+  {
+    title: 'Langfuse MCP Server',
+    url: 'https://langfuse.com/docs/api-and-data-platform/features/mcp-server',
+    source: 'Langfuse',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Langfuse', '密钥'],
+    summary:
+      '产品 MCP 是 cloud.langfuse.com/api/public/mcp，Basic Auth，项目级 pk/sk。官方 Codex 示例把 token 写进 http_headers，不要抄。Codex 用 env_http_headers。bearer_token_env_var 会发 Bearer，对这台不对口。能跑 shell 时官方更推荐技能加 CLI。验证问 listPrompts。',
+  },
+  {
+    title: "Use Circle's MCP server in your IDE",
+    url: 'https://developers.circle.com/ai/mcp',
+    source: 'Circle',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Circle'],
+    summary:
+      '官方 Codex 节是 mcp add circle --url https://api.circle.com/v1/codegen/mcp。这是 Wallets / Contracts / CCTP / Gateway 的代码生成 MCP，无账号。不要和 CircleCI 的 mcp.circleci.com 搞混。不要抄 Kiro 的 npx @circle/mcp-server。',
+  },
 ];
 

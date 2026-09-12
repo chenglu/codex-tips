@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T01:00:00Z",
+  lastTick: "2026-09-12T01:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "01:00 调用前 $97.79。Spend: counts（start_time=2026-09-05T01:15:00Z，共 243 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾余额 $97.76。X 仍是 Packt 书、0.154 worktree 营销、GTM MCP Bench、tmux-agent-pulse、Agents API 营销、Claude vs Codex 营销，无新可执行帖。收录 Langfuse 文档 MCP + LaunchDarkly 托管 OAuth MCP。Langfuse 产品 MCP（Basic Auth / env_http_headers）留给下一轮。",
+    "01:30 调用前 $97.76。Spend: counts（start_time=2026-09-05T01:45:00Z，共 243 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 仍是 Packt 书、0.154 worktree 营销、GTM MCP Bench、tmux-agent-pulse、Agents API 营销、Claude vs Codex 营销，无新可执行帖。收录 Langfuse 产品 MCP（Basic / env_http_headers）+ Circle codegen MCP。Twilio 文档 MCP 留给下一轮。Browserbase 仍不收录（密钥拼进 URL）。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -509,6 +509,12 @@ export const loopState = {
     "launchdarkly.com docs mcp-hosted mcp.launchdarkly.com OAuth",
     "launchdarkly.com docs mcp-local EU federal --api-key",
     "Codex CLI 技巧 2026 Langfuse LaunchDarkly MCP OAuth",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR worktree OR hooks OR config.toml)',
+    "X news: Codex CLI",
+    "langfuse.com docs mcp-server cloud.langfuse.com api/public/mcp Basic env_http_headers",
+    "developers.circle.com ai mcp api.circle.com codegen Codex",
+    "twilio.com docs ai mcp twilio-docs Codex mcp.twilio.com",
+    "Codex CLI 技巧 2026 Langfuse 产品 MCP Circle Twilio",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR worktree OR hooks OR config.toml)',
     "X news: Codex CLI",
   ],

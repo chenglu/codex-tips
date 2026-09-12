@@ -4891,7 +4891,7 @@ npx skills add langfuse/skills --skill langfuse --agent codex
     level: "starter",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "Langfuse", "文档", "HTTP"],
-    related: ["mcp-add-and-login", "mcp-openai-docs", "mcp-launchdarkly-remote"],
+    related: ["mcp-add-and-login", "mcp-openai-docs", "mcp-langfuse-cloud"],
     sources: [
       {
         label: "Langfuse · Docs MCP",
@@ -4960,6 +4960,121 @@ enabled = true
       {
         label: "LaunchDarkly · Local MCP",
         url: "https://launchdarkly.com/docs/home/getting-started/mcp-local",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "mcp-langfuse-cloud",
+    no: 296,
+    title: "Langfuse 产品 MCP 用 Basic 头，不要抄 http_headers 里的 token",
+    summary:
+      "产品地址是 cloud.langfuse.com/api/public/mcp，要项目级 pk/sk 的 Basic Auth。Codex 用 env_http_headers，不要把 token 写进 http_headers。bearer_token_env_var 会发 Bearer，对这台不对口。不是 langfuse-docs。",
+    body: `Langfuse **产品** MCP 管项目里的 traces / prompts / datasets，不是文档检索。官方给 Codex 的示例把 \`Authorization: Basic …\` 写进 \`http_headers\`，**不要**抄进仓库。
+
+能跑 shell 时，官方更推荐 Agent Skill + \`npx langfuse-cli\`。仍要协议工具、或不想把完整 CLI 交给模型时，再接这台 Streamable HTTP。
+
+EU 默认：
+
+\`\`\`toml
+[mcp_servers.langfuse]
+url = "https://cloud.langfuse.com/api/public/mcp"
+enabled = true
+
+[mcp_servers.langfuse.env_http_headers]
+Authorization = "LANGFUSE_MCP_AUTHORIZATION"
+\`\`\`
+
+美区换成 \`https://us.cloud.langfuse.com/api/public/mcp\`，日本 \`jp.cloud.langfuse.com\`，HIPAA \`hipaa.cloud.langfuse.com\`。自建用你自己的 HTTPS 域名加 \`/api/public/mcp\`。表名用 \`langfuse\`，不要和文档那张 \`langfuse-docs\` 写成一台。
+
+鉴权是 **Basic Auth**，不是 Bearer，也不是 OAuth。不要 \`codex mcp login langfuse\`，也不要 \`bearer_token_env_var\`：那条会发出 \`Authorization: Bearer …\`，这里会 401。
+
+密钥必须是**项目级**的 Public Key + Secret Key（\`pk-lf-\` / \`sk-lf-\`），组织级或纯 Bearer 不行。先在启动 Codex 的那个进程里准备整段头值（含 \`Basic \` 前缀）：
+
+\`\`\`bash
+export LANGFUSE_MCP_AUTHORIZATION="Basic $(printf '%s:%s' "$LANGFUSE_PUBLIC_KEY" "$LANGFUSE_SECRET_KEY" | base64 | tr -d '\\n')"
+\`\`\`
+
+键里是变量**名**。Codex 不读 \`.env\`。变量缺失时这颗头会被静默丢掉，请求仍会发出去，随后 401。不要把 \`pk-lf-\` / \`sk-lf-\` 写进 \`http_headers\`、\`env\` 或 URL。
+
+连上后让它 \`list all prompts in the project\`，应走 \`listPrompts\`。默认带读写工具。只要读时用 \`enabled_tools\` 做允许名单，不要把写工具留给 \`--yolo\`。
+
+自建若 403，多半是反代丢掉了公开 \`Host\`；那是服务端 \`LANGFUSE_MCP_ALLOWED_HOSTS\`，不是 Codex 配置键。
+
+不要做这些：
+
+- 不要抄官方 TOML 把 Basic token 写进 \`http_headers\`。
+- 不要抄 Claude 的 \`--header "Authorization: Basic …"\`：shell 会把密钥展开写进配置。
+- 不要抄 \`mcpServers\` JSON 或 \`--transport http\`。
+- 不要和 \`https://langfuse.com/api/mcp\` 那台无鉴权文档 MCP 搞混。
+- 不要给它 \`required = true\` 挂全局。
+- 不要一上来 \`--yolo\`。写 prompt / 改 dataset 都是项目数据。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get langfuse\` 看传输是 streamable_http。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Langfuse", "HTTP", "密钥"],
+    related: ["mcp-http-env-headers", "mcp-langfuse-docs", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "Langfuse · MCP Server",
+        url: "https://langfuse.com/docs/api-and-data-platform/features/mcp-server",
+      },
+      {
+        label: "Langfuse · MCP Reference",
+        url: "https://mcp.reference.langfuse.com/",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "mcp-circle-remote",
+    no: 297,
+    title: "Circle 支付 MCP 用 api.circle.com/v1/codegen/mcp，不是 CircleCI",
+    summary:
+      "官方 Codex 节：codex mcp add circle --url https://api.circle.com/v1/codegen/mcp。这是 Wallets / Contracts / CCTP / Gateway 的代码生成 MCP，无账号。不要和 mcp.circleci.com 的 CircleCI 搞混，也不要抄 Kiro 的 npx @circle/mcp-server。",
+    body: `Circle（circle.com，稳定币 / 钱包）官方给 Codex 的是托管 Streamable HTTP，用来**生成和修代码**，不是去扣你的生产余额：
+
+\`\`\`bash
+codex mcp add circle --url https://api.circle.com/v1/codegen/mcp
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.circle]
+url = "https://api.circle.com/v1/codegen/mcp"
+enabled = true
+\`\`\`
+
+服务器名用 \`circle\`。官方没要求 \`mcp login\`，也没要求 API key。连上后按 Wallets、Contracts、CCTP、Gateway 问它要示例和修法。
+
+这**不是** CircleCI。CI 那台是 \`mcp.circleci.com/v1/mcp\`，表名 \`circleci\`，还要 \`circleci auth login\` 或 \`CIRCLE_TOKEN\`。两家不要写成同一张表，也不要共用 \`CIRCLE_TOKEN\`。
+
+不要抄 Kiro 文档里的本地 \`npx -y @circle/mcp-server\` 加 \`CIRCLE_BASE_URL\`。那是另一套 stdio 包装。Codex 主路径就是上面的 \`--url\`。社区包 \`@codespar/mcp-circle\` / \`circle-agent-stack-mcp\` 会动钱包和打款，**不是**这条官方 codegen MCP。
+
+不要做这些：
+
+- 不要抄 \`mcpServers\` JSON，也不要抄 Claude 的 \`--transport http\`。
+- 不要把 \`https://api.circle.com/v1/codegen/mcp\` 当成 CircleCI 托管地址。
+- 不要给它 \`required = true\` 挂全局。
+- 不要一上来 \`--yolo\`。生成出来的钱包 / 合约代码仍要人审。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get circle\` 看传输是 streamable_http。\`codex mcp list\` 里应同时能分清 \`circle\` 和 \`circleci\`。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Circle", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-circleci-remote", "mcp-http-not-sse"],
+    sources: [
+      {
+        label: "Circle · MCP server",
+        url: "https://developers.circle.com/ai/mcp",
       },
       {
         label: "OpenAI · Model Context Protocol",

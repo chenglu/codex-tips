@@ -1642,4 +1642,29 @@ url = "https://mcp.launchdarkly.com/mcp/launchdarkly"
 enabled = true
 `,
   },
+  {
+    id: "mcp-langfuse-cloud",
+    title: "Langfuse 产品 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 cloud.langfuse.com/api/public/mcp。Basic Auth 走 env_http_headers。不要把 token 写进 http_headers。不是 langfuse-docs。",
+    code: `[mcp_servers.langfuse]
+url = "https://cloud.langfuse.com/api/public/mcp"
+enabled = true
+
+[mcp_servers.langfuse.env_http_headers]
+Authorization = "LANGFUSE_MCP_AUTHORIZATION"
+`,
+  },
+  {
+    id: "mcp-circle-remote",
+    title: "Circle 代码生成 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 api.circle.com/v1/codegen/mcp。表名是 circle。不要和 CircleCI 搞混，也不要抄 npx @circle/mcp-server。",
+    code: `[mcp_servers.circle]
+url = "https://api.circle.com/v1/codegen/mcp"
+enabled = true
+`,
+  },
 ];
