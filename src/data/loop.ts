@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-12T05:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "05:00 定时器。调用前 $97.69。Spend: counts（start_time=2026-09-05T05:15:00Z，共 255 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾余额待收尾 get_usage_credits。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md 并用文、Muse 许愿，无新可执行帖。本轮收录 Convex 完整插件（codex plugin marketplace add get-convex/convex-codex-plugin；plugin add convex@convex-codex-plugin）。HubSpot 本地 hs mcp setup 仍未核对手写 TOML。Asana 官方 Codex 节是 mcp-remote，不收录。Tinybird / MotherDuck 官方示例把 token 写进 --env，不收录。",
+    "05:00 定时器。调用前 $97.69。Spend: counts（start_time=2026-09-05T05:15:00Z，共 255 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 仍为 $97.69。CDP 39 项全过（预览 4285）。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md 并用文、Muse 许愿，无新可执行帖。本轮收录 Convex 完整插件（codex plugin marketplace add get-convex/convex-codex-plugin；plugin add convex@convex-codex-plugin）。HubSpot 本地 hs mcp setup 仍未核对手写 TOML。Asana 官方 Codex 节是 mcp-remote，不收录。Tinybird / MotherDuck 官方示例把 token 写进 --env，不收录。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
