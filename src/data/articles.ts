@@ -2501,5 +2501,15 @@ export const articles: Article[] = [
     summary:
       'Codex 表名是 algolia-docsearch，url 为 https://mcp.algolia.com/1/docsearch/mcp。无鉴权。安装器只用 --codex，不要 --all。不要 login，也不要和 Productivity 那张 algolia 表写成一台。',
   },
+  {
+    title: 'Develop with AI',
+    url: 'https://docs.temporal.io/with-ai',
+    source: 'Temporal',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'Temporal', 'Skills', 'MCP'],
+    summary:
+      '官方 Codex 是桌面 Plugins 或 TUI /plugins 搜 temporal。官方没给 plugin add id。源仓是 temporalio/codex-temporal-plugin。Cloud 技能不在插件包。知识库 MCP 是 temporal.mcp.kapa.ai，没有 Codex 专节。不要抄 Claude 的 temporal@temporal-marketplace 或 Cursor 的 /add-plugin temporal。',
+  },
 ];
 

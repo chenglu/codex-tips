@@ -5806,4 +5806,77 @@ npx -y @docsearch/cli setup --global --codex --yes
       },
     ],
   },
+  {
+    id: "temporal-codex-plugin",
+    no: 309,
+    title: "Temporal 插件走 /plugins 搜 temporal，不要发明 plugin add id",
+    summary:
+      "桌面 Plugins 或 TUI /plugins 搜 temporal。官方没给 plugin add id。Cloud 技能不在插件包。知识库 MCP 是 temporal.mcp.kapa.ai，没有 Codex 专节。不要抄 Claude 的 temporal@temporal-marketplace。",
+    body: `Temporal 给 Codex 的主路径是公共插件目录（Public Preview）。官方没给出 \`codex plugin add temporal@…\` 那种带 marketplace 的 id，不要自己编成 \`temporal@openai-curated\`。
+
+桌面：Plugins 搜 temporal，点 + 或 Add to Codex。CLI：\`/plugins\`，选 OpenAI Curated marketplace，搜 temporal，再安装。装完重启 Codex。0.154 起也可以先看**当前会话**；当前会话没有再新开。IDE 扩展没有 \`/plugins\`，用桌面、CLI，或下面的仓库回退。
+
+插件里是技能，不是 Temporal Cloud 控制面，也没有捆绑 MCP。仓库现在带这四份：
+
+- \`temporal-developer\`：工作流、Activity、Worker、确定性、版本和测试（Python / TypeScript / Go / Java）。
+- \`temporal-ops\`（Public Preview）：用 \`temporal\` / \`tcld\` 查 Namespace、容量、卡住的 Workflow。斜杠命令 \`/temporal:temporal-ops\`。
+- \`temporal-serverless\`（Public Preview）：Serverless Worker。斜杠命令 \`/temporal:temporal-serverless\`。
+- \`temporal-cloud-setup\`：装 CLI、建 Namespace、跑第一个 Cloud Workflow。斜杠命令 \`/temporal:temporal-cloud-setup\`。
+
+**Temporal Cloud 技能不在插件包里。** 官方单独写 \`npx skills add https://github.com/temporalio/skill-temporal-cloud\`，并点名 Codex；这条安装器可能改所有检测到的客户端，不是 \`/plugins\`。不确定就 clone 进仓库 \`.agents/skills/temporal-cloud\` 或 \`$CODEX_HOME/skills/temporal-cloud\`。官方手工示例写的是 \`~/.claude/skills\`，那是 Claude 路径，不要照抄。
+
+仓库回退（官方 GitHub）：把 [temporalio/codex-temporal-plugin](https://github.com/temporalio/codex-temporal-plugin) clone 到项目根，再拷插件和 marketplace：
+
+\`\`\`bash
+mkdir -p .agents/plugins plugins
+cp -r codex-temporal-plugin/plugins/temporal plugins/
+cp codex-temporal-plugin/.agents/plugins/marketplace.json .agents/plugins/
+\`\`\`
+
+已经有 \`.agents/plugins/marketplace.json\` 时，只把这份里的 \`temporal\` 条目合并进现有 \`plugins\` 数组。重启后 marketplace 下拉从 OpenAI 切到 Temporal，再点 +。不要发明 \`codex plugin marketplace add temporalio/codex-temporal-plugin\`。
+
+知识库 MCP 是另一条线：\`https://temporal.mcp.kapa.ai\`（**没有** \`/mcp\` 后缀）。官方只写了 Claude 的 \`--transport http\` 和「Other MCP-compatible tools」，**没有 Codex 专节**。它要 Google / GitHub 的 MCP OAuth，只读文档和社区知识，不能起 Workflow、改 Namespace。Codex 能原生 HTTP + login，可另起表名：
+
+\`\`\`bash
+codex mcp add temporal-docs --url https://temporal.mcp.kapa.ai
+codex mcp login temporal-docs
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.temporal-docs]
+url = "https://temporal.mcp.kapa.ai"
+enabled = true
+\`\`\`
+
+表名跟 Claude 示例一致，避免和以后可能出现的 Temporal Cloud MCP 撞名。不要抄 \`mcp-remote\`。不要给它 \`required = true\` 挂全局。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`/plugin marketplace add temporalio/claude-temporal-plugin\`，也不要抄 \`/plugin install temporal@temporal-marketplace\`。那是 Claude 插件 id。
+- 不要抄 Cursor 的 \`/add-plugin temporal\`。
+- 不要用 \`npx skills add\` 当 Codex 插件安装器，也不要手拷到 \`~/.codex/skills\`。
+- 不要发明 \`codex plugin add temporal@openai-curated\` 或 \`temporal@temporal-marketplace\`。
+- 不要把知识库 MCP 当成 Temporal Cloud 控制面，也不要一上来 \`--yolo\` 去跑 \`temporal\` / \`tcld\`。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 temporal。改完用 \`codex plugin list\` 核对已装；MCP 路径用 \`codex mcp get temporal-docs\` 看传输是 streamable_http。文档也可以直接拉 \`https://docs.temporal.io/llms.txt\` 或任意页面的 \`.md\`，不走 MCP。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["plugins", "Temporal", "Skills", "MCP"],
+    related: ["shopify-ai-toolkit", "plugin-session-refresh", "convex-codex-plugin"],
+    sources: [
+      {
+        label: "Temporal · Develop with AI",
+        url: "https://docs.temporal.io/with-ai",
+      },
+      {
+        label: "temporalio/codex-temporal-plugin",
+        url: "https://github.com/temporalio/codex-temporal-plugin",
+      },
+      {
+        label: "OpenAI · Plugins",
+        url: "https://learn.chatgpt.com/docs/plugins",
+      },
+    ],
+  },
 ];

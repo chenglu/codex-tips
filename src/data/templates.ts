@@ -1795,4 +1795,15 @@ url = "https://mcp.algolia.com/1/docsearch/mcp"
 enabled = true
 `,
   },
+  {
+    id: "temporal-codex-plugin",
+    title: "Temporal 插件仓库回退",
+    filename: "terminal",
+    summary:
+      "主路径仍是 /plugins 搜 temporal。官方没给 plugin add id。仓库回退才拷 plugins/temporal 和 marketplace.json。",
+    code: `mkdir -p .agents/plugins plugins
+cp -r codex-temporal-plugin/plugins/temporal plugins/
+cp codex-temporal-plugin/.agents/plugins/marketplace.json .agents/plugins/
+`,
+  },
 ];
