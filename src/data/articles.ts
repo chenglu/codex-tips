@@ -2701,5 +2701,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex 是 mcp add litestream --url http://localhost:3001。先在 YAML 写 mcp-addr，再 litestream replicate。没有 litestream mcp 子命令。不要 mcp login。恢复用 litestream_restore，保持批准。',
   },
+  {
+    title: 'PagerDuty MCP Server',
+    url: 'https://support.pagerduty.com/main/docs/pagerduty-mcp-server',
+    source: 'PagerDuty',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'PagerDuty', 'HTTP'],
+    summary:
+      '官方托管是 mcp.pagerduty.com/mcp。Codex 对照 mcp add pagerduty --url。不支持 DCR，不要 mcp login。API key 是 Token token=，走 env_http_headers。欧盟换 mcp.eu.pagerduty.com/mcp。本地 uvx 已弃用。',
+  },
 ];
 

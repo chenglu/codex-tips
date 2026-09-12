@@ -2049,4 +2049,17 @@ codex mcp login heroku
 # 然后：litestream replicate -config litestream.yml
 `,
   },
+  {
+    id: "pagerduty-mcp-http",
+    title: "PagerDuty 托管 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add pagerduty --url https://mcp.pagerduty.com/mcp。不要 mcp login。API key 用 env_http_headers 发 Token token=。不要 bearer_token_env_var。",
+    code: `export PAGERDUTY_AUTH="Token token=你的 User API Token"
+codex mcp add pagerduty --url https://mcp.pagerduty.com/mcp
+
+# [mcp_servers.pagerduty.env_http_headers]
+# Authorization = "PAGERDUTY_AUTH"
+`,
+  },
 ];

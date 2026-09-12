@@ -7385,4 +7385,58 @@ GitHub 上的 Agent Skill 还是提案，不要发明 \`npx skills add\` 或 \`c
       },
     ],
   },
+  {
+    id: "pagerduty-mcp-http",
+    no: 329,
+    title: "PagerDuty 托管 MCP 用 Token token=，不要 mcp login",
+    summary:
+      "官方托管是 mcp.pagerduty.com/mcp。Codex 对照 mcp add pagerduty --url。官方不支持 DCR，不要 mcp login。API key 是 Token token=，走 env_http_headers，不要 bearer_token_env_var。本地 uvx 已弃用。",
+    body: `PagerDuty 给 Codex 没有专节。官方现在的主路径是托管远程，地址 \`https://mcp.pagerduty.com/mcp\`（**带** \`/mcp\` 后缀）。本地 \`uvx pagerduty-mcp\` 仓库已 archived，不要再当主路径。账号要 Advanced Permissions。欧盟区换 \`https://mcp.eu.pagerduty.com/mcp\`。
+
+官方写明 **不支持 Dynamic Client Registration**。Codex 的 \`mcp login\` 默认走 DCR，对这台会对不上。不要抄第三方的 \`codex mcp add pagerduty --transport http\`：Codex 没有 \`--transport http\`。也不要抄 Claude 的 \`claude mcp add-json\` 加 \`MCP_CLIENT_SECRET\`。
+
+API key 鉴权官方头是 \`Authorization: Token token=\` 后接 User API Token，**不是** Bearer。\`bearer_token_env_var\` 会发 Bearer，对这台不对口。Codex 用 \`env_http_headers\`，变量值必须是完整的 \`Token token=\` 前缀加 token，不要只放裸密钥：
+
+\`\`\`bash
+export PAGERDUTY_AUTH="Token token=你的 User API Token"
+codex mcp add pagerduty --url https://mcp.pagerduty.com/mcp
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.pagerduty]
+url = "https://mcp.pagerduty.com/mcp"
+enabled = true
+
+[mcp_servers.pagerduty.env_http_headers]
+Authorization = "PAGERDUTY_AUTH"
+\`\`\`
+
+从已经 export 的终端启动。缺变量或空值会静默不带头，请求照样发出去。不要把 token 写进 \`http_headers\`。不要 \`codex mcp login pagerduty\`。OAuth 静态 client id/secret 官方只给了 VS Code / Claude 示例，不要发明 Codex 的 \`oauth.clientId\`。
+
+连上后先问 \`browse_incidents\`。\`manage_incidents\` / \`manage_services\` 等会改值班数据，保持工具批准。不要一上来 \`--yolo\`。不要给它 \`required = true\` 挂全局。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add pagerduty@…\`。
+- 不要抄 \`npx mcp-remote https://mcp.pagerduty.com/mcp\`。
+- 不要用 \`bearer_token_env_var\`。
+- 不要把 \`PAGERDUTY_USER_API_KEY\` 写进 \`env\` 表当远程主路径。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get pagerduty\` 看传输是 streamable_http。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "PagerDuty", "HTTP"],
+    related: ["mcp-http-env-headers", "heroku-mcp-http", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "PagerDuty · MCP Server",
+        url: "https://support.pagerduty.com/main/docs/pagerduty-mcp-server",
+      },
+      {
+        label: "PagerDuty/pagerduty-mcp-server",
+        url: "https://github.com/PagerDuty/pagerduty-mcp-server",
+      },
+    ],
+  },
 ];

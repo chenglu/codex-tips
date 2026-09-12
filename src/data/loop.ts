@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T16:17:00Z",
+  lastTick: "2026-09-12T16:37:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "16:17 定时器。调用前 $97.53。Spend: counts（start_time=2026-09-05T16:20:00Z，共 232 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.50。CDP 54 项全过（预览 4308）。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Yellow 交易营销、tmux-agent-pulse、Google Cloud 插件营销、AGENTS.md 入门，无新可执行厂商路径。本轮收录 Litestream MCP（mcp add litestream --url http://localhost:3001）。先开 mcp-addr 再 replicate。不要 mcp login，也不要抄 --transport http。Axiom / Intercom / PagerDuty 仍无 Codex 专节。下一轮可再核 PagerDuty / Fly.io / Meilisearch。",
+    "16:37 定时器。调用前 $97.50。Spend: counts（start_time=2026-09-05T16:40:00Z，共 232 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Yellow 交易营销、tmux-agent-pulse、Google Cloud 插件营销、AGENTS.md 入门，无新可执行厂商路径。本轮收录 PagerDuty 托管 MCP（mcp.pagerduty.com/mcp）。官方不支持 DCR，不要 mcp login。API key 是 Token token=，走 env_http_headers。本地 uvx 已弃用。Fly.io / Meilisearch 仍无 Codex 专节。收尾额度见本轮结束提交。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -776,6 +776,14 @@ export const loopState = {
     "developers.intercom.com mcp.intercom.com Codex mcp-remote",
     "pagerduty.github.io pagerduty-mcp-server Codex",
     "Codex CLI 技巧 2026 Litestream MCP mcp-addr",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "support.pagerduty.com pagerduty-mcp-server Codex mcp.pagerduty.com/mcp Token token",
+    "github.com/PagerDuty/pagerduty-mcp-server deprecated remote MCP Codex",
+    "fly.io docs mcp flyctl mcp server Codex",
+    "meilisearch.com docs integrations mcp Codex uvx meilisearch-mcp",
+    "axiom.co docs console intelligence mcp-server Codex mcp.axiom.co mcp-remote",
+    "Codex CLI 技巧 2026 PagerDuty MCP mcp.pagerduty.com",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],
