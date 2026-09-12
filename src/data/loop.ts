@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T02:00:00Z",
+  lastTick: "2026-09-12T02:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "02:00 定时器。调用前 $97.75。Spend: counts（start_time=2026-09-05T02:15:00Z，共 246 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾余额 $97.73。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图抱怨、韩文 0.154 更新摘要，无新可执行帖。本轮收录 Shopify AI Toolkit（plugin add shopify@openai-curated）+ 本地 shopify-dev-mcp。HubSpot 本地 hs mcp setup 仍未核对手写 TOML；远程 mcp.hubspot.com 没有 Codex 节。Browserbase 仍不收录。",
+    "02:30 定时器。调用前 $97.73。Spend: counts（start_time=2026-09-05T02:45:00Z，共 246 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾余额 $97.72。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra 营销，无新可执行帖。本轮收录 Resend（Plugins 搜 Resend + mcp add resend --url https://mcp.resend.com/mcp）。Railway / MongoDB 留给更晚轮。HubSpot 本地 hs mcp setup 仍未核对手写 TOML。Browserbase 仍不收录。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -530,6 +530,15 @@ export const loopState = {
     "github.com/Shopify/shopify-ai-toolkit Codex plugin opt-out telemetry",
     "developers.hubspot.com hs mcp setup Codex HubSpotDev",
     "Codex CLI 技巧 2026 Shopify AI Toolkit plugin MCP",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "resend.com docs knowledge-base mcp-server Codex mcp.resend.com/mcp",
+    "resend.com/codex plugin Plugins search Resend mcp add --url",
+    "resend.com changelog Codex plugin resend-skills",
+    "docs.railway.com ai Codex plugin railwayapp/railway-skills",
+    "mongodb.com docs Codex plugin marketplace add mongodb/agent-skills",
+    "developers.hubspot.com hs mcp setup Codex CLI HubSpotDev",
+    "Codex CLI 技巧 2026 Resend MCP Railway MongoDB HubSpot",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

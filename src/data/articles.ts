@@ -2411,5 +2411,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex 推荐是 plugin add shopify@openai-curated，插件会自动更新。只要文档/校验才配本地 shopify-dev-mcp。不要抄 Claude 的 shopify-ai-toolkit@claude-plugins-official。npx skills add 不会自动更新。',
   },
+  {
+    title: 'Resend MCP Server',
+    url: 'https://resend.com/docs/knowledge-base/mcp-server',
+    source: 'Resend',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Resend', 'plugins', 'OAuth', 'Skills'],
+    summary:
+      'Codex 插件优先：/plugins 或桌面 Plugins 搜 Resend。只要 MCP 才 codex mcp add resend --url https://mcp.resend.com/mcp。无头才 bearer_token_env_var。不要把密钥写进 --env 或 http_headers，也不要抄 Claude 的 plugin install 或 Cursor 的 /add-plugin。',
+  },
 ];
 

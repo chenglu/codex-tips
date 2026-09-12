@@ -5214,4 +5214,91 @@ mkdir -p ~/.config/shopify-ai-toolkit && touch ~/.config/shopify-ai-toolkit/opt-
       },
     ],
   },
+  {
+    id: "mcp-resend-remote",
+    no: 300,
+    title: "Resend 先 Plugins 搜 Resend，远程 MCP 地址带 /mcp 后缀",
+    summary:
+      "插件优先：TUI /plugins 或桌面 Plugins 搜 Resend。只要 MCP：codex mcp add resend --url https://mcp.resend.com/mcp。无头才 bearer_token_env_var。不要把密钥写进 --env 或 http_headers，也不要抄 Claude / Cursor 插件命令。",
+    body: `Resend 官方给 Codex 的**推荐路径**是装插件（远程 MCP + 全部技能：SDK、React Email、投递最佳实践、入站邮件、CLI）。官方没给出 \`codex plugin add …\` 那种带 marketplace 的 id，不要自己编。TUI \`/plugins\` 或桌面 Plugins 搜 Resend，点 Connect，用 Resend 账号做 OAuth。0.154 起先在**当前会话**看 \`/plugins\`；当前会话没有再新开。IDE 扩展没有 \`/plugins\`，用下面的 MCP。授权可在 Resend 账号的 Team settings 撤销。
+
+只要 MCP、不要整包插件时，官方 Codex 节是托管 Streamable HTTP。地址是 \`https://mcp.resend.com/mcp\`，**有** \`/mcp\` 后缀（不要按 Stripe 那种无后缀去改）：
+
+\`\`\`bash
+codex mcp add resend --url https://mcp.resend.com/mcp
+codex mcp get resend
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.resend]
+url = "https://mcp.resend.com/mcp"
+enabled = true
+\`\`\`
+
+连上时客户端会开浏览器登录 Resend。若 add 完还没票，再 \`codex mcp login resend\`。用户层表名官方就是 \`resend\`（这不是插件 \`mcp.json\`）。插件已经带了 MCP 时，不要再 \`mcp add\` 同一张表。
+
+无头、CI、没有浏览器的环境才改 Bearer。键里填变量**名**，变量必须在**启动 Codex 的那个进程**里。不要和已经 login 的 OAuth 写在同一张表：
+
+\`\`\`toml
+[mcp_servers.resend]
+url = "https://mcp.resend.com/mcp"
+bearer_token_env_var = "RESEND_API_KEY"
+enabled = true
+\`\`\`
+
+不要把 \`re_\` 开头的密钥写进 \`--env\`、\`http_headers\`、URL 或命令行。官方 Codex 本地示例用 \`--env RESEND_API_KEY=\` 把密钥贴进命令，**不要抄**。Bearer 服务器没有 OAuth 流程，不要对这张表跑 \`mcp login\`。
+
+本地 stdio 回退（自己跑 NPM 包 \`resend-mcp\`）才用 npx。密钥用 \`env_vars\` 转发名字，不要写进 \`env\` 表或 \`args\`：
+
+\`\`\`bash
+codex mcp add resend -- npx -y resend-mcp
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.resend]
+command = "npx"
+args = ["-y", "resend-mcp"]
+env_vars = ["RESEND_API_KEY"]
+enabled = true
+startup_timeout_sec = 60
+\`\`\`
+
+不要在 \`args\` 里加 \`--key\`。冷 \`npx\` 握手默认 10 秒不够，先把 \`startup_timeout_sec\` 提到 30–60。可选的发件人、回复地址用进程环境 \`SENDER_EMAIL_ADDRESS\` / \`REPLY_TO_EMAIL_ADDRESSES\`，同样进 \`env_vars\`，不要写成字面量。不要把本机 \`npx -y resend-mcp --http --port 3000\` 当成托管地址。
+
+技能已经打进插件。只配了 MCP 才需要 \`npx skills add resend/resend-skills\`。那条会改**所有检测到的客户端**，不是 Codex \`/plugins\`。不确定就别跑。也不要手拷到 \`~/.codex/skills\`。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`claude plugin install resend@claude-plugins-official\`，也不要抄它的 \`--transport http\` 或 \`--header Authorization: Bearer\`。
+- 不要抄 Cursor 的 \`/add-plugin resend\`，也不要抄 \`mcpServers\` JSON。
+- 不要抄 Copilot / Zed / OpenCode 的 JSON。
+- 不要给它 \`required = true\` 挂全局。发信、改域名、转 API key 不是每条会话都要的依赖。
+- 不要一上来 \`--yolo\`。这台会真发信、改 DNS、轮转密钥。
+- 不要和已经 login 的 OAuth 再写 \`bearer_token_env_var\`。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Resend。改完新开会话，用 \`codex mcp get resend\` 看传输是 streamable_http，或 \`codex plugin list\` 看插件是否已装。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Resend", "plugins", "OAuth", "Skills"],
+    related: ["mcp-add-and-login", "mcp-http-bearer-env", "shopify-ai-toolkit"],
+    sources: [
+      {
+        label: "Resend · MCP Server",
+        url: "https://resend.com/docs/knowledge-base/mcp-server",
+      },
+      {
+        label: "Resend · Codex",
+        url: "https://resend.com/codex",
+      },
+      {
+        label: "Resend · Codex plugin",
+        url: "https://resend.com/changelog/codex-plugin",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
 ];

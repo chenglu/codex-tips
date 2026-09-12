@@ -1691,4 +1691,15 @@ enabled = true
 startup_timeout_sec = 60
 `,
   },
+  {
+    id: "mcp-resend-remote",
+    title: "Resend 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.resend.com/mcp，带 /mcp 后缀。插件优先。无头才 bearer_token_env_var。不要把密钥写进 --env 或 http_headers。",
+    code: `[mcp_servers.resend]
+url = "https://mcp.resend.com/mcp"
+enabled = true
+`,
+  },
 ];
