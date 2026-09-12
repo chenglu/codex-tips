@@ -1922,4 +1922,13 @@ codex mcp add azure -- npx -y @azure/mcp@latest server start
 # codex mcp add azure-devops -- npx -y @azure-devops/mcp Contoso --authentication azcli
 `,
   },
+  {
+    id: "tinybird-devtools-mcp",
+    title: "Tinybird DevTools MCP",
+    filename: "terminal",
+    summary:
+      "主路径是本地 stdio：mcp add tinybird -- npx -y @tinybirdco/devtools-mcp@latest。不要抄 -e TINYBIRD_TOKEN=。用 env_vars。远程 mcp.tinybird.co 是另一台。",
+    code: `codex mcp add tinybird -- npx -y @tinybirdco/devtools-mcp@latest
+`,
+  },
 ];

@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T11:30:00Z",
+  lastTick: "2026-09-12T12:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "11:30 定时器。调用前 $97.61。Spend: counts（start_time=2026-09-05T11:45:00Z，共 231 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.60。CDP 39 项全过（预览 4298）。X 仍是 Packt、tmux-agent-pulse、Google Cloud Developer Plugin 营销、hermes import-agent、日文 AGENTS.md、韩文 0.154 / GPT-6-Astra、粘贴截图、Claude vs Codex，无新可执行厂商路径。本轮收录本地 Azure DevOps MCP（mcp add azure-devops -- npx -y @azure-devops/mcp Contoso）。远程 mcp.dev.azure.com 官方写明 Codex 不支持 Entra DCR。不要和 Azure Skills 的 @azure/mcp 搞混。Intercom 仍是 mcp-remote。Meilisearch 无 Codex 专节。DigitalOcean MCP 官方把 token 写进 env / headers。下一轮优先 Intercom / Meilisearch / DigitalOcean / PagerDuty / Elastic / Pinecone / Asana / Tinybird / Fly.io。",
+    "12:00 定时器。调用前 $97.60。Spend: counts（start_time=2026-09-05T12:15:00Z，共 230 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度待本轮 CDP 后回写。X 仍是 Packt、tmux-agent-pulse、Google Cloud Developer Plugin 营销、hermes import-agent、日文 AGENTS.md、韩文 0.154 / GPT-6-Astra、粘贴截图、Claude vs Codex，无新可执行厂商路径。本轮收录 Tinybird DevTools MCP（mcp add tinybird -- npx -y @tinybirdco/devtools-mcp@latest）。不要抄 -e TINYBIRD_TOKEN=。远程 mcp.tinybird.co 是另一台。技能是 npx skills add，不是 /plugins。Intercom / Asana 仍是 mcp-remote。Meilisearch / Fly.io / Elastic / Heroku / PagerDuty 无可靠 Codex 专节。DigitalOcean MCP 官方把 token 写进 env / headers。Pinecone 官方是 npx skills add。下一轮优先 Intercom / Meilisearch / DigitalOcean / PagerDuty / Elastic / Pinecone / Fly.io / Heroku。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -680,6 +680,20 @@ export const loopState = {
     "support.pagerduty.com pagerduty-mcp-server Codex",
     "docs.pinecone.io mcp-server Codex",
     "Codex CLI 技巧 2026 Azure DevOps MCP @azure-devops/mcp",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "npmjs.com @tinybirdco/devtools-mcp Codex MCP TINYBIRD_TOKEN",
+    "tinybird.co docs forward query-data mcp Codex mcp.tinybird.co",
+    "tinybird.co docs agent-skills npx skills add Codex",
+    "developers.intercom.com mcp.intercom.com Codex mcp-remote",
+    "developers.asana.com Codex mcp-remote v2/mcp",
+    "meilisearch.com integrations mcp Codex",
+    "docs.digitalocean.com mcp Codex @digitalocean/mcp",
+    "support.pagerduty.com pagerduty-mcp-server Codex",
+    "docs.pinecone.io mcp-server Codex npx skills add",
+    "fly.io docs mcp server Codex",
+    "devcenter.heroku.com mcp Codex",
+    "Codex CLI 技巧 2026 Tinybird DevTools MCP env_vars",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

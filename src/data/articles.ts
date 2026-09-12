@@ -2601,5 +2601,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex 是 mcp add azure-devops -- npx -y @azure-devops/mcp，组织名跟在包名后面。这是本地 stdio。远程 mcp.dev.azure.com 走不了 Entra DCR。PAT 用 env_vars 转发 PERSONAL_ACCESS_TOKEN，不要写进 env 表。',
   },
+  {
+    title: 'Tinybird DevTools MCP',
+    url: 'https://www.npmjs.com/package/@tinybirdco/devtools-mcp',
+    source: 'Tinybird',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Tinybird', 'stdio'],
+    summary:
+      '官方 Codex 是 mcp add tinybird -- npx -y @tinybirdco/devtools-mcp@latest。不要抄 -e TINYBIRD_TOKEN=。用 env_vars 转发。远程 mcp.tinybird.co 是查活 Workspace 的另一台。技能是 npx skills add tinybirdco/tinybird-agent-skills，不是 /plugins。',
+  },
 ];
 

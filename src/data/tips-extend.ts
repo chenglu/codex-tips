@@ -6670,4 +6670,81 @@ startup_timeout_sec = 60
       },
     ],
   },
+  {
+    id: "tinybird-devtools-mcp",
+    no: 319,
+    title: "Tinybird DevTools MCP 用 env_vars，不要把 token 写进配置",
+    summary:
+      "官方 Codex：mcp add tinybird -- npx -y @tinybirdco/devtools-mcp@latest。不要抄 -e TINYBIRD_TOKEN=。用 env_vars 转发。远程 mcp.tinybird.co 是另一台。技能是 npx skills add，不是 /plugins。",
+    body: `Tinybird 给 Codex 的**官方主路径**是本地 DevTools MCP，不是远程查询那台。npm 的 Codex 节是：
+
+\`\`\`bash
+codex mcp add tinybird -- npx -y @tinybirdco/devtools-mcp@latest
+\`\`\`
+
+前提是 Node.js **20+**。包标了 experimental，API 会变。用户层表名官方就是 \`tinybird\`（这不是插件 \`mcp.json\`）。这是 stdio，不要再 \`mcp login\`。包里另有一个叫 \`login\` 的**工具**，走浏览器 OAuth，可以写项目 \`.tinyb\`；那不是 Codex 的 \`mcp login\`。
+
+**不要抄**官方那条 \`-e TINYBIRD_TOKEN=p.your-token-here\`，也不要把 token 写进 \`env\` 表。\`codex mcp add -e\` 会把值写进配置。用 \`env_vars\` 转发启动 Codex 那个进程里的名字：
+
+\`\`\`toml
+[mcp_servers.tinybird]
+command = "npx"
+args = ["-y", "@tinybirdco/devtools-mcp@latest"]
+env_vars = ["TINYBIRD_TOKEN"]
+enabled = true
+startup_timeout_sec = 60
+\`\`\`
+
+\`\`\`bash
+export TINYBIRD_TOKEN="你的 Tinybird token"
+\`\`\`
+
+从已经 export 的终端启动。美国区才加 \`TINYBIRD_URL\`。它是区域 URL，不是密钥，可以留 \`env\` 表（默认 \`https://api.tinybird.co\`）：
+
+\`\`\`toml
+[mcp_servers.tinybird.env]
+TINYBIRD_URL = "https://api.us-east.tinybird.co"
+\`\`\`
+
+\`npx\` 不在 PATH 时写成 \`which npx\` 的绝对路径。npx 冷启动慢，超时就加 \`startup_timeout_sec\`。这台能跑 SQL、列资源、部署，保持工具批准。不要一上来 \`--yolo\`。不要给它 \`required = true\` 挂全局。先用「列出当前 Workspace 资源」这种只读提示核对。
+
+工具现在有：\`execute_query\`、\`list_resources\`、\`get_resource\`、\`list_branches\`、\`list_kafka_topics\`、\`preview_kafka_topic\`、\`login\`、\`build\`、\`get_info\`。\`build\` 会把 TypeScript 定义推到开发分支，保持批准。\`login\` 成功后可能在项目里写出 \`.tinyb\`，**不要**把 \`.tinyb\` 提交进 git。
+
+没环境变量时，服务器才回退读配置文件：\`npx @tinybirdco/sdk init\` 生成的 \`tinybird.json\`，或 \`tb login\` 生成的 \`.tinyb\`。\`tinybird.json\` 可以写占位 \`token\` 字段，让服务器从环境或 \`.env\` 展开，不要把真实 token 写进仓库。
+
+**远程查询 MCP 是另一台。** 官方地址是 \`https://mcp.tinybird.co\`，文档把 token 拼进查询串。那是查活 Workspace / 已发布 Endpoint，不是 login / build / \`list_resources\`。不要发明 \`codex mcp add tinybird --url https://mcp.tinybird.co\`，也不要把 token 拼进 URL，更不要抄 \`mcp-remote\`。Codex 本身能走 Streamable HTTP，缺的是不把密钥写进配置的接法。不要和本地 \`tinybird\` 写成同一张表。
+
+技能是另一条线：官方是 \`npx skills add tinybirdco/tinybird-agent-skills\`，列出 Codex 为兼容客户端。那会改**所有检测到的客户端**，不是 Codex \`/plugins\`。不要发明 \`codex plugin add tinybird@…\`。不确定就别跑。现行个人技能目录是 \`~/.agents/skills\`。技能教项目/SQL/部署写法，**不会**替你配 MCP。
+
+也不要和 ClickHouse Cloud 那台 \`mcp.clickhouse.cloud/mcp\` 配成一台：那是 ClickHouse 云仓；这台是 Tinybird Workspace 的 datasource / pipe。更不要把 PyPI 的 \`mcp-tinybird\`（\`TB_ADMIN_TOKEN\`）抄进来当 Codex 主路径。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`claude mcp add -e TINYBIRD_TOKEN=\`，也不要抄 Cursor / VS Code 的 \`mcpServers\` JSON。
+- 不要发明 \`codex plugin add tinybird@openai-curated\`。
+- 不要把 token 写进 \`env\`、\`args\`、\`http_headers\` 或提示词。
+- 不要默认钉 \`@tinybirdco/devtools-mcp@0.0.3\`。
+- 不要和远程 \`mcp.tinybird.co\`、ClickHouse Cloud、MotherDuck 配成一台。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完用 \`codex mcp get tinybird\` 看 command 是 \`npx\`。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Tinybird", "stdio"],
+    related: ["mcp-add-and-login", "motherduck-codex-plugin", "mcp-clickhouse-cloud"],
+    sources: [
+      {
+        label: "@tinybirdco/devtools-mcp",
+        url: "https://www.npmjs.com/package/@tinybirdco/devtools-mcp",
+      },
+      {
+        label: "Tinybird · Query MCP",
+        url: "https://www.tinybird.co/docs/forward/query-data/mcp",
+      },
+      {
+        label: "Tinybird · Agent Skills",
+        url: "https://www.tinybird.co/docs/forward/development-workflow/agent-skills",
+      },
+    ],
+  },
 ];
