@@ -2401,5 +2401,15 @@ export const articles: Article[] = [
     summary:
       'Codex 主路径是 /plugins 或桌面 Plugins 搜 Twilio developer kit。插件 id 是 twilio-developer-kit。纯技能回退才是把 twilio/ai 的 skills/ 拷进 ~/.agents/skills。不要抄 Claude 的 plugin install，也不要把整个仓库 clone 进技能根目录。',
   },
+  {
+    title: 'Shopify AI Toolkit',
+    url: 'https://shopify.dev/docs/apps/build/ai-toolkit',
+    source: 'Shopify',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'Shopify', 'MCP', 'Skills'],
+    summary:
+      '官方 Codex 推荐是 plugin add shopify@openai-curated，插件会自动更新。只要文档/校验才配本地 shopify-dev-mcp。不要抄 Claude 的 shopify-ai-toolkit@claude-plugins-official。npx skills add 不会自动更新。',
+  },
 ];
 

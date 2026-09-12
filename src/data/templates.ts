@@ -1678,4 +1678,17 @@ url = "https://mcp.twilio.com/docs"
 enabled = true
 `,
   },
+  {
+    id: "shopify-ai-toolkit",
+    title: "Shopify Dev MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "只要文档/校验才用本地 shopify-dev-mcp。主路径仍是 plugin add shopify@openai-curated。不要抄 mcpServers JSON。",
+    code: `[mcp_servers.shopify-dev-mcp]
+command = "npx"
+args = ["-y", "@shopify/dev-mcp@latest"]
+enabled = true
+startup_timeout_sec = 60
+`,
+  },
 ];

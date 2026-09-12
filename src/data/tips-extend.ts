@@ -5145,4 +5145,73 @@ cp -r ai/skills/ ~/.agents/skills/
       },
     ],
   },
+  {
+    id: "shopify-ai-toolkit",
+    no: 299,
+    title: "Shopify AI Toolkit 用 plugin add shopify@openai-curated，不要抄 Claude 插件名",
+    summary:
+      "官方推荐：codex plugin add shopify@openai-curated。只要文档/校验才走本地 shopify-dev-mcp。不要抄 Claude 的 shopify-ai-toolkit@claude-plugins-official，也不要把 npx skills add 当会自动更新的安装器。",
+    body: `Shopify AI Toolkit 官方给 Codex 的**推荐路径**是装插件（文档检索、API schema、GraphQL / Liquid / 扩展校验，以及经 Shopify CLI 的店铺任务）。插件会随发布自动更新：
+
+\`\`\`bash
+codex plugin add shopify@openai-curated
+codex plugin list
+\`\`\`
+
+插件 id 是 \`shopify@openai-curated\`。TUI \`/plugins\` 或桌面 Plugins 搜 Shopify 再装，效果一样。0.154 起先在**当前会话**看 \`/plugins\`；当前会话没有再新开。IDE 扩展没有 \`/plugins\`，用下面的 MCP 回退。需要 Node.js 18+。
+
+只要开发者文档和 schema、不要整包插件时，官方 Codex 节是本地 stdio，无鉴权：
+
+\`\`\`bash
+codex mcp add shopify-dev-mcp -- npx -y @shopify/dev-mcp@latest
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.shopify-dev-mcp]
+command = "npx"
+args = ["-y", "@shopify/dev-mcp@latest"]
+enabled = true
+startup_timeout_sec = 60
+\`\`\`
+
+用户层表名官方就是带连字符的 \`shopify-dev-mcp\`（这不是插件 \`mcp.json\`，#33063 那套连字符问题不套这里）。冷 \`npx\` 握手默认 10 秒不够，先把 \`startup_timeout_sec\` 提到 30–60。这台**不会**登录你的店铺；改生产店铺仍走 Shopify CLI 的已认证上下文，不要把 Dev MCP 当成 Admin API 钥匙。
+
+技能回退 \`npx skills add Shopify/shopify-ai-toolkit\` **不会**随仓库自动更新，官方明确说要自己拉。那是给所有检测到的客户端拷 SKILL.md，不是 Codex \`/plugins\`。不确定就别跑。也不要手拷到 \`~/.codex/skills\`。
+
+遥测默认开。技能脚本和 MCP 子进程可能把检索词、校验代码片段送去 \`shopify.dev/mcp/usage\`。\`OPT_OUT_INSTRUMENTATION=true\` 只在子进程真继承到环境时有效；Codex \`exec\` 和从 Dock 拉起的桌面常常没有。官方推荐放一个空文件：
+
+\`\`\`bash
+mkdir -p ~/.config/shopify-ai-toolkit && touch ~/.config/shopify-ai-toolkit/opt-out
+\`\`\`
+
+不要做这些：
+
+- 不要抄 Claude 的 \`claude plugin install shopify-ai-toolkit@claude-plugins-official\`。Codex 插件 id 是 \`shopify@openai-curated\`。
+- 不要抄 Cursor 的 \`/add-plugin shopify\`。
+- 不要抄 Claude 的 \`--transport stdio\` 或 \`mcpServers\` JSON。
+- 不要把 Windows 的 \`cmd /k npx\` 包装抄进 WSL。
+- 不要给 Dev MCP \`required = true\` 挂全局。
+- 不要一上来 \`--yolo\`。扩展迁移和店铺命令仍要人审。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完用 \`codex plugin list\` 看 \`shopify@openai-curated\`，或 \`codex mcp get shopify-dev-mcp\` 看 command 是 npx。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["plugins", "Shopify", "MCP", "Skills"],
+    related: ["cloudflare-skills-plugin", "mcp-add-and-login", "plugin-session-refresh"],
+    sources: [
+      {
+        label: "Shopify · AI Toolkit",
+        url: "https://shopify.dev/docs/apps/build/ai-toolkit",
+      },
+      {
+        label: "Shopify/shopify-ai-toolkit",
+        url: "https://github.com/Shopify/shopify-ai-toolkit",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
 ];

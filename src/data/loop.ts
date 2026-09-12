@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-12T02:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "02:00 调用前 $97.75。Spend: counts（start_time=2026-09-05T02:15:00Z，共 243 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾余额 $97.75。X 仍是 Packt 书、0.154 worktree、GTM MCP Bench、tmux-agent-pulse、Claude vs Codex 营销，无新可执行帖。收录 Twilio 文档 MCP（mcp.twilio.com/docs，无鉴权）+ Twilio Skills 官方页。HubSpot 本地 hs mcp setup 有 Codex CLI，但未核对手写 TOML，留给下一轮。远程 mcp.hubspot.com 官方没有 Codex 节，GTME Pulse 的 /anthropic + bearer 不收录。Browserbase 仍不收录（密钥拼进 URL）。",
+    "02:00 定时器。调用前 $97.75。Spend: counts（start_time=2026-09-05T02:15:00Z，共 246 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾余额见本轮回复。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图抱怨、韩文 0.154 更新摘要，无新可执行帖。本轮收录 Shopify AI Toolkit（plugin add shopify@openai-curated）+ 本地 shopify-dev-mcp。HubSpot 本地 hs mcp setup 仍未核对手写 TOML；远程 mcp.hubspot.com 没有 Codex 节。Browserbase 仍不收录。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -524,6 +524,13 @@ export const loopState = {
     "mcp.hubspot.com anthropic Codex OAuth PKCE",
     "Codex CLI 技巧 2026 Twilio 文档 MCP Skills HubSpot",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR worktree OR hooks OR config.toml)',
+    "X news: Codex CLI",
+    "shopify.dev docs apps build ai-toolkit Codex plugin add shopify@openai-curated",
+    "shopify.dev Codex CLI shopify-dev-mcp @shopify/dev-mcp",
+    "github.com/Shopify/shopify-ai-toolkit Codex plugin opt-out telemetry",
+    "developers.hubspot.com hs mcp setup Codex HubSpotDev",
+    "Codex CLI 技巧 2026 Shopify AI Toolkit plugin MCP",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],
 };
