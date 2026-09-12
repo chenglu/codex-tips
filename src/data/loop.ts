@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-12T23:46:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "23:09 定时器。调用前 $97.39。Spend: counts（start_time=2026-09-05T23:15:00Z，共 238 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.38。CDP 93 项全过（预览 4323）。收录 Flutter MCP toolkit（init codex，或 marketplace add Arenukvern/mcp_flutter）。不要发明 plugin add。不要抄 Claude /plugin install。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Microsoft AI Engineer Coach。Buildkite 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。1Password Codex shell plugin 页仍缺完整 init 命令。",
+    "23:46 定时器。调用前 $97.38。Spend: counts（start_time=2026-09-05T23:50:00Z，共 239 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.37。CDP 99 项全过（预览 4324）。收录 RevenueCat AI Toolkit（marketplace add RevenueCat/ai-toolkit，plugin add revenuecat@RevenueCat，mcp login RevenueCat）。不要抄 mcp-remote。v2.0.1 起插件名是小写 revenuecat。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Microsoft AI Engineer Coach。Buildkite 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。1Password Codex shell plugin 页仍缺完整 init 命令。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
