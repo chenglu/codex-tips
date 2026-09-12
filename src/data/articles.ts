@@ -2661,5 +2661,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex 是本地 stdio：config.toml 写 [mcp_servers.semgrep]，command = "semgrep"，args = ["mcp"]。等价 mcp add semgrep -- semgrep mcp。先 pipx 或 uv 装 CLI，再 semgrep login && semgrep install-semgrep-pro。不要抄 Claude 远程插件，也不要 uvx semgrep-mcp。',
   },
+  {
+    title: 'kagisearch/kagimcp',
+    url: 'https://github.com/kagisearch/kagimcp',
+    source: 'Kagi',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Kagi', 'stdio'],
+    summary:
+      '官方 Codex 是 mcp add kagi -- uvx kagimcp。不要抄 --env KAGI_API_KEY=。用 env_vars。工具是 kagi_search_fetch。托管才 mcp.kagi.com/mcp + bearer_token_env_var。不要 mcp login。',
+  },
 ];
 

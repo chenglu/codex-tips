@@ -7118,4 +7118,70 @@ enabled = true
       },
     ],
   },
+  {
+    id: "kagi-mcp-stdio",
+    no: 325,
+    title: "Kagi 官方 Codex 是 uvx kagimcp，密钥用 env_vars",
+    summary:
+      "官方 Codex：mcp add kagi -- uvx kagimcp。不要抄 --env KAGI_API_KEY= 把密钥写进配置。用 env_vars 转发。托管才 mcp.kagi.com/mcp + bearer_token_env_var。不要 mcp login。",
+    body: `Kagi 给 Codex 的官方节是**本地 stdio**，包名 \`kagimcp\`。先装 [\`uv\`](https://docs.astral.sh/uv/)，确认 \`uvx\` 在 PATH。密钥从 [Kagi API keys](https://kagi.com/api/keys) 拿，放进**启动 Codex 的那个进程**。
+
+官方示例写成 \`codex mcp add kagi --env KAGI_API_KEY=\` 再跟密钥本身。**不要抄。** \`--env\` 会把值写进 \`~/.codex/config.toml\`。正确做法：
+
+\`\`\`bash
+codex mcp add kagi -- uvx kagimcp
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.kagi]
+command = "uvx"
+args = ["kagimcp"]
+env_vars = ["KAGI_API_KEY"]
+enabled = true
+\`\`\`
+
+这是 stdio，**不要** \`codex mcp login\`。用户层表名官方就是 \`kagi\`。\`uvx\` 不在 PATH 时，把 \`command\` 改成 \`which uvx\` 给出的绝对路径。第一次 \`uvx\` 会拉包，可加 \`startup_timeout_sec = 60\`。不要 \`required = true\`。不要一上来 \`--yolo\`。
+
+连上后让它搜：工具是 \`kagi_search_fetch\`。抽页面正文是 \`kagi_extract\`。旧的 \`kagi_fastgpt\` / \`kagi_summarizer\` 已经撤掉了，不要当现行工具。
+
+不想装 \`uvx\` 时，官方另有托管 HTTP：\`https://mcp.kagi.com/mcp\`（**带** \`/mcp\` 后缀）。OAuth 还没做，不要 \`mcp login\`。用 \`bearer_token_env_var\`，右边是启动 Codex 那个进程里的变量**名**：
+
+\`\`\`toml
+[mcp_servers.kagi]
+url = "https://mcp.kagi.com/mcp"
+bearer_token_env_var = "KAGI_API_KEY"
+enabled = true
+\`\`\`
+
+从已经 export 的终端启动。不要把密钥写进 \`http_headers\`，也不要抄 Claude 的 \`--transport http --header "Authorization: Bearer …"\`。stdio 表和 HTTP 表不要同名混用。
+
+不要做这些：
+
+- 不要把 \`KAGI_API_KEY\` 写进 \`env\` 表或 \`args\`。
+- 不要抄 Claude Desktop 的 \`mcpServers\` JSON，也不要抄 Smithery。
+- 不要把 \`uv run kagimcp --http --host 0.0.0.0\` 当 Codex 主路径。
+- 不要发明 \`codex plugin add kagi@…\`。
+- 不要给它 \`required = true\` 挂全局。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get kagi\` 看传输是 stdio 还是 streamable_http。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Kagi", "stdio", "search"],
+    related: ["mcp-add-and-login", "mcp-stdio-env-vars", "mcp-http-bearer-env"],
+    sources: [
+      {
+        label: "kagisearch/kagimcp",
+        url: "https://github.com/kagisearch/kagimcp",
+      },
+      {
+        label: "Kagi · API keys",
+        url: "https://kagi.com/api/keys",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
 ];

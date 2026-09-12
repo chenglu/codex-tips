@@ -1997,4 +1997,18 @@ codex plugin add honeycomb@honeycomb-plugins
 # args = ["mcp"]
 `,
   },
+  {
+    id: "kagi-mcp-stdio",
+    title: "Kagi 搜索 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是本地 stdio：mcp add kagi -- uvx kagimcp。不要抄 --env KAGI_API_KEY=。用 env_vars。托管才 mcp.kagi.com/mcp。",
+    code: `codex mcp add kagi -- uvx kagimcp
+
+# [mcp_servers.kagi]
+# command = "uvx"
+# args = ["kagimcp"]
+# env_vars = ["KAGI_API_KEY"]
+`,
+  },
 ];
