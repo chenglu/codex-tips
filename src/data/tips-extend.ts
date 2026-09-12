@@ -5217,7 +5217,7 @@ mkdir -p ~/.config/shopify-ai-toolkit && touch ~/.config/shopify-ai-toolkit/opt-
   {
     id: "mcp-resend-remote",
     no: 300,
-    title: "Resend 先 Plugins 搜 Resend，远程 MCP 地址带 /mcp 后缀",
+    title: "Resend 先 Plugins 搜 Resend，远程 MCP 用 mcp.resend.com/mcp",
     summary:
       "插件优先：TUI /plugins 或桌面 Plugins 搜 Resend。只要 MCP：codex mcp add resend --url https://mcp.resend.com/mcp。无头才 bearer_token_env_var。不要把密钥写进 --env 或 http_headers，也不要抄 Claude / Cursor 插件命令。",
     body: `Resend 官方给 Codex 的**推荐路径**是装插件（远程 MCP + 全部技能：SDK、React Email、投递最佳实践、入站邮件、CLI）。官方没给出 \`codex plugin add …\` 那种带 marketplace 的 id，不要自己编。TUI \`/plugins\` 或桌面 Plugins 搜 Resend，点 Connect，用 Resend 账号做 OAuth。0.154 起先在**当前会话**看 \`/plugins\`；当前会话没有再新开。IDE 扩展没有 \`/plugins\`，用下面的 MCP。授权可在 Resend 账号的 Team settings 撤销。
