@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-12T05:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "05:30 定时器。调用前 $97.69。Spend: counts（start_time=2026-09-05T05:45:00Z，共 234 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度见本轮提交。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md 并用文、Muse 许愿，无新可执行帖。本轮收录 Mixpanel 托管 MCP（codex mcp add mixpanel --url https://mcp.mixpanel.com/mcp）。DigitalOcean / Fly / Heroku 官方没有 Codex 节，不收录。HubSpot 仍无手写 TOML。Asana 仍是 mcp-remote。Tinybird / MotherDuck 仍把 token 写进 --env。",
+    "05:30 定时器。调用前 $97.69。Spend: counts（start_time=2026-09-05T05:45:00Z，共 234 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.68。CDP 39 项全过（预览 4286）。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md 并用文、Muse 许愿，无新可执行帖。本轮收录 Mixpanel 托管 MCP（codex mcp add mixpanel --url https://mcp.mixpanel.com/mcp）。DigitalOcean / Fly / Heroku 官方没有 Codex 节，不收录。HubSpot 仍无手写 TOML。Asana 仍是 mcp-remote。Tinybird / MotherDuck 仍把 token 写进 --env。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
