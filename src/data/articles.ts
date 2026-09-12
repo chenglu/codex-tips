@@ -2551,5 +2551,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex 是 mcp add cockroachdb-cloud --url https://cockroachlabs.cloud/mcp，再 mcp login。技能才 marketplace add cockroachdb/codex-plugin。不要抄官方 TOML 里的 Bearer，也不要把 --env 字面量写进配置。',
   },
+  {
+    title: 'Using the Airtable MCP server',
+    url: 'https://support.airtable.com/docs/using-the-airtable-mcp-server',
+    source: 'Airtable',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'Airtable', 'MCP', 'OAuth', 'Skills'],
+    summary:
+      '官方 Codex 推荐 plugin add airtable@openai-curated。只要 MCP 才 mcp add airtable --url https://mcp.airtable.com/mcp，再 mcp login。无头才 bearer_token_env_var。不要抄 Claude 的 --header 密钥或源仓 README 的数组表。',
+  },
 ];
 

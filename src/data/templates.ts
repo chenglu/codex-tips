@@ -1858,4 +1858,18 @@ url = "https://cockroachlabs.cloud/mcp"
 enabled = true
 `,
   },
+  {
+    id: "airtable-codex-plugin",
+    title: "Airtable 插件与远程 MCP",
+    filename: "terminal",
+    summary:
+      "官方文档是 plugin add airtable@openai-curated。只要 MCP 才手写这张 airtable 表。地址带 /mcp 后缀。无头才 bearer_token_env_var。",
+    code: `codex plugin add airtable@openai-curated
+
+# 只要 MCP、不要插件时：
+# [mcp_servers.airtable]
+# url = "https://mcp.airtable.com/mcp"
+# enabled = true
+`,
+  },
 ];

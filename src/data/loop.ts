@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T09:00:00Z",
+  lastTick: "2026-09-12T09:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "09:00 定时器。调用前 $97.64。Spend: counts（start_time=2026-09-05T09:15:00Z，共 233 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.63。CDP 39 项全过（预览 4293）。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md、hermes import-agent、Codex_Base 日文入门文，无新可执行用法。本轮收录 CockroachDB Cloud MCP（codex mcp add cockroachdb-cloud --url https://cockroachlabs.cloud/mcp）和官方插件 cockroachdb@cockroachdb-codex-plugin。Intercom 仍无 Codex 专节，不要发明 mcp add。下一轮优先 Airtable：第三方会发明 mcp add，等官方 Codex 节。Meilisearch / DigitalOcean / PagerDuty / Elastic / Pinecone / HubSpot / Asana / Tinybird / MotherDuck / Fly.io 理由同前。",
+    "09:30 定时器。调用前 $97.63。Spend: counts（start_time=2026-09-05T09:45:00Z，共 234 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度待本轮验证后回写。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md、hermes import-agent、Codex_Base 日文入门文，另有 Google Cloud Developer Plugin 营销帖（站点已有 google-cloud-developer）。本轮收录 Airtable 官方 Codex 插件与 MCP（plugin add airtable@openai-curated；mcp add airtable --url https://mcp.airtable.com/mcp）。Intercom 仍无 Codex 专节，不要发明 mcp add。下一轮优先 Intercom / Meilisearch / DigitalOcean / PagerDuty / Elastic / Pinecone / HubSpot / Asana / Tinybird / MotherDuck / Fly.io 理由同前。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -631,6 +631,12 @@ export const loopState = {
     "developers.intercom.com guides mcp Codex mcp.intercom.com",
     "docs.airtable.com mcp Codex mcp.airtable.com",
     "Codex CLI 技巧 2026 CockroachDB Cloud MCP plugin",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "support.airtable.com using-the-airtable-mcp-server Codex plugin airtable@openai-curated",
+    "github.com/Airtable/skills Codex plugin marketplace add airtable/skills",
+    "developers.intercom.com guides mcp Codex mcp.intercom.com",
+    "Codex CLI 技巧 2026 Airtable MCP plugin OAuth PAT",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

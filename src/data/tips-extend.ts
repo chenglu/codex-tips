@@ -6182,4 +6182,89 @@ yaml 在 \`~/.codex/plugins/cache/cockroachdb-codex-plugin/cockroachdb/\` 下，
       },
     ],
   },
+  {
+    id: "airtable-codex-plugin",
+    no: 314,
+    title: "Airtable 插件用 airtable@openai-curated，PAT 不要抄 --header",
+    summary:
+      "官方文档：codex plugin add airtable@openai-curated。只要 MCP：codex mcp add airtable --url https://mcp.airtable.com/mcp，再 mcp login。无头才 bearer_token_env_var。不要抄 Claude 的 --header 密钥，也不要抄源仓 README 的数组表。",
+    body: `Airtable 托管 MCP 在 \`https://mcp.airtable.com/mcp\`（带 \`/mcp\` 后缀）。官方文档的 Codex 节把**插件**写成推荐路径，并额外给了手写 MCP。源仓 \`airtable/skills\` 是完整技能包。不要混成一份 JSON。
+
+**公共目录（官方文档写的 plugin add）：**
+
+\`\`\`bash
+codex plugin add airtable@openai-curated
+codex plugin list
+\`\`\`
+
+桌面 Plugins 或 TUI \`/plugins\` 搜 Airtable 再装，效果一样。0.154 起先看**当前会话**；当前会话没有再新开。插件会捆官方 MCP 和技能（\`airtable-overview\`、\`airtable-filters\`）。装完仍要完成 OAuth。\`codex plugin list\` 里应看到 \`airtable@openai-curated\`。
+
+**完整技能包（源仓 marketplace）：** 若目录那份缺技能或 MCP，先 \`codex plugin remove airtable@openai-curated\`，再：
+
+\`\`\`bash
+codex plugin marketplace add airtable/skills
+codex plugin add airtable@airtable-skills
+codex plugin list
+\`\`\`
+
+marketplace 注册名是 \`airtable-skills\`，插件 id 是 \`airtable@airtable-skills\`。不要两份同时装。源仓 README 只写了 marketplace add，再手改 \`[plugins."airtable@airtable-skills"] enabled = true\`；CLI 仍应 \`plugin add\`。桌面改 marketplace.json 仍要重启应用。
+
+**只要 MCP、不要插件时**（官方文档的手写节）：
+
+\`\`\`bash
+codex mcp add airtable --url https://mcp.airtable.com/mcp
+codex mcp login airtable
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.airtable]
+url = "https://mcp.airtable.com/mcp"
+enabled = true
+\`\`\`
+
+用户层表名官方就是 \`airtable\`。随后 \`mcp login\` 打开浏览器授权。权限跟你在 Airtable 里的角色走：Commenter / Read-only 只能读；Owner / Creator / Editor 才能改记录；只有工作区 Owner 或 Creator 能 \`create_base\`。企业若拦了第三方集成，要管理员把这个 OAuth 客户端放进允许名单。能碰到哪些 base，在账号的 Integrations → Third-party Integrations 里加减。不要一上来 \`--yolo\`。不要给它 \`required = true\` 挂全局。这台能建表、改字段、写记录、建 base。
+
+无头 / 不便开浏览器才用 PAT。官方 Codex 节是 \`bearer_token_env_var\`，右边是启动 Codex 那个进程里的变量**名**：
+
+\`\`\`toml
+[mcp_servers.airtable]
+url = "https://mcp.airtable.com/mcp"
+bearer_token_env_var = "AIRTABLE_PAT"
+enabled = true
+\`\`\`
+
+从已经 export 的终端启动。这张表不要再跑 \`mcp login\`。PAT 范围至少覆盖 records / schema 的读写（以及你需要的 comments、workspacesAndBases）。不要把 PAT 写进 \`http_headers\` 或 \`args\`。一条连接只用一种鉴权。
+
+源仓 README 把 MCP 写成 \`[[mcp_servers]]\` 那种数组表，**不是** Codex 的 \`[mcp_servers.airtable]\`，不要抄。插件已经登记 MCP 时，不要再手写同一张用户层表。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`claude plugin install airtable@claude-plugins-official\` 或 \`/plugin install airtable@airtable-skills\`。
+- 不要抄 Claude 的 \`--transport http\`，也不要把 PAT 写进 \`--header "Authorization: Bearer …"\`。Claude PAT 示例里还出现过别的主机名，不要跟 \`mcp.airtable.com/mcp\` 搞混。
+- 不要抄 Cursor 的 \`mcpServers\` JSON、\`/add-plugin\` 或 \`mcp-remote\`。
+- 不要用 \`npx skills add airtable/skills\` 当 Codex 插件安装器，也不要手拷到 \`~/.codex/skills\`。
+- 不要发明 \`codex plugin add airtable@openai-curated\` 以外的 curated id；完整包是 \`airtable@airtable-skills\`。
+- 不要对接开发中的 managed app 源 base（会 403）。一次最多建 10 条记录。走标准 API 速率限制。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完用 \`codex mcp get airtable\` 看传输是 streamable_http。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["plugins", "Airtable", "MCP", "OAuth", "Skills"],
+    related: ["shopify-ai-toolkit", "mcp-add-and-login", "mcp-http-bearer-env"],
+    sources: [
+      {
+        label: "Airtable · Using the MCP server",
+        url: "https://support.airtable.com/docs/using-the-airtable-mcp-server",
+      },
+      {
+        label: "Airtable/skills",
+        url: "https://github.com/Airtable/skills",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
 ];
