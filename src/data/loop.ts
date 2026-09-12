@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-12T20:16:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "20:16 定时器。调用前 $97.44。Spend: counts（start_time=2026-09-05T20:20:00Z，共 236 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度待本轮 CDP 后补。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Yellow 交易营销、AGENTS.md 入门，无新可执行厂商路径。Buildkite 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。1Password Codex shell plugin 页缺完整 init 命令，留给下一轮。本轮收录 IMG.LY CE.SDK（npx skills add imgly/agent-skills -a codex + mcp add imgly_docs --url https://mcp.img.ly/mcp）。不要抄 Claude 的 cesdk@imgly 或 CoDesign 的 @imgly/codesign-mcp。",
+    "20:16 定时器。调用前 $97.44。Spend: counts（start_time=2026-09-05T20:20:00Z，共 236 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.43。CDP 74 项全过（预览 4316）。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Yellow 交易营销、AGENTS.md 入门，无新可执行厂商路径。Buildkite 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。1Password Codex shell plugin 页缺完整 init 命令，留给下一轮。本轮收录 IMG.LY CE.SDK（npx skills add imgly/agent-skills -a codex + mcp add imgly_docs --url https://mcp.img.ly/mcp）。不要抄 Claude 的 cesdk@imgly 或 CoDesign 的 @imgly/codesign-mcp。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
