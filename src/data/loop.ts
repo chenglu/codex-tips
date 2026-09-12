@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-12T06:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "06:00 定时器。调用前 $97.68。Spend: counts（start_time=2026-09-05T06:15:00Z，共 233 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度见本轮提交。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md 并用文、Muse 许愿，无新可执行帖。本轮收录 Algolia Productivity MCP（codex mcp add algolia --url https://mcp.algolia.com/mcp）。Pinecone 官方 Codex 路径是 npx skills add，不收录。DigitalOcean / Fly / Heroku 仍无 Codex 节。HubSpot / Asana / Tinybird / MotherDuck 理由同前。",
+    "06:00 定时器。调用前 $97.68。Spend: counts（start_time=2026-09-05T06:15:00Z，共 233 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.67。CDP 36 项全过（预览 4287）。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md 并用文、Muse 许愿，无新可执行帖。本轮收录 Algolia Productivity MCP（codex mcp add algolia --url https://mcp.algolia.com/mcp）。Pinecone 官方 Codex 路径是 npx skills add，不收录。DigitalOcean / Fly / Heroku 仍无 Codex 节。HubSpot / Asana / Tinybird / MotherDuck 理由同前。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
