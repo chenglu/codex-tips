@@ -6364,4 +6364,83 @@ startup_timeout_sec = 60
       },
     ],
   },
+  {
+    id: "hubspot-dev-mcp",
+    no: 316,
+    title: "HubSpot 开发 MCP 用 hs mcp setup，不要和远程 CRM 配成一台",
+    summary:
+      "官方：hs --version 至少 8.2.0，再 hs mcp setup，勾选 Codex CLI。表名是 HubSpotDev。等价手写是 mcp add HubSpotDev -- hs mcp start --ai-agent codex。这是本地开发 MCP，不是 mcp.hubspot.com 那台 CRM。",
+    body: `HubSpot 给 Codex 的**官方主路径**是本地 Developer MCP，不是远程 CRM。CLI **8.2.0** 起才把 Codex CLI 列进支持客户端。先认证 CLI（\`hs init\` / \`hs account auth\`），再：
+
+\`\`\`bash
+hs --version
+hs mcp setup
+\`\`\`
+
+勾选 Codex CLI。装过全局 \`@hubspot/cli\` 时，standalone 选 **N**。公司机不能全局 npm 才选 standalone：安装器会用 \`npx -y -p @hubspot/cli hs mcp start\`，并可钉版本。装完若 Codex 已开着，先重启。\`/mcp\` 里应看到 \`HubSpotDev\`。
+
+\`hs mcp setup\` 在 Codex 上实际跑的是（源码 \`setupCodex\`）：
+
+\`\`\`bash
+codex mcp add HubSpotDev -- hs mcp start --ai-agent codex
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.HubSpotDev]
+command = "hs"
+args = ["mcp", "start", "--ai-agent", "codex"]
+enabled = true
+startup_timeout_sec = 60
+\`\`\`
+
+用户层表名官方就是驼峰 \`HubSpotDev\`（这不是插件 \`mcp.json\`）。后面的 \`--ai-agent codex\` 是安装器加上的，手写时也要带。不要再 \`mcp login\`：这是 stdio，鉴权走已经连上的 HubSpot CLI 账号，不是 OAuth。\`hs\` 不在 PATH 时写成 \`which hs\` 的绝对路径。
+
+standalone 才换 npx。\`HUBSPOT_MCP_STANDALONE=true\` 是开关，不是密钥，可以留在 \`env\` 表：
+
+\`\`\`toml
+[mcp_servers.HubSpotDev]
+command = "npx"
+args = ["-y", "-p", "@hubspot/cli", "hs", "mcp", "start", "--ai-agent", "codex"]
+enabled = true
+startup_timeout_sec = 60
+
+[mcp_servers.HubSpotDev.env]
+HUBSPOT_MCP_STANDALONE = "true"
+\`\`\`
+
+钉版本时再加 \`HUBSPOT_CLI_VERSION\`。不要把个人访问密钥写进 \`env\`、\`args\` 或提示词。\`auth-account\` 可以非交互吃 PAK，但密钥仍不要出现在对话里。
+
+这台是**应用 / CMS 开发**：搜文档、脚手架项目、校验、上传、部署、建测试账号、看构建日志。\`upload-project\` / \`deploy-project\` 标了只有用户明确要求才调用，保持工具批准。不要一上来 \`--yolo\`。不要给它 \`required = true\` 挂全局。部分功能要 Developer Platform \`2025.2\`。
+
+**远程 CRM MCP 是另一台。** 官方地址是 \`https://mcp.hubspot.com\`（没有 \`/mcp\` 后缀），要先在 Development → MCP Auth Apps 建应用，拿 client id / secret / 回调 URL，还要 PKCE。官方**没有 Codex 专节**，不要发明 \`codex mcp add hubspot --url https://mcp.hubspot.com\`，也不要抄第三方的 \`mcp.hubspot.com/anthropic\` 或 \`bearer_token_env_var\`。不要和本地 \`HubSpotDev\` 写成同一张表。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`claude mcp add-json\`，也不要抄 Cursor / VS Code 的 \`mcpServers\` JSON。
+- 不要发明 \`codex plugin add hubspot@…\`。
+- 不要把 \`npx mcp-hubspot\` 或 Smithery 那份社区 CRM 包当成官方 Developer MCP。
+- 不要编 \`npx @hubspot/cli mcp serve\`。官方子命令是 \`hs mcp start\`。
+- 不要把 PAK / client secret 写进 \`http_headers\` 或 \`args\`。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完用 \`codex mcp get HubSpotDev\` 看 command 是 \`hs\` 或 \`npx\`。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "HubSpot", "CLI", "stdio"],
+    related: ["mcp-add-and-login", "shopify-ai-toolkit", "google-cloud-developer-plugin"],
+    sources: [
+      {
+        label: "HubSpot · Set up the developer MCP server",
+        url: "https://developers.hubspot.com/docs/developer-tooling/local-development/developer-mcp/setup",
+      },
+      {
+        label: "HubSpot · Developer MCP tools",
+        url: "https://developers.hubspot.com/docs/developer-tooling/local-development/developer-mcp/tools",
+      },
+      {
+        label: "HubSpot/hubspot-cli mcp setup",
+        url: "https://github.com/HubSpot/hubspot-cli/blob/main/lib/mcp/setup.ts",
+      },
+    ],
+  },
 ];

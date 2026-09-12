@@ -2571,5 +2571,15 @@ export const articles: Article[] = [
     summary:
       '技能走 marketplace add motherduckdb/agent-skills，再 /plugins 装 MotherDuck Skills。远程 MCP 是 api.motherduck.com/mcp，再 mcp login。不要发明 plugin add id，也不要抄 Claude 的 --transport http 或把 token 写进 http_headers。',
   },
+  {
+    title: 'Set up the developer MCP server',
+    url: 'https://developers.hubspot.com/docs/developer-tooling/local-development/developer-mcp/setup',
+    source: 'HubSpot',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'HubSpot', 'CLI'],
+    summary:
+      '官方 Codex 是 hs mcp setup 勾选 Codex CLI。表名是 HubSpotDev。等价手写 mcp add HubSpotDev -- hs mcp start --ai-agent codex。这是本地开发 MCP，不是 mcp.hubspot.com 那台远程 CRM。',
+  },
 ];
 

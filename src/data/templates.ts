@@ -1885,4 +1885,16 @@ codex mcp add motherduck --url https://api.motherduck.com/mcp
 codex mcp login motherduck
 `,
   },
+  {
+    id: "hubspot-dev-mcp",
+    title: "HubSpot 本地开发 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 hs mcp setup 勾选 Codex CLI。表名是 HubSpotDev。等价手写带 --ai-agent codex。不是 mcp.hubspot.com 那台 CRM。",
+    code: `hs mcp setup
+
+# 等价手写（全局 hs，CLI 8.2.0+）：
+codex mcp add HubSpotDev -- hs mcp start --ai-agent codex
+`,
+  },
 ];

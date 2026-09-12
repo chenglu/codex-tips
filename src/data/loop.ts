@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T10:00:00Z",
+  lastTick: "2026-09-12T10:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "10:00 定时器。调用前 $97.62。Spend: counts（start_time=2026-09-05T10:15:00Z，共 233 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.62。CDP 41 项全过（预览 4295）。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md、hermes import-agent、Codex_Base 日文入门文、Google Cloud Developer Plugin 营销帖，无新可执行厂商路径。本轮收录 MotherDuck 官方技能市场与远程 MCP（marketplace add motherduckdb/agent-skills；mcp add motherduck --url https://api.motherduck.com/mcp）。不要发明 plugin add id。Intercom / Asana 仍是 mcp-remote；Elastic 无 Codex 专节；HubSpot 是本地 hs mcp setup，尚未核 TOML。下一轮优先 HubSpot / Intercom / Meilisearch / DigitalOcean / PagerDuty / Elastic / Pinecone / Asana / Tinybird / Fly.io 理由同前。",
+    "10:30 定时器。调用前 $97.62。Spend: counts（start_time=2026-09-05T10:45:00Z，共 232 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度待本轮验证后回写。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md、hermes import-agent、Codex_Base 日文入门文、Google Cloud Developer Plugin 营销帖，无新可执行厂商路径。本轮收录 HubSpot 本地开发 MCP（hs mcp setup 勾选 Codex CLI；表名 HubSpotDev；等价 mcp add HubSpotDev -- hs mcp start --ai-agent codex）。不要和 mcp.hubspot.com 远程 CRM 配成一台。Intercom / Asana 仍是 mcp-remote。下一轮优先 Azure Skills / Intercom / Meilisearch / DigitalOcean / PagerDuty / Elastic / Pinecone / Asana / Tinybird / Fly.io 理由同前。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -648,6 +648,16 @@ export const loopState = {
     "developers.asana.com Codex mcp-remote v2/mcp",
     "elastic.co Kibana MCP mcp-remote Codex",
     "Codex CLI 技巧 2026 MotherDuck MCP plugin marketplace",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "developers.hubspot.com developer-mcp setup Codex CLI HubSpotDev",
+    "github.com/HubSpot/hubspot-cli lib/mcp/setup.ts setupCodex",
+    "microsoft.com azure-skills Codex plugin marketplace add",
+    "developers.intercom.com mcp.intercom.com Codex mcp-remote",
+    "developers.asana.com Codex mcp-remote v2/mcp",
+    "meilisearch.com integrations mcp Codex",
+    "docs.digitalocean.com mcp Codex @digitalocean/mcp",
+    "Codex CLI 技巧 2026 HubSpot Developer MCP HubSpotDev",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],
