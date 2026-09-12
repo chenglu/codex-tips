@@ -7692,4 +7692,75 @@ codex mcp login elastic-agent-builder
       },
     ],
   },
+  {
+    id: "incident-io-codex-mcp",
+    no: 334,
+    title: "incident.io 插件用 incident-io@incident-io-skills，远程带 /mcp",
+    summary:
+      "官方 Codex：marketplace add incident-io/skills，再 plugin add incident-io@incident-io-skills。插件会登记 MCP 和 skills。IDE 没有插件才 mcp add incident_io --url https://mcp.incident.io/mcp。",
+    body: `incident.io 给 Codex 有专节。CLI / ChatGPT 桌面的**官方主路径**是插件，不是手写 MCP，也不是 macOS 桌面应用自带的本地 MCP：
+
+\`\`\`bash
+codex plugin marketplace add incident-io/skills
+codex plugin add incident-io@incident-io-skills
+\`\`\`
+
+插件 id 是 \`incident-io@incident-io-skills\`。官方写明插件会把 MCP **和** skills 配好。装了插件就**不要**再 \`mcp add\` 同一张表。用 \`codex plugin list\` 确认已装，再新开一轮（0.154 起先看**当前会话**；当前会话没有再新开）。桌面改 marketplace 仍要重启应用。
+
+插件在 Codex CLI 和 ChatGPT 桌面可用。**IDE 扩展不支持插件**。自装 marketplace 更新：\`codex plugin marketplace upgrade\`。Business / Enterprise 才是 Admin → Plugins → Marketplaces 日同步；管理员也可 Sync now。先在 incident.io 的 Settings → MCP 打开远程 MCP，没开时连不上。
+
+不要抄 Claude 的 \`/plugin marketplace add\` / \`/plugin install\`。不要抄 Cursor 的 \`/add-plugin\`。不要抄 \`npx skills add incident-io/skills -a zed\`（那是给 Zed / Cline / Roo / Amp）。不要抄 Claude 的 \`extraKnownMarketplaces\` JSON。不要发明 \`incident-io@openai-curated\`。
+
+只要 MCP、不装插件（IDE 扩展走这条），托管地址是 \`https://mcp.incident.io/mcp\`（**带** \`/mcp\` 后缀）。官方 Codex 节把 \`type = "url"\` 写进 \`config.toml\`，那不是 Codex 键，**不要抄**。对照：
+
+\`\`\`bash
+codex mcp add incident_io --url https://mcp.incident.io/mcp
+codex mcp login incident_io
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.incident_io]
+url = "https://mcp.incident.io/mcp"
+enabled = true
+\`\`\`
+
+用户层表名官方就是 \`incident_io\`（下划线）。官方说 Codex 会在首次使用时弹浏览器授权；若只写入表、没弹出，再 \`mcp login\`。这台是 PKCE 公有客户端，**支持**客户端自动登记，和 PagerDuty / Elastic「不支持 DCR」不同。不要把「不要 mcp login」抄过来。也不要抄 Claude 的 \`--transport http\`。不要发明 \`--oauth-client-id incident-mcp\`（那是给 Gemini Enterprise 手填 OAuth 的 Client ID，Codex 会自己发现）。不要把 Authorization URL / Token URL 手填进 Codex。OAuth 连接 28 天要重新授权。
+
+不要抄 \`npx mcp-remote\`。不要和 PagerDuty 配成一台：PagerDuty 是 \`Token token=\` 且不要 mcp login；incident.io 交互路径是 OAuth，无头才 Bearer。
+
+无头 / 不能开浏览器才用 API key。官方要 \`Authorization: Bearer\`。Codex 用 \`bearer_token_env_var\`，不要把密钥写进 \`http_headers\`：
+
+\`\`\`toml
+[mcp_servers.incident_io]
+url = "https://mcp.incident.io/mcp"
+bearer_token_env_var = "INCIDENT_API_KEY"
+enabled = true
+\`\`\`
+
+从已经 export 的终端启动。变量值是裸密钥，不要再加 \`Bearer\` 前缀。这张表不要再 \`mcp login\`。一条连接只用一种鉴权。
+
+连上后先读组织配置（\`resource_show\` 的 organisation）或跑 \`incident_stats\`，再按 stats → list → show 往下钻。\`incident_create\` / \`incident_update\` / \`escalation_respond\` / \`follow_up_create\` 会改事故数据，保持工具批准。不要一上来 \`--yolo\`。不要给它 \`required = true\` 挂全局。网页 Cloud 不读 \`~/.codex/config.toml\`。改完退出再开会话。用户层对照 \`codex mcp get incident_io\` 看传输是 streamable_http。
+
+不要做这些：
+
+- 不要把 incident.io **macOS 桌面应用**的本地 MCP 当 Codex 主路径。
+- 不要抄 \`type = "url"\`。
+- 不要抄 \`npx mcp-remote https://mcp.incident.io/mcp\`。
+- 不要发明 \`incident-io@openai-curated\`。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "incident.io", "plugins", "OAuth"],
+    related: ["mcp-add-and-login", "pagerduty-mcp-http", "honeycomb-codex-plugin"],
+    sources: [
+      {
+        label: "incident.io · Remote MCP server",
+        url: "https://docs.incident.io/ai/remote-mcp",
+      },
+      {
+        label: "incident-io/skills",
+        url: "https://github.com/incident-io/skills",
+      },
+    ],
+  },
 ];

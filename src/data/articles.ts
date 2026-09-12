@@ -2751,5 +2751,15 @@ export const articles: Article[] = [
     summary:
       '官方终点是 Kibana 的 /api/agent_builder/mcp。Codex 对照 mcp add elastic-agent-builder --url。API key 是 Authorization: ApiKey，走 env_http_headers。缺 feature_agentBuilder.read 会 403。不要抄 mcp-remote 或已弃用的本地 elasticsearch MCP。',
   },
+  {
+    title: 'Remote MCP server',
+    url: 'https://docs.incident.io/ai/remote-mcp',
+    source: 'incident.io',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'incident.io', 'plugins', 'OAuth'],
+    summary:
+      '官方 Codex：marketplace add incident-io/skills，再 plugin add incident-io@incident-io-skills。插件会登记 MCP 和 skills。只要 MCP 才 mcp add incident_io --url https://mcp.incident.io/mcp。不要抄 type = url、Claude /plugin install 或 Cursor /add-plugin。',
+  },
 ];
 

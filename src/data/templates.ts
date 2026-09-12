@@ -2115,4 +2115,18 @@ codex mcp add elastic-agent-builder --url https://my-project.kb.us-east-1.aws.el
 # Authorization = "ELASTIC_AUTH"
 `,
   },
+  {
+    id: "incident-io-codex-mcp",
+    title: "incident.io 托管 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 marketplace add incident-io/skills，再 plugin add incident-io@incident-io-skills。插件会登记 MCP 和 skills。IDE 没有插件才 mcp add incident_io --url https://mcp.incident.io/mcp，再 mcp login。不要抄 type = url。",
+    code: `codex plugin marketplace add incident-io/skills
+codex plugin add incident-io@incident-io-skills
+
+# IDE 没有插件、只要 MCP 时：
+# codex mcp add incident_io --url https://mcp.incident.io/mcp
+# codex mcp login incident_io
+`,
+  },
 ];
