@@ -4525,4 +4525,152 @@ enabled = true
       },
     ],
   },
+  {
+    id: "mcp-snyk-stdio",
+    no: 290,
+    title: "Snyk Studio 先 --ade codex，MCP 是本地 stdio 不是远程",
+    summary:
+      "Codex 默认走 Snyk Studio 安装器，必须带 --ade codex。只要 MCP：codex mcp add snyk-security -- npx -y snyk@latest mcp -t stdio。没有托管远程。密钥用 env_vars 转发 SNYK_TOKEN，不要写进 env 表。",
+    body: `Snyk 给 Codex 的**现行默认**是 Studio 安装器（钩子 + 技能 + MCP），不是远程 HTTP。官方把 Codex CLI 列进「有钩子」的 ADE。先预览，再钉死 Codex，不要让它改所有检测到的客户端：
+
+\`\`\`bash
+curl -fsSL "https://raw.githubusercontent.com/snyk/studio-recipes/main/installer/dist/snyk-studio-install.sh" -o snyk-studio-install.sh
+bash ./snyk-studio-install.sh --dry-run --ade codex
+bash ./snyk-studio-install.sh --ade codex
+\`\`\`
+
+装完跑 \`snyk auth\`，或把 \`SNYK_TOKEN\` 放进**启动 Codex 的那个进程**。不要 \`bash ./snyk-studio-install.sh -y\` 不带 \`--ade\`。Windows 用官方 \`.ps1\`，不要把这份 bash 抄进 PowerShell。
+
+只要 MCP、不要安装器时，官方 Codex 节是本地 stdio。Snyk **没有**托管远程 MCP。用户层表名官方就是带连字符的 \`snyk-security\`（这不是插件 \`mcp.json\`，#33063 那套连字符问题不套这里）：
+
+\`\`\`bash
+codex mcp add snyk-security -- npx -y snyk@latest mcp -t stdio
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.snyk-security]
+command = "npx"
+args = ["-y", "snyk@latest", "mcp", "-t", "stdio"]
+env_vars = ["SNYK_TOKEN"]
+enabled = true
+
+[mcp_servers.snyk-security.env]
+SNYK_MCP_PROFILE = "lite"
+\`\`\`
+
+\`SNYK_MCP_PROFILE\` 可以是 \`lite\` / \`full\`（默认）/ \`experimental\`，写进 \`env\` 表没问题，那不是密钥。\`SNYK_TOKEN\` 必须走 \`env_vars\`，不要写成 \`env\` 表里的字面量，TOML 占位符也不会展开。本机已经装了 \`snyk\` 时，\`command\` 改成可执行文件的**绝对路径**；用 fnm / nvm 管 Node 时尤其不要写裸 \`snyk\`。
+
+第一次用会走浏览器登录（工具名 \`snyk_auth\`），也可以先在终端 \`snyk auth\`。随后可让它扫代码 / 依赖。\`snyk_sca_scan\` 可能在本机拉 Gradle / Maven / pip，沙箱要给网络，或放到你已经配好工具链的环境。
+
+不要做这些：
+
+- 不要抄 \`mcpServers\` JSON。Codex 用 \`[mcp_servers.snyk-security]\`。
+- 不要抄 Claude 的 \`-t http\`。这里的 \`-t stdio\` 是 Snyk CLI 自己的传输参数。
+- 不要给它 \`url = "https://…"\`。官方明确没有远程 MCP。
+- 不要把 API token 写进 \`args\` 或 \`http_headers\`。
+- 不要给它 \`required = true\` 挂全局。
+- 不要一上来 \`--yolo\`。扫描结果会进上下文。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get snyk-security\` 看 command 是 npx 还是绝对路径。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Snyk", "stdio", "hooks"],
+    related: ["mcp-add-and-login", "mcp-stdio-env-vars", "mcp-grafana-stdio"],
+    sources: [
+      {
+        label: "Snyk · Codex CLI guide",
+        url: "https://docs.snyk.io/agent-security/agentic-security-with-snyk-studio/quickstart-guides/codex-cli-guide",
+      },
+      {
+        label: "Snyk · Getting started with Snyk Studio",
+        url: "https://docs.snyk.io/agent-security/agentic-security-with-snyk-studio/getting-started-with-snyk-studio",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "mcp-circleci-remote",
+    no: 291,
+    title: "CircleCI 在 Codex 里先装插件，托管 MCP 才是 mcp.circleci.com/v1/mcp",
+    summary:
+      "Codex 主路径是 /plugins 装 CircleCI，并先 circleci auth login。跨工具才用 codex mcp add circleci --url https://mcp.circleci.com/v1/mcp 再 mcp login。不要装已弃用的 npx @circleci/mcp-server-circleci，也不要和 Circle 支付 MCP 搞混。",
+    body: `CircleCI 官方给 Codex 的**主路径是插件**，不是本地 npx 包。先装 CLI 并登录（浏览器授权，凭证进系统钥匙串，不必手拷 PAT）：
+
+\`\`\`bash
+brew install circleci
+circleci auth login
+circleci auth me
+\`\`\`
+
+然后在 Codex 会话里打开 \`/plugins\`，目录里找 CircleCI，安装后**新开会话**。技能要新会话才加载。用自然语言即可，不必每句都 \`@circleci\`：
+
+- 检查最近一次 pipeline
+- 审查本仓库的 CircleCI 配置（底层是 \`circleci config validate\`）
+- 诊断最近一次失败构建
+
+多数命令从当前 git remote / 分支推断项目。组织 slug 是 \`circleci/\` 而不是 \`gh/\` 时，在仓库里再跑 \`circleci project link\`。网页「Copy Fix Prompt」会复制一段带 run UUID 和 \`--failure-report\` 的提示，直接贴进 Codex；不要把那段 UUID 写进 \`config.toml\`。
+
+跨编辑器、或只要远程 MCP 时，托管地址是 Streamable HTTP：
+
+\`\`\`bash
+codex mcp add circleci --url https://mcp.circleci.com/v1/mcp
+codex mcp login circleci
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.circleci]
+url = "https://mcp.circleci.com/v1/mcp"
+enabled = true
+\`\`\`
+
+服务器名用 \`circleci\`，不要抄 Claude 文档里的 \`circleci-mcp-server\`。CI 不能开浏览器时，用个人 API token 走 \`bearer_token_env_var\`（CLI 环境变量名是 \`CIRCLE_TOKEN\`），不要把 \`Authorization: Bearer\` 写进 \`http_headers\`：
+
+\`\`\`toml
+[mcp_servers.circleci]
+url = "https://mcp.circleci.com/v1/mcp"
+bearer_token_env_var = "CIRCLE_TOKEN"
+enabled = true
+\`\`\`
+
+不要和已经 \`mcp login\` 的 OAuth 写在同一张表。变量必须在启动 Codex 的那个进程里。
+
+本机 CLI MCP（\`circleci mcp start\`）官方 enable 列表只有 Claude / Cursor / VS Code，**没有** \`circleci mcp codex enable\`。硬要 stdio 时自己 \`codex mcp add circleci -- circleci mcp start\`，仍先 \`circleci auth login\`。
+
+不要做这些：
+
+- 不要装 \`npx -y @circleci/mcp-server-circleci\`。官方已弃用；旧文里的 \`CIRCLECI_TOKEN\` + \`env\` 表不要抄。
+- 不要抄 Claude 的 \`--transport http\` 或 \`mcpServers\` JSON。
+- 不要和 Circle（circle.com 支付 / 链上）那台 \`api.circle.com\` MCP 搞混。那是另一家。
+- 不要给它 \`required = true\` 挂全局。
+- 不要一上来 \`--yolo\`。触发 pipeline、重跑工作流都是写操作。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get circleci\` 看传输是 streamable_http。插件不生效时先确认 \`circleci version\` 和 \`circleci auth me\`。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "CircleCI", "plugins", "OAuth"],
+    related: ["mcp-add-and-login", "cloudflare-skills-plugin", "mcp-http-bearer-env"],
+    sources: [
+      {
+        label: "CircleCI · Getting started with Codex",
+        url: "https://circleci.com/blog/getting-started-with-codex-and-circleci/",
+      },
+      {
+        label: "CircleCI · Codex plugin",
+        url: "https://circleci.com/blog/circleci-codex-plugin/",
+      },
+      {
+        label: "CircleCI · Hosted MCP",
+        url: "https://circleci.com/docs/guides/toolkit/connecting-to-the-circleci-mcp-server/",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
 ];

@@ -1568,4 +1568,31 @@ url = "https://mcp.pscale.dev/mcp/planetscale"
 enabled = true
 `,
   },
+  {
+    id: "mcp-snyk-stdio",
+    title: "Snyk 本地 stdio MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方没有远程 MCP。表名是 snyk-security。密钥用 env_vars 转发 SNYK_TOKEN。SNYK_MCP_PROFILE 才写 env 表。先 --ade codex 装 Studio。",
+    code: `[mcp_servers.snyk-security]
+command = "npx"
+args = ["-y", "snyk@latest", "mcp", "-t", "stdio"]
+env_vars = ["SNYK_TOKEN"]
+enabled = true
+
+[mcp_servers.snyk-security.env]
+SNYK_MCP_PROFILE = "lite"
+`,
+  },
+  {
+    id: "mcp-circleci-remote",
+    title: "CircleCI 托管 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.circleci.com/v1/mcp。Codex 里插件才是主路径。CI 才用 CIRCLE_TOKEN。不要装已弃用的 npx 包。",
+    code: `[mcp_servers.circleci]
+url = "https://mcp.circleci.com/v1/mcp"
+enabled = true
+`,
+  },
 ];

@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-11T23:30:00Z",
+  lastTick: "2026-09-12T00:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "23:30 调用前 $97.93。Spend: counts（start_time=2026-09-04T23:45:00Z，共 245 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 仍是 Packt 书、0.154 worktree 营销、GTM MCP Bench、tmux-agent-pulse、Mistral Vibe、套壳额度、Claude vs Codex 营销，无新可执行帖。收录 Neon 远程 MCP + PlanetScale 远程 MCP。Snyk Studio / CircleCI 托管 MCP 留给下一轮。",
+    "00:00 调用前 $97.92。Spend: counts（start_time=2026-09-05T00:15:00Z，共 246 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 仍是 Packt 书、0.154 worktree 营销、GTM MCP Bench、tmux-agent-pulse、Mistral Vibe、套壳额度、Claude vs Codex 营销，无新可执行帖。收录 Snyk Studio/stdio MCP + CircleCI 插件/托管 MCP。Firecrawl 官方 Codex 页与 LaunchDarkly 托管 MCP 留给下一轮。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -490,6 +490,13 @@ export const loopState = {
     "circleci.com docs hosted MCP mcp.circleci.com Codex",
     "Codex CLI 技巧 2026 Neon PlanetScale Snyk CircleCI MCP OAuth",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR Neon OR PlanetScale OR Snyk OR AGENTS.md OR skills)',
+    "X news: Codex CLI",
+    "docs.snyk.io Codex CLI snyk-security --ade codex SNYK_MCP_PROFILE",
+    "circleci.com blog getting-started-with-codex-and-circleci plugins",
+    "docs.firecrawl.dev quickstarts codex-cli mcp.firecrawl.dev mcp-oauth",
+    "launchdarkly.com docs mcp-hosted Codex mcp.launchdarkly.com",
+    "Codex CLI 技巧 2026 Snyk CircleCI Firecrawl LaunchDarkly MCP",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR Snyk OR CircleCI OR Firecrawl OR AGENTS.md OR skills)',
     "X news: Codex CLI",
   ],
 };

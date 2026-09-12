@@ -2301,5 +2301,25 @@ export const articles: Article[] = [
     summary:
       '官方 Codex 节是 mcp add planetscale --url https://mcp.pscale.dev/mcp/planetscale。add 后应弹出 OAuth。只要 Insights 换 planetscale-insights-only。CI 用 PLANETSCALE_API_TOKEN，值是 pscale_tkn_ 密钥本身，不要 REST API 的 id:secret。本地 pscale mcp 已删除。',
   },
+  {
+    title: 'Codex CLI guide (Snyk Studio)',
+    url: 'https://docs.snyk.io/agent-security/agentic-security-with-snyk-studio/quickstart-guides/codex-cli-guide',
+    source: 'Snyk',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Snyk', 'stdio'],
+    summary:
+      'Codex 默认走 Snyk Studio 安装器，必须带 --ade codex。只要 MCP 时表名是 snyk-security，命令是 npx snyk@latest mcp -t stdio。没有托管远程。SNYK_TOKEN 用 env_vars，SNYK_MCP_PROFILE 才写 env 表。不要抄 mcpServers JSON。',
+  },
+  {
+    title: 'Getting started with Codex and CircleCI',
+    url: 'https://circleci.com/blog/getting-started-with-codex-and-circleci/',
+    source: 'CircleCI',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'CircleCI', 'plugins'],
+    summary:
+      'Codex 主路径是 /plugins 装 CircleCI，并先 circleci auth login。托管 MCP 才是 mcp.circleci.com/v1/mcp。不要装已弃用的 @circleci/mcp-server-circleci。circleci mcp enable 列表没有 Codex。不要和 Circle 支付 MCP 搞混。',
+  },
 ];
 
