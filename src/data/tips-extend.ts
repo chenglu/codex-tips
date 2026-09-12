@@ -8081,4 +8081,74 @@ codex plugin marketplace add clerk/skills
       },
     ],
   },
+  {
+    id: "appcircle-mcp-http",
+    no: 341,
+    title: "Appcircle 远程 MCP 用 mcp.appcircle.io，不要 mcp login",
+    summary:
+      "官方 Codex：mcp add appcircle --url https://mcp.appcircle.io，再 bearer_token_env_var 读 APPCIRCLE_ACCESS_TOKEN。URL 没有 /mcp。这是 JWT Bearer，不要 mcp login。不要抄 Claude 插件或 http_headers 字面量。",
+    body: `Appcircle 给 Codex 有专节，写在仓库安装指南。官方 CLI 主路径是远程 HTTP：
+
+\`\`\`bash
+export APPCIRCLE_ACCESS_TOKEN
+codex mcp add appcircle --url https://mcp.appcircle.io --bearer-token-env-var APPCIRCLE_ACCESS_TOKEN
+\`\`\`
+
+URL **没有** \`/mcp\` 后缀。这是 Bearer JWT，**不要** \`codex mcp login\`：官方没给 OAuth / DCR。不要抄 Claude 的 \`/plugin marketplace add appcircleio/appcircle-ai-plugins\`，也不要抄 Copilot 的 \`appcircle@appcircle-ai-plugins\`。不要发明 \`codex plugin add appcircle@openai-curated\`。不要抄 \`--transport http\`。不要抄 JSON \`mcpServers\`。
+
+\`\`\`toml
+[mcp_servers.appcircle]
+url = "https://mcp.appcircle.io"
+bearer_token_env_var = "APPCIRCLE_ACCESS_TOKEN"
+enabled = true
+\`\`\`
+
+\`APPCIRCLE_ACCESS_TOKEN\` 必须是 Auth API 换回来的 **JWT**，不是控制台里的 Personal Access Key 或 API Key secret。个人密钥走：
+
+\`\`\`bash
+curl -X POST https://auth.appcircle.io/auth/v3/token \\
+  -H "Content-Type: application/x-www-form-urlencoded" \\
+  -d "personalAccessKey=$APPCIRCLE_PERSONAL_ACCESS_KEY"
+\`\`\`
+
+响应里的 \`access_token\` 才 export。令牌大约 24 小时过期，服务器不自动刷新。401 先查是不是把 raw key 当 token 用了，再查过期。变量必须在启动 Codex 的那个进程里。不要把 JWT 写进 \`http_headers\`。App / IDE 节那份 \`Authorization = "Bearer …"\` 字面量不要抄。
+
+\`trigger_build\` / \`start_publish\` / \`send_app_version_to_testers\` 会动真流水线，保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。先问 \`get_build_profiles\` 或 \`get_build_insights_report\`。
+
+本地 stdio 才 \`pip install .\` 后：
+
+\`\`\`bash
+codex mcp add appcircle -- /abs/appcircle-mcp
+\`\`\`
+
+然后 \`env_vars\` 转发 \`APPCIRCLE_ACCESS_TOKEN\`。**不要抄** \`--env APPCIRCLE_ACCESS_TOKEN=\` 写进 env 表。本机 HTTP / Docker 才 \`http://localhost:8000\`，同样走 \`bearer_token_env_var\`，不要 \`mcp login\`。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add appcircle@…\`。
+- 不要抄 Claude / Copilot 的 \`appcircleio/appcircle-ai-plugins\`。
+- 不要 \`mcp login\`，也不要把 raw key 或 JWT 写进 \`http_headers\` / \`env\` 表。
+- 不要给它 \`required = true\` 挂全局。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get appcircle\` 看传输是 streamable_http。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Appcircle", "HTTP", "Bearer"],
+    related: ["mcp-http-bearer-env", "mcp-add-and-login", "heroku-mcp-http"],
+    sources: [
+      {
+        label: "Appcircle · MCP Server",
+        url: "https://docs.appcircle.io/appcircle-ai/appcircle-mcp-server",
+      },
+      {
+        label: "appcircle-mcp · Codex install",
+        url: "https://github.com/appcircleio/appcircle-mcp/blob/main/docs/installation_guides/codex.md",
+      },
+      {
+        label: "Appcircle · API Authentication",
+        url: "https://docs.appcircle.io/appcircle-api-and-cli/api-authentication",
+      },
+    ],
+  },
 ];

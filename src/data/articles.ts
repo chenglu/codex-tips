@@ -2821,5 +2821,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex：plugin marketplace add clerk/skills，再 /plugins 装 clerk-skills。不要发明 plugin add 的 @id。不要抄 npx skills add 当 Codex 专节。不要和 Clerk MCP stdio 桥搞成一台。',
   },
+  {
+    title: 'Appcircle MCP Server',
+    url: 'https://docs.appcircle.io/appcircle-ai/appcircle-mcp-server',
+    source: 'Appcircle',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Appcircle', 'HTTP'],
+    summary:
+      '官方远程是 mcp.appcircle.io，没有 /mcp。Codex 对照 mcp add appcircle --url。APPCIRCLE_ACCESS_TOKEN 必须是兑换后的 JWT。不要 mcp login。不要抄 Claude 插件或 http_headers 字面量。',
+  },
 ];
 

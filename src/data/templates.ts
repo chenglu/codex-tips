@@ -2204,4 +2204,19 @@ codex plugin add incident-io@incident-io-skills
 # 不要发明 plugin add 的 @id
 `,
   },
+  {
+    id: "appcircle-mcp-http",
+    title: "Appcircle 远程 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add appcircle --url https://mcp.appcircle.io。bearer_token_env_var 读 APPCIRCLE_ACCESS_TOKEN。不要 mcp login。",
+    code: `export APPCIRCLE_ACCESS_TOKEN
+codex mcp add appcircle --url https://mcp.appcircle.io --bearer-token-env-var APPCIRCLE_ACCESS_TOKEN
+
+# [mcp_servers.appcircle]
+# url = "https://mcp.appcircle.io"
+# bearer_token_env_var = "APPCIRCLE_ACCESS_TOKEN"
+# enabled = true
+`,
+  },
 ];
