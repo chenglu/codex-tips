@@ -2819,7 +2819,7 @@ export const articles: Article[] = [
     kind: '仓库',
     tags: ['plugins', 'Clerk', 'Skills', 'marketplace'],
     summary:
-      '官方 Codex：plugin marketplace add clerk/skills，再 /plugins 装 clerk-skills。不要发明 plugin add 的 @id。不要抄 npx skills add 当 Codex 专节。不要和 clerk mcp run 搞成一台。',
+      '官方 Codex：plugin marketplace add clerk/skills，再 /plugins 装 clerk-skills。不要发明 plugin add 的 @id。不要抄 npx skills add 当 Codex 专节。不要和 Clerk MCP stdio 桥搞成一台。',
   },
 ];
 
