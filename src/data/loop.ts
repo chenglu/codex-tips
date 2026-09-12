@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-12T22:12:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "22:12 定时器。调用前 $97.40。Spend: counts（start_time=2026-09-05T22:18:00Z，共 237 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Clerk Skills（plugin marketplace add clerk/skills，再 /plugins 装 clerk-skills）。不要发明 plugin add 的 @id。不要抄 npx skills add 当 Codex 专节。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Microsoft AI Engineer Coach。Buildkite 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。1Password Codex shell plugin 页仍缺完整 init 命令。",
+    "22:12 定时器。调用前 $97.40。Spend: counts（start_time=2026-09-05T22:18:00Z，共 237 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.40。CDP 86 项全过（预览 4321）。收录 Clerk Skills（plugin marketplace add clerk/skills，再 /plugins 装 clerk-skills）。不要发明 plugin add 的 @id。不要抄 npx skills add 当 Codex 专节。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Microsoft AI Engineer Coach。Buildkite 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。1Password Codex shell plugin 页仍缺完整 init 命令。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
