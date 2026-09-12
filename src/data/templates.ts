@@ -1931,4 +1931,18 @@ codex mcp add azure -- npx -y @azure/mcp@latest server start
     code: `codex mcp add tinybird -- npx -y @tinybirdco/devtools-mcp@latest
 `,
   },
+  {
+    id: "upstash-codex-plugin",
+    title: "Upstash 插件与远程 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 marketplace add upstash/skills，再 plugin add upstash@upstash。插件会登记 mcp.upstash.com/mcp。不要抄本地 --api-key。不是 Context7。",
+    code: `codex plugin marketplace add upstash/skills
+codex plugin add upstash@upstash
+
+# 只要 MCP、插件装不上时：
+# codex mcp add upstash --url https://mcp.upstash.com/mcp
+# codex mcp login upstash
+`,
+  },
 ];

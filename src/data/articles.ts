@@ -2611,5 +2611,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex 是 mcp add tinybird -- npx -y @tinybirdco/devtools-mcp@latest。不要抄 -e TINYBIRD_TOKEN=。用 env_vars 转发。远程 mcp.tinybird.co 是查活 Workspace 的另一台。技能是 npx skills add tinybirdco/tinybird-agent-skills，不是 /plugins。',
   },
+  {
+    title: 'Upstash Agent Skills and MCP',
+    url: 'https://upstash.com/docs/agent-resources/clients',
+    source: 'Upstash',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'Upstash', 'MCP', 'Skills'],
+    summary:
+      '官方 Codex 是 marketplace add upstash/skills，再 plugin add upstash@upstash。插件会登记远程 mcp.upstash.com/mcp。不要抄本地 --email / --api-key。不是 Context7，也不是单库 redis-mcp。',
+  },
 ];
 

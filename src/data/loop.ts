@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T12:00:00Z",
+  lastTick: "2026-09-12T12:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "12:00 定时器。调用前 $97.60。Spend: counts（start_time=2026-09-05T12:15:00Z，共 230 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.59。CDP 41 项全过（预览 4299）。X 仍是 Packt、tmux-agent-pulse、Google Cloud Developer Plugin 营销、hermes import-agent、日文 AGENTS.md、韩文 0.154 / GPT-6-Astra、粘贴截图、Claude vs Codex，无新可执行厂商路径。本轮收录 Tinybird DevTools MCP（mcp add tinybird -- npx -y @tinybirdco/devtools-mcp@latest）。不要抄 -e TINYBIRD_TOKEN=。远程 mcp.tinybird.co 是另一台。技能是 npx skills add，不是 /plugins。Intercom / Asana 仍是 mcp-remote。Meilisearch / Fly.io / Elastic / Heroku / PagerDuty 无可靠 Codex 专节。DigitalOcean MCP 官方把 token 写进 env / headers。Pinecone 官方是 npx skills add。下一轮优先 Intercom / Meilisearch / DigitalOcean / PagerDuty / Elastic / Pinecone / Fly.io / Heroku。",
+    "12:30 定时器。调用前 $97.59。Spend: counts（start_time=2026-09-05T12:45:00Z，共 230 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度待本轮 CDP 后回写。X 仍是 Packt、tmux-agent-pulse、Google Cloud Developer Plugin 营销、hermes import-agent、日文 AGENTS.md、韩文 0.154 / GPT-6-Astra、粘贴截图、Claude vs Codex，无新可执行厂商路径。本轮收录 Upstash 插件（marketplace add upstash/skills，再 plugin add upstash@upstash）。远程是 mcp.upstash.com/mcp。不要抄本地 --email / --api-key。不要和 Context7 搞混。GitLab 官方 Codex 节仍要求 rmcp_client，下一轮按「不要抄该旗标」写。Intercom / Asana 仍是 mcp-remote。Meilisearch / Fly.io / Elastic / Heroku / PagerDuty 无可靠 Codex 专节。DigitalOcean MCP 官方把 token 写进 env / headers。Pinecone 官方是 npx skills add。下一轮优先 GitLab MCP / Intercom / Sanity / Honeycomb / Axiom / Semgrep。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -694,6 +694,17 @@ export const loopState = {
     "fly.io docs mcp server Codex",
     "devcenter.heroku.com mcp Codex",
     "Codex CLI 技巧 2026 Tinybird DevTools MCP env_vars",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "upstash.com docs agent-resources clients Codex plugin add upstash@upstash",
+    "upstash.com docs agent-resources mcp mcp.upstash.com Codex",
+    "github.com/upstash/skills Codex plugin marketplace",
+    "docs.gitlab.com mcp_server Codex rmcp_client api/v4/mcp",
+    "developers.intercom.com mcp.intercom.com Codex mcp-remote",
+    "www.sanity.io mcp Codex mcp.sanity.io",
+    "docs.honeycomb.io mcp Codex",
+    "docs.axiom.co mcp Codex",
+    "Codex CLI 技巧 2026 Upstash plugin MCP upstash@upstash",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

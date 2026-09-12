@@ -218,6 +218,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: "codex mcp add azure -- npx -y @azure/mcp@latest server start", meaning: "插件装不上才手写 Azure MCP。Node 18+，先 az login。不要抄 Copilot 的 /mcp edit，也不要把 client secret 写进 env 表" },
       { cmd: "codex mcp add azure-devops -- npx -y @azure-devops/mcp Contoso", meaning: "本地 Azure DevOps MCP。Codex 主路径是 stdio，不是 mcp.dev.azure.com。不要和 Azure Skills 搞混。PAT 用 env_vars 转发 PERSONAL_ACCESS_TOKEN" },
       { cmd: "codex mcp add tinybird -- npx -y @tinybirdco/devtools-mcp@latest", meaning: "Tinybird DevTools 本地 stdio。不要抄 -e TINYBIRD_TOKEN=。用 env_vars。远程 mcp.tinybird.co 是另一台，不要把 token 拼进 URL" },
+      { cmd: "codex plugin add upstash@upstash", meaning: "先 marketplace add upstash/skills。插件会登记远程 mcp.upstash.com/mcp。不要和 Context7 搞混。不要抄本地 --email / --api-key" },
       { cmd: "codex mcp add convex -- npx … mcp start", meaning: "插件装不上才用手写 stdio。官方 MCP 是 npx convex mcp start，不是远程 URL。不要加 --dangerously-enable-production-deployments" },
       { cmd: "codex --profile huggingface", meaning: "[model_providers.huggingface] 走 router.huggingface.co/v1，wire_api = responses，env_key = HF_TOKEN。不是 Hub MCP，也不是 --oss" },
       { cmd: "codex --profile vercel", meaning: "[model_providers.vercel] 走 ai-gateway.vercel.sh/codex/v1，wire_api = responses，env_key = AI_GATEWAY_API_KEY。不是 Vercel MCP，也不是 --oss" },

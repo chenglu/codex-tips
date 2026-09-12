@@ -6747,4 +6747,84 @@ TINYBIRD_URL = "https://api.us-east.tinybird.co"
       },
     ],
   },
+  {
+    id: "upstash-codex-plugin",
+    no: 320,
+    title: "Upstash 插件用 upstash@upstash，不要和 Context7 搞混",
+    summary:
+      "官方 Codex：marketplace add upstash/skills，再 plugin add upstash@upstash。插件会登记远程 mcp.upstash.com/mcp。不要抄本地 --email / --api-key。不是 Context7，也不是单库 redis-mcp。",
+    body: `Upstash 给 Codex 的**官方主路径**是插件，不是手写 stdio。Install by agent 的 Codex 节是：
+
+\`\`\`bash
+codex plugin marketplace add upstash/skills
+codex plugin add upstash@upstash
+\`\`\`
+
+marketplace 名是 \`upstash\`，插件 id 是 \`upstash@upstash\`。卡片显示名可能是 Upstash Redis，实际覆盖 Redis / QStash / Workflow / Vector / Search 等技能。插件会登记远程 MCP：\`https://mcp.upstash.com/mcp\`（带 \`/mcp\` 后缀），第一次调工具弹浏览器做 OAuth。技能教 SDK / CLI 写法；MCP 才碰你账号里的库和队列。
+
+0.154 起先看**当前会话**；当前会话没有再新开。桌面改 marketplace.json 仍要重启应用。IDE 扩展没有 \`/plugins\`。不要抄 Claude 的 \`/plugin install upstash@upstash\`。也不要用 \`npx skills add upstash/skills\` 当 Codex 安装器：那会改所有检测到的客户端。
+
+插件已经登记 MCP 就**不要**再 \`mcp add\` 同一张表。只要 MCP、插件装不上时，用户层对照同一条 Streamable HTTP URL：
+
+\`\`\`bash
+codex mcp add upstash --url https://mcp.upstash.com/mcp
+codex mcp login upstash
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.upstash]
+url = "https://mcp.upstash.com/mcp"
+enabled = true
+\`\`\`
+
+用户层表名官方就是 \`upstash\`（这不是插件 \`mcp.json\` 的连字符坑）。不要抄 Claude 的 \`--transport http\`，也不要抄 Cursor 的 \`type: http\` JSON。连上后先让它列 Redis 数据库。这台能建库、删库、跑任意 Redis 命令，保持工具批准。不要一上来 \`--yolo\`。不要给它 \`required = true\` 挂全局。
+
+只要 Redis / QStash 时，查询参数可以写进 url（不是密钥）：\`https://mcp.upstash.com/mcp?features=redis,qstash_workflow\`。拼写错且全部被丢掉时，客户端会表现为没有工具，先检查 \`features\`。
+
+无头 / 不便开浏览器才用 Developer API key。官方头是 \`Authorization: Bearer 邮箱:API_KEY\`。**不要**把这串抄进 \`http_headers\`。用 \`bearer_token_env_var\`，右边是启动 Codex 那个进程里的变量**名**：
+
+\`\`\`toml
+[mcp_servers.upstash]
+url = "https://mcp.upstash.com/mcp"
+bearer_token_env_var = "UPSTASH_MCP_TOKEN"
+enabled = true
+\`\`\`
+
+从已经 export 的终端启动。变量值是 \`you@example.com:你的密钥\`，不是裸 API key。这张表不要再跑 \`mcp login\`。只读密钥会关掉会改状态的工具。一条连接只用一种鉴权。
+
+**不要抄本地 stdio。** 官方对照是 \`codex mcp add upstash -- npx -y @upstash/mcp-server@latest --email YOUR_EMAIL --api-key YOUR_API_KEY\`。那会把邮箱和密钥写进配置和进程列表。Box 才需要这台本地包；远程覆盖账号级 Redis / QStash / Workflow / Vector / Search。已经有远程 \`upstash\` 时，stdio 必须另起名。
+
+也不要和这两台搞混：
+
+- Context7 文档检索是 \`@upstash/context7-mcp\` / \`mcp.context7.com/mcp\`，Learn 示例表名是 \`context7\`。
+- 单库 Redis MCP 是 \`@upstash/redis-mcp\`，要 REST URL / token；那是另一张表，不要把 token 写进 \`env\`。
+
+不要做这些：
+
+- 不要发明 \`upstash@openai-curated\`，也不要抄 \`codex plugin install upstash --source upstash\`。
+- 不要抄过时的 \`mcp.upstash.io\`。
+- 不要把 \`Authorization: Bearer …\` 或 \`--api-key\` 写进 \`args\` / \`env\` / 提示词。
+- 不要和 Context7、单库 redis-mcp、MotherDuck 配成一台。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完用 \`codex plugin list\`；用户层对照 \`codex mcp get upstash\` 看传输是 streamable_http。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["plugins", "Upstash", "MCP", "OAuth", "Skills"],
+    related: ["mcp-add-and-login", "mcp-context7", "tinybird-devtools-mcp"],
+    sources: [
+      {
+        label: "Upstash · Install by agent",
+        url: "https://upstash.com/docs/agent-resources/clients",
+      },
+      {
+        label: "Upstash · MCP Server",
+        url: "https://upstash.com/docs/agent-resources/mcp",
+      },
+      {
+        label: "upstash/skills",
+        url: "https://github.com/upstash/skills",
+      },
+    ],
+  },
 ];
