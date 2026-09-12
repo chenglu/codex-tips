@@ -6966,4 +6966,80 @@ enabled = true
       },
     ],
   },
+  {
+    id: "honeycomb-codex-plugin",
+    no: 323,
+    title: "Honeycomb 插件用 honeycomb@honeycomb-plugins，远程带 /mcp",
+    summary:
+      "官方 Codex：marketplace add honeycombio/agent-skill，再 plugin add honeycomb@honeycomb-plugins。插件会登记 mcp.honeycomb.io/mcp。不要抄 mcp-remote，也不要把 Key ID:Secret 写进 http_headers。",
+    body: `Honeycomb 给 Codex 的**官方主路径**是插件，不是 \`mcp-remote\`。配置指南的 Codex 节是：
+
+\`\`\`bash
+codex plugin marketplace add honeycombio/agent-skill
+codex plugin add honeycomb@honeycomb-plugins
+\`\`\`
+
+marketplace 名是 \`honeycomb-plugins\`，插件 id 是 \`honeycomb@honeycomb-plugins\`（\`plugin.json\` 的 \`name\` 是 \`honeycomb\`）。源仓 README 的 Codex 节只写了 marketplace add，然后 TUI 选 **Honeycomb Plugins** 装 Honeycomb；配置指南把 \`plugin add\` 也写出来了，跟 marketplace.json 对得上。0.154 起先看**当前会话**；当前会话没有再新开。桌面改 marketplace.json 仍要重启应用。IDE 扩展没有 \`/plugins\`。官方说重启后插件会登记 MCP。
+
+先让团队打开 **Honeycomb Intelligence**。没开时工具列表是空的，或一律 access denied。不要抄 Claude 的 \`claude plugin install honeycomb\`，也不要抄 \`/honeycomb-setup\`：那是 Claude Code / Cursor / Copilot 的交互命令，Codex 节没写。
+
+插件已经登记 MCP 就**不要**再 \`mcp add\` 同一张表。只要 MCP、插件装不上，或欧盟团队时，用户层对照 Streamable HTTP：
+
+\`\`\`bash
+codex mcp add honeycomb --url https://mcp.honeycomb.io/mcp
+codex mcp login honeycomb
+\`\`\`
+
+欧盟换成 \`https://mcp.eu1.honeycomb.io/mcp\`。插件清单写死美国区 URL，欧盟不要用插件那台 MCP。
+
+\`\`\`toml
+[mcp_servers.honeycomb]
+url = "https://mcp.honeycomb.io/mcp"
+enabled = true
+\`\`\`
+
+用户层表名官方就是 \`honeycomb\`。URL **带** \`/mcp\` 后缀，不要发明不带后缀的 \`https://mcp.honeycomb.io\`。不要抄 Claude 的 \`--transport http\`，也不要抄 Cursor 的 \`type: http\` JSON，更不要抄 Amazon Q 的 \`npx mcp-remote\`。
+
+连上后先问 \`get_workspace_context\`，再查环境 / dataset。查询走 \`run_query\`，追踪走 \`get_trace\`。建 Board / Trigger / SLO（\`create_board\`、\`create_trigger\`、\`create_slo\`）要 OAuth 同意里的写权限，或 API key 的 MCP Write。保持工具批准。不要一上来 \`--yolo\`。不要给它 \`required = true\` 挂全局。会话大约 24 小时过期，工具突然全挂就新开一轮。
+
+无头 / 不能开浏览器才用 Management API Key（只有团队 Owner 能建）。范围勾 Model Context Protocol 和 Environments；读权限必开，写工具再开 Write。官方示例把 \`Authorization: Bearer\` 加 \`KeyID:Secret\` 塞进 \`mcp-remote\` 的 \`--header\` 和 \`env\`。**不要**抄进 Codex。用 \`bearer_token_env_var\`，右边是启动 Codex 那个进程里的变量**名**：
+
+\`\`\`toml
+[mcp_servers.honeycomb]
+url = "https://mcp.honeycomb.io/mcp"
+bearer_token_env_var = "HONEYCOMB_API_KEY"
+enabled = true
+\`\`\`
+
+从已经 export 的终端启动。变量值是 \`KeyID:Secret\`（中间那个冒号不能少），不要再加 \`Bearer\` 前缀，也不要把密钥写进 \`http_headers\`。这张表不要再跑 \`mcp login\`。一条连接只用一种鉴权。
+
+不要做这些：
+
+- 不要发明 \`honeycomb@openai-curated\`。
+- 不要抄 \`npx mcp-remote https://mcp.honeycomb.io/mcp\`。Codex 自己走 HTTP。
+- 不要把 ChatGPT 应用目录里的 Honeycomb 插件和 CLI \`/plugins\` 当成同一条安装命令。
+- 不要和 Datadog / Grafana Cloud 那几台配成一台。
+- 不要把 Management API Key 写进 URL、\`args\` 或提示词。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完用 \`codex plugin list\`；用户层对照 \`codex mcp get honeycomb\` 看传输是 streamable_http。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["plugins", "Honeycomb", "MCP", "OAuth", "Skills"],
+    related: ["mcp-add-and-login", "sanity-codex-mcp", "mcp-datadog-remote"],
+    sources: [
+      {
+        label: "Honeycomb · Connect to MCP",
+        url: "https://docs.honeycomb.io/integrations/mcp/configuration-guide",
+      },
+      {
+        label: "Honeycomb · MCP tools",
+        url: "https://docs.honeycomb.io/integrations/mcp/tools",
+      },
+      {
+        label: "honeycombio/agent-skill",
+        url: "https://github.com/honeycombio/agent-skill",
+      },
+    ],
+  },
 ];

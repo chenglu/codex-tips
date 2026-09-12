@@ -1969,4 +1969,18 @@ codex mcp login Sanity
 # 然后 TUI /plugins 选 Sanity Agent Toolkit，装 Sanity
 `,
   },
+  {
+    id: "honeycomb-codex-plugin",
+    title: "Honeycomb 插件与远程 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 marketplace add honeycombio/agent-skill，再 plugin add honeycomb@honeycomb-plugins。插件会登记 mcp.honeycomb.io/mcp。不要抄 mcp-remote。欧盟换 eu1 主机。",
+    code: `codex plugin marketplace add honeycombio/agent-skill
+codex plugin add honeycomb@honeycomb-plugins
+
+# 只要 MCP、插件装不上，或欧盟团队时：
+# codex mcp add honeycomb --url https://mcp.honeycomb.io/mcp
+# codex mcp login honeycomb
+`,
+  },
 ];

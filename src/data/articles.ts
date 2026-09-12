@@ -2641,5 +2641,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex 是 mcp add Sanity --url https://mcp.sanity.io，再 mcp login Sanity。URL 没有 /mcp 后缀。技能才 marketplace add sanity-io/agent-toolkit，再 /plugins 装 Sanity。不要发明 plugin add id，也不要抄 mcp-remote。',
   },
+  {
+    title: 'Connect to Honeycomb MCP',
+    url: 'https://docs.honeycomb.io/integrations/mcp/configuration-guide',
+    source: 'Honeycomb',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'Honeycomb', 'MCP', 'OAuth'],
+    summary:
+      '官方 Codex 是 marketplace add honeycombio/agent-skill，再 plugin add honeycomb@honeycomb-plugins。插件会登记 mcp.honeycomb.io/mcp。不要抄 mcp-remote。欧盟用 mcp.eu1.honeycomb.io/mcp。无头才 bearer_token_env_var。',
+  },
 ];
 
