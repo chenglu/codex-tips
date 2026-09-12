@@ -2219,4 +2219,17 @@ codex mcp add appcircle --url https://mcp.appcircle.io --bearer-token-env-var AP
 # enabled = true
 `,
   },
+  {
+    id: "flutter-mcp-toolkit-plugin",
+    title: "Flutter MCP toolkit",
+    filename: "terminal",
+    summary:
+      "主路径是 flutter-mcp-toolkit init codex。或 marketplace add Arenukvern/mcp_flutter 再 /plugins 装。不要发明 plugin add。",
+    code: `flutter-mcp-toolkit init codex
+
+# 或：codex plugin marketplace add Arenukvern/mcp_flutter
+# 然后 TUI /plugins 选 Flutter MCP Toolkit
+# 不要发明 plugin add 的 @id
+`,
+  },
 ];

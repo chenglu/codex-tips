@@ -8151,4 +8151,64 @@ codex mcp add appcircle -- /abs/appcircle-mcp
       },
     ],
   },
+  {
+    id: "flutter-mcp-toolkit-plugin",
+    no: 342,
+    title: "Flutter MCP toolkit 官方 Codex 走 init codex，不要发明 plugin add",
+    summary:
+      "官方 Codex：flutter-mcp-toolkit init codex，或 marketplace add Arenukvern/mcp_flutter 再 /plugins 装。不要发明 plugin add 的 @id。不要抄 Claude 的 /plugin install。技能本身不登记 MCP。",
+    body: `Flutter MCP toolkit 给 Codex 有专节。推荐一条命令把技能、本地 marketplace 和 MCP 一起写好：
+
+\`\`\`bash
+flutter-mcp-toolkit init codex
+\`\`\`
+
+先把 \`flutter-mcp-toolkit-server\` 放进 PATH（安装脚本会带 \`fmtk\` 别名），或设 \`FLUTTER_MCP_BIN\`。应用目录再 \`flutter-mcp-toolkit codegen-init\`，用 **debug** 跑 \`flutter run --debug\`。技能**代替不了** MCP 服务器和包里的 \`mcp_toolkit\`。\`init codex\` 会写 \`.codex/plugins/cache/local/flutter-mcp-toolkit/...\`，并在 \`~/.agents/plugins/marketplace.json\` 加一条本地源。加完重启 Codex（0.154 起也可先看当前会话），\`/plugins\` 应看到 **Flutter MCP Toolkit**。
+
+只要 git marketplace、自己去 \`/plugins\` 装时：
+
+\`\`\`bash
+codex plugin marketplace add Arenukvern/mcp_flutter
+\`\`\`
+
+官方**没有**写出 \`codex plugin add …@…\`。不要发明 \`flutter-mcp-toolkit@mcp_flutter\`。不要抄 Claude 的 \`/plugin marketplace add Arenukvern/mcp_flutter\` 后再 \`/plugin install flutter-mcp-toolkit@Arenukvern-mcp_flutter\`——那是 Claude 的 marketplace id，不是 Codex。IDE 扩展没有 \`/plugins\`，用 CLI 加完再到 TUI 或桌面去装。
+
+\`npx skills add Arenukvern/mcp_flutter\` **不会**登记 MCP。README 示例还钉的是 \`-a cursor\`，不要当成 Codex 专节。技能只教怎么用；要 MCP 仍走 \`init codex\`。不要抄 JSON \`mcpServers\`，也不要抄 Docker \`ghcr.io/arenukvern/flutter-mcp-toolkit\` 那份当 Codex 主路径。不要 \`mcp login\`：这是本机 stdio。
+
+插件 \`mcp.json\` 的 command 会读 \`FLUTTER_MCP_BIN\`，缺省二进制名是 \`flutter-mcp-toolkit-server\`，args 带 \`--dynamics\`。**不要**把带花括号的占位抄进 \`config.toml\` 的 command，Codex 不会按 shell 展开。插件装不上才对照用户层：
+
+\`\`\`bash
+codex mcp add flutter-mcp-toolkit -- flutter-mcp-toolkit-server --dart-vm-host=localhost --dart-vm-port=8181 --resources --images --dynamics
+\`\`\`
+
+这不是官方文档里的 \`mcp add\` 原文，是把插件 \`mcp.json\` 拆成 Codex stdio。和插件那台不要配成一张表。这台也**不要** \`mcp login\`。
+
+这不是 dart-lang 官方那台 Dart MCP（工具链）。这台是盯 **debug 应用**：语义快照、点按、热重载、读日志，以及应用运行时登记的动态工具（\`fmt_list_client_tools_and_resources\` / \`fmt_client_tool\`）。Dump RPC 默认关，要才 \`--dumps\`。点按和热重载会动真界面，保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。网页 Cloud 跑不了你这台本机 VM Service。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add flutter-mcp-toolkit@mcp_flutter\`。
+- 不要抄 Claude 的 \`flutter-mcp-toolkit@Arenukvern-mcp_flutter\`。
+- 不要把 \`npx skills add\` 当成 Codex 专节。
+- 不要把带花括号的 \`FLUTTER_MCP_BIN\` 占位抄进 command。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["MCP", "Flutter", "plugins", "Skills", "marketplace"],
+    related: ["plugin-session-refresh", "plugins-vs-skills", "clerk-skills-plugin"],
+    sources: [
+      {
+        label: "Arenukvern/mcp_flutter",
+        url: "https://github.com/Arenukvern/mcp_flutter",
+      },
+      {
+        label: "flutter-mcp-toolkit · AI Agent Setup",
+        url: "https://docs.page/arenukvern/mcp_flutter/ai_agents/overview",
+      },
+      {
+        label: "flutter-mcp-toolkit · Marketplace distribution",
+        url: "https://github.com/Arenukvern/mcp_flutter/blob/main/docs/ai_agents/marketplace_distribution.mdx",
+      },
+    ],
+  },
 ];

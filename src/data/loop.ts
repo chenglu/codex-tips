@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T22:43:00Z",
+  lastTick: "2026-09-12T23:09:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "22:43 定时器。调用前 $97.40。Spend: counts（start_time=2026-09-05T22:50:00Z，共 238 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.39。CDP 91 项全过（预览 4322）。收录 Appcircle 远程 MCP（mcp add appcircle --url https://mcp.appcircle.io，bearer_token_env_var 读 APPCIRCLE_ACCESS_TOKEN）。不要 mcp login。不要抄 Claude / Copilot 插件。不要把 JWT 写进 http_headers。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Microsoft AI Engineer Coach。Buildkite 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。1Password Codex shell plugin 页仍缺完整 init 命令。Flutter MCP toolkit 本轮未收录。",
+    "23:09 定时器。调用前 $97.39。Spend: counts（start_time=2026-09-05T23:15:00Z，共 238 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Flutter MCP toolkit（init codex，或 marketplace add Arenukvern/mcp_flutter）。不要发明 plugin add。不要抄 Claude /plugin install。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Microsoft AI Engineer Coach。Buildkite 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。1Password Codex shell plugin 页仍缺完整 init 命令。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -879,6 +879,14 @@ export const loopState = {
     "buildkite.com docs mcp-server Codex configuring-ai-tools",
     "docs.digitalocean.com do-app-platform-skills --agent codex",
     "Codex CLI 技巧 2026 Appcircle MCP mcp.appcircle.io",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "github.com/Arenukvern/mcp_flutter flutter-mcp-toolkit init codex marketplace",
+    "docs.page/arenukvern/mcp_flutter ai_agents Codex plugin",
+    "developer.1password.com cli shell-plugins openai-codex op plugin init",
+    "buildkite.com docs mcp-server Codex configuring-ai-tools",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "Codex CLI 技巧 2026 Flutter MCP toolkit init codex",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

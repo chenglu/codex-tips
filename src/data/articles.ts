@@ -2831,5 +2831,15 @@ export const articles: Article[] = [
     summary:
       '官方远程是 mcp.appcircle.io，没有 /mcp。Codex 对照 mcp add appcircle --url。APPCIRCLE_ACCESS_TOKEN 必须是兑换后的 JWT。不要 mcp login。不要抄 Claude 插件或 http_headers 字面量。',
   },
+  {
+    title: 'Arenukvern/mcp_flutter',
+    url: 'https://github.com/Arenukvern/mcp_flutter',
+    source: 'flutter-mcp-toolkit',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Flutter', 'plugins', 'Skills'],
+    summary:
+      '官方 Codex：flutter-mcp-toolkit init codex，或 marketplace add Arenukvern/mcp_flutter。不要发明 plugin add。不要抄 Claude /plugin install。技能本身不登记 flutter-mcp-toolkit-server。',
+  },
 ];
 
