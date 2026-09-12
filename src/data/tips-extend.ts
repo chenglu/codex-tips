@@ -7820,4 +7820,58 @@ enabled = true
       },
     ],
   },
+  {
+    id: "imgly-cesdk-skills",
+    no: 336,
+    title: "IMG.LY CE.SDK 官方 Codex 用 -a codex，文档 MCP 无鉴权",
+    summary:
+      "官方 Codex：npx skills add imgly/agent-skills -a codex。实时文档才 mcp add imgly_docs --url https://mcp.img.ly/mcp，无 API key。不要抄 Claude 的 cesdk@imgly，也不要和 @imgly/codesign-mcp 搞混。",
+    body: `IMG.LY 给 Codex 有专节。CE.SDK 的**官方主路径**是 Agent Skills，不是 Codex \`/plugins\`。仓库 README 默认是 Claude（\`-a claude-code\` 和 \`claude plugin install cesdk@imgly\`），不要抄过来。只要 Codex 时钉死：
+
+\`\`\`bash
+npx skills add imgly/agent-skills -a codex
+\`\`\`
+
+\`-a codex\` 就是 \`--agent codex\`，**不要省略**。不带这个旗标会按默认 agent 落盘（常常是 Claude）。它把技能装进项目旁的 \`.agents/skills/\`，离线带 10 个 Web 框架的文档和 starter kit。加 \`-g\` 才装到本机全局。用 \`npx skills add imgly/agent-skills --list\` 核对。技能不出现就再跑一遍安装，然后新开一轮。不要手拷到 \`~/.codex/skills\`。
+
+Codex 里用 \`$build\`、\`$explain\`、\`$docs-react\` 这种 \`$name\` 显式调用。不要抄 Claude 插件的 \`/cesdk:docs-react\`。不要发明 \`codex plugin add cesdk@imgly\` 或 \`imgly@openai-curated\`。
+
+实时文档是另一台远程 MCP，无鉴权、无 API key。官方 Codex 对照：
+
+\`\`\`bash
+codex mcp add imgly_docs --url https://mcp.img.ly/mcp
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.imgly_docs]
+url = "https://mcp.img.ly/mcp"
+enabled = true
+\`\`\`
+
+URL **带** \`/mcp\` 后缀。用户层表名官方就是 \`imgly_docs\`。这台没有 OAuth，**不要** \`codex mcp login\`。不要抄 Claude 的 \`--transport http\`，也不要抄 Cursor / VS Code 的 \`type: http\` JSON。不要抄 \`npx mcp-remote\`。不要给它配 \`bearer_token_env_var\`。
+
+官方建议技能和 MCP 一起用：技能负责离线脚手架，MCP 查最新文档。不要和 \`codex mcp add codesign -- npx -y @imgly/codesign-mcp@latest stdio\` 那台 **CoDesign** 本地 MCP 配成一张表。不要给它 \`required = true\` 挂全局。不要一上来 \`--yolo\`。网页 Cloud 不读 \`~/.codex/config.toml\`。改完用 \`codex mcp get imgly_docs\` 看传输是 streamable_http。脚手架项目需要本机 Node.js 20 及以上。
+
+不要做这些：
+
+- 不要抄 \`claude plugin marketplace add imgly/agent-skills\` / \`claude plugin install cesdk@imgly\`。
+- 不要抄 \`npx skills add imgly/agent-skills -a claude-code\`。
+- 不要发明 \`codex plugin add cesdk@imgly\`。
+- 不要把 CoDesign 的 \`@imgly/codesign-mcp\` 当成 CE.SDK 文档 MCP。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["Skills", "IMG.LY", "CE.SDK", "MCP"],
+    related: ["pinecone-agent-skills", "mcp-add-and-login", "mcp-langfuse-docs"],
+    sources: [
+      {
+        label: "IMG.LY · Set up CE.SDK with OpenAI Codex",
+        url: "https://img.ly/capabilities/agents/openai-codex/",
+      },
+      {
+        label: "imgly/agent-skills",
+        url: "https://github.com/imgly/agent-skills",
+      },
+    ],
+  },
 ];

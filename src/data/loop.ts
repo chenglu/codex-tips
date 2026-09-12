@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T19:36:00Z",
+  lastTick: "2026-09-12T20:16:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "19:36 定时器。调用前 $97.45。Spend: counts（start_time=2026-09-05T19:40:00Z，共 235 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.44。CDP 70 项全过（预览 4315）。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Yellow 交易营销、AGENTS.md 入门，无新可执行厂商路径。Buildkite 配置页仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。本轮收录 1Password Environments 本地 MCP（1password-mcp stdio，先 Labs 打开 Enable local MCP server）。不要抄 Claude 的 1password@1password 或 op mcp-server environments。",
+    "20:16 定时器。调用前 $97.44。Spend: counts（start_time=2026-09-05T20:20:00Z，共 236 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度待本轮 CDP 后补。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Yellow 交易营销、AGENTS.md 入门，无新可执行厂商路径。Buildkite 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。1Password Codex shell plugin 页缺完整 init 命令，留给下一轮。本轮收录 IMG.LY CE.SDK（npx skills add imgly/agent-skills -a codex + mcp add imgly_docs --url https://mcp.img.ly/mcp）。不要抄 Claude 的 cesdk@imgly 或 CoDesign 的 @imgly/codesign-mcp。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -828,6 +828,14 @@ export const loopState = {
     "buildkite.com docs mcp-server Codex configuring-ai-tools",
     "docs.digitalocean.com do-app-platform-skills --agent codex",
     "Codex CLI 技巧 2026 1Password Environments MCP",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "img.ly capabilities agents openai-codex imgly/agent-skills -a codex",
+    "mcp.img.ly/mcp imgly_docs Codex mcp add",
+    "img.ly codesign-mcp Codex stdio",
+    "buildkite.com docs mcp-server Codex configuring-ai-tools",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "Codex CLI 技巧 2026 IMG.LY CE.SDK skills MCP",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

@@ -2771,5 +2771,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex 是本地 stdio：先 Labs 打开 Enable local MCP server，再 mcp add 1password -- 1password-mcp。表名 mcp_servers.1password。Mac / Linux。不要抄 Claude 的 1password@1password 或 op mcp-server environments。',
   },
+  {
+    title: 'OpenAI Codex: Set up CE.SDK with OpenAI Codex',
+    url: 'https://img.ly/capabilities/agents/openai-codex/',
+    source: 'IMG.LY',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'IMG.LY', 'CE.SDK', 'MCP'],
+    summary:
+      '官方 Codex：npx skills add imgly/agent-skills -a codex。实时文档才 mcp add imgly_docs --url https://mcp.img.ly/mcp，无鉴权。不要抄 Claude 的 cesdk@imgly 或 CoDesign 的 @imgly/codesign-mcp。',
+  },
 ];
 

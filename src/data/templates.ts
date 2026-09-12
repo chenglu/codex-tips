@@ -2142,4 +2142,16 @@ codex plugin add incident-io@incident-io-skills
 # enabled = true
 `,
   },
+  {
+    id: "imgly-cesdk-skills",
+    title: "IMG.LY CE.SDK 技能与文档 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 npx skills add imgly/agent-skills -a codex。实时文档才 mcp add imgly_docs --url https://mcp.img.ly/mcp。不要抄 Claude 的 cesdk@imgly。",
+    code: `npx skills add imgly/agent-skills -a codex
+
+# 实时文档 MCP（无鉴权）：
+# codex mcp add imgly_docs --url https://mcp.img.ly/mcp
+`,
+  },
 ];
