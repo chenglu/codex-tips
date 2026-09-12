@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T17:36:00Z",
+  lastTick: "2026-09-12T18:15:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "17:36 定时器。调用前 $97.49。Spend: counts（start_time=2026-09-05T17:40:00Z，共 232 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.48。CDP 50 项全过（预览 4311）。X 仍是 Claude vs Codex、GPT-6-Astra、Yellow 交易营销、日文 0.154 worktree、tmux-agent-pulse、Google Cloud 插件营销、AGENTS.md 入门，无新可执行厂商路径。DigitalOcean 博客是 npx skills add 且未钉 --agent codex，README 仍链 ~/.codex/skills，本轮不收录。Splunk o11y 有 --ide codex 但会把 token 写入 http_headers，留给下一轮。本轮收录 Atlan 托管 MCP（atlan@atlan + mcp.atlan.com/mcp）。装了插件仍要 mcp add。",
+    "18:15 定时器。调用前 $97.48。Spend: counts（start_time=2026-09-05T18:20:00Z，共 234 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Yellow 交易营销、AGENTS.md 入门，无新可执行厂商路径。DigitalOcean App Platform skills 是 npx skills add 且未钉 --agent codex，不收录。Meilisearch / Axiom / Intercom / Snowflake Cortex 仍非 Codex 专节。本轮收录 Splunk Observability MCP Gateway（env_http_headers 的 X-SF-TOKEN / X-SF-REALM）。不要抄 connect --ide codex 写入的 http_headers。收尾额度见下一笔 commit。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -799,6 +799,13 @@ export const loopState = {
     "npx @splunk/o11y-mcp-connect connect --ide codex",
     "docs.digitalocean.com digitalocean-labs/do-app-platform-skills npx skills add",
     "Codex CLI 技巧 2026 Atlan MCP atlan@atlan",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "npx @splunk/o11y-mcp-connect connect --ide codex env_http_headers X-SF-TOKEN",
+    "help.splunk.com MCP Gateway o11y X-SF-TOKEN X-SF-REALM region-iad10",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "meilisearch axiom intercom snowflake cortex mcp Codex",
+    "Codex CLI 技巧 2026 Splunk Observability MCP Gateway",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

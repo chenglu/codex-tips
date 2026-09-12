@@ -2087,4 +2087,19 @@ codex plugin add atlan@atlan
 codex mcp add atlan --url https://mcp.atlan.com/mcp
 `,
   },
+  {
+    id: "splunk-o11y-mcp-http",
+    title: "Splunk Observability MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add splunk-o11y --url 网关（us0 用 region-iad10）。头是 env_http_headers 的 X-SF-TOKEN / X-SF-REALM。不要抄 connect --ide codex 的 http_headers，也不要 bearer_token_env_var。",
+    code: `export SPLUNK_O11Y_TOKEN=你的 Observability access token
+export SPLUNK_O11Y_REALM=us0
+codex mcp add splunk-o11y --url https://region-iad10.api.scs.splunk.com/system/mcp-gateway/v1/
+
+# [mcp_servers.splunk-o11y.env_http_headers]
+# X-SF-TOKEN = "SPLUNK_O11Y_TOKEN"
+# X-SF-REALM = "SPLUNK_O11Y_REALM"
+`,
+  },
 ];

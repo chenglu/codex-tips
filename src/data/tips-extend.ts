@@ -7558,4 +7558,74 @@ enabled = true
       },
     ],
   },
+  {
+    id: "splunk-o11y-mcp-http",
+    no: 332,
+    title: "Splunk Observability 走 MCP Gateway，头是 X-SF-TOKEN",
+    summary:
+      "官方走 Splunk MCP Gateway，不是直连 O11Y。o11y-only 只要 X-SF-TOKEN 和 X-SF-REALM，不是 Bearer。不要抄 connect --ide codex 写入的 http_headers，也不要抄 mcp-remote。",
+    body: `Splunk Observability 给 Codex 有专节。它走 Splunk MCP Gateway，不是直连 O11Y。旧地址形如 \`https://api.us0.signalfx.com/v2/mcp\` 已弃用，不要再配。网关 URL 带尾斜杠，**没有** \`/mcp\` 后缀。本条按官方 Scenario 3：只要 Observability 工具，不要 Splunk 平台工具。
+
+o11y-only 只要两颗头：\`X-SF-TOKEN\` 和 \`X-SF-REALM\`。**不是** Bearer。\`bearer_token_env_var\` 会发 \`Authorization: Bearer\`，对这台不对口。官方 Codex 聊天 / registry 示例让人把 token 当 bearer-token，**不要抄**。
+
+官方 CLI \`npx @splunk/o11y-mcp-connect connect --ide codex\` 会往 \`~/.codex/config.toml\` 写 \`url\` 加 \`http_headers\` 字面量 token。不要当 Codex 主路径。改成 \`mcp add\` 加 \`env_http_headers\`。示例用 us0；网关主机用 SCS 区域名 iad10，头 \`X-SF-REALM\` 仍是 us0，不要把 iad10 写进这颗头。
+
+\`\`\`bash
+export SPLUNK_O11Y_TOKEN=你的 Observability access token
+export SPLUNK_O11Y_REALM=us0
+codex mcp add splunk-o11y --url https://region-iad10.api.scs.splunk.com/system/mcp-gateway/v1/
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.splunk-o11y]
+url = "https://region-iad10.api.scs.splunk.com/system/mcp-gateway/v1/"
+enabled = true
+
+[mcp_servers.splunk-o11y.env_http_headers]
+X-SF-TOKEN = "SPLUNK_O11Y_TOKEN"
+X-SF-REALM = "SPLUNK_O11Y_REALM"
+\`\`\`
+
+realm 和网关主机对照（头仍写左边的 realm，不要把右边的 SCS 名写进 \`X-SF-REALM\`）：
+
+- us0 → \`https://region-iad10.api.scs.splunk.com/system/mcp-gateway/v1/\`
+- us1 / us2 / us3 → \`https://region-pdx10.api.scs.splunk.com/system/mcp-gateway/v1/\`
+- eu0 → \`https://region-dub10.api.scs.splunk.com/system/mcp-gateway/v1/\`
+- eu1 → \`https://region-fra10.api.scs.splunk.com/system/mcp-gateway/v1/\`
+- eu2 → \`https://region-lon10.api.scs.splunk.com/system/mcp-gateway/v1/\`
+- jp0 → \`https://region-tyo10.api.scs.splunk.com/system/mcp-gateway/v1/\`
+- au0 → \`https://region-syd10.api.scs.splunk.com/system/mcp-gateway/v1/\`
+- sg0 → \`https://region-sin10.api.scs.splunk.com/system/mcp-gateway/v1/\`
+
+从已经 export 的终端启动。缺变量或空值会静默不带头，请求照样发出去。不要把 token 写进 \`http_headers\`。这是 HTTP，不要 \`codex mcp login splunk-o11y\`（无 DCR / OAuth 主路径）。不要抄 \`npx mcp-remote\`。不要抄 \`--transport http\`。
+
+同时要 Splunk 平台工具才走 Scenario 2：再加 \`Authorization\` 和 \`splunk_tenant\`。o11y-only 不要加这两颗头。
+
+桌面 Plugins 搜 Splunk O11y MCP，在启动 Codex 的 shell 里设好 \`SPLUNK_O11Y_REALM\` 和 \`SPLUNK_O11Y_TOKEN\`，再跑 connect skill。不要发明 \`codex plugin add splunk@openai-curated\`。Plugins 里没有时，npm README 还写 \`codex plugin marketplace add signalfx/splunk-o11y-mcp-connect\`，再装 \`splunk-o11y-mcp-codex\`。GitHub 仓库 \`signalfx/splunk-o11y-mcp-connect\` 当前 404，不要当主路径，也不要假装能 clone。
+
+不要和 Datadog 配成一台。不要给它 \`required = true\` 挂全局。不要一上来 \`--yolo\`。网页 Cloud 不读 \`~/.codex/config.toml\`。改完退出再开会话。用 \`codex mcp get splunk-o11y\` 看传输是 streamable_http。连上后先查指标和探测器，写入类工具保持批准。
+
+不要做这些：
+
+- 不要抄 CLI 写入的 \`http_headers\` 字面量 token。
+- 不要抄 registry 聊天里的 bearer-token。
+- 不要抄旧直连 \`api.us0.signalfx.com/v2/mcp\`。
+- 不要抄 \`npx mcp-remote\`。
+- 不要发明 \`codex plugin add splunk@openai-curated\`。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Splunk", "Observability", "HTTP"],
+    related: ["mcp-http-env-headers", "mcp-datadog-remote", "atlan-codex-mcp"],
+    sources: [
+      {
+        label: "npm · @splunk/o11y-mcp-connect",
+        url: "https://www.npmjs.com/package/@splunk/o11y-mcp-connect",
+      },
+      {
+        label: "Splunk · Configure Observability tools",
+        url: "https://help.splunk.com/en/splunk-cloud-platform/mcp-server-for-splunk-platform/1.3/configure-splunk-observability-tools-with-splunk-mcp-server",
+      },
+    ],
+  },
 ];

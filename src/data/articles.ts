@@ -2731,5 +2731,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex：marketplace add atlanhq/agent-toolkit，再 plugin add atlan@atlan，再 mcp add atlan --url https://mcp.atlan.com/mcp。装了插件仍要 mcp add。本地 docker / uvx 已弃用。不要抄 Claude 的 atlan@atlan-marketplace。',
   },
+  {
+    title: '@splunk/o11y-mcp-connect',
+    url: 'https://www.npmjs.com/package/@splunk/o11y-mcp-connect',
+    source: 'Splunk',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Splunk', 'Observability', 'HTTP'],
+    summary:
+      '官方走 Splunk MCP Gateway，us0 示例是 region-iad10.api.scs.splunk.com。o11y-only 头是 X-SF-TOKEN 和 X-SF-REALM，不是 Bearer。不要抄 connect --ide codex 写入的 http_headers，也不要抄 mcp-remote。包名 splunk-o11y-mcp-connect。',
+  },
 ];
 
