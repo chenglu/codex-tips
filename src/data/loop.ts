@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-12T11:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "11:30 定时器。调用前 $97.61。Spend: counts（start_time=2026-09-05T11:45:00Z，共 231 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度待本轮验证后写入。X 仍是 Packt、tmux-agent-pulse、Google Cloud Developer Plugin 营销、hermes import-agent、日文 AGENTS.md、韩文 0.154 / GPT-6-Astra、粘贴截图、Claude vs Codex，无新可执行厂商路径。本轮收录本地 Azure DevOps MCP（mcp add azure-devops -- npx -y @azure-devops/mcp Contoso）。远程 mcp.dev.azure.com 官方写明 Codex 不支持 Entra DCR。不要和 Azure Skills 的 @azure/mcp 搞混。Intercom 仍是 mcp-remote。Meilisearch 无 Codex 专节。DigitalOcean MCP 官方把 token 写进 env / headers。下一轮优先 Intercom / Meilisearch / DigitalOcean / PagerDuty / Elastic / Pinecone / Asana / Tinybird / Fly.io。",
+    "11:30 定时器。调用前 $97.61。Spend: counts（start_time=2026-09-05T11:45:00Z，共 231 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.60。CDP 39 项全过（预览 4298）。X 仍是 Packt、tmux-agent-pulse、Google Cloud Developer Plugin 营销、hermes import-agent、日文 AGENTS.md、韩文 0.154 / GPT-6-Astra、粘贴截图、Claude vs Codex，无新可执行厂商路径。本轮收录本地 Azure DevOps MCP（mcp add azure-devops -- npx -y @azure-devops/mcp Contoso）。远程 mcp.dev.azure.com 官方写明 Codex 不支持 Entra DCR。不要和 Azure Skills 的 @azure/mcp 搞混。Intercom 仍是 mcp-remote。Meilisearch 无 Codex 专节。DigitalOcean MCP 官方把 token 写进 env / headers。下一轮优先 Intercom / Meilisearch / DigitalOcean / PagerDuty / Elastic / Pinecone / Asana / Tinybird / Fly.io。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
