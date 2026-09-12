@@ -5476,4 +5476,81 @@ ChatGPT Work / Codex 公共插件目录里也有 ClickHouse 插件，捆绑这�
       },
     ],
   },
+  {
+    id: "mcp-render-remote",
+    no: 304,
+    title: "Render MCP 用 mcp.render.com/mcp，插件优先，手写必须带 --oauth-client-id codex",
+    summary:
+      "插件优先：TUI /plugins 或桌面 Plugins 搜 Render。只要 MCP：codex mcp add render --url https://mcp.render.com/mcp --oauth-client-id codex。CI 才 bearer_token_env_var。不要把密钥写进 http_headers，也不要抄 Claude / Cursor 插件命令。",
+    body: `Render 官方给 Codex 的**推荐路径**是公共插件目录（捆绑技能 + 托管 MCP）。官方没给出 \`codex plugin add render@…\` 那种带 marketplace 的 id，不要自己编。TUI \`/plugins\` 或桌面 Plugins 搜 Render，点安装。新开会话后第一次用 Render 工具时会开浏览器做 OAuth，不需要 Render API key。0.154 起也可以先看当前会话；当前会话没有再新开。IDE 扩展没有 \`/plugins\`，用下面的手写 MCP。
+
+只要 MCP、不要整包插件时，官方 Codex 节是托管 Streamable HTTP。地址是 \`https://mcp.render.com/mcp\`，**有** \`/mcp\` 后缀。OAuth 客户端 id 官方预注册成字面量 \`codex\`，必须带上，不要改成自己的应用 id：
+
+\`\`\`bash
+codex mcp add render --url https://mcp.render.com/mcp --oauth-client-id codex
+codex mcp get render
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.render]
+url = "https://mcp.render.com/mcp"
+enabled = true
+
+[mcp_servers.render.oauth]
+client_id = "codex"
+\`\`\`
+
+若 add 完还没票，再 \`codex mcp login render\`。用户层表名官方就是 \`render\`（这不是插件 \`mcp.json\`）。插件已经带了 MCP 时，不要再 \`mcp add\` 同一张表。
+
+先让它选定工作区，再让它列服务或部署。可以跟它说「把 Render 工作区设成某某」。没选工作区时，多数工具会停下来问你。
+
+无头、CI、没有浏览器的环境才改 Bearer。键里填变量**名**，变量必须在**启动 Codex 的那个进程**里。不要和已经 login 的 OAuth 写在同一张表：
+
+\`\`\`bash
+codex mcp add render --url https://mcp.render.com/mcp --bearer-token-env-var RENDER_API_KEY
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.render]
+url = "https://mcp.render.com/mcp"
+bearer_token_env_var = "RENDER_API_KEY"
+enabled = true
+\`\`\`
+
+从已经 \`export RENDER_API_KEY\` 的终端启动 Codex。Dock 打开的桌面没有你刚 export 的变量。Bearer 这张表不要再跑 \`mcp login\`。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`/plugin install render@claude-plugins-official\`。
+- 不要抄 Cursor 的 \`/add-plugin render\`。
+- 不要抄 Claude Desktop 的 \`npx mcp-remote\`，也不要抄 Cursor / VS Code 的 JSON。
+- 不要抄官方 API key 页那份把 \`Authorization\` 写进 \`http_headers\` 的 TOML。那会把密钥落进 \`config.toml\`。Codex 无头路径是 \`bearer_token_env_var\`。
+- 不要用 \`npx skills add render-oss/skills\` 当 Codex 插件安装器。那会改所有检测到的客户端，还可能写进 \`~/.codex/skills\`（Codex 主路径是 \`~/.agents/skills\`）。
+- 不要把维护者那套 \`rsync\` 到 \`~/.codex/plugins/render\` 当普通安装路径。
+- 不要把 \`brew install render\` 当成 MCP。那是 Render CLI，部署工作流才需要。
+- 不要和 Railway 的 \`mcp.railway.com\`（没有 \`/mcp\` 后缀）搞混。
+- 不要默认跑本地 Docker / 可执行文件。官方强烈建议用托管端点，本地只在你真有这个需求时才用。
+- 不要给它 \`required = true\` 挂全局。不要一上来 \`--yolo\`。这台会改环境变量、触发部署。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Render。改完用 \`codex mcp get render\` 看传输是 streamable_http；插件路径用 \`codex plugin list\`。连上后先让它跑 \`list_workspaces\`。OAuth 若报缺 issuer，把 Codex 升到 0.147 或更新。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Render", "OAuth", "plugins"],
+    related: ["mcp-add-and-login", "mcp-resend-remote", "railway-skills-plugin"],
+    sources: [
+      {
+        label: "Render · Codex CLI",
+        url: "https://render.com/agents/codex",
+      },
+      {
+        label: "Render · MCP Server",
+        url: "https://render.com/docs/mcp-server",
+      },
+      {
+        label: "renderinc/render-codex-plugin",
+        url: "https://github.com/renderinc/render-codex-plugin",
+      },
+    ],
+  },
 ];

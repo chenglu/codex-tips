@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T04:00:00Z",
+  lastTick: "2026-09-12T04:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "04:00 定时器。调用前 $97.70。Spend: counts（start_time=2026-09-05T04:15:00Z，共 236 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 仍为 $97.70。CDP 35 项全过（预览 4283）。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md 并用文、Muse 许愿，无新可执行帖。本轮收录 ClickHouse Cloud 远程 MCP（codex mcp add clickhouse-cloud --url https://mcp.clickhouse.cloud/mcp）。HubSpot 本地 hs mcp setup 仍未核对手写 TOML。Sequel / Snowflake Merge 不收录。Browserbase 仍不收录。",
+    "04:30 定时器。调用前 $97.70。Spend: counts（start_time=2026-09-05T04:45:00Z，共 256 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾余额待收尾 get_usage_credits。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md 并用文、Muse 许愿，无新可执行帖。本轮收录 Render 托管 MCP（/plugins 搜 Render；手写 codex mcp add render --url https://mcp.render.com/mcp --oauth-client-id codex）。HubSpot 本地 hs mcp setup 仍未核对手写 TOML。Tinybird / MotherDuck 官方示例把 token 写进 --env，不收录。Sequel / Snowflake Merge 不收录。Browserbase 仍不收录。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -561,6 +561,13 @@ export const loopState = {
     "github.com/ClickHouse/agent-skills npx skills add Codex",
     "developers.hubspot.com hs mcp setup Codex CLI HubSpotDev",
     "Codex CLI 技巧 2026 ClickHouse Cloud MCP plugin",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "render.com agents Codex plugin mcp.render.com/mcp oauth-client-id",
+    "render.com docs mcp-server Codex mcp add render",
+    "github.com/renderinc/render-codex-plugin",
+    "developers.hubspot.com hs mcp setup Codex CLI HubSpotDev",
+    "Codex CLI 技巧 2026 Render MCP plugin OAuth",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

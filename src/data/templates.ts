@@ -1737,4 +1737,18 @@ url = "https://mcp.clickhouse.cloud/mcp"
 enabled = true
 `,
   },
+  {
+    id: "mcp-render-remote",
+    title: "Render 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.render.com/mcp。必须带预注册 oauth.client_id = codex。插件优先。CI 才 bearer_token_env_var。不要把密钥写进 http_headers。",
+    code: `[mcp_servers.render]
+url = "https://mcp.render.com/mcp"
+enabled = true
+
+[mcp_servers.render.oauth]
+client_id = "codex"
+`,
+  },
 ];

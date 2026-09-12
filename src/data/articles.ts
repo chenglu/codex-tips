@@ -2451,5 +2451,15 @@ export const articles: Article[] = [
     summary:
       '先在 Cloud 控制台打开 MCP。Codex 是 codex mcp add clickhouse-cloud --url https://mcp.clickhouse.cloud/mcp，再 OAuth。公共目录也可 /plugins 搜 ClickHouse。不要抄 Claude 的 --transport http，也不要和 clickstack 端点搞混。',
   },
+  {
+    title: 'Codex CLI + Render',
+    url: 'https://render.com/agents/codex',
+    source: 'Render',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Render', 'OAuth', 'plugins'],
+    summary:
+      '插件优先：/plugins 搜 Render。只要 MCP 才 codex mcp add render --url https://mcp.render.com/mcp --oauth-client-id codex。CI 才 bearer_token_env_var。不要把密钥写进 http_headers，也不要抄 Claude 或 Cursor 的插件命令。',
+  },
 ];
 
