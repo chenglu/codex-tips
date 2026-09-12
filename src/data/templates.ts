@@ -1806,4 +1806,18 @@ cp -r codex-temporal-plugin/plugins/temporal plugins/
 cp codex-temporal-plugin/.agents/plugins/marketplace.json .agents/plugins/
 `,
   },
+  {
+    id: "mcp-newrelic-remote",
+    title: "New Relic 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "OAuth 主路径是 mcp add new-relic-mcp-server。API key 才用这张 new-relic 表和 env_http_headers。地址带 /mcp/ 尾斜杠。",
+    code: `[mcp_servers.new-relic]
+url = "https://mcp.newrelic.com/mcp/"
+enabled = true
+
+[mcp_servers.new-relic.env_http_headers]
+api-key = "NEW_RELIC_API_KEY"
+`,
+  },
 ];

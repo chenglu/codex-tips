@@ -5879,4 +5879,76 @@ enabled = true
       },
     ],
   },
+  {
+    id: "mcp-newrelic-remote",
+    no: 310,
+    title: "New Relic MCP 用 mcp.newrelic.com/mcp/，OAuth 和 API key 不要写成两张表",
+    summary:
+      "官方推荐：codex mcp add new-relic-mcp-server --url https://mcp.newrelic.com/mcp/，再 mcp login。OAuth 失败才改走 new-relic 表的 env_http_headers api-key。不要抄 Claude 的 --transport http 或 mcp-remote，也不要把 NRAK 密钥写进 http_headers。",
+    body: `New Relic 托管的是远程 Streamable HTTP，目前是 **Public Preview**。先在 New Relic UI 打开用户名 → Administration → Previews & Trials，打开 New Relic AI MCP Server。FedRAMP 账号禁止用这台。权限跟你登录的用户或 API key 走，先用最小 RBAC。
+
+地址**有** \`/mcp/\` 尾斜杠。默认美区是 \`https://mcp.newrelic.com/mcp/\`。EU 换成 \`https://mcp.eu.newrelic.com/mcp/\`，日本换成 \`https://mcp.jp.newrelic.com/mcp/\`。
+
+官方 Codex 节给了两条线，**表名不一样，不要两张一起开**：
+
+**OAuth（官方写 recommended）：** 表名是带连字符的 \`new-relic-mcp-server\`（这是用户层表，不是插件 \`mcp.json\`）：
+
+\`\`\`bash
+codex mcp add new-relic-mcp-server --url https://mcp.newrelic.com/mcp/
+codex mcp login new-relic-mcp-server
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.new-relic-mcp-server]
+url = "https://mcp.newrelic.com/mcp/"
+enabled = true
+\`\`\`
+
+若 \`mcp login\` 报 OAuth authorization endpoint origin does not match the authorization server origin without issuer-bound callbacks，那是 Codex 对 New Relic OAuth 元数据的校验（0.151 起有人踩过），不是你填错 URL。不要改抄 \`mcp-remote\`，也不要手填 overview 里的 OAuth client id。改走下面的 API key。
+
+**API key：** 官方 Codex 示例表名是 \`new-relic\`，头名是 \`api-key\`（不是 \`Authorization\`）。密钥是用户 API key，形如 \`NRAK-\` 开头。Codex 用 \`env_http_headers\`，右边是启动 Codex 那个进程里的变量**名**：
+
+\`\`\`toml
+[mcp_servers.new-relic]
+url = "https://mcp.newrelic.com/mcp/"
+enabled = true
+
+[mcp_servers.new-relic.env_http_headers]
+api-key = "NEW_RELIC_API_KEY"
+\`\`\`
+
+从已经 \`export NEW_RELIC_API_KEY\` 的终端启动。Dock / 开始菜单打开的桌面没有 zshrc。Codex 不读 \`.env\`。变量缺失时这颗头会被静默丢掉。不要用 \`bearer_token_env_var\`：它会发出 \`Authorization: Bearer …\`，这里要的是 \`api-key\`。API key 这张表不要再跑 \`mcp login\`。
+
+可选：用 \`http_headers\` 收窄工具（这不是密钥），例如 \`include-tags = "discovery,alerting"\`。标签还有 \`data-access\`、\`incident-response\`、\`performance-analytics\`、\`advanced-analysis\`。这台能查实体、告警、NRQL，不是只读文档。保持工具批准。不要一上来 \`--yolo\`。不要给它 \`required = true\` 挂全局。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`claude mcp add --transport http newrelic …\`，也不要把 \`NRAK-\` 密钥写进 \`--header\`。
+- 不要抄 Claude Desktop 的 \`npx mcp-remote\`。Codex 自己连 HTTP，也不需要为这条装 Node。
+- 不要抄 Cursor / VS Code 的 \`mcpServers\` JSON，或把密钥写进 \`http_headers\`。
+- 不要发明 \`codex plugin add newrelic@…\`。
+- 不要把 OAuth 那张 \`new-relic-mcp-server\` 和 API key 那张 \`new-relic\` 配成两台。同名表再 \`mcp add\` 一次会覆盖。
+- 不要和 Datadog 的 \`mcp.datadoghq.com\` 搞混。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get new-relic-mcp-server\` 或 \`codex mcp get new-relic\` 看传输是 streamable_http。会话里 \`/mcp\` 只是核对工具，不是唯一登录入口。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "New Relic", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-http-env-headers", "mcp-datadog-remote"],
+    sources: [
+      {
+        label: "New Relic · Set up MCP",
+        url: "https://docs.newrelic.com/docs/agentic-ai/mcp/setup/",
+      },
+      {
+        label: "New Relic · MCP overview",
+        url: "https://docs.newrelic.com/docs/agentic-ai/mcp/overview/",
+      },
+      {
+        label: "openai/codex#41677",
+        url: "https://github.com/openai/codex/issues/41677",
+      },
+    ],
+  },
 ];

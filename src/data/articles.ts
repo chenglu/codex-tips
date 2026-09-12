@@ -2511,5 +2511,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex 是桌面 Plugins 或 TUI /plugins 搜 temporal。官方没给 plugin add id。源仓是 temporalio/codex-temporal-plugin。Cloud 技能不在插件包。知识库 MCP 是 temporal.mcp.kapa.ai，没有 Codex 专节。不要抄 Claude 的 temporal@temporal-marketplace 或 Cursor 的 /add-plugin temporal。',
   },
+  {
+    title: 'Set up New Relic MCP',
+    url: 'https://docs.newrelic.com/docs/agentic-ai/mcp/setup/',
+    source: 'New Relic',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'New Relic', 'OAuth'],
+    summary:
+      '官方推荐是 mcp add new-relic-mcp-server --url https://mcp.newrelic.com/mcp/，再 mcp login。OAuth 失败才改走 new-relic 表的 env_http_headers api-key。不要抄 --transport http 或 mcp-remote，也不要把 NRAK 密钥写进 http_headers。',
+  },
 ];
 

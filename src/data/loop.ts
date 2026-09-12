@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T07:00:00Z",
+  lastTick: "2026-09-12T07:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "07:00 定时器。调用前 $97.67。Spend: counts（start_time=2026-09-05T07:15:00Z，共 232 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.66。CDP 40 项全过（预览 4289）。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md 并用文、Muse 许愿，无新可执行帖。本轮收录 Temporal 官方 Codex 插件（/plugins 搜 temporal；源仓 temporalio/codex-temporal-plugin）。下一轮优先 New Relic 官方 Codex 节：OAuth 是 codex mcp add new-relic-mcp-server --url https://mcp.newrelic.com/mcp/（带尾斜杠）；API key 示例表名是 new-relic，头走 env_http_headers 的 api-key。PagerDuty 官方无 Codex 节且不支持 DCR。Elastic 官方走 mcp-remote。Pinecone / HubSpot / Asana / Tinybird / MotherDuck / Fly.io 理由同前。",
+    "07:30 定时器。调用前 $97.66。Spend: counts（start_time=2026-09-05T07:45:00Z，共 232 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度待本轮 CDP 后回写。本轮收录 New Relic MCP（codex mcp add new-relic-mcp-server --url https://mcp.newrelic.com/mcp/）。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md 并用文、Muse 许愿，无新可执行帖。下一轮优先 Typesense Cloud 官方 Codex 节：codex mcp add typesense-cloud --url https://cloud.typesense.org/mcp/v1，再 mcp login。无头才 bearer_token_env_var，不要抄 Claude 把密钥写进 --header。PagerDuty 官方无 Codex 节且不支持 DCR。Elastic 官方走 mcp-remote。Pinecone / HubSpot / Asana / Tinybird / MotherDuck / Fly.io 理由同前。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -605,6 +605,12 @@ export const loopState = {
     "docs.newrelic.com agentic-ai mcp setup Codex mcp.newrelic.com/mcp/",
     "support.pagerduty.com pagerduty-mcp-server Codex mcp.pagerduty.com",
     "Codex CLI 技巧 2026 Temporal plugin New Relic MCP",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "docs.newrelic.com agentic-ai mcp setup Codex new-relic-mcp-server env_http_headers",
+    "typesense.org docs cloud mcp-server Codex mcp add typesense-cloud",
+    "developers.intercom.com guides mcp Codex mcp.intercom.com",
+    "Codex CLI 技巧 2026 New Relic MCP Typesense Cloud",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],
