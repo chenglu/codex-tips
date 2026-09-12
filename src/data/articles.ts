@@ -2841,5 +2841,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex：flutter-mcp-toolkit init codex，或 marketplace add Arenukvern/mcp_flutter。不要发明 plugin add。不要抄 Claude /plugin install。技能本身不登记 flutter-mcp-toolkit-server。',
   },
+  {
+    title: 'RevenueCat MCP Server Setup',
+    url: 'https://www.revenuecat.com/docs/tools/mcp/setup',
+    source: 'RevenueCat',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'RevenueCat', 'plugins', 'OAuth'],
+    summary:
+      '官方 Codex：marketplace add RevenueCat/ai-toolkit，再 plugin add revenuecat@RevenueCat，再 mcp login RevenueCat。远程是 mcp.revenuecat.ai/mcp。不要抄 mcp-remote 或把 API v2 key 写进 env。v2.0.1 起插件名是小写 revenuecat。',
+  },
 ];
 

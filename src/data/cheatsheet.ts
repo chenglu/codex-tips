@@ -241,6 +241,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: "codex plugin marketplace add clerk/skills", meaning: "官方 Codex 技能。再 /plugins 装 clerk-skills。不要发明 plugin add 的 @id。不要抄 npx skills add 当 Codex 专节。不要和 clerk mcp run 搞成一台" },
       { cmd: "codex mcp add appcircle --url https://mcp.appcircle.io", meaning: "官方远程没有 /mcp 后缀。bearer_token_env_var 读 APPCIRCLE_ACCESS_TOKEN，值必须是兑换后的 JWT。不要 mcp login。不要抄 Claude 插件或 http_headers 字面量" },
       { cmd: "flutter-mcp-toolkit init codex", meaning: "官方 Codex。或 marketplace add Arenukvern/mcp_flutter 再 /plugins 装。不要发明 plugin add。不要抄 Claude /plugin install。npx skills add 不登记 MCP" },
+      { cmd: "codex plugin add revenuecat@RevenueCat", meaning: "先 marketplace add RevenueCat/ai-toolkit，再 mcp login RevenueCat。远程 mcp.revenuecat.ai/mcp。不要抄 mcp-remote。v2.0.1 起插件名是小写 revenuecat" },
       { cmd: "codex mcp add convex -- npx … mcp start", meaning: "插件装不上才用手写 stdio。官方 MCP 是 npx convex mcp start，不是远程 URL。不要加 --dangerously-enable-production-deployments" },
       { cmd: "codex --profile huggingface", meaning: "[model_providers.huggingface] 走 router.huggingface.co/v1，wire_api = responses，env_key = HF_TOKEN。不是 Hub MCP，也不是 --oss" },
       { cmd: "codex --profile vercel", meaning: "[model_providers.vercel] 走 ai-gateway.vercel.sh/codex/v1，wire_api = responses，env_key = AI_GATEWAY_API_KEY。不是 Vercel MCP，也不是 --oss" },

@@ -2232,4 +2232,18 @@ codex mcp add appcircle --url https://mcp.appcircle.io --bearer-token-env-var AP
 # 不要发明 plugin add 的 @id
 `,
   },
+  {
+    id: "revenuecat-codex-plugin",
+    title: "RevenueCat AI Toolkit",
+    filename: "terminal",
+    summary:
+      "主路径是 marketplace add RevenueCat/ai-toolkit，再 plugin add revenuecat@RevenueCat，再 mcp login RevenueCat。不要抄 mcp-remote。",
+    code: `codex plugin marketplace add RevenueCat/ai-toolkit
+codex plugin add revenuecat@RevenueCat
+codex mcp login RevenueCat
+
+# 可选：codex plugin add revenuecat-play-billing@RevenueCat
+# 插件 MCP 消失才：codex mcp add RevenueCat --url https://mcp.revenuecat.ai/mcp
+`,
+  },
 ];

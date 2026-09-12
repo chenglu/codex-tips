@@ -3,7 +3,7 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T23:09:00Z",
+  lastTick: "2026-09-12T23:46:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
     "23:09 定时器。调用前 $97.39。Spend: counts（start_time=2026-09-05T23:15:00Z，共 238 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.38。CDP 93 项全过（预览 4323）。收录 Flutter MCP toolkit（init codex，或 marketplace add Arenukvern/mcp_flutter）。不要发明 plugin add。不要抄 Claude /plugin install。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Microsoft AI Engineer Coach。Buildkite 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。1Password Codex shell plugin 页仍缺完整 init 命令。",
@@ -887,6 +887,15 @@ export const loopState = {
     "buildkite.com docs mcp-server Codex configuring-ai-tools",
     "docs.digitalocean.com do-app-platform-skills --agent codex",
     "Codex CLI 技巧 2026 Flutter MCP toolkit init codex",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "www.revenuecat.com docs tools mcp setup Codex plugin add revenuecat@RevenueCat",
+    "github.com/RevenueCat/ai-toolkit marketplace add Codex mcp.revenuecat.ai",
+    "developer.1password.com cli shell-plugins openai-codex op plugin init",
+    "buildkite.com docs mcp-server Codex configuring-ai-tools",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "meilisearch.com docs integrations mcp Codex",
+    "Codex CLI 技巧 2026 RevenueCat AI Toolkit plugin",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

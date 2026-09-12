@@ -8211,4 +8211,89 @@ codex mcp add flutter-mcp-toolkit -- flutter-mcp-toolkit-server --dart-vm-host=l
       },
     ],
   },
+  {
+    id: "revenuecat-codex-plugin",
+    no: 343,
+    title: "RevenueCat 官方 Codex 走 plugin add revenuecat@RevenueCat",
+    summary:
+      "官方 Codex：marketplace add RevenueCat/ai-toolkit，再 plugin add revenuecat@RevenueCat，再 mcp login RevenueCat。远程带 /mcp。不要抄 mcp-remote。v2.0.1 起插件名是小写 revenuecat。",
+    body: `RevenueCat 给 Codex 有专节，官方推荐 AI Toolkit 插件（技能 + 远程 MCP）。安装页写的是：
+
+\`\`\`bash
+codex plugin marketplace add RevenueCat/ai-toolkit
+codex plugin add revenuecat@RevenueCat
+codex mcp login RevenueCat
+\`\`\`
+
+marketplace 名是 \`RevenueCat\`，插件 id 是 \`revenuecat@RevenueCat\`（\`plugin.json\` 的 \`name\` 是 \`revenuecat\`）。源仓 README 的 Codex 节只写了 marketplace add，然后 TUI \`/plugins\` 搜 \`revenuecat\` 再装；安装页把 \`plugin add\` 也写出来了，跟 \`.agents/plugins/marketplace.json\` 对得上。\`codex plugin list\` 应看到 \`revenuecat@RevenueCat\` 为 installed, enabled。加完新开会话。0.154 起也可以先看当前会话；当前会话没有再新开。IDE 扩展没有 \`/plugins\`，用 CLI 加完再到 TUI 或桌面去装。桌面先在终端加 marketplace，再 Plugins 把源切到 RevenueCat 再点加号。不要把默认的 Built by OpenAI 那栏当成 openai-curated。
+
+装插件不会自动登录。MCP 服务器名是 \`.mcp.json\` 里的 \`RevenueCat\`（大写 R），所以 login 是 \`codex mcp login RevenueCat\`，不要写成 \`mcp login revenuecat\`。
+
+Google Play 深度技能可选：
+
+\`\`\`bash
+codex plugin add revenuecat-play-billing@RevenueCat
+\`\`\`
+
+这是技能捆，不另带一台 MCP。不要和主插件的 \`RevenueCat\` 服务器搞成两张用户层表。
+
+v2.0.1 改名：旧插件叫 \`RevenueCat\`，现行叫 \`revenuecat\`。旧的会停在本地缓存、不再更新。\`/plugins\` 卸掉 \`RevenueCat\`，再装 \`revenuecat\`。OAuth 票会留着，不必再 \`mcp login\`。
+
+插件已经登记 MCP 就不要再 \`mcp add\` 同一张表。技能加载了但工具没有、或重启后 MCP 从 Settings 消失，是已知的插件 MCP 重载问题（openai/codex#25809）。官方 workaround 是用户层再登记同一台，表名跟插件一致：
+
+\`\`\`bash
+codex mcp add RevenueCat --url https://mcp.revenuecat.ai/mcp
+codex mcp login RevenueCat
+\`\`\`
+
+URL 带 \`/mcp\` 后缀。不要发明不带后缀的 \`https://mcp.revenuecat.ai\`。
+
+只要 MCP、不要技能时：
+
+\`\`\`bash
+codex mcp add revenuecat --url https://mcp.revenuecat.ai/mcp
+\`\`\`
+
+安装页这份用户层表名是小写 \`revenuecat\`。不要和插件那张 \`RevenueCat\` 配成两台。连上时会开浏览器；若 add 完还没票，再 \`codex mcp login revenuecat\`。一条连接只用一种鉴权。
+
+\`\`\`toml
+[mcp_servers.revenuecat]
+url = "https://mcp.revenuecat.ai/mcp"
+enabled = true
+\`\`\`
+
+不要抄 Claude 的 \`claude plugins marketplace add RevenueCat/ai-toolkit\` / \`claude plugins install revenuecat\`。不要抄 Cursor 的 \`/add-plugin revenuecat\`。不要抄 JSON \`mcpServers\` 把 Bearer 写进 headers。不要抄官方手册里 \`npx mcp-remote\` 再把 API v2 key 写进 \`env\` 表那份——Codex 自己走 HTTP。\`npx skills add RevenueCat/ai-toolkit\` 只装技能，不登记 MCP。
+
+无头 / 不能开浏览器才用 API v2 secret key，走 \`bearer_token_env_var\`。不要 \`mcp login\` 这张表。不要把密钥写进 \`http_headers\`、\`args\` 或 \`env\` 表。变量必须在启动 Codex 的那个进程里。值不要再加 \`Bearer\` 前缀。
+
+连上后先问项目状态或现有 Offerings，再改 Product / Entitlement / Paywall。写工具会动真订阅配置，保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。网页 Cloud 不读 \`~/.codex/config.toml\`。
+
+不要做这些：
+
+- 不要发明 \`revenuecat@openai-curated\`。
+- 不要抄 \`npx mcp-remote https://mcp.revenuecat.ai/mcp\`。
+- 不要把 API v2 key 写进 \`env\` 表或 \`http_headers\`。
+- 不要把旧插件名 \`RevenueCat\` 和新的 \`revenuecat\` 当成两个要同时装的包。
+
+改完用 \`codex plugin list\`；用户层对照 \`codex mcp get RevenueCat\` 或 \`codex mcp get revenuecat\` 看传输是 streamable_http。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["plugins", "RevenueCat", "MCP", "OAuth", "Skills", "marketplace"],
+    related: ["plugin-session-refresh", "mcp-add-and-login", "plugins-vs-skills"],
+    sources: [
+      {
+        label: "RevenueCat · MCP setup",
+        url: "https://www.revenuecat.com/docs/tools/mcp/setup",
+      },
+      {
+        label: "RevenueCat · MCP",
+        url: "https://www.revenuecat.com/docs/tools/mcp",
+      },
+      {
+        label: "RevenueCat/ai-toolkit",
+        url: "https://github.com/RevenueCat/ai-toolkit",
+      },
+    ],
+  },
 ];
