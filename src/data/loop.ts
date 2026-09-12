@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-12T16:37:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "16:37 定时器。调用前 $97.50。Spend: counts（start_time=2026-09-05T16:40:00Z，共 232 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Yellow 交易营销、tmux-agent-pulse、Google Cloud 插件营销、AGENTS.md 入门，无新可执行厂商路径。本轮收录 PagerDuty 托管 MCP（mcp.pagerduty.com/mcp）。官方不支持 DCR，不要 mcp login。API key 是 Token token=，走 env_http_headers。本地 uvx 已弃用。Fly.io / Meilisearch 仍无 Codex 专节。收尾额度见本轮结束提交。",
+    "16:37 定时器。调用前 $97.50。Spend: counts（start_time=2026-09-05T16:40:00Z，共 232 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.50。CDP 47 项全过（预览 4309）。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Yellow 交易营销、tmux-agent-pulse、Google Cloud 插件营销、AGENTS.md 入门，无新可执行厂商路径。本轮收录 PagerDuty 托管 MCP（mcp.pagerduty.com/mcp）。官方不支持 DCR，不要 mcp login。API key 是 Token token=，走 env_http_headers。本地 uvx 已弃用。下一轮可再核 Fly.io / Meilisearch。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
