@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-12T19:16:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "19:16 定时器。调用前 $97.46。Spend: counts（start_time=2026-09-05T19:20:00Z，共 204 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度待本轮 CDP 后补。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Yellow 交易营销、AGENTS.md 入门，无新可执行厂商路径。1Password 本地 1password-mcp、Buildkite 远程、DigitalOcean App Platform skills 仍未钉 Codex 专节主路径，留给下一轮。本轮收录 incident.io 插件 + 托管 MCP（incident-io@incident-io-skills 登记 MCP 和 skills；IDE 才 mcp add incident_io --url https://mcp.incident.io/mcp）。不要抄 type = url、Claude /plugin install 或 Cursor /add-plugin。",
+    "19:16 定时器。调用前 $97.46。Spend: counts（start_time=2026-09-05T19:20:00Z，共 204 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.45。CDP 70 项全过（预览 4314）。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Yellow 交易营销、AGENTS.md 入门，无新可执行厂商路径。1Password 本地 1password-mcp、Buildkite 远程、DigitalOcean App Platform skills 仍未钉 Codex 专节主路径，留给下一轮。本轮收录 incident.io 插件 + 托管 MCP（incident-io@incident-io-skills 登记 MCP 和 skills；IDE 才 mcp add incident_io --url https://mcp.incident.io/mcp）。不要抄 type = url、Claude /plugin install 或 Cursor /add-plugin。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
