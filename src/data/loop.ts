@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-12T13:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "13:30 定时器。调用前 $97.58。Spend: counts（start_time=2026-09-05T13:45:00Z，共 228 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度待测后回写。X 仍是 Google Cloud Developer Plugin 营销、hermes import-agent、日文 AGENTS.md、韩文 0.154 / GPT-6-Astra、粘贴截图、Claude vs Codex，无新可执行厂商路径。本轮收录 Sanity 远程 MCP（mcp add Sanity --url https://mcp.sanity.io，再 mcp login Sanity）。URL 没有 /mcp 后缀。插件没给 plugin add id。不要抄 mcp-remote / http_headers 里的 Bearer。下一轮优先 Honeycomb / Axiom / Semgrep / Intercom。",
+    "13:30 定时器。调用前 $97.58。Spend: counts（start_time=2026-09-05T13:45:00Z，共 228 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.58。CDP 45 项全过（预览 4302）。X 仍是 Google Cloud Developer Plugin 营销、hermes import-agent、日文 AGENTS.md、韩文 0.154 / GPT-6-Astra、粘贴截图、Claude vs Codex，无新可执行厂商路径。本轮收录 Sanity 远程 MCP（mcp add Sanity --url https://mcp.sanity.io，再 mcp login Sanity）。URL 没有 /mcp 后缀。插件没给 plugin add id。不要抄 mcp-remote / http_headers 里的 Bearer。下一轮优先 Honeycomb / Axiom / Semgrep / Intercom。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
