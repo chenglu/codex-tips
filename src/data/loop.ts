@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-12T07:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "07:00 定时器。调用前 $97.67。Spend: counts（start_time=2026-09-05T07:15:00Z，共 232 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度待本轮 CDP 后回写。本轮收录 Temporal 官方 Codex 插件（/plugins 搜 temporal；源仓 temporalio/codex-temporal-plugin）。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md 并用文、Muse 许愿，无新可执行帖。下一轮优先 New Relic 官方 Codex 节：OAuth 是 codex mcp add new-relic-mcp-server --url https://mcp.newrelic.com/mcp/（带尾斜杠）；API key 示例表名是 new-relic，头走 env_http_headers 的 api-key。PagerDuty 官方无 Codex 节且不支持 DCR。Elastic 官方走 mcp-remote。Pinecone / HubSpot / Asana / Tinybird / MotherDuck / Fly.io 理由同前。",
+    "07:00 定时器。调用前 $97.67。Spend: counts（start_time=2026-09-05T07:15:00Z，共 232 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.66。CDP 40 项全过（预览 4289）。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md 并用文、Muse 许愿，无新可执行帖。本轮收录 Temporal 官方 Codex 插件（/plugins 搜 temporal；源仓 temporalio/codex-temporal-plugin）。下一轮优先 New Relic 官方 Codex 节：OAuth 是 codex mcp add new-relic-mcp-server --url https://mcp.newrelic.com/mcp/（带尾斜杠）；API key 示例表名是 new-relic，头走 env_http_headers 的 api-key。PagerDuty 官方无 Codex 节且不支持 DCR。Elastic 官方走 mcp-remote。Pinecone / HubSpot / Asana / Tinybird / MotherDuck / Fly.io 理由同前。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
