@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-12T16:17:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "16:17 定时器。调用前 $97.53。Spend: counts（start_time=2026-09-05T16:20:00Z，共 232 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Yellow 交易营销、tmux-agent-pulse、Google Cloud 插件营销、AGENTS.md 入门，无新可执行厂商路径。本轮收录 Litestream MCP（mcp add litestream --url http://localhost:3001）。先开 mcp-addr 再 replicate。不要 mcp login，也不要抄 --transport http。Axiom / Intercom / PagerDuty 仍无 Codex 专节。收尾额度见本轮结束提交。",
+    "16:17 定时器。调用前 $97.53。Spend: counts（start_time=2026-09-05T16:20:00Z，共 232 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.50。CDP 54 项全过（预览 4308）。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Yellow 交易营销、tmux-agent-pulse、Google Cloud 插件营销、AGENTS.md 入门，无新可执行厂商路径。本轮收录 Litestream MCP（mcp add litestream --url http://localhost:3001）。先开 mcp-addr 再 replicate。不要 mcp login，也不要抄 --transport http。Axiom / Intercom / PagerDuty 仍无 Codex 专节。下一轮可再核 PagerDuty / Fly.io / Meilisearch。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
