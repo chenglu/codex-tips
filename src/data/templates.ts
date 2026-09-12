@@ -1955,4 +1955,18 @@ codex plugin add upstash@upstash
 codex mcp login GitLab
 `,
   },
+  {
+    id: "sanity-codex-mcp",
+    title: "Sanity 远程 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add Sanity --url https://mcp.sanity.io，再 mcp login Sanity。URL 没有 /mcp 后缀。技能才 marketplace add 后 /plugins 装 Sanity。",
+    code: `codex mcp add Sanity --url https://mcp.sanity.io
+codex mcp login Sanity
+
+# 技能 / 插件才：
+# codex plugin marketplace add sanity-io/agent-toolkit
+# 然后 TUI /plugins 选 Sanity Agent Toolkit，装 Sanity
+`,
+  },
 ];

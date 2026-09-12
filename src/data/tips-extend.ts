@@ -6888,4 +6888,82 @@ enabled = true
       },
     ],
   },
+  {
+    id: "sanity-codex-mcp",
+    no: 322,
+    title: "Sanity MCP 用 mcp.sanity.io，不要加 /mcp 后缀",
+    summary:
+      "官方 Codex：mcp add Sanity --url https://mcp.sanity.io，再 mcp login Sanity。URL 没有 /mcp 后缀。插件才 marketplace add sanity-io/agent-toolkit，再 /plugins 装 Sanity。不要发明 plugin add id。",
+    body: `Sanity 给 Codex 的**官方主路径**是远程 HTTP MCP，不是 \`mcp-remote\`，也不是 ChatGPT 插件目录。源仓 Codex 节是：
+
+\`\`\`bash
+codex mcp add Sanity --url https://mcp.sanity.io
+codex mcp login Sanity
+\`\`\`
+
+URL **没有** \`/mcp\` 后缀，不要发明 \`https://mcp.sanity.io/mcp\`。用户层表名官方就是驼峰 \`Sanity\`（这不是插件 \`mcp.json\`）。随后 \`mcp login\` 打开浏览器做 OAuth。不要抄 Claude 的 \`--transport http\`，也不要抄 Cursor 的 \`type: http\` JSON。
+
+个别 ChatGPT 插件说明会写成小写 \`[mcp_servers.sanity]\` 再 \`mcp login sanity\`。跟源仓 / \`sanity mcp configure\` 写入器走驼峰 \`Sanity\`，**不要**同时留大小写两张表。
+
+\`\`\`toml
+[mcp_servers.Sanity]
+url = "https://mcp.sanity.io"
+enabled = true
+\`\`\`
+
+连上后先问 \`whoami\`，确认身份和鉴权方式。然后可以 GROQ 查（\`query_documents\`）、改草稿（\`create_documents\` / \`patch_documents\`）、发文档、部署 schema / Studio。\`generate_image\`、\`transform_image\`，以及带 \`instruction\` 的 \`create_version\` 会消耗 Sanity AI 额度。保持工具批准。不要一上来 \`--yolo\`。不要给它 \`required = true\` 挂全局。\`dataset_assets_upload\` 只给本地 CLI 指引，并不真正上传文件。
+
+要技能包时再装插件。官方 Codex 节是：
+
+\`\`\`bash
+codex plugin marketplace add sanity-io/agent-toolkit
+\`\`\`
+
+然后 TUI \`/plugins\` 选 **Sanity Agent Toolkit** 市场，装 **Sanity**。官方**没给** \`codex plugin add\` id，不要发明。不要抄 Claude 的 \`/plugin install sanity@claude-plugins-official\`，也不要抄 Cursor 的 \`/add-plugin sanity\`。0.154 起先看**当前会话**；当前会话没有再新开。桌面改 marketplace.json 仍要重启应用。IDE 扩展没有 \`/plugins\`。
+
+插件会登记同一台远程 MCP（\`https://mcp.sanity.io\`）。插件已经登记就**不要**再 \`mcp add\` 同一张表。只要 MCP、不装技能时，走上面的 \`mcp add Sanity\`。
+
+\`npx sanity@latest mcp configure\` 的命令参考现在把 Codex CLI 列进检测名单，写入器对 Codex 是 OAuth 模式：往 \`$CODEX_HOME/config.toml\`（默认 \`~/.codex/config.toml\`）写 \`[mcp_servers.Sanity]\`，不把 token 嵌进文件。入门页和源仓 README 仍只写 Cursor / VS Code / Claude Code。它会改**你勾选的所有编辑器**，还可能多写一行 Codex 并不需要的 \`type = "http"\`（传输由 \`url\` 推断）。装完仍要 \`codex mcp login Sanity\`。不要把它当成取代 \`mcp add\` 的 Codex 专节。
+
+也不要用 \`npx skills add sanity-io/agent-toolkit\` 当 Codex 安装器：那会改所有检测到的客户端，不是 \`/plugins\`。
+
+无头 / CI 才改 token。官方 JSON 示例把 \`Authorization: Bearer\` 加 token 写进 \`headers\`。**不要**抄进 Codex 的 \`http_headers\`。用 \`bearer_token_env_var\`，右边是启动 Codex 那个进程里的变量**名**：
+
+\`\`\`toml
+[mcp_servers.Sanity]
+url = "https://mcp.sanity.io"
+bearer_token_env_var = "SANITY_API_TOKEN"
+enabled = true
+\`\`\`
+
+从已经 export 的终端启动。token 从 sanity.io/manage 或 \`sanity tokens\` 建，权限跟角色走。这张表不要再跑 \`mcp login\`。一条连接只用一种鉴权。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add sanity@…\` 或 \`sanity@openai-curated\`。
+- 不要抄 \`npx mcp-remote https://mcp.sanity.io\`。Codex 自己走 HTTP。
+- 不要把 ChatGPT Apps / Connectors 里的 Sanity 插件和 CLI \`/plugins\` 当成同一条安装命令。
+- 不要把 robot token 写进 URL、\`args\` 或提示词。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完用 \`codex mcp get Sanity\` 看传输是 streamable_http；技能用 \`codex plugin list\`。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Sanity", "OAuth", "plugins", "Skills"],
+    related: ["mcp-add-and-login", "gitlab-mcp-http", "upstash-codex-plugin"],
+    sources: [
+      {
+        label: "sanity-io/agent-toolkit",
+        url: "https://github.com/sanity-io/agent-toolkit",
+      },
+      {
+        label: "Sanity · MCP server",
+        url: "https://www.sanity.io/docs/ai/mcp-server",
+      },
+      {
+        label: "Sanity · MCP CLI",
+        url: "https://www.sanity.io/docs/cli-reference/cli-mcp",
+      },
+    ],
+  },
 ];

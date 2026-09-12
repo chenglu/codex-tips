@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T13:00:00Z",
+  lastTick: "2026-09-12T13:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "13:00 定时器。调用前 $97.59。Spend: counts（start_time=2026-09-05T13:15:00Z，共 229 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.58。CDP 41 项全过（预览 4301）。X 仍是 Packt、tmux-agent-pulse、Google Cloud Developer Plugin 营销、hermes import-agent、日文 AGENTS.md、韩文 0.154 / GPT-6-Astra、粘贴截图、Claude vs Codex，无新可执行厂商路径。本轮收录 GitLab 远程 MCP（mcp add GitLab --url https://gitlab.com/api/v4/mcp，再 mcp login）。不要抄 rmcp_client / mcp-remote。不是 Cloud 评论审查，也不是 Orbit。Intercom / Asana 仍是 mcp-remote。Sanity 官方有 Codex mcp add Sanity --url https://mcp.sanity.io，插件没给 plugin add id。下一轮优先 Sanity / Honeycomb / Axiom / Semgrep / Intercom。",
+    "13:30 定时器。调用前 $97.58。Spend: counts（start_time=2026-09-05T13:45:00Z，共 228 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度待测后回写。X 仍是 Google Cloud Developer Plugin 营销、hermes import-agent、日文 AGENTS.md、韩文 0.154 / GPT-6-Astra、粘贴截图、Claude vs Codex，无新可执行厂商路径。本轮收录 Sanity 远程 MCP（mcp add Sanity --url https://mcp.sanity.io，再 mcp login Sanity）。URL 没有 /mcp 后缀。插件没给 plugin add id。不要抄 mcp-remote / http_headers 里的 Bearer。下一轮优先 Honeycomb / Axiom / Semgrep / Intercom。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -716,6 +716,16 @@ export const loopState = {
     "docs.axiom.co mcp Codex",
     "docs.semgrep.dev mcp Codex",
     "Codex CLI 技巧 2026 GitLab MCP api/v4/mcp rmcp_client",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "www.sanity.io docs ai mcp-server Codex mcp add Sanity mcp.sanity.io",
+    "github.com/sanity-io/agent-toolkit Codex plugin marketplace add",
+    "www.sanity.io docs cli-reference cli-mcp Codex CLI oauthOnly",
+    "docs.honeycomb.io mcp Codex",
+    "docs.axiom.co mcp Codex",
+    "docs.semgrep.dev mcp Codex",
+    "developers.intercom.com mcp.intercom.com Codex mcp-remote",
+    "Codex CLI 技巧 2026 Sanity MCP mcp.sanity.io plugin",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

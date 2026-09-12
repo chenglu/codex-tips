@@ -2631,5 +2631,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex 是 mcp add GitLab --url https://gitlab.com/api/v4/mcp，再 mcp login GitLab。不要抄 features.rmcp_client，也不要抄 mcp-remote。不是 Cloud 评论审查，也不是 Orbit 的 api/v4/orbit/mcp。',
   },
+  {
+    title: 'Sanity Agent Toolkit',
+    url: 'https://github.com/sanity-io/agent-toolkit',
+    source: 'Sanity',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Sanity', 'OAuth', 'Skills'],
+    summary:
+      '官方 Codex 是 mcp add Sanity --url https://mcp.sanity.io，再 mcp login Sanity。URL 没有 /mcp 后缀。技能才 marketplace add sanity-io/agent-toolkit，再 /plugins 装 Sanity。不要发明 plugin add id，也不要抄 mcp-remote。',
+  },
 ];
 
