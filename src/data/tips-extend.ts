@@ -5553,4 +5553,74 @@ enabled = true
       },
     ],
   },
+  {
+    id: "convex-codex-plugin",
+    no: 305,
+    title: "Convex 完整插件用 get-convex/convex-codex-plugin，不要把 openai-curated 当完整版",
+    summary:
+      "完整版：codex plugin marketplace add get-convex/convex-codex-plugin，再 plugin add convex@convex-codex-plugin。openai-curated 只是轻量连接器。插件已带 MCP 时不要再 mcp add。不要抄 Claude 或 Cursor 的插件命令。",
+    body: `Convex 给 Codex 两条插件线，不要混成一份。
+
+**完整现行构建（官方 GitHub 写「用这个」）：** 先加 marketplace，再装插件。id 是 \`convex@convex-codex-plugin\`。这会带上全部技能、\`convex-expert\` / \`convex-reviewer\` 子代理、官方 Convex MCP，以及运行时错误监视：
+
+\`\`\`bash
+codex plugin marketplace add get-convex/convex-codex-plugin
+codex plugin add convex@convex-codex-plugin
+codex plugin list
+\`\`\`
+
+\`codex plugin list\` 里应看到 \`convex@convex-codex-plugin\`。之后用 \`codex plugin marketplace upgrade\`，再跑一次 \`plugin add\`。0.154 起先看**当前会话**；当前会话没有再新开。桌面改 marketplace.json 仍要重启应用。
+
+**公共目录 \`convex@openai-curated\`：** \`codex plugin add convex@openai-curated\` 能装，但官方文档写明这是较轻的 ChatGPT 应用连接器，审核快照会落后仓库 HEAD。若装完没有技能或 MCP，先 \`codex plugin remove convex@openai-curated\`，再改走上面的 marketplace。不要以为 \`/plugins\` 搜 Convex 一定是完整版。
+
+插件已经登记 MCP 时，不要再手写同一张用户层表。技能名包括 \`quickstart\`、\`add\`、\`convex-expert\`、\`convex-reviewer\`。项目根可跑 \`npx convex ai-files install\`，它会维护 \`AGENTS.md\` 里的 Convex 段，并把技能写进 \`.agents/skills/\`。
+
+只有插件装不上时，才手写 stdio MCP（这是本地 \`npx convex mcp start\`，**不是**远程 URL）：
+
+\`\`\`bash
+codex mcp add convex -- npx -y convex@latest mcp start
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.convex]
+command = "npx"
+args = ["-y", "convex@latest", "mcp", "start"]
+enabled = true
+startup_timeout_sec = 60
+\`\`\`
+
+默认连开发部署。不要把 \`--dangerously-enable-production-deployments\` 写进默认 args。要收窄生产权限才加 \`--disable-tools\`。把访问限制在某一台部署时，用 \`env_vars\` 转发 \`CONVEX_DEPLOY_KEY\`，不要把 deploy key 写进 \`args\` 或 \`env\` 表。关掉插件匿名遥测：启动 Codex 的进程里设 \`CONVEX_PLUGIN_TELEMETRY=0\` 或 \`DO_NOT_TRACK=1\`。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins；setup 脚本常用 \`npm i\` 再 \`npx convex dev --once\`（非交互会起本地 backend，需要完整联网）。
+
+不要做这些：
+
+- 不要抄 Claude 或 Cursor 的 plugin install / \`/add-plugin convex\`。
+- 不要用 \`npx skills add\` 当 Codex 插件安装器，也不要手拷到 \`~/.codex/skills\`。
+- 不要发明 \`https://mcp.convex.dev\` 这种托管 MCP 再 \`mcp add --url\`。官方 MCP 是本地 stdio。
+- 不要抄 \`mcp-remote\`。
+- 不要给它 \`required = true\` 挂全局。不要一上来 \`--yolo\`。这台能跑函数、改环境变量。
+- 不要把 \`openai-curated\` 和 marketplace 两份同时装成两套 Convex。
+
+改完用 \`codex plugin list\` 核对来源是 \`convex-codex-plugin\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["plugins", "Convex", "MCP", "Skills"],
+    related: ["shopify-ai-toolkit", "railway-skills-plugin", "plugin-session-refresh"],
+    sources: [
+      {
+        label: "Convex · Using Codex",
+        url: "https://docs.convex.dev/ai/using-codex",
+      },
+      {
+        label: "get-convex/convex-codex-plugin",
+        url: "https://github.com/get-convex/convex-codex-plugin",
+      },
+      {
+        label: "Convex · MCP Server",
+        url: "https://docs.convex.dev/ai/convex-mcp-server",
+      },
+    ],
+  },
 ];

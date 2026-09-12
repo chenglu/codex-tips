@@ -2461,5 +2461,15 @@ export const articles: Article[] = [
     summary:
       '插件优先：/plugins 搜 Render。只要 MCP 才 codex mcp add render --url https://mcp.render.com/mcp --oauth-client-id codex。CI 才 bearer_token_env_var。不要把密钥写进 http_headers，也不要抄 Claude 或 Cursor 的插件命令。',
   },
+  {
+    title: 'Using Codex with Convex',
+    url: 'https://docs.convex.dev/ai/using-codex',
+    source: 'Convex',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'Convex', 'MCP', 'Skills'],
+    summary:
+      '完整版是 marketplace add get-convex/convex-codex-plugin，再 plugin add convex@convex-codex-plugin。openai-curated 只是轻量连接器。插件已带 MCP 时不要再 mcp add。不要抄 Claude 或 Cursor 的插件命令。',
+  },
 ];
 

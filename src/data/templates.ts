@@ -1751,4 +1751,15 @@ enabled = true
 client_id = "codex"
 `,
   },
+  {
+    id: "convex-codex-plugin",
+    title: "Convex 完整插件 marketplace",
+    filename: "terminal",
+    summary:
+      "完整现行构建是 marketplace add get-convex/convex-codex-plugin，再 plugin add convex@convex-codex-plugin。openai-curated 只是轻量连接器。",
+    code: `codex plugin marketplace add get-convex/convex-codex-plugin
+codex plugin add convex@convex-codex-plugin
+codex plugin list
+`,
+  },
 ];
