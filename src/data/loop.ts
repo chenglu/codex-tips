@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-12T01:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "01:30 调用前 $97.76。Spend: counts（start_time=2026-09-05T01:45:00Z，共 243 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 仍是 Packt 书、0.154 worktree 营销、GTM MCP Bench、tmux-agent-pulse、Agents API 营销、Claude vs Codex 营销，无新可执行帖。收录 Langfuse 产品 MCP（Basic / env_http_headers）+ Circle codegen MCP。Twilio 文档 MCP 留给下一轮。Browserbase 仍不收录（密钥拼进 URL）。",
+    "01:30 调用前 $97.76。Spend: counts（start_time=2026-09-05T01:45:00Z，共 243 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾余额 $97.75。X 仍是 Packt 书、0.154 worktree 营销、GTM MCP Bench、tmux-agent-pulse、Agents API 营销、Claude vs Codex 营销，无新可执行帖。收录 Langfuse 产品 MCP（Basic / env_http_headers）+ Circle codegen MCP。Twilio 文档 MCP 留给下一轮。Browserbase 仍不收录（密钥拼进 URL）。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
