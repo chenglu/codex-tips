@@ -216,6 +216,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: "codex mcp add motherduck --url …", meaning: "官方远程是 api.motherduck.com/mcp。随后 mcp login。技能才 marketplace add motherduckdb/agent-skills。无头才 bearer_token_env_var。不要抄 --transport http 或 --env motherduck_token=" },
       { cmd: "codex mcp add HubSpotDev -- hs mcp start --ai-agent codex", meaning: "HubSpot 本地开发 MCP。主路径仍是 hs mcp setup。不要和 mcp.hubspot.com 远程 CRM 配成一台，也不要抄 --env 个人访问密钥" },
       { cmd: "codex mcp add azure -- npx -y @azure/mcp@latest server start", meaning: "插件装不上才手写 Azure MCP。Node 18+，先 az login。不要抄 Copilot 的 /mcp edit，也不要把 client secret 写进 env 表" },
+      { cmd: "codex mcp add azure-devops -- npx -y @azure-devops/mcp Contoso", meaning: "本地 Azure DevOps MCP。Codex 主路径是 stdio，不是 mcp.dev.azure.com。不要和 Azure Skills 搞混。PAT 用 env_vars 转发 PERSONAL_ACCESS_TOKEN" },
       { cmd: "codex mcp add convex -- npx … mcp start", meaning: "插件装不上才用手写 stdio。官方 MCP 是 npx convex mcp start，不是远程 URL。不要加 --dangerously-enable-production-deployments" },
       { cmd: "codex --profile huggingface", meaning: "[model_providers.huggingface] 走 router.huggingface.co/v1，wire_api = responses，env_key = HF_TOKEN。不是 Hub MCP，也不是 --oss" },
       { cmd: "codex --profile vercel", meaning: "[model_providers.vercel] 走 ai-gateway.vercel.sh/codex/v1，wire_api = responses，env_key = AI_GATEWAY_API_KEY。不是 Vercel MCP，也不是 --oss" },

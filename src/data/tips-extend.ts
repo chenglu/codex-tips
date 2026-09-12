@@ -6569,4 +6569,105 @@ startup_timeout_sec = 60
       },
     ],
   },
+  {
+    id: "azure-devops-local-mcp",
+    no: 318,
+    title: "Azure DevOps 用本地 @azure-devops/mcp，不要走远程 Entra",
+    summary:
+      "官方 Codex：mcp add azure-devops -- npx -y @azure-devops/mcp Contoso。这是本地 stdio。远程 mcp.dev.azure.com 走不了 Entra DCR。不要和 Azure Skills 的 @azure/mcp 搞混。PAT 用 env_vars。",
+    body: `Azure DevOps 给 Codex 的**官方主路径**是本地 stdio MCP，不是托管远程。源仓 Getting Started 的 Codex 节是：
+
+\`\`\`bash
+codex mcp add azure-devops -- npx -y @azure-devops/mcp Contoso
+codex mcp list
+\`\`\`
+
+把 \`Contoso\` 换成你的组织名（只写名字，不要写 \`dev.azure.com\` URL）。前提是 Node.js **20+**。用户层表名官方就是带连字符的 \`azure-devops\`（这不是插件 \`mcp.json\`）。这是 stdio，不要再 \`mcp login\`。第一次调用工具时会弹浏览器做 Microsoft 账号登录。账号必须进得了这个组织。
+
+已经 \`az login\` 时，把鉴权改成 Azure CLI：
+
+\`\`\`bash
+az login
+codex mcp add azure-devops -- npx -y @azure-devops/mcp Contoso --authentication azcli
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.azure-devops]
+command = "npx"
+args = ["-y", "@azure-devops/mcp", "Contoso"]
+enabled = true
+startup_timeout_sec = 60
+\`\`\`
+
+\`npx\` 不在 PATH 时写成 \`which npx\` 的绝对路径。npx 冷启动慢，超时就加 \`startup_timeout_sec\`。这台能列项目、改工作项、动流水线，保持工具批准。不要一上来 \`--yolo\`。不要给它 \`required = true\` 挂全局。先用 \`List ADO projects\` 这种只读提示核对。
+
+**远程托管不是 Codex 路径。** 官方推荐别人用 \`https://mcp.dev.azure.com/组织名\`（没有 \`/mcp\` 后缀）。Learn 写明 Codex / Claude Desktop 走不了那条 Entra DCR。不要发明 \`codex mcp add ado --url https://mcp.dev.azure.com/Contoso\`，也不要套 \`mcp-remote\`。不要和本地 \`azure-devops\` 写成同一张表。
+
+也不要和 Azure Skills 那台 \`@azure/mcp\` 搞混：那是订阅/部署/RBAC；这台是看板、仓库、Wiki、流水线。两台可以并存，表名不要都叫 \`azure\`。
+
+工具太多时用域名过滤。务必带上 \`core\`：
+
+\`\`\`toml
+[mcp_servers.azure-devops]
+command = "npx"
+args = ["-y", "@azure-devops/mcp", "Contoso", "-d", "core", "work", "work-items"]
+enabled = true
+startup_timeout_sec = 60
+\`\`\`
+
+可用域：\`core\`、\`work\`、\`work-items\`、\`search\`、\`test-plans\`、\`repositories\`、\`wiki\`、\`pipelines\`、\`advanced-security\`。不写 \`-d\` 就会加载全部。项目/团队默认是开关类字面量，可以留 \`env\` 表：
+
+\`\`\`toml
+[mcp_servers.azure-devops.env]
+ado_mcp_project = "Contoso"
+ado_mcp_team = "Fabrikam Team"
+\`\`\`
+
+无头 / 不便开浏览器才用 PAT。官方要求 \`PERSONAL_ACCESS_TOKEN\` 是「邮箱:PAT」的 **base64**，不是裸 PAT；邮箱可以是任意非空字符串。**不要**把编码结果写进 \`env\` 表或 \`args\`。用 \`env_vars\` 转发启动 Codex 那个进程里的名字：
+
+\`\`\`bash
+export PERSONAL_ACCESS_TOKEN="$(printf '%s' 'you@example.com:ADO_PAT' | base64)"
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.azure-devops]
+command = "npx"
+args = ["-y", "@azure-devops/mcp", "Contoso", "--authentication", "pat"]
+env_vars = ["PERSONAL_ACCESS_TOKEN"]
+enabled = true
+startup_timeout_sec = 60
+\`\`\`
+
+从已经 export 的终端启动。Bearer 环境变量那条是 \`ADO_MCP_AUTH_TOKEN\` 加 \`--authentication envvar\`，同样走 \`env_vars\`，不要写进 \`http_headers\`。一条连接只用一种鉴权。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add azure-devops@…\`。
+- 不要抄 Claude 的 \`claude mcp add --transport stdio\`，也不要抄 Cursor / VS Code 的 \`.vscode/mcp.json\`。VS Code 的 input 占位 Codex 不会展开。
+- 不要把 Windows \`cmd /c npx\` 包装抄进 WSL。
+- 不要把 PAT / Bearer 写进 \`env\`、\`--env KEY=\` 或提示词。
+- 不要默认钉 \`@azure-devops/mcp@2.8.1\`。那是工具改名时的临时回退。
+- 不要和 Azure Skills 插件、远程 \`mcp.dev.azure.com\` 配成一台。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完用 \`codex mcp get azure-devops\` 看 command 是 \`npx\`。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Azure DevOps", "stdio", "PAT"],
+    related: ["azure-skills-plugin", "mcp-add-and-login", "hubspot-dev-mcp"],
+    sources: [
+      {
+        label: "azure-devops-mcp · Getting Started",
+        url: "https://github.com/microsoft/azure-devops-mcp/blob/main/docs/GETTINGSTARTED.md",
+      },
+      {
+        label: "Learn · Azure DevOps MCP overview",
+        url: "https://learn.microsoft.com/en-us/azure/devops/mcp-server/mcp-server-overview",
+      },
+      {
+        label: "Learn · Remote MCP (Codex unsupported)",
+        url: "https://learn.microsoft.com/en-us/azure/devops/mcp-server/remote-mcp-server",
+      },
+    ],
+  },
 ];

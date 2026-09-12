@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T11:00:00Z",
+  lastTick: "2026-09-12T11:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "11:00 定时器。调用前 $97.61。Spend: counts（start_time=2026-09-05T11:15:00Z，共 231 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.61。CDP 39 项全过（预览 4297）。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md、hermes import-agent、Codex_Base 日文入门文、Google Cloud Developer Plugin 营销帖，无新可执行厂商路径。本轮收录 Azure Skills（marketplace add microsoft/azure-skills，再 /plugins 装 azure；MCP 是 npx @azure/mcp@latest server start）。不要发明 plugin add id。Learn 安装页无 Codex 专节。Azure DevOps 远程 mcp.dev.azure.com 官方写明 Codex 不支持 Entra DCR，不要和 Azure Skills 配成一台。Intercom / Asana 仍是 mcp-remote。下一轮优先 Intercom / Meilisearch / DigitalOcean / PagerDuty / Elastic / Pinecone / Asana / Tinybird / Fly.io / 本地 Azure DevOps MCP。",
+    "11:30 定时器。调用前 $97.61。Spend: counts（start_time=2026-09-05T11:45:00Z，共 231 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度待本轮验证后写入。X 仍是 Packt、tmux-agent-pulse、Google Cloud Developer Plugin 营销、hermes import-agent、日文 AGENTS.md、韩文 0.154 / GPT-6-Astra、粘贴截图、Claude vs Codex，无新可执行厂商路径。本轮收录本地 Azure DevOps MCP（mcp add azure-devops -- npx -y @azure-devops/mcp Contoso）。远程 mcp.dev.azure.com 官方写明 Codex 不支持 Entra DCR。不要和 Azure Skills 的 @azure/mcp 搞混。Intercom 仍是 mcp-remote。Meilisearch 无 Codex 专节。DigitalOcean MCP 官方把 token 写进 env / headers。下一轮优先 Intercom / Meilisearch / DigitalOcean / PagerDuty / Elastic / Pinecone / Asana / Tinybird / Fly.io。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -670,6 +670,16 @@ export const loopState = {
     "meilisearch.com integrations mcp Codex",
     "docs.digitalocean.com Codex DigitalOcean plugin Remote Droplet",
     "Codex CLI 技巧 2026 Azure Skills plugin marketplace MCP",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "github.com/microsoft/azure-devops-mcp GETTINGSTARTED Codex mcp add",
+    "learn.microsoft.com azure devops mcp Codex Entra DCR local stdio",
+    "developers.intercom.com mcp.intercom.com Codex mcp-remote",
+    "meilisearch.com integrations mcp Codex",
+    "docs.digitalocean.com reference mcp Codex @digitalocean/mcp",
+    "support.pagerduty.com pagerduty-mcp-server Codex",
+    "docs.pinecone.io mcp-server Codex",
+    "Codex CLI 技巧 2026 Azure DevOps MCP @azure-devops/mcp",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

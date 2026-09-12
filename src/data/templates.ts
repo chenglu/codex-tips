@@ -1910,4 +1910,16 @@ codex mcp add HubSpotDev -- hs mcp start --ai-agent codex
 codex mcp add azure -- npx -y @azure/mcp@latest server start
 `,
   },
+  {
+    id: "azure-devops-local-mcp",
+    title: "Azure DevOps 本地 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是本地 stdio：mcp add azure-devops -- npx -y @azure-devops/mcp，组织名跟在包名后面。不是 mcp.dev.azure.com。PAT 才 --authentication pat，用 env_vars。",
+    code: `codex mcp add azure-devops -- npx -y @azure-devops/mcp Contoso
+
+# 已 az login 时：
+# codex mcp add azure-devops -- npx -y @azure-devops/mcp Contoso --authentication azcli
+`,
+  },
 ];

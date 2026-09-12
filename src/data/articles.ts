@@ -2591,5 +2591,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex 是 marketplace add microsoft/azure-skills，再 /plugins 装 azure。插件 MCP 是 npx @azure/mcp@latest server start，先 az login。不要发明 plugin add id，也不要抄 Copilot 的 /plugin install。',
   },
+  {
+    title: 'Azure DevOps MCP Server',
+    url: 'https://github.com/microsoft/azure-devops-mcp',
+    source: 'Microsoft',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Azure DevOps', 'stdio'],
+    summary:
+      '官方 Codex 是 mcp add azure-devops -- npx -y @azure-devops/mcp，组织名跟在包名后面。这是本地 stdio。远程 mcp.dev.azure.com 走不了 Entra DCR。PAT 用 env_vars 转发 PERSONAL_ACCESS_TOKEN，不要写进 env 表。',
+  },
 ];
 
