@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T06:00:00Z",
+  lastTick: "2026-09-12T06:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "06:00 定时器。调用前 $97.68。Spend: counts（start_time=2026-09-05T06:15:00Z，共 233 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.67。CDP 36 项全过（预览 4287）。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md 并用文、Muse 许愿，无新可执行帖。本轮收录 Algolia Productivity MCP（codex mcp add algolia --url https://mcp.algolia.com/mcp）。Pinecone 官方 Codex 路径是 npx skills add，不收录。DigitalOcean / Fly / Heroku 仍无 Codex 节。HubSpot / Asana / Tinybird / MotherDuck 理由同前。",
+    "06:30 定时器。调用前 $97.67。Spend: counts（start_time=2026-09-05T06:45:00Z，共 232 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度见本轮提交。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md 并用文、Muse 许愿，无新可执行帖。本轮收录 Algolia DocSearch MCP（codex mcp add algolia-docsearch --url https://mcp.algolia.com/1/docsearch/mcp）。Temporal 官方 Codex 节是 /plugins 搜 temporal，未给 plugin add id，下一轮再核。PagerDuty 官方无 Codex 节且不支持 DCR。Elastic 官方走 mcp-remote。Pinecone / HubSpot / Asana / Tinybird / MotherDuck 理由同前。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -591,6 +591,13 @@ export const loopState = {
     "docs.pinecone.io mcp-server Codex npx skills add pinecone-io/skills",
     "developers.hubspot.com hs mcp setup Codex CLI HubSpotDev",
     "Codex CLI 技巧 2026 Algolia MCP Productivity DocSearch",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "docsearch.algolia.com mcp install algolia-docsearch Codex setup --codex",
+    "docs.temporal.io with-ai Codex plugins marketplace temporal",
+    "support.pagerduty.com pagerduty-mcp-server Codex mcp.pagerduty.com",
+    "developers.hubspot.com hs mcp setup Codex CLI HubSpotDev",
+    "Codex CLI 技巧 2026 DocSearch MCP Temporal plugin PagerDuty",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

@@ -5731,7 +5731,7 @@ enabled = true
     level: "starter",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "Algolia", "OAuth", "HTTP"],
-    related: ["mcp-add-and-login", "mcp-mixpanel-remote", "mcp-exa-remote"],
+    related: ["mcp-add-and-login", "mcp-algolia-docsearch", "mcp-exa-remote"],
     sources: [
       {
         label: "Algolia · Productivity MCP",
@@ -5740,6 +5740,65 @@ enabled = true
       {
         label: "Algolia · MCP overview",
         url: "https://www.algolia.com/doc/guides/model-context-protocol",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "mcp-algolia-docsearch",
+    no: 308,
+    title: "DocSearch MCP 用 algolia-docsearch 表，不要覆盖 Productivity 那张 algolia",
+    summary:
+      "CLI：codex mcp add algolia-docsearch --url https://mcp.algolia.com/1/docsearch/mcp。无鉴权、只搜公开文档。安装器只用 --codex，不要 --all。不要 login，也不要和 Productivity 那张 algolia 表写成一台。",
+    body: `Algolia **DocSearch** MCP 搜公开开发者文档（带出处），进不了你的 Algolia 应用数据。官方 Codex 配置段名是 \`algolia-docsearch\`。本机等价命令：
+
+\`\`\`bash
+codex mcp add algolia-docsearch --url https://mcp.algolia.com/1/docsearch/mcp
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.algolia-docsearch]
+url = "https://mcp.algolia.com/1/docsearch/mcp"
+enabled = true
+\`\`\`
+
+地址是 \`/1/docsearch/mcp\`，**不是** Productivity 那条。无鉴权，不要 \`codex mcp login\`，也不要 API key。用户层表名官方就是带连字符的 \`algolia-docsearch\`（这不是插件 \`mcp.json\`，#33063 那套连字符问题不套这里）。不要把这张表起名叫 \`algolia\`，否则会盖掉 Productivity。
+
+安装器也能写这份配置，但只点 Codex，不要扫全部客户端：
+
+\`\`\`bash
+npx -y @docsearch/cli setup --global --codex --yes
+\`\`\`
+
+项目层改 \`--project\`。官方安装器碰到重复的 \`[mcp_servers.algolia-docsearch]\` 会停，不会偷偷覆盖。不要跑 \`--all\`，也不要加 \`--claude\` / \`--cursor\`。不要用它去改 Productivity 那张表。
+
+连上后点名 DocSearch，例如问它找某份公开文档的现行段落。默认工具是一次性检索。Public Beta，免费、无 SLA，Algolia 可随时改或停。
+
+不要做这些：
+
+- 不要抄 Cursor / Claude 的 \`mcpServers\` JSON 或 \`--transport http\`。
+- 不要抄 \`mcp-remote\`。
+- 不要发明 \`codex plugin add algolia-docsearch@…\`。
+- 不要给它 \`required = true\` 挂全局。公开文档检索不是每条会话的硬依赖。
+- 不要和 Public MCP（控制台复制的应用主机）搞混。那是暴露你自己的索引。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get algolia-docsearch\` 看传输是 streamable_http。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Algolia", "DocSearch", "HTTP"],
+    related: ["mcp-algolia-productivity", "mcp-add-and-login", "mcp-exa-remote"],
+    sources: [
+      {
+        label: "DocSearch · Install MCP",
+        url: "https://docsearch.algolia.com/mcp/install",
+      },
+      {
+        label: "DocSearch · Use MCP",
+        url: "https://docsearch.algolia.com/docs/mcp/usage",
       },
       {
         label: "OpenAI · Model Context Protocol",

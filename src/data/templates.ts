@@ -1784,4 +1784,15 @@ url = "https://mcp.algolia.com/mcp"
 enabled = true
 `,
   },
+  {
+    id: "mcp-algolia-docsearch",
+    title: "Algolia DocSearch 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方表名是 algolia-docsearch。地址是 mcp.algolia.com/1/docsearch/mcp。无鉴权。不要覆盖 Productivity 那张 algolia 表。",
+    code: `[mcp_servers.algolia-docsearch]
+url = "https://mcp.algolia.com/1/docsearch/mcp"
+enabled = true
+`,
+  },
 ];

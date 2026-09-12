@@ -2491,5 +2491,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex 节是 mcp add algolia --url https://mcp.algolia.com/mcp，再 mcp login algolia。先在控制台打开 Productivity MCP。只读。不要抄 Claude 的 --transport http。不要和 DocSearch 或 Public MCP 配成一台。',
   },
+  {
+    title: 'Use DocSearch MCP',
+    url: 'https://docsearch.algolia.com/docs/mcp/usage',
+    source: 'Algolia DocSearch',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Algolia', 'DocSearch'],
+    summary:
+      'Codex 表名是 algolia-docsearch，url 为 https://mcp.algolia.com/1/docsearch/mcp。无鉴权。安装器只用 --codex，不要 --all。不要 login，也不要和 Productivity 那张 algolia 表写成一台。',
+  },
 ];
 
