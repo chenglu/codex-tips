@@ -1726,4 +1726,15 @@ enabled = true
 startup_timeout_sec = 60
 `,
   },
+  {
+    id: "mcp-clickhouse-cloud",
+    title: "ClickHouse Cloud 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.clickhouse.cloud/mcp。先在控制台打开 MCP。add 之后 OAuth。不要抄 --transport http，也不要和 clickstack 搞混。",
+    code: `[mcp_servers.clickhouse-cloud]
+url = "https://mcp.clickhouse.cloud/mcp"
+enabled = true
+`,
+  },
 ];

@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T03:30:00Z",
+  lastTick: "2026-09-12T04:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "03:30 定时器。调用前 $97.71。Spend: counts（start_time=2026-09-05T03:45:00Z，共 239 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾余额 $97.70。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md 并用文、Muse 许愿，无新可执行帖。本轮收录 MongoDB（mongodb-atlas 托管插件 + marketplace add mongodb/agent-skills + 本地 mongodb-mcp-server --readOnly）。HubSpot 本地 hs mcp setup 仍未核对手写 TOML。Browserbase 仍不收录。",
+    "04:00 定时器。调用前 $97.70。Spend: counts（start_time=2026-09-05T04:15:00Z，共 236 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾余额待收尾 get_usage_credits。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md 并用文、Muse 许愿，无新可执行帖。本轮收录 ClickHouse Cloud 远程 MCP（codex mcp add clickhouse-cloud --url https://mcp.clickhouse.cloud/mcp）。HubSpot 本地 hs mcp setup 仍未核对手写 TOML。Sequel / Snowflake Merge 不收录。Browserbase 仍不收录。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -554,6 +554,13 @@ export const loopState = {
     "github.com/mongodb/agent-skills README.community mongodb plugin",
     "developers.hubspot.com hs mcp setup Codex CLI HubSpotDev",
     "Codex CLI 技巧 2026 MongoDB plugin MCP Atlas",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "clickhouse.com docs remote MCP mcp.clickhouse.cloud/mcp Codex mcp add clickhouse-cloud",
+    "clickhouse.com blog chatgpt-data-plugin Codex plugin directory",
+    "github.com/ClickHouse/agent-skills npx skills add Codex",
+    "developers.hubspot.com hs mcp setup Codex CLI HubSpotDev",
+    "Codex CLI 技巧 2026 ClickHouse Cloud MCP plugin",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

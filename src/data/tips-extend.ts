@@ -5418,4 +5418,62 @@ Atlas **服务账号**（不是普通 Atlas API key）走 \`MDB_MCP_API_CLIENT_I
       },
     ],
   },
+  {
+    id: "mcp-clickhouse-cloud",
+    no: 303,
+    title: "ClickHouse Cloud MCP 用 mcp.clickhouse.cloud/mcp，不要抄 Claude 的 --transport http",
+    summary:
+      "先在 Cloud 控制台给服务打开 MCP。CLI：codex mcp add clickhouse-cloud --url https://mcp.clickhouse.cloud/mcp，再 OAuth。公共目录也可 /plugins 搜 ClickHouse。不要抄 Claude 的 --transport http，也不要和 clickstack 端点搞混。",
+    body: `ClickHouse Cloud 远程 MCP 要先在控制台打开：服务 → Connect → Connect with MCP，打开开关。地址是 \`https://mcp.clickhouse.cloud/mcp\`，**有** \`/mcp\` 后缀。鉴权是 OAuth，不要造 API key。
+
+官方 Codex 节就是：
+
+\`\`\`bash
+codex mcp add clickhouse-cloud --url https://mcp.clickhouse.cloud/mcp
+codex mcp get clickhouse-cloud
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.clickhouse-cloud]
+url = "https://mcp.clickhouse.cloud/mcp"
+enabled = true
+\`\`\`
+
+连上时会开浏览器登录 ClickHouse Cloud。若 add 完还没票，再 \`codex mcp login clickhouse-cloud\`。用户层表名官方就是带连字符的 \`clickhouse-cloud\`（这不是插件 \`mcp.json\`）。访问范围跟你这个 Cloud 账号能看到的组织和服一致。
+
+ChatGPT Work / Codex 公共插件目录里也有 ClickHouse 插件，捆绑这台远程 MCP 和 Agent Skills。TUI \`/plugins\` 或桌面 Plugins 搜 ClickHouse 再装，效果是连 MCP 并带上技能。官方没给 \`codex plugin add clickhouse@…\` 那种 id，不要自己编。插件已经带了 MCP 时，不要再 \`mcp add\` 同一张表。
+
+\`run_select_query\` 只接受 \`SELECT\`。官方写明插件里的工具都是只读，改不了数据和服配置。自建集群不要用这台 Cloud 端点。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`claude mcp add --transport http clickhouse-cloud https://mcp.clickhouse.cloud/mcp\`。Codex 是 \`add\` 名字 \`--url\` 地址。
+- 不要抄 Windsurf 的 \`npx -y mcp-remote\`，也不要抄 Cursor / VS Code 的 JSON。
+- 不要和 ClickStack 端点 \`https://mcp.clickhouse.cloud/clickstack\` 搞混。那是另一台。
+- 不要把 Sequel 的 \`api.sequel.sh/mcp\` 当成 ClickHouse 官方路径。
+- 不要抄本地 \`uv run\` 示例里的 \`--env CLICKHOUSE_PASSWORD=\`。自建 stdio 才用 \`mcp-clickhouse\`，密钥走 \`env_vars\`。
+- 不要用 \`npx skills add clickhouse/agent-skills\` 当 Codex 插件安装器。那会改所有检测到的客户端，还可能写进 \`~/.codex/skills\`（Codex 主路径是 \`~/.agents/skills\`）。
+- 不要给它 \`required = true\` 挂全局。不要一上来 \`--yolo\`。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 ClickHouse。改完新开会话，用 \`codex mcp get clickhouse-cloud\` 看传输是 streamable_http。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "ClickHouse", "OAuth", "plugins"],
+    related: ["mcp-add-and-login", "mcp-resend-remote", "mongodb-agent-skills"],
+    sources: [
+      {
+        label: "ClickHouse · Remote MCP",
+        url: "https://clickhouse.com/docs/products/cloud/features/ai-ml/mcp/remote-mcp",
+      },
+      {
+        label: "ClickHouse · ChatGPT Data plugin",
+        url: "https://clickhouse.com/blog/chatgpt-data-plugin",
+      },
+      {
+        label: "ClickHouse/agent-skills",
+        url: "https://github.com/ClickHouse/agent-skills",
+      },
+    ],
+  },
 ];

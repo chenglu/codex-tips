@@ -2441,5 +2441,15 @@ export const articles: Article[] = [
     summary:
       'Atlas 托管走 /plugins 搜 mongodb-atlas。自建才 codex plugin marketplace add mongodb/agent-skills，再装 mongodb 插件，并用 env_vars 配 MDB_MCP_CONNECTION_STRING。不要把连接串写进 args，也不要抄 Claude 或 Cursor 的插件命令。',
   },
+  {
+    title: 'Enable and connect ClickHouse Cloud remote MCP server',
+    url: 'https://clickhouse.com/docs/products/cloud/features/ai-ml/mcp/remote-mcp',
+    source: 'ClickHouse',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'ClickHouse', 'OAuth', 'plugins'],
+    summary:
+      '先在 Cloud 控制台打开 MCP。Codex 是 codex mcp add clickhouse-cloud --url https://mcp.clickhouse.cloud/mcp，再 OAuth。公共目录也可 /plugins 搜 ClickHouse。不要抄 Claude 的 --transport http，也不要和 clickstack 端点搞混。',
+  },
 ];
 
