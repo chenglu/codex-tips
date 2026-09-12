@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-12T14:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "14:30 定时器。调用前 $97.56。Spend: counts（start_time=2026-09-05T14:45:00Z，共 230 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 仍是 Claude vs Codex、hermes import-agent、日文 AGENTS.md、韩文 0.154 / GPT-6-Astra、粘贴截图、Google Cloud 插件营销、tmux-agent-pulse，无新可执行厂商路径。本轮收录 Kagi 本地 MCP（mcp add kagi -- uvx kagimcp）。不要抄 --env KAGI_API_KEY=。托管才 mcp.kagi.com/mcp + bearer_token_env_var。Axiom / Intercom 仍无 Codex 专节。收尾额度待验证后写入。",
+    "14:30 定时器。调用前 $97.56。Spend: counts（start_time=2026-09-05T14:45:00Z，共 230 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.55。CDP 49 项全过（预览 4305）。X 仍是 Claude vs Codex、hermes import-agent、日文 AGENTS.md、韩文 0.154 / GPT-6-Astra、粘贴截图、Google Cloud 插件营销、tmux-agent-pulse，无新可执行厂商路径。本轮收录 Kagi 本地 MCP（mcp add kagi -- uvx kagimcp）。不要抄 --env KAGI_API_KEY=。托管才 mcp.kagi.com/mcp + bearer_token_env_var。Axiom / Intercom 仍无 Codex 专节。下一轮优先 Axiom / Intercom / PagerDuty。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
