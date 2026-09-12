@@ -2561,5 +2561,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex 推荐 plugin add airtable@openai-curated。只要 MCP 才 mcp add airtable --url https://mcp.airtable.com/mcp，再 mcp login。无头才 bearer_token_env_var。不要抄 Claude 的 --header 密钥或源仓 README 的数组表。',
   },
+  {
+    title: 'Connect to the MotherDuck MCP Server',
+    url: 'https://motherduck.com/docs/key-tasks/ai-and-motherduck/mcp-setup/',
+    source: 'MotherDuck',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'MotherDuck', 'MCP', 'OAuth', 'Skills'],
+    summary:
+      '技能走 marketplace add motherduckdb/agent-skills，再 /plugins 装 MotherDuck Skills。远程 MCP 是 api.motherduck.com/mcp，再 mcp login。不要发明 plugin add id，也不要抄 Claude 的 --transport http 或把 token 写进 http_headers。',
+  },
 ];
 

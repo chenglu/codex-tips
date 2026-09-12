@@ -6267,4 +6267,101 @@ enabled = true
       },
     ],
   },
+  {
+    id: "motherduck-codex-plugin",
+    no: 315,
+    title: "MotherDuck 技能走 marketplace，远程 MCP 不要抄 --transport http",
+    summary:
+      "技能：codex plugin marketplace add motherduckdb/agent-skills，再 /plugins 装 MotherDuck Skills。远程 MCP 对照 api.motherduck.com/mcp 再 mcp login。不要发明 plugin add id，也不要抄 Claude 的 --transport http 或把 token 写进 http_headers。",
+    body: `MotherDuck 给 Codex 三条线，不要混成一份 JSON：技能教写法；远程 MCP 查云上的库；本地 stdio 才碰 DuckDB 文件。技能**不会**替你配 MCP。
+
+**技能（官方 Codex 节）：**
+
+\`\`\`bash
+codex plugin marketplace add motherduckdb/agent-skills
+\`\`\`
+
+然后 TUI \`/plugins\` 或桌面 Plugins 装 **MotherDuck Skills**。官方**没给** \`codex plugin add motherduck-skills@…\` 这种 id，不要把 Claude 的 \`motherduck-skills@motherduck-skills\` 抄过来。也不要用 \`npx skills add motherduckdb/agent-skills\` 当 Codex 安装器。0.154 起先看**当前会话**；当前会话没有再新开。桌面改 marketplace.json 仍要重启应用。IDE 扩展没有 \`/plugins\`。
+
+源仓现在大约 22 份技能，从 \`motherduck-connect\` / \`motherduck-query\` / \`motherduck-duckdb-sql\` 到 Dive、Flight、DuckLake 和迁移。点名技能或直接说任务即可。
+
+**远程 MCP（云上主路径）：** 托管地址是 \`https://api.motherduck.com/mcp\`，带 \`/mcp\` 后缀。官方 MCP 页给 Codex 的是 ChatGPT / Codex **对话插件商店**（Plugins 搜 MotherDuck，再用 \`@\` 选），**不是** CLI 的 \`/plugins\`。CLI 对照同一条 Streamable HTTP URL 手写：
+
+\`\`\`bash
+codex mcp add motherduck --url https://api.motherduck.com/mcp
+codex mcp login motherduck
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.motherduck]
+url = "https://api.motherduck.com/mcp"
+enabled = true
+\`\`\`
+
+用户层表名用 \`motherduck\`（这不是插件 \`mcp.json\` 的连字符坑）。随后 \`mcp login\` 打开浏览器做 OAuth。不要抄 Claude 的 \`--transport http\`，也不要抄 Cursor 的 \`type: http\` JSON。连上后先让它列数据库。远程有只读 \`query\` 和读写 \`query_rw\`：探索时让只读尽快跑，写入保持批准或关掉。不要一上来 \`--yolo\`。不要给它 \`required = true\` 挂全局。
+
+无头 / 不便开浏览器才用 access token。不要把 \`Authorization: Bearer …\` 抄进 \`http_headers\`。用 \`bearer_token_env_var\`，右边是启动 Codex 那个进程里的变量**名**：
+
+\`\`\`toml
+[mcp_servers.motherduck]
+url = "https://api.motherduck.com/mcp"
+bearer_token_env_var = "MOTHERDUCK_TOKEN"
+enabled = true
+\`\`\`
+
+从已经 export 的终端启动。这张表不要再跑 \`mcp login\`。只要只读：换 read-scaling token，并挡住 \`query_rw\`。一条连接只用一种鉴权。
+
+**本地 stdio（官方 README 的 Codex CLI 节）：** 查本机 \`.duckdb\`、内存库，或自托管时才用 \`uvx mcp-server-motherduck\`。默认只读，\`--db-path\` 默认是 \`:memory:\`。连 MotherDuck 云仓必须显式 \`--db-path md:\`。**不要**抄 \`--env motherduck_token=YOUR_TOKEN\`：会把值写进配置。用 \`env_vars\` 转发 \`motherduck_token\` 或 \`MOTHERDUCK_TOKEN\`：
+
+\`\`\`toml
+[mcp_servers.duckdb]
+command = "uvx"
+args = ["mcp-server-motherduck", "--db-path", "/abs/path/to/db.duckdb"]
+enabled = true
+startup_timeout_sec = 60
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.motherduck-local]
+command = "uvx"
+args = ["mcp-server-motherduck", "--db-path", "md:", "--read-write"]
+env_vars = ["motherduck_token"]
+enabled = true
+startup_timeout_sec = 60
+\`\`\`
+
+官方示例里内存/文件表名是 \`duckdb\`，连 \`md:\` 的 stdio 表名是 \`motherduck\`。已经有远程 HTTP 那张 \`motherduck\` 时，stdio 必须另起名，不要覆盖。只读连 \`md:\` 必须用 read-scaling token；普通 token 要 \`--read-write\`。不要默认加 \`--allow-switch-databases\`。\`uvx\` 找不到就写成 \`which uvx\` 的绝对路径。本地工具是 \`execute_query\` 这一套，不要和远程的 \`query\` / \`query_rw\` 搞混。
+
+有 shell 时，Dive / Flight 那种落盘工作官方更建议 MotherDuck CLI，MCP 负责探库和问答。两套可以一起用。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add motherduck-skills@motherduck-skills\` 或其他 curated id。
+- 不要抄 Claude 的 \`/plugin marketplace add\`、\`/plugin install motherduck-skills@motherduck-skills\`，或 \`claude mcp add --transport http\`。
+- 不要抄 Cursor / VS Code 的 JSON，也不要把 Bearer 写进 \`headers\`。
+- 不要把 ChatGPT Plugins 商店那份和 CLI \`/plugins\` 技能包当成同一条安装命令。
+- 不要把远程 HTTP 和本地 stdio 配成同一张表。
+- 不要和 Turso / ClickHouse Cloud 那几台配成一台。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完用 \`codex mcp get motherduck\` 看传输是 streamable_http；技能用 \`codex plugin list\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["plugins", "MotherDuck", "MCP", "OAuth", "Skills"],
+    related: ["turso-codex-plugin", "mcp-add-and-login", "mcp-http-bearer-env"],
+    sources: [
+      {
+        label: "MotherDuck · Connect MCP",
+        url: "https://motherduck.com/docs/key-tasks/ai-and-motherduck/mcp-setup/",
+      },
+      {
+        label: "MotherDuck · Agent Skills",
+        url: "https://motherduck.com/docs/key-tasks/ai-and-motherduck/agent-skills/",
+      },
+      {
+        label: "motherduckdb/mcp-server-motherduck",
+        url: "https://github.com/motherduckdb/mcp-server-motherduck",
+      },
+    ],
+  },
 ];

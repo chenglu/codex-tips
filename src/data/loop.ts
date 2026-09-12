@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T09:30:00Z",
+  lastTick: "2026-09-12T10:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "09:30 定时器。调用前 $97.63。Spend: counts（start_time=2026-09-05T09:45:00Z，共 234 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.62。CDP 38 项全过（预览 4294）。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md、hermes import-agent、Codex_Base 日文入门文，另有 Google Cloud Developer Plugin 营销帖（站点已有 google-cloud-developer）。本轮收录 Airtable 官方 Codex 插件与 MCP（plugin add airtable@openai-curated；mcp add airtable --url https://mcp.airtable.com/mcp）。Intercom 仍无 Codex 专节，不要发明 mcp add。下一轮优先 Intercom / Meilisearch / DigitalOcean / PagerDuty / Elastic / Pinecone / HubSpot / Asana / Tinybird / MotherDuck / Fly.io 理由同前。",
+    "10:00 定时器。调用前 $97.62。Spend: counts（start_time=2026-09-05T10:15:00Z，共 233 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度待本轮验证后回写。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md、hermes import-agent、Codex_Base 日文入门文、Google Cloud Developer Plugin 营销帖，无新可执行厂商路径。本轮收录 MotherDuck 官方技能市场与远程 MCP（marketplace add motherduckdb/agent-skills；mcp add motherduck --url https://api.motherduck.com/mcp）。不要发明 plugin add id。Intercom / Asana 仍是 mcp-remote；Elastic 无 Codex 专节；HubSpot 是本地 hs mcp setup，尚未核 TOML。下一轮优先 HubSpot / Intercom / Meilisearch / DigitalOcean / PagerDuty / Elastic / Pinecone / Asana / Tinybird / Fly.io 理由同前。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -637,6 +637,17 @@ export const loopState = {
     "github.com/Airtable/skills Codex plugin marketplace add airtable/skills",
     "developers.intercom.com guides mcp Codex mcp.intercom.com",
     "Codex CLI 技巧 2026 Airtable MCP plugin OAuth PAT",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "motherduck.com docs agent-skills Codex plugin marketplace add motherduckdb/agent-skills",
+    "motherduck.com docs mcp-setup api.motherduck.com/mcp Codex",
+    "github.com/motherduckdb/agent-skills Codex /plugins MotherDuck Skills",
+    "github.com/motherduckdb/mcp-server-motherduck Codex mcp add uvx",
+    "developers.hubspot.com hs mcp setup Codex CLI HubSpotDev",
+    "developers.intercom.com mcp.intercom.com Codex mcp-remote",
+    "developers.asana.com Codex mcp-remote v2/mcp",
+    "elastic.co Kibana MCP mcp-remote Codex",
+    "Codex CLI 技巧 2026 MotherDuck MCP plugin marketplace",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

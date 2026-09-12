@@ -1872,4 +1872,17 @@ enabled = true
 # enabled = true
 `,
   },
+  {
+    id: "motherduck-codex-plugin",
+    title: "MotherDuck 技能与远程 MCP",
+    filename: "terminal",
+    summary:
+      "技能是 marketplace add motherduckdb/agent-skills，再 /plugins 装。官方没给 plugin add id。远程对照 api.motherduck.com/mcp。无头才 bearer_token_env_var。",
+    code: `codex plugin marketplace add motherduckdb/agent-skills
+# 然后 TUI /plugins 装 MotherDuck Skills
+
+codex mcp add motherduck --url https://api.motherduck.com/mcp
+codex mcp login motherduck
+`,
+  },
 ];
