@@ -222,6 +222,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: "codex mcp add GitLab --url https://gitlab.com/api/v4/mcp", meaning: "GitLab 远程 MCP。随后 mcp login GitLab。不要抄 rmcp_client 或 mcp-remote。不是 Cloud 评论审查，也不是 Orbit" },
       { cmd: "codex mcp add Sanity --url https://mcp.sanity.io", meaning: "Sanity 远程 MCP。随后 mcp login Sanity。URL 没有 /mcp 后缀。不要抄 mcp-remote 或把 token 写进 http_headers。技能才 marketplace add sanity-io/agent-toolkit" },
       { cmd: "codex plugin add honeycomb@honeycomb-plugins", meaning: "先 marketplace add honeycombio/agent-skill。插件会登记远程 mcp.honeycomb.io/mcp。不要抄 mcp-remote。欧盟换 mcp.eu1.honeycomb.io/mcp" },
+      { cmd: "codex mcp add semgrep -- semgrep mcp", meaning: "本地 stdio。先 pipx 或 uv 装 CLI，再 semgrep login && semgrep install-semgrep-pro。不要 mcp login。不要抄 Claude 远程插件或 uvx semgrep-mcp。CI 才 env_vars 转发 SEMGREP_APP_TOKEN" },
       { cmd: "codex mcp add convex -- npx … mcp start", meaning: "插件装不上才用手写 stdio。官方 MCP 是 npx convex mcp start，不是远程 URL。不要加 --dangerously-enable-production-deployments" },
       { cmd: "codex --profile huggingface", meaning: "[model_providers.huggingface] 走 router.huggingface.co/v1，wire_api = responses，env_key = HF_TOKEN。不是 Hub MCP，也不是 --oss" },
       { cmd: "codex --profile vercel", meaning: "[model_providers.vercel] 走 ai-gateway.vercel.sh/codex/v1，wire_api = responses，env_key = AI_GATEWAY_API_KEY。不是 Vercel MCP，也不是 --oss" },

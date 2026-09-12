@@ -7042,4 +7042,80 @@ enabled = true
       },
     ],
   },
+  {
+    id: "semgrep-guardian-mcp",
+    no: 324,
+    title: "Semgrep Guardian 是本地 stdio，不是 Claude 远程插件",
+    summary:
+      "官方 Codex 是本地 stdio：mcp add semgrep -- semgrep mcp。先 pipx 或 uv 装 CLI，再 semgrep login && semgrep install-semgrep-pro。不要 mcp login，也不要抄 Claude 的 plugin install 或 uvx semgrep-mcp。",
+    body: `Semgrep Guardian 给 Codex 的官方页签是**本地 stdio MCP**，不是 Claude 那套托管远程插件。先装 CLI（需要 Python 3.10 及以上）。官方首选 \`pipx install semgrep\` 或 \`uv tool install semgrep\`。Homebrew 是 best-effort，常常落后，不要当主路径。装完：
+
+\`\`\`bash
+semgrep --version
+semgrep login && semgrep install-semgrep-pro
+\`\`\`
+
+\`semgrep login\` 会开浏览器（终端也会印激活链接），凭证进 \`~/.semgrep/settings.yml\`。已经登录过，Guardian / MCP 会用这份，不要再把 token 写进 \`env\` 表。
+
+官方 Codex 节是手写 \`~/.codex/config.toml\`。等价命令：
+
+\`\`\`bash
+codex mcp add semgrep -- semgrep mcp
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.semgrep]
+command = "semgrep"
+args = ["mcp"]
+enabled = true
+\`\`\`
+
+这是 stdio，**不要** \`codex mcp login\`。用户层表名官方就是 \`semgrep\`。\`semgrep\` 不在 PATH 时，把 \`command\` 改成 \`which semgrep\` 给出的绝对路径；用 fnm / nvm / pyenv 时尤其不要写裸命令名。第一次拉 Pro 引擎可能慢，可加 \`startup_timeout_sec = 60\`。不要 \`required = true\`。不要一上来 \`--yolo\`。
+
+Codex **没有** post-write hook。工具只在模型调用时跑，不会在每次写文件后自动扫。本地 stdio 会露出 \`semgrep_scan\`（本机绝对路径）、\`semgrep_scan_supply_chain\`、\`semgrep_scan_with_custom_rule\`、\`semgrep_findings\`。旧独立包的 \`security_check\` 已经没了。stdio 没有 \`semgrep_whoami\`（那要 JWT）。连上后让它扫刚写的文件即可。规则走你组织 Policies，不是 Claude 远程默认的 Guardian ruleset。
+
+CI / 无头、没法开浏览器时，才把 \`SEMGREP_APP_TOKEN\` 放进**启动 Codex 的那个进程**，用 \`env_vars\` 转发：
+
+\`\`\`toml
+[mcp_servers.semgrep]
+command = "semgrep"
+args = ["mcp"]
+env_vars = ["SEMGREP_APP_TOKEN"]
+enabled = true
+\`\`\`
+
+不要抄 Kiro 那种把 token 或未展开占位符写进 JSON \`env\` 表。Codex 不会展开那种占位，还会把字面量写进配置。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`claude plugin install semgrep@claude-plugins-official\`。那是托管远程，不需要本地 CLI，Codex 页签不是这条。
+- 不要抄 Cursor 的 \`/setup-semgrep-plugin\`，也不要发明 \`codex plugin add semgrep@…\`。
+- 不要抄已迁移的独立包 \`uvx semgrep-mcp\`。源仓已经并进主 CLI 的 \`semgrep mcp\`。
+- 不要发明 \`codex mcp add semgrep --url https://mcp.semgrep.ai/mcp\`。Codex 页签不是远程 HTTP。
+- 不要把 \`semgrep mcp -t streamable-http\` 或 \`localhost:8000/mcp\` 当 Codex 主路径。
+- 不要抄 Windsurf 的 \`hooks.json\` / \`semgrep mcp -k post-tool-cli-scan\`。Codex 没有这颗钩子。
+- 不要把 Claude 远程 OAuth 写进 \`~/.semgrep/guardian.yml\` 当成 Codex 主路径。本地 CLI 走 \`settings.yml\`。
+- 不要给它 \`required = true\` 挂全局。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get semgrep\` 看 command 是 \`semgrep\` 还是绝对路径。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Semgrep", "stdio", "Guardian"],
+    related: ["mcp-add-and-login", "mcp-snyk-stdio", "mcp-stdio-env-vars"],
+    sources: [
+      {
+        label: "Semgrep · Guardian overview",
+        url: "https://docs.semgrep.dev/semgrep-guardian/overview",
+      },
+      {
+        label: "Semgrep · Install the CLI",
+        url: "https://semgrep.dev/docs/getting-started/cli",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
 ];

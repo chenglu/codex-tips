@@ -2651,5 +2651,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex 是 marketplace add honeycombio/agent-skill，再 plugin add honeycomb@honeycomb-plugins。插件会登记 mcp.honeycomb.io/mcp。不要抄 mcp-remote。欧盟用 mcp.eu1.honeycomb.io/mcp。无头才 bearer_token_env_var。',
   },
+  {
+    title: 'Semgrep Guardian',
+    url: 'https://docs.semgrep.dev/semgrep-guardian/overview',
+    source: 'Semgrep',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Semgrep', 'stdio'],
+    summary:
+      '官方 Codex 是本地 stdio：config.toml 写 [mcp_servers.semgrep]，command = "semgrep"，args = ["mcp"]。等价 mcp add semgrep -- semgrep mcp。先 pipx 或 uv 装 CLI，再 semgrep login && semgrep install-semgrep-pro。不要抄 Claude 远程插件，也不要 uvx semgrep-mcp。',
+  },
 ];
 

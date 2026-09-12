@@ -1983,4 +1983,18 @@ codex plugin add honeycomb@honeycomb-plugins
 # codex mcp login honeycomb
 `,
   },
+  {
+    id: "semgrep-guardian-mcp",
+    title: "Semgrep 本地 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是本地 stdio：mcp add semgrep -- semgrep mcp。先装 CLI 并 semgrep login && semgrep install-semgrep-pro。不要 mcp login，也不要抄 Claude 远程插件。",
+    code: `codex mcp add semgrep -- semgrep mcp
+
+# 手写 config.toml：
+# [mcp_servers.semgrep]
+# command = "semgrep"
+# args = ["mcp"]
+`,
+  },
 ];
