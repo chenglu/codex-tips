@@ -181,6 +181,8 @@ export const cheatSections: CheatSection[] = [
       { cmd: "codex mcp add planetscale --url …", meaning: "官方远程是 mcp.pscale.dev/mcp/planetscale。add 后应弹出 OAuth。CI 才用 PLANETSCALE_API_TOKEN。不要抄 REST API 的 id:secret，本地 pscale mcp 已删除" },
       { cmd: "codex mcp add snyk-security -- npx …", meaning: "Snyk 没有远程 MCP。官方用户层表名是 snyk-security。密钥用 env_vars 转发 SNYK_TOKEN。Studio 安装器必须带 --ade codex" },
       { cmd: "codex mcp add circleci --url …", meaning: "托管是 mcp.circleci.com/v1/mcp。Codex 主路径其实是 /plugins 装 CircleCI。不要装已弃用的 @circleci/mcp-server-circleci，也不是 Circle 支付 MCP" },
+      { cmd: "codex mcp add firecrawl --url …", meaning: "交互主路径是 mcp.firecrawl.dev/v2/mcp-oauth，再 mcp login。无账号用 /v2/mcp。CI 才 bearer_token_env_var = FIRECRAWL_API_KEY。不要把密钥拼进 URL，也不要同时加两台" },
+      { cmd: "codex mcp add exa --url …", meaning: "托管是 mcp.exa.ai/mcp。ChatGPT / Codex 推荐先装 chatgpt.com/plugins/exa。密钥用 env_http_headers 的 x-api-key。不要抄 mcp-remote" },
       { cmd: "codex --profile huggingface", meaning: "[model_providers.huggingface] 走 router.huggingface.co/v1，wire_api = responses，env_key = HF_TOKEN。不是 Hub MCP，也不是 --oss" },
       { cmd: "codex --profile vercel", meaning: "[model_providers.vercel] 走 ai-gateway.vercel.sh/codex/v1，wire_api = responses，env_key = AI_GATEWAY_API_KEY。不是 Vercel MCP，也不是 --oss" },
       { cmd: "项目 mcp_servers 写全传输", meaning: "桌面可能写丢用户层 MCP 表。项目不要只写 enabled = true，否则 invalid transport。先备份 ~/.codex/config.toml" },

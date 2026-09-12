@@ -4673,4 +4673,177 @@ enabled = true
       },
     ],
   },
+  {
+    id: "mcp-firecrawl-remote",
+    no: 292,
+    title: "Firecrawl MCP 用 mcp-oauth 登录，密钥走 bearer 不要拼进 URL",
+    summary:
+      "交互主路径：codex mcp add firecrawl --url https://mcp.firecrawl.dev/v2/mcp-oauth，再 mcp login。无账号用 /v2/mcp；CI 才 bearer_token_env_var = FIRECRAWL_API_KEY。不要把密钥拼进 URL，也不要同时加两台 firecrawl。",
+    body: `Firecrawl 官方给 Codex 的**交互主路径**是托管 Streamable HTTP + 浏览器登录，不是本地 npx：
+
+\`\`\`bash
+codex mcp add firecrawl --url https://mcp.firecrawl.dev/v2/mcp-oauth
+codex mcp login firecrawl
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.firecrawl]
+url = "https://mcp.firecrawl.dev/v2/mcp-oauth"
+enabled = true
+\`\`\`
+
+这条 URL 是客户端配置值，**不要**在浏览器里直接打开。Codex 会自己拉起登录，让你选团队并批准。进会话后用 \`/mcp\` 确认 \`firecrawl\` 已连接。改过已有连接时，先新开会话再试。
+
+三种托管入口不要混：
+
+- \`https://mcp.firecrawl.dev/v2/mcp-oauth\`：有人在场时登录。新发的 OAuth token 只认这个 audience。
+- \`https://mcp.firecrawl.dev/v2/mcp\`：无账号 keyless，只有 Search / Scrape / Parse，按 IP 限流。
+- 同一条 \`/v2/mcp\` 再加 \`bearer_token_env_var\`：无人值守、要完整工具面时用 API key。
+
+不要同时加两台名叫 \`firecrawl\` 的服务器。\`codex mcp add\` 同名会覆盖。也不要再开一台 \`firecrawl_oauth\` 之类的第二张表。\`/v2/mcp\` 和 \`/v2/mcp-oauth\` 的 token **不能混用**；audience 对不上或缺失会 fail closed。旧 token 若是发给 \`/v2/mcp\` 的，只继续在那条上用。
+
+无账号先试：
+
+\`\`\`bash
+codex mcp add firecrawl --url https://mcp.firecrawl.dev/v2/mcp
+\`\`\`
+
+keyless 连上后应看到 \`firecrawl_search\`、\`firecrawl_scrape\`、\`firecrawl_parse\`。要完整工具或更高限额，换成登录或 API key，不要叠第二台。
+
+CI / 脚本不能开浏览器时，密钥走 \`bearer_token_env_var\`。**永远不要**把 key 拼进 URL，也不要写进 \`http_headers\` 或 \`env\` 字面量：
+
+\`\`\`toml
+[mcp_servers.firecrawl]
+url = "https://mcp.firecrawl.dev/v2/mcp"
+bearer_token_env_var = "FIRECRAWL_API_KEY"
+enabled = true
+\`\`\`
+
+键里是变量**名**。变量必须在启动 Codex 的那个进程里，Codex 不读 \`.env\`。不要和已经 \`mcp login\` 的 OAuth 写在同一张表。OAuth 返回 \`401\` 先重新 \`codex mcp login firecrawl\`；对 OAuth 地址发一条未登录请求，\`401\` 是预期。API key 路径 \`401\` 时，先换启动 Codex 那个进程里的密钥，再新开会话。
+
+只要本机进程或自建 Firecrawl API 才跑本地 stdio。官方要求 **Node.js 22+**。密钥用 \`env_vars\` 转发，不要抄旧页把 \`fc-\` 写进 \`env\` 表：
+
+\`\`\`toml
+[mcp_servers.firecrawl]
+command = "npx"
+args = ["-y", "firecrawl-mcp"]
+env_vars = ["FIRECRAWL_API_KEY"]
+enabled = true
+\`\`\`
+
+自建 API 再加 \`FIRECRAWL_API_URL\`。本地 HTTP 是 \`http://localhost:3000/mcp\`，那是给已经起好的进程用的，**不是**托管 \`/v2/mcp\`。Windows 上 \`spawn npx ENOENT\` 时，把 \`command\` 改成 \`where npx\` 看到的 \`npx.cmd\` 绝对路径。
+
+文献检索技能是可选的：官方写 \`npx skills add firecrawl/skills@firecrawl-research-index\`。那是 Agent Skills 安装器，可能改所有检测到的客户端，**不是** Codex \`/plugins\` 主路径。不确定就别装。
+
+不要做这些：
+
+- 不要把 \`https://mcp.firecrawl.dev/v2/mcp-oauth\` 当网页打开。
+- 不要把 API key 拼进 URL 或 \`Authorization: Bearer\` 写进 \`http_headers\`。
+- 不要抄 \`mcpServers\` JSON，也不要抄 Claude 的 \`--transport http\`。
+- 不要套 \`mcp-remote\`。
+- 不要给它 \`required = true\` 挂全局。
+- 不要一上来 \`--yolo\`。抓站结果会进上下文。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get firecrawl\` 看传输是 streamable_http。会话里 \`/mcp\` 应显示已连接。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Firecrawl", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-http-bearer-env", "mcp-exa-remote"],
+    sources: [
+      {
+        label: "Firecrawl · Codex CLI",
+        url: "https://docs.firecrawl.dev/quickstarts/codex-cli",
+      },
+      {
+        label: "Firecrawl · OAuth MCP",
+        url: "https://docs.firecrawl.dev/mcp-server/oauth",
+      },
+      {
+        label: "Firecrawl · Keyless MCP",
+        url: "https://docs.firecrawl.dev/mcp-server/keyless",
+      },
+      {
+        label: "Firecrawl · Run locally",
+        url: "https://docs.firecrawl.dev/mcp-server/local",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
+  {
+    id: "mcp-exa-remote",
+    no: 293,
+    title: "Exa 在 Codex 里先装插件，手工 MCP 才是 mcp.exa.ai/mcp",
+    summary:
+      "ChatGPT / Codex 推荐路径是 chatgpt.com/plugins/exa，插件自带 MCP 和技能。本机手工：codex mcp add exa --url https://mcp.exa.ai/mcp。密钥用 env_http_headers 的 x-api-key，不要抄 mcp-remote，也不要把 key 写进 URL。",
+    body: `Exa 官方给 ChatGPT 和 Codex 的**推荐路径是插件**，不是先手写 MCP。打开 chatgpt.com/plugins/exa，点安装，按提示登录 Exa。技能只进安装之后新开的会话，旧线程不会自动加载。插件已经带上托管 MCP 以及 search / exa-agent 技能，不必再单独加一次。
+
+本机 CLI、或你就是要自己管 \`config.toml\` 时，才手工接托管 Streamable HTTP：
+
+\`\`\`bash
+codex mcp add exa --url https://mcp.exa.ai/mcp
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.exa]
+url = "https://mcp.exa.ai/mcp"
+enabled = true
+\`\`\`
+
+默认工具是 \`web_search_exa\` 和 \`web_fetch_exa\`：自然语言搜索会带回页面内容，也可以按 URL 读文档 / changelog / issue。只要部分工具时，把名单写进 \`url\` 的 \`tools\` 查询，不要另开第二台：
+
+\`\`\`toml
+[mcp_servers.exa]
+url = "https://mcp.exa.ai/mcp?tools=web_search_exa,web_fetch_exa"
+enabled = true
+\`\`\`
+
+多步调研、名单、结构化输出才开 \`agent_run\`。那条按用量计费，必须登录或带自己的 API key。长任务大约 750 秒窗口内没跑完时，工具会回 \`status: running\` 和 \`id\`，再用同一个 \`runId\` 接着等，不要当成失败重开一条。
+
+免费档够随便搜。生产或要抬限额时，官方 JSON 示例把 \`x-api-key\` 写成字面量，**不要**抄进 Codex。Codex 用 \`env_http_headers\`，左边是头名，右边是启动 Codex 那个进程里的变量**名**：
+
+\`\`\`toml
+[mcp_servers.exa]
+url = "https://mcp.exa.ai/mcp"
+enabled = true
+
+[mcp_servers.exa.env_http_headers]
+x-api-key = "EXA_API_KEY"
+\`\`\`
+
+不要把密钥拼进 URL，不要写进 \`http_headers\`。Bearer 表 \`bearer_token_env_var\` 对这台不对口，Exa 要的是 \`x-api-key\`。变量缺失时这颗头会被静默丢掉，请求仍会发出去，随后限流或 401。Codex 不读 \`.env\`。
+
+不要做这些：
+
+- 不要套 \`mcp-remote\`。Codex 自己会连 Streamable HTTP。
+- 不要抄 Claude 的 \`claude plugin install exa@claude-plugins-official\` 或 \`--transport http\`。
+- 不要抄 \`mcpServers\` JSON 当 Codex 主路径。
+- 不要把 \`EXA_API_KEY\` 写进 \`env\` 表或 \`args\`。
+- 不要给它 \`required = true\` 挂全局。
+- 不要一上来 \`--yolo\`。网页正文会进上下文。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get exa\` 看传输是 streamable_http。插件不生效时先确认装完后开了**新**会话。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Exa", "plugins", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-http-env-headers", "mcp-firecrawl-remote"],
+    sources: [
+      {
+        label: "Exa · Codex and ChatGPT",
+        url: "https://exa.ai/docs/integrations/chatgpt-codex",
+      },
+      {
+        label: "Exa · Web Search MCP",
+        url: "https://exa.ai/docs/reference/exa-mcp",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
 ];

@@ -2321,5 +2321,25 @@ export const articles: Article[] = [
     summary:
       'Codex 主路径是 /plugins 装 CircleCI，并先 circleci auth login。托管 MCP 才是 mcp.circleci.com/v1/mcp。不要装已弃用的 @circleci/mcp-server-circleci。circleci mcp enable 列表没有 Codex。不要和 Circle 支付 MCP 搞混。',
   },
+  {
+    title: 'MCP Web Search & Scrape in Codex CLI',
+    url: 'https://docs.firecrawl.dev/quickstarts/codex-cli',
+    source: 'Firecrawl',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Firecrawl', 'OAuth'],
+    summary:
+      '官方 Codex 节是 mcp add firecrawl --url https://mcp.firecrawl.dev/v2/mcp-oauth，再 mcp login。URL 是客户端配置，不要当网页打开。无账号走 /v2/mcp；CI 才 bearer_token_env_var = FIRECRAWL_API_KEY。本地 stdio 要 Node 22+，密钥用 env_vars，不要把 fc- 写进 env 表。',
+  },
+  {
+    title: 'Exa in Codex and ChatGPT',
+    url: 'https://exa.ai/docs/integrations/chatgpt-codex',
+    source: 'Exa',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Exa', 'plugins'],
+    summary:
+      '官方推荐 chatgpt.com/plugins/exa，插件自带 MCP 和技能。手工才是 mcp add exa --url https://mcp.exa.ai/mcp。不要套 mcp-remote。生产密钥用 env_http_headers 的 x-api-key，不要把 key 写进 URL 或 http_headers 字面量。',
+  },
 ];
 

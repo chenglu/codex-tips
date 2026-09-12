@@ -1595,4 +1595,29 @@ url = "https://mcp.circleci.com/v1/mcp"
 enabled = true
 `,
   },
+  {
+    id: "mcp-firecrawl-remote",
+    title: "Firecrawl 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "交互主路径是 mcp.firecrawl.dev/v2/mcp-oauth，随后 mcp login。无账号或 API key 才用 /v2/mcp。不要把密钥拼进 URL。",
+    code: `[mcp_servers.firecrawl]
+url = "https://mcp.firecrawl.dev/v2/mcp-oauth"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-exa-remote",
+    title: "Exa 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.exa.ai/mcp。ChatGPT / Codex 推荐先装插件。生产密钥用 env_http_headers 的 x-api-key。不要抄 mcp-remote。",
+    code: `[mcp_servers.exa]
+url = "https://mcp.exa.ai/mcp"
+enabled = true
+
+[mcp_servers.exa.env_http_headers]
+x-api-key = "EXA_API_KEY"
+`,
+  },
 ];
