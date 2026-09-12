@@ -7763,4 +7763,61 @@ enabled = true
       },
     ],
   },
+  {
+    id: "1password-mcp-stdio",
+    no: 335,
+    title: "1Password Environments 是本地 1password-mcp，不要抄 Claude 插件",
+    summary:
+      "官方 Codex 是本地 stdio：先在桌面 Labs 打开 MCP Server，再 mcp add 1password -- 1password-mcp。Mac / Linux。不要抄 Claude 的 /plugin install 1password@1password，也不要发明 plugin add。",
+    body: `1Password Environments 给 Codex 有专节。这是**本地 stdio**，跟着 1Password 桌面应用走，不是远程 HTTP，也不会把密钥送进模型上下文。官方写明服务器只能看见 Environment / 变量名，即使模型要明文也拿不到。
+
+先开桌面开关，再配 Codex。没开时命令在 PATH 里也连不上：
+
+1. 装 1Password 桌面应用，先建好一个 Environment。
+2. Settings → Labs → MCP Server，打开 **Enable local MCP server**。
+3. Settings → Developer，选 Integrate with MCP clients。
+4. Enterprise Password Manager 还要管理员在 Policies → Agentic permissions 打开 Local MCP server。
+
+官方 Codex 目前只支持 **Mac 和 Linux**。桌面 UI：MCP servers → + Add server，Command to launch 填 \`1password-mcp\`，打开开关。CLI / IDE 对照：
+
+\`\`\`bash
+codex mcp add 1password -- 1password-mcp
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.1password]
+command = "1password-mcp"
+enabled = true
+\`\`\`
+
+用户层表名官方就是 \`1password\`。这是 stdio，**不要** \`codex mcp login\`。官方 Other 节的 JSON \`mcpServers\` 是给别的客户端，不要抄进 Codex。\`1password-mcp\` 不在 PATH 时，把 \`command\` 改成桌面应用自带的绝对路径；Dock 打开的桌面经常没有 Homebrew PATH。不要发明 \`op mcp-server environments\`，也不要把 \`OP_SERVICE_ACCOUNT_TOKEN\` 写进 \`env\` 表。
+
+不要抄 Claude 的 \`/plugin marketplace add 1Password/1password-claude-plugin\` / \`/plugin install 1password@1password\`。那会登记 Claude 插件、本地 .env 校验钩子和技能，Codex 节不是这条。不要抄 Cursor Plugins 搜 1Password。不要发明 \`codex plugin add 1password@openai-curated\`。不要抄会把密钥经 MCP 送回来的社区包。也不要和 1Password CLI 的 Codex **shell plugin** 搞混：那是给 \`codex\` 命令注入登录凭证，不是这台 Environments MCP。
+
+连上后先跑 \`list_environments\` 或 \`list_variables\`（只有名字）。\`create_environment\` / \`append_variables\` / \`create_local_env_file\` / \`rename_environment\` 会改 Environment 或挂本地 .env，保持工具批准；第一次碰某个 Environment 时，1Password 会弹授权，锁上后要再批。本地 .env 挂载也只支持 Mac / Linux。不要一上来 \`--yolo\`。不要给它 \`required = true\` 挂全局。网页 Cloud 不读 \`~/.codex/config.toml\`，也碰不到你这台桌面应用。
+
+官方还让人在 AGENTS.md 或桌面 Personalization 自定义指令里写：需要开发 Environment 时主动用 1Password MCP。不要把密钥写进这段指令。从明文 .env 迁进去之后要轮换，Git 历史和会话记忆里的旧值不会自己消失。
+
+不要做这些：
+
+- 不要抄 \`claude /plugin install 1password@1password\`。
+- 不要发明 \`codex plugin add 1password@openai-curated\`。
+- 不要抄 \`op mcp-server environments\` 或社区 npm 包。
+- 不要 \`mcp login\`，也不要给它配远程 URL。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "1Password", "stdio", "Environments"],
+    related: ["mcp-add-and-login", "semgrep-guardian-mcp", "macos-mcp-bare-command"],
+    sources: [
+      {
+        label: "1Password · MCP Server for Environments",
+        url: "https://developer.1password.com/docs/environments/mcp-server/",
+      },
+      {
+        label: "1Password · Trusted access layer for Codex",
+        url: "https://1password.com/blog/1password-trusted-access-layer-for-openai-codex",
+      },
+    ],
+  },
 ];

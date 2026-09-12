@@ -2129,4 +2129,17 @@ codex plugin add incident-io@incident-io-skills
 # codex mcp login incident_io
 `,
   },
+  {
+    id: "1password-mcp-stdio",
+    title: "1Password Environments MCP",
+    filename: "terminal",
+    summary:
+      "主路径是本地 stdio：mcp add 1password -- 1password-mcp。先在桌面 Labs 打开 MCP Server。Mac / Linux。不要抄 Claude 插件或 op mcp-server environments。",
+    code: `codex mcp add 1password -- 1password-mcp
+
+# [mcp_servers.1password]
+# command = "1password-mcp"
+# enabled = true
+`,
+  },
 ];

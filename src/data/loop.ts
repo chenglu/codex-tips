@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T19:16:00Z",
+  lastTick: "2026-09-12T19:36:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "19:16 定时器。调用前 $97.46。Spend: counts（start_time=2026-09-05T19:20:00Z，共 204 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.45。CDP 70 项全过（预览 4314）。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Yellow 交易营销、AGENTS.md 入门，无新可执行厂商路径。1Password 本地 1password-mcp、Buildkite 远程、DigitalOcean App Platform skills 仍未钉 Codex 专节主路径，留给下一轮。本轮收录 incident.io 插件 + 托管 MCP（incident-io@incident-io-skills 登记 MCP 和 skills；IDE 才 mcp add incident_io --url https://mcp.incident.io/mcp）。不要抄 type = url、Claude /plugin install 或 Cursor /add-plugin。",
+    "19:36 定时器。调用前 $97.45。Spend: counts（start_time=2026-09-05T19:40:00Z，共 235 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度待本轮 CDP 后补。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Yellow 交易营销、AGENTS.md 入门，无新可执行厂商路径。Buildkite 配置页仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。本轮收录 1Password Environments 本地 MCP（1password-mcp stdio，先 Labs 打开 Enable local MCP server）。不要抄 Claude 的 1password@1password 或 op mcp-server environments。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -821,6 +821,13 @@ export const loopState = {
     "mcp.buildkite.com/mcp Codex OAuth",
     "docs.digitalocean.com do-app-platform-skills --agent codex",
     "Codex CLI 技巧 2026 incident.io 托管 MCP",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "developer.1password.com environments mcp-server Codex 1password-mcp",
+    "1password Labs Enable local MCP server Codex Mac Linux",
+    "buildkite.com docs mcp-server Codex configuring-ai-tools",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "Codex CLI 技巧 2026 1Password Environments MCP",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

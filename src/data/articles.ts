@@ -2761,5 +2761,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex：marketplace add incident-io/skills，再 plugin add incident-io@incident-io-skills。插件会登记 MCP 和 skills。只要 MCP 才 mcp add incident_io --url https://mcp.incident.io/mcp。不要抄 type = url、Claude /plugin install 或 Cursor /add-plugin。',
   },
+  {
+    title: 'Use the 1Password MCP Server to manage your 1Password Environments',
+    url: 'https://developer.1password.com/docs/environments/mcp-server/',
+    source: '1Password',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', '1Password', 'stdio', 'Environments'],
+    summary:
+      '官方 Codex 是本地 stdio：先 Labs 打开 Enable local MCP server，再 mcp add 1password -- 1password-mcp。表名 mcp_servers.1password。Mac / Linux。不要抄 Claude 的 1password@1password 或 op mcp-server environments。',
+  },
 ];
 
