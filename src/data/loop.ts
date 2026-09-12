@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T07:30:00Z",
+  lastTick: "2026-09-12T08:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "07:30 定时器。调用前 $97.66。Spend: counts（start_time=2026-09-05T07:45:00Z，共 232 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 仍为 $97.66。CDP 38 项全过（预览 4290）。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md 并用文、Muse 许愿，无新可执行帖。本轮收录 New Relic MCP（codex mcp add new-relic-mcp-server --url https://mcp.newrelic.com/mcp/）。下一轮优先 Typesense Cloud 官方 Codex 节：codex mcp add typesense-cloud --url https://cloud.typesense.org/mcp/v1，再 mcp login。无头才 bearer_token_env_var，不要抄 Claude 把密钥写进 --header。PagerDuty 官方无 Codex 节且不支持 DCR。Elastic 官方走 mcp-remote。Pinecone / HubSpot / Asana / Tinybird / MotherDuck / Fly.io 理由同前。",
+    "08:00 定时器。调用前 $97.66。Spend: counts（start_time=2026-09-05T08:15:00Z，共 232 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度待本轮 CDP 后回写。本轮收录 Typesense Cloud MCP（codex mcp add typesense-cloud --url https://cloud.typesense.org/mcp/v1）。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md 并用文，另有 hermes import-agent 营销帖，无新可执行用法。下一轮优先 Intercom：官方远程是 mcp.intercom.com/mcp，但仍无 Codex 专节，不要发明 mcp add。Airtable 第三方指南会发明 mcp add，等官方 Codex 节。Meilisearch 是 stdio 无 Codex 节。DigitalOcean 示例把 token 写进 --env。PagerDuty / Elastic / Pinecone / HubSpot / Asana / Tinybird / MotherDuck / Fly.io 理由同前。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -611,6 +611,12 @@ export const loopState = {
     "typesense.org docs cloud mcp-server Codex mcp add typesense-cloud",
     "developers.intercom.com guides mcp Codex mcp.intercom.com",
     "Codex CLI 技巧 2026 New Relic MCP Typesense Cloud",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "typesense.org docs cloud mcp-server Codex mcp/v1 typesense-cloud",
+    "developers.intercom.com guides mcp Codex mcp.intercom.com",
+    "docs.airtable.com mcp Codex mcp.airtable.com",
+    "Codex CLI 技巧 2026 Typesense Cloud MCP Intercom Airtable",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

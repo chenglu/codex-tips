@@ -1820,4 +1820,15 @@ enabled = true
 api-key = "NEW_RELIC_API_KEY"
 `,
   },
+  {
+    id: "mcp-typesense-cloud",
+    title: "Typesense Cloud 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 cloud.typesense.org/mcp/v1。随后 mcp login。无头才 bearer_token_env_var。不要抄 --header 密钥。",
+    code: `[mcp_servers.typesense-cloud]
+url = "https://cloud.typesense.org/mcp/v1"
+enabled = true
+`,
+  },
 ];

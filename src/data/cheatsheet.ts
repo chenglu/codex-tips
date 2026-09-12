@@ -38,6 +38,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: "codex mcp add algolia-docsearch --url …", meaning: "官方远程是 mcp.algolia.com/1/docsearch/mcp。表名是 algolia-docsearch。无鉴权。安装器只用 --codex。不要覆盖 Productivity 那张 algolia 表" },
       { cmd: "Plugins 搜 temporal", meaning: "Temporal 官方 Codex 插件。官方没给 plugin add id。不要抄 Claude 的 temporal@temporal-marketplace 或 Cursor 的 /add-plugin temporal。Cloud 技能不在插件包里" },
       { cmd: "codex mcp add new-relic-mcp-server --url …", meaning: "官方远程是 mcp.newrelic.com/mcp/，带尾斜杠。随后 mcp login。OAuth 失败才改走 new-relic 表的 env_http_headers api-key。不要抄 --transport http 或 mcp-remote" },
+      { cmd: "codex mcp add typesense-cloud --url …", meaning: "官方远程是 cloud.typesense.org/mcp/v1。随后 mcp login。无头才 bearer_token_env_var。不要抄 --transport http 或 --header 密钥" },
       { cmd: "[tool_suggest] disabled_tools", meaning: "关掉某条插件/连接器安装建议；不是卸载。id 用 name@marketplace" },
       { cmd: "[apps._default]", meaning: "已装连接器的默认开关、破坏性工具和开放世界工具；不是 [plugins]。工具名带斜杠要加引号" },
       { cmd: "codex features disable remote_plugin", meaning: "关掉远程插件目录；不是 features.plugins = false。键名是 remote_plugin" },

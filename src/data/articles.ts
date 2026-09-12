@@ -2521,5 +2521,15 @@ export const articles: Article[] = [
     summary:
       '官方推荐是 mcp add new-relic-mcp-server --url https://mcp.newrelic.com/mcp/，再 mcp login。OAuth 失败才改走 new-relic 表的 env_http_headers api-key。不要抄 --transport http 或 mcp-remote，也不要把 NRAK 密钥写进 http_headers。',
   },
+  {
+    title: 'Typesense Cloud MCP Server',
+    url: 'https://typesense.org/docs/guide/typesense-cloud/mcp-server',
+    source: 'Typesense',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Typesense', 'OAuth'],
+    summary:
+      '官方 Codex 是 mcp add typesense-cloud --url https://cloud.typesense.org/mcp/v1，再 mcp login。授权页先选最小权限。无头才 bearer_token_env_var。不要抄 Claude 的 --transport http 或把密钥写进 --header。',
+  },
 ];
 

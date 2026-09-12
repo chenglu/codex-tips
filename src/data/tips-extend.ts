@@ -5951,4 +5951,72 @@ api-key = "NEW_RELIC_API_KEY"
       },
     ],
   },
+  {
+    id: "mcp-typesense-cloud",
+    no: 311,
+    title: "Typesense Cloud MCP 用 cloud.typesense.org/mcp/v1，无头不要抄 --header 密钥",
+    summary:
+      "CLI：codex mcp add typesense-cloud --url https://cloud.typesense.org/mcp/v1，再 mcp login。授权页先选最小权限。无头才 bearer_token_env_var。不要抄 Claude 的 --transport http 或把密钥写进 --header。",
+    body: `Typesense Cloud 托管的是远程 Streamable HTTP + OAuth。官方 Codex CLI 节是：
+
+\`\`\`bash
+codex mcp add typesense-cloud --url https://cloud.typesense.org/mcp/v1
+codex mcp login typesense-cloud
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.typesense-cloud]
+url = "https://cloud.typesense.org/mcp/v1"
+enabled = true
+\`\`\`
+
+地址是 \`/mcp/v1\`，**不是** \`/mcp\`。用户层表名官方就是带连字符的 \`typesense-cloud\`（这不是插件 \`mcp.json\`）。浏览器会打开 Typesense Cloud 授权页：登录、选账号、选权限。一条连接绑一个账号；另一个账号用同一条 URL 另起表名再 login。团队账号里你只能勾自己角色已经有的权限。账号所有者会收到新连接邮件，可在 Account → Connected apps 断开。
+
+授权页五个预设：Search only、Search and curate、Manage clusters、Build（默认）、Everything。Build 能管集群和里面的数据，但不能 terminate / clone / 读账单。Everything 才能删集群。\`manage_cluster\`、\`documents\`、\`change_cluster_data\` 标了 destructive，保持工具批准。不要一上来 \`--yolo\`。不要给它 \`required = true\` 挂全局。改权限要先断开再重新 login，不能在现有连接上加权限。
+
+官方建议在项目 \`AGENTS.md\` 加一句，让它别向你要集群 key（数据面 key 由 Typesense Cloud 自己拿，对话里不会出现 admin key）：
+
+\`\`\`
+For anything about my Typesense Cloud account, clusters or collections, use the typesense-cloud MCP tools.
+\`\`\`
+
+无头 / CI 才用 Cluster Management API key 当 Bearer。官方无头示例是 Claude 的 \`--header "Authorization: Bearer …"\`，**不要抄**：会把密钥写进命令行。Codex 用 \`bearer_token_env_var\`，右边是启动 Codex 那个进程里的变量**名**：
+
+\`\`\`toml
+[mcp_servers.typesense-cloud]
+url = "https://cloud.typesense.org/mcp/v1"
+bearer_token_env_var = "TYPESENSE_CLOUD_MANAGEMENT_API_KEY"
+enabled = true
+\`\`\`
+
+从已经 export 的终端启动。这张表不要再跑 \`mcp login\`。这把 key 只开集群工具（\`whoami\`、\`search_typesense_docs\`、\`get_clusters\`、\`manage_cluster\`），数据工具仍要浏览器 OAuth。不要把密钥写进 \`http_headers\` 或 \`args\`。
+
+连上后先让它跑 \`whoami\`。超免费档（0.5 GB / 单节点）或改配置、clone 需要付款方式或预付余额。每条连接大约 300 次数据调用/分钟、30 次集群操作/分钟。大于 1000 条或 10 MB 的导入，以及所有导出，会给你一条本机 curl，不要指望对话里塞完整数据。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`claude mcp add --transport http typesense-cloud …\`，也不要把密钥写进 \`--header\`。
+- 不要抄 Cursor 的 \`mcpServers\` JSON，也不要抄 \`mcp-remote\`。
+- 不要把 ChatGPT 桌面 Settings → Plugins → MCP 那条安装器当成 Codex CLI。桌面 Codex 读同一份 \`config.toml\`。
+- 不要发明 \`codex plugin add typesense@…\`。
+- 不要和自建 Typesense、Meilisearch stdio、或 Algolia 那几台 MCP 配成一台。
+- 不要把官方示例提示里的尖括号占位当成要粘贴的 HTML。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get typesense-cloud\` 看传输是 streamable_http。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Typesense", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-http-bearer-env", "mcp-newrelic-remote"],
+    sources: [
+      {
+        label: "Typesense Cloud · MCP Server",
+        url: "https://typesense.org/docs/guide/typesense-cloud/mcp-server",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
 ];
