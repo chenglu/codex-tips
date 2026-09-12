@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-12T18:36:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "18:36 定时器。调用前 $97.46。Spend: counts（start_time=2026-09-05T18:40:00Z，共 204 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Yellow 交易营销、AGENTS.md 入门，无新可执行厂商路径。DigitalOcean App Platform skills 仍未钉 --agent codex。Elastic 官方无 Codex 专节，对照 Kibana /api/agent_builder/mcp + ApiKey 头。收尾额度见下一笔 commit。",
+    "18:36 定时器。调用前 $97.46。Spend: counts（start_time=2026-09-05T18:40:00Z，共 204 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.46。CDP 63 项全过（预览 4313）。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Yellow 交易营销、AGENTS.md 入门，无新可执行厂商路径。DigitalOcean App Platform skills 仍未钉 --agent codex。本轮收录 Elastic Agent Builder MCP（Kibana /api/agent_builder/mcp + env_http_headers 的 ApiKey 头）。不要抄 mcp-remote 或已弃用的 elastic/mcp-server-elasticsearch。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
