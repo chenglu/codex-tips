@@ -2711,5 +2711,15 @@ export const articles: Article[] = [
     summary:
       '官方托管是 mcp.pagerduty.com/mcp。Codex 对照 mcp add pagerduty --url。不支持 DCR，不要 mcp login。API key 是 Token token=，走 env_http_headers。欧盟换 mcp.eu.pagerduty.com/mcp。本地 uvx 已弃用。',
   },
+  {
+    title: 'flyctl mcp server',
+    url: 'https://fly.io/docs/mcp/flyctl-server/',
+    source: 'Fly.io',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Fly.io', 'stdio'],
+    summary:
+      '官方给 LLM 加服务器是 fly mcp server --claude，没有 --codex。Codex 对照 mcp add fly -- fly mcp server。不要对 config.toml 跑 --config。Inspector 工具如 fly-apps-list。不要抄 --sse 或 flyctl mcp proxy。',
+  },
 ];
 

@@ -2062,4 +2062,18 @@ codex mcp add pagerduty --url https://mcp.pagerduty.com/mcp
 # Authorization = "PAGERDUTY_AUTH"
 `,
   },
+  {
+    id: "fly-mcp-stdio",
+    title: "Fly.io 本地 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add fly -- fly mcp server。没有 --codex。不要对 config.toml 跑 --config，也不要 mcp login。不要抄 --sse 或 flyctl mcp proxy。",
+    code: `codex mcp add fly -- fly mcp server
+
+# [mcp_servers.fly]
+# command = "fly"
+# args = ["mcp", "server"]
+# enabled = true
+`,
+  },
 ];

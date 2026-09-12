@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T16:37:00Z",
+  lastTick: "2026-09-12T17:15:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "16:37 定时器。调用前 $97.50。Spend: counts（start_time=2026-09-05T16:40:00Z，共 232 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.50。CDP 47 项全过（预览 4309）。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Yellow 交易营销、tmux-agent-pulse、Google Cloud 插件营销、AGENTS.md 入门，无新可执行厂商路径。本轮收录 PagerDuty 托管 MCP（mcp.pagerduty.com/mcp）。官方不支持 DCR，不要 mcp login。API key 是 Token token=，走 env_http_headers。本地 uvx 已弃用。下一轮可再核 Fly.io / Meilisearch。",
+    "17:15 定时器。调用前 $97.50。Spend: counts（start_time=2026-09-05T17:20:00Z，共 232 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾待测。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Yellow 交易营销、tmux-agent-pulse、Google Cloud 插件营销、AGENTS.md 入门、DevDay 营销，无新可执行厂商路径。Meilisearch / Axiom / Intercom 仍是 Claude + mcp-remote。DigitalOcean App Platform skills 官方未钉 --agent codex，本轮不收录。本轮收录 Fly.io 本地 stdio MCP（fly mcp server）。没有 --codex，不要对 config.toml 跑 --config。下一轮可再核 DigitalOcean skills。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -784,6 +784,14 @@ export const loopState = {
     "meilisearch.com docs integrations mcp Codex uvx meilisearch-mcp",
     "axiom.co docs console intelligence mcp-server Codex mcp.axiom.co mcp-remote",
     "Codex CLI 技巧 2026 PagerDuty MCP mcp.pagerduty.com",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "fly.io docs mcp flyctl-server Codex fly mcp server --claude --config",
+    "fly.io docs flyctl mcp-add Codex no --codex",
+    "docs.digitalocean.com digitalocean-labs/do-app-platform-skills Codex",
+    "meilisearch.com docs integrations mcp Codex uvx meilisearch-mcp",
+    "axiom.co docs console intelligence mcp-server Codex mcp.axiom.co mcp-remote",
+    "Codex CLI 技巧 2026 Fly.io MCP fly mcp server",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

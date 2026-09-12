@@ -7439,4 +7439,63 @@ Authorization = "PAGERDUTY_AUTH"
       },
     ],
   },
+  {
+    id: "fly-mcp-stdio",
+    no: 330,
+    title: "Fly.io 本地 MCP 用 fly mcp server，不要 --config 改 TOML",
+    summary:
+      "官方标 experimental。给 LLM 加服务器是 fly mcp server --claude，没有 --codex。Codex 拆 command/args：mcp add fly -- fly mcp server。不要对 config.toml 跑 --config，也不要抄 --sse 或 flyctl mcp proxy。",
+    body: `Fly.io 给 Codex 没有专节。官方本地 MCP 是 \`fly mcp server\`，标 experimental。给 LLM 加服务器的官方写法是 \`fly mcp server --claude\`，也可以 \`--cursor\` / \`--neovim\` / \`--vscode\` / \`--windsurf\` / \`--zed\`。**没有** \`--codex\`。
+
+\`--config\` 会往客户端配置文件写 JSON \`mcpServers\`。不要对 \`~/.codex/config.toml\` 跑 \`--config\`，会把 TOML 弄坏。也不要把那份 JSON 整段贴进 Codex。
+
+Codex 主路径对照 Heroku 本地 stdio：拆开 command / args，用现有 \`fly auth login\` 会话：
+
+\`\`\`bash
+codex mcp add fly -- fly mcp server
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.fly]
+command = "fly"
+args = ["mcp", "server"]
+enabled = true
+\`\`\`
+
+这是 stdio，**不要** \`codex mcp login\`。文档混用 \`fly\` 和 \`flyctl\`；本机二进制叫 \`flyctl\` 就把 command 改成它。不在 PATH 时写成 \`which fly\` 或 \`which flyctl\` 的绝对路径。不要把 command 写成一整串 \`fly mcp server\`。
+
+不要把 \`FLY_ACCESS_TOKEN\` 写进 \`env\` 表，也不要把 \`--access-token\` 塞进 \`args\`。HTTP 另绑才看请求头、\`--access-token\`、\`FLY_ACCESS_TOKEN\` 这套优先级；那不是 Codex 主路径。
+
+不要抄 \`--sse\` / \`--stream\` 当 Codex 主路径。那是另起 HTTP，默认绑 \`127.0.0.1:8080\`。也不要抄 \`flyctl mcp proxy\`：那是给 Claude Desktop 包远程 MCP 的 stdio 包装，Litestream 那条已经说过不要当 Codex 主路径。
+
+\`fly mcp add\` 是给远程 MCP proxy 客户端写 JSON，同样没有 \`--codex\`，不要当 Codex 主路径。\`fly mcp launch\` 是把别的 MCP 部署到 Fly Machine，也不是连这台 flyctl 服务器。
+
+Inspector 可先 \`fly mcp server -i\` 看工具：\`fly-platform-status\`、\`fly-orgs-list\`、\`fly-apps-list\`、\`fly-machines-list\`。正式会话先问列表类工具。\`secrets\` / \`volumes\` / \`machine\` 会改线上资源，保持工具批准。不要一上来 \`--yolo\`。不要给它 \`required = true\` 挂全局。
+
+不要和 Heroku / Railway 搞成一台。Heroku 远程是 \`mcp.heroku.com/mcp\` 再 \`mcp login\`；Railway 托管是 \`mcp.railway.com\` 且主路径是 \`/plugins\`。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add fly@…\`。
+- 不要发明 \`fly mcp server --codex\`。
+- 不要对 \`~/.codex/config.toml\` 跑 \`fly mcp server --config\`。
+- 不要把 \`FLY_ACCESS_TOKEN\` 写进 \`env\` 表或 \`args\`。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get fly\` 看传输是 stdio。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Fly.io", "stdio"],
+    related: ["mcp-add-and-login", "heroku-mcp-http", "litestream-mcp-http"],
+    sources: [
+      {
+        label: "Fly.io · flyctl mcp server",
+        url: "https://fly.io/docs/mcp/flyctl-server/",
+      },
+      {
+        label: "flyctl · fly mcp server",
+        url: "https://fly.io/docs/flyctl/mcp-server/",
+      },
+    ],
+  },
 ];
