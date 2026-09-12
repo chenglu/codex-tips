@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-12T20:35:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "20:35 定时器。调用前 $97.43。Spend: counts（start_time=2026-09-05T20:40:00Z，共 237 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 IMG.LY CoDesign 本地 stdio（mcp add codesign -- npx -y @imgly/codesign-mcp@latest stdio）。不要抄 --scope user、JSON mcpServers、mcp login 或把 CE.SDK 文档 MCP 配成一台。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Yellow 交易营销。Buildkite 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。1Password Codex shell plugin 页 Step 1 仍缺完整 init 命令。",
+    "20:35 定时器。调用前 $97.43。Spend: counts（start_time=2026-09-05T20:40:00Z，共 237 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.42。CDP 80 项全过（预览 4317）。收录 IMG.LY CoDesign 本地 stdio（mcp add codesign -- npx -y @imgly/codesign-mcp@latest stdio）。不要抄 --scope user、JSON mcpServers、mcp login 或把 CE.SDK 文档 MCP 配成一台。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Yellow 交易营销。Buildkite 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。1Password Codex shell plugin 页 Step 1 仍缺完整 init 命令。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
