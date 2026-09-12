@@ -2399,7 +2399,7 @@ export const articles: Article[] = [
     kind: '官方',
     tags: ['Skills', 'Twilio', 'plugins'],
     summary:
-      'Codex 主路径是 /plugins 或桌面 Plugins 搜 Twilio developer kit。纯技能回退才是把 twilio/ai 的 skills/ 拷进 ~/.agents/skills。不要抄 Claude 的 plugin install，也不要把整个仓库 clone 进技能根目录。',
+      'Codex 主路径是 /plugins 或桌面 Plugins 搜 Twilio developer kit。插件 id 是 twilio-developer-kit。纯技能回退才是把 twilio/ai 的 skills/ 拷进 ~/.agents/skills。不要抄 Claude 的 plugin install，也不要把整个仓库 clone 进技能根目录。',
   },
 ];
 
