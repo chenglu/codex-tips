@@ -2102,4 +2102,17 @@ codex mcp add splunk-o11y --url https://region-iad10.api.scs.splunk.com/system/m
 # X-SF-REALM = "SPLUNK_O11Y_REALM"
 `,
   },
+  {
+    id: "elastic-agent-builder-mcp",
+    title: "Elastic Agent Builder MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add elastic-agent-builder --url 你的 Kibana /api/agent_builder/mcp。头是 env_http_headers 的 Authorization: ApiKey。不要抄 mcp-remote，也不要 bearer_token_env_var。",
+    code: `export ELASTIC_AUTH="ApiKey 你的 encoded API key"
+codex mcp add elastic-agent-builder --url https://my-project.kb.us-east-1.aws.elastic.cloud/api/agent_builder/mcp
+
+# [mcp_servers.elastic-agent-builder.env_http_headers]
+# Authorization = "ELASTIC_AUTH"
+`,
+  },
 ];

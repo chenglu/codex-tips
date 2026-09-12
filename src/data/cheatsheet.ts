@@ -231,6 +231,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: "codex mcp add fly -- fly mcp server", meaning: "官方本地 stdio，标 experimental。没有 --codex。不要对 ~/.codex/config.toml 跑 --config。不要 mcp login。不要抄 --sse 或 flyctl mcp proxy。用现有 fly auth login，不要把 FLY_ACCESS_TOKEN 写进 env 表。不是 Heroku / Railway" },
       { cmd: "codex plugin add atlan@atlan", meaning: "先 marketplace add atlanhq/agent-toolkit。装完仍要 mcp add atlan --url https://mcp.atlan.com/mcp。不要抄 Claude 的 atlan@atlan-marketplace。本地 docker / uvx 已弃用" },
       { cmd: "codex mcp add splunk-o11y --url …", meaning: "官方走 Splunk MCP Gateway，us0 用 region-iad10，没有 /mcp 后缀。头是 env_http_headers 的 X-SF-TOKEN / X-SF-REALM。不要抄 connect --ide codex 的 http_headers，也不要 bearer_token_env_var 或 mcp-remote" },
+      { cmd: "codex mcp add elastic-agent-builder --url …", meaning: "官方终点是 Kibana 的 /api/agent_builder/mcp。API key 是 ApiKey 前缀，走 env_http_headers。不要 bearer_token_env_var 或 mcp-remote。本地 elastic/mcp-server-elasticsearch 已弃用。Serverless OAuth 才 --oauth-client-id，不要裸 DCR" },
       { cmd: "codex mcp add convex -- npx … mcp start", meaning: "插件装不上才用手写 stdio。官方 MCP 是 npx convex mcp start，不是远程 URL。不要加 --dangerously-enable-production-deployments" },
       { cmd: "codex --profile huggingface", meaning: "[model_providers.huggingface] 走 router.huggingface.co/v1，wire_api = responses，env_key = HF_TOKEN。不是 Hub MCP，也不是 --oss" },
       { cmd: "codex --profile vercel", meaning: "[model_providers.vercel] 走 ai-gateway.vercel.sh/codex/v1，wire_api = responses，env_key = AI_GATEWAY_API_KEY。不是 Vercel MCP，也不是 --oss" },

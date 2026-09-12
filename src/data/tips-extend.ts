@@ -7628,4 +7628,68 @@ realm 和网关主机对照（头仍写左边的 realm，不要把右边的 SCS 
       },
     ],
   },
+  {
+    id: "elastic-agent-builder-mcp",
+    no: 333,
+    title: "Elastic Agent Builder MCP 用 ApiKey 头，不要 mcp-remote",
+    summary:
+      "官方终点是 Kibana 的 /api/agent_builder/mcp。Codex 对照 mcp add elastic-agent-builder --url。API key 是 Authorization: ApiKey，走 env_http_headers，不要 bearer_token_env_var。本地 elastic/mcp-server-elasticsearch 已弃用。",
+    body: `Elastic 给 Codex 没有专节。现在的主路径是 Kibana 上的 Agent Builder MCP，地址形如 \`https://my-project.kb.us-east-1.aws.elastic.cloud/api/agent_builder/mcp\`（路径以 \`/api/agent_builder/mcp\` 结尾）。这是 Kibana 主机，不要拿 \`*.es.*.elastic.cloud\` 那台 Elasticsearch API 主机去配。Serverless 已 GA；Elastic Stack 9.3 起 GA，9.2 是 Preview。
+
+官方示例用 \`npx mcp-remote\` 再 \`--header Authorization\`。不要抄进 Codex。也不要抄营销页的 \`npx @elastic/mcp-server-elasticsearch --hosted-url\`：那个本地包已弃用，仓库只留安全补丁。
+
+API key 鉴权官方头是 \`Authorization: ApiKey\` 后接 encoded key，**不是** Bearer。\`bearer_token_env_var\` 会发 Bearer，对这台不对口。Codex 用 \`env_http_headers\`，变量值必须是完整的 \`ApiKey \` 前缀加密钥，不要只放裸密钥：
+
+\`\`\`bash
+export ELASTIC_AUTH="ApiKey 你的 encoded API key"
+codex mcp add elastic-agent-builder --url https://my-project.kb.us-east-1.aws.elastic.cloud/api/agent_builder/mcp
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.elastic-agent-builder]
+url = "https://my-project.kb.us-east-1.aws.elastic.cloud/api/agent_builder/mcp"
+enabled = true
+
+[mcp_servers.elastic-agent-builder.env_http_headers]
+Authorization = "ELASTIC_AUTH"
+\`\`\`
+
+密钥要带 Kibana 应用权限 \`feature_agentBuilder.read\`，否则连上就是 403。从已经 export 的终端启动。缺变量或空值会静默不带头。不要把 key 写进 \`http_headers\`。这张 API key 表不要 \`codex mcp login elastic-agent-builder\`。
+
+自定义 Kibana Space 把路径改成 \`/s/marketing/api/agent_builder/mcp\`，把 marketing 换成你的 space id。默认 space 不必加 \`/s/\`。
+
+Serverless 才有 OAuth 2.1。官方写明 **不支持**只靠 Dynamic Client Registration 的客户端。Codex 的 \`mcp login\` 默认走 DCR，对这台会对不上。先在 Kibana 登记 MCP client，再：
+
+\`\`\`bash
+codex mcp add elastic-agent-builder --url https://my-project.kb.us-east-1.aws.elastic.cloud/api/agent_builder/mcp --oauth-client-id 你的 client id
+codex mcp login elastic-agent-builder
+\`\`\`
+
+不要抄 Claude 的 \`--transport http --client-id\`。不要抄 \`MCP_CLIENT_SECRET\`。机密 client 的 secret 官方只给 Claude / Cursor 示例，不要发明 Codex 的 \`--oauth-client-secret\`。一条连接只用一种鉴权，不要 API key 和 OAuth 叠在同一张表。闲置超过 30 天要重新授权。
+
+不要和 Datadog / Splunk Observability 配成一台。不要给它 \`required = true\` 挂全局。不要一上来 \`--yolo\`。网页 Cloud 不读 \`~/.codex/config.toml\`。改完退出再开会话。用 \`codex mcp get elastic-agent-builder\` 看传输是 streamable_http。连上后先跑只读查询；写入类工具和 Workflows 保持批准。
+
+不要做这些：
+
+- 不要抄 \`npx mcp-remote\`。
+- 不要抄已弃用的 \`@elastic/mcp-server-elasticsearch\`。
+- 不要用 \`bearer_token_env_var\`。
+- 不要发明 \`codex plugin add elastic@openai-curated\`。
+- 不要抄 Composio 的 Kibana toolkit。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Elastic", "Kibana", "HTTP"],
+    related: ["mcp-http-env-headers", "pagerduty-mcp-http", "splunk-o11y-mcp-http"],
+    sources: [
+      {
+        label: "Elastic · Agent Builder MCP server",
+        url: "https://www.elastic.co/docs/explore-analyze/ai-features/agent-builder/mcp-server",
+      },
+      {
+        label: "Elastic · Authenticate MCP clients with API keys",
+        url: "https://www.elastic.co/docs/explore-analyze/ai-features/agent-builder/mcp-server-api-keys",
+      },
+    ],
+  },
 ];

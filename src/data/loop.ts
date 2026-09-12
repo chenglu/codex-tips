@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T18:15:00Z",
+  lastTick: "2026-09-12T18:36:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "18:15 定时器。调用前 $97.48。Spend: counts（start_time=2026-09-05T18:20:00Z，共 234 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.46。CDP 62 项全过（预览 4312）。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Yellow 交易营销、AGENTS.md 入门，无新可执行厂商路径。DigitalOcean App Platform skills 是 npx skills add 且未钉 --agent codex，不收录。Meilisearch / Axiom / Intercom / Snowflake Cortex 仍非 Codex 专节。本轮收录 Splunk Observability MCP Gateway（env_http_headers 的 X-SF-TOKEN / X-SF-REALM）。不要抄 connect --ide codex 写入的 http_headers。",
+    "18:36 定时器。调用前 $97.46。Spend: counts（start_time=2026-09-05T18:40:00Z，共 204 条）+ search_news(10) + search_posts_all=10。未调用 get_news。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Yellow 交易营销、AGENTS.md 入门，无新可执行厂商路径。DigitalOcean App Platform skills 仍未钉 --agent codex。Elastic 官方无 Codex 专节，对照 Kibana /api/agent_builder/mcp + ApiKey 头。收尾额度见下一笔 commit。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -806,6 +806,13 @@ export const loopState = {
     "docs.digitalocean.com do-app-platform-skills --agent codex",
     "meilisearch axiom intercom snowflake cortex mcp Codex",
     "Codex CLI 技巧 2026 Splunk Observability MCP Gateway",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "elastic.co Agent Builder MCP api/agent_builder/mcp Codex ApiKey",
+    "elastic.co mcp-server-api-keys Authorization ApiKey feature_agentBuilder.read",
+    "github.com/elastic/mcp-server-elasticsearch deprecated Agent Builder",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "Codex CLI 技巧 2026 Elastic Agent Builder MCP Kibana",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

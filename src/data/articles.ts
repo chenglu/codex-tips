@@ -2741,5 +2741,15 @@ export const articles: Article[] = [
     summary:
       '官方走 Splunk MCP Gateway，us0 示例是 region-iad10.api.scs.splunk.com。o11y-only 头是 X-SF-TOKEN 和 X-SF-REALM，不是 Bearer。不要抄 connect --ide codex 写入的 http_headers，也不要抄 mcp-remote。包名 splunk-o11y-mcp-connect。',
   },
+  {
+    title: 'Elastic Agent Builder MCP server',
+    url: 'https://www.elastic.co/docs/explore-analyze/ai-features/agent-builder/mcp-server',
+    source: 'Elastic',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Elastic', 'Kibana', 'HTTP'],
+    summary:
+      '官方终点是 Kibana 的 /api/agent_builder/mcp。Codex 对照 mcp add elastic-agent-builder --url。API key 是 Authorization: ApiKey，走 env_http_headers。缺 feature_agentBuilder.read 会 403。不要抄 mcp-remote 或已弃用的本地 elasticsearch MCP。',
+  },
 ];
 
