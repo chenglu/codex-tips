@@ -2011,4 +2011,16 @@ codex plugin add honeycomb@honeycomb-plugins
 # env_vars = ["KAGI_API_KEY"]
 `,
   },
+  {
+    id: "pinecone-agent-skills",
+    title: "Pinecone 技能与 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 npx skills add pinecone-io/skills --agent codex。MCP 才 mcp add pinecone -- npx -y @pinecone-database/mcp。不要抄 Claude plugin。",
+    code: `npx skills add pinecone-io/skills --agent codex
+
+# 可选 MCP：
+# codex mcp add pinecone -- npx -y @pinecone-database/mcp
+`,
+  },
 ];

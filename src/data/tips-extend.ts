@@ -7184,4 +7184,71 @@ enabled = true
       },
     ],
   },
+  {
+    id: "pinecone-agent-skills",
+    no: 326,
+    title: "Pinecone 官方 Codex 是 npx skills add，MCP 另配 stdio",
+    summary:
+      "官方 Codex：npx skills add pinecone-io/skills --agent codex。不要抄 Claude plugin 或 Cursor /add-plugin。MCP 才 mcp add pinecone -- npx -y @pinecone-database/mcp，密钥用 env_vars。",
+    body: `Pinecone 给 Codex 的官方表是 **Agent Skills**，不是 Codex \`/plugins\`。Claude / Cursor / Gemini 各自有专用插件，不要抄过来。
+
+先把 \`PINECONE_API_KEY\` 放进**启动 Codex 的那个进程**，再装技能。只要 Codex 时钉死 agent，避免改到 Claude / Cursor：
+
+\`\`\`bash
+npx skills add pinecone-io/skills --agent codex
+\`\`\`
+
+不要省略 \`--agent codex\`。不带这个旗标会按默认 agent 落盘，还可能改所有检测到的客户端。也不要手拷到 \`~/.codex/skills\`；现行个人技能目录是 \`~/.agents/skills\`。装完新开会话。
+
+技能文件夹名带 \`pinecone-\` 前缀：\`pinecone-quickstart\`、\`pinecone-query\`、\`pinecone-assistant\`、\`pinecone-cli\`、\`pinecone-mcp\`、\`pinecone-full-text-search\`、\`pinecone-docs\`、\`pinecone-n8n\`、\`pinecone-help\`。\`pinecone-query\` 要 MCP 才有用。\`pinecone-cli\` 要本机有 \`pc\`（\`brew install pinecone-io/tap/pinecone\`）。不要发明 \`codex plugin add pinecone@…\`。
+
+可选 MCP 是本地 stdio 包 \`@pinecone-database/mcp\`。官方只给了 Claude / Cursor / Desktop 的 JSON。Codex 对照：
+
+\`\`\`bash
+codex mcp add pinecone -- npx -y @pinecone-database/mcp
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.pinecone]
+command = "npx"
+args = ["-y", "@pinecone-database/mcp"]
+env_vars = ["PINECONE_API_KEY"]
+enabled = true
+startup_timeout_sec = 60
+\`\`\`
+
+这是 stdio，**不要** \`codex mcp login\`。**不要抄** JSON \`env\` 表里的 \`PINECONE_API_KEY\` 字面量或 \`{{YOUR_API_KEY}}\` 占位。\`npx\` 不在 PATH 时写成 \`which npx\` 的绝对路径。npx 冷启动慢就加 \`startup_timeout_sec\`。不要 \`required = true\`。不要一上来 \`--yolo\`。
+
+这台只支持**带集成 embedding 的索引**。外置向量模型建的索引它扫不了。连上后可让它 \`search-docs\`、\`list-indexes\`、\`search-records\`。写工具（\`create-index-for-model\`、\`upsert-records\`）保持批准。
+
+**Assistant MCP 是另一台**：每个 Assistant 有自己的远程端点，不要和 \`@pinecone-database/mcp\` 配成一张表。
+
+不要做这些：
+
+- 不要抄 \`claude plugin install pinecone\`，也不要抄 Cursor 的 \`/add-plugin pinecone\`。
+- 不要抄 Gemini 的 \`gemini extensions install\`。
+- 不要把密钥写进 \`args\` 或项目 \`mcp.json\`。
+- 不要给它 \`required = true\` 挂全局。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get pinecone\` 看 command 是 npx。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["Skills", "Pinecone", "MCP", "stdio"],
+    related: ["mcp-add-and-login", "mcp-stdio-env-vars", "skill-creator"],
+    sources: [
+      {
+        label: "Pinecone · Agent Skills",
+        url: "https://docs.pinecone.io/integrations/agent-skills",
+      },
+      {
+        label: "Pinecone · MCP server",
+        url: "https://docs.pinecone.io/guides/operations/mcp-server",
+      },
+      {
+        label: "pinecone-io/skills",
+        url: "https://github.com/pinecone-io/skills",
+      },
+    ],
+  },
 ];

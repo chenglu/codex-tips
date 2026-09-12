@@ -2671,5 +2671,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex 是 mcp add kagi -- uvx kagimcp。不要抄 --env KAGI_API_KEY=。用 env_vars。工具是 kagi_search_fetch。托管才 mcp.kagi.com/mcp + bearer_token_env_var。不要 mcp login。',
   },
+  {
+    title: 'Pinecone Agent Skills',
+    url: 'https://docs.pinecone.io/integrations/agent-skills',
+    source: 'Pinecone',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'Pinecone', 'MCP'],
+    summary:
+      '官方 Codex 是 npx skills add pinecone-io/skills --agent codex。不要抄 Claude plugin 或 Cursor /add-plugin。MCP 才 mcp add pinecone -- npx -y @pinecone-database/mcp，密钥用 env_vars。',
+  },
 ];
 
