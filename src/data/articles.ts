@@ -2541,5 +2541,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex 是 marketplace add tursodatabase/turso-mcp，再 plugin add turso@turso，再 mcp login turso。只要 MCP 才手写 mcp.turso.ai/mcp。OAuth，没有 API token 可抄。不要抄 Claude 的 /plugin install 或 Cursor 的 mcp-remote。',
   },
+  {
+    title: 'Connect to the CockroachDB Cloud MCP Server',
+    url: 'https://www.cockroachlabs.com/docs/cockroachcloud/connect-to-the-cockroachdb-cloud-mcp-server',
+    source: 'Cockroach Labs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'CockroachDB', 'OAuth', 'plugins'],
+    summary:
+      '官方 Codex 是 mcp add cockroachdb-cloud --url https://cockroachlabs.cloud/mcp，再 mcp login。技能才 marketplace add cockroachdb/codex-plugin。不要抄官方 TOML 里的 Bearer，也不要把 --env 字面量写进配置。',
+  },
 ];
 

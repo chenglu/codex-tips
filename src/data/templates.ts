@@ -1847,4 +1847,15 @@ codex mcp login turso
 # enabled = true
 `,
   },
+  {
+    id: "cockroachdb-codex-plugin",
+    title: "CockroachDB Cloud 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 cockroachlabs.cloud/mcp。随后 mcp login。技能才 plugin add cockroachdb@cockroachdb-codex-plugin。不要把 Bearer 写进 http_headers。",
+    code: `[mcp_servers.cockroachdb-cloud]
+url = "https://cockroachlabs.cloud/mcp"
+enabled = true
+`,
+  },
 ];

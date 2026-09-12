@@ -6081,4 +6081,105 @@ enabled = true
       },
     ],
   },
+  {
+    id: "cockroachdb-codex-plugin",
+    no: 313,
+    title: "CockroachDB Cloud 用 cockroachdb-cloud，不要抄 Bearer 进 http_headers",
+    summary:
+      "Cloud 官方：codex mcp add cockroachdb-cloud --url https://cockroachlabs.cloud/mcp，再 mcp login。技能才 marketplace add cockroachdb/codex-plugin。不要抄官方 TOML 里的 Bearer，也不要把 --env 字面量写进配置。",
+    body: `CockroachDB 给 Codex 两条官方线，不要混成一份 JSON。
+
+**Cloud 托管 MCP（官方文档的 Codex 节）：** 远程 Streamable HTTP。表名官方就是带连字符的 \`cockroachdb-cloud\`（这是用户层，不是插件 \`mcp.json\`）：
+
+\`\`\`bash
+codex mcp add cockroachdb-cloud --url https://cockroachlabs.cloud/mcp
+codex mcp login cockroachdb-cloud
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.cockroachdb-cloud]
+url = "https://cockroachlabs.cloud/mcp"
+enabled = true
+\`\`\`
+
+地址是 \`https://cockroachlabs.cloud/mcp\`，带 \`/mcp\` 后缀。随后 \`mcp login\` 打开浏览器：登录 Cloud Console，多组织先选组织，再在授权页勾只读和/或写入。账号需要 Cluster Admin 或 Cluster Operator。默认这一条连接能碰到你有权限的**全部**集群；工具调用里若再传别的 \`cluster_id\` 会被拒。先拿预发集群试，不要一上来 \`--yolo\`。不要给它 \`required = true\` 挂全局。
+
+只绑一个集群时，头名是 \`mcp-cluster-id\`。不要把集群 id 写进 URL。不要抄官方 TOML 里的花括号占位。从进程环境转发：
+
+\`\`\`toml
+[mcp_servers.cockroachdb-cloud]
+url = "https://cockroachlabs.cloud/mcp"
+enabled = true
+
+[mcp_servers.cockroachdb-cloud.env_http_headers]
+mcp-cluster-id = "COCKROACHDB_CLUSTER_ID"
+\`\`\`
+
+无头 / 服务账号才改走 API key。官方 Codex 示例把 \`Authorization = "Bearer …"\` 写进 \`http_headers\`，**不要抄**：密钥会进 \`config.toml\`。用 \`bearer_token_env_var\`，右边是启动 Codex 那个进程里的变量**名**：
+
+\`\`\`toml
+[mcp_servers.cockroachdb-cloud]
+url = "https://cockroachlabs.cloud/mcp"
+bearer_token_env_var = "COCKROACH_CLOUD_API_KEY"
+enabled = true
+\`\`\`
+
+这张表不要再跑 \`mcp login\`。一条连接只用一种鉴权：OAuth 或 API key，不要两套叠在同一张表。
+
+**技能 / 安全钩子：** 才装官方插件。marketplace 注册名是 \`cockroachdb-codex-plugin\`，插件 id 是 \`cockroachdb@cockroachdb-codex-plugin\`：
+
+\`\`\`bash
+codex plugin marketplace add cockroachdb/codex-plugin
+codex plugin add cockroachdb@cockroachdb-codex-plugin
+codex plugin list
+\`\`\`
+
+0.154 起先看**当前会话**；当前会话没有再新开。桌面改 marketplace.json 仍要重启应用。技能来自 \`cockroachlabs/cockroachdb-skills\`（查询/schema、可观测、安全、MOLT 迁移、集群生命周期）。不要用 \`npx skills add\` 当 Codex 安装器。钩子要你在信任屏批准；可用 \`codex plugin trust cockroachdb\`。老版本上插件自带 \`hooks.json\` 可能不触发，脚本必须 fail-open。
+
+插件还捆了三台 MCP：\`cockroachdb-cloud\`（HTTP）、\`cockroachdb-toolbox\`（stdio，本机 \`toolbox\`）、\`cockroachdb-toolbox-http\`（本机 SSE）。插件 \`mcp.json\` 里 \`\${COCKROACHDB_*}\` 和相对 \`./tools.yaml\` **不会**按你的 shell 展开，stdio 子进程也不继承你终端里的 \`COCKROACHDB_*\`。HTTP Cloud 那台不受路径展开影响，但用户层上面那条 \`mcp add\` + \`mcp login\` 更稳。插件工具名带连字符调不到时，也改走用户层，不要再抄一份插件 JSON。
+
+只要 Toolbox、连自建或本地节点时，才手写用户层 stdio。先单独安装 [MCP Toolbox](https://mcp-toolbox.dev/documentation/introduction/#install-toolbox)。**不要**抄 README 里的 \`codex mcp add … --env COCKROACHDB_HOST=localhost\`：会把值写进配置。用 \`env_vars\` 转发变量名，\`tools.yaml\` 写成缓存里的**绝对路径**：
+
+\`\`\`toml
+[mcp_servers.cockroachdb-toolbox]
+command = "toolbox"
+args = ["--config", "/abs/path/to/tools.yaml", "--stdio"]
+env_vars = ["COCKROACHDB_HOST", "COCKROACHDB_PORT", "COCKROACHDB_USER", "COCKROACHDB_PASSWORD", "COCKROACHDB_DATABASE", "COCKROACHDB_SSLMODE"]
+enabled = true
+startup_timeout_sec = 60
+\`\`\`
+
+yaml 在 \`~/.codex/plugins/cache/cockroachdb-codex-plugin/cockroachdb/\` 下，用 \`find\` 对当前版本，不要写死 \`0.1.0\`。本地不安全节点才 \`COCKROACHDB_SSLMODE=disable\`；安全集群改 \`verify-full\` 并配证书变量。Toolbox 默认只读，写入要改 \`tools.yaml\`，保持工具批准。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`claude mcp add … --transport http\`，也不要把密钥或集群 id 写进 \`--header\`。
+- 不要抄 Cursor / Copilot 的 \`mcpServers\` JSON，也不要抄 \`mcp-remote\`。
+- 不要发明 \`codex plugin add cockroachdb@openai-curated\`。官方给的就是 \`cockroachdb@cockroachdb-codex-plugin\`。
+- 不要抄 Claude 的 \`cockroachdb/claude-plugin\`。
+- 不要把官方示例里的 Bearer 写进 \`http_headers\` 或 \`args\`。
+- 不要默认打开 \`cockroachdb-toolbox-http\`（它指向本机 SSE）。
+- 不要和自建 \`cockroachdb-mcp-server\` 的 JSON \`mcpServers\`、或 Turso / Typesense 那几台配成一台。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get cockroachdb-cloud\` 看传输是 streamable_http。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["plugins", "CockroachDB", "MCP", "OAuth", "Skills"],
+    related: ["turso-codex-plugin", "mcp-add-and-login", "mcp-http-bearer-env"],
+    sources: [
+      {
+        label: "CockroachDB Cloud · MCP Server",
+        url: "https://www.cockroachlabs.com/docs/cockroachcloud/connect-to-the-cockroachdb-cloud-mcp-server",
+      },
+      {
+        label: "cockroachdb/codex-plugin",
+        url: "https://github.com/cockroachdb/codex-plugin",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
 ];
