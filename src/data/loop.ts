@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-12T03:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "03:30 定时器。调用前 $97.71。Spend: counts（start_time=2026-09-05T03:45:00Z，共 239 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾余额待收尾 get_usage_credits。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md 并用文、Muse 许愿，无新可执行帖。本轮收录 MongoDB（mongodb-atlas 托管插件 + marketplace add mongodb/agent-skills + 本地 mongodb-mcp-server --readOnly）。HubSpot 本地 hs mcp setup 仍未核对手写 TOML。Browserbase 仍不收录。",
+    "03:30 定时器。调用前 $97.71。Spend: counts（start_time=2026-09-05T03:45:00Z，共 239 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾余额 $97.70。X 仍是 Packt、0.154 worktree、Claude vs Codex、粘贴截图、韩文 0.154 / GPT-6-Astra、日文 AGENTS.md 并用文、Muse 许愿，无新可执行帖。本轮收录 MongoDB（mongodb-atlas 托管插件 + marketplace add mongodb/agent-skills + 本地 mongodb-mcp-server --readOnly）。HubSpot 本地 hs mcp setup 仍未核对手写 TOML。Browserbase 仍不收录。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
