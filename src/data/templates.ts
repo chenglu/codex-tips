@@ -2076,4 +2076,15 @@ codex mcp add pagerduty --url https://mcp.pagerduty.com/mcp
 # enabled = true
 `,
   },
+  {
+    id: "atlan-codex-mcp",
+    title: "Atlan 托管 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 marketplace add atlanhq/agent-toolkit，再 plugin add atlan@atlan，再 mcp add atlan --url https://mcp.atlan.com/mcp。装了插件仍要 mcp add。不要抄 atlan@atlan-marketplace。",
+    code: `codex plugin marketplace add https://github.com/atlanhq/agent-toolkit
+codex plugin add atlan@atlan
+codex mcp add atlan --url https://mcp.atlan.com/mcp
+`,
+  },
 ];

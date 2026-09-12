@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T17:15:00Z",
+  lastTick: "2026-09-12T17:36:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "17:15 定时器。调用前 $97.50。Spend: counts（start_time=2026-09-05T17:20:00Z，共 232 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.49。CDP 50 项全过（预览 4310）。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Yellow 交易营销、tmux-agent-pulse、Google Cloud 插件营销、AGENTS.md 入门、DevDay 营销，无新可执行厂商路径。Meilisearch / Axiom / Intercom 仍是 Claude + mcp-remote。DigitalOcean App Platform skills 官方未钉 --agent codex，本轮不收录。本轮收录 Fly.io 本地 stdio MCP（fly mcp server）。没有 --codex，不要对 config.toml 跑 --config。下一轮可再核 DigitalOcean skills。",
+    "17:36 定时器。调用前 $97.49。Spend: counts（start_time=2026-09-05T17:40:00Z，共 232 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾待测。X 仍是 Claude vs Codex、GPT-6-Astra、Yellow 交易营销、日文 0.154 worktree、tmux-agent-pulse、Google Cloud 插件营销、AGENTS.md 入门，无新可执行厂商路径。DigitalOcean 博客是 npx skills add 且未钉 --agent codex，README 仍链 ~/.codex/skills，本轮不收录。Splunk o11y 有 --ide codex 但会把 token 写入 http_headers，留给下一轮。本轮收录 Atlan 托管 MCP（atlan@atlan + mcp.atlan.com/mcp）。装了插件仍要 mcp add。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -792,6 +792,13 @@ export const loopState = {
     "meilisearch.com docs integrations mcp Codex uvx meilisearch-mcp",
     "axiom.co docs console intelligence mcp-server Codex mcp.axiom.co mcp-remote",
     "Codex CLI 技巧 2026 Fly.io MCP fly mcp server",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "docs.atlan.com Set up Atlan MCP Codex plugin add atlan@atlan mcp.atlan.com",
+    "github.com/atlanhq/agent-toolkit Codex hosted MCP deprecated local",
+    "npx @splunk/o11y-mcp-connect connect --ide codex",
+    "docs.digitalocean.com digitalocean-labs/do-app-platform-skills npx skills add",
+    "Codex CLI 技巧 2026 Atlan MCP atlan@atlan",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

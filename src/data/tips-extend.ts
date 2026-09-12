@@ -7498,4 +7498,64 @@ Inspector 可先 \`fly mcp server -i\` 看工具：\`fly-platform-status\`、\`f
       },
     ],
   },
+  {
+    id: "atlan-codex-mcp",
+    no: 331,
+    title: "Atlan 官方 Codex：plugin add atlan@atlan，再 mcp add",
+    summary:
+      "官方 Codex：marketplace add atlanhq/agent-toolkit，再 plugin add atlan@atlan，再 mcp add atlan --url https://mcp.atlan.com/mcp。装了插件仍要 mcp add。不要抄 Claude 的 atlan@atlan-marketplace 或本地 docker。",
+    body: `Atlan 给 Codex 有专节。托管地址是 \`https://mcp.atlan.com/mcp\`（**带** \`/mcp\` 后缀），所有租户共用这一台，OAuth，不必先备 API key。仓库里的本地 MCP（\`pip install atlan-mcp-server\`、\`uvx atlan-mcp-server\`、Docker 镜像）已弃用，不要再当主路径。
+
+官方 Codex **插件**节是这三步，缺一步都不算装完：
+
+\`\`\`bash
+codex plugin marketplace add https://github.com/atlanhq/agent-toolkit
+codex plugin add atlan@atlan
+codex mcp add atlan --url https://mcp.atlan.com/mcp
+\`\`\`
+
+插件 id 是 \`atlan@atlan\`。不要抄 Claude 的 \`atlan@claude-plugins-official\` 或 \`atlan@atlan-marketplace\`。也不要抄仓库 README 给 Claude 的 \`/plugin install\`。Honeycomb 那类插件会自己登记 MCP；Atlan **不会**——官方把 \`mcp add\` 单独写成第 3 步，装了插件仍要跑。
+
+只要 MCP、不装插件，走 Manual 节，命令就是上面那条 \`mcp add\`。官方说它会写入 \`[mcp_servers.atlan]\` 并拉起浏览器 OAuth。若只写入表、没弹出登录，再：
+
+\`\`\`bash
+codex mcp login atlan
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.atlan]
+url = "https://mcp.atlan.com/mcp"
+enabled = true
+\`\`\`
+
+不要抄 Claude 的 \`--transport http\`，也不要抄 Cursor 的 \`type: http\` JSON。不要抄 \`npx mcp-remote https://mcp.atlan.com/mcp\`。不要和文档站 \`https://docs.atlan.com/mcp\` 配成一台：那是 Atlan 文档 MCP，不是数据目录。也不要抄 Snowflake Cortex 的 \`cortex mcp add\`。
+
+改完退出再开会话（桌面用退出应用，不要只关窗口）。用 \`/mcp\` 看 \`atlan\` 是否已连。连上后先搜资产和血缘。治理写入和 SQL 查询会改元数据或打到数仓，保持工具批准。不要一上来 \`--yolo\`。不要给它 \`required = true\` 挂全局。
+
+无头 / 不能开浏览器才对照 API key。官方 Codex 节没写这条；Claude 示例把 Bearer 写进 \`headers\`。Codex 用 \`bearer_token_env_var\`，不要把密钥写进 \`http_headers\`。这张表不要再 \`mcp login\`。一条连接只用一种鉴权。
+
+不要做这些：
+
+- 不要发明 \`atlan@openai-curated\`。
+- 不要抄本地 Docker / uvx，把 \`ATLAN_API_KEY\` 写进 \`args\` 或 \`env\` 表。
+- 不要抄 \`claude mcp add --transport http\`。
+- 不要给它 \`required = true\` 挂全局。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完用 \`codex plugin list\`；MCP 用 \`codex mcp get atlan\` 看传输是 streamable_http。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Atlan", "plugins", "OAuth"],
+    related: ["mcp-add-and-login", "shopify-ai-toolkit", "honeycomb-codex-plugin"],
+    sources: [
+      {
+        label: "Atlan · Set up Atlan MCP",
+        url: "https://docs.atlan.com/product/capabilities/atlan-ai/how-tos/remote-mcp-overview",
+      },
+      {
+        label: "atlanhq/agent-toolkit",
+        url: "https://github.com/atlanhq/agent-toolkit",
+      },
+    ],
+  },
 ];

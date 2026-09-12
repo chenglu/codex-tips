@@ -2721,5 +2721,15 @@ export const articles: Article[] = [
     summary:
       '官方给 LLM 加服务器是 fly mcp server --claude，没有 --codex。Codex 对照 mcp add fly -- fly mcp server。不要对 config.toml 跑 --config。Inspector 工具如 fly-apps-list。不要抄 --sse 或 flyctl mcp proxy。',
   },
+  {
+    title: 'Set up Atlan MCP',
+    url: 'https://docs.atlan.com/product/capabilities/atlan-ai/how-tos/remote-mcp-overview',
+    source: 'Atlan',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Atlan', 'plugins', 'OAuth'],
+    summary:
+      '官方 Codex：marketplace add atlanhq/agent-toolkit，再 plugin add atlan@atlan，再 mcp add atlan --url https://mcp.atlan.com/mcp。装了插件仍要 mcp add。本地 docker / uvx 已弃用。不要抄 Claude 的 atlan@atlan-marketplace。',
+  },
 ];
 
