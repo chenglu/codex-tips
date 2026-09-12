@@ -1667,4 +1667,15 @@ url = "https://api.circle.com/v1/codegen/mcp"
 enabled = true
 `,
   },
+  {
+    id: "mcp-twilio-docs",
+    title: "Twilio 文档 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.twilio.com/docs。表名是 twilio-docs。无鉴权。不要抄 --transport http 或 mcp-remote。",
+    code: `[mcp_servers.twilio-docs]
+url = "https://mcp.twilio.com/docs"
+enabled = true
+`,
+  },
 ];

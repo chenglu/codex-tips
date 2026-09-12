@@ -5082,4 +5082,67 @@ enabled = true
       },
     ],
   },
+  {
+    id: "mcp-twilio-docs",
+    no: 298,
+    title: "Twilio 文档 MCP 用 mcp.twilio.com/docs，无鉴权，不执行 API",
+    summary:
+      "官方 Codex 节：codex mcp add twilio-docs --url https://mcp.twilio.com/docs。无鉴权、只读文档和 OpenAPI。不要抄 Claude 的 --transport http、mcp-remote 或 Cursor 的 /add-plugin。Public Beta，不会替你调 Twilio API。",
+    body: `Twilio **文档** MCP 有官方 Codex 节。Public Beta，无鉴权，Streamable HTTP：
+
+\`\`\`bash
+codex mcp add twilio-docs --url https://mcp.twilio.com/docs
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.twilio-docs]
+url = "https://mcp.twilio.com/docs"
+enabled = true
+\`\`\`
+
+用户层表名官方就是带连字符的 \`twilio-docs\`（这不是插件 \`mcp.json\`，#33063 那套连字符问题不套这里）。官方没要求 \`mcp login\`，也不要 API key。连上后问「How do I send an SMS with Twilio?」，模型应先走搜索工具，再按需要用取回工具拉完整参数 / 响应 schema。不要把工具名写成双下划线那种内部拼接，会话里点名服务器 \`twilio-docs\` 即可。
+
+这台只读：索引公开 OpenAPI、Twilio / SendGrid / Segment 文档。**不会**用你的账号发短信、扣费或改资源。官方路线图里的「可执行、要 OAuth 的 API 工具」还没来，不要当成已经能代你打 Twilio API。多版本接口（例如 Messaging 的 \`v2010\` 和 \`v1\`）默认给最新版；要旧版再让模型按版本过滤。
+
+技能是另一条路，和 MCP 互补：技能管选品 / 架构 / 坑，MCP 管精确参数。Codex 主路径是 TUI \`/plugins\` 或桌面 Plugins 搜 Twilio developer kit 再安装。GitHub 官方仓库给的纯技能回退是：
+
+\`\`\`bash
+git clone https://github.com/twilio/ai.git
+cp -r ai/skills/ ~/.agents/skills/
+\`\`\`
+
+不要把整个仓库 clone 进 \`.agents/skills/\` 根目录，也不要手拷到 \`~/.codex/skills\`。不要抄 Claude 的 \`claude plugin install twilio-developer-kit\`、\`/plugin marketplace add twilio/ai\`，也不要抄 Cursor 的 \`/add-plugin twilio-developer-kit\`。那些会改别的客户端，不是 Codex \`/plugins\`。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`--transport http\` 或 \`claude mcp add -- npx -y @anthropic-ai/mcp-remote\`。Codex 自己会连 Streamable HTTP。
+- 不要抄 \`mcpServers\` JSON。
+- 不要给它 \`required = true\` 挂全局。
+- 不要一上来 \`--yolo\`。文档检索会进上下文，生成出来的短信 / 语音代码仍要人审。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get twilio-docs\` 看传输是 streamable_http。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Twilio", "文档", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-openai-docs", "skill-installer"],
+    sources: [
+      {
+        label: "Twilio · MCP server",
+        url: "https://www.twilio.com/docs/ai/mcp",
+      },
+      {
+        label: "Twilio · Skills",
+        url: "https://www.twilio.com/docs/ai/skills",
+      },
+      {
+        label: "twilio/ai",
+        url: "https://github.com/twilio/ai",
+      },
+      {
+        label: "OpenAI · Model Context Protocol",
+        url: "https://learn.chatgpt.com/docs/extend/mcp",
+      },
+    ],
+  },
 ];

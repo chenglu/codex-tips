@@ -2381,5 +2381,25 @@ export const articles: Article[] = [
     summary:
       '官方 Codex 节是 mcp add circle --url https://api.circle.com/v1/codegen/mcp。这是 Wallets / Contracts / CCTP / Gateway 的代码生成 MCP，无账号。不要和 CircleCI 的 mcp.circleci.com 搞混。不要抄 Kiro 的 npx @circle/mcp-server。',
   },
+  {
+    title: 'Twilio MCP server',
+    url: 'https://www.twilio.com/docs/ai/mcp',
+    source: 'Twilio',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Twilio', '文档'],
+    summary:
+      '官方 Codex 节是 mcp add twilio-docs --url https://mcp.twilio.com/docs。无鉴权、只读文档和 OpenAPI，Public Beta。不要抄 Claude 的 --transport http 或 Cursor 的 /add-plugin。不会替你执行 Twilio API。',
+  },
+  {
+    title: 'Twilio Skills for AI coding agents',
+    url: 'https://www.twilio.com/docs/ai/skills',
+    source: 'Twilio',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'Twilio', 'plugins'],
+    summary:
+      'Codex 主路径是 /plugins 或桌面 Plugins 搜 Twilio developer kit。纯技能回退才是把 twilio/ai 的 skills/ 拷进 ~/.agents/skills。不要抄 Claude 的 plugin install，也不要把整个仓库 clone 进技能根目录。',
+  },
 ];
 

@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T01:30:00Z",
+  lastTick: "2026-09-12T02:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "01:30 调用前 $97.76。Spend: counts（start_time=2026-09-05T01:45:00Z，共 243 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾余额 $97.75。X 仍是 Packt 书、0.154 worktree 营销、GTM MCP Bench、tmux-agent-pulse、Agents API 营销、Claude vs Codex 营销，无新可执行帖。收录 Langfuse 产品 MCP（Basic / env_http_headers）+ Circle codegen MCP。Twilio 文档 MCP 留给下一轮。Browserbase 仍不收录（密钥拼进 URL）。",
+    "02:00 调用前 $97.75。Spend: counts（start_time=2026-09-05T02:15:00Z，共 243 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾余额 $97.75。X 仍是 Packt 书、0.154 worktree、GTM MCP Bench、tmux-agent-pulse、Claude vs Codex 营销，无新可执行帖。收录 Twilio 文档 MCP（mcp.twilio.com/docs，无鉴权）+ Twilio Skills 官方页。HubSpot 本地 hs mcp setup 有 Codex CLI，但未核对手写 TOML，留给下一轮。远程 mcp.hubspot.com 官方没有 Codex 节，GTME Pulse 的 /anthropic + bearer 不收录。Browserbase 仍不收录（密钥拼进 URL）。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -515,6 +515,14 @@ export const loopState = {
     "developers.circle.com ai mcp api.circle.com codegen Codex",
     "twilio.com docs ai mcp twilio-docs Codex mcp.twilio.com",
     "Codex CLI 技巧 2026 Langfuse 产品 MCP Circle Twilio",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR worktree OR hooks OR config.toml)',
+    "X news: Codex CLI",
+    "twilio.com docs ai mcp twilio-docs mcp.twilio.com Codex",
+    "twilio.com docs ai skills Twilio developer kit Codex plugins",
+    "github.com/twilio/ai Codex mcp add twilio-docs ~/.agents/skills",
+    "developers.hubspot.com hs mcp setup Codex CLI HubSpotDev",
+    "mcp.hubspot.com anthropic Codex OAuth PKCE",
+    "Codex CLI 技巧 2026 Twilio 文档 MCP Skills HubSpot",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR worktree OR hooks OR config.toml)',
     "X news: Codex CLI",
   ],
