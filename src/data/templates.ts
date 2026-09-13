@@ -2685,4 +2685,18 @@ codex mcp login buildkite
 # enabled = true
 `,
   },
+  {
+    id: "pulumi-mcp-http",
+    title: "Pulumi MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add pulumi --url https://mcp.ai.pulumi.com/mcp。URL 带 /mcp。OAuth，浏览器没弹再 mcp login pulumi。不要发明 plugin add pulumi@。不要抄 bearer_token_env_var。",
+    code: `codex mcp add pulumi --url https://mcp.ai.pulumi.com/mcp
+codex mcp login pulumi
+
+# [mcp_servers.pulumi]
+# url = "https://mcp.ai.pulumi.com/mcp"
+# enabled = true
+`,
+  },
 ];

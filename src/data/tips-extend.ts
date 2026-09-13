@@ -9882,4 +9882,59 @@ codex mcp login buildkite-pipelines
       },
     ],
   },
+  {
+    id: "pulumi-mcp-http",
+    no: 373,
+    title: "Pulumi MCP 用 mcp.ai.pulumi.com/mcp，再完成 OAuth",
+    summary:
+      "官方 MCP 页没有 Codex 专节。对照 Cursor 的 url：mcp add pulumi --url https://mcp.ai.pulumi.com/mcp，再 mcp login pulumi。URL 带 /mcp。OAuth，浏览器里贴 Access Token。不要发明 plugin add pulumi@。不要抄 mcp-remote 或 bearer_token_env_var。",
+    body: `Pulumi 官方 MCP 页把远程入口写在 \`https://mcp.ai.pulumi.com/mcp\`，带 \`/mcp\` 后缀，不要尾斜杠。页上列了 Cursor、Claude Code、Windsurf、Claude Desktop，以及任意支持 MCP + OAuth 的助手，没有 Codex 专节。鉴权是 OAuth：第一次连会打开浏览器，在网页里贴 Pulumi Access Token 并选组织。Token 校验在 Pulumi Cloud 侧，不要写进 \`config.toml\`。CLI 写成：
+
+\`\`\`bash
+codex mcp add pulumi --url https://mcp.ai.pulumi.com/mcp
+codex mcp login pulumi
+\`\`\`
+
+手册表名用 \`pulumi\`，跟 Claude / Cursor 一致。\`mcp add\` 写进用户层 \`~/.codex/config.toml\`。只写进了表、浏览器没弹时再跑 \`codex mcp login pulumi\`。
+
+桌面 / IDE：Settings → MCP servers → Add server，传输选 Streamable HTTP，URL 填上面那条。Bearer token env var 和 Headers 留空。第一次用工具时会打开浏览器。
+
+\`\`\`toml
+[mcp_servers.pulumi]
+url = "https://mcp.ai.pulumi.com/mcp"
+enabled = true
+\`\`\`
+
+不要发明 \`codex plugin add pulumi@…\`。官方没给出 Codex marketplace id。技能是另一条官方 Codex 路：\`codex plugin marketplace add pulumi/agent-skills\`，再在 TUI 里装 \`pulumi\`（或只要 \`pulumi-migration\` / \`pulumi-delegation\` / \`pulumi-package-maintenance\`）。\`pulumi\` 已经包含 migration 和 delegation，不要再并装那两个。不要把通用安装器的 \`--agent junie\` 抄成 \`--agent codex\`。不要抄 Claude 的 \`--transport http\`。不要抄 Cursor JSON、Windsurf \`serverUrl\` 或 ChatGPT Developer Mode。不要抄 Claude Desktop / Kiro 的 \`npx mcp-remote\`。不要给这台 \`bearer_token_env_var = "PULUMI_ACCESS_TOKEN"\`；那是第三方 Codex 文把无头 PAT 抄成主路径。交互主路径是 OAuth，Access Token 只出现在浏览器同意页。
+
+本地 \`@pulumi/mcp-server\`（或 Docker 镜像 \`mcp/pulumi\`）给本机 CLI / CI 用，要本机装 Pulumi CLI，请求算你这边的配额。个人会话走远程 URL。本地才有 \`pulumi-cli-preview\` / \`pulumi-cli-up\` 这类 CLI 工具；远程才有 \`get-policy-violations\`、\`get-users\`。品牌站 \`brand.pulumi.com/mcp\` 是另一台 MCP，不要跟 \`mcp.ai.pulumi.com\` 混。
+
+这台能列 stack、按 Lucene 搜资源、查 Registry、看策略违规、把活交给 Pulumi Neo。\`neo-task-launcher\` 会在 Pulumi Cloud 里开自动化任务，可能改代码、开 PR。保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。
+
+先只读：问这个组织有哪些 stack，或 \`get-stacks\`。搜资源用 Lucene，例如 \`type:aws:s3/bucket:Bucket\`。不确定组织就先看同意页选中的那个，不要把生产组织名抄进提示。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add pulumi@openai-curated\`。
+- 不要抄 \`mcp-remote\`、Claude 的 \`--transport http\` 或 Cursor JSON。
+- 不要把 Access Token 写进 \`env\` 表、\`http_headers\`、URL，或给交互会话加 \`bearer_token_env_var\`。
+- 不要给它 \`required = true\` 挂全局。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完彻底新开会话。用 \`codex mcp get pulumi\` 看传输是 streamable_http。会话里 \`/mcp\` 应显示 Auth: OAuth。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Pulumi", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-http-not-sse", "buildkite-mcp-http"],
+    sources: [
+      {
+        label: "Pulumi · MCP Server",
+        url: "https://www.pulumi.com/docs/ai/mcp-server/",
+      },
+      {
+        label: "Pulumi · Announcing Pulumi Remote MCP Server",
+        url: "https://www.pulumi.com/blog/remote-mcp-server/",
+      },
+    ],
+  },
 ];

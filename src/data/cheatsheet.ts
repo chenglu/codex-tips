@@ -271,6 +271,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: "codex mcp add beehiiv --url https://mcp.beehiiv.com/mcp", meaning: "官方点名 Codex。远程带 /mcp 后缀。OAuth，浏览器没弹再 mcp login beehiiv。不要发明 plugin add beehiiv@。免费档只读，发布仍回仪表盘" },
       { cmd: "codex mcp add mailerlite --url https://mcp.mailerlite.com/mcp", meaning: "官方写任意 MCP 客户端。远程带 /mcp 后缀。OAuth，浏览器没弹再 mcp login mailerlite。不要发明 plugin add mailerlite@。不要抄 Claude 的 --transport http" },
       { cmd: "codex mcp add buildkite --url https://mcp.buildkite.com/mcp", meaning: "官方配置页没有 Codex 专节。对照 VS Code url / Goose streamable_http。远程带 /mcp 后缀。OAuth，浏览器没弹再 mcp login buildkite。只读换 /mcp/readonly。不要发明 plugin add buildkite@。不要抄 Amp mcp-remote 或 /direct Bearer" },
+      { cmd: "codex mcp add pulumi --url https://mcp.ai.pulumi.com/mcp", meaning: "官方 MCP 页没有 Codex 专节。对照 Cursor 的 url。远程带 /mcp 后缀。OAuth，浏览器里贴 Access Token 再选组织。不要发明 plugin add pulumi@。不要抄 mcp-remote 或把 bearer_token_env_var 当交互主路径" },
       { cmd: "codex mcp add convex -- npx … mcp start", meaning: "插件装不上才用手写 stdio。官方 MCP 是 npx convex mcp start，不是远程 URL。不要加 --dangerously-enable-production-deployments" },
       { cmd: "codex --profile huggingface", meaning: "[model_providers.huggingface] 走 router.huggingface.co/v1，wire_api = responses，env_key = HF_TOKEN。不是 Hub MCP，也不是 --oss" },
       { cmd: "codex --profile vercel", meaning: "[model_providers.vercel] 走 ai-gateway.vercel.sh/codex/v1，wire_api = responses，env_key = AI_GATEWAY_API_KEY。不是 Vercel MCP，也不是 --oss" },

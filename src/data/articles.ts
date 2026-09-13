@@ -3401,5 +3401,25 @@ export const articles: Article[] = [
     summary:
       '对照 VS Code 的 url 和 Goose 的 streamable_http，Codex 写 mcp add buildkite --url https://mcp.buildkite.com/mcp，再 mcp login。单组工具走 mcp.buildkite.com/mcp/x/pipelines。不要抄 Amp 的 mcp-remote 或 Claude 的 --transport http。',
   },
+  {
+    title: 'Pulumi MCP Server',
+    url: 'https://www.pulumi.com/docs/ai/mcp-server/',
+    source: 'Pulumi',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Pulumi', 'OAuth', 'HTTP'],
+    summary:
+      '官方远程是 mcp.ai.pulumi.com/mcp，OAuth。浏览器里贴 Access Token 并选组织。没有 Codex 专节，对照 Cursor 的 url 写 mcp add pulumi。不要抄 mcp-remote，也不要把 bearer_token_env_var 当交互主路径。不要发明 plugin add pulumi@。',
+  },
+  {
+    title: 'Announcing Pulumi Remote MCP Server',
+    url: 'https://www.pulumi.com/blog/remote-mcp-server/',
+    source: 'Pulumi',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Pulumi', 'OAuth', 'HTTP'],
+    summary:
+      '托管入口就是 mcp.ai.pulumi.com/mcp。OAuth 把 Access Token 留在 Pulumi Cloud，不要散落在本机 env。本地 npm 包继续给离线或 CI。Neo 任务会改基础设施，保持批准。',
+  },
 ];
 
