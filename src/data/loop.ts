@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-13T22:30:00Z",
+  lastTick: "2026-09-13T23:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "22:30 定时器。调用前 $96.82，收尾 $96.81。Spend: counts（start_time=2026-09-06T22:35:00Z，共 230 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Hex Codex 插件（官方专节：桌面 Plugins 搜 Hex，点 Connect，再连捆绑的 Hex app。官方没给 plugin add id。不要抄 Cursor 的 /add-plugin hex。其它客户端才是 app.hex.tech/mcp。自定义域换 eu.hex.tech / hc.hex.tech）。changelog 2026-06-02 与博客同文，未另收。X 仍是 Claude 对照、Unity、Astra /slow、Chrome 插件、token 营销、Archify、0.154 worktree、Google Cloud plugin、/feedback。SpecterOps/skills 仍不写。Kit 仍不写（#41362）。ConfigCat / Meilisearch / Fastmail / Cal.com / Axiom MCP 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault MCP 只有 VS Code / Claude JSON。AgentPort 文档 headers 仍非 Codex 键。CDP 32/32（预览 4371）。",
+    "23:00 定时器。调用前 $96.81，收尾待测后写。Spend: counts（start_time=2026-09-06T23:05:00Z，共 230 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Webflow Codex 插件（官方帮助：ChatGPT 桌面切到 Codex，Plugins 搜 Webflow，Install，再 Continue to Webflow。官方没给 plugin add id。不要抄 Claude --transport http 或 Cursor 插件。其它客户端才是 mcp.webflow.com/mcp。改画布要开 MCP Bridge App）。X 仍是 Claude 对照、Unity、Astra /slow、Chrome 插件、token 营销、Archify、0.154 worktree、Google Cloud plugin、/feedback。SpecterOps/skills 仍不写。Kit 仍不写（#41362）。ConfigCat / Meilisearch / Fastmail / Cal.com / Axiom MCP 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault MCP 只有 VS Code / Claude JSON。AgentPort 文档 headers 仍非 Codex 键。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1401,6 +1401,13 @@ export const loopState = {
     "hex.tech/blog/hex-in-codex Data Analytics plugin",
     "learn.hex.tech changelog 2026-06-02 Hex Codex",
     "Codex CLI 技巧 2026 Hex Plugins 搜 Hex bundled Hex app",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR skills OR AGENTS.md OR plugin OR worktree)',
+    "X news: Codex CLI",
+    "help.webflow.com Connect Codex to Webflow Plugins Install",
+    "webflow.com/updates/webflow-in-codex MCP 2.0",
+    "developers.webflow.com mcp getting-started mcp.webflow.com/mcp",
+    "webflow/webflow-skills npx skills add Codex",
+    "Codex CLI 技巧 2026 Webflow Plugins 搜 Webflow MCP Bridge App",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR skills OR AGENTS.md OR plugin OR worktree)',
     "X news: Codex CLI",
   ],

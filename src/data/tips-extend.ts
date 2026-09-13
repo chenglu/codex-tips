@@ -10752,4 +10752,60 @@ Cursor / ChatGPT 官方插件只连 \`app.hex.tech\`。EU、HIPAA、单租户要
       },
     ],
   },
+  {
+    id: "webflow-codex-plugin",
+    no: 389,
+    title: "Webflow 先 Plugins 搜 Webflow，不要发明 plugin add webflow@",
+    summary:
+      "官方帮助：ChatGPT 桌面切到 Codex，Plugins 搜 Webflow，点 Install，再 Continue to Webflow 做 OAuth。官方没给 plugin add id。不要抄 Claude 的 --transport http 或 Cursor 插件。改画布要开 MCP Bridge App。",
+    body: `Webflow 给 Codex 的官方主路径是公共插件目录，不是 \`codex mcp add\`。帮助中心写：在 ChatGPT 桌面应用切到 Codex，Plugins 搜 Webflow，点 Install。官方没给出 \`plugin add webflow@\` 那种 marketplace id，不要自己编。
+
+只有 Workspace owner、Workspace admin 或 Site manager 才能给站点授权。Reviewer 不行。MCP 跟着你现有的 Webflow 权限走，装插件不会抬权限。一次授权只覆盖一个 workspace；要换 workspace，先卸再装、重新授权。
+
+官方帮助步骤：
+
+1. 打开 ChatGPT 桌面应用，切到 Codex
+2. 打开 Plugins，搜 Webflow
+3. 在 Webflow 插件旁点 Install
+4. Connect Webflow 对话框里点 Continue to Webflow
+5. 浏览器里勾选要给 Codex 的站点或 Workspace
+6. 点 Authorize App，回到 Codex
+
+TUI 输入 \`/plugins\` 搜 Webflow 是同一套公共目录。0.154 起先在**当前会话**看 \`/plugins\`；当前会话没有再新开。IDE 扩展没有 \`/plugins\`，用桌面或 CLI。装完新开一轮，直接问「列出这个站点的 CMS Collection 和字段」，或让它搭一个博客 Collection 加起步条目。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add webflow@openai-curated\`。
+- 不要抄 Claude 的 \`claude mcp add --transport http webflow …\`，也不要抄 Cursor Marketplace 或 \`/add-plugin webflow\`。
+- 不要把 Windsurf 的 \`mcp.webflow.com/sse\` 抄进 Codex。Codex 只接 Streamable HTTP。
+- 不要抄 \`npx mcp-remote\`。
+- 不要给它 \`required = true\`。
+
+官方 Codex 帮助**没有** \`--url\`。开发者文档给没插件的客户端才写 \`https://mcp.webflow.com/mcp\`，**带** \`/mcp\`。这不是帮助中心的 Codex 主路径，不要写成 \`codex mcp add webflow --url\` 的官方步骤。Beta 入口 \`https://mcp.webflow.com/beta/mcp\` 和文档站 MCP 都是另一台，不要和主站搞混。
+
+改画布、样式、组件要走 Designer API：浏览器打开该站点的 Designer，按 \`E\` 打开 Apps，启动 Webflow MCP Bridge App，连上后再让 Codex 动手。桥接应用会在 OAuth 时自动装，不在公开 Marketplace。只管 CMS、Collection、自定义代码时，Designer 可以不开。
+
+产品更新还写：连上之后 Codex / ChatGPT 会带站点审计、CMS、安全发布、开发脚手架这些内置技能。那是插件包里的，不要去抄 Claude 的 \`claude plugin marketplace add webflow/webflow-skills\`。\`webflow/webflow-skills\` 仓库给 Codex 的路径是手拷 \`~/.codex/skills\`，不是这条插件主路径。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 也走 Plugins 搜 Webflow。改完用 \`codex plugin list\` 核对已装。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["MCP", "Webflow", "plugins", "OAuth"],
+    related: ["hex-codex-plugin", "customerio-codex-plugin", "onesignal-codex-plugin"],
+    sources: [
+      {
+        label: "Webflow · Connect Codex to Webflow",
+        url: "https://help.webflow.com/hc/en-us/articles/53625430351507-Connect-Codex-to-Webflow",
+      },
+      {
+        label: "Webflow · Webflow is now available in Codex",
+        url: "https://webflow.com/updates/webflow-in-codex",
+      },
+      {
+        label: "Webflow · Getting started",
+        url: "https://developers.webflow.com/mcp/reference/getting-started",
+      },
+    ],
+  },
 ];

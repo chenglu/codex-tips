@@ -2904,4 +2904,20 @@ npx skills add -g wherobots/agent-skills
 # 自定义域换主机：eu.hex.tech / hc.hex.tech
 `,
   },
+  {
+    id: "webflow-codex-plugin",
+    title: "Webflow Codex 插件",
+    filename: "terminal",
+    summary:
+      "主路径是 ChatGPT 桌面切到 Codex，或 /plugins 搜 Webflow，点 Install，再 Continue to Webflow。不要发明 plugin add webflow@。不要抄 Claude 的 --transport http。其它客户端才是 mcp.webflow.com/mcp。",
+    code: `# 官方主路径：ChatGPT 桌面切到 Codex，Plugins 搜 Webflow
+# 或 TUI /plugins 搜 Webflow
+# 点 Install，再 Continue to Webflow 做 OAuth
+# 不要 codex plugin add webflow@…
+# 不要 claude mcp add --transport http
+# 其它客户端（不是 Codex 帮助主路径）才是：
+# https://mcp.webflow.com/mcp
+# 改画布：Designer 按 E，开 Webflow MCP Bridge App
+`,
+  },
 ];

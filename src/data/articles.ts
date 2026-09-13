@@ -3711,5 +3711,25 @@ export const articles: Article[] = [
     summary:
       '2026-06-02 博客：Plugins 先装 Data Analytics plugin，再 Connect Hex。可以从 Codex 拉 Hex Threads，也可以用 CLI 建项目和加 cell。不要发明 plugin add hex@。',
   },
+  {
+    title: 'Connect Codex to Webflow',
+    url: 'https://help.webflow.com/hc/en-us/articles/53625430351507-Connect-Codex-to-Webflow',
+    source: 'Webflow',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Webflow', 'plugins', 'OAuth'],
+    summary:
+      '官方帮助：ChatGPT 桌面切到 Codex，Plugins 搜 Webflow，点 Install，再 Continue to Webflow。只有 Workspace owner、admin 或 Site manager 能授权。不要发明 plugin add webflow@。',
+  },
+  {
+    title: 'Webflow is now available in Codex',
+    url: 'https://webflow.com/updates/webflow-in-codex',
+    source: 'Webflow',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Webflow', 'plugins', 'Skills'],
+    summary:
+      '2026-08-24 产品更新：Webflow MCP 2.0 进 Codex。连上后带站点审计、CMS、安全发布等内置技能。当前不消耗 AI credits。不要把 Claude 的 webflow-skills marketplace 抄进 Codex。',
+  },
 ];
 
