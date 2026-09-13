@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T21:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "21:00 定时器。调用前 $96.84。Spend: counts（start_time=2026-09-06T21:05:00Z，共 231 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Kuroco 远程 MCP（官方 Codex 节：表名 kuroco，url 写成 g.kuroco.app 的 rcms-api/API_ID/mcp，再 oauth.client_id，mcp login kuroco）。不支持 CIMD。不要发明 plugin add。不要抄 --transport http。头认证才 env_http_headers 的 X-RCMS-API-ACCESS-TOKEN。X 仍是 Chrome 插件、token 营销、Astra 降智、Archify、0.154 worktree、Google Cloud plugin、/feedback。Kit 仍不写（#41362）。ConfigCat / Meilisearch / Fastmail / Cal.com / Axiom MCP 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault MCP 只有 VS Code / Claude JSON。",
+    "21:00 定时器。调用前 $96.84，收尾 $96.83。Spend: counts（start_time=2026-09-06T21:05:00Z，共 231 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Kuroco 远程 MCP（官方 Codex 节：表名 kuroco，url 写成 g.kuroco.app 的 rcms-api/API_ID/mcp，再 oauth.client_id，mcp login kuroco）。不支持 CIMD。不要发明 plugin add。不要抄 --transport http。头认证才 env_http_headers 的 X-RCMS-API-ACCESS-TOKEN。X 仍是 Chrome 插件、token 营销、Astra 降智、Archify、0.154 worktree、Google Cloud plugin、/feedback。Kit 仍不写（#41362）。ConfigCat / Meilisearch / Fastmail / Cal.com / Axiom MCP 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault MCP 只有 VS Code / Claude JSON。CDP 31/31（预览 4368）。PR #5 已合入，本轮开 PR #6。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
