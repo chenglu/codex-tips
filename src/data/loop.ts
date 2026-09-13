@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-13T11:08:00Z",
+  lastTick: "2026-09-13T11:46:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "11:08 定时器。调用前 $97.01。Spend: counts（start_time=2026-09-06T11:14:00Z，共 238 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 $96.99。收录 DigitalOcean Inference 官方 Codex 模型供应商（[model_providers.openai_custom]，base_url https://inference.do-ai.run/v1，env_key = MODEL_ACCESS_KEY，wire_api = responses；profile 文件 + --profile digitalocean）。不要整文件覆盖 config.toml。不要发明 plugin add digitalocean@。Customer.io 仍是桌面插件。ConfigCat / Postmark 无 Codex 专节。Tavily / Buildkite / Meilisearch 仍无。do-app-platform-skills 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、Astra、Conductor、技能文风。",
+    "11:46 定时器。调用前 $96.99。Spend: counts（start_time=2026-09-06T11:52:00Z，共 255 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Customer.io 官方 Codex 插件（Plugins 或 /plugins 搜 Customer.io；不要手贴 https://mcp.customer.io/mcp；不要发明 plugin add customerio@）。GitHub README 仍可能写 listing 审核中。ConfigCat / Postmark 无 Codex 专节。Tavily / Buildkite / Meilisearch 仍无。do-app-platform-skills 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、Astra、Conductor、技能文风。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1128,6 +1128,17 @@ export const loopState = {
     "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
     "docs.digitalocean.com do-app-platform-skills --agent codex",
     "Codex CLI 技巧 2026 DigitalOcean Inference inference.do-ai.run MODEL_ACCESS_KEY",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "docs.customer.io ai plugins chatgpt-codex MCP mcp.customer.io",
+    "github.com/customerio/openai-plugin Codex listing",
+    "docs.customer.io ai mcp get-started Codex plugin",
+    "configcat.com docs mcp-server Codex @configcat/mcp-server",
+    "postmarkapp.com mcp Codex @activecampaign/postmark-mcp",
+    "buildkite.com docs mcp-server Codex configuring-ai-tools",
+    "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "Codex CLI 技巧 2026 Customer.io plugin mcp.customer.io",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

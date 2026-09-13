@@ -3261,5 +3261,25 @@ export const articles: Article[] = [
     summary:
       'GET https://inference.do-ai.run/v1/models 列出 Inference 模型 ID。Codex 的 env_key 是 MODEL_ACCESS_KEY；这篇 cURL 示例有时写 DIGITALOCEAN_TOKEN，配 Codex 仍用 MODEL_ACCESS_KEY。',
   },
+  {
+    title: 'Customer.io plugin for ChatGPT and Codex',
+    url: 'https://docs.customer.io/ai/plugins/chatgpt-codex/',
+    source: 'Customer.io',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Customer.io', 'plugins', 'OAuth'],
+    summary:
+      '官方 Codex 是 Plugins 搜 Customer.io 再 OAuth。安装时不用手填 https://mcp.customer.io/mcp。不要发明 plugin add customerio@，也不要把 ChatGPT 自定义 connector 抄进 Codex CLI。',
+  },
+  {
+    title: 'Get started with the Customer.io MCP server',
+    url: 'https://docs.customer.io/ai/mcp/get-started/',
+    source: 'Customer.io',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Customer.io', 'OAuth'],
+    summary:
+      '账号管理员先打开 Settings → AI 里的 Customer.io MCP。ChatGPT 或 Codex 装官方插件；Cursor / Claude 另有插件。底层入口是 mcp.customer.io。不要把 API token 当主路径。',
+  },
 ];
 

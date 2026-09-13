@@ -2578,4 +2578,15 @@ wire_api = "responses"
 query_params = {}
 `,
   },
+  {
+    id: "customerio-codex-plugin",
+    title: "Customer.io Codex 插件",
+    filename: "terminal",
+    summary:
+      "主路径是桌面 Plugins 或 /plugins 搜 Customer.io。不要 mcp add，也不要手贴 mcp.customer.io/mcp。不要发明 plugin add customerio@。",
+    code: `# 官方主路径：TUI /plugins 或桌面 Plugins 搜 Customer.io
+# 不要 codex mcp add，也不要手贴 URL
+# 插件底层入口（安装时不用填）：https://mcp.customer.io/mcp
+`,
+  },
 ];

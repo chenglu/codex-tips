@@ -9478,4 +9478,62 @@ URL 带 \`/mcp\` 后缀。不要发明不带 \`/mcp\` 的地址。不要抄 Clau
       },
     ],
   },
+  {
+    id: "customerio-codex-plugin",
+    no: 366,
+    title: "Customer.io 先 Plugins 搜 Customer.io，不要手贴 mcp.customer.io/mcp",
+    summary:
+      "官方 Codex 是插件目录：桌面 Plugins 或 TUI /plugins 搜 Customer.io，再 OAuth。不要发明 plugin add customerio@，也不要 mcp add 手贴 https://mcp.customer.io/mcp。GitHub README 仍可能写 listing 在审核。",
+    body: `Customer.io 官方给 Codex 的**推荐路径**是公共插件目录，不是 \`codex mcp add\`。官方没给出 \`plugin add customerio@\` 那种 marketplace id，不要自己编。
+
+先让账号管理员打开 Settings → AI 里的 Customer.io MCP。然后：
+
+1. Codex 桌面打开 Plugins，或 TUI 输入 \`/plugins\`
+2. 搜 Customer.io
+3. 打开 Customer.io 发布的 listing，选 Install
+4. 点 Connect，用 Customer.io 账号做 OAuth
+5. 选工作区和权限范围（读 / 写 / 删分开授权）
+6. 回到 Codex 再发 Customer.io 请求
+
+安装不需要 GitHub、终端、JSON 或 Customer.io API token。也不要选数据中心：美欧账号走同一套 Connect，登录后按账号路由。不要去填 \`mcp-eu.customer.io\`。
+
+0.154 起先在**当前会话**看 \`/plugins\`；当前会话没有再新开。IDE 扩展没有 \`/plugins\`，用桌面或 CLI。API key 登录时，部分需要 OAuth 的官方插件会装不全。
+
+GitHub 仓库 README 仍可能写 listing 在等 OpenAI 审核。Plugins 里搜不到时：不要手贴 \`https://mcp.customer.io/mcp\`，也不要发明 \`codex mcp add customerio --url …\`。官方排查指向 ChatGPT 的自定义 connector（Developer Mode），那不是 Codex CLI。
+
+插件底层入口是 \`https://mcp.customer.io/mcp\`，文档写明**安装时不用手填**。已经用自定义 MCP 连过 Customer.io 的，先关掉那条再装插件。两边同时开会出现重复工具。
+
+技能打进插件（\`customerio\`、\`customerio-journeys\`、\`customerio-design-studio\`、\`customerio-pipelines\`、\`customerio-sdk\`）。仓库里的 SKILL.md 只是薄路由，真正 playbook 在 MCP 的 \`cio_skills_read\`。不要手拷到 \`~/.codex/skills\`。
+
+支持写 / 删的操作可能先给 dry-run 预览。把它当安全网，不是全局授权。改自动化、改管道、改受众会动账号，保持工具批准。不要一上来 \`--yolo\`。
+
+不要做这些：
+
+- 不要发明 \`plugin add customerio@openai-curated\`。
+- 不要抄 Claude / Cursor 的 \`mcpServers\` JSON 或 \`--transport http\`。
+- 不要把 ChatGPT 自定义 connector 的 US / EU URL 抄进 Codex。
+- 不要把密钥写进 TOML、\`http_headers\` 或 URL。
+- 不要给它 \`required = true\`。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 也走 Plugins 搜 Customer.io。改完用 \`codex plugin list\` 核对已装。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["MCP", "Customer.io", "plugins", "OAuth", "Skills"],
+    related: ["plugins-vs-skills", "mcp-resend-remote", "loops-mcp-http"],
+    sources: [
+      {
+        label: "Customer.io · plugin for ChatGPT and Codex",
+        url: "https://docs.customer.io/ai/plugins/chatgpt-codex/",
+      },
+      {
+        label: "Customer.io · Get started with MCP",
+        url: "https://docs.customer.io/ai/mcp/get-started/",
+      },
+      {
+        label: "customerio/openai-plugin",
+        url: "https://github.com/customerio/openai-plugin",
+      },
+    ],
+  },
 ];
