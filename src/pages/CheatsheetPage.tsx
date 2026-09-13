@@ -80,7 +80,13 @@ export function CheatsheetPage({ search = "" }: { search?: string }) {
       </div>
       <div className="results-meta" aria-live="polite">
         {totalRows} 条
-        {query.trim() ? ` · 匹配「${query.trim()}」` : ""}
+        {query.trim() ? (
+          <>
+            {" · 匹配「"}
+            <span className="query-echo">{query.trim()}</span>
+            {"」"}
+          </>
+        ) : null}
       </div>
       {sections.length === 0 ? (
         <EmptyState onReset={() => setQuery("")}>没有匹配的命令。</EmptyState>

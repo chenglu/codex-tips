@@ -86,7 +86,7 @@ export function TipPage({ id }: { id: string }) {
           </div>
         </section>
       )}
-      <nav className="pager" aria-label="相邻技巧">
+      <nav className={`pager${prev && next ? "" : " pager-single"}`} aria-label="相邻技巧">
         {prev ? (
           <a href={href({ name: "tip", id: prev.id })}>
             <span className="dir">上一条</span>

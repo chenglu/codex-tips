@@ -194,10 +194,8 @@ kbd {
   position: sticky;
   top: 0;
   z-index: 8;
-  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  background: var(--bg);
   border-bottom: 1px solid var(--line);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
 }
 
 .topbar-inner {
@@ -479,6 +477,10 @@ kbd {
   font-size: 22px;
   font-weight: 400;
   margin: 8px 0 8px;
+  line-height: 1.15;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  text-wrap: balance;
 }
 
 .chapter p {
@@ -701,6 +703,10 @@ a.chip {
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .cat-list {
@@ -740,6 +746,11 @@ a.chip {
   margin: 12px 0 16px;
 }
 
+.results-meta .query-echo {
+  text-transform: none;
+  letter-spacing: 0.02em;
+}
+
 .active-filters {
   display: flex;
   flex-wrap: wrap;
@@ -758,6 +769,7 @@ a.chip {
 }
 
 .cheat-page {
+  max-width: none;
   padding-top: 28px;
 }
 
@@ -923,6 +935,14 @@ a.chip {
   text-align: right;
 }
 
+.pager-single {
+  grid-template-columns: 1fr;
+}
+
+.pager-single .next {
+  text-align: left;
+}
+
 .cheat-layout {
   display: grid;
   grid-template-columns: 168px minmax(0, 1fr);
@@ -1085,15 +1105,15 @@ a.chip {
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 20;
+  z-index: 40;
   display: grid;
   place-items: start center;
   padding: 10vh 16px 24px;
-  background: rgba(0, 0, 0, 0.55);
+  background: rgba(0, 0, 0, 0.72);
 }
 
 [data-theme="paper"] .modal-backdrop {
-  background: rgba(27, 24, 20, 0.32);
+  background: rgba(27, 24, 20, 0.48);
 }
 
 .modal-scrim {
@@ -1107,7 +1127,7 @@ a.chip {
 .modal {
   position: relative;
   width: min(720px, 100%);
-  background: var(--bg);
+  background: var(--paper);
   border: 1px solid var(--line-strong);
   box-shadow: var(--shadow);
   padding: 8px;
@@ -1156,7 +1176,7 @@ a.chip {
 
 .modal-list a:hover,
 .modal-list a.is-active {
-  background: var(--paper);
+  background: var(--bg-2);
 }
 
 .modal-hit-title {
@@ -1235,7 +1255,6 @@ a.chip {
 
 .feed-item {
   position: relative;
-  padding-bottom: 36px;
 }
 
 .feed-item h3 {
@@ -1255,9 +1274,8 @@ a.chip {
 }
 
 .ext-hint {
-  position: absolute;
-  right: 18px;
-  bottom: 12px;
+  display: inline-block;
+  margin-top: 12px;
   font-family: var(--mono);
   font-size: 11px;
   letter-spacing: 0.12em;

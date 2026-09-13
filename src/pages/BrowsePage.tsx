@@ -128,7 +128,8 @@ export function BrowsePage({ search }: { search: string }) {
             aria-expanded={filtersOpen}
             onClick={() => setFiltersOpen((value) => !value)}
           >
-            {filtersOpen ? "收起筛选与章节" : "筛选与章节"}
+            {filtersOpen ? <span>收起筛选与章节</span> : <span>筛选与章节</span>}
+            <span aria-hidden="true">{filtersOpen ? "−" : "+"}</span>
           </button>
         )}
         {showExtraFilters && (

@@ -93,7 +93,13 @@ export function TemplatesPage({ id }: { id?: string }) {
         </div>
         <div className="results-meta">
           {filtered.length} 条
-          {query.trim() ? ` · 匹配「${query.trim()}」` : ""}
+          {query.trim() ? (
+            <>
+              {" · 匹配「"}
+              <span className="query-echo">{query.trim()}</span>
+              {"」"}
+            </>
+          ) : null}
         </div>
         <div className="template-list">
           {grouped.length === 0 ? (
