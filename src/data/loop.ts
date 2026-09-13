@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T03:39:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "03:13 定时器。调用前 $97.22。Spend: counts（start_time=2026-09-06T03:15:00Z，共 253 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.20。CDP 52/52 全过（预览 4331）。收录 Polar MCP（mcp add polar --url https://mcp.polar.sh/mcp/polar-mcp，随后完成 OAuth；沙箱另开 polar-sandbox → https://mcp.polar.sh/mcp/polar-sandbox）。不要抄 Claude 的 --transport http。不要发明 plugin add polar@。不要抄旧镜像 rmcp_client / type = http / polar_sandbox。X 仍是 Claude vs Codex 营销、oh-my-openagent 编排、Microsoft AI Engineer Coach、日文预约任务。Buildkite 仍无 Codex 专节。Meilisearch 仍无 Codex 专节。Inngest 官方插件是 clone 后 /plugin install 本地路径，没有 marketplace @id，留给下一轮。",
+    "03:39 定时器。调用前 $97.20。Spend: counts（start_time=2026-09-06T03:41:00Z，共 252 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.19。CDP 50/50 全过（预览 4332）。收录 Inngest 官方 Codex 插件（git clone inngest/inngest-codex-plugin，再 /plugin install 绝对路径/plugins/inngest）。不要发明 plugin add inngest@。不要抄 Claude 的 inngest@inngest-claude-code-plugin。插件 MCP 只接本机 8288，Cloud 仍走 inngest-cloud。X 仍是 Claude vs Codex 营销、oh-my-openagent 编排、Microsoft AI Engineer Coach、日文预约任务。Buildkite 仍无 Codex 专节。Meilisearch 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
