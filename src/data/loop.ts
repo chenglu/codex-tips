@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T05:40:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "05:12 定时器。调用前 $97.18。Spend: counts（start_time=2026-09-06T05:20:00Z，共 241 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 仍为 $97.18。CDP 28/28 全过（预览 4334）。收录 Trigger.dev 官方 Codex stdio MCP（npx trigger.dev@latest install-mcp --client openai-codex；表名 trigger；startup_timeout_sec = 30）。不要 mcp login。不要 --yolo。不要发明 plugin add 或远程 URL。X 仍是 Claude vs Codex 营销、GPT-6 Astra、oh-my-openagent、日文预约任务。Buildkite 仍无 Codex 专节。Meilisearch 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。",
+    "05:40 定时器。调用前 $97.18。Spend: counts（start_time=2026-09-06T05:46:00Z，共 1763 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.10。CDP 27/27 全过（预览 4335）。收录 WorkOS 官方 Codex 远程 MCP（codex mcp add workos --url https://mcp.workos.com/mcp；再 mcp get / mcp login / mcp list；URL 带 /mcp；OAuth）。不要 API key。不要发明 plugin add workos@。不要抄 Claude 的 --transport http。X 仍是 Unity 插件营销、Claude vs Codex、日文优待 MCP、Tripo 3D。Netlify MCP 已收录。Buildkite 仍无 Codex 专节。Meilisearch 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
