@@ -9607,4 +9607,59 @@ enabled = true
       },
     ],
   },
+  {
+    id: "braze-mcp-http",
+    no: 368,
+    title: "Braze MCP 用 mcp.braze.com/mcp，再完成 OAuth",
+    summary:
+      "官方已验证 OpenAI Codex。mcp add braze --url https://mcp.braze.com/mcp。URL 带 /mcp。OAuth DCR，不要 API key。欧盟用 mcp.braze.eu/mcp。不要发明 plugin add braze@。本地 beta 已弃用。",
+    body: `Braze 官方已验证 OpenAI Codex。主路径是远程 Streamable HTTP + OAuth，客户端自己做 Dynamic Client Registration，不要 client ID、client secret 或 API key。安装页把 Codex 指到官方 MCP 文档，CLI 写成：
+
+\`\`\`bash
+codex mcp add braze --url https://mcp.braze.com/mcp
+codex mcp login braze
+\`\`\`
+
+手册表名用 \`braze\`。URL 带 \`/mcp\` 后缀。欧盟账号用 \`https://mcp.braze.eu/mcp\`；非欧盟可以用美区或欧盟，任一入口都能打到各集群。\`mcp add\` 写进用户层 \`~/.codex/config.toml\`。只写进了表、浏览器没弹时再跑 \`codex mcp login braze\`。
+
+桌面 / IDE：Settings → MCP servers → Add server，传输选 Streamable HTTP，URL 填上面那条。Bearer token env var 和 Headers 留空。第一次用工具时会打开浏览器，用平时的 Braze 账号登录，含 SSO / SAML。
+
+\`\`\`toml
+[mcp_servers.braze]
+url = "https://mcp.braze.com/mcp"
+enabled = true
+\`\`\`
+
+公司管理员先在 Settings → Admin Settings → OAuth 打开 MCP OAuth。用户还要有 Use MCP Server 权限，默认没有。权限跟着仪表盘账号走：你在仪表盘看不到的，代理也看不到。开了 IP allowlisting 的账号现在用不了远程 MCP。
+
+多 workspace 时在提示里写出仪表盘上的准确名字。不确定就先问可用 workspace，走 \`get_workspaces\`。公司是第一次授权时定的；要换同一集群的另一家公司，先在客户端断开 Braze 再重新 login。
+
+本地 beta（本机装包 + API key）已经弃用，不要当主路径。远程和本地可以短暂并存，迁完关掉本地。不要发明 \`codex plugin add braze@…\`。不要抄 Claude 的 \`--transport http\`、Cursor JSON 或 ChatGPT Developer Mode 自定义 connector。不要给这台 \`bearer_token_env_var\`。工具不返回用户档案 PII。
+
+先只读：问列出这个 workspace 可用的 Braze 工具，或列出 Production workspace 最近的 Canvas。创建邮件模板、改 Canvas、发信会动账号，保持工具批准。官方也不要用客户端的 auto-mode。不要一上来 \`--yolo\`。不要 \`required = true\`。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add braze@openai-curated\`。
+- 不要抄 Claude 的 \`--transport http\` 或 Cursor JSON。
+- 不要把 API key 写进 \`env\` 表、\`http_headers\` 或 URL。
+- 不要给它 \`required = true\` 挂全局。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完彻底新开会话。用 \`codex mcp get braze\` 看传输是 streamable_http。会话里 \`/mcp\` 应显示 Auth: OAuth。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Braze", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "klaviyo-mcp-http", "customerio-codex-plugin"],
+    sources: [
+      {
+        label: "Braze · Set up the MCP server",
+        url: "https://www.braze.com/docs/user_guide/brazeai/mcp_server/setup",
+      },
+      {
+        label: "Braze · About the MCP server",
+        url: "https://www.braze.com/docs/user_guide/brazeai/mcp_server",
+      },
+    ],
+  },
 ];

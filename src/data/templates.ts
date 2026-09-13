@@ -2606,4 +2606,21 @@ codex mcp login klaviyo
 # enabled = true
 `,
   },
+  {
+    id: "braze-mcp-http",
+    title: "Braze MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add braze --url https://mcp.braze.com/mcp。URL 带 /mcp。OAuth DCR，浏览器没弹再 mcp login braze。欧盟换 mcp.braze.eu/mcp。不要发明 plugin add braze@。",
+    code: `codex mcp add braze --url https://mcp.braze.com/mcp
+codex mcp login braze
+
+# 欧盟：
+# url = "https://mcp.braze.eu/mcp"
+
+# [mcp_servers.braze]
+# url = "https://mcp.braze.com/mcp"
+# enabled = true
+`,
+  },
 ];

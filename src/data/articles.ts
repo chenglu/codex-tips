@@ -3301,5 +3301,25 @@ export const articles: Article[] = [
     summary:
       '机构多账号把 company 写进 mcp.klaviyo.com URL，例如 https://mcp.klaviyo.com/mcp?company=example-company。要 Owner / Admin / Manager。Codex 手写 url 就能带查询参数，不要抄 Claude listed connector。',
   },
+  {
+    title: 'Set up the Braze MCP server',
+    url: 'https://www.braze.com/docs/user_guide/brazeai/mcp_server/setup',
+    source: 'Braze',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Braze', 'OAuth', 'HTTP'],
+    summary:
+      '官方已验证 OpenAI Codex。远程是 https://mcp.braze.com/mcp 或欧盟 mcp.braze.eu/mcp。OAuth DCR，不要 API key。管理员先开 MCP OAuth，用户要有 Use MCP Server。本地 beta 已弃用。',
+  },
+  {
+    title: 'The Braze MCP server',
+    url: 'https://www.braze.com/docs/user_guide/brazeai/mcp_server',
+    source: 'Braze',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Braze', 'OAuth'],
+    summary:
+      '远程入口是 mcp.braze.com/mcp。权限镜像仪表盘账号，不返回用户档案 PII。写工具也有，但官方不要 auto-mode。不要把已弃用的本机 PyPI 包当 Codex 主路径。',
+  },
 ];
 
