@@ -3041,5 +3041,25 @@ export const articles: Article[] = [
     summary:
       'Codex 是 CLI 优先：mcp add workos --url https://mcp.workos.com/mcp，再 mcp login workos。即使插件目录能搜到 WorkOS，CLI 也没有一键安装。不要发明 plugin add workos@。不要抄 Claude 的 --transport http。',
   },
+  {
+    title: 'Statsig MCP with Codex',
+    url: 'https://docs.statsig.com/integrations/mcp/codex',
+    source: 'Statsig',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Statsig', 'OAuth', 'HTTP'],
+    summary:
+      '官方 Codex：mcp add statsig --url https://api.statsig.com/v1/mcp。URL 是 /v1/mcp，不是光 /mcp。OAuth，浏览器没弹再 mcp login statsig。不要抄 npx mcp-remote，也不要把 console API key 写进 http_headers。不要发明 plugin add statsig@。',
+  },
+  {
+    title: 'Statsig MCP overview',
+    url: 'https://docs.statsig.com/integrations/mcp/overview',
+    source: 'Statsig',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Statsig', 'OAuth', 'HTTP'],
+    summary:
+      'Statsig MCP 总览把 Codex Desktop / CLI / IDE 列为第一套配置。远程仍是 api.statsig.com/v1/mcp。只读工具给只读用户；写实验和门要写权限。不要把 ChatGPT Connector 或 Cursor JSON 当 Codex CLI 主路径。',
+  },
 ];
 

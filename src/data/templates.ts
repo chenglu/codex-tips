@@ -2416,4 +2416,18 @@ codex mcp list
 # enabled = true
 `,
   },
+  {
+    id: "statsig-mcp-http",
+    title: "Statsig MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add statsig --url https://api.statsig.com/v1/mcp。URL 是 /v1/mcp。OAuth，浏览器没弹再 mcp login statsig。不要抄 npx mcp-remote。",
+    code: `codex mcp add statsig --url https://api.statsig.com/v1/mcp
+codex mcp login statsig
+
+# [mcp_servers.statsig]
+# url = "https://api.statsig.com/v1/mcp"
+# enabled = true
+`,
+  },
 ];

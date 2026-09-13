@@ -8945,4 +8945,58 @@ enabled = true
       },
     ],
   },
+  {
+    id: "statsig-mcp-http",
+    no: 355,
+    title: "Statsig MCP 用 api.statsig.com/v1/mcp，再完成 OAuth",
+    summary:
+      "官方 Codex：mcp add statsig --url https://api.statsig.com/v1/mcp。URL 是 /v1/mcp，不是光 /mcp。OAuth，浏览器没弹再 mcp login statsig。不要抄 npx mcp-remote，也不要把 console API key 写进 http_headers。",
+    body: `Statsig 给 Codex 有专节。官方主路径是远程 Streamable HTTP + OAuth，不要把 Console API key 写进 TOML：
+
+\`\`\`bash
+codex mcp add statsig --url https://api.statsig.com/v1/mcp
+\`\`\`
+
+官方表名就是 \`statsig\`。URL 是 \`https://api.statsig.com/v1/mcp\`，是 \`/v1/mcp\`，不是光 \`https://api.statsig.com/mcp\`。\`mcp add\` 会写进 \`~/.codex/config.toml\`。官方说这条会打开浏览器，让你登录 Statsig 并授权项目。只写进了表、浏览器没弹时再跑：
+
+\`\`\`bash
+codex mcp login statsig
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.statsig]
+url = "https://api.statsig.com/v1/mcp"
+enabled = true
+\`\`\`
+
+桌面走 Settings → MCP servers，传输选 Streamable HTTP，URL 同样是 \`https://api.statsig.com/v1/mcp\`。IDE 扩展和 CLI 共用这份用户层配置。OAuth 只支持 Personal Console API Keys；组织 owner 要先在 Statsig 组织设置里打开这个能力，否则浏览器授权会失败。授权完彻底新开会话，TUI 里 \`/mcp\` 应看到 statsig 且 enabled。
+
+不要抄 Codex 页那份同时写 \`url\` 和 \`command = "npx"\`、\`args\` 里 \`mcp-remote\`、以及 \`trust_level = "trusted"\` 的 TOML。Codex 远程表只要 \`url\`，\`trust_level\` 不是 Codex 键。不要抄 Claude 的 \`--transport http\`。不要抄 Cursor 的 \`.cursor/mcp.json\`。不要抄 ChatGPT Connector。不要发明 \`codex plugin add statsig@…\`。不要把 \`console-\` 开头的 key 写进 URL、\`http_headers\`、\`args\` 或 \`env\` 表。
+
+无头才用 Console API key。官方示例走 \`npx mcp-remote\` 加 \`statsig-api-key\` 头，那不是 Codex 主路径。必须无头时，远程表仍写 \`url\`，头名用 \`env_http_headers\` 指向进程里的变量名（头是 \`statsig-api-key\`，不是 Bearer）。不要和已经 login 的 OAuth 写在同一张表。Codex 不读 \`.env\`。
+
+先只读：问 \`List all my active experiments\` 或 \`What gates are currently stale?\` 创建 / 更新实验、门和 Dynamic Config 会改控制台，保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。网页 Cloud 不读 \`~/.codex/config.toml\`。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add statsig@openai-curated\`。
+- 不要抄 \`npx mcp-remote\` 或把 API key 写进 \`http_headers\`。
+- 不要给这台同时写 \`command\` 和 \`url\`。
+- 不要给它 \`required = true\` 挂全局。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Statsig", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-http-not-sse", "workos-mcp-http"],
+    sources: [
+      {
+        label: "Statsig · MCP with Codex",
+        url: "https://docs.statsig.com/integrations/mcp/codex",
+      },
+      {
+        label: "Statsig · MCP overview",
+        url: "https://docs.statsig.com/integrations/mcp/overview",
+      },
+    ],
+  },
 ];
