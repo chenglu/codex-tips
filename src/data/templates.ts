@@ -2726,4 +2726,18 @@ codex mcp login pulumi
 # enabled = true
 `,
   },
+  {
+    id: "auth0-docs-mcp",
+    title: "Auth0 文档 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add auth0-docs-mcp-server --url https://auth0.com/docs/mcp。无鉴权，不要 mcp login。不要抄 --transport http。不要和管理租户 stdio 搞成一台。",
+    code: `codex mcp add auth0-docs-mcp-server --url https://auth0.com/docs/mcp
+codex mcp list
+
+# [mcp_servers.auth0-docs-mcp-server]
+# url = "https://auth0.com/docs/mcp"
+# enabled = true
+`,
+  },
 ];

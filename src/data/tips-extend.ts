@@ -10032,4 +10032,55 @@ enabled = true
       },
     ],
   },
+  {
+    id: "auth0-docs-mcp",
+    no: 376,
+    title: "Auth0 文档 MCP 用 auth0.com/docs/mcp，无鉴权不要 login",
+    summary:
+      "官方 Codex：mcp add auth0-docs-mcp-server --url https://auth0.com/docs/mcp。无鉴权，不要 mcp login。不要抄 Claude 的 --transport http。不要和管理租户的 @auth0/auth0-mcp-server 搞成一台。",
+    body: `Auth0 文档 MCP 给 Codex 有专节，写在官方 AI Doc Tools 页。官方 Codex 命令是 \`codex mcp add auth0-docs-mcp-server --url https://auth0.com/docs/mcp\`：
+
+\`\`\`bash
+codex mcp add auth0-docs-mcp-server --url https://auth0.com/docs/mcp
+codex mcp list
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.auth0-docs-mcp-server]
+url = "https://auth0.com/docs/mcp"
+enabled = true
+\`\`\`
+
+用户层表名官方就是带连字符的 \`auth0-docs-mcp-server\`（这不是插件 \`mcp.json\`，#33063 那套连字符问题不套这里）。URL 是 \`https://auth0.com/docs/mcp\`，没有再加一层 \`/mcp\`，也不要尾斜杠。传输是 Streamable HTTP。无鉴权、无 API key，**不要** \`codex mcp login auth0-docs-mcp-server\`。不要 Bearer，不要 \`http_headers\`。
+
+桌面 / IDE：Settings → MCP servers → Add server，传输选 Streamable HTTP，URL 填上面那条。Bearer token env var 和 Headers 留空。
+
+这台只暴露 \`SearchAuth0Docs\`：按自然语言搜 Auth0 知识库，带回文档链接。它**不会**改租户、建应用或部署 Action。管理租户是另一台本地 stdio：\`@auth0/auth0-mcp-server\`，表名 \`auth0\`，先 \`npx @auth0/auth0-mcp-server init\`。不要和文档 MCP 搞成一张表。不要把仓库 Codex 示例里写死的 \`DBUS_SESSION_BUS_ADDRESS\` 路径抄成通用配置。
+
+先只读：问 refresh token rotation 怎么配，或让它搜 Federated Logout。模型给的链接仍要人核对。不要一上来 \`--yolo\`。不要 \`required = true\`。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`claude mcp add --transport http auth0-docs-mcp-server …\`。Codex 远程用 \`--url\`。
+- 不要抄 Cursor JSON 或 Windsurf 的 \`serverUrl\`。
+- 不要发明 \`codex plugin add\` 带 @ 的 id。
+- 不要给它 \`required = true\` 挂全局。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完彻底新开会话。用 \`codex mcp get auth0-docs-mcp-server\` 看传输是 streamable_http。会话里点名服务器 \`auth0-docs-mcp-server\` 即可，不要把工具名写成双下划线那种内部拼接。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Auth0", "文档", "HTTP"],
+    related: ["mcp-openai-docs", "workos-mcp-http", "mcp-http-not-sse"],
+    sources: [
+      {
+        label: "Auth0 · AI Doc Tools",
+        url: "https://auth0.com/docs/get-started/build-with-ai-tools",
+      },
+      {
+        label: "Auth0 · Model Context Protocol (MCP) Server",
+        url: "https://auth0.com/docs/get-started/mcp",
+      },
+    ],
+  },
 ];

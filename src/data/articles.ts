@@ -3461,5 +3461,25 @@ export const articles: Article[] = [
     summary:
       '品牌站把入口写在 brand.pulumi.com/mcp，Streamable HTTP，无鉴权。优先走 MCP，不要爬页面。这台只给色板、文案和 logo，不会动基础设施。',
   },
+  {
+    title: 'AI Doc Tools',
+    url: 'https://auth0.com/docs/get-started/build-with-ai-tools',
+    source: 'Auth0',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Auth0', '文档', 'HTTP'],
+    summary:
+      '官方 Codex：mcp add auth0-docs-mcp-server --url https://auth0.com/docs/mcp。无鉴权，不要 mcp login。工具是 SearchAuth0Docs。不要抄 Claude 的 --transport http。不要和管理租户的 stdio MCP 搞成一台。',
+  },
+  {
+    title: 'Auth0 Model Context Protocol (MCP) Server',
+    url: 'https://auth0.com/docs/get-started/mcp',
+    source: 'Auth0',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Auth0'],
+    summary:
+      '这是管理租户的本地 MCP，不是文档站 auth0.com/docs/mcp。文档检索走 auth0-docs-mcp-server。管理 API 那台列的是 Claude Desktop / Cursor / Windsurf，不要把两台配成一张表。',
+  },
 ];
 
