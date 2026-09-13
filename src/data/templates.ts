@@ -2446,4 +2446,18 @@ codex mcp login statsig
 # enabled = true
 `,
   },
+  {
+    id: "loops-mcp-http",
+    title: "Loops MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add loops --url https://mcp.loops.so。URL 没有 /mcp。OAuth，浏览器没弹再 mcp login loops。不要发明 plugin add loops@。",
+    code: `codex mcp add loops --url https://mcp.loops.so
+codex mcp login loops
+
+# [mcp_servers.loops]
+# url = "https://mcp.loops.so"
+# enabled = true
+`,
+  },
 ];

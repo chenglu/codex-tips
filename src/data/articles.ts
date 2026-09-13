@@ -3081,5 +3081,25 @@ export const articles: Article[] = [
     summary:
       '官方区分远程 mcp.contentful.com/mcp（OAuth，先装 Remote MCP App）和本地 @contentful/mcp-server（PAT）。Codex GitHub 专节是本地 stdio，不要发明 mcp add --url。不要把 PAT 拼进 URL，也不要抄 Cursor 的 contentful-mcp JSON。',
   },
+  {
+    title: 'MCP',
+    url: 'https://loops.so/docs/mcp-server',
+    source: 'Loops',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Loops', 'OAuth', 'HTTP'],
+    summary:
+      '官方 Codex：mcp add loops --url https://mcp.loops.so。URL 没有 /mcp。OAuth，浏览器没弹再 mcp login loops。不要抄 Claude 的 --transport http。不要发明 plugin add loops@。营销页 agents/mcp 仍写 roadmap，以这篇专节为准。',
+  },
+  {
+    title: 'Agent skills for Loops',
+    url: 'https://loops.so/docs/skills',
+    source: 'Loops',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'Loops', 'AGENTS.md'],
+    summary:
+      '技能页点名 Codex。官方安装是 curl install.loops.so/skills。不会登记 mcp.loops.so 那台远程 MCP。营销页 npx skills add loops-so/skills --global 没钉 --agent codex，不要发明。不要手拷 ~/.codex/skills。',
+  },
 ];
 

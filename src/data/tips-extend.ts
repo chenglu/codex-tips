@@ -9052,4 +9052,64 @@ PAT 必须在**启动 Codex 的那个进程**里。Codex 不读 \`.env\`。从 D
       },
     ],
   },
+  {
+    id: "loops-mcp-http",
+    no: 357,
+    title: "Loops MCP 用 mcp.loops.so，不要加 /mcp 后缀",
+    summary:
+      "官方 Codex：mcp add loops --url https://mcp.loops.so。URL 没有 /mcp。OAuth，浏览器没弹再 mcp login loops。不要抄 Claude 的 --transport http。不要发明 plugin add loops@。",
+    body: `Loops 给 Codex CLI 有专节。官方主路径是远程 Streamable HTTP + OAuth，不要 API key，也不要 \`bearer_token_env_var\`：
+
+\`\`\`bash
+codex mcp add loops --url https://mcp.loops.so
+\`\`\`
+
+官方表名就是 \`loops\`。URL 是 \`https://mcp.loops.so\`，没有 \`/mcp\` 后缀，也不要加尾斜杠。这和 Stripe / Vercel 一样，不要按 WorkOS 那种带 \`/mcp\` 的地址去改。\`mcp add\` 写进用户层 \`~/.codex/config.toml\`。官方说加完会让你登录并选择要授权的账号。只写进了表、浏览器没弹时再跑：
+
+\`\`\`bash
+codex mcp login loops
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.loops]
+url = "https://mcp.loops.so"
+enabled = true
+\`\`\`
+
+不要抄 Claude 的 \`claude mcp add loops https://mcp.loops.so --scope user --transport http\`。不要抄 Claude Desktop Connectors。不要发明 \`codex plugin add loops@…\`。ChatGPT / 桌面 Plugins 里即使能搜到 Loops，CLI 主路径仍是上面的 \`mcp add\`。不要把 Loops API key 写进 URL、\`http_headers\`、\`args\` 或 \`env\` 表。营销页 \`loops.so/agents/mcp\` 仍写 MCP On the roadmap，以 \`docs/mcp-server\` 的 Codex 专节为准。
+
+文档写 Codex CLI v1.48.0 or later。现行 CLI 版本是 0.x（例如 0.154），不要去找 \`rust-v1.48.0\`。能跑 \`codex mcp add --url\` 即可。
+
+技能是另一条路，教模型怎么用 Loops API / CLI / LMX，不会登记这台远程 MCP。官方技能页是：
+
+\`\`\`bash
+curl -fsSL https://install.loops.so/skills | sh
+\`\`\`
+
+营销页还有 \`npx skills add loops-so/skills --global\`，官方没钉 \`--agent codex\`，不要发明。不要把手拷进 \`~/.codex/skills\`。
+
+先只读：问 \`Which Loops teams am I a part of?\` 创建联系人、发事务邮件、改活动会改账号，保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。网页 Cloud 不读 \`~/.codex/config.toml\`。改完彻底新开会话。\`codex mcp get loops\` 看 url。TUI \`/mcp\` 里应看到 loops 且 enabled。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add loops@openai-curated\`。
+- 不要抄 Claude 的 \`--transport http\`。
+- 不要写成 \`https://mcp.loops.so/mcp\`。
+- 不要给它 \`required = true\` 挂全局。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Loops", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-http-not-sse", "mcp-vercel-remote"],
+    sources: [
+      {
+        label: "Loops · MCP server",
+        url: "https://loops.so/docs/mcp-server",
+      },
+      {
+        label: "Loops · Agent skills",
+        url: "https://loops.so/docs/skills",
+      },
+    ],
+  },
 ];
