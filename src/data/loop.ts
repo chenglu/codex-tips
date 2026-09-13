@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T18:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "18:00 定时器。调用前 $96.88。Spend: counts（start_time=2026-09-06T18:05:00Z，共 237 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 NVIDIA Agent Skills（官方 Codex：npx skills add nvidia/skills --skill cuopt-numerical-optimization-api --agent codex）。并更正 Datadog US1 为 mcp.datadoghq.com/v1/mcp。X 仍是 Archify、0.154 worktree、Google Cloud plugin、Astra、Conductor、/feedback。LaunchDarkly 无 Codex 专节不写。Kit 仍不写（#41362）。ConfigCat / Postmark / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。",
+    "18:00 定时器。调用前 $96.88。Spend: counts（start_time=2026-09-06T18:05:00Z，共 237 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 NVIDIA Agent Skills（官方 Codex：npx skills add nvidia/skills --skill cuopt-numerical-optimization-api --agent codex）。并更正 Datadog US1 为 mcp.datadoghq.com/v1/mcp。X 仍是 Archify、0.154 worktree、Google Cloud plugin、Astra、Conductor、/feedback。LaunchDarkly 无 Codex 专节不写。Kit 仍不写（#41362）。ConfigCat / Postmark / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。CDP 31/31（预览 4362）。收尾 $96.88。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
