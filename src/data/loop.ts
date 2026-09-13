@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T17:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "17:30 定时器。调用前 $96.89。Spend: counts（start_time=2026-09-06T17:35:00Z，共 239 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Netdata Cloud MCP（官方 Codex：mcp add netdata-cloud --url https://app.netdata.cloud/api/v1/mcp，bearer_token_env_var=NETDATA_CLOUD_API_TOKEN）。不要 mcp login。不要抄 experimental_use_rmcp_client 或 mcp-remote。Snowflake-Labs/mcp 已 deprecated。Kit 仍不写（#41362）。ConfigCat / Postmark / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。X 仍是 Archify、0.154 worktree、Google Cloud plugin、Astra、Conductor。收尾待测完回写。",
+    "17:30 定时器。调用前 $96.89。Spend: counts（start_time=2026-09-06T17:35:00Z，共 239 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Netdata Cloud MCP（官方 Codex：mcp add netdata-cloud --url https://app.netdata.cloud/api/v1/mcp，bearer_token_env_var=NETDATA_CLOUD_API_TOKEN）。不要 mcp login。不要抄 experimental_use_rmcp_client 或 mcp-remote。Snowflake-Labs/mcp 已 deprecated。Kit 仍不写（#41362）。ConfigCat / Postmark / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。X 仍是 Archify、0.154 worktree、Google Cloud plugin、Astra、Conductor。CDP 29/29（预览 4361）。收尾 $96.88。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
