@@ -2881,5 +2881,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex：mcp add butter --url https://mcp.hellobutter.io/mcp，再 mcp login butter。URL 带 /mcp。不要抄 Claude 的 --transport http。不是 ButterKit.app 那台本地 stdio。',
   },
+  {
+    title: 'How to Add an MCP Server to Codex CLI (2026 Guide)',
+    url: 'https://designrevision.com/blog/add-mcp-server-to-codex',
+    source: 'DesignRevision',
+    lang: '英文',
+    kind: '教程',
+    tags: ['MCP', 'DesignRevision', 'bearer', 'HTTP'],
+    summary:
+      '官方 Codex：mcp add design-revision --url https://mcp.designrevision.com/mcp --bearer-token-env-var DESIGNREVISION_API_KEY。URL 带 /mcp。不要 mcp login。不要抄 Claude 的 --header Bearer 字面量。',
+  },
 ];
 

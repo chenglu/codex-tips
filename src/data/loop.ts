@@ -3,7 +3,7 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-13T01:09:00Z",
+  lastTick: "2026-09-13T01:49:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
     "01:09 定时器。调用前 $97.26。Spend: counts（start_time=2026-09-06T01:11:00Z，共 236 条；01:10:00Z 因 7 日边界被拒后重试）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.26。CDP 52 项全过（预览 4327）。收录 Butter 远程 MCP（mcp add butter --url https://mcp.hellobutter.io/mcp，再 mcp login butter）。不要抄 Claude 的 --transport http。不是 ButterKit.app 那台本地 butterkit-mcp。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Microsoft AI Engineer Coach。DesignRevision 有 Codex 博客但主路径是 bearer DESIGNREVISION_API_KEY，本轮优先官方写出 mcp login 的 Butter。Buildkite 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。1Password Codex shell plugin 页仍缺完整 init 命令。ButterKit 官方仍只给 UI 字段，不发明 mcp add。",
@@ -924,6 +924,16 @@ export const loopState = {
     "buildkite.com docs mcp-server Codex configuring-ai-tools",
     "docs.digitalocean.com do-app-platform-skills --agent codex",
     "Codex CLI 技巧 2026 Butter MCP mcp.hellobutter.io mcp login butter",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "designrevision.com blog add-mcp-server-to-codex mcp add design-revision",
+    "designrevision.com mcp Codex bearer DESIGNREVISION_API_KEY",
+    "butterkit.app docs mcp openai-codex butterkit-mcp",
+    "developer.1password.com cli shell-plugins openai-codex op plugin init",
+    "buildkite.com docs mcp-server Codex configuring-ai-tools",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "oh-my-openagent OMO Codex CLI 编排",
+    "Codex CLI 技巧 2026 DesignRevision MCP mcp.designrevision.com",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

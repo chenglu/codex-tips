@@ -2288,4 +2288,18 @@ codex mcp login butter
 # enabled = true
 `,
   },
+  {
+    id: "design-revision-mcp-http",
+    title: "DesignRevision 远程 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add design-revision --url https://mcp.designrevision.com/mcp --bearer-token-env-var DESIGNREVISION_API_KEY。不要 mcp login。不要把 token 写进 http_headers。",
+    code: `codex mcp add design-revision --url https://mcp.designrevision.com/mcp --bearer-token-env-var DESIGNREVISION_API_KEY
+
+# [mcp_servers.design-revision]
+# url = "https://mcp.designrevision.com/mcp"
+# bearer_token_env_var = "DESIGNREVISION_API_KEY"
+# enabled = true
+`,
+  },
 ];

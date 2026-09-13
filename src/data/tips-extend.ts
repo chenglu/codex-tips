@@ -8468,4 +8468,57 @@ Higgsfield 是另一台 MCP，不要和 \`butter\` 配成一张表。官方另�
       },
     ],
   },
+  {
+    id: "design-revision-mcp-http",
+    no: 347,
+    title: "DesignRevision 远程 MCP 用 mcp.designrevision.com/mcp 加 bearer",
+    summary:
+      "官方 Codex：mcp add design-revision --url https://mcp.designrevision.com/mcp --bearer-token-env-var DESIGNREVISION_API_KEY。URL 带 /mcp。不要 mcp login。不要抄 Claude 的 --header Bearer。",
+    body: `DesignRevision 给 Codex 有专节（How to Add an MCP Server to Codex CLI）。官方 CLI 主路径是远程 Streamable HTTP + bearer，不是 OAuth：
+
+\`\`\`bash
+codex mcp add design-revision --url https://mcp.designrevision.com/mcp --bearer-token-env-var DESIGNREVISION_API_KEY
+\`\`\`
+
+URL **带** \`/mcp\` 后缀。用户层表名官方就是 \`design-revision\`。不要发明不带后缀的 \`https://mcp.designrevision.com\`。不要 \`mcp login\` 这张表。\`DESIGNREVISION_API_KEY\` 必须在**启动 Codex 的那个进程**里；Dock / 开始菜单打开的桌面读不到 zshrc。键里填的是变量名，不是 token。
+
+\`\`\`toml
+[mcp_servers.design-revision]
+url = "https://mcp.designrevision.com/mcp"
+bearer_token_env_var = "DESIGNREVISION_API_KEY"
+enabled = true
+\`\`\`
+
+不要抄 Claude 的 \`claude mcp add --transport http design-revision https://mcp.designrevision.com/mcp --header "Authorization: Bearer …"\`。不要把 token 写进 \`http_headers\`、\`args\`、\`env\` 表或 URL。不要抄 JSON \`mcpServers\`。不要抄 Cursor 的 \`.cursor/mcp.json\`。不要发明 \`codex plugin add design-revision@…\`。不要抄 \`npx mcp-remote\`。
+
+列出工具可以无鉴权；真正调 \`search_items\` / \`get_item_source\` / \`get_install_command\` 才要账号 bearer。先问 \`whoami\` 或搜一个组件。\`get_install_command\` 返回的 \`shadcn add\` 可能把 token 嵌进 URL，不要把那条命令提交进仓库。浏览 registry 便宜或免费；拉完整源码才扣额度。这不是 shadcn 官方那台 MCP。
+
+不要一上来 \`--yolo\`。不要 \`required = true\`。网页 Cloud 不读 \`~/.codex/config.toml\`。改完彻底新开会话。用 \`codex mcp get design-revision\` 看传输是 streamable_http、Auth 是 Bearer。\`mcp list\` 显示 Bearer 不等于请求真带了头，变量缺失时工具数为 0 或 401。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add design-revision@openai-curated\`。
+- 不要抄 Claude 的 \`--header\` Bearer 字面量。
+- 不要对这张表跑 \`mcp login\`。
+- 不要给它 \`required = true\` 挂全局。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "DesignRevision", "bearer", "HTTP"],
+    related: ["mcp-http-bearer-env", "mcp-add-and-login", "mcp-http-not-sse"],
+    sources: [
+      {
+        label: "DesignRevision · Add MCP to Codex",
+        url: "https://designrevision.com/blog/add-mcp-server-to-codex",
+      },
+      {
+        label: "DesignRevision · MCP",
+        url: "https://designrevision.com/mcp",
+      },
+      {
+        label: "DesignRevision · MCP tools",
+        url: "https://designrevision.com/mcp/tools",
+      },
+    ],
+  },
 ];

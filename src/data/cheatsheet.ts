@@ -245,6 +245,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: "codex mcp add pathbound --url https://mcp.pathbound.ai/mcp", meaning: "官方远程带 /mcp 后缀。随后 mcp login pathbound。不要抄 Claude.ai 或 ChatGPT Plugins。无头才 bearer_token_env_var，不要把 sk_ 写进 http_headers" },
       { cmd: "codex mcp add stackone --url https://mcp.stackone.com/mcp", meaning: "官方远程带 /mcp 后缀。随后 mcp login stackone。不要抄 Claude 的 --transport http。无头才把仪表盘 session token 拼进 api.stackone.com/mcp，不要提交" },
       { cmd: "codex mcp add butter --url https://mcp.hellobutter.io/mcp", meaning: "官方远程带 /mcp 后缀。随后 mcp login butter。不要抄 Claude 的 --transport http。不是 ButterKit.app 那台本地 butterkit-mcp" },
+      { cmd: "codex mcp add design-revision --url https://mcp.designrevision.com/mcp --bearer-token-env-var DESIGNREVISION_API_KEY", meaning: "官方远程带 /mcp 后缀。不要 mcp login。不要把 token 写进 http_headers。不要抄 Claude 的 --header Bearer" },
       { cmd: "codex mcp add convex -- npx … mcp start", meaning: "插件装不上才用手写 stdio。官方 MCP 是 npx convex mcp start，不是远程 URL。不要加 --dangerously-enable-production-deployments" },
       { cmd: "codex --profile huggingface", meaning: "[model_providers.huggingface] 走 router.huggingface.co/v1，wire_api = responses，env_key = HF_TOKEN。不是 Hub MCP，也不是 --oss" },
       { cmd: "codex --profile vercel", meaning: "[model_providers.vercel] 走 ai-gateway.vercel.sh/codex/v1，wire_api = responses，env_key = AI_GATEWAY_API_KEY。不是 Vercel MCP，也不是 --oss" },
