@@ -253,6 +253,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: "codex plugin marketplace add appwrite/codex-plugin", meaning: "官方 Codex 插件。再 /plugins 装 Appwrite。不要发明 plugin add appwrite@。不要抄 Claude 的 appwrite@claude-plugins-official。IDE 没有 /plugins" },
       { cmd: "codex mcp add appwrite --url https://mcp.appwrite.io/", meaning: "官方远程有尾斜杠，没有 /mcp。OAuth，随后完成授权或 mcp login appwrite。不要 API key，不要 bearer_token_env_var。不要抄 Claude 的 --transport http。自托管才走本地 uvx mcp-server-appwrite" },
       { cmd: "npx trigger.dev@latest install-mcp --client openai-codex", meaning: "官方 Codex 本地 stdio。表名 trigger。必须 startup_timeout_sec = 30。不要 mcp login。不要 --yolo（会装进所有客户端）。不要抄 Claude JSON。search_docs 不用登录" },
+      { cmd: "codex mcp add workos --url https://mcp.workos.com/mcp", meaning: "官方远程带 /mcp 后缀。随后 mcp get / mcp login / mcp list。OAuth，不要 API key。不要发明 plugin add workos@。不要抄 Claude 的 --transport http。项目级写进可信仓库 .codex/config.toml" },
       { cmd: "codex mcp add convex -- npx … mcp start", meaning: "插件装不上才用手写 stdio。官方 MCP 是 npx convex mcp start，不是远程 URL。不要加 --dangerously-enable-production-deployments" },
       { cmd: "codex --profile huggingface", meaning: "[model_providers.huggingface] 走 router.huggingface.co/v1，wire_api = responses，env_key = HF_TOKEN。不是 Hub MCP，也不是 --oss" },
       { cmd: "codex --profile vercel", meaning: "[model_providers.vercel] 走 ai-gateway.vercel.sh/codex/v1，wire_api = responses，env_key = AI_GATEWAY_API_KEY。不是 Vercel MCP，也不是 --oss" },

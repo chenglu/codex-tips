@@ -2400,4 +2400,20 @@ codex mcp login appwrite
 # enabled = true
 `,
   },
+  {
+    id: "workos-mcp-http",
+    title: "WorkOS MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add workos --url https://mcp.workos.com/mcp，再 mcp get / mcp login / mcp list。URL 带 /mcp。OAuth，不要 API key。不要发明 plugin add workos@。",
+    code: `codex mcp add workos --url https://mcp.workos.com/mcp
+codex mcp get workos
+codex mcp login workos
+codex mcp list
+
+# [mcp_servers.workos]
+# url = "https://mcp.workos.com/mcp"
+# enabled = true
+`,
+  },
 ];

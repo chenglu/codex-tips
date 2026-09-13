@@ -8892,4 +8892,57 @@ Codex 会进项目 \`.agents/skills/\`。官方非交互示例只写了 \`--targ
       },
     ],
   },
+  {
+    id: "workos-mcp-http",
+    no: 354,
+    title: "WorkOS MCP 用 mcp.workos.com/mcp，再 mcp login workos",
+    summary:
+      "官方 Codex：mcp add workos --url https://mcp.workos.com/mcp，再 mcp get / mcp login / mcp list。URL 带 /mcp。OAuth，不要 API key。不要发明 plugin add workos@。不要抄 Claude 的 --transport http。",
+    body: `WorkOS 给 Codex CLI 有专节。官方主路径是远程 Streamable HTTP + OAuth，**不要** API key，也**不要** \`bearer_token_env_var\`：
+
+\`\`\`bash
+codex mcp add workos --url https://mcp.workos.com/mcp
+codex mcp get workos
+codex mcp login workos
+codex mcp list
+\`\`\`
+
+官方表名就是 \`workos\`。URL 是 \`https://mcp.workos.com/mcp\`，**有** \`/mcp\` 后缀。\`mcp add\` 写进用户层 \`~/.codex/config.toml\`，每个项目都能用。\`mcp get\` 只证明 Codex 找到了这张表，\`mcp list\` 只显示终点和鉴权类型，**都不**证明 OAuth 票能用。加完后按提示在浏览器完成 WorkOS 同意页。只写进了表、浏览器没弹时再跑 \`codex mcp login workos\`。同意完以后，已经在跑的 Codex 会话**不会**自动带上新服务器，彻底新开一局。
+
+\`\`\`toml
+[mcp_servers.workos]
+url = "https://mcp.workos.com/mcp"
+enabled = true
+\`\`\`
+
+只在一个可信仓库里用时，把同一张表写进该仓库的 \`.codex/config.toml\`，再在仓库根跑 \`codex mcp get workos\`、\`codex mcp login workos\`、\`codex mcp list\`。Codex 只给**已信任**项目加载项目层配置，而且只在这个仓库里生效。不要把它提交进仓库，除非团队就是要共享这台服务器定义。OAuth 票按用户层凭证库另存，**不要**写进 \`config.toml\`，也不要提交。用户层和项目层不要同时定义同名 \`workos\`，除非你就是要项目覆盖用户层。
+
+不要抄 Claude 的 \`claude mcp add --transport http workos https://mcp.workos.com/mcp\`。不要抄 Cursor 的 \`.cursor/mcp.json\`。不要抄 ChatGPT / Claude Desktop 的 Connectors。不要抄 \`npx mcp-remote\`。不要发明 \`codex plugin add workos@…\`。ChatGPT / Codex 插件目录里即使能搜到 WorkOS，CLI 也**没有**一键安装，主路径仍是上面的 \`mcp add\`。不要把 WorkOS API key、client secret 写进 URL、\`http_headers\`、\`args\` 或 \`env\` 表。
+
+这台只暴露四把入口：\`whoami\`、\`list_operations\`、\`query\`、\`mutate\`。会话里不会一次列出全部业务工具。先只读：问 \`Use the WorkOS MCP server to run whoami and tell me which team and environment you are in.\` 默认对着 **sandbox**。只有你明确指向 production 时才会碰生产。\`mutate\` 会改组织、连接、邀请，保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。网页 Cloud 不读 \`~/.codex/config.toml\`。
+
+登录、凭证库、证书相关命令在你平时的宿主 shell 里跑。隔离代理环境里失败，不证明 WorkOS MCP 不可用。启动时报 \`MCP startup interrupted\` 且点名 \`workos\`，多半是表写上了但没完成 OAuth：先 \`codex mcp get workos\`，再 \`codex mcp login workos\`，再 \`codex mcp list\`，然后新开会话。旧票卡住时先 \`codex mcp logout workos\`，再重新 login。能登录但访问仍被关掉，让团队管理员去看 dashboard 的 team authentication：Enable、Allow production access、Allow write access。代理继承你的 dashboard 角色，读不到现成的 API key / client secret，也不能改 MCP 开关本身。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add workos@openai-curated\`。
+- 不要抄 Claude 的 \`--transport http\` 或 Cursor JSON。
+- 不要给这台 \`bearer_token_env_var\`，也不要对它跳过 \`mcp login\`。
+- 不要给它 \`required = true\` 挂全局。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "WorkOS", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-http-not-sse", "polar-mcp-http"],
+    sources: [
+      {
+        label: "WorkOS · MCP Server",
+        url: "https://workos.com/docs/mcp",
+      },
+      {
+        label: "WorkOS · Install in Claude, ChatGPT, and Codex",
+        url: "https://workos.com/blog/install-workos-plugin-claude-chatgpt-codex",
+      },
+    ],
+  },
 ];

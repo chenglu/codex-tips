@@ -3,7 +3,7 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-13T05:12:00Z",
+  lastTick: "2026-09-13T05:40:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
     "05:12 定时器。调用前 $97.18。Spend: counts（start_time=2026-09-06T05:20:00Z，共 241 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 仍为 $97.18。CDP 28/28 全过（预览 4334）。收录 Trigger.dev 官方 Codex stdio MCP（npx trigger.dev@latest install-mcp --client openai-codex；表名 trigger；startup_timeout_sec = 30）。不要 mcp login。不要 --yolo。不要发明 plugin add 或远程 URL。X 仍是 Claude vs Codex 营销、GPT-6 Astra、oh-my-openagent、日文预约任务。Buildkite 仍无 Codex 专节。Meilisearch 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。",
@@ -989,6 +989,15 @@ export const loopState = {
     "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
     "docs.digitalocean.com do-app-platform-skills --agent codex",
     "Codex CLI 技巧 2026 Trigger.dev MCP install-mcp openai-codex",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "workos.com docs mcp Codex mcp add workos mcp.workos.com/mcp",
+    "workos.com blog install-workos-plugin-claude-chatgpt-codex mcp login workos",
+    "docs.netlify.com set-up-codex-for-netlify netlify-mcp.netlify.app",
+    "buildkite.com docs mcp-server remote configuring-ai-tools Codex",
+    "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "Codex CLI 技巧 2026 WorkOS MCP mcp.workos.com/mcp OAuth",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

@@ -3021,5 +3021,25 @@ export const articles: Article[] = [
     summary:
       '技能教怎么写 task，MCP 才部署和触发。Codex 专节仍是 install-mcp --client openai-codex。不要把 AGENTS.md 短规则整段当 MCP 配置。不要发明远程 mcp.trigger.dev。',
   },
+  {
+    title: 'WorkOS MCP Server',
+    url: 'https://workos.com/docs/mcp',
+    source: 'WorkOS',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'WorkOS', 'OAuth', 'HTTP'],
+    summary:
+      '官方 Codex：mcp add workos --url https://mcp.workos.com/mcp，再 mcp get / mcp login / mcp list。URL 带 /mcp。OAuth，不要 API key。项目级写进可信仓库 .codex/config.toml。不要发明 plugin add workos@。不要抄 Claude 的 --transport http。',
+  },
+  {
+    title: 'How to install and use the WorkOS plugin in Claude, ChatGPT, and Codex',
+    url: 'https://workos.com/blog/install-workos-plugin-claude-chatgpt-codex',
+    source: 'WorkOS',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'WorkOS', 'OAuth', 'HTTP'],
+    summary:
+      'Codex 是 CLI 优先：mcp add workos --url https://mcp.workos.com/mcp，再 mcp login workos。即使插件目录能搜到 WorkOS，CLI 也没有一键安装。不要发明 plugin add workos@。不要抄 Claude 的 --transport http。',
+  },
 ];
 
