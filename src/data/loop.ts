@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-13T17:30:00Z",
+  lastTick: "2026-09-13T18:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "17:30 定时器。调用前 $96.89。Spend: counts（start_time=2026-09-06T17:35:00Z，共 239 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Netdata Cloud MCP（官方 Codex：mcp add netdata-cloud --url https://app.netdata.cloud/api/v1/mcp，bearer_token_env_var=NETDATA_CLOUD_API_TOKEN）。不要 mcp login。不要抄 experimental_use_rmcp_client 或 mcp-remote。Snowflake-Labs/mcp 已 deprecated。Kit 仍不写（#41362）。ConfigCat / Postmark / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。X 仍是 Archify、0.154 worktree、Google Cloud plugin、Astra、Conductor。CDP 29/29（预览 4361）。收尾 $96.88。",
+    "18:00 定时器。调用前 $96.88。Spend: counts（start_time=2026-09-06T18:05:00Z，共 237 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 NVIDIA Agent Skills（官方 Codex：npx skills add nvidia/skills --skill cuopt-numerical-optimization-api --agent codex）。并更正 Datadog US1 为 mcp.datadoghq.com/v1/mcp。X 仍是 Archify、0.154 worktree、Google Cloud plugin、Astra、Conductor、/feedback。LaunchDarkly 无 Codex 专节不写。Kit 仍不写（#41362）。ConfigCat / Postmark / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1280,6 +1280,19 @@ export const loopState = {
     "docs.digitalocean.com do-app-platform-skills --agent codex",
     "Codex CLI 技巧 2026 Netdata Cloud MCP app.netdata.cloud/api/v1/mcp",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "docs.datadoghq.com mcp_server setup Codex X-Datadog-MCP-Toolsets v1/mcp",
+    "docs.datadoghq.com getting_started software_delivery_mcp_tools Codex",
+    "docs.nvidia.com/skills advanced-install --agent codex cuopt-numerical-optimization-api",
+    "github.com/NVIDIA/skills Codex npx skills add nvidia/skills",
+    "help.kit.com kit mcp app.kit.com Codex oauth 41362",
+    "configcat.com docs mcp-server Codex @configcat/mcp-server",
+    "postmarkapp.com mcp Codex @activecampaign/postmark-mcp",
+    "docs.tavily.com mcp Codex mcp.tavily.com",
+    "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "Codex CLI 技巧 2026 NVIDIA skills --agent codex cuopt-numerical-optimization-api",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR NVIDIA OR skills OR AGENTS.md OR plugin OR worktree)',
     "X news: Codex CLI",
   ],
 };

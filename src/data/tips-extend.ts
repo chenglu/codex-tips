@@ -3848,33 +3848,33 @@ enabled = true
     no: 278,
     title: "Datadog MCP 用区域 mcp. 地址再 login，工具集写 X-Datadog-MCP-Toolsets",
     summary:
-      "US1：codex mcp add datadog --url https://mcp.datadoghq.com/api/unstable/mcp-server/mcp，再 mcp login。Codex 用 http_headers 里的 X-Datadog-MCP-Toolsets，不要把 ?toolsets= 拼进 URL。这颗头是工具集名单，不是密钥。",
-    body: `Datadog 托管的是远程 Streamable HTTP。地址按你登录 Datadog 的站点来，US1 是：
+      "US1：codex mcp add datadog --url https://mcp.datadoghq.com/v1/mcp，再 mcp login。Codex 用 http_headers 里的 X-Datadog-MCP-Toolsets，不要把 ?toolsets= 拼进 URL。这颗头是工具集名单，不是密钥。",
+    body: `Datadog 托管的是远程 Streamable HTTP。地址按你登录 Datadog 的站点来，US1 现行入口是：
 
 \`\`\`bash
-codex mcp add datadog --url https://mcp.datadoghq.com/api/unstable/mcp-server/mcp
+codex mcp add datadog --url https://mcp.datadoghq.com/v1/mcp
 codex mcp login datadog
 \`\`\`
 
-官方 Codex 页只示范了手写 \`~/.codex/config.toml\`，效果一样。路径里的 \`/api/unstable/\` 是现行入口，不要擅自改成 \`/mcp\` 或 \`/sse\`。
+官方 Codex 页只示范了手写 \`~/.codex/config.toml\`，效果一样。路径停在 \`/v1/mcp\`，不要再抄旧的 \`/api/unstable/mcp-server/mcp\`，也不要改成 \`/sse\`。
 
 \`\`\`toml
 [mcp_servers.datadog]
-url = "https://mcp.datadoghq.com/api/unstable/mcp-server/mcp"
+url = "https://mcp.datadoghq.com/v1/mcp"
 http_headers = { "X-Datadog-MCP-Toolsets" = "apm,llmobs" }
 enabled = true
 \`\`\`
 
-\`X-Datadog-MCP-Toolsets\` 是工具集名单，例如 \`apm,llmobs\` 或 \`all\`（一般可用的全套）。这不是密钥，写进 \`http_headers\` 合法。其它客户端把 \`?toolsets=\` 拼进 URL；**Codex 要用这颗头**，不要把查询参数抄进 \`url\`。
+\`X-Datadog-MCP-Toolsets\` 是工具集名单，例如 \`apm,llmobs\`、\`core,software-delivery\` 或 \`all\`（一般可用的全套）。这不是密钥，写进 \`http_headers\` 合法。其它客户端把 \`?toolsets=\` 拼进 URL；**Codex 要用这颗头**，不要把查询参数抄进 \`url\`。
 
-其它站点把主机换成对应的 \`mcp.\` 前缀，再 \`mcp login\`：
+其它站点把主机换成对应的 \`mcp.\` 前缀，路径仍是 \`/v1/mcp\`，再 \`mcp login\`：
 
-- US3：\`https://mcp.us3.datadoghq.com/api/unstable/mcp-server/mcp\`
-- US5：\`https://mcp.us5.datadoghq.com/api/unstable/mcp-server/mcp\`
-- EU1：\`https://mcp.datadoghq.eu/api/unstable/mcp-server/mcp\`
-- AP1：\`https://mcp.ap1.datadoghq.com/api/unstable/mcp-server/mcp\`
-- AP2：\`https://mcp.ap2.datadoghq.com/api/unstable/mcp-server/mcp\`
-- UK1：\`https://mcp.uk1.datadoghq.com/api/unstable/mcp-server/mcp\`
+- US3：\`https://mcp.us3.datadoghq.com/v1/mcp\`
+- US5：\`https://mcp.us5.datadoghq.com/v1/mcp\`
+- EU1：\`https://mcp.datadoghq.eu/v1/mcp\`
+- AP1：\`https://mcp.ap1.datadoghq.com/v1/mcp\`
+- AP2：\`https://mcp.ap2.datadoghq.com/v1/mcp\`
+- UK1：\`https://mcp.uk1.datadoghq.com/v1/mcp\`
 
 GovCloud（\`app.ddog-gov.com\` / \`us2.ddog-gov.com\`）没有这台 MCP。站点选错，OAuth 会空转。以 Datadog 文档右侧的 Site 选择器为准。
 
@@ -10194,6 +10194,58 @@ URL 已经停在 \`/api/v1/mcp\`，不要再加一层 \`/mcp\`，也不要尾斜
       {
         label: "Learn Netdata · Netdata MCP",
         url: "https://learn.netdata.cloud/docs/netdata-ai/mcp",
+      },
+    ],
+  },
+  {
+    id: "nvidia-skills-codex",
+    no: 379,
+    title: "NVIDIA 技能钉 --agent codex，不要抄默认 npx skills add",
+    summary:
+      "官方 Codex：npx skills add nvidia/skills --skill cuopt-numerical-optimization-api --agent codex。不要省略 --agent codex。不要发明 plugin add nvidia@。目录先 --list。",
+    body: `NVIDIA 给 Codex 有专节，写在仓库 README 和高级安装页。这是 Agent Skills，不是 Codex \`/plugins\`，也不是远程 MCP。只要 Codex 时钉死 agent，避免改到 Claude / Cursor：
+
+\`\`\`bash
+npx skills add nvidia/skills --skill cuopt-numerical-optimization-api --agent codex
+\`\`\`
+
+\`--agent codex\` **不要省略**。裸跑 \`npx skills add nvidia/skills\` 会弹出目录并按默认 agent 落盘（常常是 Claude）。仓库名是 \`nvidia/skills\`。技能名用各份 \`SKILL.md\` 的 \`name:\`，官方示例是 \`cuopt-numerical-optimization-api\`（cuOpt 数值优化 API）。先看目录：
+
+\`\`\`bash
+npx skills add nvidia/skills --list
+\`\`\`
+
+安装器要 \`skills\` CLI **1.5.16 及以上**。旧版对 Claude 的 \`.claude/skills/\` 链接会坏；Codex 读项目旁的 \`.agents/skills/\`，不受那条链接影响，但仍应走 \`npx skills@latest\`。默认装进**当前项目**的 \`.agents/skills/\`。要跟账号走再加 \`--global\`；脚本可再加 \`--yes\`。
+
+\`\`\`bash
+npx skills add nvidia/skills --skill cuopt-numerical-optimization-api --agent codex --global --yes
+\`\`\`
+
+装完新开会话。不要抄 Claude 的 \`/reload-skills\`。之后可用 \`npx skills update\` 刷新；目录会改名或合并，过期本地副本让安装器删。不要手拷到 \`~/.codex/skills\`。不要发明 \`codex plugin add nvidia@…\`。NVIDIA 文档说 Codex marketplace 还在路上，**现在没有**可抄的 marketplace id。
+
+这套技能教 cuOpt / RAG Blueprint / Jetson / NeMo 这类 NVIDIA 工作流，**不会**替你配 Datadog 或其它远程 MCP。装完先问「用 cuOpt Python API 解一个线性规划」，看它是否调起 \`cuopt-numerical-optimization-api\`。
+
+不要做这些：
+
+- 不要抄 \`--agent claude-code\`、\`--agent cursor\` 或 Snowflake 的 \`--agent cortex\`。
+- 不要把 \`npx skills add nvidia/skills\` 当 Codex \`/plugins\`。
+- 不要发明 \`codex plugin add nvidia@openai-curated\`。
+- 不要把整份产品目录手拷进仓库根。
+
+网页 Cloud 不读本机技能目录。改完新开一轮，\`/skills\` 应能看见 \`cuopt-numerical-optimization-api\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["Skills", "NVIDIA", "cuOpt"],
+    related: ["pinecone-agent-skills", "imgly-cesdk-skills", "skill-locations"],
+    sources: [
+      {
+        label: "NVIDIA/skills",
+        url: "https://github.com/NVIDIA/skills",
+      },
+      {
+        label: "NVIDIA · Advanced Installation",
+        url: "https://docs.nvidia.com/skills/advanced-install",
       },
     ],
   },

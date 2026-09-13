@@ -2189,7 +2189,7 @@ export const articles: Article[] = [
     kind: '官方',
     tags: ['MCP', 'Datadog', 'OAuth'],
     summary:
-      'Codex 页写 ~/.codex/config.toml 的 [mcp_servers.datadog]，US1 是 https://mcp.datadoghq.com/api/unstable/mcp-server/mcp，然后 mcp login datadog。工具集用 http_headers 里的 X-Datadog-MCP-Toolsets，不要把 ?toolsets= 拼进 URL。GovCloud 没有这台服务。',
+      'Codex 页写 ~/.codex/config.toml 的 [mcp_servers.datadog]，US1 现行是 https://mcp.datadoghq.com/v1/mcp，然后 mcp login datadog。工具集用 http_headers 里的 X-Datadog-MCP-Toolsets，不要把 ?toolsets= 拼进 URL。GovCloud 没有这台服务。',
   },
   {
     title: 'Codex · Hugging Face Inference Providers',
@@ -3510,6 +3510,26 @@ export const articles: Article[] = [
     tags: ['MCP', 'Netdata', 'HTTP'],
     summary:
       'Cloud 终点是 app.netdata.cloud/api/v1/mcp，Bearer 要 scope:mcp。Codex 走 url + bearer_token_env_var。不要把 Claude 的 --header 或 mcp-remote 抄进 Codex。本机 19999 是另一台。',
+  },
+  {
+    title: 'NVIDIA/skills',
+    url: 'https://github.com/NVIDIA/skills',
+    source: 'NVIDIA',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'NVIDIA', 'cuOpt'],
+    summary:
+      '官方 Codex 节是 npx skills add nvidia/skills --skill cuopt-numerical-optimization-api --agent codex。不要省略 --agent codex。不要发明 plugin add nvidia@。先 --list 再装。',
+  },
+  {
+    title: 'Advanced Installation',
+    url: 'https://docs.nvidia.com/skills/advanced-install',
+    source: 'NVIDIA',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'NVIDIA'],
+    summary:
+      'Codex 专装要 --agent codex。项目默认进 .agents/skills/。加 --global --yes 才跟账号走。安装器要 1.5.16+。不要手拷 ~/.codex/skills。',
   },
 ];
 

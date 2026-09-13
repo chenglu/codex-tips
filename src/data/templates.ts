@@ -1429,9 +1429,9 @@ enabled = true
     title: "Datadog 远程 MCP",
     filename: "~/.codex/config.toml",
     summary:
-      "US1 是 mcp.datadoghq.com/api/unstable/mcp-server/mcp。随后 mcp login。工具集写 X-Datadog-MCP-Toolsets，不要把 ?toolsets= 拼进 URL。",
+      "US1 是 mcp.datadoghq.com/v1/mcp。随后 mcp login。工具集写 X-Datadog-MCP-Toolsets，不要把 ?toolsets= 拼进 URL。",
     code: `[mcp_servers.datadog]
-url = "https://mcp.datadoghq.com/api/unstable/mcp-server/mcp"
+url = "https://mcp.datadoghq.com/v1/mcp"
 http_headers = { "X-Datadog-MCP-Toolsets" = "apm,llmobs" }
 enabled = true
 `,
@@ -2769,6 +2769,18 @@ codex mcp list
 # [mcp_servers.netdata-cloud]
 # url = "https://app.netdata.cloud/api/v1/mcp"
 # bearer_token_env_var = "NETDATA_CLOUD_API_TOKEN"
+`,
+  },
+  {
+    id: "nvidia-skills-codex",
+    title: "NVIDIA Agent Skills",
+    filename: "terminal",
+    summary:
+      "主路径是 npx skills add nvidia/skills --skill cuopt-numerical-optimization-api --agent codex。不要省略 --agent codex。不要发明 plugin add nvidia@。",
+    code: `npx skills add nvidia/skills --skill cuopt-numerical-optimization-api --agent codex
+
+# 先看目录：
+# npx skills add nvidia/skills --list
 `,
   },
 ];
