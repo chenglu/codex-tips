@@ -3361,5 +3361,25 @@ export const articles: Article[] = [
     summary:
       '连上 mcp.beehiiv.com/mcp 之后可以起草件、配自动化、管分段。发布和启用自动化仍回仪表盘。免费档只读。不要把这篇当 API 合同，也不要发明 plugin add beehiiv@。',
   },
+  {
+    title: 'MailerLite MCP Server',
+    url: 'https://developers.mailerlite.com/mcp',
+    source: 'MailerLite',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'MailerLite', 'OAuth', 'HTTP'],
+    summary:
+      '官方写任意 MCP 客户端。远程是 https://mcp.mailerlite.com/mcp，OAuth。没有 Codex 专节，对照 Claude Code 写 mcp add mailerlite。不要抄 --transport http，也不要发明 plugin add mailerlite@。',
+  },
+  {
+    title: 'MailerLite MCP examples',
+    url: 'https://developers.mailerlite.com/mcp/examples',
+    source: 'MailerLite',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'MailerLite', 'OAuth'],
+    summary:
+      '连上 mcp.mailerlite.com/mcp 之后，未标 ACTION 的提示只读。标了 ACTION 的会起草件、排期、导入订阅者。不要把示例邮箱抄进生产发送。',
+  },
 ];
 

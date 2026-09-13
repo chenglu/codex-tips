@@ -2651,4 +2651,18 @@ codex mcp login beehiiv
 # enabled = true
 `,
   },
+  {
+    id: "mailerlite-mcp-http",
+    title: "MailerLite MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add mailerlite --url https://mcp.mailerlite.com/mcp。URL 带 /mcp。OAuth，浏览器没弹再 mcp login mailerlite。不要发明 plugin add mailerlite@。",
+    code: `codex mcp add mailerlite --url https://mcp.mailerlite.com/mcp
+codex mcp login mailerlite
+
+# [mcp_servers.mailerlite]
+# url = "https://mcp.mailerlite.com/mcp"
+# enabled = true
+`,
+  },
 ];

@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-13T13:36:00Z",
+  lastTick: "2026-09-13T14:13:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "13:36 定时器。调用前 $96.96。Spend: counts（start_time=2026-09-06T13:42:00Z，共 235 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 $96.96。收录 beehiiv 远程 MCP（https://mcp.beehiiv.com/mcp；官方点名 Codex；OAuth）。不要发明 plugin add beehiiv@。Kit 仍不写：Codex 拒 OAuth metadata（openai/codex#41362，issuer 与授权端点 origin 不一致）。ConfigCat / Postmark / Buildkite / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、Astra、Conductor。",
+    "14:13 定时器。调用前 $96.96。Spend: counts（start_time=2026-09-06T14:18:00Z，共 234 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾待测。收录 MailerLite 远程 MCP（https://mcp.mailerlite.com/mcp；任意 MCP 客户端；OAuth）。不要发明 plugin add mailerlite@。不要抄 Claude --transport http。Kit 仍不写（#41362）。Buildkite 远程仍是 mcp.buildkite.com/mcp，配置页无 Codex 专节。ConfigCat / Postmark / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、Astra、Conductor。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1188,6 +1188,18 @@ export const loopState = {
     "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
     "docs.digitalocean.com do-app-platform-skills --agent codex",
     "Codex CLI 技巧 2026 beehiiv MCP mcp.beehiiv.com/mcp OAuth",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "developers.mailerlite.com mcp Codex mcp.mailerlite.com",
+    "developers.mailerlite.com mcp examples ACTION",
+    "buildkite.com docs mcp-server remote configuring-ai-tools Codex",
+    "help.kit.com kit mcp app.kit.com Codex oauth issuer",
+    "configcat.com docs mcp-server Codex @configcat/mcp-server",
+    "postmarkapp.com mcp Codex @activecampaign/postmark-mcp",
+    "docs.tavily.com mcp Codex mcp.tavily.com",
+    "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "Codex CLI 技巧 2026 MailerLite MCP mcp.mailerlite.com/mcp OAuth",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

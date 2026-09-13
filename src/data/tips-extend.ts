@@ -9758,4 +9758,55 @@ enabled = true
       },
     ],
   },
+  {
+    id: "mailerlite-mcp-http",
+    no: 371,
+    title: "MailerLite MCP 用 mcp.mailerlite.com/mcp，再完成 OAuth",
+    summary:
+      "官方写任意 MCP 客户端。mcp add mailerlite --url https://mcp.mailerlite.com/mcp。URL 带 /mcp。OAuth，浏览器没弹再 mcp login mailerlite。不要发明 plugin add mailerlite@。不要抄 Claude --transport http。",
+    body: `MailerLite 官方安装页列了 Claude、Claude Code、Cursor、VS Code、Gemini CLI 和 ChatGPT Developer Mode，没有 Codex 专节。页上写任意 MCP 兼容客户端都能连。远程入口是 \`https://mcp.mailerlite.com/mcp\`，带 \`/mcp\` 后缀，不要尾斜杠。鉴权是 OAuth，不要 API key。CLI 写成：
+
+\`\`\`bash
+codex mcp add mailerlite --url https://mcp.mailerlite.com/mcp
+codex mcp login mailerlite
+\`\`\`
+
+官方 Claude Code 表名就是 \`mailerlite\`，手册 CLI 也用这个。\`mcp add\` 写进用户层 \`~/.codex/config.toml\`。只写进了表、浏览器没弹时再跑 \`codex mcp login mailerlite\`。
+
+桌面 / IDE：Settings → MCP servers → Add server，传输选 Streamable HTTP，URL 填上面那条。Bearer token env var 和 Headers 留空。第一次用工具时会打开浏览器，用平时的 MailerLite 账号登录。
+
+\`\`\`toml
+[mcp_servers.mailerlite]
+url = "https://mcp.mailerlite.com/mcp"
+enabled = true
+\`\`\`
+
+不要发明 \`codex plugin add mailerlite@…\`。官方没给出 Codex marketplace id。不要抄 Claude 的 \`--transport http\`。不要抄 Gemini 的 \`httpUrl\` JSON。不要抄 Cursor 一键 deeplink 或 VS Code 一键安装。不要抄 ChatGPT Developer Mode 自定义 connector。不要给这台 \`bearer_token_env_var\`。不要把 API key 写进 URL、\`http_headers\` 或 \`env\` 表。MailerLite CLI 是另一条路，不是这台 MCP。营销页会写「你的专属 MCP URL」，开发者文档给的就是上面这条公共地址。
+
+先只读：问 \`get_auth_status\`，或最近几封活动的打开率。示例页标了 \`[ACTION]\` 的提示会改账号，包括起草件、排期、导入订阅者。\`schedule_campaign\` 会真的排发送。保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add mailerlite@openai-curated\`。
+- 不要抄 Claude 的 \`--transport http\` 或 Cursor deeplink。
+- 不要把 API key 写进 \`env\` 表、\`http_headers\` 或 URL。
+- 不要给它 \`required = true\` 挂全局。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完彻底新开会话。用 \`codex mcp get mailerlite\` 看传输是 streamable_http。会话里 \`/mcp\` 应显示 Auth: OAuth。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "MailerLite", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "loops-mcp-http", "beehiiv-mcp-http"],
+    sources: [
+      {
+        label: "MailerLite · MCP Server",
+        url: "https://developers.mailerlite.com/mcp",
+      },
+      {
+        label: "MailerLite · MCP examples",
+        url: "https://developers.mailerlite.com/mcp/examples",
+      },
+    ],
+  },
 ];
