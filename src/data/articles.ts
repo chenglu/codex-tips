@@ -2911,5 +2911,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex：mcp add inngest-cloud --url https://api.inngest.com/mcp --bearer-token-env-var INNGEST_API_KEY。URL 带 /mcp。不要 mcp login。不要抄 Claude 的 --header Bearer。本机另开 mcp add inngest-dev --url http://127.0.0.1:8288/mcp。',
   },
+  {
+    title: 'Model Context Protocol (MCP)',
+    url: 'https://polar.sh/docs/integrate/mcp',
+    source: 'Polar',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Polar', 'OAuth', 'HTTP'],
+    summary:
+      '官方 Codex：mcp add polar --url https://mcp.polar.sh/mcp/polar-mcp，随后完成 OAuth。URL 是 /mcp/polar-mcp，不是光 /mcp。沙箱另开 mcp add polar-sandbox --url https://mcp.polar.sh/mcp/polar-sandbox。不要抄 Claude 的 --transport http。',
+  },
 ];
 

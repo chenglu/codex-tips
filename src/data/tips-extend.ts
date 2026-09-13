@@ -8632,4 +8632,60 @@ Cloud 工具能改数据：\`send_event\`、\`invoke_function\`、\`rerun\`、\`
       },
     ],
   },
+  {
+    id: "polar-mcp-http",
+    no: 350,
+    title: "Polar MCP 用 mcp.polar.sh/mcp/polar-mcp，再完成 OAuth",
+    summary:
+      "官方 Codex：mcp add polar --url https://mcp.polar.sh/mcp/polar-mcp，随后完成 OAuth。URL 是 /mcp/polar-mcp，不是光 /mcp。沙箱另开 polar-sandbox。不要抄 Claude 的 --transport http。",
+    body: `Polar（polar.sh）给 Codex 有专节。官方 CLI 主路径是远程 Streamable HTTP + OAuth，**不要** API key，也**不要** \`bearer_token_env_var\`：
+
+\`\`\`bash
+codex mcp add polar --url https://mcp.polar.sh/mcp/polar-mcp
+\`\`\`
+
+官方文档把表名写成带引号的 \`"polar"\`，和 \`polar\` 一样。URL 是 \`https://mcp.polar.sh/mcp/polar-mcp\`，**不是**光 \`https://mcp.polar.sh/mcp\`。加完后按提示在浏览器完成 OAuth。只写进了表、浏览器没弹时再跑：
+
+\`\`\`bash
+codex mcp login polar
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.polar]
+url = "https://mcp.polar.sh/mcp/polar-mcp"
+enabled = true
+\`\`\`
+
+不要抄 Claude 的 \`claude mcp add --transport http polar https://mcp.polar.sh/mcp/polar-mcp\`。不要抄 Cursor 的 \`.cursor/mcp.json\`。不要抄 ChatGPT / Claude Desktop 的 Connectors。不要抄 \`npx mcp-remote\`。不要发明 \`codex plugin add polar@…\`。不要把 Polar API key 写进 URL、\`http_headers\`、\`args\` 或 \`env\` 表。
+
+沙箱是**另一张表**，官方名字就是 \`polar-sandbox\`，终点是 \`https://mcp.polar.sh/mcp/polar-sandbox\`：
+
+\`\`\`bash
+codex mcp add polar-sandbox --url https://mcp.polar.sh/mcp/polar-sandbox
+\`\`\`
+
+浏览器没弹时再 \`codex mcp login polar-sandbox\`。两张表可以同时配，不要合成一台。不要抄旧镜像文档里的 \`[features] rmcp_client = true\`、\`type = "http"\`，或把表名写成 \`polar_sandbox\`。
+
+Polar 只暴露三把元工具：\`search_tools\`、\`describe_tools\`、\`execute_tool\`。会话里不会一次列出 100 个业务工具。先只读：问 \`Search Polar tools for listing products, then list my products.\` \`execute_tool\` 能建商品、退款、删客户、立刻撤销订阅，保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。网页 Cloud 不读 \`~/.codex/config.toml\`。
+
+改完彻底新开会话。用 \`codex mcp get polar\` 看传输是 streamable_http。会话里 \`/mcp\` 应显示 Auth: OAuth。旧票卡住时先 \`codex mcp logout polar\`，再重新 login。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add polar@openai-curated\`。
+- 不要抄 Claude 的 \`--transport http\` 或 Cursor JSON。
+- 不要把生产 \`polar-mcp\` 和沙箱 \`polar-sandbox\` 配成一张表。
+- 不要给它 \`required = true\` 挂全局。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Polar", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-http-not-sse", "butter-mcp-http"],
+    sources: [
+      {
+        label: "Polar · MCP",
+        url: "https://polar.sh/docs/integrate/mcp",
+      },
+    ],
+  },
 ];

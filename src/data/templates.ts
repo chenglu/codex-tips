@@ -2332,4 +2332,21 @@ codex mcp login butter
 # codex mcp add inngest-dev --url http://127.0.0.1:8288/mcp
 `,
   },
+  {
+    id: "polar-mcp-http",
+    title: "Polar MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add polar --url https://mcp.polar.sh/mcp/polar-mcp，随后完成 OAuth。沙箱另开 polar-sandbox。不要抄 Claude 的 --transport http。",
+    code: `codex mcp add polar --url https://mcp.polar.sh/mcp/polar-mcp
+codex mcp login polar
+
+# [mcp_servers.polar]
+# url = "https://mcp.polar.sh/mcp/polar-mcp"
+# enabled = true
+
+# 沙箱
+# codex mcp add polar-sandbox --url https://mcp.polar.sh/mcp/polar-sandbox
+`,
+  },
 ];

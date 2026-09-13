@@ -248,6 +248,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: "codex mcp add design-revision --url https://mcp.designrevision.com/mcp --bearer-token-env-var DESIGNREVISION_API_KEY", meaning: "官方远程带 /mcp 后缀。不要 mcp login。不要把 token 写进 http_headers。不要抄 Claude 的 --header Bearer" },
       { cmd: "codex mcp add shadcn -- npx shadcn@latest mcp", meaning: "官方是本地 stdio。shadcn CLI 不能自动改 config.toml。不要 mcp login。不要抄 Claude 的 mcp init --client claude" },
       { cmd: "codex mcp add inngest-cloud --url https://api.inngest.com/mcp --bearer-token-env-var INNGEST_API_KEY", meaning: "官方远程带 /mcp 后缀。不要 mcp login。不要把 token 写进 http_headers。不要抄 Claude 的 --header Bearer。本机另开 inngest-dev http://127.0.0.1:8288/mcp" },
+      { cmd: "codex mcp add polar --url https://mcp.polar.sh/mcp/polar-mcp", meaning: "官方远程是 /mcp/polar-mcp，不是光 /mcp。OAuth，随后完成授权或 mcp login polar。不要抄 Claude 的 --transport http。沙箱另开 polar-sandbox → /mcp/polar-sandbox" },
       { cmd: "codex mcp add convex -- npx … mcp start", meaning: "插件装不上才用手写 stdio。官方 MCP 是 npx convex mcp start，不是远程 URL。不要加 --dangerously-enable-production-deployments" },
       { cmd: "codex --profile huggingface", meaning: "[model_providers.huggingface] 走 router.huggingface.co/v1，wire_api = responses，env_key = HF_TOKEN。不是 Hub MCP，也不是 --oss" },
       { cmd: "codex --profile vercel", meaning: "[model_providers.vercel] 走 ai-gateway.vercel.sh/codex/v1，wire_api = responses，env_key = AI_GATEWAY_API_KEY。不是 Vercel MCP，也不是 --oss" },
