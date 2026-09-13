@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T18:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "18:30 定时器。调用前 $96.88。Spend: counts（start_time=2026-09-06T18:35:00Z，共 230 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Postmark Agent Skills（博客点名 Codex：npx skills add ActiveCampaign/postmark-skills，官方没钉 --agent codex，示例技能 postmark-send-email）。不要发明 plugin add。Postmark MCP 仍无 Codex 专节不写。X 仍是 Archify、0.154 worktree、Google Cloud plugin、Astra、Conductor、/feedback。Kit 仍不写（#41362）。ConfigCat / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。",
+    "18:30 定时器。调用前 $96.88，收尾 $96.87。Spend: counts（start_time=2026-09-06T18:35:00Z，共 230 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Postmark Agent Skills（博客点名 Codex：npx skills add ActiveCampaign/postmark-skills，官方没钉 --agent codex，示例技能 postmark-send-email）。不要发明 plugin add。Postmark MCP 仍无 Codex 专节不写。X 仍是 Archify、0.154 worktree、Google Cloud plugin、Astra、Conductor、/feedback。Kit 仍不写（#41362）。ConfigCat / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。CDP 28/28（预览 4363）。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
