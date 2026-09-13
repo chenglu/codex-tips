@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T11:46:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "11:46 定时器。调用前 $96.99。Spend: counts（start_time=2026-09-06T11:52:00Z，共 255 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Customer.io 官方 Codex 插件（Plugins 或 /plugins 搜 Customer.io；不要手贴 https://mcp.customer.io/mcp；不要发明 plugin add customerio@）。GitHub README 仍可能写 listing 审核中。ConfigCat / Postmark 无 Codex 专节。Tavily / Buildkite / Meilisearch 仍无。do-app-platform-skills 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、Astra、Conductor、技能文风。",
+    "11:46 定时器。调用前 $96.99。Spend: counts（start_time=2026-09-06T11:52:00Z，共 255 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 $96.98。收录 Customer.io 官方 Codex 插件（Plugins 或 /plugins 搜 Customer.io；不要手贴 https://mcp.customer.io/mcp；不要发明 plugin add customerio@）。GitHub README 仍可能写 listing 审核中。ConfigCat / Postmark 无 Codex 专节。Tavily / Buildkite / Meilisearch 仍无。do-app-platform-skills 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、Astra、Conductor、技能文风。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
