@@ -2819,4 +2819,18 @@ codex mcp list
 # npx skills add tavily-ai/skills --skill tavily-search
 `,
   },
+  {
+    id: "rudderstack-mcp-http",
+    title: "RudderStack MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add rudderstack --url https://mcp.rudderstack.com/mcp。URL 带 /mcp。OAuth，浏览器没弹再 mcp login rudderstack。不要发明 plugin add rudder@。不要抄 mcp-remote。",
+    code: `codex mcp add rudderstack --url https://mcp.rudderstack.com/mcp
+codex mcp login rudderstack
+
+# [mcp_servers.rudderstack]
+# url = "https://mcp.rudderstack.com/mcp"
+# enabled = true
+`,
+  },
 ];

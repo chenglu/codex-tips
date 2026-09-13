@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-13T19:30:00Z",
+  lastTick: "2026-09-13T20:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "19:30 定时器。调用前 $96.86，收尾 $96.86。Spend: counts（start_time=2026-09-06T19:35:00Z，共 231 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Tavily Agent Skills（官方点名 Codex：npx skills add tavily-ai/skills --all，官方没钉 --agent codex，示例技能 tavily-search）。不要发明 plugin add 或 mcp add。Tavily MCP 仍无 Codex 专节不写。X 仍是 Archify、0.154 worktree、Google Cloud plugin、Astra、token 营销、/feedback。Kit 仍不写（#41362）。ConfigCat / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Fastmail 仍无 Codex 专节。CDP 28/28（预览 4365）。",
+    "20:00 定时器。调用前 $96.86。Spend: counts（start_time=2026-09-06T20:05:00Z，共 232 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 RudderStack 远程 MCP（官方 Codex 节：url = https://mcp.rudderstack.com/mcp，再 mcp login rudderstack）。不要发明 plugin add。不要抄 --transport http 或 mcp-remote。技能 rudderlabs/rudder-agent-skills 没钉 --agent codex，本轮只写 MCP。X 仍是 Archify、0.154 worktree、Google Cloud plugin、Astra、token 营销、/feedback。Kit 仍不写（#41362）。ConfigCat / Meilisearch / Fastmail / Cal.com / Axiom MCP 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault MCP 只有 VS Code / Claude JSON。Snowflake-Labs/mcp 已弃用。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1325,6 +1325,20 @@ export const loopState = {
     "fastmail.com blog mcp api.fastmail.com Codex",
     "Codex CLI 技巧 2026 Tavily skills tavily-ai/skills tavily-search",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR Tavily OR skills OR AGENTS.md OR plugin OR worktree)',
+    "X news: Codex CLI",
+    "rudderstack.com docs ai-features rudderstack-mcp Codex mcp.rudderstack.com",
+    "github.com rudderlabs/rudder-agent-skills npx skills add Codex",
+    "help.kit.com kit mcp app.kit.com Codex oauth 41362",
+    "configcat.com docs mcp-server Codex @configcat/mcp-server",
+    "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "fastmail.com blog mcp api.fastmail.com Codex",
+    "cal.com docs mcp-server Codex mcp.cal.com",
+    "axiom.co docs console intelligence mcp-server Codex mcp.axiom.co",
+    "developer.hashicorp.com vault mcp Codex vault-mcp-server",
+    "docs.snowflake.com cortex-agents-mcp Codex mcp add",
+    "Codex CLI 技巧 2026 RudderStack MCP mcp.rudderstack.com/mcp OAuth",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR RudderStack OR skills OR AGENTS.md OR plugin OR worktree)',
     "X news: Codex CLI",
   ],
 };

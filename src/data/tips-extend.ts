@@ -10403,4 +10403,59 @@ npx skills add tavily-ai/skills --skill tavily-search
       },
     ],
   },
+  {
+    id: "rudderstack-mcp-http",
+    no: 383,
+    title: "RudderStack MCP 用 mcp.rudderstack.com/mcp，再完成 OAuth",
+    summary:
+      "官方 Codex 节：url 写成 https://mcp.rudderstack.com/mcp，再 mcp login rudderstack。URL 带 /mcp。OAuth，不要 API key。不要发明 plugin add rudder@。不要抄 --transport http 或 mcp-remote。",
+    body: `RudderStack 连接指南给 Codex 有专节，前提是 Claude、Codex、Cursor、VS Code Copilot 这类 MCP 客户端，以及有效 RudderStack 账号。官方远程入口是 \`https://mcp.rudderstack.com/mcp\`，带 \`/mcp\` 后缀，不要尾斜杠。鉴权是 OAuth，不要 API key。官方 Codex 步骤是先写表，再登录：
+
+\`\`\`bash
+codex mcp add rudderstack --url https://mcp.rudderstack.com/mcp
+codex mcp login rudderstack
+\`\`\`
+
+官方表名就是 \`rudderstack\`。\`mcp add\` 写进用户层 \`~/.codex/config.toml\`。只写进了表、浏览器没弹时再跑 \`codex mcp login rudderstack\`。官方贴的 TOML 是同一张表：
+
+\`\`\`toml
+[mcp_servers.rudderstack]
+url = "https://mcp.rudderstack.com/mcp"
+enabled = true
+\`\`\`
+
+桌面 / IDE：Settings → MCP servers → Add server，传输选 Streamable HTTP，URL 填上面那条。Bearer token env var 和 Headers 留空。第一次用工具时会打开浏览器，用平时的 RudderStack 账号登录。token 会自动刷新，不要把密钥写进 \`config.toml\`。
+
+不要发明 \`codex plugin add rudder@…\`。官方没给出 Codex marketplace id。不要抄 Claude Code 的 \`claude mcp add --transport http rudderstack https://mcp.rudderstack.com/mcp\`。不要抄 Cursor JSON、VS Code 的 \`.vscode/mcp.json\` 或 Claude.ai 自定义 connector。不要抄 \`mcp.rudderstack.com/docs\` 里给 Claude Desktop / Cursor / Windsurf 的 \`npx mcp-remote\`。不要给这台 \`bearer_token_env_var\`。不要把 API key 写进 URL、\`http_headers\` 或 \`env\` 表。
+
+技能是另一条线：\`npx skills add rudderlabs/rudder-agent-skills\`。官方没钉 \`--agent codex\`。\`/plugin marketplace add rudderlabs/rudder-agent-skills\` 是 Claude 的路，不要抄进 Codex。技能里的 \`rudder-mcp-setup\` 斜杠也是 Claude 风格；Codex 用 \`/skills\` 或 \`$rudder-mcp-setup\`。技能教怎么配 MCP，**不会**替你写 \`mcp_servers.rudderstack\`。
+
+这台能查源、目的地、连接、事件指标、Tracking Plan，以及写/测 transformation。官方写明：写操作只限创建或更新 transformation，并把它接到目的地；不会新建或删除 source / destination。事件属性、traits、请求体会在发给助手前打码。保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。
+
+先只读：问「给我这个 RudderStack workspace 的概览」。报 Workspace not found 时，先问有哪些 workspace 再切。工具没出来就彻底新开会话。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add rudder@openai-curated\`。
+- 不要抄 Claude 的 \`--transport http\` 或 \`npx mcp-remote\`。
+- 不要把 API key 写进 \`env\` 表、\`http_headers\` 或 URL。
+- 不要给它 \`required = true\` 挂全局。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完彻底新开会话。用 \`codex mcp get rudderstack\` 看传输是 streamable_http。会话里 \`/mcp\` 应显示 Auth: OAuth。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "RudderStack", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-http-not-sse", "beehiiv-mcp-http"],
+    sources: [
+      {
+        label: "RudderStack · How to Connect to RudderStack MCP",
+        url: "https://www.rudderstack.com/docs/ai-features/rudderstack-mcp/connect/",
+      },
+      {
+        label: "RudderStack · RudderStack MCP",
+        url: "https://www.rudderstack.com/docs/ai-features/rudderstack-mcp/",
+      },
+    ],
+  },
 ];

@@ -3591,5 +3591,25 @@ export const articles: Article[] = [
     summary:
       '仓库名是 tavily-ai/skills。tvly init 会检测 Codex。单项示例是 --skill tavily-search。官方没钉 --agent codex。不要发明 plugin add。TAVILY_API_KEY 放进程环境。',
   },
+  {
+    title: 'How to Connect to RudderStack MCP',
+    url: 'https://www.rudderstack.com/docs/ai-features/rudderstack-mcp/connect/',
+    source: 'RudderStack',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'RudderStack', 'OAuth'],
+    summary:
+      '官方 Codex 节：把 url 写成 https://mcp.rudderstack.com/mcp，再 mcp login rudderstack。表名是 rudderstack。OAuth，不要 API key。不要抄 Claude 的 --transport http 或 mcp-remote。',
+  },
+  {
+    title: 'RudderStack MCP',
+    url: 'https://www.rudderstack.com/docs/ai-features/rudderstack-mcp/',
+    source: 'RudderStack',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'RudderStack'],
+    summary:
+      '官方点名 Codex。远程入口是 https://mcp.rudderstack.com/mcp。能查管道、源、目的地、Tracking Plan，写操作只限 transformation。OAuth，事件值会打码。不要发明 plugin add rudder@。',
+  },
 ];
 
