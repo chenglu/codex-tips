@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T16:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "16:30 定时器。调用前 $96.91。Spend: counts（start_time=2026-09-06T16:35:00Z，共 206 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Auth0 文档 MCP（官方 Codex：mcp add auth0-docs-mcp-server --url https://auth0.com/docs/mcp）。无鉴权，不要 mcp login。不要抄 --transport http。不要和管理租户 stdio 搞成一台。Kit 仍不写（#41362 仍 open）。ConfigCat / Postmark / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Axiom / Intercom / Cal.com 仍无 Codex 专节。Snowflake-Labs/mcp 有 Codex TOML，留到下一轮。X 仍是 Archify、0.154 worktree、Google Cloud plugin、Astra、Conductor。收尾待测完回写。",
+    "16:30 定时器。调用前 $96.91。Spend: counts（start_time=2026-09-06T16:35:00Z，共 206 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Auth0 文档 MCP（官方 Codex：mcp add auth0-docs-mcp-server --url https://auth0.com/docs/mcp）。无鉴权，不要 mcp login。不要抄 --transport http。不要和管理租户 stdio 搞成一台。Kit 仍不写（#41362 仍 open）。ConfigCat / Postmark / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Axiom / Intercom / Cal.com 仍无 Codex 专节。Snowflake-Labs/mcp 有 Codex TOML，留到下一轮。X 仍是 Archify、0.154 worktree、Google Cloud plugin、Astra、Conductor。CDP 28/28（预览 4359）。收尾 $96.90。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
