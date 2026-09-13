@@ -3671,5 +3671,25 @@ export const articles: Article[] = [
     summary:
       '仓库三份技能：wherobots-usage、wherobots-explore、wherobots-develop。官方 Codex 安装是 npx skills add -g wherobots/agent-skills。官方没钉 --agent codex。不要抄 Cursor marketplace。技能不会写 mcp_servers。',
   },
+  {
+    title: 'Install Agent Skills',
+    url: 'https://docs.wherobots.com/develop/agent-skills',
+    source: 'Wherobots',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'Wherobots'],
+    summary:
+      '安装页：npx skills add -g wherobots/agent-skills。单项示例是 --skill wherobots-usage，默认不带 -g。VS Code 扩展会自动带技能，Codex 要手工装。官方没钉 --agent codex。',
+  },
+  {
+    title: 'Get Started with Agentic Development',
+    url: 'https://docs.wherobots.com/develop/agentic-tools',
+    source: 'Wherobots',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'MCP', 'Wherobots'],
+    summary:
+      '总览把 Codex 标成 Terminal or desktop，MCP、Agent Skills 和 CLI 都要手工配。VS Code 行才是 Included。不要把扩展自动安装抄进 Codex，也不要发明 plugin add wherobots@。',
+  },
 ];
 

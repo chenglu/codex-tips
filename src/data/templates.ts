@@ -2875,4 +2875,18 @@ codex mcp login wherobots-mcp-server
 # enabled = true
 `,
   },
+  {
+    id: "wherobots-agent-skills",
+    title: "Wherobots Agent Skills",
+    filename: "terminal",
+    summary:
+      "主路径是 npx skills add -g wherobots/agent-skills。官方没钉 --agent codex。单项示例是 --skill wherobots-usage。不要发明 plugin add。不要抄 Cursor 插件。",
+    code: `npx skills add wherobots/agent-skills --list
+npx skills add -g wherobots/agent-skills
+
+# 单项：
+# npx skills add -g wherobots/agent-skills --skill wherobots-usage
+# npx skills add wherobots/agent-skills@wherobots-usage
+`,
+  },
 ];

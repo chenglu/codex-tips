@@ -10629,11 +10629,74 @@ X-API-Key = "WHEROBOTS_API_KEY"
     level: "starter",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "Wherobots", "OAuth", "HTTP"],
-    related: ["mcp-add-and-login", "mcp-http-env-headers", "mcp-oauth-loopback-callback"],
+    related: ["wherobots-agent-skills", "mcp-add-and-login", "mcp-http-env-headers"],
     sources: [
       {
         label: "Wherobots · Set Up Wherobots in Codex",
         url: "https://docs.wherobots.com/develop/agentic-tools/codex",
+      },
+      {
+        label: "wherobots/agent-skills",
+        url: "https://github.com/wherobots/agent-skills",
+      },
+    ],
+  },
+  {
+    id: "wherobots-agent-skills",
+    no: 387,
+    title: "Wherobots 技能用 -g 装 agent-skills，不要抄 Cursor 插件",
+    summary:
+      "官方 Codex 页是 npx skills add -g wherobots/agent-skills。官方没钉 --agent codex。单项示例是 --skill wherobots-usage。不要发明 plugin add。技能不会写 MCP 表。",
+    body: `Wherobots 给 Codex CLI / 桌面单独装技能。VS Code 扩展会把技能打进编辑器，那条不套 Codex。总览把 Codex 标成 Terminal or desktop，MCP、Agent Skills 和 CLI 都要手工配。仓库名是 \`wherobots/agent-skills\`。这是教代理怎么选 MCP / CLI / SDK 的技能，不是 Codex \`/plugins\`，也不会替你写 \`mcp_servers.wherobots-mcp-server\`。
+
+官方 Codex 页的安装命令带 \`-g\`，装到用户目录：
+
+\`\`\`bash
+npx skills add -g wherobots/agent-skills
+\`\`\`
+
+先看目录：
+
+\`\`\`bash
+npx skills add wherobots/agent-skills --list
+\`\`\`
+
+安装页单项示例是 \`--skill wherobots-usage\`，默认不带 \`-g\`，会落到当前项目。只要全局 Codex 时沿用 Codex 页的 \`-g\`，或自己加 \`--agent codex\`。官方**没有**钉 \`--agent codex\`。仓库 README 还写 skills.sh 语法 \`wherobots/agent-skills@wherobots-usage\`：
+
+\`\`\`bash
+npx skills add -g wherobots/agent-skills --skill wherobots-usage
+npx skills add wherobots/agent-skills@wherobots-usage
+\`\`\`
+
+仓库三份技能：\`wherobots-usage\`（选 MCP / CLI / SDK）、\`wherobots-explore\`（目录和 Spatial SQL）、\`wherobots-develop\`（CLI / SDK / 提交作业）。Codex 用 \`/skills\` 或 \`$wherobots-usage\`、\`$wherobots-explore\`、\`$wherobots-develop\`。不要手拷到 \`~/.codex/skills\`。不要发明 \`codex plugin add wherobots@…\`。
+
+不要抄 Cursor marketplace，也不要把仓库 clone 到 \`~/.cursor/plugins/local/wherobots\`。那是 Cursor 插件，会登记 Cursor 的 MCP，不是 Codex。不要抄 Claude 的 \`/plugin marketplace add\`。
+
+远程 MCP 仍走 \`codex mcp add wherobots-mcp-server --url https://api.cloud.wherobots.com/mcp/\`，再 \`codex mcp login wherobots-mcp-server\`。技能里的 explore 工作流假定 MCP 已经连上，**不会**替你写那张表。
+
+装完新开会话。先问「帮我选 MCP 还是 CLI 来列 Data Hub 目录」，看它是否调起 \`wherobots-usage\`。
+
+不要做这些：
+
+- 不要把 \`npx skills add -g wherobots/agent-skills\` 当成 Codex \`/plugins\`。
+- 不要发明 \`codex plugin add wherobots@openai-curated\`。
+- 不要抄 Cursor 插件目录或 Claude 的 \`/plugin marketplace add\`。
+- 不要以为技能会写出 \`mcp_servers.wherobots-mcp-server\`。
+
+网页 Cloud 不读本机技能目录。改完新开一轮，\`/skills\` 应能看见 \`wherobots-usage\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["Skills", "Wherobots", "CLI"],
+    related: ["wherobots-mcp-http", "rudderstack-agent-skills", "tavily-agent-skills"],
+    sources: [
+      {
+        label: "Wherobots · Set Up Wherobots in Codex",
+        url: "https://docs.wherobots.com/develop/agentic-tools/codex",
+      },
+      {
+        label: "Wherobots · Install Agent Skills",
+        url: "https://docs.wherobots.com/develop/agent-skills",
       },
       {
         label: "wherobots/agent-skills",

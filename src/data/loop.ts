@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-13T21:30:00Z",
+  lastTick: "2026-09-13T22:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "21:30 定时器。调用前 $96.83，收尾 $96.82。Spend: counts（start_time=2026-09-06T21:35:00Z，共 231 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Wherobots 远程 MCP（官方 Codex 页：表名示例 wherobots-mcp-server，url 写成 api.cloud.wherobots.com/mcp/，文档仍写 mcp add 只支持 stdio，现行用 --url，再 mcp login。头认证才 env_http_headers 的 X-API-Key，不要写进 http_headers）。X 仍是 Claude 对照、Unity、Astra /slow、Chrome 插件、token 营销、Archify、0.154 worktree、Google Cloud plugin、/feedback。Kit 仍不写（#41362）。ConfigCat / Meilisearch / Fastmail / Cal.com / Axiom MCP 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault MCP 只有 VS Code / Claude JSON。GitHub 托管 MCP 已有。AgentPort 文档把 headers 写成非 Codex 键且工具名带双下划线，本轮不写。CDP 31/31（预览 4369）。",
+    "22:00 定时器。调用前 $96.82。Spend: counts（start_time=2026-09-06T22:05:00Z，共 231 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Wherobots Agent Skills（官方 Codex 页：npx skills add -g wherobots/agent-skills，官方没钉 --agent codex。单项 --skill wherobots-usage。不要发明 plugin add。不要抄 Cursor 插件。技能不会写 MCP 表）。X 仍是 Claude 对照、Unity、Astra /slow、Chrome 插件、token 营销、Archify、0.154 worktree、Google Cloud plugin、/feedback。SpecterOps/skills 虽有 marketplace add，目录含钓鱼/C2/payload，本轮不写。Kit 仍不写（#41362）。ConfigCat / Meilisearch / Fastmail / Cal.com / Axiom MCP 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault MCP 只有 VS Code / Claude JSON。AgentPort 文档 headers 仍非 Codex 键。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1380,6 +1380,21 @@ export const loopState = {
     "developer.hashicorp.com vault mcp Codex vault-mcp-server",
     "github.com/github/github-mcp-server install-codex bearer-token-env-var",
     "Codex CLI 技巧 2026 Wherobots MCP api.cloud.wherobots.com/mcp/ wherobots-mcp-server",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR skills OR AGENTS.md OR plugin OR worktree)',
+    "X news: Codex CLI",
+    "docs.wherobots.com develop agent-skills npx skills add -g --skill wherobots-usage",
+    "docs.wherobots.com develop agentic-tools Codex Additional Setup",
+    "github.com SpecterOps/skills Codex plugin marketplace add",
+    "help.kit.com kit mcp app.kit.com Codex oauth 41362",
+    "configcat.com docs mcp-server Codex @configcat/mcp-server",
+    "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "fastmail.com blog mcp api.fastmail.com Codex",
+    "cal.com docs mcp-server Codex mcp.cal.com",
+    "axiom.co docs console intelligence mcp-server Codex mcp.axiom.co",
+    "developer.hashicorp.com vault mcp Codex vault-mcp-server",
+    "docs.agentport.sh agents Codex mcp add agentport",
+    "Codex CLI 技巧 2026 Wherobots skills -g wherobots-usage",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR skills OR AGENTS.md OR plugin OR worktree)',
     "X news: Codex CLI",
   ],
