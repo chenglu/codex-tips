@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T10:10:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "10:10 定时器。调用前 $97.02。Spend: counts（start_time=2026-09-06T10:16:00Z，共 237 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度待测完后回写。收录 DevCycle 官方 Codex 远程 MCP（codex mcp add devcycle --url https://mcp.devcycle.com/mcp；表名 devcycle；URL 带 /mcp；OAuth，浏览器没弹再 mcp login devcycle）。不要抄 /sse 或 npx mcp-remote。不要发明 plugin add devcycle@。本地另装 @devcycle/cli 才是 dvc-mcp。Optimizely 有 Codex 桌面 Settings，本轮先收 DevCycle。ConfigCat / Postmark 无 Codex 专节。Customer.io 仍是桌面插件。Tavily / Buildkite / Meilisearch 仍无。DigitalOcean 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、OMO、Astra、Conductor。",
+    "10:10 定时器。调用前 $97.02。Spend: counts（start_time=2026-09-06T10:16:00Z，共 237 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 $97.02。收录 DevCycle 官方 Codex 远程 MCP（codex mcp add devcycle --url https://mcp.devcycle.com/mcp；表名 devcycle；URL 带 /mcp；OAuth，浏览器没弹再 mcp login devcycle）。不要抄 /sse 或 npx mcp-remote。不要发明 plugin add devcycle@。本地另装 @devcycle/cli 才是 dvc-mcp。Optimizely 有 Codex 桌面 Settings，本轮先收 DevCycle。ConfigCat / Postmark 无 Codex 专节。Customer.io 仍是桌面插件。Tavily / Buildkite / Meilisearch 仍无。DigitalOcean 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、OMO、Astra、Conductor。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
