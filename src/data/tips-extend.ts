@@ -8740,4 +8740,84 @@ git clone https://github.com/inngest/inngest-codex-plugin.git
       },
     ],
   },
+  {
+    id: "appwrite-codex-plugin",
+    no: 352,
+    title: "Appwrite 用 marketplace add appwrite/codex-plugin，远程 MCP 走 mcp.appwrite.io 尾斜杠",
+    summary:
+      "官方 Codex：plugin marketplace add appwrite/codex-plugin，再 /plugins 装 Appwrite。远程 MCP 是 mcp add appwrite --url https://mcp.appwrite.io/，有尾斜杠、没有 /mcp。OAuth，浏览器没弹再 mcp login appwrite。不要发明 plugin add appwrite@。不要抄 Claude 的 --transport http。",
+    body: `Appwrite 给 Codex 有专节。官方主路径是先加官方市场，再在 TUI 装 **Appwrite** 插件；项目 API 走远程 Streamable HTTP + OAuth，**不要** API key，也**不要** \`bearer_token_env_var\`：
+
+\`\`\`bash
+codex plugin marketplace add appwrite/codex-plugin
+\`\`\`
+
+然后跑 \`codex\`，TUI 里 \`/plugins\` 选 **Appwrite** 装上。市场清单名和插件名都是 \`appwrite\`，当前插件版本是 0.2.0。官方**没有**写出 \`codex plugin add appwrite@appwrite\`，不要发明。IDE 扩展没有 \`/plugins\`，用 CLI 加完再到 TUI 或桌面去装。0.154 起先看**当前会话**；当前会话没有再新开。
+
+不要抄 Claude 的 \`claude plugin install appwrite@claude-plugins-official\`。不要用 \`npx skills add\` 当 Codex 安装器。不要把技能手拷进 \`~/.codex/skills\` 或 \`.agents/skills/\` 当主路径。
+
+插件 \`.mcp.json\` 会登记一台 \`appwrite\`，URL 就是 \`https://mcp.appwrite.io/\`（**有尾斜杠，没有** \`/mcp\` 后缀）。包装键是 \`mcpServers\`，\`type\` 是 \`http\`。那是插件 JSON，不要抄进用户层 \`config.toml\` 当 JSON，也不要再给用户表加 \`type = "http"\`。装完插件后若 \`/mcp\` 已经有 \`appwrite\`，不要再手写第二张同 URL 的表。官方 Codex 页第 3 步仍给出手动加表，\`/mcp\` 里没有这台时再跑：
+
+\`\`\`bash
+codex mcp add appwrite --url https://mcp.appwrite.io/
+\`\`\`
+
+官方表名就是 \`appwrite\`。加完后按提示在浏览器完成 OAuth。只写进了表、浏览器没弹时再跑：
+
+\`\`\`bash
+codex mcp login appwrite
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.appwrite]
+url = "https://mcp.appwrite.io/"
+enabled = true
+\`\`\`
+
+不要抄 Claude 的 \`claude mcp add --transport http appwrite https://mcp.appwrite.io/\`。不要抄 Cursor 的 \`.cursor/mcp.json\`。不要抄 \`npx mcp-remote\`。不要发明 \`codex plugin add appwrite@openai-curated\`。不要把 Appwrite API key、project ID 写进 URL、\`http_headers\`、\`args\` 或 \`env\` 表。不要用旧的 \`https://mcp-for-docs.appwrite.io\` 当主路径：远程这台已经带文档搜索。
+
+会话里不会一次列出全部 Appwrite 业务工具。官方暴露的是一小撮入口：\`appwrite_get_context\`、\`appwrite_search_tools\`、\`appwrite_call_tool\`、\`appwrite_search_docs\`。先只读：问 \`List all databases in my project\` 或 \`Use Appwrite to show my workspace context and list my projects.\` \`Create a new user in my Appwrite project\` 会改数据，保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。网页 Cloud 不读 \`~/.codex/config.toml\`。
+
+部署技能可以显式调用 \`$appwrite-deploy-site\` 和 \`$appwrite-deploy-function\`。改完核对 \`/plugins\` 能看到 Appwrite，\`codex mcp get appwrite\` 看传输是 streamable_http，会话里 \`/mcp\` 应显示 Auth: OAuth。旧票卡住时先 \`codex mcp logout appwrite\`，再重新 login。
+
+自托管 Appwrite 才走本地 stdio \`uvx mcp-server-appwrite\`。要用时另开一张表，并用 \`env_vars\` 转发已有的 \`APPWRITE_ENDPOINT\`、\`APPWRITE_PROJECT_ID\`、\`APPWRITE_API_KEY\`。不要把 \`--env APPWRITE_API_KEY=...\` 字面量当主路径，也不要把密钥写进 \`env\` 表。Cloud 用户走远程 OAuth，不要这条。不要把自托管 stdio 和远程 \`appwrite\` 配成一张表。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add appwrite@appwrite\` 或 \`appwrite@claude-plugins-official\`。
+- 不要抄 Claude 的 \`--transport http\` 或 Cursor JSON。
+- 不要给远程这台 \`bearer_token_env_var\`，也不要对它跳过 \`mcp login\`。
+- 不要给它 \`required = true\` 挂全局。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Appwrite", "OAuth", "plugins"],
+    related: ["mcp-add-and-login", "plugin-session-refresh", "inngest-codex-plugin"],
+    sources: [
+      {
+        label: "Appwrite · Codex",
+        url: "https://appwrite.io/docs/tooling/ai/agents/codex",
+      },
+      {
+        label: "Appwrite · Codex (plugin homepage)",
+        url: "https://appwrite.io/docs/tooling/ai/ai-dev-tools/codex",
+      },
+      {
+        label: "Appwrite · MCP server",
+        url: "https://appwrite.io/docs/tooling/ai/mcp-servers",
+      },
+      {
+        label: "Appwrite · Introducing the Codex plugin",
+        url: "https://appwrite.io/blog/post/announcing-appwrite-codex-plugin",
+      },
+      {
+        label: "Appwrite · Remote MCP server",
+        url: "https://appwrite.io/blog/post/announcing-remote-appwrite-mcp-server",
+      },
+      {
+        label: "appwrite/codex-plugin",
+        url: "https://github.com/appwrite/codex-plugin",
+      },
+    ],
+  },
 ];

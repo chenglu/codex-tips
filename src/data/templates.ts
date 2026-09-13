@@ -2364,4 +2364,22 @@ codex mcp login polar
 # codex plugin marketplace add .
 `,
   },
+  {
+    id: "appwrite-codex-plugin",
+    title: "Appwrite Codex 插件与远程 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 plugin marketplace add appwrite/codex-plugin，再 /plugins 装 Appwrite。远程 MCP 是 mcp add appwrite --url https://mcp.appwrite.io/，有尾斜杠。不要发明 plugin add appwrite@。",
+    code: `codex plugin marketplace add appwrite/codex-plugin
+
+# TUI：/plugins 选 Appwrite
+# /mcp 里没有 appwrite 时再加远程表：
+codex mcp add appwrite --url https://mcp.appwrite.io/
+codex mcp login appwrite
+
+# [mcp_servers.appwrite]
+# url = "https://mcp.appwrite.io/"
+# enabled = true
+`,
+  },
 ];

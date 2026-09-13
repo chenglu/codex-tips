@@ -3,7 +3,7 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-13T03:39:00Z",
+  lastTick: "2026-09-13T04:38:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
     "03:39 定时器。调用前 $97.20。Spend: counts（start_time=2026-09-06T03:41:00Z，共 252 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.19。CDP 50/50 全过（预览 4332）。收录 Inngest 官方 Codex 插件（git clone inngest/inngest-codex-plugin，再 /plugin install 绝对路径/plugins/inngest）。不要发明 plugin add inngest@。不要抄 Claude 的 inngest@inngest-claude-code-plugin。插件 MCP 只接本机 8288，Cloud 仍走 inngest-cloud。X 仍是 Claude vs Codex 营销、oh-my-openagent 编排、Microsoft AI Engineer Coach、日文预约任务。Buildkite 仍无 Codex 专节。Meilisearch 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。",
@@ -970,6 +970,16 @@ export const loopState = {
     "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
     "docs.digitalocean.com do-app-platform-skills --agent codex",
     "Codex CLI 技巧 2026 Inngest Codex plugin clone plugin install",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "appwrite.io docs tooling ai agents Codex plugin marketplace add appwrite/codex-plugin",
+    "appwrite.io blog announcing-appwrite-codex-plugin marketplace add",
+    "appwrite.io blog announcing-remote-appwrite-mcp-server mcp.appwrite.io",
+    "github.com/appwrite/codex-plugin plugin.json mcp.appwrite.io",
+    "buildkite.com docs mcp-server remote configuring-ai-tools Codex",
+    "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "Codex CLI 技巧 2026 Appwrite MCP mcp.appwrite.io plugin marketplace",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

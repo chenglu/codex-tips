@@ -2941,5 +2941,55 @@ export const articles: Article[] = [
     summary:
       '官方 Codex 插件仓。clone 后 /plugin install …/inngest-codex-plugin/plugins/inngest。本地 marketplace.json 市场名是 inngest-codex-plugin。插件 MCP 只接 http://127.0.0.1:8288/mcp。不要发明 plugin add 的 @id。',
   },
+  {
+    title: 'Codex',
+    url: 'https://appwrite.io/docs/tooling/ai/agents/codex',
+    source: 'Appwrite',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Appwrite', 'OAuth', 'plugins'],
+    summary:
+      '官方 Codex：plugin marketplace add appwrite/codex-plugin，再 /plugins 装 Appwrite。远程 MCP 是 mcp add appwrite --url https://mcp.appwrite.io/，有尾斜杠、没有 /mcp。OAuth，浏览器没弹再 mcp login appwrite。不要发明 plugin add appwrite@。',
+  },
+  {
+    title: 'Introducing the Appwrite plugin for Codex: Skills and MCP in one install',
+    url: 'https://appwrite.io/blog/post/announcing-appwrite-codex-plugin',
+    source: 'Appwrite',
+    lang: '英文',
+    kind: '教程',
+    tags: ['MCP', 'Appwrite', 'plugins', 'Skills'],
+    summary:
+      '官方 Codex 插件博客。marketplace add appwrite/codex-plugin 后 /plugins 装 Appwrite。技能和 MCP 一次装。不要发明 plugin add 的 @id。Cloud 不要把 --env APPWRITE_API_KEY 字面量当主路径，远程走 mcp.appwrite.io。',
+  },
+  {
+    title: 'The Appwrite MCP server is now remote: one URL, no API keys',
+    url: 'https://appwrite.io/blog/post/announcing-remote-appwrite-mcp-server',
+    source: 'Appwrite',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Appwrite', 'OAuth', 'HTTP'],
+    summary:
+      '官方远程 MCP 公告。Codex 用 mcp add appwrite --url https://mcp.appwrite.io/，有尾斜杠、没有 /mcp。OAuth，不要 API key。不要抄 Claude 的 --transport http。自托管才走本地 uvx mcp-server-appwrite。',
+  },
+  {
+    title: 'appwrite/codex-plugin',
+    url: 'https://github.com/appwrite/codex-plugin',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Appwrite', 'plugins', 'Skills'],
+    summary:
+      '官方 Codex 插件仓。marketplace add appwrite/codex-plugin。插件名 appwrite，.mcp.json 登记 https://mcp.appwrite.io/。装完再 mcp login appwrite。不要发明 plugin add appwrite@。不要手拷 ~/.codex/skills 当主路径。',
+  },
+  {
+    title: 'Appwrite MCP server',
+    url: 'https://appwrite.io/docs/tooling/ai/mcp-servers',
+    source: 'Appwrite',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Appwrite', 'OAuth', 'HTTP'],
+    summary:
+      '官方 MCP 总览。远程 URL 是 https://mcp.appwrite.io/，有尾斜杠。OAuth，不要 API key。Codex 专节仍是 mcp add appwrite。自托管才走本地 stdio。不要抄 Claude 的 --transport http。',
+  },
 ];
 
