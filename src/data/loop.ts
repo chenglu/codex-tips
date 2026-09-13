@@ -3,7 +3,7 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-13T01:49:00Z",
+  lastTick: "2026-09-13T02:12:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
     "01:49 定时器。调用前 $97.26。Spend: counts（start_time=2026-09-06T01:51:00Z，共 237 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.25。CDP 48 项全过（预览 4328）。收录 DesignRevision 远程 MCP（mcp add design-revision --url https://mcp.designrevision.com/mcp --bearer-token-env-var DESIGNREVISION_API_KEY）。不要 mcp login。不要抄 Claude 的 --header Bearer。X 仍是 Claude vs Codex、日文 0.154 worktree、oh-my-openagent 编排营销、Microsoft AI Engineer Coach。ButterKit 官方仍只给 UI 字段，不发明 mcp add。Buildkite 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。1Password Codex shell plugin 页仍缺完整 init 命令。",
@@ -934,6 +934,14 @@ export const loopState = {
     "docs.digitalocean.com do-app-platform-skills --agent codex",
     "oh-my-openagent OMO Codex CLI 编排",
     "Codex CLI 技巧 2026 DesignRevision MCP mcp.designrevision.com",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "ui.shadcn.com docs mcp Codex mcp_servers.shadcn shadcn@latest mcp",
+    "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
+    "developer.1password.com cli shell-plugins openai-codex op plugin init",
+    "butterkit.app docs mcp openai-codex butterkit-mcp",
+    "github.com/trailofbits/codex-config install-codex-config",
+    "Codex CLI 技巧 2026 shadcn MCP mcp_servers.shadcn",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

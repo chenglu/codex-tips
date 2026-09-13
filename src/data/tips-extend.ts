@@ -8521,4 +8521,62 @@ enabled = true
       },
     ],
   },
+  {
+    id: "shadcn-mcp-stdio",
+    no: 348,
+    title: "shadcn 官方 MCP 用手写 mcp_servers.shadcn 本地 stdio",
+    summary:
+      "官方 Codex：手写 [mcp_servers.shadcn]，command = npx，args = [\"shadcn@latest\", \"mcp\"]。shadcn CLI 不能自动改 config.toml。这是本地 stdio，不要 mcp login。不要抄 Claude 的 mcp init --client claude。",
+    body: `shadcn/ui 给 Codex 有专节。官方 Note：\`shadcn\` CLI **不能**自动改 \`~/.codex/config.toml\`，必须手写。这是**本地 stdio**，不是远程 URL，**不要** \`mcp login\`。
+
+\`\`\`toml
+[mcp_servers.shadcn]
+command = "npx"
+args = ["shadcn@latest", "mcp"]
+\`\`\`
+
+同一张表的 CLI 写法：
+
+\`\`\`bash
+codex mcp add shadcn -- npx shadcn@latest mcp
+\`\`\`
+
+用户层表名官方就是 \`shadcn\`。官方 args **没有** \`-y\`；非交互环境才自己加。不要给这张表加 \`--url\`。不要 \`mcp login\`。
+
+不要抄 Claude 的 \`pnpm dlx shadcn@latest mcp init --client claude\`。不要抄 JSON \`mcpServers\`。不要抄 Cursor 的 \`.cursor/mcp.json\`。不要抄 VS Code 的 \`.vscode/mcp.json\` 里那个 \`servers\` 包装键。不要发明 \`codex plugin add shadcn@…\`。不要抄 \`npx mcp-remote\`。这不是 DesignRevision 那台远程 HTTP MCP。
+
+默认 shadcn/ui registry 不用额外配。项目要接更多 registry，写在项目 \`components.json\` 的 \`registries\`，不是 MCP 表：
+
+\`\`\`json
+{
+  "registries": {
+    "@acme": "https://registry.acme.com/{name}.json"
+  }
+}
+\`\`\`
+
+私有 registry 的鉴权官方写在 \`components.json\` 和项目 \`.env.local\`，例如环境变量 \`REGISTRY_TOKEN\`。不要把 token 写进 MCP 的 \`env\` 表、\`args\` 或 \`http_headers\`。不要 \`codex mcp add --env SECRET=\`。
+
+冷启动 \`npx\` 可能超过默认 10 秒握手，把 \`startup_timeout_sec\` 提到 30–60。不要 \`required = true\`。不要一上来 \`--yolo\`。网页 Cloud 不读 \`~/.codex/config.toml\`。
+
+改完彻底新开会话。用 \`codex mcp get shadcn\` 看 command 是 npx。会话里先问 \`Show me all available components in the shadcn registry\`。出现 No tools or prompts 时先 \`npx clear-npx-cache\`，再新开会话。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add shadcn@openai-curated\`。
+- 不要抄 Claude 的 \`mcp init --client claude\`。
+- 不要对这张表跑 \`mcp login\`。
+- 不要给它 \`required = true\` 挂全局。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "shadcn", "stdio"],
+    related: ["mcp-add-and-login", "mcp-stdio-env-vars", "mcp-startup-timeout-sec"],
+    sources: [
+      {
+        label: "shadcn/ui · MCP Server",
+        url: "https://ui.shadcn.com/docs/mcp",
+      },
+    ],
+  },
 ];

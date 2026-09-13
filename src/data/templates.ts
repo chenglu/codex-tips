@@ -2302,4 +2302,17 @@ codex mcp login butter
 # enabled = true
 `,
   },
+  {
+    id: "shadcn-mcp-stdio",
+    title: "shadcn 官方 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方是手写 [mcp_servers.shadcn]，npx shadcn@latest mcp。shadcn CLI 不能自动改 config.toml。这是本地 stdio，不要 mcp login。",
+    code: `codex mcp add shadcn -- npx shadcn@latest mcp
+
+# [mcp_servers.shadcn]
+# command = "npx"
+# args = ["shadcn@latest", "mcp"]
+`,
+  },
 ];
