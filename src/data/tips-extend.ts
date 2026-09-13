@@ -10610,7 +10610,7 @@ X-API-Key = "WHEROBOTS_API_KEY"
 
 从已经 \`export WHEROBOTS_API_KEY\` 的终端启动。Dock / 开始菜单打开的桌面没有 zshrc。Codex 不读 \`.env\`。变量缺失时这颗头会被静默丢掉。头认证这张表不要再 \`mcp login\`。
 
-技能是另一条线。官方 Codex 页是 \`npx skills add -g wherobots/agent-skills\`。\`-g\` 装到用户目录。官方**没有**钉 \`--agent codex\`。仓库三份技能是 \`wherobots-usage\`、\`wherobots-explore\`、\`wherobots-develop\`。技能不会写出 \`mcp_servers.wherobots-mcp-server\`。不要手拷到 \`~/.codex/skills\`。
+技能是另一条线。仓库名是 \`wherobots/agent-skills\`。官方 Codex 页是 \`npx skills add -g wherobots/agent-skills\`。\`-g\` 装到用户目录。官方**没有**钉 \`--agent codex\`。仓库三份技能是 \`wherobots-usage\`、\`wherobots-explore\`、\`wherobots-develop\`。技能不会写出 \`mcp_servers.wherobots-mcp-server\`。不要手拷到 \`~/.codex/skills\`。
 
 这台能浏览目录、生成 Spatial SQL、跑查询。默认 Tiny runtime，查询约 15 分钟超时，SQL Session 空闲约 5 分钟结束。只有真正在 Wherobots 上执行查询才按 Spatial Unit 计费。VS Code 命令面板里的 \`wherobotsjobsubmit.mcpServerQueryTimeout\` **不是** Codex 配置键，不要抄进 \`config.toml\`。保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。
 
