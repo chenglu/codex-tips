@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T09:37:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "09:37 定时器。调用前 $97.03。Spend: counts（start_time=2026-09-06T09:42:00Z，共 240 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度待测完后回写。收录 Flagsmith 官方 Codex 远程 MCP（codex mcp add flagsmith --url https://mcp.flagsmith.com；表名 flagsmith；URL 没有 /mcp；OAuth，浏览器没弹再 mcp login flagsmith）。不要 API key。不要发明 plugin add flagsmith@。不要抄 Claude 的 --transport http。旧 Gram 地址不要再用。DevCycle / Optimizely 有 Codex 客户端节，本轮先收 Flagsmith。ConfigCat / Postmark 无 Codex 专节。Customer.io 仍是桌面插件。Tavily / Buildkite / Meilisearch 仍无。DigitalOcean 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、OMO、Astra、Conductor。",
+    "09:37 定时器。调用前 $97.03。Spend: counts（start_time=2026-09-06T09:42:00Z，共 240 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 $97.02。收录 Flagsmith 官方 Codex 远程 MCP（codex mcp add flagsmith --url https://mcp.flagsmith.com；表名 flagsmith；URL 没有 /mcp；OAuth，浏览器没弹再 mcp login flagsmith）。不要 API key。不要发明 plugin add flagsmith@。不要抄 Claude 的 --transport http。旧 Gram 地址不要再用。DevCycle / Optimizely 有 Codex 客户端节，本轮先收 Flagsmith。ConfigCat / Postmark 无 Codex 专节。Customer.io 仍是桌面插件。Tavily / Buildkite / Meilisearch 仍无。DigitalOcean 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、OMO、Astra、Conductor。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
