@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T12:41:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "12:41 定时器。调用前 $96.98。Spend: counts（start_time=2026-09-06T12:47:00Z，共 205 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Braze 远程 MCP（https://mcp.braze.com/mcp；欧盟 mcp.braze.eu/mcp；OAuth DCR；官方已验证 OpenAI Codex）。不要发明 plugin add braze@。本地 beta 已弃用。OneSignal 官方 Codex 是 Plugins 目录，下一轮再核 marketplace。ConfigCat / Postmark / Buildkite / Tavily / Meilisearch 仍无 Codex 专节。Mailchimp / SendGrid 是 Composio，不要当官方。do-app-platform-skills 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、Astra、Conductor。收尾额度测完再写。",
+    "12:41 定时器。调用前 $96.98。Spend: counts（start_time=2026-09-06T12:47:00Z，共 205 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 $96.97。收录 Braze 远程 MCP（https://mcp.braze.com/mcp；欧盟 mcp.braze.eu/mcp；OAuth DCR；官方已验证 OpenAI Codex）。不要发明 plugin add braze@。本地 beta 已弃用。OneSignal 官方 Codex 是 Plugins 目录，下一轮再核 marketplace。ConfigCat / Postmark / Buildkite / Tavily / Meilisearch 仍无 Codex 专节。Mailchimp / SendGrid 是 Composio，不要当官方。do-app-platform-skills 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、Astra、Conductor。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
