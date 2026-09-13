@@ -10882,4 +10882,66 @@ enabled = true
       },
     ],
   },
+  {
+    id: "dagu-mcp-http",
+    no: 391,
+    title: "Dagu MCP 用 localhost:8080/mcp，密钥走 bearer_token_env_var",
+    summary:
+      "官方 Codex 专节：codex mcp add dagu --url，本机是 http://localhost:8080/mcp。builtin 鉴权加 --bearer-token-env-var DAGU_MCP_API_KEY。不要抄 Claude 的 --transport http 或 mcp-remote。",
+    body: `Dagu 给 Codex 有专节。MCP 做在 Dagu HTTP 服务里，不用再装客户端包。先 \`dagu start-all\`。本机入口是 \`http://localhost:8080/mcp\`，**带** \`/mcp\`。官方写：只有客户端和 Dagu 在同一台机器时才用 localhost。远程换成 \`https://dagu.example.com/mcp\`。服务挂在 \`/dagu\` 这种 base path 时，MCP 在 \`https://dagu.example.com/dagu/mcp\`，漏了前缀会 404。
+
+无鉴权（\`none\`）只给隔离本机：
+
+\`\`\`bash
+codex mcp add dagu --url http://localhost:8080/mcp
+\`\`\`
+
+\`builtin\` 鉴权要 API key。官方 Codex 命令：
+
+\`\`\`bash
+codex mcp add dagu --url http://localhost:8080/mcp --bearer-token-env-var DAGU_MCP_API_KEY
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.dagu]
+url = "http://localhost:8080/mcp"
+bearer_token_env_var = "DAGU_MCP_API_KEY"
+enabled = true
+\`\`\`
+
+\`--bearer-token-env-var\` 填的是变量**名**，不是 key。Codex 读启动它那个进程里的 \`DAGU_MCP_API_KEY\`。先 export 再开 \`codex\`。Dock / 开始菜单打开的桌面没有 zshrc。Codex 不读 \`.env\`。客户端对照表写明：Codex 只走 Bearer，而且只从环境变量取。不要把 \`Authorization = "Bearer …"\` 写进 \`http_headers\`。不要 \`mcp login dagu\`：这不是 OAuth 服务器。
+
+角色跟 Web UI / REST 同一套：\`viewer\` 只读，\`operator\` 能跑/停，\`developer\` 才能改 DAG。给 AI 的 key 尽量只开 \`mcp\` surface，别顺便放开 \`rest_api\`。先只读：让它 \`dagu_read\` \`dagu://reference/authoring\`。改工作流先 \`dagu_change\` 的 \`mode=preview\`，确认后再 \`apply\`。跑任务走 \`dagu_execute\`。保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。
+
+官方 Team Setup 把 Codex 标成 Not repository-scoped，密钥留在用户层 \`~/.codex/config.toml\`。不要把 Claude 的项目层 \`.mcp.json\` 抄进来。官方还写可以把 Dagu 表放进 \`$CODEX_HOME/.config.toml\` 做 profile；那不是 Codex 的 profile 文件。Profile 是 \`~/.codex/名字.config.toml\`，用 \`--profile\` 加载。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add dagu@openai-curated\`。官方没给 marketplace id。
+- 不要抄 Claude 的 \`claude mcp add --transport http dagu …\`，也不要抄 Cursor / VS Code JSON。
+- 不要抄 Other Clients 的 \`npx mcp-remote\`。Dagu 只提供 Streamable HTTP，没有 SSE。Codex 自己连 HTTP。
+- 不要把 key 拼进 URL 的 \`?token=\`。那是客户端不能带头时的退路。
+- 不要给它 \`required = true\` 挂全局。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完彻底新开会话。用 \`codex mcp get dagu\` 看传输是 streamable_http。会话里 \`/mcp\` 应列出 \`dagu_read\`、\`dagu_change\`、\`dagu_execute\`。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Dagu", "HTTP", "bearer_token_env_var"],
+    related: ["mcp-http-bearer-env", "mcp-add-and-login", "litestream-mcp-http"],
+    sources: [
+      {
+        label: "Dagu · Codex",
+        url: "https://docs.dagu.sh/mcp/clients/codex",
+      },
+      {
+        label: "Dagu · MCP Quickstart",
+        url: "https://docs.dagu.sh/mcp/quickstart",
+      },
+      {
+        label: "Dagu · MCP Clients",
+        url: "https://docs.dagu.sh/mcp/clients/",
+      },
+    ],
+  },
 ];

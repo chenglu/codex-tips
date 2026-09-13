@@ -3761,5 +3761,35 @@ export const articles: Article[] = [
     summary:
       'getData 和 runQuery 要管理员打开 Single shot query generation，默认关。关掉 Omni Agent 后除 pickModel 外会 403。askOmni 改已有 dashboard 进草稿，新建会立刻发布。',
   },
+  {
+    title: 'Codex',
+    url: 'https://docs.dagu.sh/mcp/clients/codex',
+    source: 'Dagu',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Dagu', 'HTTP'],
+    summary:
+      '官方 Codex 专节：mcp add dagu --url。builtin 鉴权加 --bearer-token-env-var DAGU_MCP_API_KEY。不要把密钥写进 http_headers。不要抄 Claude 的 --transport http。Profile 不要抄成 $CODEX_HOME/.config.toml。',
+  },
+  {
+    title: 'MCP Quickstart',
+    url: 'https://docs.dagu.sh/mcp/quickstart',
+    source: 'Dagu',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Dagu'],
+    summary:
+      '本机先 dagu start-all，入口是 http://localhost:8080/mcp。远程换主机仍带 /mcp。base path 漏了会 404。改工作流先 dagu_change 的 preview 再 apply。',
+  },
+  {
+    title: 'MCP Clients',
+    url: 'https://docs.dagu.sh/mcp/clients/',
+    source: 'Dagu',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Dagu'],
+    summary:
+      '对照表：Codex 只走 Bearer，而且只从环境变量取。Dagu 只有 Streamable HTTP，没有 SSE。stdio / SSE 客户端才要 mcp-remote，不要抄进 Codex。',
+  },
 ];
 

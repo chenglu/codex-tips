@@ -2943,4 +2943,21 @@ enabled = true
 # enabled = true
 `,
   },
+  {
+    id: "dagu-mcp-http",
+    title: "Dagu MCP",
+    filename: "config.toml",
+    summary:
+      "官方 Codex 专节：本机 http://localhost:8080/mcp。builtin 鉴权加 bearer_token_env_var。不要抄 --transport http 或 mcp-remote。",
+    code: `codex mcp add dagu --url http://localhost:8080/mcp --bearer-token-env-var DAGU_MCP_API_KEY
+
+# 无鉴权本机：
+# codex mcp add dagu --url http://localhost:8080/mcp
+
+[mcp_servers.dagu]
+url = "http://localhost:8080/mcp"
+bearer_token_env_var = "DAGU_MCP_API_KEY"
+enabled = true
+`,
+  },
 ];
