@@ -8419,4 +8419,53 @@ enabled = true
       },
     ],
   },
+  {
+    id: "butter-mcp-http",
+    no: 346,
+    title: "Butter 远程 MCP 用 mcp.hellobutter.io/mcp，再 mcp login",
+    summary:
+      "官方 Codex：mcp add butter --url https://mcp.hellobutter.io/mcp，再 mcp login butter。URL 带 /mcp。不要抄 Claude 的 --transport http。不是 ButterKit.app 那台本地 stdio。",
+    body: `Butter（hellobutter.io）给 Codex 有专节。官方 CLI 主路径是远程 Streamable HTTP + OAuth，不需要包装包、仓库或 API key：
+
+\`\`\`bash
+codex mcp add butter --url https://mcp.hellobutter.io/mcp
+codex mcp login butter
+\`\`\`
+
+URL **带** \`/mcp\` 后缀。用户层表名官方就是 \`butter\`。不要发明不带后缀的 \`https://mcp.hellobutter.io\`。这不是 ButterKit.app：那台是本机 \`butterkit-mcp\` stdio，表名是 \`butterkit\`，不要配成一台。桌面 / IDE：Settings → MCP servers → Add server，选 Streamable HTTP，填同一地址，再 Authenticate。CLI、桌面、IDE 同机共享 \`~/.codex/config.toml\`，加一次即可。
+
+\`\`\`toml
+[mcp_servers.butter]
+url = "https://mcp.hellobutter.io/mcp"
+enabled = true
+\`\`\`
+
+\`mcp login butter\` 会打开浏览器。Codex 用 S256 PKCE 和本机 loopback 回调。网关地址本身不含凭证，可以提交进 dotfiles；每人自己跑一遍 \`mcp login\`。旧票卡住时先 \`codex mcp logout butter\`，再重新 \`mcp login\`。需要有效 Butter 订阅或官方批准的 rollout。
+
+不要抄 Claude 的 \`claude mcp add --transport http butter https://mcp.hellobutter.io/mcp\`。不要抄 ChatGPT 网页 Apps / 开发者模式。不要抄 Cursor 的 \`.cursor/mcp.json\`。不要抄 VS Code 的 \`mcp.json\`。不要发明 \`codex plugin add butter@…\`。不要抄 \`npx mcp-remote\`。不要把 API key 写进 URL、\`http_headers\` 或 \`bearer_token_env_var\`。
+
+连上后先 \`codex mcp list\`，再问 \`List my Butter clients.\` 先只读。\`butter_update_account_settings\` / \`butter_api_post_now\` 会改真实社媒账号并可能发帖，保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。网页 Cloud 不读 \`~/.codex/config.toml\`。
+
+Higgsfield 是另一台 MCP，不要和 \`butter\` 配成一张表。官方另外发的本地 bulk-upload CLI 只给批准过的 workspace，不是 Codex 主路径，不要发明 stdio \`mcp add\`。n8n 那条 Bearer Auth / Header Auth 也不是 Codex 主路径。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add butter@openai-curated\`。
+- 不要把 ButterKit.app 的 \`butterkit-mcp\` 抄进这张表。
+- 不要抄 Claude 的 \`--transport http\` 或 Cursor JSON。
+- 不要给它 \`required = true\` 挂全局。
+
+改完新开会话。用 \`codex mcp get butter\` 看传输是 streamable_http。会话里 \`/mcp\` 应显示 Auth: OAuth。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Butter", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-http-not-sse", "stackone-mcp-http"],
+    sources: [
+      {
+        label: "Butter · MCP / Codex",
+        url: "https://hellobutter.io/mcp",
+      },
+    ],
+  },
 ];

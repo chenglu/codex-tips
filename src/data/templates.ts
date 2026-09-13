@@ -2274,4 +2274,18 @@ codex mcp login stackone
 # enabled = true
 `,
   },
+  {
+    id: "butter-mcp-http",
+    title: "Butter 远程 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add butter --url https://mcp.hellobutter.io/mcp，再 mcp login butter。不要抄 Claude 的 --transport http。不是 ButterKit.app。",
+    code: `codex mcp add butter --url https://mcp.hellobutter.io/mcp
+codex mcp login butter
+
+# [mcp_servers.butter]
+# url = "https://mcp.hellobutter.io/mcp"
+# enabled = true
+`,
+  },
 ];

@@ -2871,5 +2871,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex：mcp add stackone --url https://mcp.stackone.com/mcp，再 mcp login stackone。网关 URL 带 /mcp。无头才把仪表盘 session token 拼进 api.stackone.com/mcp。不要抄 Claude 的 --transport http 或 npx mcp-remote。',
   },
+  {
+    title: 'Connect Butter to Codex',
+    url: 'https://hellobutter.io/mcp',
+    source: 'Butter',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Butter', 'OAuth', 'HTTP'],
+    summary:
+      '官方 Codex：mcp add butter --url https://mcp.hellobutter.io/mcp，再 mcp login butter。URL 带 /mcp。不要抄 Claude 的 --transport http。不是 ButterKit.app 那台本地 stdio。',
+  },
 ];
 

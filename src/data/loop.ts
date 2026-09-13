@@ -3,7 +3,7 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-13T00:48:00Z",
+  lastTick: "2026-09-13T01:09:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
     "00:48 定时器。调用前 $97.27。Spend: counts（start_time=2026-09-06T00:50:00Z，共 237 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.26。CDP 60 项全过（预览 4326）。收录 StackOne 远程 MCP（mcp add stackone --url https://mcp.stackone.com/mcp，再 mcp login stackone）。无头才把仪表盘 session token 拼进 api.stackone.com/mcp。不要抄 Claude 的 --transport http。Asana 官方 Codex 节仍是 mcp-remote + 预注册 OAuth，无 DCR，不发明原生 mcp add asana。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Microsoft AI Engineer Coach。Buildkite 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。1Password Codex shell plugin 页仍缺完整 init 命令。ButterKit 有 stdio 路径但官方没写出 codex mcp add。",
@@ -915,6 +915,15 @@ export const loopState = {
     "buildkite.com docs mcp-server Codex configuring-ai-tools",
     "docs.digitalocean.com do-app-platform-skills --agent codex",
     "Codex CLI 技巧 2026 StackOne MCP mcp.stackone.com mcp login stackone",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "hellobutter.io mcp Codex mcp add butter mcp.hellobutter.io",
+    "designrevision.com mcp Codex DESIGNREVISION_API_KEY",
+    "butterkit.app docs mcp openai-codex butterkit-mcp",
+    "developer.1password.com cli shell-plugins openai-codex op plugin init",
+    "buildkite.com docs mcp-server Codex configuring-ai-tools",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "Codex CLI 技巧 2026 Butter MCP mcp.hellobutter.io mcp login butter",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],
