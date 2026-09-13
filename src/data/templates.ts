@@ -2920,4 +2920,27 @@ npx skills add -g wherobots/agent-skills
 # 改画布：Designer 按 E，开 Webflow MCP Bridge App
 `,
   },
+  {
+    id: "omni-mcp-http",
+    title: "Omni MCP",
+    filename: "config.toml",
+    summary:
+      "OAuth 官方是 callbacks.omniapp.co/callback/mcp。API key 才是实例的 /mcp/https，加 --url 和 bearer_token_env_var。官方 Option A 漏了 --url。不要抄 http_headers 里的 Bearer。",
+    code: `codex mcp add omni --url https://callbacks.omniapp.co/callback/mcp
+# 浏览器没弹再：codex mcp login omni
+
+# API key（把 acme.omniapp.co 换成你的实例）：
+# codex mcp add omni --url https://acme.omniapp.co/mcp/https --bearer-token-env-var OMNI_API_KEY
+
+[mcp_servers.omni]
+url = "https://callbacks.omniapp.co/callback/mcp"
+enabled = true
+
+# API key 示例：
+# [mcp_servers.omni]
+# url = "https://acme.omniapp.co/mcp/https"
+# bearer_token_env_var = "OMNI_API_KEY"
+# enabled = true
+`,
+  },
 ];

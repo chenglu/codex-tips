@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-13T23:00:00Z",
+  lastTick: "2026-09-13T23:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "23:00 定时器。调用前 $96.81，收尾 $96.81。Spend: counts（start_time=2026-09-06T23:05:00Z，共 230 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Webflow Codex 插件（官方帮助：ChatGPT 桌面切到 Codex，Plugins 搜 Webflow，Install，再 Continue to Webflow。官方没给 plugin add id。不要抄 Claude --transport http 或 Cursor 插件。其它客户端才是 mcp.webflow.com/mcp。改画布要开 MCP Bridge App）。X 仍是 Claude 对照、Unity、Astra /slow、Chrome 插件、token 营销、Archify、0.154 worktree、Google Cloud plugin、/feedback。SpecterOps/skills 仍不写。Kit 仍不写（#41362）。ConfigCat / Meilisearch / Fastmail / Cal.com / Axiom MCP 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault MCP 只有 VS Code / Claude JSON。AgentPort 文档 headers 仍非 Codex 键。CDP 32/32（预览 4372）。",
+    "23:30 定时器。调用前 $96.81，收尾 $96.80。Spend: counts（start_time=2026-09-06T23:35:00Z，共 229 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Omni MCP（官方 Codex 专节：OAuth 用 callbacks.omniapp.co/callback/mcp；API key 才是实例 /mcp/https，必须带 --url 和 bearer_token_env_var。官方 Option A 漏了 --url。不要抄 http_headers 里的 Bearer）。X 仍是 Claude 对照、Unity、Astra /slow、Chrome 插件、token 营销、Archify、0.154 worktree、Google Cloud plugin、/feedback。Fastmail 仍是 mcp-remote 绕过。Builder Fusion / Snowflake 官方仍无 Codex 专节。Kit #41362、ConfigCat / Meilisearch / Cal.com / Axiom 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault MCP 只有 VS Code / Claude JSON。AgentPort 文档 headers 仍非 Codex 键。CDP 预览 4373。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1408,6 +1408,15 @@ export const loopState = {
     "developers.webflow.com mcp getting-started mcp.webflow.com/mcp",
     "webflow/webflow-skills npx skills add Codex",
     "Codex CLI 技巧 2026 Webflow Plugins 搜 Webflow MCP Bridge App",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR skills OR AGENTS.md OR plugin OR worktree)',
+    "X news: Codex CLI",
+    "docs.omni.co ai mcp codex callbacks.omniapp.co callback mcp",
+    "docs.omni.co ai mcp authentication mcp/https bearer_token_env_var",
+    "docs.omni.co ai mcp tools getData askOmni",
+    "fastmail.com mcp Codex mcp-remote api.fastmail.com",
+    "builder.io fusion-mcp-server mcp.builder.io Codex",
+    "snowflake cortex MCP Codex mcp add",
+    "Codex CLI 技巧 2026 Omni MCP callbacks.omniapp.co/callback/mcp",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR skills OR AGENTS.md OR plugin OR worktree)',
     "X news: Codex CLI",
   ],

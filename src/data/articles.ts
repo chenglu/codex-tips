@@ -3731,5 +3731,35 @@ export const articles: Article[] = [
     summary:
       '2026-08-24 产品更新：Webflow MCP 2.0 进 Codex。连上后带站点审计、CMS、安全发布等内置技能。当前不消耗 AI credits。不要把 Claude 的 webflow-skills marketplace 抄进 Codex。',
   },
+  {
+    title: 'Using the MCP Server in Codex',
+    url: 'https://docs.omni.co/ai/mcp/codex',
+    source: 'Omni',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Omni', 'OAuth'],
+    summary:
+      '官方 Codex 专节：OAuth 用 callbacks.omniapp.co/callback/mcp。API key 才是实例的 /mcp/https。官方 Option A 漏了 --url。不要抄 http_headers 里的 Bearer，改走 bearer_token_env_var。不要抄 Claude 的 --transport http。',
+  },
+  {
+    title: 'MCP authentication',
+    url: 'https://docs.omni.co/ai/mcp/authentication',
+    source: 'Omni',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Omni', 'OAuth'],
+    summary:
+      'OAuth 入口是 callbacks.omniapp.co/callback/mcp；API key 才是实例主机加 /mcp/https。多组织要先登进目标实例。MCP OAuth PAT 跟普通 PAT 不同，Viewer 也能走完流程但查不了数。',
+  },
+  {
+    title: 'MCP server tools',
+    url: 'https://docs.omni.co/ai/mcp/tools',
+    source: 'Omni',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Omni'],
+    summary:
+      'getData 和 runQuery 要管理员打开 Single shot query generation，默认关。关掉 Omni Agent 后除 pickModel 外会 403。askOmni 改已有 dashboard 进草稿，新建会立刻发布。',
+  },
 ];
 

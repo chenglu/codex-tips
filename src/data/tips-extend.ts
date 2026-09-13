@@ -10808,4 +10808,78 @@ TUI 输入 \`/plugins\` 搜 Webflow 是同一套公共目录。0.154 起先在**
       },
     ],
   },
+  {
+    id: "omni-mcp-http",
+    no: 390,
+    title: "Omni MCP 用 callbacks.omniapp.co/callback/mcp，API key 不要抄 Bearer 头",
+    summary:
+      "官方 Codex 专节：OAuth 用 callbacks.omniapp.co/callback/mcp。API key 才是实例的 /mcp/https，并加 --url 与 bearer_token_env_var。官方 Option A 漏了 --url。不要抄 http_headers 里的 Bearer。",
+    body: `Omni 给 Codex 有专节。OAuth 是推荐路径。组织管理员先打开：Settings → General 的 Enable AI、AI Hub → Features 的 Omni Agent、AI Hub → MCP 的 MCP server，以及 Settings → API Keys → Personal tokens。OAuth 要 PAT 开关。查询工具和文档搜索跟 Omni Agent 同一条管线；关掉 Agent 后，除 pickModel 外都会 403 Feature is not enabled。
+
+官方 OAuth 命令：
+
+\`\`\`bash
+codex mcp add omni --url https://callbacks.omniapp.co/callback/mcp
+codex
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.omni]
+url = "https://callbacks.omniapp.co/callback/mcp"
+enabled = true
+\`\`\`
+
+这条 URL 是 MCP 入口，会在 OAuth 时把你路由到上次登录的 Omni 组织，**不是** Codex 自己的 loopback callback。加人多个组织时，先登出再登进要连的那个，马上跑登录。浏览器没弹再 \`codex mcp login omni\`。Omni 会自动建一颗 MCP OAuth PAT，跟普通 PAT 不是一类：任意用户（含 Viewer）都能走完流程，但权限仍跟应用内角色走，Viewer 查不了数。这些 PAT 目前不在 Omni 界面里显示。
+
+API key 是另一条 URL。官方示例主机是 \`acme.omniapp.co\`，路径是 \`/mcp/https\`，**不是** \`/mcp\`：
+
+\`\`\`bash
+codex mcp add omni --url https://acme.omniapp.co/mcp/https --bearer-token-env-var OMNI_API_KEY
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.omni]
+url = "https://acme.omniapp.co/mcp/https"
+bearer_token_env_var = "OMNI_API_KEY"
+enabled = true
+\`\`\`
+
+把 \`acme.omniapp.co\` 换成你的实例。官方 Option A 写成 \`codex mcp add omni https://…/mcp/https\`，**漏了** \`--url\`。那样会被当成 stdio 命令，不要抄。官方 TOML 还把 \`Authorization = "Bearer …"\` 写进 \`http_headers\`，**不要抄**：密钥会进仓库。Codex 用 \`bearer_token_env_var\`，读的是启动 Codex 那个进程里的变量名。从已经 export 的终端启动。Dock / 开始菜单打开的桌面没有 zshrc。Codex 不读 \`.env\`。
+
+可选范围头可以留在 \`http_headers\`，它们不是密钥：\`X-MCP-Model-ID\`、\`X-MCP-Topic-Name\`、\`X-MCP-User-Required\`、\`X-MCP-User-ID\`、\`X-MCP-Query-All-Views\`。模型 ID 在模型页 URL 的 \`/models/…/ide/model\` 那段。\`X-MCP-Query-All-Views\` 要模型也打开 \`query_all_views_and_fields\`。同名表再 \`mcp add\` 一次会覆盖；OAuth 入口和 API key 入口不要配成两张都叫 \`omni\` 的表。
+
+单次查询 \`getData\` / \`runQuery\` 默认关，要管理员打开 Single shot query generation。复杂分析才是 \`askOmni\` + \`checkStatus\`。改已有 dashboard 会进草稿，要人审再发布；新建 dashboard 会立刻发布。\`runQuery\` 默认 500 行、上限 10000，带 \`userEditedSQL\` 的请求会被拒。保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。
+
+先只读：问「Hey Omni, tell me how many users signed up last month」。工具没出来就彻底新开会话。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add omni@openai-curated\`。官方没给 marketplace id。
+- 不要抄 Claude 的 \`claude mcp add --transport http omni …\`，也不要抄 Claude Desktop 的 \`npx @omni-co/mcp\`。
+- 不要抄 Cursor / VS Code JSON 的 \`headers.Authorization\`。
+- 不要把 API key 写进 URL、\`http_headers\` 或 \`env\` 表。
+- 不要把 OAuth 入口 \`callbacks.omniapp.co/callback/mcp\` 和实例 \`/mcp/https\` 搞成一条。
+- 不要给它 \`required = true\` 挂全局。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完彻底新开会话。用 \`codex mcp get omni\` 看传输是 streamable_http。OAuth 路径的 \`/mcp\` 应显示 Auth: OAuth。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Omni", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-http-bearer-env", "mcp-mixpanel-remote"],
+    sources: [
+      {
+        label: "Omni · Using the MCP Server in Codex",
+        url: "https://docs.omni.co/ai/mcp/codex",
+      },
+      {
+        label: "Omni · MCP authentication",
+        url: "https://docs.omni.co/ai/mcp/authentication",
+      },
+      {
+        label: "Omni · MCP server tools",
+        url: "https://docs.omni.co/ai/mcp/tools",
+      },
+    ],
+  },
 ];
