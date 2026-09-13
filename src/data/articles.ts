@@ -3241,5 +3241,25 @@ export const articles: Article[] = [
     summary:
       '托管地址是 exp.mcp.opal.optimizely.com/mcp。要 Opti ID 和已打开的 Opal。工具名带 exp_ 前缀。改开关和实验会改账号。Web Experimentation 的 variation 级代码不能经 MCP 改。',
   },
+  {
+    title: 'How to Use Coding Agents With DigitalOcean',
+    url: 'https://docs.digitalocean.com/products/inference/how-to/use-with-coding-agents/',
+    source: 'DigitalOcean',
+    lang: '英文',
+    kind: '官方',
+    tags: ['model_providers', 'DigitalOcean', 'wire_api'],
+    summary:
+      '官方 Codex TOML 是 [model_providers.openai_custom]，base_url 是 https://inference.do-ai.run/v1，env_key = MODEL_ACCESS_KEY，wire_api = responses。密钥走进程环境，不要整文件覆盖 ~/.codex/config.toml。这不是 MCP，也不是 App Platform skills。',
+  },
+  {
+    title: 'How to Retrieve Available Models',
+    url: 'https://docs.digitalocean.com/products/inference/how-to/retrieve-available-models/',
+    source: 'DigitalOcean',
+    lang: '英文',
+    kind: '官方',
+    tags: ['model_providers', 'DigitalOcean'],
+    summary:
+      'GET https://inference.do-ai.run/v1/models 列出 Inference 模型 ID。Codex 的 env_key 是 MODEL_ACCESS_KEY；这篇 cURL 示例有时写 DIGITALOCEAN_TOKEN，配 Codex 仍用 MODEL_ACCESS_KEY。',
+  },
 ];
 

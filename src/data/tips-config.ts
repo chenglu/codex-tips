@@ -2931,4 +2931,83 @@ codex --profile vercel -m openai/gpt-5.5-pro
       },
     ],
   },
+  {
+    id: "digitalocean-inference-provider",
+    no: 365,
+    title: "DigitalOcean Inference 当模型供应商：inference.do-ai.run 且 wire_api = responses",
+    summary:
+      "用户 config 写 [model_providers.openai_custom]，base_url 是 https://inference.do-ai.run/v1，env_key = MODEL_ACCESS_KEY，wire_api = responses。再用 ~/.codex/digitalocean.config.toml 和 --profile digitalocean。这不是 DigitalOcean MCP，也不是 --oss。",
+    body: `这是换 Codex **背后那颗模型**，不是再加一台 MCP。DigitalOcean Inference 的官方 Codex 入口是 \`https://inference.do-ai.run/v1\`。密钥走进程环境 \`MODEL_ACCESS_KEY\`（格式是 sk-do- 开头），不要写进 TOML。
+
+供应商表放**用户** \`~/.codex/config.toml\`。官方 heredoc 会整文件覆盖，不要当主路径抄：
+
+\`\`\`toml
+# ~/.codex/config.toml
+[model_providers.openai_custom]
+name = "OpenAI Compatible"
+base_url = "https://inference.do-ai.run/v1"
+env_key = "MODEL_ACCESS_KEY"
+wire_api = "responses"
+query_params = {}
+\`\`\`
+
+\`env_key\` 是变量**名**。密钥必须出现在**启动 Codex 的那个进程**里。从已经 \`export MODEL_ACCESS_KEY\` 的终端启动；Dock 打开的桌面不会读你刚改的 zshrc。
+
+官方参数列表把 Provider name 写成 digitalocean，但 TOML 表名就是 \`openai_custom\`。跟 TOML 走，不要改成 \`[model_providers.digitalocean]\`。也不要抄第二段里那些占位 URL。
+
+不要把顶层 \`model_provider = "openai_custom"\` 一上来写进用户 config，除非你就是要把**所有**会话都改走 Inference。更稳妥是独立 profile：
+
+\`\`\`toml
+# ~/.codex/digitalocean.config.toml
+model_provider = "openai_custom"
+model = "openai-gpt-4.1"
+preferred_auth_method = "apikey"
+model_reasoning_effort = "high"
+\`\`\`
+
+\`\`\`bash
+codex --profile digitalocean
+codex --profile digitalocean -m "openai-gpt-4o-mini"
+\`\`\`
+
+0.134 起不要再写 \`[profiles.digitalocean]\`。自定义供应商必须 \`wire_api = "responses"\`。模型 ID 以 \`/v1/models\` 为准，例如 \`openai-gpt-4.1\`。换模型前先列目录：
+
+\`\`\`bash
+curl -s \\
+  -H "Authorization: Bearer $MODEL_ACCESS_KEY" \\
+  https://inference.do-ai.run/v1/models \\
+  | jq '.data[].id'
+\`\`\`
+
+不要做这些：
+
+- 不要把这张表当成 DigitalOcean MCP 或 App Platform skills。那是管 Droplet / App，不是换模型。
+- 不要写进项目 \`.codex/config.toml\`。项目文件改不了 \`model_provider\` / \`model_providers\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`openai_custom\` 是新 ID，可以。
+- 不要和 \`--oss\` / \`oss_provider\` 混成一条。
+- 不要发明 \`plugin add digitalocean@\`。
+- 不要把密钥写进 \`http_headers\` 或 heredoc。
+- 不要把 ChatGPT 登录当主路径；官方给了 \`preferred_auth_method = "apikey"\`。
+
+改完新开会话。\`codex --profile digitalocean\` 起得来，说明供应商和密钥都进了这一进程。401 先看进程里有没有 \`MODEL_ACCESS_KEY\`；404 再对照 \`/v1/models\` 改 \`model\`。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["model_providers", "DigitalOcean", "wire_api", "profile"],
+    related: ["hf-inference-providers", "vercel-ai-gateway", "profile-files-not-tables"],
+    sources: [
+      {
+        label: "DigitalOcean · Use with coding agents",
+        url: "https://docs.digitalocean.com/products/inference/how-to/use-with-coding-agents/",
+      },
+      {
+        label: "DigitalOcean · Retrieve available models",
+        url: "https://docs.digitalocean.com/products/inference/how-to/retrieve-available-models/",
+      },
+      {
+        label: "OpenAI · Advanced configuration",
+        url: "https://learn.chatgpt.com/docs/config-file/config-advanced",
+      },
+    ],
+  },
 ];

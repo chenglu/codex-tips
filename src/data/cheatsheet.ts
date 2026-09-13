@@ -267,6 +267,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: "codex mcp add convex -- npx … mcp start", meaning: "插件装不上才用手写 stdio。官方 MCP 是 npx convex mcp start，不是远程 URL。不要加 --dangerously-enable-production-deployments" },
       { cmd: "codex --profile huggingface", meaning: "[model_providers.huggingface] 走 router.huggingface.co/v1，wire_api = responses，env_key = HF_TOKEN。不是 Hub MCP，也不是 --oss" },
       { cmd: "codex --profile vercel", meaning: "[model_providers.vercel] 走 ai-gateway.vercel.sh/codex/v1，wire_api = responses，env_key = AI_GATEWAY_API_KEY。不是 Vercel MCP，也不是 --oss" },
+      { cmd: "codex --profile digitalocean", meaning: "[model_providers.openai_custom] 走 inference.do-ai.run/v1，wire_api = responses，env_key = MODEL_ACCESS_KEY。不是 DigitalOcean MCP，也不是 --oss" },
       { cmd: "项目 mcp_servers 写全传输", meaning: "桌面可能写丢用户层 MCP 表。项目不要只写 enabled = true，否则 invalid transport。先备份 ~/.codex/config.toml" },
       { cmd: "codex mcp add chrome-devtools -- npx …", meaning: "官方 Chrome DevTools MCP 是 stdio 包。不是 localhost:3000 HTTP。沙箱加 --headless。Windows cmd 包装不要抄进 WSL" },
       { cmd: "codex mcp add playwright -- npx …", meaning: "官方 Playwright MCP 是 stdio 包 @playwright/mcp。沙箱加 --headless --isolated。关掉 browser_run_code_unsafe。缺浏览器先 install chromium" },

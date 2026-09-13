@@ -2564,4 +2564,18 @@ codex mcp login optimizely
 # enabled = true
 `,
   },
+  {
+    id: "digitalocean-inference-provider",
+    title: "DigitalOcean Inference 模型供应商",
+    filename: "~/.codex/config.toml",
+    summary:
+      "inference.do-ai.run/v1，env_key = MODEL_ACCESS_KEY，wire_api = responses。再用 digitalocean.config.toml 和 --profile digitalocean。不是 DigitalOcean MCP。",
+    code: `[model_providers.openai_custom]
+name = "OpenAI Compatible"
+base_url = "https://inference.do-ai.run/v1"
+env_key = "MODEL_ACCESS_KEY"
+wire_api = "responses"
+query_params = {}
+`,
+  },
 ];
