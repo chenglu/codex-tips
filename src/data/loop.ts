@@ -3,7 +3,7 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-13T03:13:00Z",
+  lastTick: "2026-09-13T03:39:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
     "03:13 定时器。调用前 $97.22。Spend: counts（start_time=2026-09-06T03:15:00Z，共 253 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.20。CDP 52/52 全过（预览 4331）。收录 Polar MCP（mcp add polar --url https://mcp.polar.sh/mcp/polar-mcp，随后完成 OAuth；沙箱另开 polar-sandbox → https://mcp.polar.sh/mcp/polar-sandbox）。不要抄 Claude 的 --transport http。不要发明 plugin add polar@。不要抄旧镜像 rmcp_client / type = http / polar_sandbox。X 仍是 Claude vs Codex 营销、oh-my-openagent 编排、Microsoft AI Engineer Coach、日文预约任务。Buildkite 仍无 Codex 专节。Meilisearch 仍无 Codex 专节。Inngest 官方插件是 clone 后 /plugin install 本地路径，没有 marketplace @id，留给下一轮。",
@@ -961,6 +961,15 @@ export const loopState = {
     "buildkite.com docs mcp-server remote configuring-ai-tools Codex",
     "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
     "Codex CLI 技巧 2026 Polar MCP mcp.polar.sh polar-mcp OAuth",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "www.inngest.com docs ai-dev-tools agent-skills Codex plugin install plugins/inngest",
+    "github.com/inngest/inngest-codex-plugin README plugin install plugins/inngest",
+    "github.com/inngest/inngest-codex-plugin marketplace.json inngest-codex-plugin",
+    "buildkite.com docs mcp-server remote configuring-ai-tools Codex",
+    "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "Codex CLI 技巧 2026 Inngest Codex plugin clone plugin install",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

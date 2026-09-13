@@ -2921,5 +2921,25 @@ export const articles: Article[] = [
     summary:
       '官方 Codex：mcp add polar --url https://mcp.polar.sh/mcp/polar-mcp，随后完成 OAuth。URL 是 /mcp/polar-mcp，不是光 /mcp。沙箱另开 mcp add polar-sandbox --url https://mcp.polar.sh/mcp/polar-sandbox。不要抄 Claude 的 --transport http。',
   },
+  {
+    title: 'AI Coding Agent Plugins and Skills',
+    url: 'https://www.inngest.com/docs/ai-dev-tools/agent-skills',
+    source: 'Inngest',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Inngest', 'plugins', 'Skills'],
+    summary:
+      '官方 Codex：git clone inngest/inngest-codex-plugin，再 /plugin install 绝对路径/inngest-codex-plugin/plugins/inngest。装 plugins/inngest 这一层。不要发明 plugin add inngest@。不要抄 Claude 的 inngest@inngest-claude-code-plugin。',
+  },
+  {
+    title: 'inngest/inngest-codex-plugin',
+    url: 'https://github.com/inngest/inngest-codex-plugin',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Inngest', 'plugins', 'Skills'],
+    summary:
+      '官方 Codex 插件仓。clone 后 /plugin install …/inngest-codex-plugin/plugins/inngest。本地 marketplace.json 市场名是 inngest-codex-plugin。插件 MCP 只接 http://127.0.0.1:8288/mcp。不要发明 plugin add 的 @id。',
+  },
 ];
 

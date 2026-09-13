@@ -8688,4 +8688,56 @@ Polar 只暴露三把元工具：\`search_tools\`、\`describe_tools\`、\`execu
       },
     ],
   },
+  {
+    id: "inngest-codex-plugin",
+    no: 351,
+    title: "Inngest 官方 Codex 插件 clone 后 plugin install 本地路径",
+    summary:
+      "官方 Codex：git clone inngest/inngest-codex-plugin，再在会话里 /plugin install 绝对路径/inngest-codex-plugin/plugins/inngest。装这一层，不是仓库根。不要发明 plugin add inngest@。不要抄 Claude 的 inngest@inngest-claude-code-plugin。",
+    body: `Inngest 给 Codex 有专节。官方主路径是 clone 官方插件仓，再在 Codex 会话里对**插件包目录**跑 \`/plugin install\`，不是 \`codex plugin add inngest@…\`：
+
+\`\`\`bash
+git clone https://github.com/inngest/inngest-codex-plugin.git
+\`\`\`
+
+然后在 Codex 里把路径换成你机器上的绝对路径：
+
+\`\`\`text
+/plugin install $HOME/src/inngest-codex-plugin/plugins/inngest
+\`\`\`
+
+装的是 \`plugins/inngest\` 这一层（里面有 \`.codex-plugin/plugin.json\` 和 \`.mcp.json\`），**不要**对仓库根跑 \`/plugin install\`。清单里的插件名是 \`inngest\`，当前版本是 0.3.4 的 Codex 移植，标 Beta。
+
+备选：克隆根有 \`.agents/plugins/marketplace.json\`，市场名是 \`inngest-codex-plugin\`。在克隆根跑 \`codex plugin marketplace add .\`，再 TUI \`/plugins\` 或桌面 Plugins 装 **Inngest**。官方**没有**写出 \`codex plugin add inngest@inngest-codex-plugin\`，不要发明。IDE 扩展没有 \`/plugins\`，用 CLI 加完再到 TUI 或桌面去装。0.154 起先看**当前会话**；当前会话没有再新开。
+
+不要抄 Claude 的 \`/plugin marketplace add inngest/inngest-claude-code-plugin\` 和 \`/plugin install inngest@inngest-claude-code-plugin\`。那是另一份 Claude 插件。不要用 \`npx skills add inngest/inngest-skills\` 当 Codex 安装器：那会改所有检测到的客户端，也**不会**登记 MCP。不要把仓库 clone 进 \`~/.codex/skills\` 或 \`.agents/skills/\` 根目录。
+
+插件自带的 MCP 只接本机 Dev Server：\`http://127.0.0.1:8288/mcp\`，表名 \`inngest-dev\`，无鉴权，**不要** \`mcp login\`。先 \`npx inngest-cli@latest dev\`（或 \`inngest dev\`），应用侧 \`INNGEST_DEV=1\`。Dev Server 落到 8289 就把插件 \`.mcp.json\` 里的 URL 改掉。装了插件就**不要**再手写 \`mcp add inngest-dev\`，除非 \`/mcp\` 里根本没这台。Cloud 是另一张表，仍走 \`codex mcp add inngest-cloud --url https://api.inngest.com/mcp --bearer-token-env-var INNGEST_API_KEY\`，插件**不会**替你配 Cloud。不要把 API key、signing key、webhook URL 写进插件 JSON、\`http_headers\` 或提示词。
+
+插件 JSON 的包装键是 \`mcpServers\`，\`type\` 是 \`http\`。那是插件 \`.mcp.json\`，不要抄进用户层 \`config.toml\` 当 JSON，也不要再给用户表加 \`type = "http"\`。
+
+改完核对 \`/plugins\` 能看到 Inngest。先只读：问 \`Audit this codebase for places where background work, webhooks, cron jobs, or AI workflows can be lost during deploys or process crashes. Pick the safest first Inngest integration slice and implement it.\` 不要一上来 \`--yolo\`。不要 \`required = true\`。网页 Cloud 不读这份本机插件。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add inngest@openai-curated\` 或 \`inngest@inngest-claude-code-plugin\`。
+- 不要抄 Claude 的 marketplace / plugin install。
+- 不要把 \`npx skills add inngest/inngest-skills\` 当成 Codex 专节。
+- 不要把插件 MCP 和 Cloud \`inngest-cloud\` 配成一张表。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["MCP", "Inngest", "plugins", "Skills"],
+    related: ["inngest-mcp-http", "plugin-session-refresh", "plugins-vs-skills"],
+    sources: [
+      {
+        label: "Inngest · Agent plugins and skills",
+        url: "https://www.inngest.com/docs/ai-dev-tools/agent-skills",
+      },
+      {
+        label: "inngest/inngest-codex-plugin",
+        url: "https://github.com/inngest/inngest-codex-plugin",
+      },
+    ],
+  },
 ];

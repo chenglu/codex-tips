@@ -2349,4 +2349,19 @@ codex mcp login polar
 # codex mcp add polar-sandbox --url https://mcp.polar.sh/mcp/polar-sandbox
 `,
   },
+  {
+    id: "inngest-codex-plugin",
+    title: "Inngest Codex 插件",
+    filename: "terminal",
+    summary:
+      "主路径是 git clone 后 /plugin install …/inngest-codex-plugin/plugins/inngest。不要发明 plugin add inngest@。不要抄 Claude 的 inngest@inngest-claude-code-plugin。",
+    code: `git clone https://github.com/inngest/inngest-codex-plugin.git
+
+# Codex 会话里，换成你机器上的绝对路径：
+# /plugin install $HOME/src/inngest-codex-plugin/plugins/inngest
+
+# 备选：在克隆根加本地 marketplace
+# codex plugin marketplace add .
+`,
+  },
 ];
