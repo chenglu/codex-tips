@@ -9620,7 +9620,7 @@ codex mcp add braze --url https://mcp.braze.com/mcp
 codex mcp login braze
 \`\`\`
 
-手册表名用 \`braze\`。URL 带 \`/mcp\` 后缀。欧盟账号用 \`https://mcp.braze.eu/mcp\`；非欧盟可以用美区或欧盟，任一入口都能打到各集群。\`mcp add\` 写进用户层 \`~/.codex/config.toml\`。只写进了表、浏览器没弹时再跑 \`codex mcp login braze\`。
+手册表名用 \`braze\`。远程 URL 是 \`https://mcp.braze.com/mcp\`，带 \`/mcp\` 后缀。欧盟账号用 \`https://mcp.braze.eu/mcp\`；非欧盟可以用美区或欧盟，任一入口都能打到各集群。\`mcp add\` 写进用户层 \`~/.codex/config.toml\`。只写进了表、浏览器没弹时再跑 \`codex mcp login braze\`。
 
 桌面 / IDE：Settings → MCP servers → Add server，传输选 Streamable HTTP，URL 填上面那条。Bearer token env var 和 Headers 留空。第一次用工具时会打开浏览器，用平时的 Braze 账号登录，含 SSO / SAML。
 
