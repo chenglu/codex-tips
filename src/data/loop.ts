@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T16:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "16:00 定时器。调用前 $96.91。Spend: counts（start_time=2026-09-06T16:05:00Z，共 206 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Pulumi 品牌 MCP（官方 Codex：mcp add pulumi-brand --url https://brand.pulumi.com/mcp）。无鉴权，不要 mcp login。不要抄 --transport http 或 mcp-remote。不要和 Cloud 远程 MCP 搞成一台。Kit 仍不写（#41362 仍 open）。ConfigCat / Postmark / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。X 仍是 Archify、0.154 worktree、Google Cloud plugin、Astra、Conductor。收尾待测完回写。",
+    "16:00 定时器。调用前 $96.91。Spend: counts（start_time=2026-09-06T16:05:00Z，共 206 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 $96.91。收录 Pulumi 品牌 MCP（官方 Codex：mcp add pulumi-brand --url https://brand.pulumi.com/mcp）。无鉴权，不要 mcp login。不要抄 --transport http 或 mcp-remote。不要和 Cloud 远程 MCP 搞成一台。Kit 仍不写（#41362 仍 open）。ConfigCat / Postmark / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。X 仍是 Archify、0.154 worktree、Google Cloud plugin、Astra、Conductor。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
