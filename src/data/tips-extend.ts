@@ -9425,4 +9425,57 @@ enabled = true
       },
     ],
   },
+  {
+    id: "optimizely-mcp-http",
+    no: 364,
+    title: "Optimizely Experimentation MCP 用 exp.mcp.opal.optimizely.com/mcp",
+    summary:
+      "官方 Codex：Settings 加 Streamable HTTP，URL 是 https://exp.mcp.opal.optimizely.com/mcp，Bearer 和头留空。CLI 等价 mcp add optimizely --url 同一条。OAuth 走 Opal。不要抄 --transport http。不要发明 plugin add optimizely@。",
+    body: `Optimizely Experimentation 给 Codex 有专节。官方主路径是远程 Streamable HTTP + OAuth，不要 API key，也不要 \`bearer_token_env_var\`。先确认有 Opti ID，并且 Opal 已打开、连着至少一个 Feature Experimentation 或 Web Experimentation 实例。
+
+桌面 / IDE：Settings → MCP servers → Add server，传输选 Streamable HTTP，URL 填 \`https://exp.mcp.opal.optimizely.com/mcp\`。官方写明 Bearer token env var、Headers、Headers from environment variables 都留空。第一次用工具时会打开浏览器，连你的 Opal 实例并用 Optimizely 账号授权。
+
+CLI 等价写成：
+
+\`\`\`bash
+codex mcp add optimizely --url https://exp.mcp.opal.optimizely.com/mcp
+codex mcp login optimizely
+\`\`\`
+
+官方桌面不钉表名。本手册 CLI 用 \`optimizely\`。Cursor / Claude Desktop JSON 也是这个名字。Claude Code 那条是 \`claude mcp add --transport http optimizely-exp …\`，不要把 \`--transport http\` 抄到 Codex；若你已经在 Claude 用了 \`optimizely-exp\`，Codex 也可以用同一个表名，但不能写 transport 开关。\`mcp add\` 会写进用户层 \`~/.codex/config.toml\`。只写进了表、浏览器没弹时再跑 \`codex mcp login optimizely\`。
+
+\`\`\`toml
+[mcp_servers.optimizely]
+url = "https://exp.mcp.opal.optimizely.com/mcp"
+enabled = true
+\`\`\`
+
+URL 带 \`/mcp\` 后缀。不要发明不带 \`/mcp\` 的地址。不要抄 Claude JSON 的 \`type = "http"\`。不要抄 Cursor JSON。不要发明 \`codex plugin add optimizely@…\`。不要把 token 写进 URL、\`http_headers\`、\`args\` 或 \`env\` 表。工具名带 \`exp_\` 前缀；没出现多半是 OAuth 没完成，先重新 login，不要填 Bearer。
+
+先只读：问列出我的 Optimizely 项目，或列出某个项目里正在跑的实验。创建开关、改实验、改 audience 会改账号，保持工具批准。Web Experimentation 的 variation 级 HTML / CSS / JavaScript 不能经 MCP 改，走 Visual Editor。不要一上来 \`--yolo\`。不要 \`required = true\`。网页 Cloud 不读 \`~/.codex/config.toml\`。改完彻底新开会话。\`codex mcp get optimizely\` 看 url。TUI \`/mcp\` 里应看到 optimizely 且 enabled。
+
+登录、凭证库相关命令在你平时的宿主 shell 里跑。隔离代理环境里失败，不证明 Optimizely MCP 不可用。启动时报 \`MCP startup interrupted\` 且点名这台，多半是表写上了但没完成 OAuth：先 \`codex mcp get optimizely\`，再 \`codex mcp login optimizely\`，再 \`codex mcp list\`，然后新开会话。公司代理要放行 \`exp.mcp.opal.optimizely.com\`。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add optimizely@openai-curated\`。
+- 不要抄 Claude 的 \`--transport http\` 或 Cursor JSON。
+- 不要给这台 \`bearer_token_env_var\`，也不要填 Headers。
+- 不要给它 \`required = true\` 挂全局。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Optimizely", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-http-not-sse", "devcycle-mcp-http"],
+    sources: [
+      {
+        label: "Optimizely · Install Experimentation MCP",
+        url: "https://support.optimizely.com/hc/en-us/articles/45321466744205-Install-Optimizely-Experimentation-MCP-server",
+      },
+      {
+        label: "Optimizely · Experimentation MCP overview",
+        url: "https://support.optimizely.com/hc/en-us/articles/45320607594893-Optimizely-Experimentation-MCP-server-overview",
+      },
+    ],
+  },
 ];

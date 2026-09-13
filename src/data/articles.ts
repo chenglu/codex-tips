@@ -3221,5 +3221,25 @@ export const articles: Article[] = [
     summary:
       '托管仍是 mcp.devcycle.com/mcp。本地 Codex 专节才是 command = dvc-mcp，先装 @devcycle/cli。不要 mcp login。CI 才转发 DEVCYCLE_CLIENT_ID 这类名字，走 env_vars。',
   },
+  {
+    title: 'Install Optimizely Experimentation MCP server',
+    url: 'https://support.optimizely.com/hc/en-us/articles/45321466744205-Install-Optimizely-Experimentation-MCP-server',
+    source: 'Optimizely',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Optimizely', 'OAuth', 'HTTP'],
+    summary:
+      '官方 Codex 是 Settings 加 Streamable HTTP，URL 为 https://exp.mcp.opal.optimizely.com/mcp。Bearer 和头留空。OAuth 走 Opal。不要抄 Claude 的 --transport http。不要发明 plugin add optimizely@。',
+  },
+  {
+    title: 'Optimizely Experimentation MCP server overview',
+    url: 'https://support.optimizely.com/hc/en-us/articles/45320607594893-Optimizely-Experimentation-MCP-server-overview',
+    source: 'Optimizely',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Optimizely', 'OAuth', 'HTTP'],
+    summary:
+      '托管地址是 exp.mcp.opal.optimizely.com/mcp。要 Opti ID 和已打开的 Opal。工具名带 exp_ 前缀。改开关和实验会改账号。Web Experimentation 的 variation 级代码不能经 MCP 改。',
+  },
 ];
 

@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-13T10:10:00Z",
+  lastTick: "2026-09-13T10:48:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "10:10 定时器。调用前 $97.02。Spend: counts（start_time=2026-09-06T10:16:00Z，共 237 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 $97.02。收录 DevCycle 官方 Codex 远程 MCP（codex mcp add devcycle --url https://mcp.devcycle.com/mcp；表名 devcycle；URL 带 /mcp；OAuth，浏览器没弹再 mcp login devcycle）。不要抄 /sse 或 npx mcp-remote。不要发明 plugin add devcycle@。本地另装 @devcycle/cli 才是 dvc-mcp。Optimizely 有 Codex 桌面 Settings，本轮先收 DevCycle。ConfigCat / Postmark 无 Codex 专节。Customer.io 仍是桌面插件。Tavily / Buildkite / Meilisearch 仍无。DigitalOcean 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、OMO、Astra、Conductor。",
+    "10:48 定时器。调用前 $97.02。Spend: counts（start_time=2026-09-06T10:54:00Z，共 238 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度待测完后回写。收录 Optimizely Experimentation 官方 Codex 远程 MCP（Settings 加 Streamable HTTP；CLI 等价 codex mcp add optimizely --url https://exp.mcp.opal.optimizely.com/mcp；OAuth 走 Opal；Bearer 和头留空）。不要抄 --transport http。不要发明 plugin add optimizely@。Customer.io 仍是桌面插件。ConfigCat / Postmark 无 Codex 专节。Tavily / Buildkite / Meilisearch 仍无。DigitalOcean 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、OMO、Astra、Conductor。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1106,6 +1106,17 @@ export const loopState = {
     "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
     "docs.digitalocean.com do-app-platform-skills --agent codex",
     "Codex CLI 技巧 2026 DevCycle MCP mcp.devcycle.com/mcp OAuth",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "support.optimizely.com Install Experimentation MCP Codex exp.mcp.opal.optimizely.com",
+    "support.optimizely.com Experimentation MCP overview Opal exp_",
+    "docs.customer.io ai plugins chatgpt-codex MCP mcp.customer.io",
+    "configcat.com docs mcp-server Codex @configcat/mcp-server",
+    "postmarkapp.com mcp Codex",
+    "buildkite.com docs mcp-server Codex configuring-ai-tools",
+    "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "Codex CLI 技巧 2026 Optimizely MCP exp.mcp.opal.optimizely.com OAuth",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

@@ -2550,4 +2550,18 @@ codex mcp login devcycle
 # enabled = true
 `,
   },
+  {
+    id: "optimizely-mcp-http",
+    title: "Optimizely Experimentation MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add optimizely --url https://exp.mcp.opal.optimizely.com/mcp。URL 带 /mcp。OAuth 走 Opal，浏览器没弹再 mcp login optimizely。不要发明 plugin add optimizely@。",
+    code: `codex mcp add optimizely --url https://exp.mcp.opal.optimizely.com/mcp
+codex mcp login optimizely
+
+# [mcp_servers.optimizely]
+# url = "https://exp.mcp.opal.optimizely.com/mcp"
+# enabled = true
+`,
+  },
 ];
