@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T08:13:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "08:13 定时器。调用前 $97.05。Spend: counts（start_time=2026-09-06T08:18:00Z，共 224 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度待测完后回写。收录 Buffer 官方 Codex 远程 MCP（codex mcp add buffer --url https://mcp.buffer.com/mcp；表名 buffer；URL 带 /mcp；OAuth，浏览器没弹再 mcp login buffer）。不要 API key。不要发明 plugin add buffer@。不要抄 ChatGPT Developer mode。GrowthBook 有 insights Codex stdio 文但官方 MCP 页无 Codex 专节，本轮不收。Customer.io 是桌面插件。Builder.io / Webflow 无 CLI mcp add。Tavily / Buildkite / Meilisearch 仍无。DigitalOcean 仍未钉 --agent codex。X 仍是 Claude 课程、Unity 插件、OMO 编排、GPT-6 Astra、Conductor worktree。",
+    "08:13 定时器。调用前 $97.05。Spend: counts（start_time=2026-09-06T08:18:00Z，共 224 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.04。CDP 28/28 全过（预览 4341）。收录 Buffer 官方 Codex 远程 MCP（codex mcp add buffer --url https://mcp.buffer.com/mcp；表名 buffer；URL 带 /mcp；OAuth，浏览器没弹再 mcp login buffer）。不要 API key。不要发明 plugin add buffer@。不要抄 ChatGPT Developer mode。GrowthBook 有 insights Codex stdio 文但官方 MCP 页无 Codex 专节，本轮不收。Customer.io 是桌面插件。Builder.io / Webflow 无 CLI mcp add。Tavily / Buildkite / Meilisearch 仍无。DigitalOcean 仍未钉 --agent codex。X 仍是 Claude 课程、Unity 插件、OMO 编排、GPT-6 Astra、Conductor worktree。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
