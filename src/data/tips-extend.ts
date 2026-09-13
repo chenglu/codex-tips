@@ -9272,4 +9272,57 @@ enabled = true
       },
     ],
   },
+  {
+    id: "unleash-mcp-stdio",
+    no: 361,
+    title: "Unleash MCP 用 npx @unleash/mcp，密钥走 env_vars",
+    summary:
+      "官方 Codex：mcp add unleash -- npx -y @unleash/mcp@latest --log-level error。表名 unleash，本地 stdio。UNLEASH_BASE_URL 和 UNLEASH_PAT 用 env_vars，不要抄 --env 字面量。不要 mcp login。不要抄 --transport http。",
+    body: `Unleash 给 Codex 有专节。官方主路径是本机 stdio 包 \`@unleash/mcp\`，用实例 URL 和 PAT，不是远程 URL，也不要 \`mcp login\`：
+
+\`\`\`bash
+codex mcp add unleash -- npx -y @unleash/mcp@latest --log-level error
+\`\`\`
+
+官方表名就是 \`unleash\`。专节那两条 \`--env UNLEASH_BASE_URL=…\` 和 \`--env UNLEASH_PAT=…\` 会把密钥写进 \`config.toml\`，不要抄。改成 \`env_vars\`，从启动 Codex 的进程转发名字：
+
+\`\`\`toml
+[mcp_servers.unleash]
+command = "npx"
+args = ["-y", "@unleash/mcp@latest", "--log-level", "error"]
+env_vars = ["UNLEASH_BASE_URL", "UNLEASH_PAT"]
+startup_timeout_sec = 30
+enabled = true
+\`\`\`
+
+必填是 \`UNLEASH_BASE_URL\` 和 \`UNLEASH_PAT\`。实例地址要带 https，不要尾斜杠；写成带 \`/api\` 或不带都可以，服务器会自己归一。可选再转发 \`UNLEASH_DEFAULT_PROJECT\`。Codex 默认启动超时 10 秒，冷 \`npx\` 第一次拉包经常不够，所以加上 \`startup_timeout_sec = 30\`。
+
+不要抄官方 README 里给 Codex 写的 \`codex mcp add unleash https://…/api/admin/mcp --transport http\`。\`--transport http\` 是 Claude 的开关，Codex 不认。远程 MCP 是实例上要先打开的实验功能，不是 Codex 专节的主路径。不要发明 \`codex plugin add unleash@…\`。不要抄 \`npx unleash-mcp\` 当 Codex 命令，官方 Codex 专节是 \`@unleash/mcp@latest\`。不要抄 Claude 的 \`--env\` 字面量。不要抄 Cursor JSON。Codex 不读 Unleash 的 \`.env\`。
+
+\`UNLEASH_BASE_URL\` 和 \`UNLEASH_PAT\` 必须在**启动 Codex 的那个进程**里。从 Dock 打开的桌面没有你在 zshrc 里 export 的变量。\`codex doctor\` 会标出点了名却缺失的 \`env_vars\`。改完彻底新开会话。用 \`codex mcp get unleash\` 看 command 是 npx。\`/mcp\` 里工具 0 先查超时和环境。网页 Cloud 不读这份 \`config.toml\`，也跑不了本机 stdio。
+
+先只读：问列出当前 token 能看到的项目和开关。创建开关、改 rollout、在环境里开关会改账号，保持工具批准。生产环境先开 change request。不要一上来 \`--yolo\`。不要 \`required = true\`。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add unleash@openai-curated\`。
+- 不要把 PAT 写进 \`--env\` 字面量、\`env\` 表、\`args\` 或 URL。
+- 不要抄 \`--transport http\`，也不要对这台跑 \`mcp login\`。
+- 不要给它 \`required = true\` 挂全局。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Unleash", "stdio", "env_vars"],
+    related: ["mcp-stdio-env-vars", "growthbook-mcp-stdio", "contentful-mcp-stdio"],
+    sources: [
+      {
+        label: "Unleash · MCP Server",
+        url: "https://docs.getunleash.io/integrate/mcp",
+      },
+      {
+        label: "Unleash/unleash-mcp",
+        url: "https://github.com/Unleash/unleash-mcp",
+      },
+    ],
+  },
 ];

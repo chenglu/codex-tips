@@ -2506,4 +2506,20 @@ codex mcp login buffer
 # enabled = true
 `,
   },
+  {
+    id: "unleash-mcp-stdio",
+    title: "Unleash MCP",
+    filename: "config.toml",
+    summary:
+      "主路径是 mcp add unleash -- npx -y @unleash/mcp@latest --log-level error。表名 unleash，本地 stdio。UNLEASH_BASE_URL 和 UNLEASH_PAT 用 env_vars。不要 mcp login。不要抄 --transport http。",
+    code: `codex mcp add unleash -- npx -y @unleash/mcp@latest --log-level error
+
+# [mcp_servers.unleash]
+# command = "npx"
+# args = ["-y", "@unleash/mcp@latest", "--log-level", "error"]
+# env_vars = ["UNLEASH_BASE_URL", "UNLEASH_PAT"]
+# startup_timeout_sec = 30
+# enabled = true
+`,
+  },
 ];

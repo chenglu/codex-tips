@@ -260,6 +260,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: "codex mcp add brightdata -- npx -y @brightdata/mcp", meaning: "官方 Codex 本地 stdio。表名 brightdata。API_TOKEN 用 env_vars，不要抄 --env 字面量。不要 mcp login。不要把 token 拼进 mcp.brightdata.com URL。不要用 brightdata add mcp 写 mcp.json" },
       { cmd: "codex mcp add buffer --url https://mcp.buffer.com/mcp", meaning: "官方远程带 /mcp 后缀。OAuth，浏览器没弹再 mcp login buffer。不要 API key。不要发明 plugin add buffer@。不要抄 ChatGPT Developer mode 或 Claude 的 --transport http" },
       { cmd: "codex mcp add growthbook -- npx -y @growthbook/mcp@latest", meaning: "官方 Codex 本地 stdio。表名 growthbook。GB_API_KEY 用 env_vars，不要抄 --env 字面量。不要 mcp login。不要发明远程 --url 或 plugin add growthbook@。自托管才转发 GB_API_URL" },
+      { cmd: "codex mcp add unleash -- npx -y @unleash/mcp@latest --log-level error", meaning: "官方 Codex 本地 stdio。表名 unleash。UNLEASH_BASE_URL 和 UNLEASH_PAT 用 env_vars，不要抄 --env 字面量。不要 mcp login。不要抄 README 里的 --transport http" },
       { cmd: "codex mcp add convex -- npx … mcp start", meaning: "插件装不上才用手写 stdio。官方 MCP 是 npx convex mcp start，不是远程 URL。不要加 --dangerously-enable-production-deployments" },
       { cmd: "codex --profile huggingface", meaning: "[model_providers.huggingface] 走 router.huggingface.co/v1，wire_api = responses，env_key = HF_TOKEN。不是 Hub MCP，也不是 --oss" },
       { cmd: "codex --profile vercel", meaning: "[model_providers.vercel] 走 ai-gateway.vercel.sh/codex/v1，wire_api = responses，env_key = AI_GATEWAY_API_KEY。不是 Vercel MCP，也不是 --oss" },

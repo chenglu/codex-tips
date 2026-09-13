@@ -3161,5 +3161,25 @@ export const articles: Article[] = [
     summary:
       '现行 2.x 工具是 growthbook_list_skills / growthbook_read_skill / growthbook_api_read / growthbook_api_write。Cloud 远程 mcp.growthbook.io/mcp 是 Cursor / Claude OAuth。Codex 专文仍是本地 @growthbook/mcp，不要发明 mcp add --url。旧文档的 GB_EMAIL 不是 stdio 必填。',
   },
+  {
+    title: 'Unleash MCP Server',
+    url: 'https://docs.getunleash.io/integrate/mcp',
+    source: 'Unleash',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Unleash', 'stdio'],
+    summary:
+      '官方 Codex：mcp add unleash -- npx -y @unleash/mcp@latest --log-level error。表名 unleash，本地 stdio。不要把 --env 里的 UNLEASH_PAT 字面量写进 TOML，改成 env_vars。不要 mcp login。不要抄 --transport http。',
+  },
+  {
+    title: 'Unleash/unleash-mcp',
+    url: 'https://github.com/Unleash/unleash-mcp',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Unleash', 'stdio'],
+    summary:
+      '仓库 Codex 专节同样是 @unleash/mcp@latest。必填 UNLEASH_BASE_URL 和 UNLEASH_PAT。README 远程示例把 --transport http 抄到 Codex 上，不要照抄。远程 /api/admin/mcp 是实验功能，要先在实例打开。',
+  },
 ];
 
