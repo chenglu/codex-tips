@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T19:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "19:30 定时器。调用前 $96.86。Spend: counts（start_time=2026-09-06T19:35:00Z，共 231 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Tavily Agent Skills（官方点名 Codex：npx skills add tavily-ai/skills --all，官方没钉 --agent codex，示例技能 tavily-search）。不要发明 plugin add 或 mcp add。Tavily MCP 仍无 Codex 专节不写。X 仍是 Archify、0.154 worktree、Google Cloud plugin、Astra、token 营销、/feedback。Kit 仍不写（#41362）。ConfigCat / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Fastmail 仍无 Codex 专节。",
+    "19:30 定时器。调用前 $96.86，收尾 $96.86。Spend: counts（start_time=2026-09-06T19:35:00Z，共 231 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Tavily Agent Skills（官方点名 Codex：npx skills add tavily-ai/skills --all，官方没钉 --agent codex，示例技能 tavily-search）。不要发明 plugin add 或 mcp add。Tavily MCP 仍无 Codex 专节不写。X 仍是 Archify、0.154 worktree、Google Cloud plugin、Astra、token 营销、/feedback。Kit 仍不写（#41362）。ConfigCat / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Fastmail 仍无 Codex 专节。CDP 28/28（预览 4365）。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
