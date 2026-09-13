@@ -2430,4 +2430,20 @@ codex mcp login statsig
 # enabled = true
 `,
   },
+  {
+    id: "contentful-mcp-stdio",
+    title: "Contentful MCP",
+    filename: "config.toml",
+    summary:
+      "主路径是 mcp add contentful -- npx -y @contentful/mcp-server。表名 contentful，本地 stdio。PAT 用 env_vars。不要 mcp login。不要发明远程 --url。",
+    code: `codex mcp add contentful -- npx -y @contentful/mcp-server
+
+# [mcp_servers.contentful]
+# command = "npx"
+# args = ["-y", "@contentful/mcp-server"]
+# env_vars = ["CONTENTFUL_MANAGEMENT_ACCESS_TOKEN", "SPACE_ID"]
+# startup_timeout_sec = 30
+# enabled = true
+`,
+  },
 ];

@@ -3061,5 +3061,25 @@ export const articles: Article[] = [
     summary:
       'Statsig MCP 总览把 Codex Desktop / CLI / IDE 列为第一套配置。远程仍是 api.statsig.com/v1/mcp。只读工具给只读用户；写实验和门要写权限。不要把 ChatGPT Connector 或 Cursor JSON 当 Codex CLI 主路径。',
   },
+  {
+    title: 'contentful/contentful-mcp-server',
+    url: 'https://github.com/contentful/contentful-mcp-server',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Contentful', 'stdio'],
+    summary:
+      '官方 Codex：mcp add contentful -- npx -y @contentful/mcp-server。表名 contentful，本地 stdio。不要把 --env 里的 CMA token 字面量写进 TOML，改成 env_vars 转发 CONTENTFUL_MANAGEMENT_ACCESS_TOKEN 和 SPACE_ID。不要 mcp login。不要抄 Cursor JSON。',
+  },
+  {
+    title: 'Model Context Protocol (MCP) server',
+    url: 'https://www.contentful.com/developers/docs/tools/mcp-server',
+    source: 'Contentful',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Contentful', 'OAuth'],
+    summary:
+      '官方区分远程 mcp.contentful.com/mcp（OAuth，先装 Remote MCP App）和本地 @contentful/mcp-server（PAT）。Codex GitHub 专节是本地 stdio，不要发明 mcp add --url。不要把 PAT 拼进 URL，也不要抄 Cursor 的 contentful-mcp JSON。',
+  },
 ];
 

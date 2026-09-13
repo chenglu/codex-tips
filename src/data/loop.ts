@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-13T06:10:00Z",
+  lastTick: "2026-09-13T06:48:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "06:10 定时器。调用前 $97.10。Spend: counts（start_time=2026-09-06T06:16:00Z，共 1764 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 仍为 $97.10。CDP 28/28 全过（预览 4337）。收录 Statsig 官方 Codex 远程 MCP（codex mcp add statsig --url https://api.statsig.com/v1/mcp；URL 是 /v1/mcp；OAuth）。不要抄 npx mcp-remote。不要把 console API key 写进 http_headers。不要发明 plugin add statsig@。X 仍是 Unity 插件营销、Claude vs Codex、日文优待 MCP、Tripo 3D。Buildkite 仍无 Codex 专节。Meilisearch 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。",
+    "06:48 定时器。调用前 $97.10。Spend: counts（start_time=2026-09-06T06:54:00Z，共 1765 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Contentful 官方 Codex 本地 stdio（codex mcp add contentful -- npx -y @contentful/mcp-server；表名 contentful；PAT 走 env_vars）。不要 mcp login。不要发明远程 --url 或 plugin add contentful@。Tavily 官方无 Codex mcp add 专节。Buildkite / Meilisearch 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。X 仍是 Unity 插件营销、Claude vs Codex、日文优待 MCP、Tripo 3D。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1006,6 +1006,17 @@ export const loopState = {
     "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
     "docs.digitalocean.com do-app-platform-skills --agent codex",
     "Codex CLI 技巧 2026 Statsig MCP api.statsig.com/v1/mcp OAuth",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "github.com/contentful/contentful-mcp-server Codex mcp add contentful @contentful/mcp-server",
+    "contentful.com developers docs tools mcp-server mcp.contentful.com",
+    "docs.tavily.com mcp Codex mcp.tavily.com tavilyApiKey",
+    "github.com/contentful/skills npx skills add contentful/skills",
+    "browserbase.com SKILL.md Codex mcp.browserbase.com",
+    "buildkite.com docs mcp-server Codex configuring-ai-tools",
+    "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "Codex CLI 技巧 2026 Contentful MCP @contentful/mcp-server env_vars",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

@@ -8999,4 +8999,57 @@ enabled = true
       },
     ],
   },
+  {
+    id: "contentful-mcp-stdio",
+    no: 356,
+    title: "Contentful MCP 用 npx @contentful/mcp-server，密钥走 env_vars",
+    summary:
+      "官方 Codex：mcp add contentful -- npx -y @contentful/mcp-server。表名 contentful，本地 stdio。PAT 和 SPACE_ID 用 env_vars，不要把 --env 字面量写进 TOML。不要 mcp login。不要发明远程 --url 或 plugin add contentful@。",
+    body: `Contentful 官方仓库 README 给 Codex 有专节。官方主路径是本机 stdio 包 \`@contentful/mcp-server\`，用 Management API 个人访问令牌，不是远程 URL，也不要 \`mcp login\`：
+
+\`\`\`bash
+codex mcp add contentful -- npx -y @contentful/mcp-server
+\`\`\`
+
+官方表名就是 \`contentful\`。README 那条 \`--env CONTENTFUL_MANAGEMENT_ACCESS_TOKEN=…\` 会把密钥字面量写进 \`config.toml\`，不要抄。改成 \`env_vars\`，从启动 Codex 的进程转发名字：
+
+\`\`\`toml
+[mcp_servers.contentful]
+command = "npx"
+args = ["-y", "@contentful/mcp-server"]
+env_vars = ["CONTENTFUL_MANAGEMENT_ACCESS_TOKEN", "SPACE_ID"]
+startup_timeout_sec = 30
+enabled = true
+\`\`\`
+
+必填是 \`CONTENTFUL_MANAGEMENT_ACCESS_TOKEN\` 和 \`SPACE_ID\`。\`ENVIRONMENT_ID\` 默认 \`master\`，\`CONTENTFUL_HOST\` 默认 \`api.contentful.com\`；要覆盖时把名字加进 \`env_vars\`，不要把值写进 \`env\` 表。要拦写和删时再转发 \`PROTECTED_ENVIRONMENTS\`，值是逗号分隔的环境 ID，例如 \`master,staging\`。这只挡住这台 MCP 的写/删，挡不住网页应用和直接 CMA 调用。环境 ID 大小写敏感。Codex 默认启动超时 10 秒，冷 \`npx\` 第一次拉包经常不够，所以加上 \`startup_timeout_sec = 30\`。
+
+不要抄 Cursor 的 \`mcpServers\` JSON（那份表名是 \`contentful-mcp\`）或 One-Click 安装。不要抄 Claude Desktop 的 \`.dxt\`。不要发明 \`codex mcp add contentful --url https://mcp.contentful.com/mcp\`：官方 Codex 专节是本地 stdio。托管远程服务器是另一条路，官方文档给的是通用 JSON，没有 Codex \`mcp add --url\` 专节；要用远程必须先给目标 space/environment 装 Contentful Remote MCP App，走 OAuth，不要把 PAT 拼进 URL。不要把 stdio 的 PAT 和远程 OAuth 写进同一张表。不要发明 \`codex plugin add contentful@…\`。Claude 的 \`/plugin marketplace add contentful/skills\` 不是 Codex 命令。技能可以 \`npx skills add contentful/skills\`，官方没钉 \`--agent codex\`，不要发明；技能也不会登记这台 stdio MCP。不要把手拷进 \`~/.codex/skills\`。
+
+PAT 必须在**启动 Codex 的那个进程**里。Codex 不读 \`.env\`。从 Dock 打开的桌面没有你在 zshrc 里 export 的变量。\`codex doctor\` 会标出点了名却缺失的 \`env_vars\`。改完彻底新开会话。用 \`codex mcp get contentful\` 看 command 是 npx。\`/mcp\` 里工具 0 先查超时和环境。网页 Cloud 不读这份 \`config.toml\`，也跑不了本机 stdio。
+
+先只读：问 \`List content types in this Contentful space\` 或 \`Search entries about the fall launch\`。\`create_entry\`、\`publish_entry\`、\`delete_entry\` 会改空间，保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add contentful@openai-curated\`。
+- 不要把 PAT 写进 \`env\` 表、\`--env\` 字面量、\`args\` 或 \`http_headers\`。
+- 不要对这台跑 \`mcp login\`，也不要把远程 URL 当 Codex 主路径。
+- 不要给它 \`required = true\` 挂全局。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Contentful", "stdio", "env_vars"],
+    related: ["mcp-stdio-env-vars", "trigger-mcp-stdio", "shadcn-mcp-stdio"],
+    sources: [
+      {
+        label: "contentful/contentful-mcp-server",
+        url: "https://github.com/contentful/contentful-mcp-server",
+      },
+      {
+        label: "Contentful · MCP server",
+        url: "https://www.contentful.com/developers/docs/tools/mcp-server",
+      },
+    ],
+  },
 ];
