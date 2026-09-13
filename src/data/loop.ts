@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T07:42:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "07:42 定时器。调用前 $97.06。Spend: counts（start_time=2026-09-06T07:48:00Z，共 223 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Bright Data 官方 Codex 本地 stdio（codex mcp add brightdata -- npx -y @brightdata/mcp；表名 brightdata；API_TOKEN 走 env_vars）。不要 mcp login。不要把 token 拼进 hosted URL。不要用 brightdata add mcp 写 mcp.json。GrowthBook 官方 MCP 页无 Codex 专节。Customer.io 是 ChatGPT/Codex 桌面插件，无 CLI mcp add。Builder.io / Webflow 无 CLI mcp add。Tavily / Buildkite / Meilisearch 仍无。DigitalOcean 仍未钉 --agent codex。X 仍是 Claude 课程、Unity 插件、OMO 编排、GPT-6 Astra。",
+    "07:42 定时器。调用前 $97.06。Spend: counts（start_time=2026-09-06T07:48:00Z，共 223 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.05。CDP 28/28 全过（预览 4340）。收录 Bright Data 官方 Codex 本地 stdio（codex mcp add brightdata -- npx -y @brightdata/mcp；表名 brightdata；API_TOKEN 走 env_vars）。不要 mcp login。不要把 token 拼进 hosted URL。不要用 brightdata add mcp 写 mcp.json。GrowthBook 官方 MCP 页无 Codex 专节。Customer.io 是 ChatGPT/Codex 桌面插件，无 CLI mcp add。Builder.io / Webflow 无 CLI mcp add。Tavily / Buildkite / Meilisearch 仍无。DigitalOcean 仍未钉 --agent codex。X 仍是 Claude 课程、Unity 插件、OMO 编排、GPT-6 Astra。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
