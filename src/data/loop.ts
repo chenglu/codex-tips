@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T09:14:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "09:14 定时器。调用前 $97.03。Spend: counts（start_time=2026-09-06T09:18:00Z，共 240 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度待测完后回写。收录 Unleash 官方 Codex 本地 stdio（codex mcp add unleash -- npx -y @unleash/mcp@latest --log-level error；表名 unleash；UNLEASH_BASE_URL 和 UNLEASH_PAT 走 env_vars）。不要 mcp login。不要抄 README 把 --transport http 写到 Codex。远程 /api/admin/mcp 是实验功能。Flagsmith 有 Codex TOML（mcp.flagsmith.com，无 /mcp）但本轮先收有 mcp add 专节的 Unleash。ConfigCat / Postmark 无 Codex 专节。Customer.io 仍是桌面插件。Tavily / Buildkite / Meilisearch 仍无。DigitalOcean 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、OMO、Astra、Conductor。",
+    "09:14 定时器。调用前 $97.03。Spend: counts（start_time=2026-09-06T09:18:00Z，共 240 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.03。CDP 28/28 全过（预览 4343）。收录 Unleash 官方 Codex 本地 stdio（codex mcp add unleash -- npx -y @unleash/mcp@latest --log-level error；表名 unleash；UNLEASH_BASE_URL 和 UNLEASH_PAT 走 env_vars）。不要 mcp login。不要抄 README 把 --transport http 写到 Codex。远程 /api/admin/mcp 是实验功能。Flagsmith 有 Codex TOML（mcp.flagsmith.com，无 /mcp）但本轮先收有 mcp add 专节的 Unleash。ConfigCat / Postmark 无 Codex 专节。Customer.io 仍是桌面插件。Tavily / Buildkite / Meilisearch 仍无。DigitalOcean 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、OMO、Astra、Conductor。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
