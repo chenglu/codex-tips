@@ -3,7 +3,7 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-13T02:12:00Z",
+  lastTick: "2026-09-13T02:43:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
     "02:12 定时器。调用前 $97.25。Spend: counts（start_time=2026-09-06T02:13:00Z，共 238 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.24。CDP 54 项全过（预览 4329）。收录 shadcn 官方 MCP（手写 [mcp_servers.shadcn]，npx shadcn@latest mcp；CLI 等价 mcp add shadcn -- npx shadcn@latest mcp）。不要 mcp login。不要抄 Claude 的 mcp init --client claude。X 仍是 Claude vs Codex、日文 0.154 worktree、oh-my-openagent 编排营销。Meilisearch 仍只有 Claude Desktop JSON，不发明 mcp add。1Password Codex shell plugin 页仍写 op plugin init openai。ButterKit 官方仍只给 UI 字段。trailofbits/codex-config 是意见化配置仓库。",
@@ -942,6 +942,16 @@ export const loopState = {
     "butterkit.app docs mcp openai-codex butterkit-mcp",
     "github.com/trailofbits/codex-config install-codex-config",
     "Codex CLI 技巧 2026 shadcn MCP mcp_servers.shadcn",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "www.inngest.com docs ai-dev-tools mcp Codex mcp add inngest-cloud",
+    "polar.sh docs integrate mcp Codex mcp.polar.sh polar-mcp",
+    "buildkite.com docs mcp-server Codex configuring-ai-tools",
+    "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
+    "developer.1password.com cli shell-plugins openai-codex op plugin init",
+    "butterkit.app docs mcp openai-codex butterkit-mcp",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "Codex CLI 技巧 2026 Inngest MCP api.inngest.com/mcp",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

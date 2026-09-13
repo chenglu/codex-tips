@@ -8579,4 +8579,57 @@ codex mcp add shadcn -- npx shadcn@latest mcp
       },
     ],
   },
+  {
+    id: "inngest-mcp-http",
+    no: 349,
+    title: "Inngest Cloud MCP 用 api.inngest.com/mcp 加 bearer",
+    summary:
+      "官方 Codex：mcp add inngest-cloud --url https://api.inngest.com/mcp --bearer-token-env-var INNGEST_API_KEY。URL 带 /mcp。不要 mcp login。不要抄 Claude 的 --header Bearer。本机 Dev Server 另开 inngest-dev。",
+    body: `Inngest 给 Codex 有专节。Cloud 官方 CLI 主路径是远程 Streamable HTTP + bearer，**不是** OAuth：
+
+\`\`\`bash
+codex mcp add inngest-cloud --url https://api.inngest.com/mcp --bearer-token-env-var INNGEST_API_KEY
+\`\`\`
+
+URL **带** \`/mcp\` 后缀。用户层表名官方就是 \`inngest-cloud\`。不要发明不带后缀的 \`https://api.inngest.com\`。不要 \`mcp login\` 这张表。\`INNGEST_API_KEY\` 必须在**启动 Codex 的那个进程**里；Dock / 开始菜单打开的桌面读不到 zshrc。键里填的是变量名，不是 token。Cloud MCP 只要 API key（前缀 \`sk-inn-api-\`），**不要**拿 signing key 顶上。
+
+\`\`\`toml
+[mcp_servers.inngest-cloud]
+url = "https://api.inngest.com/mcp"
+bearer_token_env_var = "INNGEST_API_KEY"
+enabled = true
+\`\`\`
+
+不要抄 Claude 的 \`claude mcp add --transport http inngest-cloud https://api.inngest.com/mcp --header "Authorization: Bearer …"\`。不要把 token 写进 \`http_headers\`、\`args\`、\`env\` 表或 URL。不要抄 Cursor JSON 里的 \`headers\` / \`Authorization\`。不要抄 JSON \`mcpServers\`。不要发明 \`codex plugin add inngest@…\`。不要抄 \`npx mcp-remote\`。
+
+本机 Dev Server 是**另一张表**，先 \`inngest dev\`，默认终点是 \`http://127.0.0.1:8288/mcp\`，无鉴权：
+
+\`\`\`bash
+codex mcp add inngest-dev --url http://127.0.0.1:8288/mcp
+\`\`\`
+
+两张表可以同时配，不要合成一台。改过 Dev Server 端口就把 URL 改成对应的 \`127.0.0.1\` 地址。不要给 \`inngest-dev\` 加 \`bearer_token_env_var\`，也不要 \`mcp login\`。
+
+Cloud 工具能改数据：\`send_event\`、\`invoke_function\`、\`rerun\`、\`cancel_run\`、\`sync_app\`、管环境和 webhook。先只读：问 \`List my Inngest environments, then show the apps in production.\` 环境用工具参数 \`env\` 选，不是 MCP 表。不要一上来 \`--yolo\`。不要 \`required = true\`。网页 Cloud 不读 \`~/.codex/config.toml\`。
+
+改完彻底新开会话。用 \`codex mcp get inngest-cloud\` 看传输是 streamable_http、Auth 是 Bearer。\`mcp list\` 显示 Bearer 不等于请求真带了头，变量缺失时工具数为 0 或 401。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add inngest@openai-curated\`。
+- 不要抄 Claude 的 \`--header\` Bearer 字面量。
+- 不要对 Cloud 这张表跑 \`mcp login\`。
+- 不要把 \`inngest-cloud\` 和 \`inngest-dev\` 配成一张表。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Inngest", "bearer", "HTTP"],
+    related: ["mcp-http-bearer-env", "mcp-add-and-login", "mcp-http-not-sse"],
+    sources: [
+      {
+        label: "Inngest · MCP",
+        url: "https://www.inngest.com/docs/ai-dev-tools/mcp",
+      },
+    ],
+  },
 ];

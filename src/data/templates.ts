@@ -2315,4 +2315,21 @@ codex mcp login butter
 # args = ["shadcn@latest", "mcp"]
 `,
   },
+  {
+    id: "inngest-mcp-http",
+    title: "Inngest Cloud MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add inngest-cloud --url https://api.inngest.com/mcp --bearer-token-env-var INNGEST_API_KEY。不要 mcp login。本机另开 inngest-dev。",
+    code: `codex mcp add inngest-cloud --url https://api.inngest.com/mcp --bearer-token-env-var INNGEST_API_KEY
+
+# [mcp_servers.inngest-cloud]
+# url = "https://api.inngest.com/mcp"
+# bearer_token_env_var = "INNGEST_API_KEY"
+# enabled = true
+
+# 本机 Dev Server（先 inngest dev）
+# codex mcp add inngest-dev --url http://127.0.0.1:8288/mcp
+`,
+  },
 ];

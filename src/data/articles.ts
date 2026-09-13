@@ -2901,5 +2901,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex 节：shadcn CLI cannot automatically update ~/.codex/config.toml，必须手写 [mcp_servers.shadcn]，command = npx，args = ["shadcn@latest", "mcp"]。这是本地 stdio，不要 mcp login。不要抄 Claude 的 mcp init --client claude。',
   },
+  {
+    title: 'Inngest Model Context Protocol (MCP)',
+    url: 'https://www.inngest.com/docs/ai-dev-tools/mcp',
+    source: 'Inngest',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Inngest', 'bearer', 'HTTP'],
+    summary:
+      '官方 Codex：mcp add inngest-cloud --url https://api.inngest.com/mcp --bearer-token-env-var INNGEST_API_KEY。URL 带 /mcp。不要 mcp login。不要抄 Claude 的 --header Bearer。本机另开 mcp add inngest-dev --url http://127.0.0.1:8288/mcp。',
+  },
 ];
 
