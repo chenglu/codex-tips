@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-13T14:13:00Z",
+  lastTick: "2026-09-13T14:40:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "14:13 定时器。调用前 $96.96。Spend: counts（start_time=2026-09-06T14:18:00Z，共 234 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 $96.95。收录 MailerLite 远程 MCP（https://mcp.mailerlite.com/mcp；任意 MCP 客户端；OAuth）。不要发明 plugin add mailerlite@。不要抄 Claude --transport http。Kit 仍不写（#41362）。Buildkite 远程仍是 mcp.buildkite.com/mcp，配置页无 Codex 专节。ConfigCat / Postmark / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、Astra、Conductor。",
+    "14:40 定时器。调用前 $96.95。Spend: counts（start_time=2026-09-06T14:45:00Z，共 235 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Buildkite 远程 MCP（https://mcp.buildkite.com/mcp；配置页无 Codex 专节；对照 VS Code url / Goose streamable_http 写 mcp add buildkite --url，再 mcp login buildkite）。不要发明 plugin add buildkite@。不要抄 Amp mcp-remote、Claude --transport http、Cursor Marketplace。不要把 /direct + Bearer 当交互主路径。Kit 仍不写（#41362）。Pulumi 下一轮。ConfigCat / Postmark / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。X 仍是 0.154 worktree、Google Cloud plugin、Astra、Conductor。收尾额度待测完回写。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1200,6 +1200,17 @@ export const loopState = {
     "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
     "docs.digitalocean.com do-app-platform-skills --agent codex",
     "Codex CLI 技巧 2026 MailerLite MCP mcp.mailerlite.com/mcp OAuth",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "buildkite.com docs apis mcp-server remote configuring-ai-tools Codex mcp.buildkite.com",
+    "pulumi.com mcp.ai.pulumi.com Codex mcp add OAuth",
+    "help.kit.com kit mcp app.kit.com Codex oauth 41362",
+    "configcat.com docs mcp-server Codex @configcat/mcp-server",
+    "postmarkapp.com mcp Codex @activecampaign/postmark-mcp",
+    "docs.tavily.com mcp Codex mcp.tavily.com",
+    "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "Codex CLI 技巧 2026 Buildkite MCP mcp.buildkite.com/mcp OAuth",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

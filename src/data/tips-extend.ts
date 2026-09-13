@@ -9809,4 +9809,77 @@ enabled = true
       },
     ],
   },
+  {
+    id: "buildkite-mcp-http",
+    no: 372,
+    title: "Buildkite MCP 用 mcp.buildkite.com/mcp，再完成 OAuth",
+    summary:
+      "官方配置页没有 Codex 专节。对照 VS Code 的 url 和 Goose 的 streamable_http：mcp add buildkite --url https://mcp.buildkite.com/mcp，再 mcp login buildkite。URL 带 /mcp。OAuth，不要 API token。不要发明 plugin add buildkite@。",
+    body: `Buildkite 官方 MCP 总览把远程 OAuth 入口写在 \`https://mcp.buildkite.com/mcp\`，带 \`/mcp\` 后缀，不要尾斜杠。配置页列了 Amp、Claude Code、Claude Desktop、Cursor、Goose、VS Code、Windsurf，没有 Codex 专节。Codex 对照原生 HTTP 客户端：VS Code 写 \`url\`，Goose 写 \`type: streamable_http\` 和 \`uri\`。CLI 写成：
+
+\`\`\`bash
+codex mcp add buildkite --url https://mcp.buildkite.com/mcp
+codex mcp login buildkite
+\`\`\`
+
+手册表名用 \`buildkite\`，跟 Claude / VS Code / Goose 一致。\`mcp add\` 写进用户层 \`~/.codex/config.toml\`。只写进了表、浏览器没弹时再跑 \`codex mcp login buildkite\`。同意页会让你选组织；组织开了 SSO 时先 Log in with SSO，再 Authorize。OAuth access token 大约 12 小时，refresh 大约 7 天。
+
+桌面 / IDE：Settings → MCP servers → Add server，传输选 Streamable HTTP，URL 填上面那条。Bearer token env var 和 Headers 留空。第一次用工具时会打开浏览器，用平时的 Buildkite 账号登录。
+
+\`\`\`toml
+[mcp_servers.buildkite]
+url = "https://mcp.buildkite.com/mcp"
+enabled = true
+\`\`\`
+
+默认 OAuth 带读写 scope。只要读流水线、构建、测试时，换只读入口，并换表名：
+
+\`\`\`bash
+codex mcp add buildkite-readonly --url https://mcp.buildkite.com/mcp/readonly
+codex mcp login buildkite-readonly
+\`\`\`
+
+只要 pipelines 这一组工具时，走 URL 路径，不要把 \`X-Buildkite-Toolsets\` 当 Codex 主路径：
+
+\`\`\`bash
+codex mcp add buildkite-pipelines --url https://mcp.buildkite.com/mcp/x/pipelines
+codex mcp login buildkite-pipelines
+\`\`\`
+
+只读加单组可以写成 \`https://mcp.buildkite.com/mcp/x/pipelines/readonly\`。OAuth 同意页要预选组织时，加查询参数，例如 \`https://mcp.buildkite.com/mcp?organization=acme\`。这是提示，不是访问控制；没权限的组织不会被锁死，你仍可改选。有组织 UUID 时官方也接受 \`organization_uuid\`。参数同样能叠在只读或 toolset URL 上。
+
+不要发明 \`codex plugin add buildkite@…\`。官方没给出 Codex marketplace id。Cursor Marketplace 插件和 Cursor 一键 deeplink 是 Cursor 的路，不要抄进 Codex。不要抄 Amp 的 \`npx mcp-remote\`。不要抄 Claude 的 \`--transport http\`。不要抄 Claude Desktop Connectors、Windsurf JSON 或 ChatGPT Developer Mode。不要给这台 \`bearer_token_env_var\`。不要把 API token 写进 URL、\`http_headers\` 或 \`env\` 表。
+
+不要把 \`https://mcp.buildkite.com/direct\` 当交互主路径。那是无头 agent 用的 token 透传：\`Authorization: Bearer …\`，不能走 OAuth。交互式 Codex 用 \`/mcp\`。本地 Docker / 二进制加 PAT 给流水线里的固定版本 agent 用，不是个人会话的主路径；本地请求还算组织 REST 配额。远程 MCP 有独立配额，跟组织 REST 限流分开。
+
+组织开了 API IP allowlist 时，要把 Buildkite egress IP 加进名单，否则远程 MCP 从 Buildkite 基础设施回打 REST 会被挡。IP 以官方 meta API 为准，不要把过期列表写进 \`config.toml\`。
+
+这台能看流水线、构建、job、Test Engine。Promise job 可能还在 running，但构建已进入 failing：先当失败信号排查，再核对最终日志和测试。写构建、改流水线是高影响操作，保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。
+
+先只读：问当前用户能看到哪些流水线，或最近一次失败构建。不确定组织 slug 就先让它列组织，不要把 \`acme\` 抄进生产提示。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add buildkite@openai-curated\`。
+- 不要抄 Amp 的 \`mcp-remote\`、Claude 的 \`--transport http\` 或 Cursor Marketplace。
+- 不要把 API token 写进 \`env\` 表、\`http_headers\` 或 \`/direct\` 当交互主路径。
+- 不要给它 \`required = true\` 挂全局。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完彻底新开会话。用 \`codex mcp get buildkite\` 看传输是 streamable_http。会话里 \`/mcp\` 应显示 Auth: OAuth。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Buildkite", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-http-not-sse", "workos-mcp-http"],
+    sources: [
+      {
+        label: "Buildkite · MCP server overview",
+        url: "https://buildkite.com/docs/apis/mcp-server",
+      },
+      {
+        label: "Buildkite · Configuring AI tools with the remote MCP server",
+        url: "https://buildkite.com/docs/apis/mcp-server/remote/configuring-ai-tools",
+      },
+    ],
+  },
 ];

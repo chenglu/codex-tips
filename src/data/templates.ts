@@ -2665,4 +2665,24 @@ codex mcp login mailerlite
 # enabled = true
 `,
   },
+  {
+    id: "buildkite-mcp-http",
+    title: "Buildkite MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add buildkite --url https://mcp.buildkite.com/mcp。URL 带 /mcp。OAuth，浏览器没弹再 mcp login buildkite。不要发明 plugin add buildkite@。",
+    code: `codex mcp add buildkite --url https://mcp.buildkite.com/mcp
+codex mcp login buildkite
+
+# 只要读：
+# codex mcp add buildkite-readonly --url https://mcp.buildkite.com/mcp/readonly
+
+# 只要 pipelines：
+# url = "https://mcp.buildkite.com/mcp/x/pipelines"
+
+# [mcp_servers.buildkite]
+# url = "https://mcp.buildkite.com/mcp"
+# enabled = true
+`,
+  },
 ];

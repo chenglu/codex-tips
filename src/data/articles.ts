@@ -3381,5 +3381,25 @@ export const articles: Article[] = [
     summary:
       '连上 mcp.mailerlite.com/mcp 之后，未标 ACTION 的提示只读。标了 ACTION 的会起草件、排期、导入订阅者。不要把示例邮箱抄进生产发送。',
   },
+  {
+    title: 'Buildkite MCP server overview',
+    url: 'https://buildkite.com/docs/apis/mcp-server',
+    source: 'Buildkite',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Buildkite', 'OAuth', 'HTTP'],
+    summary:
+      '官方远程交互入口是 mcp.buildkite.com/mcp，OAuth，不要 API token。只读换 mcp.buildkite.com/mcp/readonly。无头才是 mcp.buildkite.com/direct。配置页没有 Codex 专节。不要发明 plugin add buildkite@。',
+  },
+  {
+    title: 'Configuring AI tools with the remote MCP server',
+    url: 'https://buildkite.com/docs/apis/mcp-server/remote/configuring-ai-tools',
+    source: 'Buildkite',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Buildkite', 'OAuth', 'HTTP'],
+    summary:
+      '对照 VS Code 的 url 和 Goose 的 streamable_http，Codex 写 mcp add buildkite --url https://mcp.buildkite.com/mcp，再 mcp login。单组工具走 mcp.buildkite.com/mcp/x/pipelines。不要抄 Amp 的 mcp-remote 或 Claude 的 --transport http。',
+  },
 ];
 
