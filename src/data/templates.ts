@@ -2490,4 +2490,20 @@ codex mcp login buffer
 # enabled = true
 `,
   },
+  {
+    id: "growthbook-mcp-stdio",
+    title: "GrowthBook MCP",
+    filename: "config.toml",
+    summary:
+      "主路径是 mcp add growthbook -- npx -y @growthbook/mcp@latest。表名 growthbook，本地 stdio。GB_API_KEY 用 env_vars。不要 mcp login。不要发明远程 --url。",
+    code: `codex mcp add growthbook -- npx -y @growthbook/mcp@latest
+
+# [mcp_servers.growthbook]
+# command = "npx"
+# args = ["-y", "@growthbook/mcp@latest"]
+# env_vars = ["GB_API_KEY"]
+# startup_timeout_sec = 30
+# enabled = true
+`,
+  },
 ];

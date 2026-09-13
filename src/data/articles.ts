@@ -3141,5 +3141,25 @@ export const articles: Article[] = [
     summary:
       '营销页同样写 Codex CLI：mcp add buffer --url https://mcp.buffer.com/mcp。OAuth，浏览器会弹。网页 ChatGPT 走 Developer mode Connectors，不要抄进 config.toml。不要发明 plugin add buffer@。',
   },
+  {
+    title: 'How to set up the GrowthBook MCP server for Codex',
+    url: 'https://www.growthbook.io/insights/how-to-set-up-growthbook-mcp-server-for-codex',
+    source: 'GrowthBook',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'GrowthBook', 'stdio'],
+    summary:
+      '官方 Codex：mcp add growthbook -- npx -y @growthbook/mcp@latest。表名 growthbook，本地 stdio。不要把 --env 里的 GB_API_KEY 字面量写进 TOML，改成 env_vars。不要 mcp login。不要发明远程 --url。',
+  },
+  {
+    title: 'Official GrowthBook MCP Server',
+    url: 'https://docs.growthbook.io/integrations/mcp',
+    source: 'GrowthBook',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'GrowthBook', 'stdio'],
+    summary:
+      '现行 2.x 工具是 growthbook_list_skills / growthbook_read_skill / growthbook_api_read / growthbook_api_write。Cloud 远程 mcp.growthbook.io/mcp 是 Cursor / Claude OAuth。Codex 专文仍是本地 @growthbook/mcp，不要发明 mcp add --url。旧文档的 GB_EMAIL 不是 stdio 必填。',
+  },
 ];
 

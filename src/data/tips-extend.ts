@@ -9217,4 +9217,59 @@ enabled = true
       },
     ],
   },
+  {
+    id: "growthbook-mcp-stdio",
+    no: 360,
+    title: "GrowthBook MCP 用 npx @growthbook/mcp，密钥走 env_vars",
+    summary:
+      "官方 Codex：mcp add growthbook -- npx -y @growthbook/mcp@latest。表名 growthbook，本地 stdio。GB_API_KEY 用 env_vars，不要抄 --env 字面量。不要 mcp login。不要发明远程 --url 或 plugin add growthbook@。",
+    body: `GrowthBook 给 Codex 有专文。官方主路径是本机 stdio 包 \`@growthbook/mcp\`，用 PAT，不是远程 URL，也不要 \`mcp login\`：
+
+\`\`\`bash
+codex mcp add growthbook -- npx -y @growthbook/mcp@latest
+\`\`\`
+
+官方表名就是 \`growthbook\`。专文那条 \`--env GB_API_KEY=…\` 会把密钥写进 \`config.toml\`，不要抄。改成 \`env_vars\`，从启动 Codex 的进程转发名字：
+
+\`\`\`toml
+[mcp_servers.growthbook]
+command = "npx"
+args = ["-y", "@growthbook/mcp@latest"]
+env_vars = ["GB_API_KEY"]
+startup_timeout_sec = 30
+enabled = true
+\`\`\`
+
+必填是 \`GB_API_KEY\`（API key 或 PAT）。GrowthBook Cloud 默认打 \`https://api.growthbook.io\`，Cloud 用户不要加 \`GB_API_URL\`。自托管才把 \`GB_API_URL\` 加进 \`env_vars\`，写成 HTTPS API 根，不要带 \`/api/v1\` 或 \`/api/v2\`。反向代理要额外头时转发 \`GB_HTTP_HEADER_*\` 这些名字，不要把值写进 \`env\` 表。Codex 默认启动超时 10 秒，冷 \`npx\` 第一次拉包经常不够，所以加上 \`startup_timeout_sec = 30\`。
+
+现行 2.x 是四把工具：\`growthbook_list_skills\`、\`growthbook_read_skill\`、\`growthbook_api_read\`、\`growthbook_api_write\`。Codex 专文里还写着 \`growthbook_call_api\`，官方 MCP 文档已经拆成 read/write。若仍看到 \`get_feature_flags\` 一类 1.x 名字，是旧包或过期文档。旧文档的 \`GB_EMAIL\`、\`GB_APP_ORIGIN\` 不是现行 stdio 必填项，不要抄 Cursor JSON 那整段 env。
+
+不要发明 \`codex mcp add growthbook --url https://mcp.growthbook.io/mcp\`。Cloud 远程 OAuth 是给 Cursor / VS Code / Claude 的；Codex 专文是本地 stdio。不要抄 Claude 的 \`--transport stdio\` 或 \`--transport http\`。不要抄 Cursor 的 \`.cursor/mcp.json\`。不要发明 \`codex plugin add growthbook@…\`。技能是另一条路：\`npx skills add growthbook/skills\`，官方没钉 \`--agent codex\`，不会登记这台 MCP。Claude 的 marketplace add 不是 Codex 命令。
+
+\`GB_API_KEY\` 必须在**启动 Codex 的那个进程**里。Codex 不读 \`.env\`。从 Dock 打开的桌面没有你在 zshrc 里 export 的变量。\`codex doctor\` 会标出点了名却缺失的 \`env_vars\`。改完彻底新开会话。用 \`codex mcp get growthbook\` 看 command 是 npx。\`/mcp\` 里工具 0 先查超时和环境。网页 Cloud 不读这份 \`config.toml\`，也跑不了本机 stdio。
+
+先只读：问列出 GrowthBook 项目和环境，或列出可用技能。创建开关、发实验、写 API 会改账号，保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add growthbook@openai-curated\`。
+- 不要把 PAT 写进 \`--env\` 字面量、\`env\` 表、\`args\` 或 URL。
+- 不要对这台跑 \`mcp login\`，也不要发明远程 \`--url\`。
+- 不要给它 \`required = true\` 挂全局。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "GrowthBook", "stdio", "env_vars"],
+    related: ["mcp-stdio-env-vars", "contentful-mcp-stdio", "brightdata-mcp-stdio"],
+    sources: [
+      {
+        label: "GrowthBook · Codex MCP setup",
+        url: "https://www.growthbook.io/insights/how-to-set-up-growthbook-mcp-server-for-codex",
+      },
+      {
+        label: "GrowthBook · Official MCP",
+        url: "https://docs.growthbook.io/integrations/mcp",
+      },
+    ],
+  },
 ];
