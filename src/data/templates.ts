@@ -2260,4 +2260,18 @@ codex mcp login pathbound
 # enabled = true
 `,
   },
+  {
+    id: "stackone-mcp-http",
+    title: "StackOne 远程 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add stackone --url https://mcp.stackone.com/mcp，再 mcp login stackone。不要抄 Claude 的 --transport http。无头才把 token 拼进 api.stackone.com/mcp。",
+    code: `codex mcp add stackone --url https://mcp.stackone.com/mcp
+codex mcp login stackone
+
+# [mcp_servers.stackone]
+# url = "https://mcp.stackone.com/mcp"
+# enabled = true
+`,
+  },
 ];

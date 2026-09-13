@@ -2861,5 +2861,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex：mcp add pathbound --url https://mcp.pathbound.ai/mcp，再 mcp login pathbound。URL 带 /mcp。不要抄 Claude.ai 或 ChatGPT Plugins。无头才 REST API key 走 bearer_token_env_var。',
   },
+  {
+    title: 'Codex (OpenAI)',
+    url: 'https://docs.stackone.com/connect/ai-platforms/codex',
+    source: 'StackOne',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'StackOne', 'OAuth', 'HTTP'],
+    summary:
+      '官方 Codex：mcp add stackone --url https://mcp.stackone.com/mcp，再 mcp login stackone。网关 URL 带 /mcp。无头才把仪表盘 session token 拼进 api.stackone.com/mcp。不要抄 Claude 的 --transport http 或 npx mcp-remote。',
+  },
 ];
 

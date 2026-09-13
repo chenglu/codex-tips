@@ -8353,4 +8353,70 @@ OAuth 票覆盖 \`contacts:read\` / \`contacts:write\`、\`companies:read\` / \`
       },
     ],
   },
+  {
+    id: "stackone-mcp-http",
+    no: 345,
+    title: "StackOne 远程 MCP 用 mcp.stackone.com/mcp，再 mcp login",
+    summary:
+      "官方 Codex：mcp add stackone --url https://mcp.stackone.com/mcp，再 mcp login stackone。网关 URL 带 /mcp。无头才把仪表盘 session token 拼进 api.stackone.com/mcp。不要抄 Claude 的 --transport http。",
+    body: `StackOne 给 Codex 有专节。官方 CLI 主路径是远程 Streamable HTTP + OAuth，不需要包装包：
+
+\`\`\`bash
+codex mcp add stackone --url https://mcp.stackone.com/mcp
+codex mcp login stackone
+\`\`\`
+
+URL **带** \`/mcp\` 后缀。用户层表名官方就是 \`stackone\`。不要发明不带后缀的 \`https://mcp.stackone.com\`。桌面 / IDE：Settings → MCP servers → Add server，选 Streamable HTTP，填同一地址，再 Authenticate。CLI、桌面、IDE 同机共享 \`~/.codex/config.toml\`，加一次即可。
+
+\`\`\`toml
+[mcp_servers.stackone]
+url = "https://mcp.stackone.com/mcp"
+enabled = true
+\`\`\`
+
+\`mcp login stackone\` 会打开浏览器。登录后选项目、勾关联账号和动作，再 Authorize。网关地址本身不含凭证，可以提交进 dotfiles 或内网 wiki；每人自己跑一遍 \`mcp login\`。
+
+同意页默认打开 **Load tools when needed**（Advanced Tool Search）。大工具集保持开；关掉才会把选中动作一次全交给模型。管理员可能在项目设置里锁死这个开关，那时同意页上看不到开关。改账号或动作再跑一遍 \`codex mcp login stackone\`。撤销走 StackOne 仪表盘 Connected Apps。
+
+不要抄 Claude 的 \`claude mcp add --transport http stackone https://mcp.stackone.com/mcp\`。不要发明 \`codex plugin add stackone@…\`。不要抄 \`npx mcp-remote\`。不要抄 JSON \`mcpServers\`。不要抄 Cursor 的 \`.cursor/mcp.json\`。
+
+连上后先开 \`codex\` 问 \`What StackOne tools are available?\`。写操作会动真实 HR / ATS / CRM 数据，保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。网页 Cloud 不读 \`~/.codex/config.toml\`。
+
+无头 / 共享机 / 定时任务才用仪表盘 session token。Connectors → 打开连接器 → **Use in Agent** → 选关联账号、过期（默认一年）→ 选 HTTPS MCP，复制 URL。主机是 \`api.stackone.com\`，不是 \`mcp.stackone.com\`。形态是 \`https://api.stackone.com/mcp?token=...\`。一条 URL 对应一个关联账号，持有者在过期前都有权，当密码。不要提交、不要写进共享 wiki。
+
+无同意页时要 Advanced Tool Search：同一 URL 再加 \`tool-mode=search_execute\`。
+
+\`\`\`toml
+# 无头：把仪表盘复制的整条 HTTPS MCP URL 写进 url。不要再 mcp login。
+[mcp_servers.stackone_ci]
+url = "https://api.stackone.com/mcp?token=..."
+enabled = true
+\`\`\`
+
+一条连接只用一种鉴权：OAuth 表用 \`mcp.stackone.com/mcp\` + \`mcp login\`；token 表用 \`api.stackone.com/mcp?token=...\`，不要再 \`mcp login\`。不要把 token URL 和网关 URL 配成两张同名表。不要把 token 改成 \`bearer_token_env_var\` 或写进 \`http_headers\`。Claude 页那条 API-key / Basic \`STACKONE_AUTH_TOKEN\` 不是 Codex 主路径，不要抄过来。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add stackone@openai-curated\`。
+- 不要抄 Claude 的 \`--transport http\` 或 \`npx mcp-remote\`。
+- 不要把 session token URL 提交进仓库。
+- 不要给它 \`required = true\` 挂全局。
+
+改完新开会话。用 \`codex mcp get stackone\` 看传输是 streamable_http。会话里 \`/mcp\` 应显示 Auth: OAuth（无头那张才是 URL 自带凭证）。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "StackOne", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-http-bearer-env", "pathbound-mcp-http"],
+    sources: [
+      {
+        label: "StackOne · Codex",
+        url: "https://docs.stackone.com/connect/ai-platforms/codex",
+      },
+      {
+        label: "StackOne · Codex MCP",
+        url: "https://www.stackone.com/platform/mcp/ai-agent/codex/",
+      },
+    ],
+  },
 ];
