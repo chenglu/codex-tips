@@ -629,7 +629,7 @@ export const articles: Article[] = [
     kind: '官方',
     tags: ['Windows', '沙箱', '排错'],
     summary:
-      '原生 Windows 沙箱两种模式：elevated 用独立低权限用户和防火墙，unelevated 是管理员批准被拦时的退路。覆盖 /sandbox-add-read-dir、错误 1385、Everyone 可写目录警告，以及把 sandbox.log 而不是 .sandbox-secrets 交给支持。',
+      '原生 Windows 沙箱两种模式：elevated 用独立低权限用户和防火墙，unelevated 是管理员批准被拦时的退路。两种模式默认都进专用桌面（sandbox_private_desktop = true）；GUI 或 Computer Use 要看见交互桌面才改 false。还覆盖 /sandbox-add-read-dir、错误 1385、Everyone 可写目录警告，以及把 sandbox.log 而不是 .sandbox-secrets 交给支持。',
   },
   {
     title: 'Permissions',
@@ -689,7 +689,7 @@ export const articles: Article[] = [
     kind: '官方',
     tags: ['MCP', '配置', '插件'],
     summary:
-      '本地 CLI / IDE / 桌面应用共用一份 MCP 配置；ChatGPT 网页 Work 只走插件，不读 ~/.codex。覆盖 STDIO 与 Streamable HTTP、OAuth CIMD/DCR、auth=oauth|chatgpt（chatgpt 仅同源）、oauth_resource、scopes（源码顺序是 --scopes、config、广告 scopes_supported；Learn 页写成广告优先是过时摘要）、default_tools_approval_mode、单工具 output_token_limit，以及插件自带服务器只能改开关不能改启动命令。',
+      '本地 CLI / IDE / 桌面应用共用一份 MCP 配置；ChatGPT 网页 Work 只走插件，不读 ~/.codex。覆盖 STDIO 与 Streamable HTTP、OAuth CIMD/DCR、auth=oauth|chatgpt（chatgpt 仅同源）。插件自带 HTTP MCP 的 OAuth 在 mcp.json 里用 camelCase（clientId / callbackUrl / callbackPort），不要抄 config.toml 的蛇形键。instructions 前 512 个字符要自成一段。插件自带服务器只能改开关不能改启动命令。',
   },
   {
     title: 'Advanced configuration (ChatGPT Learn)',
@@ -1759,7 +1759,7 @@ export const articles: Article[] = [
     kind: '官方',
     tags: ['plugins', '企业', 'marketplace'],
     summary:
-      '工作区管理员从 GitHub 导入 marketplace.json，默认每日同步。路径填含清单的目录，不要填文件名。GitHub 导入不套用仓库里的 INSTALLED_BY_DEFAULT 等策略，要在 Admin 里给每个插件设安装策略。带 mcp.json 的导入插件会标成 Desktop only，CLI / IDE 用不了。',
+      '工作区管理员从 GitHub 导入 marketplace.json，默认每日同步。路径填含清单的目录，不要填文件名。GitHub 导入不套用仓库里的 INSTALLED_BY_DEFAULT 等策略，要在 Admin 里给每个插件设安装策略。带 mcp.json 的导入插件会标成 Desktop only，CLI / IDE 用不了。把已有工作区插件交给 GitHub 管，在条目里加 pluginId。',
   },
   {
     title: 'Codex CLI × MCP 开始 Raspberry Pi 温湿度监控（MiniViz MCP）',
@@ -1809,7 +1809,7 @@ export const articles: Article[] = [
     kind: '官方',
     tags: ['plugins', 'marketplace', '企业'],
     summary:
-      '官方打包页：用 $plugin-creator 或手写 .codex-plugin/plugin.json。工作区 Publish 只给当前 ChatGPT 工作区角色，不上公共目录；CLI 分发仍走 marketplace。企业用 requirements.toml 的 features.plugin_sharing = false 关掉分享。',
+      '官方打包页：新包用根目录 plugin.json（Agent Plugins schema）和带 type 的 mcp.json。$plugin-creator 仍脚手架 .codex-plugin 兼容布局，不要只把 .mcp.json 改名。兼容节仍可能把包装对象写成 mcp_servers，加载器认的是 mcpServers。extensions.com.openai 会整份替换 overlay。工作区 Publish 不上公共目录；CLI 分发仍走 marketplace。',
   },
   {
     title: 'plugin-creator marketplace JSON spec',
@@ -1820,6 +1820,1816 @@ export const articles: Article[] = [
     tags: ['plugins', 'marketplace', 'plugin.json'],
     summary:
       '内置 $plugin-creator 的清单样例。个人 marketplace 在 ~/.agents/plugins/marketplace.json，仓库清单在 .agents/plugins/marketplace.json。同一条 ./plugins/my-plugin 在个人清单解析到 ~/plugins/my-plugin，不是 ~/.agents/plugins 下面。每条都要有 policy.installation、policy.authentication 和 category。',
+  },
+  {
+    title: 'Plugin submission errors',
+    url: 'https://learn.chatgpt.com/plugins/deploy/submission-errors',
+    source: 'ChatGPT Learn',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'plugin.json', '投稿'],
+    summary:
+      '公共目录投稿的错误码对照。ZIP 必须带 .codex-plugin/plugin.json、.agent-plugin/plugin.json 或 .claude-plugin/plugin.json 之一，只有根目录 plugin.json 会报 plugin_manifest_missing。根上的 .mcp.json 只有清单把 mcpServers 指到 ./.mcp.json 才会导入。技能-only 包不能夹带 MCP。',
+  },
+  {
+    title: 'Agent Plugins 1.0 开发教程：Skills＋MCP 跨 Codex、Copilot、VS Code',
+    url: 'https://aistacknav.com/agent-plugins-1-0-skills-mcp-codex-copilot-vscode/',
+    source: 'AI Stack Nav',
+    lang: '中文',
+    kind: '教程',
+    tags: ['plugins', 'plugin.json', 'MCP'],
+    summary:
+      '中文对照：可移植核心是根目录 plugin.json、skills/、mcp.json；钩子和分发仍是各客户端自己的层。Codex / ChatGPT 公共目录还要保留 .codex-plugin overlay。IDE 扩展没有插件目录。不要把密钥写进 mcp.json，也不要把 mcpServers 塞进顶层 plugin.json。',
+  },
+  {
+    title: 'Plugin controls (apps and connectors)',
+    url: 'https://learn.chatgpt.com/docs/enterprise/apps-and-connectors',
+    source: 'ChatGPT Learn',
+    lang: '英文',
+    kind: '官方',
+    tags: ['连接器', 'plugins', '企业'],
+    summary:
+      '工作区里插件能不能装、连接器能不能用、连接器能做哪些动作，是三层控制。CLI 用户 config 的 [apps._default] 只管本机工具审批和 destructive / open_world 提示，盖不了工作区关掉的连接器。插件捆里若带了连接器，仍要在 Workspace apps 里授权。',
+  },
+  {
+    title: 'Codex 插件开发实战：从 plugin.json 到公共市场',
+    url: 'https://news.qiniu.com/archives/1786326734143',
+    source: '七牛云',
+    lang: '中文',
+    kind: '教程',
+    tags: ['plugins', 'plugin.json', 'marketplace'],
+    summary:
+      '中文对照 $plugin-creator、三种 marketplace 和 PLUGIN_ROOT 钩子。例子仍是 .codex-plugin 兼容布局；现行可移植包要把身份放在根目录 plugin.json。文中 .mcp.json 示例用的是 mcpServers，不要改回官方兼容节里的 mcp_servers。基于 0.117 前后的文档，字段以 Learn 现行页为准。',
+  },
+  {
+    title: 'Codex 插件全解：官方目录 75 个插件按 11 大类',
+    url: 'https://news.qiniu.com/archives/1789094413719',
+    source: '七牛云',
+    lang: '中文',
+    kind: '教程',
+    tags: ['plugins', '目录', '桌面'],
+    summary:
+      '按官方目录分类介绍到 2026-09 的 75 个插件。安装后要新开会话；CLI 用 /plugins，桌面有插件页，IDE 扩展没有插件目录。带 MCP 的 Admin 导入插件仍是 Desktop only。具体字段和 mcp.json 包装键以 Learn 现行页为准，不要只按文中的兼容布局抄。',
+  },
+  {
+    title: 'How to Build a Controlled MCP Workflow for Codex and Oracle AI Database',
+    url: 'https://blogs.oracle.com/developers/how-to-build-a-controlled-mcp-workflow-for-codex-and-oracle-ai-database',
+    source: 'Oracle Developers',
+    lang: '英文',
+    kind: '教程',
+    tags: ['MCP', 'Oracle', 'SQLcl'],
+    summary:
+      'Oracle 官方把 Codex CLI 接到 SQLcl MCP：先用 conn -save -savepwd 把连接存进 ~/.dbtools，再让 Codex 用绝对路径启动 sql -mcp。密码不要写进 config.toml。后半讲的 Agent Memory 和 LangChain 是应用层，不是 Codex 配置。DEV.to 同文转载。',
+  },
+  {
+    title: 'Codex MCP Not Working? Every Windows Fix (2026)',
+    url: 'https://mcp.directory/blog/codex-mcp-windows-fix-guide-2026',
+    source: 'MCP Directory',
+    lang: '英文',
+    kind: '清单',
+    tags: ['MCP', 'Windows', '排错'],
+    summary:
+      '按报错拆 Windows 上 Codex MCP：program not found、TOML 路径转义、超时、项目层配置被桌面忽略、SSE 与 streamable HTTP。0.154 起裸 npx 通常能解析 .cmd，路径仍要用单引号或正斜杠。对照本机 /help，不要把 cmd /c 包装抄进 WSL。',
+  },
+  {
+    title: 'The 10 Best MCP Servers for OpenAI Codex in 2026',
+    url: 'https://brightdata.com/blog/ai/best-mcp-servers-for-codex',
+    source: 'Bright Data',
+    lang: '英文',
+    kind: '清单',
+    tags: ['MCP', 'startup_timeout_sec', '清单'],
+    summary:
+      '真正有用的是开头那两行默认值：启动 10 秒、工具调用 60 秒。冷 npx / uvx 超时后会话会 aggregating 0 tools，看起来像没装。先把 startup_timeout_sec 提到 30–60，用 /mcp 一台一台确认。后半的服务器推荐按本机需求筛选，不要整表抄进 config.toml。',
+  },
+  {
+    title: 'Codex CLI MCP: Setup + Best Servers (2026)',
+    url: 'https://www.tembo.io/blog/codex-cli-mcp',
+    source: 'Tembo',
+    lang: '英文',
+    kind: '教程',
+    tags: ['MCP', 'config.toml', '超时'],
+    summary:
+      '从 codex mcp add 讲到 TOML：stdio 用 command，远程用 url。把 startup_timeout_sec 和 tool_timeout_sec 拆开，并提醒项目层配置会盖用户层。远程登录仍要 mcp login；npx -y 每次拉最新包，团队配置应钉版本。',
+  },
+  {
+    title: 'Codex MCP Servers: Config, Transports, and What Works',
+    url: 'https://www.usecarly.com/blog/codex-mcp-servers/',
+    source: 'Use Carly',
+    lang: '英文',
+    kind: '教程',
+    tags: ['MCP', 'env_vars', 'stdio'],
+    summary:
+      '强调 Codex 用 command 或 url 隐式选传输，两套键不能同时写。stdio 的 env 是字面量，env_vars 才从启动进程转发密钥。远程走 Streamable HTTP，不要先套 mcp-remote。具体超时和 OAuth 步骤以 Learn 现行页为准。',
+  },
+  {
+    title: 'Codex CLI MCP: How OpenAI Codex Connects to Tools',
+    url: 'https://www.verdent.ai/guides/codex-cli-mcp-setup-guide',
+    source: 'Verdent Guides',
+    lang: '英文',
+    kind: '教程',
+    tags: ['MCP', 'bearer_token_env_var', 'config.toml'],
+    summary:
+      '把 Streamable HTTP 和 stdio 拆开写：远程用 url，密钥写环境变量名而不是 token 本身。强调 Codex 启动时变量必须已经在进程里，事后在另一个终端 export 没用。stdio 的 env 表是额外字面量，不会自动继承整份 shell。排错先查启动环境，再查 PATH 和 startup_timeout_sec。',
+  },
+  {
+    title: 'Install GitHub MCP Server in OpenAI Codex',
+    url: 'https://github.com/github/github-mcp-server/blob/main/docs/installation-guides/install-codex.md',
+    source: 'github/github-mcp-server',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'GitHub', 'bearer_token_env_var'],
+    summary:
+      'GitHub 官方把托管 MCP 接到 Codex：url 用 https://api.githubcopilot.com/mcp/，再写 bearer_token_env_var。CLI add 必须带 --bearer-token-env-var，否则配置没有鉴权。Codex 不自动读 .env，变量要进启动进程。这不是 Cloud 上的 @codex review。',
+  },
+  {
+    title: 'Set up the remote Figma MCP server (Codex)',
+    url: 'https://developers.figma.com/docs/figma-mcp-server/remote-server-installation/',
+    source: 'Figma Developers',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Figma', 'OAuth'],
+    summary:
+      'Figma 给 Codex 的官方远程安装：桌面应用走插件 Install Figma；CLI 用 codex mcp add figma --url https://mcp.figma.com/mcp，随后 OAuth。不要抄 Claude 的 claude mcp add。本地桌面 MCP 是另一条企业路径。',
+  },
+  {
+    title: 'Codex and Figma: Set up the MCP server',
+    url: 'https://help.figma.com/hc/en-us/articles/39888629089175-Codex-and-Figma-Set-up-the-MCP-server',
+    source: 'Figma Help',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Figma', '桌面'],
+    summary:
+      '帮助中心把远程 MCP 写成首选。本地桌面服务要先在 Figma 桌面 Dev Mode 打开，再在 Codex 里加 Streamable HTTP，地址 http://127.0.0.1:3845/mcp。管理员关掉第三方插件时，工具会看不见。',
+  },
+  {
+    title: 'Get started with Chrome DevTools for agents',
+    url: 'https://developer.chrome.com/docs/devtools/agents/get-started',
+    source: 'Chrome for Developers',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Chrome', 'stdio'],
+    summary:
+      '官方给 Codex 的安装是 codex mcp add chrome-devtools -- npx chrome-devtools-mcp@latest。要 Node LTS 和 Chrome 稳定版。这是 stdio，不是 Learn 示例里的 localhost HTTP。测通提示是检查 developers.chrome.com 的性能。不要抄 Claude 的 mcpServers JSON。',
+  },
+  {
+    title: 'ChromeDevTools/chrome-devtools-mcp',
+    url: 'https://github.com/ChromeDevTools/chrome-devtools-mcp',
+    source: 'ChromeDevTools',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Chrome', 'stdio'],
+    summary:
+      'stdio 包 chrome-devtools-mcp。只连上 MCP 不会自动开浏览器。沙箱用 --headless / --isolated。Windows 11 文档才写 cmd /c npx 包装，不要抄进 WSL。现行 Codex 超时键是 startup_timeout_sec。默认会打 Google 用量统计，可 --no-usage-statistics。',
+  },
+  {
+    title: 'How to add Chrome DevTools MCP server to Codex',
+    url: 'https://www.simplified.guide/codex/chrome-devtools-mcp-server-add',
+    source: 'Simplified Guide',
+    lang: '英文',
+    kind: '教程',
+    tags: ['MCP', 'Chrome', 'codex mcp add'],
+    summary:
+      '按 Codex 的 add / get --json / list 核对：传输必须是 stdio，命令是 npx。建议带 -y，避免首次 npx 交互卡住启动。包参数写在包名后面。已经打开的会话要重启才加载。',
+  },
+  {
+    title: 'Other Clients',
+    url: 'https://playwright.dev/mcp/clients/other-clients',
+    source: 'Playwright',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Playwright', 'stdio'],
+    summary:
+      '官方给 Codex 的安装是 codex mcp add playwright，命令用 npx，包名 @playwright/mcp@latest。文档示例省略了 --；Codex 习惯把 npx 写在 -- 后面。配置进 ~/.codex/config.toml 的 [mcp_servers.playwright]，不要贴 Claude 的 mcpServers JSON。',
+  },
+  {
+    title: 'microsoft/playwright-mcp',
+    url: 'https://github.com/microsoft/playwright-mcp',
+    source: 'microsoft/playwright-mcp',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Playwright', 'stdio'],
+    summary:
+      'stdio 包 @playwright/mcp。默认可视窗口；沙箱加 --headless / --isolated。--extension 要先装浏览器扩展。工具表里的 browser_run_code_unsafe 标注为 RCE-equivalent。远程另开 --port 时走 /mcp，不要抄 /sse。',
+  },
+  {
+    title: 'Playwright MCP：让 Claude、Codex、Cursor 控制浏览器',
+    url: 'https://eastondev.com/blog/zh/posts/ai/20260904-playwright-mcp-browser-automation-claude-codex-cursor/',
+    source: 'Easton',
+    lang: '中文',
+    kind: '教程',
+    tags: ['MCP', 'Playwright', 'disabled_tools'],
+    summary:
+      '中文把三种客户端的官方包名写清楚，并标出 browser_run_code_unsafe 的风险。Codex 示例里的服务器级 approval_mode 不是现行键，应写成 default_tools_approval_mode，或用 disabled_tools 直接关掉。安装仍以 Playwright 给 Codex 的 stdio 示例为准。',
+  },
+  {
+    title: 'Installation',
+    url: 'https://playwright.dev/agent-cli/installation',
+    source: 'Playwright',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'Playwright', 'playwright-cli'],
+    summary:
+      '官方 playwright-cli 安装。无参数的 install --skills 默认等于 --skills=claude，会写进 .claude/skills。Codex 要仓库技能必须加 --skills=agents；-g 才进 ~/.agents/skills。没有 --skills=codex。浏览器可另外 install-browser。',
+  },
+  {
+    title: 'Skills',
+    url: 'https://playwright.dev/agent-cli/skills',
+    source: 'Playwright',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'Playwright', 'playwright-cli'],
+    summary:
+      'Playwright 自己的技能教代理怎么用 playwright-cli：snapshot、mock、trace、storage state。也可以不装技能，只让代理读 playwright-cli --help。这和 Codex 精选技能 $skill-installer playwright 是两条安装通道。',
+  },
+  {
+    title: 'Using Context7 with OpenAI Codex',
+    url: 'https://context7.com/docs/clients/codex',
+    source: 'Context7',
+    lang: '英文',
+    kind: '教程',
+    tags: ['MCP', 'Context7', 'stdio'],
+    summary:
+      '厂商 Codex 页。Learn 免费入门不强制 API key。页上的 --api-key、startup_timeout_ms、字面量 http_headers 不要抄进 Codex：密钥用 env_vars 或 bearer_token_env_var，超时用 startup_timeout_sec。npx ctx7 setup --codex 还会改 AGENTS.md。网页 Cloud 不读 ~/.codex/config.toml。',
+  },
+  {
+    title: 'upstash/context7',
+    url: 'https://github.com/upstash/context7',
+    source: 'upstash/context7',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Context7', 'stdio'],
+    summary:
+      'Context7 文档检索 MCP 的仓库。Codex 用 stdio 包 @upstash/context7-mcp，远程入口是 https://mcp.context7.com/mcp。不要把 Claude 的 mcpServers JSON 或密钥写进 args。',
+  },
+  {
+    title: 'Connect to Notion MCP',
+    url: 'https://developers.notion.com/guides/mcp/get-started-with-mcp',
+    source: 'Notion Developers',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Notion', 'OAuth'],
+    summary:
+      '官方 Codex 节：写 ~/.codex/config.toml 的 [mcp_servers.notion]，url 用 https://mcp.notion.com/mcp，再 codex mcp login notion。目前必须交互 OAuth，没有 PAT 静默登录。项目层同名表只共享 url，每人仍要自己 login。不要抄 /sse 或停更的开源包。',
+  },
+  {
+    title: 'How to Set Up the Notion MCP Server with OpenAI Codex',
+    url: 'https://www.flowdevs.io/blog/post/how-to-set-up-the-notion-mcp-server-with-openai-codex',
+    source: 'FlowDevs',
+    lang: '英文',
+    kind: '教程',
+    tags: ['MCP', 'Notion', 'codex mcp add'],
+    summary:
+      '把 Claude 的 --transport http 换成 Codex 的 mcp add notion --url。认证用 codex mcp login notion；TUI 里 /mcp 是查看工具，不是唯一登录入口。不要再加 experimental_use_rmcp_client。',
+  },
+  {
+    title: 'Connecting the Slack MCP server to agent harnesses',
+    url: 'https://docs.slack.dev/ai/slack-mcp-server/connect-to-harnesses',
+    source: 'Slack',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Slack', 'OAuth'],
+    summary:
+      '官方有 Codex 节，但那行 --transport http 是 Claude 语法。Codex 应写成 mcp add slack --url https://mcp.slack.com/mcp，并带 --oauth-client-id。Slack 不支持 DCR。这和 Cloud 频道 @Codex 不是同一条路。',
+  },
+  {
+    title: 'Sentry MCP Server',
+    url: 'https://docs.sentry.io/product/sentry-mcp/',
+    source: 'Sentry',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Sentry', 'OAuth'],
+    summary:
+      '官方托管地址是 https://mcp.sentry.dev/mcp，可接到 org 或项目。所有连接走 OAuth。页面只示范 Claude --transport http 和 Cursor JSON。Codex 用 mcp add sentry --url 再 mcp login。不要把花括号占位原样写进 TOML。',
+  },
+  {
+    title: 'How to Connect Codex to Sentry (and What It Can\'t Do)',
+    url: 'https://www.usecarly.com/blog/codex-sentry-integration/',
+    source: 'Use Carly',
+    lang: '英文',
+    kind: '教程',
+    tags: ['MCP', 'Sentry', 'codex mcp add'],
+    summary:
+      '给出 Codex 命令 mcp add sentry --url。现行构建直接连 HTTP，不要再套 mcp-remote。它只在会话里拉取，不是值班告警。错误正文可能带提示注入，批准别关。后半是产品推销，安装步骤以官方 MCP 页为准。',
+  },
+  {
+    title: 'Getting started with the Atlassian Rovo MCP Server',
+    url: 'https://developer.atlassian.com/cloud/rovo-mcp/guides/getting-started/',
+    source: 'Atlassian',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Atlassian', 'OAuth'],
+    summary:
+      '2026-09-02 入门页把客户端指到 https://mcp.atlassian.com/v2/mcp。桌面走插件 Atlassian Rovo。CLI 用 mcp add --url 再 login。网关要完整工具表才加 tools=all。不要抄已停的 /sse，也不要把 5 月的 authv2 过渡地址当现行唯一入口。',
+  },
+  {
+    title: 'Model Context Protocol (MCP)',
+    url: 'https://docs.stripe.com/mcp',
+    source: 'Stripe',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Stripe', 'OAuth'],
+    summary:
+      '官方 Codex CLI 节：url 用 https://mcp.stripe.com（没有 /mcp 后缀），再 mcp login stripe。受限密钥走 bearer_token_env_var，键里是变量名 STRIPE_API_KEY。Connect 平台不能用 OAuth 代 connected account，改走平台密钥加 Stripe-Account。不要抄 Claude 的 --transport http，也不要把 sk_live 写进 TOML。',
+  },
+  {
+    title: 'Docs MCP',
+    url: 'https://developers.openai.com/learn/docs-mcp',
+    source: 'OpenAI Developers',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', '文档', 'openaiDeveloperDocs'],
+    summary:
+      '官方 Codex 命令是 mcp add openaiDeveloperDocs --url https://developers.openai.com/mcp。覆盖 developers.openai.com、platform.openai.com、learn.chatgpt.com。只读文档，不会代调 API。AGENTS.md 那句是可选提醒。这不是桌面浏览器里的 WebMCP。不要抄 Claude 的 --transport http。',
+  },
+  {
+    title: 'Codex + Cloudflare',
+    url: 'https://developers.cloudflare.com/agent-setup/codex/',
+    source: 'Cloudflare',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Cloudflare', 'plugins'],
+    summary:
+      '官方 Codex 页：/plugins 装 Cloudflare，或排错用 mcp add cloudflare --url https://mcp.cloudflare.com/mcp。厂商 Code Mode 是这台 API MCP 的搜-执行，不要写成 Codex 的 features.code_mode。文档过时另加 docs.mcp.cloudflare.com/mcp。',
+  },
+  {
+    title: 'cloudflare/skills',
+    url: 'https://github.com/cloudflare/skills',
+    source: 'cloudflare/skills',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['plugins', 'Cloudflare', 'Skills'],
+    summary:
+      'Codex 命令是 plugin marketplace add cloudflare/skills，再 plugin add cloudflare@cloudflare。插件会装 Skills 并登记主 MCP。不要用 npx skills add 当安装器，也不要只把 SKILL.md 拷进 ~/.codex/skills。Claude 的 /plugin install 不要抄。',
+  },
+  {
+    title: 'Hugging Face MCP Server',
+    url: 'https://huggingface.co/docs/hub/en/agents-mcp',
+    source: 'Hugging Face',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Hugging Face', 'hf_fs'],
+    summary:
+      '官方入口是 https://huggingface.co/mcp。设置页 huggingface.co/settings/mcp 勾工具和 Spaces。Codex 用 mcp add huggingface --url 再 mcp login；token 走 bearer_token_env_var = HF_TOKEN。不要把 Bearer 抄进 http_headers。这不是 Inference Providers 的 model_providers。内置工具 hf_fs 用来逛 Hub。',
+  },
+  {
+    title: 'How to connect Amplitude MCP to Codex CLI',
+    url: 'https://amplitude.com/docs/amplitude-ai/amplitude-mcp/codex-cli',
+    source: 'Amplitude',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Amplitude', 'OAuth'],
+    summary:
+      '官方 Codex 命令是 mcp add amplitude --url https://mcp.amplitude.com/mcp，然后 OAuth。EU 用 mcp.eu.amplitude.com/mcp 再 add 一次覆盖同名表。权限跟登录账号走。不是埋点摄入，也不是只读文档 MCP。',
+  },
+  {
+    title: 'Set Up the Datadog MCP Server',
+    url: 'https://docs.datadoghq.com/mcp_server/setup/',
+    source: 'Datadog',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Datadog', 'OAuth'],
+    summary:
+      'Codex 页写 ~/.codex/config.toml 的 [mcp_servers.datadog]，US1 现行是 https://mcp.datadoghq.com/v1/mcp，然后 mcp login datadog。工具集用 http_headers 里的 X-Datadog-MCP-Toolsets，不要把 ?toolsets= 拼进 URL。GovCloud 没有这台服务。',
+  },
+  {
+    title: 'Codex · Hugging Face Inference Providers',
+    url: 'https://huggingface.co/docs/inference-providers/en/integrations/codex',
+    source: 'Hugging Face',
+    lang: '英文',
+    kind: '官方',
+    tags: ['model_providers', 'Hugging Face', 'wire_api'],
+    summary:
+      '用户 config 写 [model_providers.huggingface]，base_url 是 https://router.huggingface.co/v1，env_key = HF_TOKEN，wire_api = responses。Profile 是 ~/.codex/huggingface.config.toml，用 --profile huggingface。这不是 Hub MCP，项目层也改不了供应商。',
+  },
+  {
+    title: 'Codex CLI · Grafana MCP',
+    url: 'https://grafana.com/docs/grafana/latest/developer-resources/mcp/clients/codex/',
+    source: 'Grafana',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Grafana', 'stdio'],
+    summary:
+      '官方 Codex 页是本机 mcp-grafana。Codex 把 GRAFANA_URL 写进 env 表可以；GRAFANA_SERVICE_ACCOUNT_TOKEN 要用 env_vars 转发，不要把 token 抄进 env。startup_timeout_ms 改成 startup_timeout_sec。只读加 --disable-write。',
+  },
+  {
+    title: 'Grafana Cloud MCP server',
+    url: 'https://grafana.com/docs/grafana-cloud/ai-tools/mcp-servers/cloud-mcp/',
+    source: 'Grafana Cloud',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Grafana', 'OAuth'],
+    summary:
+      '托管入口是 https://mcp.grafana.com/mcp，OAuth，只要 Grafana Cloud。页面没有 Codex 专页。Codex 用 mcp add grafana_cloud --url。login 若 302 到文档，http_headers 写 Accept 和 X-Grafana-URL。这不是本机 uvx mcp-grafana。',
+  },
+  {
+    title: 'Use Vercel',
+    url: 'https://vercel.com/docs/agent-resources/vercel-mcp',
+    source: 'Vercel',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Vercel', 'OAuth'],
+    summary:
+      '官方 Codex 节是 mcp add vercel --url https://mcp.vercel.com（没有 /mcp 后缀），add 时会探测 OAuth。npx add-mcp 会改所有检测到的 agent，不要当 Codex 主路径。vercel mcp CLI 的客户端名单没有 Codex。不要抄 Gemini 的 npx mcp-remote 或 Claude 的 --transport http。',
+  },
+  {
+    title: 'Supabase MCP Server',
+    url: 'https://supabase.com/docs/guides/ai-tools/mcp',
+    source: 'Supabase',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Supabase', 'OAuth'],
+    summary:
+      '官方 Codex 节是 mcp add supabase --url https://mcp.supabase.com/mcp，再 mcp login supabase。查询参数 ?read_only=true、?project_ref=abc123、?features=database,docs 写进 url。托管走 OAuth DCR，不要 PAT 当主路径。CI 才用 bearer_token_env_var。不要抄 experimental_use_rmcp_client。',
+  },
+  {
+    title: 'OpenAI Codex with AI Gateway',
+    url: 'https://vercel.com/docs/ai-gateway/coding-agents/openai-codex',
+    source: 'Vercel AI Gateway',
+    lang: '英文',
+    kind: '官方',
+    tags: ['model_providers', 'Vercel', 'wire_api'],
+    summary:
+      'Codex 兼容入口是 https://ai-gateway.vercel.sh/codex/v1，env_key = AI_GATEWAY_API_KEY，wire_api = responses。一键是 vercel ai-gateway coding-agents setup --agent codex。0.134 起不要写 [profiles.vercel]，改用 ~/.codex/vercel.config.toml。这不是 Vercel MCP，也不是 --oss。',
+  },
+  {
+    title: 'Set up Codex for Netlify',
+    url: 'https://docs.netlify.com/build/build-with-ai/agent-setup-guides/set-up-codex-for-netlify/',
+    source: 'Netlify',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Netlify', 'OAuth'],
+    summary:
+      '官方推荐 codex mcp add netlify --url https://netlify-mcp.netlify.app/mcp。远程被拦再改 npx @netlify/mcp。npx add-mcp 会改所有检测到的 agent，不要当 Codex 主路径。技能安装必须带 --agent codex。',
+  },
+  {
+    title: 'PostHog MCP for Codex',
+    url: 'https://posthog.com/docs/model-context-protocol/codex',
+    source: 'PostHog',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'PostHog', 'OAuth'],
+    summary:
+      '官方 Codex 节是 mcp add posthog --url https://mcp.posthog.com/mcp。账号自动走美区或欧盟。Codex 默认 CLI 模式，可用 ?mode=tools。只读用 ?readonly=true。不要把 npx @posthog/wizard mcp add 当 Codex 主路径。插件是 marketplace add PostHog/ai-plugin。',
+  },
+  {
+    title: 'Using Prisma with Codex',
+    url: 'https://www.prisma.io/docs/ai/tools/codex',
+    source: 'Prisma',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Prisma', 'plugins'],
+    summary:
+      '官方远程是 https://mcp.prisma.io/mcp。Codex 用 mcp add prisma --url 再 mcp login。插件是 marketplace add prisma/codex-plugin，不要抄页上的 mcpServers JSON。这不是 Prisma AIRS。破坏性 migrate reset 仍要人同意。',
+  },
+  {
+    title: 'Neon MCP Server overview',
+    url: 'https://neon.com/docs/ai/neon-mcp-server',
+    source: 'Neon',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Neon', 'OAuth'],
+    summary:
+      '官方远程是 https://mcp.neon.tech/mcp。Codex 用 mcp add neon --url 再 mcp login。钉项目用 ?projectId=prj_abc123。不要抄已弃用的 /sse（2026-10-01 起 410 Gone），也不要装 @neondatabase/mcp-server-neon。npx add-mcp 会改所有 agent，不要当 Codex 主路径。CI 才用 bearer_token_env_var = NEON_API_KEY。',
+  },
+  {
+    title: 'PlanetScale Model Context Protocol',
+    url: 'https://planetscale.com/docs/connect/mcp',
+    source: 'PlanetScale',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'PlanetScale', 'OAuth'],
+    summary:
+      '官方 Codex 节是 mcp add planetscale --url https://mcp.pscale.dev/mcp/planetscale。add 后应弹出 OAuth。只要 Insights 换 planetscale-insights-only。CI 用 PLANETSCALE_API_TOKEN，值是 pscale_tkn_ 密钥本身，不要 REST API 的 id:secret。本地 pscale mcp 已删除。',
+  },
+  {
+    title: 'Codex CLI guide (Snyk Studio)',
+    url: 'https://docs.snyk.io/agent-security/agentic-security-with-snyk-studio/quickstart-guides/codex-cli-guide',
+    source: 'Snyk',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Snyk', 'stdio'],
+    summary:
+      'Codex 默认走 Snyk Studio 安装器，必须带 --ade codex。只要 MCP 时表名是 snyk-security，命令是 npx snyk@latest mcp -t stdio。没有托管远程。SNYK_TOKEN 用 env_vars，SNYK_MCP_PROFILE 才写 env 表。不要抄 mcpServers JSON。',
+  },
+  {
+    title: 'Getting started with Codex and CircleCI',
+    url: 'https://circleci.com/blog/getting-started-with-codex-and-circleci/',
+    source: 'CircleCI',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'CircleCI', 'plugins'],
+    summary:
+      'Codex 主路径是 /plugins 装 CircleCI，并先 circleci auth login。托管 MCP 才是 mcp.circleci.com/v1/mcp。不要装已弃用的 @circleci/mcp-server-circleci。circleci mcp enable 列表没有 Codex。不要和 Circle 支付 MCP 搞混。',
+  },
+  {
+    title: 'MCP Web Search & Scrape in Codex CLI',
+    url: 'https://docs.firecrawl.dev/quickstarts/codex-cli',
+    source: 'Firecrawl',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Firecrawl', 'OAuth'],
+    summary:
+      '官方 Codex 节是 mcp add firecrawl --url https://mcp.firecrawl.dev/v2/mcp-oauth，再 mcp login。URL 是客户端配置，不要当网页打开。无账号走 /v2/mcp；CI 才 bearer_token_env_var = FIRECRAWL_API_KEY。本地 stdio 要 Node 22+，密钥用 env_vars，不要把 fc- 写进 env 表。',
+  },
+  {
+    title: 'Exa in Codex and ChatGPT',
+    url: 'https://exa.ai/docs/integrations/chatgpt-codex',
+    source: 'Exa',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Exa', 'plugins'],
+    summary:
+      '官方推荐 chatgpt.com/plugins/exa，插件自带 MCP 和技能。手工才是 mcp add exa --url https://mcp.exa.ai/mcp。不要套 mcp-remote。生产密钥用 env_http_headers 的 x-api-key，不要把 key 写进 URL 或 http_headers 字面量。',
+  },
+  {
+    title: 'Langfuse Docs MCP Server',
+    url: 'https://langfuse.com/docs/docs-mcp',
+    source: 'Langfuse',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Langfuse', '文档'],
+    summary:
+      '官方 Codex 节是 mcp add langfuse-docs --url https://langfuse.com/api/mcp。无鉴权、只读文档。不要抄 mcp-remote。这不是 cloud.langfuse.com 那台带 Basic Auth 的产品 MCP。技能安装必须带 --agent codex。',
+  },
+  {
+    title: 'LaunchDarkly hosted MCP server',
+    url: 'https://launchdarkly.com/docs/home/getting-started/mcp-hosted',
+    source: 'LaunchDarkly',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'LaunchDarkly', 'OAuth'],
+    summary:
+      '托管地址是 https://mcp.launchdarkly.com/mcp/launchdarkly，走 OAuth。官方安装页没有 Codex，本机用 mcp add 再 mcp login。不要抄本地 npx --api-key。联邦区和欧盟实例没有这台托管服务。OAuth 后 403 多半是 Writer 权限。',
+  },
+  {
+    title: 'Langfuse MCP Server',
+    url: 'https://langfuse.com/docs/api-and-data-platform/features/mcp-server',
+    source: 'Langfuse',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Langfuse', '密钥'],
+    summary:
+      '产品 MCP 是 cloud.langfuse.com/api/public/mcp，Basic Auth，项目级 pk/sk。官方 Codex 示例把 token 写进 http_headers，不要抄。Codex 用 env_http_headers。bearer_token_env_var 会发 Bearer，对这台不对口。能跑 shell 时官方更推荐技能加 CLI。验证问 listPrompts。',
+  },
+  {
+    title: "Use Circle's MCP server in your IDE",
+    url: 'https://developers.circle.com/ai/mcp',
+    source: 'Circle',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Circle'],
+    summary:
+      '官方 Codex 节是 mcp add circle --url https://api.circle.com/v1/codegen/mcp。这是 Wallets / Contracts / CCTP / Gateway 的代码生成 MCP，无账号。不要和 CircleCI 的 mcp.circleci.com 搞混。不要抄 Kiro 的 npx @circle/mcp-server。',
+  },
+  {
+    title: 'Twilio MCP server',
+    url: 'https://www.twilio.com/docs/ai/mcp',
+    source: 'Twilio',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Twilio', '文档'],
+    summary:
+      '官方 Codex 节是 mcp add twilio-docs --url https://mcp.twilio.com/docs。无鉴权、只读文档和 OpenAPI，Public Beta。不要抄 Claude 的 --transport http 或 Cursor 的 /add-plugin。不会替你执行 Twilio API。',
+  },
+  {
+    title: 'Twilio Skills for AI coding agents',
+    url: 'https://www.twilio.com/docs/ai/skills',
+    source: 'Twilio',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'Twilio', 'plugins'],
+    summary:
+      'Codex 主路径是 /plugins 或桌面 Plugins 搜 Twilio developer kit。插件 id 是 twilio-developer-kit。纯技能回退才是把 twilio/ai 的 skills/ 拷进 ~/.agents/skills。不要抄 Claude 的 plugin install，也不要把整个仓库 clone 进技能根目录。',
+  },
+  {
+    title: 'Shopify AI Toolkit',
+    url: 'https://shopify.dev/docs/apps/build/ai-toolkit',
+    source: 'Shopify',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'Shopify', 'MCP', 'Skills'],
+    summary:
+      '官方 Codex 推荐是 plugin add shopify@openai-curated，插件会自动更新。只要文档/校验才配本地 shopify-dev-mcp。不要抄 Claude 的 shopify-ai-toolkit@claude-plugins-official。npx skills add 不会自动更新。',
+  },
+  {
+    title: 'Resend MCP Server',
+    url: 'https://resend.com/docs/knowledge-base/mcp-server',
+    source: 'Resend',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Resend', 'plugins', 'OAuth', 'Skills'],
+    summary:
+      'Codex 插件优先：/plugins 或桌面 Plugins 搜 Resend。只要 MCP 才 codex mcp add resend --url https://mcp.resend.com/mcp。无头才 bearer_token_env_var。不要把密钥写进 --env 或 http_headers，也不要抄 Claude 的 plugin install 或 Cursor 的 /add-plugin。',
+  },
+  {
+    title: 'Railway plugin for Codex',
+    url: 'https://docs.railway.com/ai/codex-plugin',
+    source: 'Railway',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'Railway', 'MCP', 'Skills'],
+    summary:
+      'Codex 公共目录是 /plugins 搜 Railway。源仓才 codex plugin marketplace add railwayapp/railway-skills，再从 Railway marketplace 装。捆绑 use-railway 和托管 MCP（mcp.railway.com，没有 /mcp 后缀）。不要抄 Claude 的 railway@claude-plugins-official 或 Cursor 的 /add-plugin railway。',
+  },
+  {
+    title: 'MongoDB with Codex',
+    url: 'https://www.mongodb.com/docs/codex/',
+    source: 'MongoDB',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'MongoDB', 'MCP', 'Skills'],
+    summary:
+      'Atlas 托管走 /plugins 搜 mongodb-atlas。自建才 codex plugin marketplace add mongodb/agent-skills，再装 mongodb 插件，并用 env_vars 配 MDB_MCP_CONNECTION_STRING。不要把连接串写进 args，也不要抄 Claude 或 Cursor 的插件命令。',
+  },
+  {
+    title: 'Enable and connect ClickHouse Cloud remote MCP server',
+    url: 'https://clickhouse.com/docs/products/cloud/features/ai-ml/mcp/remote-mcp',
+    source: 'ClickHouse',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'ClickHouse', 'OAuth', 'plugins'],
+    summary:
+      '先在 Cloud 控制台打开 MCP。Codex 是 codex mcp add clickhouse-cloud --url https://mcp.clickhouse.cloud/mcp，再 OAuth。公共目录也可 /plugins 搜 ClickHouse。不要抄 Claude 的 --transport http，也不要和 clickstack 端点搞混。',
+  },
+  {
+    title: 'Codex CLI + Render',
+    url: 'https://render.com/agents/codex',
+    source: 'Render',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Render', 'OAuth', 'plugins'],
+    summary:
+      '插件优先：/plugins 搜 Render。只要 MCP 才 codex mcp add render --url https://mcp.render.com/mcp --oauth-client-id codex。CI 才 bearer_token_env_var。不要把密钥写进 http_headers，也不要抄 Claude 或 Cursor 的插件命令。',
+  },
+  {
+    title: 'Using Codex with Convex',
+    url: 'https://docs.convex.dev/ai/using-codex',
+    source: 'Convex',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'Convex', 'MCP', 'Skills'],
+    summary:
+      '完整版是 marketplace add get-convex/convex-codex-plugin，再 plugin add convex@convex-codex-plugin。openai-curated 只是轻量连接器。插件已带 MCP 时不要再 mcp add。不要抄 Claude 或 Cursor 的插件命令。',
+  },
+  {
+    title: 'Mixpanel MCP Server',
+    url: 'https://docs.mixpanel.com/docs/mcp',
+    source: 'Mixpanel',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Mixpanel', 'OAuth'],
+    summary:
+      '官方 Codex CLI 是 ~/.codex/config.toml 写 [mcp_servers.mixpanel]，url 为 https://mcp.mixpanel.com/mcp，再 mcp login mixpanel。EU/IN 换区域主机。服务账号不要抄 headers 密钥，改走 env_http_headers。不要抄 Claude 的 --transport http 或 Cursor 的 mcp-remote。',
+  },
+  {
+    title: 'Get started with Algolia Productivity MCP',
+    url: 'https://www.algolia.com/doc/guides/model-context-protocol/productivity-mcp',
+    source: 'Algolia',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Algolia', 'OAuth'],
+    summary:
+      '官方 Codex 节是 mcp add algolia --url https://mcp.algolia.com/mcp，再 mcp login algolia。先在控制台打开 Productivity MCP。只读。不要抄 Claude 的 --transport http。不要和 DocSearch 或 Public MCP 配成一台。',
+  },
+  {
+    title: 'Use DocSearch MCP',
+    url: 'https://docsearch.algolia.com/docs/mcp/usage',
+    source: 'Algolia DocSearch',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Algolia', 'DocSearch'],
+    summary:
+      'Codex 表名是 algolia-docsearch，url 为 https://mcp.algolia.com/1/docsearch/mcp。无鉴权。安装器只用 --codex，不要 --all。不要 login，也不要和 Productivity 那张 algolia 表写成一台。',
+  },
+  {
+    title: 'Develop with AI',
+    url: 'https://docs.temporal.io/with-ai',
+    source: 'Temporal',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'Temporal', 'Skills', 'MCP'],
+    summary:
+      '官方 Codex 是桌面 Plugins 或 TUI /plugins 搜 temporal。官方没给 plugin add id。源仓是 temporalio/codex-temporal-plugin。Cloud 技能不在插件包。知识库 MCP 是 temporal.mcp.kapa.ai，没有 Codex 专节。不要抄 Claude 的 temporal@temporal-marketplace 或 Cursor 的 /add-plugin temporal。',
+  },
+  {
+    title: 'Set up New Relic MCP',
+    url: 'https://docs.newrelic.com/docs/agentic-ai/mcp/setup/',
+    source: 'New Relic',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'New Relic', 'OAuth'],
+    summary:
+      '官方推荐是 mcp add new-relic-mcp-server --url https://mcp.newrelic.com/mcp/，再 mcp login。OAuth 失败才改走 new-relic 表的 env_http_headers api-key。不要抄 --transport http 或 mcp-remote，也不要把 NRAK 密钥写进 http_headers。',
+  },
+  {
+    title: 'Typesense Cloud MCP Server',
+    url: 'https://typesense.org/docs/guide/typesense-cloud/mcp-server',
+    source: 'Typesense',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Typesense', 'OAuth'],
+    summary:
+      '官方 Codex 是 mcp add typesense-cloud --url https://cloud.typesense.org/mcp/v1，再 mcp login。授权页先选最小权限。无头才 bearer_token_env_var。不要抄 Claude 的 --transport http 或把密钥写进 --header。',
+  },
+  {
+    title: 'MCP (AI agents)',
+    url: 'https://docs.turso.tech/integrations/mcp',
+    source: 'Turso',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'Turso', 'MCP', 'OAuth', 'Skills'],
+    summary:
+      '官方 Codex 是 marketplace add tursodatabase/turso-mcp，再 plugin add turso@turso，再 mcp login turso。只要 MCP 才手写 mcp.turso.ai/mcp。OAuth，没有 API token 可抄。不要抄 Claude 的 /plugin install 或 Cursor 的 mcp-remote。',
+  },
+  {
+    title: 'Connect to the CockroachDB Cloud MCP Server',
+    url: 'https://www.cockroachlabs.com/docs/cockroachcloud/connect-to-the-cockroachdb-cloud-mcp-server',
+    source: 'Cockroach Labs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'CockroachDB', 'OAuth', 'plugins'],
+    summary:
+      '官方 Codex 是 mcp add cockroachdb-cloud --url https://cockroachlabs.cloud/mcp，再 mcp login。技能才 marketplace add cockroachdb/codex-plugin。不要抄官方 TOML 里的 Bearer，也不要把 --env 字面量写进配置。',
+  },
+  {
+    title: 'Using the Airtable MCP server',
+    url: 'https://support.airtable.com/docs/using-the-airtable-mcp-server',
+    source: 'Airtable',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'Airtable', 'MCP', 'OAuth', 'Skills'],
+    summary:
+      '官方 Codex 推荐 plugin add airtable@openai-curated。只要 MCP 才 mcp add airtable --url https://mcp.airtable.com/mcp，再 mcp login。无头才 bearer_token_env_var。不要抄 Claude 的 --header 密钥或源仓 README 的数组表。',
+  },
+  {
+    title: 'Connect to the MotherDuck MCP Server',
+    url: 'https://motherduck.com/docs/key-tasks/ai-and-motherduck/mcp-setup/',
+    source: 'MotherDuck',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'MotherDuck', 'MCP', 'OAuth', 'Skills'],
+    summary:
+      '技能走 marketplace add motherduckdb/agent-skills，再 /plugins 装 MotherDuck Skills。远程 MCP 是 api.motherduck.com/mcp，再 mcp login。不要发明 plugin add id，也不要抄 Claude 的 --transport http 或把 token 写进 http_headers。',
+  },
+  {
+    title: 'Set up the developer MCP server',
+    url: 'https://developers.hubspot.com/docs/developer-tooling/local-development/developer-mcp/setup',
+    source: 'HubSpot',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'HubSpot', 'CLI'],
+    summary:
+      '官方 Codex 是 hs mcp setup 勾选 Codex CLI。表名是 HubSpotDev。等价手写 mcp add HubSpotDev -- hs mcp start --ai-agent codex。这是本地开发 MCP，不是 mcp.hubspot.com 那台远程 CRM。',
+  },
+  {
+    title: 'Azure Skills Plugin',
+    url: 'https://github.com/microsoft/azure-skills',
+    source: 'Microsoft',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'Azure', 'MCP', 'Skills'],
+    summary:
+      '官方 Codex 是 marketplace add microsoft/azure-skills，再 /plugins 装 azure。插件 MCP 是 npx @azure/mcp@latest server start，先 az login。不要发明 plugin add id，也不要抄 Copilot 的 /plugin install。',
+  },
+  {
+    title: 'Azure DevOps MCP Server',
+    url: 'https://github.com/microsoft/azure-devops-mcp',
+    source: 'Microsoft',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Azure DevOps', 'stdio'],
+    summary:
+      '官方 Codex 是 mcp add azure-devops -- npx -y @azure-devops/mcp，组织名跟在包名后面。这是本地 stdio。远程 mcp.dev.azure.com 走不了 Entra DCR。PAT 用 env_vars 转发 PERSONAL_ACCESS_TOKEN，不要写进 env 表。',
+  },
+  {
+    title: 'Tinybird DevTools MCP',
+    url: 'https://www.npmjs.com/package/@tinybirdco/devtools-mcp',
+    source: 'Tinybird',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Tinybird', 'stdio'],
+    summary:
+      '官方 Codex 是 mcp add tinybird -- npx -y @tinybirdco/devtools-mcp@latest。不要抄 -e TINYBIRD_TOKEN=。用 env_vars 转发。远程 mcp.tinybird.co 是查活 Workspace 的另一台。技能是 npx skills add tinybirdco/tinybird-agent-skills，不是 /plugins。',
+  },
+  {
+    title: 'Upstash Agent Skills and MCP',
+    url: 'https://upstash.com/docs/agent-resources/clients',
+    source: 'Upstash',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'Upstash', 'MCP', 'Skills'],
+    summary:
+      '官方 Codex 是 marketplace add upstash/skills，再 plugin add upstash@upstash。插件会登记远程 mcp.upstash.com/mcp。不要抄本地 --email / --api-key。不是 Context7，也不是单库 redis-mcp。',
+  },
+  {
+    title: 'GitLab MCP server',
+    url: 'https://docs.gitlab.com/user/model_context_protocol/mcp_server/',
+    source: 'GitLab',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'GitLab', 'OAuth'],
+    summary:
+      '官方 Codex 是 mcp add GitLab --url https://gitlab.com/api/v4/mcp，再 mcp login GitLab。不要抄 features.rmcp_client，也不要抄 mcp-remote。不是 Cloud 评论审查，也不是 Orbit 的 api/v4/orbit/mcp。',
+  },
+  {
+    title: 'Sanity Agent Toolkit',
+    url: 'https://github.com/sanity-io/agent-toolkit',
+    source: 'Sanity',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Sanity', 'OAuth', 'Skills'],
+    summary:
+      '官方 Codex 是 mcp add Sanity --url https://mcp.sanity.io，再 mcp login Sanity。URL 没有 /mcp 后缀。技能才 marketplace add sanity-io/agent-toolkit，再 /plugins 装 Sanity。不要发明 plugin add id，也不要抄 mcp-remote。',
+  },
+  {
+    title: 'Connect to Honeycomb MCP',
+    url: 'https://docs.honeycomb.io/integrations/mcp/configuration-guide',
+    source: 'Honeycomb',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'Honeycomb', 'MCP', 'OAuth'],
+    summary:
+      '官方 Codex 是 marketplace add honeycombio/agent-skill，再 plugin add honeycomb@honeycomb-plugins。插件会登记 mcp.honeycomb.io/mcp。不要抄 mcp-remote。欧盟用 mcp.eu1.honeycomb.io/mcp。无头才 bearer_token_env_var。',
+  },
+  {
+    title: 'Semgrep Guardian',
+    url: 'https://docs.semgrep.dev/semgrep-guardian/overview',
+    source: 'Semgrep',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Semgrep', 'stdio'],
+    summary:
+      '官方 Codex 是本地 stdio：config.toml 写 [mcp_servers.semgrep]，command = "semgrep"，args = ["mcp"]。等价 mcp add semgrep -- semgrep mcp。先 pipx 或 uv 装 CLI，再 semgrep login && semgrep install-semgrep-pro。不要抄 Claude 远程插件，也不要 uvx semgrep-mcp。',
+  },
+  {
+    title: 'kagisearch/kagimcp',
+    url: 'https://github.com/kagisearch/kagimcp',
+    source: 'Kagi',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Kagi', 'stdio'],
+    summary:
+      '官方 Codex 是 mcp add kagi -- uvx kagimcp。不要抄 --env KAGI_API_KEY=。用 env_vars。工具是 kagi_search_fetch。托管才 mcp.kagi.com/mcp + bearer_token_env_var。不要 mcp login。',
+  },
+  {
+    title: 'Pinecone Agent Skills',
+    url: 'https://docs.pinecone.io/integrations/agent-skills',
+    source: 'Pinecone',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'Pinecone', 'MCP'],
+    summary:
+      '官方 Codex 是 npx skills add pinecone-io/skills --agent codex。不要抄 Claude plugin 或 Cursor /add-plugin。MCP 才 mcp add pinecone -- npx -y @pinecone-database/mcp，密钥用 env_vars。',
+  },
+  {
+    title: 'Heroku Remote MCP Server',
+    url: 'https://devcenter.heroku.com/articles/heroku-remote-mcp-server',
+    source: 'Heroku',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Heroku', 'OAuth'],
+    summary:
+      '官方远程是 mcp.heroku.com/mcp，Codex 对照 mcp add heroku --url 再 mcp login。不要抄 mcp-remote。本地才 heroku mcp:start。npx 才 @heroku/mcp-server + env_vars。',
+  },
+  {
+    title: 'Litestream MCP Server',
+    url: 'https://litestream.io/reference/mcp/',
+    source: 'Litestream',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Litestream', 'SQLite'],
+    summary:
+      '官方 Codex 是 mcp add litestream --url http://localhost:3001。先在 YAML 写 mcp-addr，再 litestream replicate。没有 litestream mcp 子命令。不要 mcp login。恢复用 litestream_restore，保持批准。',
+  },
+  {
+    title: 'PagerDuty MCP Server',
+    url: 'https://support.pagerduty.com/main/docs/pagerduty-mcp-server',
+    source: 'PagerDuty',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'PagerDuty', 'HTTP'],
+    summary:
+      '官方托管是 mcp.pagerduty.com/mcp。Codex 对照 mcp add pagerduty --url。不支持 DCR，不要 mcp login。API key 是 Token token=，走 env_http_headers。欧盟换 mcp.eu.pagerduty.com/mcp。本地 uvx 已弃用。',
+  },
+  {
+    title: 'flyctl mcp server',
+    url: 'https://fly.io/docs/mcp/flyctl-server/',
+    source: 'Fly.io',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Fly.io', 'stdio'],
+    summary:
+      '官方给 LLM 加服务器是 fly mcp server --claude，没有 --codex。Codex 对照 mcp add fly -- fly mcp server。不要对 config.toml 跑 --config。Inspector 工具如 fly-apps-list。不要抄 --sse 或 flyctl mcp proxy。',
+  },
+  {
+    title: 'Set up Atlan MCP',
+    url: 'https://docs.atlan.com/product/capabilities/atlan-ai/how-tos/remote-mcp-overview',
+    source: 'Atlan',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Atlan', 'plugins', 'OAuth'],
+    summary:
+      '官方 Codex：marketplace add atlanhq/agent-toolkit，再 plugin add atlan@atlan，再 mcp add atlan --url https://mcp.atlan.com/mcp。装了插件仍要 mcp add。本地 docker / uvx 已弃用。不要抄 Claude 的 atlan@atlan-marketplace。',
+  },
+  {
+    title: '@splunk/o11y-mcp-connect',
+    url: 'https://www.npmjs.com/package/@splunk/o11y-mcp-connect',
+    source: 'Splunk',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Splunk', 'Observability', 'HTTP'],
+    summary:
+      '官方走 Splunk MCP Gateway，us0 示例是 region-iad10.api.scs.splunk.com。o11y-only 头是 X-SF-TOKEN 和 X-SF-REALM，不是 Bearer。不要抄 connect --ide codex 写入的 http_headers，也不要抄 mcp-remote。包名 splunk-o11y-mcp-connect。',
+  },
+  {
+    title: 'Elastic Agent Builder MCP server',
+    url: 'https://www.elastic.co/docs/explore-analyze/ai-features/agent-builder/mcp-server',
+    source: 'Elastic',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Elastic', 'Kibana', 'HTTP'],
+    summary:
+      '官方终点是 Kibana 的 /api/agent_builder/mcp。Codex 对照 mcp add elastic-agent-builder --url。API key 是 Authorization: ApiKey，走 env_http_headers。缺 feature_agentBuilder.read 会 403。不要抄 mcp-remote 或已弃用的本地 elasticsearch MCP。',
+  },
+  {
+    title: 'Remote MCP server',
+    url: 'https://docs.incident.io/ai/remote-mcp',
+    source: 'incident.io',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'incident.io', 'plugins', 'OAuth'],
+    summary:
+      '官方 Codex：marketplace add incident-io/skills，再 plugin add incident-io@incident-io-skills。插件会登记 MCP 和 skills。只要 MCP 才 mcp add incident_io --url https://mcp.incident.io/mcp。不要抄 type = url、Claude /plugin install 或 Cursor /add-plugin。',
+  },
+  {
+    title: 'Use the 1Password MCP Server to manage your 1Password Environments',
+    url: 'https://developer.1password.com/docs/environments/mcp-server/',
+    source: '1Password',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', '1Password', 'stdio', 'Environments'],
+    summary:
+      '官方 Codex 是本地 stdio：先 Labs 打开 Enable local MCP server，再 mcp add 1password -- 1password-mcp。表名 mcp_servers.1password。Mac / Linux。不要抄 Claude 的 1password@1password 或 op mcp-server environments。',
+  },
+  {
+    title: 'OpenAI Codex: Set up CE.SDK with OpenAI Codex',
+    url: 'https://img.ly/capabilities/agents/openai-codex/',
+    source: 'IMG.LY',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'IMG.LY', 'CE.SDK', 'MCP'],
+    summary:
+      '官方 Codex：npx skills add imgly/agent-skills -a codex。实时文档才 mcp add imgly_docs --url https://mcp.img.ly/mcp，无鉴权。不要抄 Claude 的 cesdk@imgly 或 CoDesign 的 @imgly/codesign-mcp。',
+  },
+  {
+    title: 'Install IMG.LY CoDesign in your coding agent',
+    url: 'https://img.ly/codesign/install/',
+    source: 'IMG.LY',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'IMG.LY', 'CoDesign', 'stdio'],
+    summary:
+      '官方 Codex：mcp add codesign -- npx -y @imgly/codesign-mcp@latest stdio。stdio 是子命令。加完当前会话不可用，新开后再发 start the CoDesign onboarding。不要抄 --scope user 或 JSON mcpServers。不要 mcp login。',
+  },
+  {
+    title: 'Terraform MCP Server',
+    url: 'https://github.com/hashicorp/terraform-mcp-server',
+    source: 'HashiCorp',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Terraform', 'stdio', 'Docker'],
+    summary:
+      '官方 Codex：mcp add terraform -- docker run -i --rm hashicorp/terraform-mcp-server。查公共 registry 不用 token。HCP / TFE 才 env_vars 转发 TFE_TOKEN / TFE_ADDRESS。不要 mcp login，也不要把密钥写进 env 表。',
+  },
+  {
+    title: "Use Clerk's MCP server (Beta)",
+    url: 'https://clerk.com/docs/guides/ai/mcp/clerk-mcp-server',
+    source: 'Clerk',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Clerk', 'stdio'],
+    summary:
+      '官方现行是 clerk mcp install --client codex，等价 mcp add clerk -- clerk mcp run。文档 Codex 节缺 --url 且带 rmcp，不要抄。托管地址是 mcp.clerk.com/mcp。不要 mcp login。',
+  },
+  {
+    title: 'clerk/skills',
+    url: 'https://github.com/clerk/skills',
+    source: 'Clerk',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['plugins', 'Clerk', 'Skills', 'marketplace'],
+    summary:
+      '官方 Codex：plugin marketplace add clerk/skills，再 /plugins 装 clerk-skills。不要发明 plugin add 的 @id。不要抄 npx skills add 当 Codex 专节。不要和 Clerk MCP stdio 桥搞成一台。',
+  },
+  {
+    title: 'Appcircle MCP Server',
+    url: 'https://docs.appcircle.io/appcircle-ai/appcircle-mcp-server',
+    source: 'Appcircle',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Appcircle', 'HTTP'],
+    summary:
+      '官方远程是 mcp.appcircle.io，没有 /mcp。Codex 对照 mcp add appcircle --url。APPCIRCLE_ACCESS_TOKEN 必须是兑换后的 JWT。不要 mcp login。不要抄 Claude 插件或 http_headers 字面量。',
+  },
+  {
+    title: 'Arenukvern/mcp_flutter',
+    url: 'https://github.com/Arenukvern/mcp_flutter',
+    source: 'flutter-mcp-toolkit',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Flutter', 'plugins', 'Skills'],
+    summary:
+      '官方 Codex：flutter-mcp-toolkit init codex，或 marketplace add Arenukvern/mcp_flutter。不要发明 plugin add。不要抄 Claude /plugin install。技能本身不登记 flutter-mcp-toolkit-server。',
+  },
+  {
+    title: 'RevenueCat MCP Server Setup',
+    url: 'https://www.revenuecat.com/docs/tools/mcp/setup',
+    source: 'RevenueCat',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'RevenueCat', 'plugins', 'OAuth'],
+    summary:
+      '官方 Codex：marketplace add RevenueCat/ai-toolkit，再 plugin add revenuecat@RevenueCat，再 mcp login RevenueCat。远程是 mcp.revenuecat.ai/mcp。不要抄 mcp-remote 或把 API v2 key 写进 env。v2.0.1 起插件名是小写 revenuecat。',
+  },
+  {
+    title: 'Pathbound + Codex—MCP setup for CLI & IDE',
+    url: 'https://pathbound.ai/use-with/openai/codex',
+    source: 'Pathbound',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Pathbound', 'OAuth'],
+    summary:
+      '官方 Codex：mcp add pathbound --url https://mcp.pathbound.ai/mcp，再 mcp login pathbound。URL 带 /mcp。不要抄 Claude.ai 或 ChatGPT Plugins。无头才 REST API key 走 bearer_token_env_var。',
+  },
+  {
+    title: 'Codex (OpenAI)',
+    url: 'https://docs.stackone.com/connect/ai-platforms/codex',
+    source: 'StackOne',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'StackOne', 'OAuth', 'HTTP'],
+    summary:
+      '官方 Codex：mcp add stackone --url https://mcp.stackone.com/mcp，再 mcp login stackone。网关 URL 带 /mcp。无头才把仪表盘 session token 拼进 api.stackone.com/mcp。不要抄 Claude 的 --transport http 或 npx mcp-remote。',
+  },
+  {
+    title: 'Connect Butter to Codex',
+    url: 'https://hellobutter.io/mcp',
+    source: 'Butter',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Butter', 'OAuth', 'HTTP'],
+    summary:
+      '官方 Codex：mcp add butter --url https://mcp.hellobutter.io/mcp，再 mcp login butter。URL 带 /mcp。不要抄 Claude 的 --transport http。不是 ButterKit.app 那台本地 stdio。',
+  },
+  {
+    title: 'How to Add an MCP Server to Codex CLI (2026 Guide)',
+    url: 'https://designrevision.com/blog/add-mcp-server-to-codex',
+    source: 'DesignRevision',
+    lang: '英文',
+    kind: '教程',
+    tags: ['MCP', 'DesignRevision', 'bearer', 'HTTP'],
+    summary:
+      '官方 Codex：mcp add design-revision --url https://mcp.designrevision.com/mcp --bearer-token-env-var DESIGNREVISION_API_KEY。URL 带 /mcp。不要 mcp login。不要抄 Claude 的 --header Bearer 字面量。',
+  },
+  {
+    title: 'MCP Server',
+    url: 'https://ui.shadcn.com/docs/mcp',
+    source: 'shadcn/ui',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'shadcn', 'stdio'],
+    summary:
+      '官方 Codex 节：shadcn CLI cannot automatically update ~/.codex/config.toml，必须手写 [mcp_servers.shadcn]，command = npx，args = ["shadcn@latest", "mcp"]。这是本地 stdio，不要 mcp login。不要抄 Claude 的 mcp init --client claude。',
+  },
+  {
+    title: 'Inngest Model Context Protocol (MCP)',
+    url: 'https://www.inngest.com/docs/ai-dev-tools/mcp',
+    source: 'Inngest',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Inngest', 'bearer', 'HTTP'],
+    summary:
+      '官方 Codex：mcp add inngest-cloud --url https://api.inngest.com/mcp --bearer-token-env-var INNGEST_API_KEY。URL 带 /mcp。不要 mcp login。不要抄 Claude 的 --header Bearer。本机另开 mcp add inngest-dev --url http://127.0.0.1:8288/mcp。',
+  },
+  {
+    title: 'Model Context Protocol (MCP)',
+    url: 'https://polar.sh/docs/integrate/mcp',
+    source: 'Polar',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Polar', 'OAuth', 'HTTP'],
+    summary:
+      '官方 Codex：mcp add polar --url https://mcp.polar.sh/mcp/polar-mcp，随后完成 OAuth。URL 是 /mcp/polar-mcp，不是光 /mcp。沙箱另开 mcp add polar-sandbox --url https://mcp.polar.sh/mcp/polar-sandbox。不要抄 Claude 的 --transport http。',
+  },
+  {
+    title: 'AI Coding Agent Plugins and Skills',
+    url: 'https://www.inngest.com/docs/ai-dev-tools/agent-skills',
+    source: 'Inngest',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Inngest', 'plugins', 'Skills'],
+    summary:
+      '官方 Codex：git clone inngest/inngest-codex-plugin，再 /plugin install 绝对路径/inngest-codex-plugin/plugins/inngest。装 plugins/inngest 这一层。不要发明 plugin add inngest@。不要抄 Claude 的 inngest@inngest-claude-code-plugin。',
+  },
+  {
+    title: 'inngest/inngest-codex-plugin',
+    url: 'https://github.com/inngest/inngest-codex-plugin',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Inngest', 'plugins', 'Skills'],
+    summary:
+      '官方 Codex 插件仓。clone 后 /plugin install …/inngest-codex-plugin/plugins/inngest。本地 marketplace.json 市场名是 inngest-codex-plugin。插件 MCP 只接 http://127.0.0.1:8288/mcp。不要发明 plugin add 的 @id。',
+  },
+  {
+    title: 'Codex',
+    url: 'https://appwrite.io/docs/tooling/ai/agents/codex',
+    source: 'Appwrite',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Appwrite', 'OAuth', 'plugins'],
+    summary:
+      '官方 Codex：plugin marketplace add appwrite/codex-plugin，再 /plugins 装 Appwrite。远程 MCP 是 mcp add appwrite --url https://mcp.appwrite.io/，有尾斜杠、没有 /mcp。OAuth，浏览器没弹再 mcp login appwrite。不要发明 plugin add appwrite@。',
+  },
+  {
+    title: 'Introducing the Appwrite plugin for Codex: Skills and MCP in one install',
+    url: 'https://appwrite.io/blog/post/announcing-appwrite-codex-plugin',
+    source: 'Appwrite',
+    lang: '英文',
+    kind: '教程',
+    tags: ['MCP', 'Appwrite', 'plugins', 'Skills'],
+    summary:
+      '官方 Codex 插件博客。marketplace add appwrite/codex-plugin 后 /plugins 装 Appwrite。技能和 MCP 一次装。不要发明 plugin add 的 @id。Cloud 不要把 --env APPWRITE_API_KEY 字面量当主路径，远程走 mcp.appwrite.io。',
+  },
+  {
+    title: 'The Appwrite MCP server is now remote: one URL, no API keys',
+    url: 'https://appwrite.io/blog/post/announcing-remote-appwrite-mcp-server',
+    source: 'Appwrite',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Appwrite', 'OAuth', 'HTTP'],
+    summary:
+      '官方远程 MCP 公告。Codex 用 mcp add appwrite --url https://mcp.appwrite.io/，有尾斜杠、没有 /mcp。OAuth，不要 API key。不要抄 Claude 的 --transport http。自托管才走本地 uvx mcp-server-appwrite。',
+  },
+  {
+    title: 'appwrite/codex-plugin',
+    url: 'https://github.com/appwrite/codex-plugin',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Appwrite', 'plugins', 'Skills'],
+    summary:
+      '官方 Codex 插件仓。marketplace add appwrite/codex-plugin。插件名 appwrite，.mcp.json 登记 https://mcp.appwrite.io/。装完再 mcp login appwrite。不要发明 plugin add appwrite@。不要手拷 ~/.codex/skills 当主路径。',
+  },
+  {
+    title: 'Appwrite MCP server',
+    url: 'https://appwrite.io/docs/tooling/ai/mcp-servers',
+    source: 'Appwrite',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Appwrite', 'OAuth', 'HTTP'],
+    summary:
+      '官方 MCP 总览。远程 URL 是 https://mcp.appwrite.io/，有尾斜杠。OAuth，不要 API key。Codex 专节仍是 mcp add appwrite。自托管才走本地 stdio。不要抄 Claude 的 --transport http。',
+  },
+  {
+    title: 'MCP Introduction',
+    url: 'https://trigger.dev/docs/mcp-introduction',
+    source: 'Trigger.dev',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Trigger.dev', 'stdio'],
+    summary:
+      '官方 Codex：npx trigger.dev@latest install-mcp --client openai-codex。表名 trigger，本地 stdio，startup_timeout_sec = 30。不要 mcp login。不要 --yolo。不要抄 Claude 的 mcpServers JSON。search_docs 不用登录。',
+  },
+  {
+    title: 'Skills',
+    url: 'https://trigger.dev/docs/skills',
+    source: 'Trigger.dev',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'Trigger.dev', 'AGENTS.md'],
+    summary:
+      'Codex 走 npx trigger.dev@latest skills，装进项目 .agents/skills/。官方非交互示例只有 --target claude-code 和 cursor，不要发明 --target openai-codex。这不会登记 MCP。不要手拷 ~/.codex/skills。',
+  },
+  {
+    title: 'Building with AI: overview',
+    url: 'https://trigger.dev/docs/building-with-ai',
+    source: 'Trigger.dev',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Trigger.dev', 'Skills'],
+    summary:
+      '技能教怎么写 task，MCP 才部署和触发。Codex 专节仍是 install-mcp --client openai-codex。不要把 AGENTS.md 短规则整段当 MCP 配置。不要发明远程 mcp.trigger.dev。',
+  },
+  {
+    title: 'WorkOS MCP Server',
+    url: 'https://workos.com/docs/mcp',
+    source: 'WorkOS',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'WorkOS', 'OAuth', 'HTTP'],
+    summary:
+      '官方 Codex：mcp add workos --url https://mcp.workos.com/mcp，再 mcp get / mcp login / mcp list。URL 带 /mcp。OAuth，不要 API key。项目级写进可信仓库 .codex/config.toml。不要发明 plugin add workos@。不要抄 Claude 的 --transport http。',
+  },
+  {
+    title: 'How to install and use the WorkOS plugin in Claude, ChatGPT, and Codex',
+    url: 'https://workos.com/blog/install-workos-plugin-claude-chatgpt-codex',
+    source: 'WorkOS',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'WorkOS', 'OAuth', 'HTTP'],
+    summary:
+      'Codex 是 CLI 优先：mcp add workos --url https://mcp.workos.com/mcp，再 mcp login workos。即使插件目录能搜到 WorkOS，CLI 也没有一键安装。不要发明 plugin add workos@。不要抄 Claude 的 --transport http。',
+  },
+  {
+    title: 'Statsig MCP with Codex',
+    url: 'https://docs.statsig.com/integrations/mcp/codex',
+    source: 'Statsig',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Statsig', 'OAuth', 'HTTP'],
+    summary:
+      '官方 Codex：mcp add statsig --url https://api.statsig.com/v1/mcp。URL 是 /v1/mcp，不是光 /mcp。OAuth，浏览器没弹再 mcp login statsig。不要抄 npx mcp-remote，也不要把 console API key 写进 http_headers。不要发明 plugin add statsig@。',
+  },
+  {
+    title: 'Statsig MCP overview',
+    url: 'https://docs.statsig.com/integrations/mcp/overview',
+    source: 'Statsig',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Statsig', 'OAuth', 'HTTP'],
+    summary:
+      'Statsig MCP 总览把 Codex Desktop / CLI / IDE 列为第一套配置。远程仍是 api.statsig.com/v1/mcp。只读工具给只读用户；写实验和门要写权限。不要把 ChatGPT Connector 或 Cursor JSON 当 Codex CLI 主路径。',
+  },
+  {
+    title: 'contentful/contentful-mcp-server',
+    url: 'https://github.com/contentful/contentful-mcp-server',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Contentful', 'stdio'],
+    summary:
+      '官方 Codex：mcp add contentful -- npx -y @contentful/mcp-server。表名 contentful，本地 stdio。不要把 --env 里的 CMA token 字面量写进 TOML，改成 env_vars 转发 CONTENTFUL_MANAGEMENT_ACCESS_TOKEN 和 SPACE_ID。不要 mcp login。不要抄 Cursor JSON。',
+  },
+  {
+    title: 'Model Context Protocol (MCP) server',
+    url: 'https://www.contentful.com/developers/docs/tools/mcp-server',
+    source: 'Contentful',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Contentful', 'OAuth'],
+    summary:
+      '官方区分远程 mcp.contentful.com/mcp（OAuth，先装 Remote MCP App）和本地 @contentful/mcp-server（PAT）。Codex GitHub 专节是本地 stdio，不要发明 mcp add --url。不要把 PAT 拼进 URL，也不要抄 Cursor 的 contentful-mcp JSON。',
+  },
+  {
+    title: 'MCP',
+    url: 'https://loops.so/docs/mcp-server',
+    source: 'Loops',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Loops', 'OAuth', 'HTTP'],
+    summary:
+      '官方 Codex：mcp add loops --url https://mcp.loops.so。URL 没有 /mcp。OAuth，浏览器没弹再 mcp login loops。不要抄 Claude 的 --transport http。不要发明 plugin add loops@。营销页 agents/mcp 仍写 roadmap，以这篇专节为准。',
+  },
+  {
+    title: 'Agent skills for Loops',
+    url: 'https://loops.so/docs/skills',
+    source: 'Loops',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'Loops', 'AGENTS.md'],
+    summary:
+      '技能页点名 Codex。官方安装是 curl install.loops.so/skills。不会登记 mcp.loops.so 那台远程 MCP。营销页 npx skills add loops-so/skills --global 没钉 --agent codex，不要发明。不要手拷 ~/.codex/skills。',
+  },
+  {
+    title: 'Codex MCP server integration',
+    url: 'https://docs.brightdata.com/ai/mcp-server/integrations/codex',
+    source: 'Bright Data',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Bright Data', 'stdio'],
+    summary:
+      '官方 Codex：mcp add brightdata -- npx -y @brightdata/mcp。表名 brightdata，本地 stdio。不要把 --env 里的 API_TOKEN 字面量写进 TOML，改成 env_vars。不要 mcp login。不要抄 hosted 的 mcp.brightdata.com/mcp?token=。',
+  },
+  {
+    title: 'Local MCP server advanced configuration',
+    url: 'https://docs.brightdata.com/ai/mcp-server/local/advanced',
+    source: 'Bright Data',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Bright Data', 'stdio'],
+    summary:
+      '本地 @brightdata/mcp 用环境变量。必填 API_TOKEN。PRO_MODE=true 才开全部工具；GROUPS 或 TOOLS 会盖过 Pro。Codex 里用 env_vars 转发这些名字，不要把值写进 env 表。',
+  },
+  {
+    title: 'ChatGPT',
+    url: 'https://developers.buffer.com/guides/integrations/chatgpt.html',
+    source: 'Buffer',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Buffer', 'OAuth', 'HTTP'],
+    summary:
+      '官方 Codex：mcp add buffer --url https://mcp.buffer.com/mcp。URL 带 /mcp。OAuth，浏览器没弹再 mcp login buffer。不要 API key。不要发明 plugin add buffer@。不要把 ChatGPT Developer mode 当 CLI 主路径。',
+  },
+  {
+    title: 'ChatGPT and Buffer Integration',
+    url: 'https://buffer.com/integrations/chatgpt',
+    source: 'Buffer',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Buffer', 'OAuth', 'HTTP'],
+    summary:
+      '营销页同样写 Codex CLI：mcp add buffer --url https://mcp.buffer.com/mcp。OAuth，浏览器会弹。网页 ChatGPT 走 Developer mode Connectors，不要抄进 config.toml。不要发明 plugin add buffer@。',
+  },
+  {
+    title: 'How to set up the GrowthBook MCP server for Codex',
+    url: 'https://www.growthbook.io/insights/how-to-set-up-growthbook-mcp-server-for-codex',
+    source: 'GrowthBook',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'GrowthBook', 'stdio'],
+    summary:
+      '官方 Codex：mcp add growthbook -- npx -y @growthbook/mcp@latest。表名 growthbook，本地 stdio。不要把 --env 里的 GB_API_KEY 字面量写进 TOML，改成 env_vars。不要 mcp login。不要发明远程 --url。',
+  },
+  {
+    title: 'Official GrowthBook MCP Server',
+    url: 'https://docs.growthbook.io/integrations/mcp',
+    source: 'GrowthBook',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'GrowthBook', 'stdio'],
+    summary:
+      '现行 2.x 工具是 growthbook_list_skills / growthbook_read_skill / growthbook_api_read / growthbook_api_write。Cloud 远程 mcp.growthbook.io/mcp 是 Cursor / Claude OAuth。Codex 专文仍是本地 @growthbook/mcp，不要发明 mcp add --url。旧文档的 GB_EMAIL 不是 stdio 必填。',
+  },
+  {
+    title: 'Unleash MCP Server',
+    url: 'https://docs.getunleash.io/integrate/mcp',
+    source: 'Unleash',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Unleash', 'stdio'],
+    summary:
+      '官方 Codex：mcp add unleash -- npx -y @unleash/mcp@latest --log-level error。表名 unleash，本地 stdio。不要把 --env 里的 UNLEASH_PAT 字面量写进 TOML，改成 env_vars。不要 mcp login。不要抄 --transport http。',
+  },
+  {
+    title: 'Unleash/unleash-mcp',
+    url: 'https://github.com/Unleash/unleash-mcp',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Unleash', 'stdio'],
+    summary:
+      '仓库 Codex 专节同样是 @unleash/mcp@latest。必填 UNLEASH_BASE_URL 和 UNLEASH_PAT。README 远程示例把 --transport http 抄到 Codex 上，不要照抄。远程 /api/admin/mcp 是实验功能，要先在实例打开。',
+  },
+  {
+    title: 'MCP Server',
+    url: 'https://docs.flagsmith.com/integrating-with-flagsmith/mcp-server',
+    source: 'Flagsmith',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Flagsmith', 'OAuth', 'HTTP'],
+    summary:
+      '官方 Codex 写进 ~/.codex/config.toml：url = https://mcp.flagsmith.com。没有 /mcp。OAuth，浏览器没弹再 mcp login flagsmith。不要抄 Claude 的 --transport http。不要发明 plugin add flagsmith@。旧 Gram 地址 2026-06-30 关停。',
+  },
+  {
+    title: 'Self-hosting the MCP Server',
+    url: 'https://docs.flagsmith.com/deployment-self-hosting/mcp-server',
+    source: 'Flagsmith',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Flagsmith', 'OAuth', 'HTTP'],
+    summary:
+      '自托管另开 flagsmith/flagsmith-mcp 容器。SaaS 仍是 mcp.flagsmith.com。容器也听 /mcp，但 Codex 专节 SaaS URL 不要自己加 /mcp。stdio 才要 FLAGSMITH_API_TOKEN，走 env_vars，不要抄 env 表字面量。',
+  },
+  {
+    title: 'MCP Getting Started',
+    url: 'https://docs.devcycle.com/cli-mcp/mcp-getting-started',
+    source: 'DevCycle',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'DevCycle', 'OAuth', 'HTTP'],
+    summary:
+      '官方 Codex 写进 ~/.codex/config.toml：url = https://mcp.devcycle.com/mcp。带 /mcp。OAuth，浏览器没弹再 mcp login devcycle。不要抄 /sse 或 npx mcp-remote。不要发明 plugin add devcycle@。',
+  },
+  {
+    title: 'MCP Reference',
+    url: 'https://docs.devcycle.com/cli-mcp/mcp-reference',
+    source: 'DevCycle',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'DevCycle', 'stdio'],
+    summary:
+      '托管仍是 mcp.devcycle.com/mcp。本地 Codex 专节才是 command = dvc-mcp，先装 @devcycle/cli。不要 mcp login。CI 才转发 DEVCYCLE_CLIENT_ID 这类名字，走 env_vars。',
+  },
+  {
+    title: 'Install Optimizely Experimentation MCP server',
+    url: 'https://support.optimizely.com/hc/en-us/articles/45321466744205-Install-Optimizely-Experimentation-MCP-server',
+    source: 'Optimizely',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Optimizely', 'OAuth', 'HTTP'],
+    summary:
+      '官方 Codex 是 Settings 加 Streamable HTTP，URL 为 https://exp.mcp.opal.optimizely.com/mcp。Bearer 和头留空。OAuth 走 Opal。不要抄 Claude 的 --transport http。不要发明 plugin add optimizely@。',
+  },
+  {
+    title: 'Optimizely Experimentation MCP server overview',
+    url: 'https://support.optimizely.com/hc/en-us/articles/45320607594893-Optimizely-Experimentation-MCP-server-overview',
+    source: 'Optimizely',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Optimizely', 'OAuth', 'HTTP'],
+    summary:
+      '托管地址是 exp.mcp.opal.optimizely.com/mcp。要 Opti ID 和已打开的 Opal。工具名带 exp_ 前缀。改开关和实验会改账号。Web Experimentation 的 variation 级代码不能经 MCP 改。',
+  },
+  {
+    title: 'How to Use Coding Agents With DigitalOcean',
+    url: 'https://docs.digitalocean.com/products/inference/how-to/use-with-coding-agents/',
+    source: 'DigitalOcean',
+    lang: '英文',
+    kind: '官方',
+    tags: ['model_providers', 'DigitalOcean', 'wire_api'],
+    summary:
+      '官方 Codex TOML 是 [model_providers.openai_custom]，base_url 是 https://inference.do-ai.run/v1，env_key = MODEL_ACCESS_KEY，wire_api = responses。密钥走进程环境，不要整文件覆盖 ~/.codex/config.toml。这不是 MCP，也不是 App Platform skills。',
+  },
+  {
+    title: 'How to Retrieve Available Models',
+    url: 'https://docs.digitalocean.com/products/inference/how-to/retrieve-available-models/',
+    source: 'DigitalOcean',
+    lang: '英文',
+    kind: '官方',
+    tags: ['model_providers', 'DigitalOcean'],
+    summary:
+      'GET https://inference.do-ai.run/v1/models 列出 Inference 模型 ID。Codex 的 env_key 是 MODEL_ACCESS_KEY；这篇 cURL 示例有时写 DIGITALOCEAN_TOKEN，配 Codex 仍用 MODEL_ACCESS_KEY。',
+  },
+  {
+    title: 'Customer.io plugin for ChatGPT and Codex',
+    url: 'https://docs.customer.io/ai/plugins/chatgpt-codex/',
+    source: 'Customer.io',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Customer.io', 'plugins', 'OAuth'],
+    summary:
+      '官方 Codex 是 Plugins 搜 Customer.io 再 OAuth。安装时不用手填 https://mcp.customer.io/mcp。不要发明 plugin add customerio@，也不要把 ChatGPT 自定义 connector 抄进 Codex CLI。',
+  },
+  {
+    title: 'Get started with the Customer.io MCP server',
+    url: 'https://docs.customer.io/ai/mcp/get-started/',
+    source: 'Customer.io',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Customer.io', 'OAuth'],
+    summary:
+      '账号管理员先打开 Settings → AI 里的 Customer.io MCP。ChatGPT 或 Codex 装官方插件；Cursor / Claude 另有插件。底层入口是 mcp.customer.io。不要把 API token 当主路径。',
+  },
+  {
+    title: 'Klaviyo MCP server',
+    url: 'https://developers.klaviyo.com/en/docs/klaviyo_mcp_server',
+    source: 'Klaviyo',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Klaviyo', 'OAuth', 'HTTP'],
+    summary:
+      '官方推荐远程 https://mcp.klaviyo.com/mcp，OAuth DCR + Streamable HTTP。页上没有 Codex 专节，对照 Other Clients 写 mcp add klaviyo。不要抄 Cursor JSON 或本地 uvx 的 PRIVATE_API_KEY。',
+  },
+  {
+    title: 'Klaviyo MCP Server Guide For Agencies',
+    url: 'https://help.klaviyo.com/hc/en-us/articles/52833598880923',
+    source: 'Klaviyo',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Klaviyo', 'OAuth'],
+    summary:
+      '机构多账号把 company 写进 mcp.klaviyo.com URL，例如 https://mcp.klaviyo.com/mcp?company=example-company。要 Owner / Admin / Manager。Codex 手写 url 就能带查询参数，不要抄 Claude listed connector。',
+  },
+  {
+    title: 'Set up the Braze MCP server',
+    url: 'https://www.braze.com/docs/user_guide/brazeai/mcp_server/setup',
+    source: 'Braze',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Braze', 'OAuth', 'HTTP'],
+    summary:
+      '官方已验证 OpenAI Codex。远程是 https://mcp.braze.com/mcp 或欧盟 mcp.braze.eu/mcp。OAuth DCR，不要 API key。管理员先开 MCP OAuth，用户要有 Use MCP Server。本地 beta 已弃用。',
+  },
+  {
+    title: 'The Braze MCP server',
+    url: 'https://www.braze.com/docs/user_guide/brazeai/mcp_server',
+    source: 'Braze',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Braze', 'OAuth'],
+    summary:
+      '远程入口是 mcp.braze.com/mcp。权限镜像仪表盘账号，不返回用户档案 PII。写工具也有，但官方不要 auto-mode。不要把已弃用的本机 PyPI 包当 Codex 主路径。',
+  },
+  {
+    title: 'OneSignal MCP Server',
+    url: 'https://documentation.onesignal.com/docs/en/model-context-protocol',
+    source: 'OneSignal',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'OneSignal', 'plugins', 'OAuth'],
+    summary:
+      '官方 Codex 是 OpenAI / ChatGPT 插件目录搜 OneSignal，再 OAuth。底层入口是 https://api.onesignal.com/mcp/oauth，安装时不用手填。不要 REST API key，也不要发明 plugin add onesignal@。',
+  },
+  {
+    title: 'OneSignal AI data practices',
+    url: 'https://documentation.onesignal.com/docs/en/ai-data-practices',
+    source: 'OneSignal',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'OneSignal', 'OAuth'],
+    summary:
+      '仪表盘 OneSignal AI 不是 MCP。Customer AI Agent 才是外部客户端连 api.onesignal.com/mcp/oauth。Codex 走 Plugins，不要和仪表盘助手混为一谈。撤销在 Connected apps。',
+  },
+  {
+    title: 'Getting started with the beehiiv MCP',
+    url: 'https://www.beehiiv.com/support/article/39255979546263-getting-started-with-the-beehiiv-mcp',
+    source: 'beehiiv',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'beehiiv', 'OAuth', 'HTTP'],
+    summary:
+      '官方点名 Codex。远程是 https://mcp.beehiiv.com/mcp，OAuth。仪表盘 Settings → MCP 选 Codex。多 workspace 用 mcp.beehiiv.com/mcp?account=1 区分。免费只读。不要发明 plugin add beehiiv@。',
+  },
+  {
+    title: 'What you can do with the beehiiv MCP',
+    url: 'https://www.beehiiv.com/support/article/41262491804439-what-you-can-do-with-the-beehiiv-mcp',
+    source: 'beehiiv',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'beehiiv', 'OAuth'],
+    summary:
+      '连上 mcp.beehiiv.com/mcp 之后可以起草件、配自动化、管分段。发布和启用自动化仍回仪表盘。免费档只读。不要把这篇当 API 合同，也不要发明 plugin add beehiiv@。',
+  },
+  {
+    title: 'MailerLite MCP Server',
+    url: 'https://developers.mailerlite.com/mcp',
+    source: 'MailerLite',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'MailerLite', 'OAuth', 'HTTP'],
+    summary:
+      '官方写任意 MCP 客户端。远程是 https://mcp.mailerlite.com/mcp，OAuth。没有 Codex 专节，对照 Claude Code 写 mcp add mailerlite。不要抄 --transport http，也不要发明 plugin add mailerlite@。',
+  },
+  {
+    title: 'MailerLite MCP examples',
+    url: 'https://developers.mailerlite.com/mcp/examples',
+    source: 'MailerLite',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'MailerLite', 'OAuth'],
+    summary:
+      '连上 mcp.mailerlite.com/mcp 之后，未标 ACTION 的提示只读。标了 ACTION 的会起草件、排期、导入订阅者。不要把示例邮箱抄进生产发送。',
+  },
+  {
+    title: 'Buildkite MCP server overview',
+    url: 'https://buildkite.com/docs/apis/mcp-server',
+    source: 'Buildkite',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Buildkite', 'OAuth', 'HTTP'],
+    summary:
+      '官方远程交互入口是 mcp.buildkite.com/mcp，OAuth，不要 API token。只读换 mcp.buildkite.com/mcp/readonly。无头才是 mcp.buildkite.com/direct。配置页没有 Codex 专节。不要发明 plugin add buildkite@。',
+  },
+  {
+    title: 'Configuring AI tools with the remote MCP server',
+    url: 'https://buildkite.com/docs/apis/mcp-server/remote/configuring-ai-tools',
+    source: 'Buildkite',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Buildkite', 'OAuth', 'HTTP'],
+    summary:
+      '对照 VS Code 的 url 和 Goose 的 streamable_http，Codex 写 mcp add buildkite --url https://mcp.buildkite.com/mcp，再 mcp login。单组工具走 mcp.buildkite.com/mcp/x/pipelines。不要抄 Amp 的 mcp-remote 或 Claude 的 --transport http。',
+  },
+  {
+    title: 'Pulumi MCP Server',
+    url: 'https://www.pulumi.com/docs/ai/mcp-server/',
+    source: 'Pulumi',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Pulumi', 'OAuth', 'HTTP'],
+    summary:
+      '官方远程是 mcp.ai.pulumi.com/mcp，OAuth。浏览器里贴 Access Token 并选组织。没有 Codex 专节，对照 Cursor 的 url 写 mcp add pulumi。不要抄 mcp-remote，也不要把 bearer_token_env_var 当交互主路径。不要发明 plugin add pulumi@。',
+  },
+  {
+    title: 'Announcing Pulumi Remote MCP Server',
+    url: 'https://www.pulumi.com/blog/remote-mcp-server/',
+    source: 'Pulumi',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Pulumi', 'OAuth', 'HTTP'],
+    summary:
+      '托管入口就是 mcp.ai.pulumi.com/mcp。OAuth 把 Access Token 留在 Pulumi Cloud，不要散落在本机 env。本地 npm 包继续给离线或 CI。Neo 任务会改基础设施，保持批准。',
+  },
+  {
+    title: 'Pulumi Agent Skills',
+    url: 'https://www.pulumi.com/docs/ai/skills/',
+    source: 'Pulumi',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'Pulumi', '插件'],
+    summary:
+      '官方 Codex 走 plugin marketplace add pulumi/agent-skills，再在 /plugins 装 pulumi。不要把 Claude 的 pulumi@pulumi-agent-skills 抄成 plugin add。不要并装 pulumi-migration。不要抄 npx skills add --agent junie 当 --agent codex。',
+  },
+  {
+    title: 'pulumi/agent-skills',
+    url: 'https://github.com/pulumi/agent-skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', 'Pulumi', '插件'],
+    summary:
+      'marketplace.json 名是 pulumi-agent-skills。Codex 专节同样是 marketplace add pulumi/agent-skills，再 /plugins 装 pulumi。pulumi 已含 migration 和 delegation。不要发明 plugin add 的 @id。',
+  },
+  {
+    title: 'Brand MCP server',
+    url: 'https://brand.pulumi.com/mcp-server/',
+    source: 'Pulumi',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Pulumi', 'HTTP'],
+    summary:
+      '官方 Codex 节是 [mcp_servers.pulumi-brand] url = https://brand.pulumi.com/mcp。远程带 /mcp 后缀。无鉴权，不要 mcp login。不要抄 Claude 的 --transport http 或 mcp-remote。不要和 Cloud 远程 MCP 搞成一台。',
+  },
+  {
+    title: 'Pulumi brand guidelines',
+    url: 'https://brand.pulumi.com/',
+    source: 'Pulumi',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Pulumi', 'HTTP'],
+    summary:
+      '品牌站把入口写在 brand.pulumi.com/mcp，Streamable HTTP，无鉴权。优先走 MCP，不要爬页面。这台只给色板、文案和 logo，不会动基础设施。',
+  },
+  {
+    title: 'AI Doc Tools',
+    url: 'https://auth0.com/docs/get-started/build-with-ai-tools',
+    source: 'Auth0',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Auth0', '文档', 'HTTP'],
+    summary:
+      '官方 Codex：mcp add auth0-docs-mcp-server --url https://auth0.com/docs/mcp。无鉴权，不要 mcp login。工具是 SearchAuth0Docs。不要抄 Claude 的 --transport http。不要和管理租户的 stdio MCP 搞成一台。',
+  },
+  {
+    title: 'Auth0 Model Context Protocol (MCP) Server',
+    url: 'https://auth0.com/docs/get-started/mcp',
+    source: 'Auth0',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Auth0'],
+    summary:
+      '这是管理租户的本地 MCP，不是文档站 auth0.com/docs/mcp。产品页只列 Claude Desktop / Cursor / Windsurf。Codex 节在 GitHub README：mcp add auth0 跑 @auth0/auth0-mcp-server run。不要把两台配成一张表。',
+  },
+  {
+    title: 'auth0/auth0-mcp-server',
+    url: 'https://github.com/auth0/auth0-mcp-server',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Auth0', 'stdio'],
+    summary:
+      '官方 Codex：先 npx @auth0/auth0-mcp-server init，再 mcp add auth0 -- npx -y @auth0/auth0-mcp-server run。stdio，不要 mcp login。不要抄 Linux 写死的 DBUS 路径。不要和文档 HTTP 那台搞成一台。',
+  },
+  {
+    title: 'OpenAI Codex CLI',
+    url: 'https://learn.netdata.cloud/docs/netdata-ai/mcp/supported-ai-clients/openai-codex-cli',
+    source: 'Learn Netdata',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Netdata', 'HTTP', 'Bearer'],
+    summary:
+      '官方 Codex Cloud 节：mcp add netdata-cloud --url https://app.netdata.cloud/api/v1/mcp，再 bearer_token_env_var 读 NETDATA_CLOUD_API_TOKEN。不要 mcp login。不要抄 experimental_use_rmcp_client 或 mcp-remote。',
+  },
+  {
+    title: 'Netdata MCP',
+    url: 'https://learn.netdata.cloud/docs/netdata-ai/mcp',
+    source: 'Learn Netdata',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Netdata', 'HTTP'],
+    summary:
+      'Cloud 终点是 app.netdata.cloud/api/v1/mcp，Bearer 要 scope:mcp。Codex 走 url + bearer_token_env_var。不要把 Claude 的 --header 或 mcp-remote 抄进 Codex。本机 19999 是另一台。',
+  },
+  {
+    title: 'NVIDIA/skills',
+    url: 'https://github.com/NVIDIA/skills',
+    source: 'NVIDIA',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'NVIDIA', 'cuOpt'],
+    summary:
+      '官方 Codex 节是 npx skills add nvidia/skills --skill cuopt-numerical-optimization-api --agent codex。不要省略 --agent codex。不要发明 plugin add nvidia@。先 --list 再装。',
+  },
+  {
+    title: 'Advanced Installation',
+    url: 'https://docs.nvidia.com/skills/advanced-install',
+    source: 'NVIDIA',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'NVIDIA'],
+    summary:
+      'Codex 专装：npx skills add nvidia/skills --skill cuopt-numerical-optimization-api --agent codex。项目默认进 .agents/skills/。加 --global --yes 才跟账号走。安装器要 1.5.16+。不要手拷 ~/.codex/skills。',
+  },
+  {
+    title: 'Teach your AI coding agent how to send email with Postmark Skills',
+    url: 'https://postmarkapp.com/blog/teach-your-ai-coding-agent-how-to-send-email-with-postmark-skills',
+    source: 'Postmark',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'Postmark'],
+    summary:
+      '博客点名 Codex：npx skills add ActiveCampaign/postmark-skills。官方没钉 --agent codex。示例技能是 postmark-send-email。技能教 SDK，不是 MCP。不要发明 plugin add postmark@。',
+  },
+  {
+    title: 'ActiveCampaign/postmark-skills',
+    url: 'https://github.com/ActiveCampaign/postmark-skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'Postmark'],
+    summary:
+      '安装是 npx skills add ActiveCampaign/postmark-skills，单项加 --skill postmark-send-email。官方没钉 --agent codex。不要发明 plugin add。POSTMARK_SERVER_TOKEN 放进程环境。',
+  },
+  {
+    title: 'Agent Observability MCP and Skills',
+    url: 'https://docs.datadoghq.com/llm_observability/build_with_ai/mcp_server/',
+    source: 'Datadog',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'Datadog', 'MCP'],
+    summary:
+      '官方点名 Codex CLI。技能是 npx skills add datadog-labs/agent-skills/agent-observability --full-depth -y。官方没钉 --agent codex。不要抄 Restart Claude Code 或 claude mcp add。MCP 仍走 mcp.datadoghq.com/v1/mcp。',
+  },
+  {
+    title: 'datadog-labs/agent-skills',
+    url: 'https://github.com/datadog-labs/agent-skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', 'Datadog'],
+    summary:
+      'README 点名 Codex CLI。观测技能路径是 datadog-labs/agent-skills/agent-observability。单项示例是 --skill dd-pup --full-depth -y。官方没钉 --agent codex。不要发明 plugin add。',
+  },
+  {
+    title: 'Tavily Agent Skills',
+    url: 'https://docs.tavily.com/documentation/agent-skills',
+    source: 'Tavily',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'Tavily'],
+    summary:
+      '官方点名 Codex：npx skills add tavily-ai/skills --all。官方没钉 --agent codex。示例技能是 tavily-search。不要发明 mcp add 或 plugin add。技能走 tvly CLI，不是远程 MCP。',
+  },
+  {
+    title: 'tavily-ai/skills',
+    url: 'https://github.com/tavily-ai/skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', 'Tavily'],
+    summary:
+      '仓库名是 tavily-ai/skills。tvly init 会检测 Codex。单项示例是 --skill tavily-search。官方没钉 --agent codex。不要发明 plugin add。TAVILY_API_KEY 放进程环境。',
+  },
+  {
+    title: 'How to Connect to RudderStack MCP',
+    url: 'https://www.rudderstack.com/docs/ai-features/rudderstack-mcp/connect/',
+    source: 'RudderStack',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'RudderStack', 'OAuth'],
+    summary:
+      '官方 Codex 节：把 url 写成 https://mcp.rudderstack.com/mcp，再 mcp login rudderstack。表名是 rudderstack。OAuth，不要 API key。不要抄 Claude 的 --transport http 或 mcp-remote。',
+  },
+  {
+    title: 'RudderStack MCP',
+    url: 'https://www.rudderstack.com/docs/ai-features/rudderstack-mcp/',
+    source: 'RudderStack',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'RudderStack'],
+    summary:
+      '官方点名 Codex。远程入口是 https://mcp.rudderstack.com/mcp。能查管道、源、目的地、Tracking Plan，写操作只限 transformation。OAuth，事件值会打码。不要发明 plugin add rudder@。',
+  },
+  {
+    title: 'How to Install RudderStack Agent Skills',
+    url: 'https://www.rudderstack.com/docs/ai-features/agent-skills/install/',
+    source: 'RudderStack',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'RudderStack'],
+    summary:
+      '官方安装是 npx skills add rudderlabs/rudder-agent-skills。官方没钉 --agent codex。单项示例是 -a claude-code --skill rudder-cli-workflow。不要抄 /plugin marketplace add。',
+  },
+  {
+    title: 'rudderlabs/rudder-agent-skills',
+    url: 'https://github.com/rudderlabs/rudder-agent-skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', 'RudderStack'],
+    summary:
+      'installation.md 把 Codex 写成 --agent 旗标 codex，项目进 .agents/skills/，全局 ~/.codex/skills/。示例技能是 rudder-data-catalog。不要抄 Claude 的 /plugin install rudder-core。',
   },
 ];
 

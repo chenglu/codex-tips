@@ -12,6 +12,376 @@ export type CommunityItem = {
 
 export const community: CommunityItem[] = [
   {
+    title: 'Codex CLI 连 Vercel MCP：OAuth 报 The app redirect URL is invalid',
+    url: 'https://community.vercel.com/t/codex-cli-vercel-mcp-login-fails-with-the-app-redirect-url-is-invalid/42756',
+    source: 'Vercel Community',
+    kind: '论坛',
+    date: '2026-05-27',
+    tags: ['MCP', 'Vercel', 'OAuth'],
+    summary:
+      '报告 codex mcp add vercel --url https://mcp.vercel.com 后，浏览器停在 The app redirect URL is invalid。redirect_uri 形如 http://127.0.0.1:49683/callback/J69OfRTZqnV5。这是 Vercel 拒带 callback ID 的 loopback，不是 TOML 能改掉的。官方仍列 Codex CLI。',
+  },
+  {
+    title: 'Grafana Cloud MCP login 失败：OAuth 探测没带 Accept 头',
+    url: 'https://github.com/openai/codex/issues/37830',
+    source: 'openai/codex#37830',
+    kind: '论坛',
+    date: '2026-08-10',
+    tags: ['MCP', 'Grafana', 'OAuth'],
+    summary:
+      '开放问题。codex mcp login grafana 探测 GET 不带 Accept: application/json, text/event-stream 时，mcp.grafana.com/mcp 会 302 到文档站，Codex 拒绝跨源跳转。权宜是 http_headers 写上这颗 Accept，以及可选的 X-Grafana-URL。',
+  },
+  {
+    title: 'Connect Codex to OpenAI Developer Docs via MCP',
+    url: 'https://community.openai.com/t/connect-codex-to-openai-developer-docs-via-mcp/1371352',
+    source: 'OpenAI Developer Community',
+    kind: '论坛',
+    date: '2026-01-09',
+    tags: ['MCP', '文档', 'openaiDeveloperDocs'],
+    summary:
+      '论坛把官方 Docs MCP 命令贴了一遍：mcp add openaiDeveloperDocs --url。AGENTS.md 那句是可选提醒，不写就要在提示里点名这台服务器。这不是桌面浏览器的 WebMCP，也不要抄 Claude 的 --transport http。',
+  },
+  {
+    title: 'Codex 用浏览器：/skills 里装精选 playwright 技能',
+    url: 'https://community.openai.com/t/how-do-i-get-codex-to-use-the-browser/1373178',
+    source: 'OpenAI Developer Community',
+    kind: '论坛',
+    date: '2026-02-02',
+    tags: ['Skills', 'Playwright', '$skill-installer'],
+    summary:
+      '有人只装了全局 @playwright/cli，以为 Codex 没有 Playwright 技能。回复给出 /skills → skill-installer → playwright。原帖确认能用。这和 Playwright MCP、以及默认写进 .claude 的 install --skills 不是同一条路。',
+  },
+  {
+    title: '官方 Slack MCP 不支持 DCR，login 要预注册 client_id',
+    url: 'https://github.com/openai/codex/issues/13200',
+    source: 'openai/codex#13200',
+    kind: '论坛',
+    date: '2026-03-02',
+    tags: ['MCP', 'Slack', 'OAuth', 'DCR'],
+    summary:
+      '开放问题。只写 url 再 mcp login slack，会报 Dynamic client registration not supported。Slack 官方 MCP 要求预注册应用。0.142 起用 --oauth-client-id 或 [mcp_servers.slack.oauth] client_id，再 login。不要抄文档里的 --transport http。',
+  },
+  {
+    title: 'Linux 上 Playwright MCP 只有 snapshot：stdio 要转发 DISPLAY',
+    url: 'https://github.com/openai/codex/issues/4643',
+    source: 'openai/codex#4643',
+    kind: '论坛',
+    date: '2025-10-03',
+    tags: ['MCP', 'Playwright', 'DISPLAY', 'env_vars'],
+    summary:
+      '本机 headed Playwright 能弹窗，Codex 的 MCP 却只回 snapshot。维护者说明默认不把 DISPLAY 交给 stdio。评论写成 env_args，现行键是 env_vars。同时转发 WAYLAND_DISPLAY、XAUTHORITY、XDG_RUNTIME_DIR。这修不了沙箱。',
+  },
+  {
+    title: '桌面默认沙箱里 Playwright 技能会 listen EPERM',
+    url: 'https://github.com/openai/codex/issues/16174',
+    source: 'openai/codex#16174',
+    kind: '论坛',
+    date: '2026-03-29',
+    tags: ['Skills', 'Playwright', '沙箱'],
+    summary:
+      '开放问题。内置 playwright 技能在桌面默认沙箱拉浏览器时，本机 CDP listen 被拒，报 EPERM。把 Playwright 缓存改到工作区只修文件权限。不要把关掉沙箱写成官方第一步。',
+  },
+  {
+    title: 'Playwright MCP 报 chrome executable not found 时先装 Chromium',
+    url: 'https://github.com/openai/codex/issues/16696',
+    source: 'openai/codex#16696',
+    kind: '论坛',
+    date: '2026-04-03',
+    tags: ['MCP', 'Playwright', 'Chrome'],
+    summary:
+      '标题写成桌面忽略已配置的 Playwright MCP，但复现后能跑通的步骤是 npm 装包再 npx playwright install chromium。缺浏览器二进制时不要假设系统 Chrome。--extension 是另一条路径，要装 Playwright 扩展，不是默认配置。',
+  },
+  {
+    title: '桌面写回 config.toml 可能删掉用户登记的 MCP',
+    url: 'https://github.com/openai/codex/issues/36465',
+    source: 'openai/codex#36465',
+    kind: '论坛',
+    date: '2026-09-11',
+    tags: ['MCP', '桌面', 'config.toml'],
+    summary:
+      '开放 bug。桌面改设置、插件或项目信任后，用户 ~/.codex/config.toml 里的 mcp_servers 整表可能消失。项目只写 enabled = true 会 invalid transport。权宜是项目里写全 command 或 url，并自己留备份。不要清空家目录。这不是内部 codex_app。',
+  },
+  {
+    title: '桌面 Figma MCP 换账号要 mcp logout 再 login',
+    url: 'https://community.openai.com/t/codex-app-cannot-re-authenticate-figma-mcp-old-credentials-are-always-reused-with-no-way-to-switch-account/1373470',
+    source: 'OpenAI Developer Community',
+    kind: '论坛',
+    date: '2026-04-01',
+    tags: ['MCP', 'Figma', 'OAuth'],
+    summary:
+      '重装插件或关掉再开会复用旧 Figma 登录。权宜是终端里 codex mcp logout figma，再 codex mcp login figma。不要去翻钥匙串当第一手段。官方远程地址是 https://mcp.figma.com/mcp。',
+  },
+  {
+    title: 'Codex 只 add GitHub MCP 的 URL 不会写入 bearer 变量名',
+    url: 'https://github.com/github/github-mcp-server/issues/2421',
+    source: 'github/github-mcp-server#2421',
+    kind: '论坛',
+    date: '2026-05-02',
+    tags: ['MCP', 'GitHub', 'bearer_token_env_var'],
+    summary:
+      '安装指南里 TOML 有 bearer_token_env_var，早期 CLI 示例却只有 --url。生成的配置能 list，请求 401。现行命令必须带 --bearer-token-env-var GITHUB_PAT_TOKEN。键是变量名，不是 PAT；Codex 也不会自动读 .env。',
+  },
+  {
+    title: 'MCP OAuth 的 mcp_oauth_callback_url 会再拼 callback ID',
+    url: 'https://github.com/openai/codex/issues/30460',
+    source: 'openai/codex#30460',
+    kind: '论坛',
+    date: '2026-06-28',
+    tags: ['MCP', 'OAuth', 'callback'],
+    summary:
+      '有人把基址当最终 redirect_uri 登到 Keycloak，精确匹配失败。Learn 现行规则就是无 issuer 支持时拼上服务器特定 callback ID。把 add 打印的完整 URL 登上去。不要写成已修 bug，也不要等未合入的 callback-url 子命令。',
+  },
+  {
+    title: '自定义 MCP 头可以不用 Authorization，省略 bearer 键即可',
+    url: 'https://github.com/openai/codex/issues/5180',
+    source: 'openai/codex#5180',
+    kind: '论坛',
+    date: '2025-10-14',
+    tags: ['MCP', 'env_http_headers', 'HTTP'],
+    summary:
+      '有人问目标服务器只要自定义头、不要 Authorization。维护者确认可以省略 bearer_token_env_var，另外用 http_headers 或 env_http_headers。密钥写环境变量名，不要把字面量提交进 config.toml。',
+  },
+  {
+    title: 'Streamable HTTP MCP 增加 http_headers 和 env_http_headers',
+    url: 'https://github.com/openai/codex/issues/5241',
+    source: 'openai/codex#5241',
+    kind: '论坛',
+    date: '2025-10-16',
+    tags: ['MCP', 'env_http_headers', 'http_headers'],
+    summary:
+      '给 Streamable HTTP 加上静态头和从环境变量解析的头，所有对该服务器的 MCP 请求都会带上。env_http_headers 在请求时读进程环境；缺变量或空值会静默跳过这颗头。这不是 stdio 的 env_vars。',
+  },
+  {
+    title: 'mcp list 显示 Bearer 不等于请求真带了 Authorization',
+    url: 'https://github.com/openai/codex/issues/30125',
+    source: 'openai/codex#30125',
+    kind: '论坛',
+    date: '2026-06-25',
+    tags: ['MCP', 'bearer_token_env_var', '桌面'],
+    summary:
+      'HTTP MCP 配了 bearer_token_env_var 后，mcp list / mcp get 仍显示 Auth: Bearer token，即使当前进程里没有这个变量。真正发出的 initialize 没有 Authorization，工具直接消失。codex doctor 有时能标缺失环境变量。从 Dock 打开的桌面看不到 zshrc。改完环境必须彻底重启进程。',
+  },
+  {
+    title: 'Bearer MCP 鉴权失败时不要先跑 mcp login',
+    url: 'https://github.com/openai/codex/issues/26760',
+    source: 'openai/codex#26760',
+    kind: '论坛',
+    date: '2026-06-06',
+    tags: ['MCP', 'bearer_token_env_var', 'OAuth'],
+    summary:
+      '远程服务器用 bearer_token_env_var 时，启动报 Auth required 仍可能被映射成没登录，提示去 codex mcp login。Bearer 服务器没有 OAuth 流程。先确认启动 Codex 的进程里有这个变量、token 没过期，再考虑 OAuth。',
+  },
+  {
+    title: 'stdio MCP 默认不继承 shell 里的密钥和会话变量',
+    url: 'https://github.com/openai/codex/issues/19023',
+    source: 'openai/codex#19023',
+    kind: '论坛',
+    date: '2026-04-22',
+    tags: ['MCP', 'env_vars', 'stdio'],
+    summary:
+      'Bitwarden 一类包装在终端能握手，Codex 里却像没装。维护者说明 env_vars 从启动进程转发变量名，env 表是写进 config 的字面量。不要指望 ${VAR} 会展开，也不要把会话 token 写进仓库。',
+  },
+  {
+    title: '代理注入的 HTTPS_PROXY 和 NODE_EXTRA_CA_CERTS 会被 MCP 子进程丢掉',
+    url: 'https://github.com/openai/codex/issues/29124',
+    source: 'openai/codex#29124',
+    kind: '论坛',
+    date: '2026-06-19',
+    tags: ['MCP', 'env_vars', '代理'],
+    summary:
+      'Codex 清掉 stdio MCP 环境后只放行 PATH/HOME 一类默认变量。公司 MITM 注入的证书和代理变量不在名单里，npx 拉包会 EACCES。权宜是把 HTTPS_PROXY 和 NODE_EXTRA_CA_CERTS 写进该服务器的 env_vars。改 inherit=all 管不到这条。',
+  },
+  {
+    title: '冷 npx / uvx 经常超过 MCP 默认 10 秒启动超时',
+    url: 'https://github.com/openai/codex/issues/2905',
+    source: 'openai/codex#2905',
+    kind: '论坛',
+    date: '2025-08-29',
+    tags: ['MCP', 'startup_timeout_sec', 'Windows'],
+    summary:
+      'Windows 上 Context7 / Playwright 冷启动报 request timed out。维护者在 rust-v0.31.0 合入可配置超时后关单。现行键是每台服务器的 startup_timeout_sec，默认 10 秒；startup_timeout_ms 只是毫秒别名。先预热 npx 缓存，再把超时提到 30–60。',
+  },
+  {
+    title: 'TUI 建议给 codex_apps 写 startup_timeout_sec，照做会 invalid transport',
+    url: 'https://github.com/openai/codex/issues/29396',
+    source: 'openai/codex#29396',
+    kind: '论坛',
+    date: '2026-06-22',
+    tags: ['MCP', 'codex_apps', 'config.toml'],
+    summary:
+      '主机自带的 Apps 连接器超时后，TUI 仍套用用户 MCP 的修法，让人写 [mcp_servers.codex_apps]。那台没有用户可配的 transport，config 会直接加载失败。这不是桌面 WSL 注入的残缺 codex_app，也不是给自己的 npx 服务器加超时。',
+  },
+  {
+    title: 'Codex 远程 MCP 只支持 Streamable HTTP，/sse 会在 initialize 时 404',
+    url: 'https://github.com/openai/codex/issues/5634',
+    source: 'openai/codex#5634',
+    kind: '论坛',
+    date: '2025-10-24',
+    tags: ['MCP', 'HTTP', 'SSE'],
+    summary:
+      '维护者确认 Codex 不接旧版 SSE。url 写成 /sse 时 OAuth 往往能过，随后 initialize 报 404。改成供应商的 /mcp 或 /v1/mcp。不要先用 mcp-remote 把远程服务变回 stdio。',
+  },
+  {
+    title: 'Windows 路径未转义会让整份 config.toml 解析失败，桌面卡在启动页',
+    url: 'https://github.com/openai/codex/issues/37616',
+    source: 'openai/codex#37616',
+    kind: '论坛',
+    date: '2026-08-08',
+    tags: ['MCP', 'Windows', 'TOML', '桌面'],
+    summary:
+      '商店版桌面 26.803 卡在加载页、没有明确报错。双引号里的 Windows 路径把 \\d、\\P 当成非法转义，整份配置加载失败。改成单引号、正斜杠，或把每个反斜杠写成两个。这不是 invalid transport，也不是 MCP 进程本身挂了。',
+  },
+  {
+    title: 'Windows 上 MCP stderr 管道堵死，Codex 报 Transport closed',
+    url: 'https://github.com/openai/codex/issues/7155',
+    source: 'openai/codex#7155',
+    kind: '论坛',
+    date: '2025-11-22',
+    tags: ['MCP', 'Windows', 'stdio'],
+    summary:
+      'stdout 已是干净 JSON-RPC，手工探测和 Claude / Copilot 都正常，只有原生 Windows 上的 Codex 立刻 Transport closed。约 4KB 的 stderr 管道没人读就会堵死子进程。权宜是 cmd /c 把 stderr 重定向到日志文件，不要默认丢进 NUL；不要把 command = cmd 抄进 WSL。',
+  },
+  {
+    title: 'stdio MCP 往 stdout 打日志，Codex 会 Transport closed',
+    url: 'https://github.com/openai/codex/issues/18486',
+    source: 'openai/codex#18486',
+    kind: '论坛',
+    date: '2026-04-28',
+    tags: ['MCP', 'stdio', '桌面'],
+    summary:
+      '桌面比不少客户端更严：stdout 必须是换行分隔的 JSON-RPC。Unity MCP 把队列状态打到 stdout 后工具调用立刻 Transport closed，改到 stderr 并写绝对 node.exe 后恢复。Content-Length 帧、Python 握手和 stderr 堵管道是另几条坑。',
+  },
+  {
+    title: 'Oracle：用 SQLcl MCP 把 Codex CLI 接到数据库',
+    url: 'https://blogs.oracle.com/developers/how-to-build-a-controlled-mcp-workflow-for-codex-and-oracle-ai-database',
+    source: 'Oracle Developers',
+    kind: '论坛',
+    date: '2026-08-12',
+    tags: ['MCP', 'Oracle', 'SQLcl'],
+    summary:
+      '官方步骤：SQLcl 25.2+ 用 sql -mcp，连接先 conn -save -savepwd 存进 ~/.dbtools。Codex 只写绝对 command 和 args = ["-mcp"]，密码不要进 config.toml。后半的 Agent Memory / LangChain 是应用层，不是 Codex 配置。',
+  },
+  {
+    title: '0.154：macOS MCP 裸命令和相对路径改走原生 spawn',
+    url: 'https://github.com/openai/codex/pull/42192',
+    source: 'openai/codex#42192',
+    kind: '论坛',
+    date: '2026-09-02',
+    tags: ['MCP', 'macOS', '0.154'],
+    summary:
+      '合并进 0.154：macOS 启动器不再只对绝对路径做原生 spawn。uvx、npx 一类裸命令按子进程 PATH 解析，相对可执行文件同样原生启动。没有 shebang 或找不到文件才回退 shell。从 Dock 开桌面时记得给 MCP 子进程补 PATH。',
+  },
+  {
+    title: '桌面 WSL 代理下列得出 MCP，线程里却没有工具',
+    url: 'https://github.com/openai/codex/issues/13690',
+    source: 'openai/codex#13690',
+    kind: '论坛',
+    date: '2026-03-06',
+    tags: ['Windows', 'WSL', 'MCP', '桌面'],
+    summary:
+      'Agent environment 走 WSL 时，WSL 里的 npx/node stdio 服务器 mcp list 显示 enabled，手工 initialize 也能列出工具，桌面新线程却不注入。改成 Windows 侧 node.exe 启动器后工具出现。这和内部 codex_app 的 invalid transport 不是同一条。不要为了对齐配置去共用 CODEX_HOME。',
+  },
+  {
+    title: '桌面 WSL 注入残缺 mcp_servers.codex_app，报 invalid transport',
+    url: 'https://github.com/openai/codex/issues/40819',
+    source: 'openai/codex#40819',
+    kind: '论坛',
+    date: '2026-08-26',
+    tags: ['Windows', 'WSL', 'MCP', '桌面'],
+    summary:
+      '桌面 26.820.x 在 WSL 代理路径上 thread/start、thread/resume 会注入内部服务器 codex_app，常常只有 enabled 或 enabled_tools，没有 command 或 url。报错让修 config.toml，用户文件里通常没有这张表。关捆绑插件无效。可靠权宜是 runCodexInWindowsSubsystemForLinux = false 并彻底重启，这会改成 Windows 原生代理。',
+  },
+  {
+    title: '关 codex-app-tools 插件挡不住桌面 WSL 的 invalid transport',
+    url: 'https://github.com/openai/codex/issues/40910',
+    source: 'openai/codex#40910',
+    kind: '论坛',
+    date: '2026-08-26',
+    tags: ['Windows', 'WSL', 'MCP', '插件'],
+    summary:
+      '捆绑插件 desktop-mcp.json 里的 codex_app 用 cmd.exe 启动。桌面把 app-server 丢进 WSL 后，这条 Windows 传输过不去。plugins."codex-app-tools@openai-bundled" enabled = false 无效。日志里会出现 Spawning process inside WSL。不要把 cmd.exe 启动块抄进 WSL 侧 config。',
+  },
+  {
+    title: 'OpenAI 论坛：桌面 26.820 开 WSL 后所有线程起不来',
+    url: 'https://community.openai.com/t/codex-desktop-26-820-7780-0-wsl-threads-fail-with-invalid-transport-in-mcp-servers-codex-app/1392811',
+    source: 'OpenAI Developer Community',
+    kind: '论坛',
+    date: '2026-08-26',
+    tags: ['Windows', 'WSL', '桌面', 'MCP'],
+    summary:
+      '和 GitHub 40819 同一条回归：MS Store 桌面 26.820.7780.0 自动更新后，WSL 托管线程全部 invalid transport。请求级配置里的 mcp_servers.codex_app 只有 enabled。权宜同样是关掉桌面 WSL 代理并重启，不是去修用户 MCP 表。',
+  },
+  {
+    title: '桌面经常忽略项目 .codex/config.toml 里的 MCP',
+    url: 'https://github.com/openai/codex/issues/13025',
+    source: 'openai/codex#13025',
+    kind: '论坛',
+    date: '2026-02-27',
+    tags: ['MCP', '桌面', 'config.toml'],
+    summary:
+      '受信任项目的项目层 mcp_servers，CLI 通常能加载，桌面和 IDE 扩展经常只读用户 config。2026-07 仍有人在桌面 26.707 复现。权宜之计是把同一段拷到 ~/.codex/config.toml，彻底退出后新开线程，并杀掉过期 MCP 进程。仓库本地二进制不要变成全局项。',
+  },
+  {
+    title: '桌面 stdio MCP 常常要绝对 cwd 才能露工具',
+    url: 'https://github.com/openai/codex/issues/14449',
+    source: 'openai/codex#14449',
+    kind: '论坛',
+    date: '2026-03-12',
+    tags: ['MCP', '桌面', 'cwd'],
+    summary:
+      'Laravel Boost 一类本地 stdio 服务器在 CLI 能用，桌面任务里 cwd 有时是 /，相对 command 起不来。项目层补绝对 command 和绝对 cwd 后才露工具。这和「桌面完全不读项目 config」是两条线，先看进程实际工作目录。',
+  },
+  {
+    title: '插件 MCP 的 command 不会展开 PLUGIN_ROOT',
+    url: 'https://github.com/openai/codex/issues/35762',
+    source: 'openai/codex#35762',
+    kind: '论坛',
+    date: '2026-07-28',
+    tags: ['plugins', 'MCP', 'PLUGIN_ROOT'],
+    summary:
+      '钩子会替换 ${PLUGIN_ROOT}，插件 mcp.json 的 command/args 不会，字面会进启动命令。相对 cwd 相对安装后的插件根；写成 "." 再配相对 args。讨论 28145 也是这条路，不要抄 Claude 的 CLAUDE_PLUGIN_ROOT。',
+  },
+  {
+    title: '可移植 mcp.json 的 env 不会展开任意 ${VAR}',
+    url: 'https://github.com/openai/codex/issues/38438',
+    source: 'openai/codex#38438',
+    kind: '论坛',
+    date: '2026-08-13',
+    tags: ['plugins', 'MCP', 'env_vars'],
+    summary:
+      'Agent Plugin 的 env 目前只展开 PLUGIN_ROOT 和 PLUGIN_DATA。其它 ${VAR} 会原样传给子进程。0.150 起可在 .codex-plugin/.mcp.json 给同名服务器写 env_vars 做本机转发，可移植 mcp.json 仍是源。不要把密钥写进清单。',
+  },
+  {
+    title: '插件 .mcp.json 包装键必须是 mcpServers',
+    url: 'https://github.com/openai/codex/issues/22105',
+    source: 'openai/codex#22105',
+    kind: '论坛',
+    date: '2026-05-11',
+    tags: ['plugins', 'MCP', 'mcp.json'],
+    summary:
+      '官方兼容布局示例把包装对象写成 mcp_servers。加载器按 camelCase 读，蛇形键会回退成一台名叫 mcp_servers 的假服务器，没有警告。改成 mcpServers，或直接把服务器表放在根上。TOML 策略仍写 plugins."name".mcp_servers。serde alias 补丁没有进主干。',
+  },
+  {
+    title: '插件 MCP 服务器名带连字符时 list 看得到、模型调不到',
+    url: 'https://github.com/openai/codex/issues/33063',
+    source: 'openai/codex#33063',
+    kind: '论坛',
+    date: '2026-07-14',
+    tags: ['plugins', 'MCP', '工具名'],
+    summary:
+      'key 写成 context-library 时，mcp get 显示已启用，exec 却发现不了 mcp__context-library__... 工具。改成 context_library 立刻可调。连接器路径会把连字符收成下划线，插件 MCP 目前按原名进工具命名空间。',
+  },
+  {
+    title: 'Computer Use 空窗口：先关 sandbox_private_desktop',
+    url: 'https://github.com/openai/codex/issues/37043',
+    source: 'openai/codex#37043',
+    kind: '论坛',
+    date: '2026-08-05',
+    tags: ['Windows', 'sandbox', 'Computer Use'],
+    summary:
+      '助手跑在 Winsta0\\CodexSandboxDesktop-... 上时，EnumWindows 找不到你正在用的窗口。config.toml 写 sandbox_private_desktop = false 回到 Winsta0\\Default，然后彻底退出 ChatGPT / Codex 再开。不要改成 unelevated 来修窗口。',
+  },
+  {
     title: '远程精选插件会无视 per-plugin enabled = false',
     url: 'https://github.com/openai/codex/issues/28443',
     source: 'openai/codex#28443',

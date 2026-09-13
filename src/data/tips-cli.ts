@@ -588,7 +588,7 @@ submit = []
     level: "intermediate",
     surfaces: ["cli", "app", "ide"],
     tags: ["/apps", "/plugins", "IDE"],
-    related: ["plugins-vs-skills", "tool-suggest-disabled", "plugin-session-refresh"],
+    related: ["apps-default-policy", "plugins-vs-skills", "tool-suggest-disabled"],
     sources: [
       {
         label: "OpenAI · Plugins",

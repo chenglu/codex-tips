@@ -103,6 +103,7 @@ Profile 文件只写与个人默认的差异。不要再把配置嵌进 \`[profi
     surfaces: ["cli"],
     tags: ["profile", "--profile", "过时博客"],
     featured: true,
+    related: ["hf-inference-providers", "three-layer-config", "oss-provider"],
     sources: [
       {
         label: "OpenAI · Advanced configuration",
@@ -525,12 +526,12 @@ sandbox = "elevated"    # 推荐：独立低权限用户 + 防火墙
 
 \`setup refresh\` / \`SetNamedSecurityInfoW failed: 5\` 时，先看 \`.git\`、\`.codex\`、\`.agents\` 的所有者是不是变成了 \`CodexSandboxOffline\`。关掉所有 \`ChatGPT.exe\` 后，用管理员 PowerShell 把所有权改回自己的账户，再重开。这是 ACL 残留，不是 Git 坏了。
 
-Windows 11 是推荐基线；Windows 10 要 1809 以上且有 ConPTY。需要 Linux 工具链再回 WSL。`,
+Windows 11 是推荐基线；Windows 10 要 1809 以上且有 ConPTY。需要 Linux 工具链再回 WSL。沙箱弹出的窗口看不见，先查 \`windows.sandbox_private_desktop\`，不要改成 unelevated。`,
     category: "sandbox",
     level: "intermediate",
     surfaces: ["cli", "app", "ide"],
     tags: ["Windows", "sandbox", "elevated"],
-    related: ["two-knobs", "permissions-not-sandbox-mode", "wsl-linux-home-not-mntc"],
+    related: ["windows-sandbox-private-desktop", "two-knobs", "permissions-not-sandbox-mode"],
     sources: [
       {
         label: "OpenAI · Windows sandbox",
@@ -653,12 +654,12 @@ network_proxy = true
 - \`/apps\` 连接器
 - MCP 服务器自己的 HTTP / OAuth
 
-不要把 \`network_proxy\` 当成「Codex 所有出站」的总闸。连接器权限在各自的服务登录里审；MCP 用 \`default_tools_approval_mode\` 和工具白名单。`,
+不要把 \`network_proxy\` 当成「Codex 所有出站」的总闸。连接器权限在各自的服务登录里审，本机默认档写 \`[apps._default]\`；MCP 用 \`default_tools_approval_mode\` 和工具白名单。`,
     category: "sandbox",
     level: "advanced",
     surfaces: ["cli", "app", "ide"],
     tags: ["network_proxy", "MCP", "安全"],
-    related: ["permissions-not-sandbox-mode", "apps-not-plugins", "mcp-approval-and-output-limit"],
+    related: ["apps-default-policy", "apps-not-plugins", "mcp-approval-and-output-limit"],
     sources: [
       {
         label: "OpenAI · Permissions",
@@ -788,12 +789,14 @@ Windows 免询问名单写在 \`config.toml\`，不是旧的 \`computer-use/conf
 always_allowed_app_ids = ["mspaint.exe"]
 \`\`\`
 
-用 Computer Use 报给你的可执行文件名或 AppUserModelID。Always allow 只给信任的应用。企业可用 \`[features].computer_use = false\` 关掉。它不能操作终端或 ChatGPT 自己，也不能点系统的管理员/隐私授权框。`,
+用 Computer Use 报给你的可执行文件名或 AppUserModelID。Always allow 只给信任的应用。企业可用 \`[features].computer_use = false\` 关掉。它不能操作终端或 ChatGPT 自己，也不能点系统的管理员/隐私授权框。
+
+Windows 上 \`list_windows\` 返回空、EnumWindows 报 \`0x80070003\` 时，先查 \`windows.sandbox_private_desktop\`。默认专用桌面里没有你正在用的窗口。改 \`false\` 后要退出全部 Codex / ChatGPT 进程再开，不要把 \`sandbox\` 改成 unelevated 来修窗口。`,
     category: "config",
     level: "intermediate",
     surfaces: ["app"],
     tags: ["Computer Use", "桌面", "Windows"],
-    related: ["remote-control-pair", "ide-chatgpt-settings", "cleanup-playwright-chrome"],
+    related: ["windows-sandbox-private-desktop", "remote-control-pair", "windows-elevated-sandbox"],
     sources: [
       {
         label: "OpenAI · Computer Use",
@@ -835,7 +838,7 @@ IDE 扩展要在编辑器设置里打开 \`chatgpt.runCodexInWindowsSubsystemFor
     level: "intermediate",
     surfaces: ["cli", "ide"],
     tags: ["WSL", "Windows", "路径"],
-    related: ["windows-elevated-sandbox", "windows-app-wsl-home-split", "tui-notifications-filter"],
+    related: ["windows-app-wsl-home-split", "desktop-wsl-codex-app-transport", "windows-elevated-sandbox"],
     sources: [
       {
         label: "OpenAI · WSL",
@@ -980,7 +983,7 @@ gh auth login
     level: "intermediate",
     surfaces: ["app", "cli"],
     tags: ["Windows", "WSL", "CODEX_HOME"],
-    related: ["wsl-linux-home-not-mntc", "windows-elevated-sandbox", "integrated-terminal-ctrl-backtick"],
+    related: ["wsl-linux-home-not-mntc", "desktop-wsl-codex-app-transport", "windows-elevated-sandbox"],
     sources: [
       {
         label: "OpenAI · ChatGPT desktop app for Windows",
@@ -1075,7 +1078,7 @@ if (typeof document.modelContext?.registerTool === "function") {
     level: "intermediate",
     surfaces: ["app"],
     tags: ["WebMCP", "浏览器", "桌面"],
-    related: ["mcp-add-and-login", "computer-use-windows-allowlist", "apps-not-plugins"],
+    related: ["mcp-add-and-login", "mcp-openai-docs", "apps-not-plugins"],
     sources: [
       {
         label: "OpenAI · Site tools",
@@ -1935,7 +1938,7 @@ codex --oss --local-provider ollama --sandbox read-only
     level: "intermediate",
     surfaces: ["cli"],
     tags: ["oss_provider", "--oss", "Ollama"],
-    related: ["project-config-cannot-override-auth", "model-catalog-json", "ephemeral-ci"],
+    related: ["project-config-cannot-override-auth", "model-catalog-json", "hf-inference-providers"],
     sources: [
       {
         label: "OpenAI · Advanced configuration",
@@ -2560,6 +2563,450 @@ features.plugin_sharing = false
       {
         label: "OpenAI · Configuration reference",
         url: "https://learn.chatgpt.com/docs/config-file/config-reference",
+      },
+    ],
+  },
+  {
+    id: "windows-sandbox-private-desktop",
+    no: 242,
+    title: "Windows 沙箱默认进专用桌面，看不见窗口再关",
+    summary: "elevated 和 unelevated 都默认 sandbox_private_desktop = true。沙箱 GUI 和 Computer Use 枚举不到交互桌面时才改 false，然后彻底退出 ChatGPT / Codex。",
+    body: `原生 Windows 沙箱把最终的子进程放到专用桌面，不跟你的交互桌面 \`Winsta0\\Default\` 共用。\`elevated\` 和 \`unelevated\` 都这样。源码缺省是 \`true\`，\`config.toml\` 样例经常不写这个键，看起来像「没配」。
+
+\`\`\`toml
+[windows]
+sandbox = "elevated"
+# 默认就是 true，不必写。只有要兼容旧行为才关：
+# sandbox_private_desktop = false
+\`\`\`
+
+专用桌面名字类似 \`Winsta0\\CodexSandboxDesktop-...\`。沙箱里启动的记事本、安装向导你看不到、截不到，这是 UI 隔离，不是沙箱坏了。不要为了让窗口弹到你面前就把键关掉。
+
+该关的情况：Computer Use 的 \`list_windows\` / EnumWindows 找到 0 个窗口，或必须跑在交互桌面的旧工具。这时才写：
+
+\`\`\`toml
+[windows]
+sandbox = "elevated"
+sandbox_private_desktop = false
+\`\`\`
+
+写进 \`%USERPROFILE%\\.codex\\config.toml\`。改完退出所有 \`ChatGPT.exe\` 和 Codex 进程再开；只新开会话不够，专用桌面和管道是桌面应用进程建的。关了以后文件系统和防火墙边界还在，只是放弃同一桌面的窗口隔离。
+
+这修不了 OpenSSH Session 0 里 elevated 引导失败。引导进程还没起来时，改这个键没用。企业要钉死，写云托管 \`requirements.toml\` 的 \`[windows] sandbox_private_desktop\`，不是只写用户 config。\`allowed_sandbox_implementations\` 只管 elevated / unelevated，不管桌面。`,
+    category: "sandbox",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["Windows", "sandbox", "Computer Use"],
+    related: ["windows-elevated-sandbox", "computer-use-windows-allowlist", "permissions-not-sandbox-mode"],
+    sources: [
+      {
+        label: "OpenAI · Windows sandbox",
+        url: "https://learn.chatgpt.com/docs/windows/windows-sandbox",
+      },
+      {
+        label: "OpenAI · Configuration reference",
+        url: "https://learn.chatgpt.com/docs/config-file/config-reference",
+      },
+      {
+        label: "openai/codex#37043",
+        url: "https://github.com/openai/codex/issues/37043",
+      },
+    ],
+  },
+  {
+    id: "apps-default-policy",
+    no: 243,
+    title: "连接器策略写 [apps._default]，不要抄 [plugins]",
+    summary: "已装连接器的开关、破坏性工具和开放世界工具走 apps._default 和 apps.id。这不是插件键，也不走 network_proxy。带斜杠的工具名必须加引号。",
+    body: `\`/apps\` 插进提示的是连接器。本机策略写在 \`[apps]\`，不是 \`[plugins]\`，也不是 \`[mcp_servers]\`。
+
+全站默认用带下划线的 \`_default\`：
+
+\`\`\`toml
+[apps._default]
+enabled = true
+destructive_enabled = false
+open_world_enabled = false
+default_tools_approval_mode = "prompt"
+approvals_reviewer = "user"
+\`\`\`
+
+写成 \`[apps.default]\` 不会当默认档。省略 \`approvals_reviewer\` 时继承顶层 \`approvals_reviewer\`。
+
+单台覆盖、以及带 \`/\` 的工具名：
+
+\`\`\`toml
+[apps.google_drive]
+enabled = true
+destructive_enabled = false
+default_tools_approval_mode = "prompt"
+
+[apps.google_drive.tools."files/delete"]
+enabled = false
+approval_mode = "approve"
+\`\`\`
+
+工具 id 含斜杠时，表头必须加引号，否则 TOML 会拆成嵌套表。\`destructive_enabled\` 管声明了 \`destructive_hint\` 的工具；\`open_world_enabled\` 管 \`open_world_hint\`。审批取值和 MCP 一样：\`auto\`、\`prompt\`、\`writes\`、\`approve\`。
+
+本机 \`enabled = true\` 救不回工作区管理员在 Workspace apps 里关掉的连接器。插件捆里若带了连接器，仍要在工作区给这个连接器授权，装插件不等于连上了服务。
+
+整面关掉连接器：
+
+\`\`\`toml
+[features]
+apps = false
+\`\`\`
+
+官方标稳定、默认开。\`network_proxy\` 不管 Apps 出站。只想少看见「要不要装 Calendar」建议，用 \`[tool_suggest] disabled_tools\`，那条不关已经连上的工具。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["apps", "连接器", "config.toml"],
+    related: ["apps-not-plugins", "network-proxy-not-apps", "tool-suggest-disabled"],
+    sources: [
+      {
+        label: "OpenAI · Configuration reference",
+        url: "https://learn.chatgpt.com/docs/config-file/config-reference",
+      },
+      {
+        label: "OpenAI · Sample configuration",
+        url: "https://learn.chatgpt.com/docs/config-file/config-sample",
+      },
+      {
+        label: "OpenAI · Apps and connectors",
+        url: "https://learn.chatgpt.com/docs/enterprise/apps-and-connectors",
+      },
+    ],
+  },
+  {
+    id: "desktop-wsl-codex-app-transport",
+    no: 247,
+    title: "桌面开 WSL 报 invalid transport in mcp_servers.codex_app 时，先别改用户 MCP",
+    summary: "桌面 26.820.x 在 WSL 代理路径会注入残缺的内部服务器 codex_app，常常只有 enabled 或 enabled_tools，没有 command 或 url。报错让你修 config.toml，用户文件里通常没有这张表。关捆绑插件无效。可靠权宜是改成 Windows 原生代理并彻底重启。",
+    body: `Windows 桌面把 Agent environment 切到 WSL，或用户 config 写了：
+
+\`\`\`toml
+[desktop]
+runCodexInWindowsSubsystemForLinux = true
+\`\`\`
+
+之后新开、恢复线程都失败，文案类似：ChatGPT can't load config.toml，invalid transport in \`mcp_servers.codex_app\`。先看 About Codex 的版本。这是桌面 26.820.x 在 WSL app-server 路径上的注入问题，不是你手写 MCP 写错。有人报告后续桌面构建已经能开线程；先走商店或应用内更新，彻底退出所有 ChatGPT / Codex 进程再开，试一条**新**线程。
+
+用户、项目、WSL 家目录的 \`config.toml\` 里经常根本没有 \`[mcp_servers.codex_app]\`。桌面在 \`thread/start\` 和 \`thread/resume\` 里注入内部服务器 \`codex_app\`（来自捆绑插件 \`codex-app-tools\`）。Windows 原生路径会带上 \`cmd.exe\` 启动块；WSL 路径常常只剩下 \`enabled\` 或 \`enabled_tools\`。加载器按「没有 \`command\` 也没有 \`url\`」判 invalid transport，整条线程起不来。
+
+同一句 invalid transport，如果名字不是 \`codex_app\`，而是你自己的服务器，先看用户 \`config.toml\` 里那张表是不是被桌面写丢了、项目层是否只剩 \`enabled = true\`。那是「桌面写丢用户 MCP」那条，不要按 WSL 权宜去关代理。
+
+不要做这些：
+
+- 不要在 WSL 侧 config 手抄 \`command = "cmd.exe"\` 和 \`.cmd\` 启动脚本。Linux app-server 解析不了这条 Windows 传输。
+- 不要写 \`[plugins."codex-app-tools@openai-bundled"] enabled = false\` 当修复。请求级注入不会停，有人还看到桌面把插件写回启用。
+- 不要为了消报错去改无关的 \`mcp_servers\`，或清空 \`~/.codex\`。
+- 不要包一层 WSL app-server、改安装目录里的脚本。
+
+需要立刻能开线程时，改成 Windows 原生代理：
+
+\`\`\`toml
+[desktop]
+runCodexInWindowsSubsystemForLinux = false
+\`\`\`
+
+也可以在 Settings 里把 Agent environment 切回 Windows native。改完必须彻底退出再开，只新开会话不够。这会换执行环境，不是把 WSL 修好了。仓库在 Linux 家目录、依赖 Linux 工具链时，原生代理可能打不开同一份路径；这时用 WSL 里的 CLI，或 IDE 扩展的 \`chatgpt.runCodexInWindowsSubsystemForLinux\`（和桌面 \`[desktop]\` 键不是同一个开关）。
+
+macOS 上同一句 invalid transport 常常是另一件事（例如临时目录权限），不要把这条 WSL 权宜抄过去。对照本机 About Codex：桌面已经能在 WSL 下开新线程，就不要再关 WSL 代理。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["app", "cli", "ide"],
+    tags: ["Windows", "WSL", "MCP", "桌面"],
+    related: ["windows-app-wsl-home-split", "desktop-wsl-user-mcp", "desktop-mcp-config-clobber"],
+    sources: [
+      {
+        label: "openai/codex#40819",
+        url: "https://github.com/openai/codex/issues/40819",
+      },
+      {
+        label: "openai/codex#40910",
+        url: "https://github.com/openai/codex/issues/40910",
+      },
+      {
+        label: "OpenAI · ChatGPT desktop app for Windows",
+        url: "https://learn.chatgpt.com/docs/windows/windows-app",
+      },
+    ],
+  },
+  {
+    id: "toml-windows-path-quotes",
+    no: 253,
+    title: "Windows 路径写进 TOML 要用单引号或正斜杠",
+    summary:
+      "双引号里的反斜杠是转义。未转义的盘符路径会让整份 config.toml 解析失败，商店版桌面卡在启动页、没有明确报错。改用单引号、正斜杠，或把每个反斜杠写成两个。",
+    body: `商店版桌面能开窗口，却一直停在加载页，重装、修复都没用：先看 \`%USERPROFILE%\\.codex\\config.toml\` 里有没有双引号包着的 Windows 路径，不要先清整个 Codex 目录。
+
+TOML 双引号把 \`\\\` 当转义。\`\\n\` 变成换行，\`\\t\` 变成制表符，\`\\d\`、\`\\P\`、\`\\U\` 这类非法序列直接让整份配置加载失败。日志类似：
+
+\`\`\`text
+failed to reload config: C:\\Users\\you\\.codex\\config.toml:150:77:
+missing escaped value, expected b, e, f, n, r, \\, ", x, u, U
+\`\`\`
+
+桌面这边往往没有把这行展示出来，\`config/read\`、插件列表、Windows 沙箱初始化一起卡住，看起来像应用坏了。CLI 用 \`codex --strict-config\` 或 \`codex mcp list\` 会更快暴露同一处语法错误。
+
+三种写法都可以：
+
+\`\`\`toml
+# 推荐：单引号，反斜杠按字面保存
+command = 'C:\\Users\\you\\mcp-server\\start.ps1'
+
+# 正斜杠，Node / PowerShell -File 都认
+command = "C:/Users/you/mcp-server/start.ps1"
+
+# 双引号就必须把每个反斜杠写成两个
+command = "C:\\\\Users\\\\you\\\\mcp-server\\\\start.ps1"
+\`\`\`
+
+不要写 \`command = "C:\\Users\\you\\start.ps1"\` 这种未转义双引号。能交给 \`codex mcp add\` 的服务器，让 CLI 写 TOML，不要手抄资源管理器路径。这和 invalid transport、stderr 管道堵死不是同一件事：配置文件根本没解析成功，MCP 进程还没启动。改完必须彻底退出 ChatGPT / Codex 再开。`,
+    category: "config",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["TOML", "Windows", "MCP", "config.toml"],
+    related: [
+      "debug-config-strict",
+      "desktop-wsl-codex-app-transport",
+      "windows-mcp-stderr-pipe",
+    ],
+    sources: [
+      {
+        label: "openai/codex#37616",
+        url: "https://github.com/openai/codex/issues/37616",
+      },
+      {
+        label: "OpenAI · Configuration reference",
+        url: "https://learn.chatgpt.com/docs/config-file/config-reference",
+      },
+      {
+        label: "MCP Directory · Codex Windows MCP fixes",
+        url: "https://mcp.directory/blog/codex-mcp-windows-fix-guide-2026",
+      },
+    ],
+  },
+  {
+    id: "hf-inference-providers",
+    no: 279,
+    title: "Hugging Face 当模型供应商：router.huggingface.co 且 wire_api = responses",
+    summary:
+      "用户 config 写 [model_providers.huggingface]，base_url 是 https://router.huggingface.co/v1，env_key = HF_TOKEN，wire_api = responses。再用 ~/.codex/huggingface.config.toml 和 --profile huggingface。这不是 Hub MCP，也不是 --oss。",
+    body: `这是换 Codex **背后那颗模型**，不是再加一台 MCP。Hugging Face Inference Providers 走 OpenAI 兼容的 Responses API：
+
+\`\`\`toml
+# ~/.codex/config.toml
+[model_providers.huggingface]
+name = "Hugging Face"
+base_url = "https://router.huggingface.co/v1"
+env_key = "HF_TOKEN"
+wire_api = "responses"
+\`\`\`
+
+\`env_key\` 是变量**名**。令牌要有 Make calls to Inference Providers 权限，并且出现在**启动 Codex 的进程**里。不要把 \`hf_\` 字面量写进 TOML。从已经 \`export HF_TOKEN\` 的终端启动；Dock 打开的桌面不会读你刚 export 的 shell。
+
+自定义供应商必须 \`wire_api = "responses"\`。选的模型还要在 Inference Providers 上提供 chat completion。Profile 写成独立文件，不要再塞 \`[profiles.huggingface]\`（0.134 之前的旧表会被拒绝）：
+
+\`\`\`toml
+# ~/.codex/huggingface.config.toml
+model_provider = "huggingface"
+model = "openai/gpt-oss-120b"
+\`\`\`
+
+\`\`\`bash
+codex --profile huggingface
+codex exec --profile huggingface "Explain what this repository does."
+\`\`\`
+
+模型 slug 换成 Inference Providers 上任何可用的。加 \`:groq\` 钉后端；省略后缀则由路由回退。也可以加 \`:fastest\` 或 \`:cheapest\`。单次覆盖用 \`-m\`，不必改 profile 文件。
+
+组织账单（把用量记到 HF org，账号要有 Write）在供应商表加字面量头，这是 org 名不是密钥：
+
+\`\`\`toml
+[model_providers.huggingface]
+name = "Hugging Face"
+base_url = "https://router.huggingface.co/v1"
+env_key = "HF_TOKEN"
+wire_api = "responses"
+http_headers = { "X-HF-Bill-To" = "your-org-name" }
+\`\`\`
+
+不要做这些：
+
+- 不要把这张表当成 Hub MCP。查 Hub / Spaces 走 \`codex mcp add huggingface --url https://huggingface.co/mcp\`。
+- 不要写进项目 \`.codex/config.toml\`。项目文件改不了 \`model_provider\` / \`model_providers\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`huggingface\` 是新 ID，可以。
+- 不要把它和 \`--oss\` / \`oss_provider\` 混成一条。\`--oss\` 是本机 Ollama / LM Studio。
+- 不要抄 \`mcpServers\` JSON，也不要给这张供应商表写 \`url =\` MCP 地址。
+
+改完新开会话。\`codex --profile huggingface\` 起得来，说明供应商和 token 都进了这一进程。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli"],
+    tags: ["model_providers", "Hugging Face", "wire_api", "profile"],
+    related: ["oss-provider", "profile-files-not-tables", "vercel-ai-gateway"],
+    sources: [
+      {
+        label: "Hugging Face · Codex",
+        url: "https://huggingface.co/docs/inference-providers/en/integrations/codex",
+      },
+      {
+        label: "OpenAI · Advanced configuration",
+        url: "https://learn.chatgpt.com/docs/config-file/config-advanced",
+      },
+    ],
+  },
+  {
+    id: "vercel-ai-gateway",
+    no: 284,
+    title: "Vercel AI Gateway 当模型供应商：codex/v1 且 wire_api = responses",
+    summary:
+      "用户 config 写 [model_providers.vercel]，base_url 是 https://ai-gateway.vercel.sh/codex/v1，env_key = AI_GATEWAY_API_KEY，wire_api = responses。再用 ~/.codex/vercel.config.toml 和 --profile vercel。这不是 Vercel MCP，也不是 --oss。",
+    body: `这是换 Codex **背后那颗模型**，不是再加一台 MCP。官方 Codex 兼容入口是 \`https://ai-gateway.vercel.sh/codex/v1\`，不是普通的 \`/v1\`：启动时它按 Codex 的 \`ModelsResponse\` 吐 \`/codex/v1/models\`，\`/model\` 才能列出网关目录。
+
+一键（只配 Codex，先 \`--dry-run\` 看会改哪些文件）：
+
+\`\`\`bash
+vercel ai-gateway coding-agents setup --agent codex --dry-run
+vercel ai-gateway coding-agents setup --agent codex
+\`\`\`
+
+不要省略 \`--agent codex\`。不带这个旗标会改所有检测到的 agent。命令会写 \`~/.codex/config.toml\`、在 shell 启动文件里导出 \`AI_GATEWAY_API_KEY\`（macOS 可进钥匙串），并备份 \`.bak\`。它还会把桌面旧会话复制成走 \`vercel\` 供应商的新 ID；原文件不动。不想搬会话就加 \`--no-session-migration\`。压缩的 \`.jsonl.zst\` 要先解压。
+
+手写时，供应商表放**用户** \`~/.codex/config.toml\`：
+
+\`\`\`toml
+[model_providers.vercel]
+name = "Vercel AI Gateway"
+base_url = "https://ai-gateway.vercel.sh/codex/v1"
+env_key = "AI_GATEWAY_API_KEY"
+wire_api = "responses"
+\`\`\`
+
+\`env_key\` 是变量**名**。密钥必须在**启动 Codex 的那个进程**里。不要把网关 key 字面量写进 TOML。从已经 \`export AI_GATEWAY_API_KEY\` 的终端启动；Dock 打开的桌面不会读你刚改的 zshrc。
+
+不要把顶层 \`model_provider = "vercel"\` 一上来写进用户 config，除非你就是要把**所有**会话都改走网关。CLI setup 会写成默认。更稳妥是独立 profile：
+
+\`\`\`toml
+# ~/.codex/vercel.config.toml
+model_provider = "vercel"
+model = "openai/gpt-6-astra"
+\`\`\`
+
+\`\`\`bash
+codex --profile vercel
+codex --profile vercel -m openai/gpt-5.5-pro
+\`\`\`
+
+0.134 起不要再写 \`[profiles.vercel]\`。网关官方页也写了：旧表要搬进 \`~/.codex/fast.config.toml\` 这种文件。
+
+自定义供应商必须 \`wire_api = "responses"\`。模型 slug 是 \`厂商/型号\`，例如 \`openai/gpt-6-astra\`、\`anthropic/claude-sonnet-4.6\`。非 OpenAI 模型可能警告找不到 metadata，可以忽略。
+
+不要做这些：
+
+- 不要把这张表当成 Vercel MCP。管项目 / 部署走 \`codex mcp add vercel --url https://mcp.vercel.com\`。
+- 不要写 \`base_url = "https://ai-gateway.vercel.sh/v1"\`。那是通用 Responses 入口；Codex 要用 \`/codex/v1\`。
+- 不要抄 Claude Code 的 \`https://ai-gateway.vercel.sh/claude-code\`。
+- 不要写进项目 \`.codex/config.toml\`。项目文件改不了 \`model_provider\` / \`model_providers\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`vercel\` 是新 ID，可以。
+- 不要和 \`--oss\` / \`oss_provider\` 混成一条。
+- 不要把厂商页的 \`[features] responses_websockets_v2\` 和 \`supports_websockets = true\` 当 Learn 现行主键抄进去。非 OpenAI 模型会报 Model is not available over WebSocket。
+
+改完新开会话。\`codex --profile vercel\` 起得来，说明供应商和 token 都进了这一进程。用量看 Vercel 的 AI Gateway Overview。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["model_providers", "Vercel", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "hf-inference-providers", "mcp-vercel-remote"],
+    sources: [
+      {
+        label: "Vercel · OpenAI Codex with AI Gateway",
+        url: "https://vercel.com/docs/ai-gateway/coding-agents/openai-codex",
+      },
+      {
+        label: "OpenAI · Advanced configuration",
+        url: "https://learn.chatgpt.com/docs/config-file/config-advanced",
+      },
+    ],
+  },
+  {
+    id: "digitalocean-inference-provider",
+    no: 365,
+    title: "DigitalOcean Inference 当模型供应商：inference.do-ai.run 且 wire_api = responses",
+    summary:
+      "用户 config 写 [model_providers.openai_custom]，base_url 是 https://inference.do-ai.run/v1，env_key = MODEL_ACCESS_KEY，wire_api = responses。再用 ~/.codex/digitalocean.config.toml 和 --profile digitalocean。这不是 DigitalOcean MCP，也不是 --oss。",
+    body: `这是换 Codex **背后那颗模型**，不是再加一台 MCP。DigitalOcean Inference 的官方 Codex 入口是 \`https://inference.do-ai.run/v1\`。密钥走进程环境 \`MODEL_ACCESS_KEY\`（格式是 sk-do- 开头），不要写进 TOML。
+
+供应商表放**用户** \`~/.codex/config.toml\`。官方 heredoc 会整文件覆盖，不要当主路径抄：
+
+\`\`\`toml
+# ~/.codex/config.toml
+[model_providers.openai_custom]
+name = "OpenAI Compatible"
+base_url = "https://inference.do-ai.run/v1"
+env_key = "MODEL_ACCESS_KEY"
+wire_api = "responses"
+query_params = {}
+\`\`\`
+
+\`env_key\` 是变量**名**。密钥必须出现在**启动 Codex 的那个进程**里。从已经 \`export MODEL_ACCESS_KEY\` 的终端启动；Dock 打开的桌面不会读你刚改的 zshrc。
+
+官方参数列表把 Provider name 写成 digitalocean，但 TOML 表名就是 \`openai_custom\`。跟 TOML 走，不要改成 \`[model_providers.digitalocean]\`。也不要抄第二段里那些占位 URL。
+
+不要把顶层 \`model_provider = "openai_custom"\` 一上来写进用户 config，除非你就是要把**所有**会话都改走 Inference。更稳妥是独立 profile：
+
+\`\`\`toml
+# ~/.codex/digitalocean.config.toml
+model_provider = "openai_custom"
+model = "openai-gpt-4.1"
+preferred_auth_method = "apikey"
+model_reasoning_effort = "high"
+\`\`\`
+
+\`\`\`bash
+codex --profile digitalocean
+codex --profile digitalocean -m "openai-gpt-4o-mini"
+\`\`\`
+
+0.134 起不要再写 \`[profiles.digitalocean]\`。自定义供应商必须 \`wire_api = "responses"\`。模型 ID 以 \`/v1/models\` 为准，例如 \`openai-gpt-4.1\`。换模型前先列目录：
+
+\`\`\`bash
+curl -s \\
+  -H "Authorization: Bearer $MODEL_ACCESS_KEY" \\
+  https://inference.do-ai.run/v1/models \\
+  | jq '.data[].id'
+\`\`\`
+
+不要做这些：
+
+- 不要把这张表当成 DigitalOcean MCP 或 App Platform skills。那是管 Droplet / App，不是换模型。
+- 不要写进项目 \`.codex/config.toml\`。项目文件改不了 \`model_provider\` / \`model_providers\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`openai_custom\` 是新 ID，可以。
+- 不要和 \`--oss\` / \`oss_provider\` 混成一条。
+- 不要发明 \`plugin add digitalocean@\`。
+- 不要把密钥写进 \`http_headers\` 或 heredoc。
+- 不要把 ChatGPT 登录当主路径；官方给了 \`preferred_auth_method = "apikey"\`。
+
+改完新开会话。\`codex --profile digitalocean\` 起得来，说明供应商和密钥都进了这一进程。401 先看进程里有没有 \`MODEL_ACCESS_KEY\`；404 再对照 \`/v1/models\` 改 \`model\`。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["model_providers", "DigitalOcean", "wire_api", "profile"],
+    related: ["hf-inference-providers", "vercel-ai-gateway", "profile-files-not-tables"],
+    sources: [
+      {
+        label: "DigitalOcean · Use with coding agents",
+        url: "https://docs.digitalocean.com/products/inference/how-to/use-with-coding-agents/",
+      },
+      {
+        label: "DigitalOcean · Retrieve available models",
+        url: "https://docs.digitalocean.com/products/inference/how-to/retrieve-available-models/",
+      },
+      {
+        label: "OpenAI · Advanced configuration",
+        url: "https://learn.chatgpt.com/docs/config-file/config-advanced",
       },
     ],
   },

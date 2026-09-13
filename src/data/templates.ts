@@ -298,7 +298,8 @@ glob_scan_max_depth = 3
     id: "mcp-oauth-callback",
     title: "MCP OAuth 回调",
     filename: "~/.codex/config.toml",
-    summary: "无端口 127.0.0.1 才会插入监听端口。localhost 或已带端口的 URL 不会替换。",
+    summary:
+      "无端口 127.0.0.1 才会插入监听端口。localhost 或已带端口的 URL 不会替换。登记 add 打印的完整 URL（含 callback ID），不要只登基址。",
     code: `mcp_oauth_callback_port = 5555
 
 [mcp_servers.example]
@@ -925,6 +926,1924 @@ enabled = false
     ]
   }
 }
+`,
+  },
+  {
+    id: "plugin-portable-json",
+    title: "可移植 plugin.json（Agent Plugins）",
+    filename: "plugin.json",
+    summary: "放在插件根。技能走 skills/，MCP 另写 mcp.json。OpenAI 专用字段进 extensions.com.openai，会整份替换 overlay。",
+    code: `{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "my-first-plugin",
+  "version": "1.0.0",
+  "description": "Reusable greeting workflow",
+  "extensions": {
+    "com.openai": {
+      "hooks": "./hooks/hooks.json",
+      "interface": {
+        "displayName": "My Plugin",
+        "shortDescription": "Reusable skills and MCP servers",
+        "developerName": "Your team",
+        "category": "Productivity"
+      }
+    }
+  }
+}
+`,
+  },
+  {
+    id: "plugin-portable-mcp",
+    title: "可移植 mcp.json（带 transport type）",
+    filename: "mcp.json",
+    summary: "包装键是 mcpServers，不要抄 TOML 的 mcp_servers。不要只把 .mcp.json 改名。兼容布局还要把清单里的 mcpServers 指到 ./.mcp.json。",
+    code: `{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "docs": {
+      "type": "streamable-http",
+      "url": "https://example.com/mcp"
+    }
+  }
+}
+`,
+  },
+  {
+    id: "plugin-admin-mcp-desktop",
+    title: "把已有工作区插件交给 GitHub 管",
+    filename: ".agents/plugins/marketplace.json",
+    summary: "pluginId 从 Admin URL /admin/plugins/ 后面抄。带 MCP 的导入插件仍是 Desktop only。",
+    code: `{
+  "name": "team-plugins",
+  "interface": {
+    "displayName": "Team plugins"
+  },
+  "plugins": [
+    {
+      "name": "team-tools",
+      "pluginId": "plugin_00000000000000000000000000000000",
+      "source": {
+        "source": "local",
+        "path": "./plugins/team-tools"
+      }
+    }
+  ]
+}
+`,
+  },
+  {
+    id: "windows-sandbox-private-desktop",
+    title: "Windows 沙箱专用桌面",
+    filename: "~/.codex/config.toml",
+    summary: "默认 true。Computer Use 或必须看见交互桌面的 GUI 才改 false，然后彻底退出 ChatGPT / Codex。",
+    code: `[windows]
+sandbox = "elevated"
+# 默认 true：沙盒子进程进 Winsta0\\CodexSandboxDesktop-...
+# 只要兼容交互桌面时才关：
+sandbox_private_desktop = false
+`,
+  },
+  {
+    id: "apps-default-policy",
+    title: "连接器默认策略",
+    filename: "~/.codex/config.toml",
+    summary: "写 apps._default，不要写成 apps.default。带斜杠的工具名必须加引号。",
+    code: `[apps._default]
+enabled = true
+destructive_enabled = false
+open_world_enabled = false
+default_tools_approval_mode = "prompt"
+approvals_reviewer = "user"
+
+[apps.google_drive]
+enabled = true
+destructive_enabled = false
+
+[apps.google_drive.tools."files/delete"]
+enabled = false
+approval_mode = "approve"
+`,
+  },
+  {
+    id: "plugin-mcp-oauth-json",
+    title: "插件 MCP OAuth（camelCase）",
+    filename: "mcp.json",
+    summary: "不要抄 config.toml 的 client_id。callbackUrl 里的端口不会改监听口，要同时写 callbackPort。",
+    code: `{
+  "mcpServers": {
+    "sample": {
+      "type": "http",
+      "url": "https://mcp.example.com/mcp",
+      "oauth": {
+        "clientId": "my-pre-registered-client",
+        "callbackUrl": "http://127.0.0.1:4321/callback/registered",
+        "callbackPort": 4321
+      }
+    }
+  }
+}
+`,
+  },
+  {
+    id: "plugin-mcp-cwd-dot",
+    title: "插件 MCP 用 cwd . 找安装根",
+    filename: "mcp.json",
+    summary: "command/args 不会展开 PLUGIN_ROOT。相对 cwd 相对安装后的插件根，写成 . 再配相对 args。",
+    code: `{
+  "mcpServers": {
+    "docs": {
+      "command": "node",
+      "args": ["./start.mjs"],
+      "cwd": "."
+    }
+  }
+}
+`,
+  },
+  {
+    id: "desktop-project-mcp",
+    title: "桌面读不到项目 MCP 时的用户层副本",
+    filename: "~/.codex/config.toml",
+    summary: "先确认项目已信任。stdio 用绝对路径。仓库本地二进制不要拷成全局项。改完彻底退出桌面再开新线程。",
+    code: `[mcp_servers.docs]
+command = "/usr/bin/node"
+args = ["/home/you/src/app/servers/docs.mjs"]
+cwd = "/home/you/src/app"
+enabled = true
+bearer_token_env_var = "DOCS_MCP_TOKEN"
+`,
+  },
+  {
+    id: "desktop-wsl-codex-app-transport",
+    title: "桌面 WSL 报 invalid transport 时改回原生代理",
+    filename: "%USERPROFILE%\\.codex\\config.toml",
+    summary: "这会换成 Windows 原生代理，不是修好 WSL。改完彻底退出桌面再开。不要手抄 cmd.exe 进 WSL 侧 MCP。",
+    code: `[desktop]
+runCodexInWindowsSubsystemForLinux = false
+`,
+  },
+  {
+    id: "desktop-wsl-user-mcp",
+    title: "桌面 WSL 下用 Windows 侧 Node 起 MCP",
+    filename: "%USERPROFILE%\\.codex\\config.toml",
+    summary: "给桌面 WSL 代理用。不要 export CODEX_HOME 硬共用这份和 Linux npx。改完彻底退出桌面。",
+    code: `[mcp_servers.docs]
+command = "/mnt/c/Program Files/nodejs/node.exe"
+args = ["C:\\\\Program Files\\\\nodejs\\\\node_modules\\\\npm\\\\bin\\\\npx-cli.js", "-y", "@example/docs-mcp"]
+cwd = "/mnt/c/Users/you"
+startup_timeout_sec = 40
+enabled = true
+`,
+  },
+  {
+    id: "macos-mcp-bare-command",
+    title: "macOS 用 uvx 起 MCP",
+    filename: "~/.codex/config.toml",
+    summary: "0.154 起裸命令走原生 spawn。Dock 打开的桌面若找不到 uvx，把 Homebrew 写进这台服务器的 PATH。",
+    code: `[mcp_servers.docs]
+command = "uvx"
+args = ["docs-mcp@latest"]
+enabled = true
+
+[mcp_servers.docs.env]
+PATH = "/opt/homebrew/bin:/usr/bin:/bin"
+`,
+  },
+  {
+    id: "sqlcl-oracle-mcp",
+    title: "SQLcl MCP 接 Oracle",
+    filename: "~/.codex/config.toml",
+    summary: "密码用 SQLcl 的 conn -save -savepwd 存进 ~/.dbtools。command 写 sql 的绝对路径。Java 起得慢就 required = true。",
+    code: `[mcp_servers.sqlcl]
+command = "/opt/oracle/sqlcl/bin/sql"
+args = ["-mcp"]
+required = true
+startup_timeout_sec = 40
+enabled = true
+`,
+  },
+  {
+    id: "windows-mcp-stderr-pipe",
+    title: "Windows 把 MCP stderr 重定向到文件",
+    filename: "~/.codex/config.toml",
+    summary:
+      "原生 Windows 上 stderr 太吵会堵死 stdio。用 cmd /c 重定向到日志，不要 2>NUL，也不要抄进 WSL。",
+    code: `[mcp_servers.docs]
+command = "cmd"
+args = ["/c", "node C:\\\\Users\\\\you\\\\mcp-server\\\\index.js 2>C:\\\\temp\\\\mcp-stderr.log"]
+startup_timeout_sec = 60
+enabled = true
+`,
+  },
+  {
+    id: "toml-windows-path-quotes",
+    title: "Windows MCP 路径用单引号",
+    filename: "~/.codex/config.toml",
+    summary:
+      "TOML 双引号会把反斜杠当转义。Windows 路径用单引号或正斜杠，否则整份配置解析失败，桌面可能卡在启动页。",
+    code: `[mcp_servers.docs]
+command = 'C:\\Users\\you\\mcp-server\\start.ps1'
+args = ["-stdio"]
+startup_timeout_sec = 30
+enabled = true
+`,
+  },
+  {
+    id: "mcp-http-not-sse",
+    title: "HTTP MCP 用 Streamable HTTP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "Codex 远程 MCP 只有 Streamable HTTP。不要把 url 写成 /sse。Linear 官方入口是 /mcp。",
+    code: `[mcp_servers.docs]
+url = "https://mcp.example.com/mcp"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-startup-timeout-sec",
+    title: "给慢启动 MCP 加 startup_timeout_sec",
+    filename: "~/.codex/config.toml",
+    summary:
+      "默认 10 秒经常不够冷启动的 npx / uvx。改完新开会话。不要给主机自带的 codex_apps 写这个表。",
+    code: `[mcp_servers.docs]
+command = "npx"
+args = ["-y", "@example/docs-mcp"]
+startup_timeout_sec = 60
+enabled = true
+`,
+  },
+  {
+    id: "mcp-stdio-env-vars",
+    title: "stdio MCP 用 env_vars 转发密钥",
+    filename: "~/.codex/config.toml",
+    summary:
+      "子进程不继承整份 shell。env_vars 转发启动进程里的变量名；env 表只放 PATH 这类字面量。不要写占位符指望展开。",
+    code: `[mcp_servers.docs]
+command = "npx"
+args = ["-y", "@example/docs-mcp"]
+env_vars = ["DOCS_API_KEY"]
+enabled = true
+
+[mcp_servers.docs.env]
+PATH = "/opt/homebrew/bin:/usr/bin:/bin"
+`,
+  },
+  {
+    id: "mcp-http-bearer-env",
+    title: "HTTP MCP 用 bearer_token_env_var 读进程环境",
+    filename: "~/.codex/config.toml",
+    summary:
+      "变量必须在启动 Codex 的进程里。Dock 打开的桌面没有 zshrc。改完彻底退出再从已 export 的终端启动。不要写 env_vars，也不要对 bearer 跑 mcp login。",
+    code: `[mcp_servers.docs]
+url = "https://mcp.example.com/mcp"
+bearer_token_env_var = "DOCS_MCP_TOKEN"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-http-env-headers",
+    title: "HTTP MCP 用 env_http_headers 读自定义头",
+    filename: "~/.codex/config.toml",
+    summary:
+      "左边是头名，右边是变量名。缺变量会静默不带头。密钥不要写进 http_headers。Bearer 仍用 bearer_token_env_var。",
+    code: `[mcp_servers.docs]
+url = "https://mcp.example.com/mcp"
+enabled = true
+
+[mcp_servers.docs.env_http_headers]
+X-Api-Key = "DOCS_API_KEY"
+`,
+  },
+  {
+    id: "mcp-oauth-callback-id",
+    title: "MCP OAuth 登记完整回调",
+    filename: "~/.codex/config.toml",
+    summary:
+      "mcp_oauth_callback_url 是基址。无 issuer 支持时 redirect_uri 会再拼 callback ID。把 add 打印的完整 URL 登到 IdP。",
+    code: `# 这是基址。发给授权服务器的 redirect_uri 常会再拼 callback ID。
+# 把 codex mcp add 打印的完整 OAuth callback URL 原样登到 IdP。
+mcp_oauth_callback_url = "http://127.0.0.1/callback"
+mcp_oauth_callback_port = 5555
+
+[mcp_servers.docs]
+url = "https://mcp.example.com/mcp"
+
+[mcp_servers.docs.oauth]
+client_id = "my-client"
+`,
+  },
+  {
+    id: "mcp-github-hosted",
+    title: "托管 GitHub MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 Copilot MCP 地址。add 必须带 --bearer-token-env-var。键是变量名。Codex 不读 .env。不要跑 mcp login。",
+    code: `[mcp_servers.github]
+url = "https://api.githubcopilot.com/mcp/"
+bearer_token_env_var = "GITHUB_PAT_TOKEN"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-figma-remote",
+    title: "Figma 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.figma.com/mcp。add 之后 mcp login figma。不要同时写 bearer。本地 3845 是另一台服务。",
+    code: `[mcp_servers.figma]
+url = "https://mcp.figma.com/mcp"
+enabled = true
+`,
+  },
+  {
+    id: "desktop-mcp-config-clobber",
+    title: "项目层写全 MCP 传输",
+    filename: ".codex/config.toml",
+    summary:
+      "不要只写 enabled = true。用户层表被桌面写丢时，残缺覆盖会 invalid transport。密钥用变量名。",
+    code: `[mcp_servers.docs]
+url = "https://mcp.example.com/mcp"
+bearer_token_env_var = "DOCS_MCP_TOKEN"
+enabled = true
+`,
+  },
+  {
+    id: "chrome-devtools-mcp",
+    title: "Chrome DevTools MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方是 stdio 包，不是 localhost:3000 HTTP。冷 npx 把 startup_timeout_sec 提到 20。沙箱加 --headless。Windows 的 cmd 包装不要抄进 WSL。",
+    code: `[mcp_servers.chrome-devtools]
+command = "npx"
+args = ["-y", "chrome-devtools-mcp@latest"]
+startup_timeout_sec = 20
+enabled = true
+`,
+  },
+  {
+    id: "playwright-mcp",
+    title: "Playwright MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方是 stdio 包 @playwright/mcp。冷 npx 把 startup_timeout_sec 提到 20。沙箱加 --headless --isolated。默认关掉 browser_run_code_unsafe。",
+    code: `[mcp_servers.playwright]
+command = "npx"
+args = ["-y", "@playwright/mcp@latest"]
+startup_timeout_sec = 20
+disabled_tools = ["browser_run_code_unsafe"]
+enabled = true
+`,
+  },
+  {
+    id: "mcp-context7",
+    title: "Context7 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "Learn 免费入门不强制 API key。密钥用 env_vars 转发，不要写进 args。冷 npx 把 startup_timeout_sec 提到 20。远程改 url + bearer_token_env_var。",
+    code: `[mcp_servers.context7]
+command = "npx"
+args = ["-y", "@upstash/context7-mcp"]
+env_vars = ["CONTEXT7_API_KEY"]
+startup_timeout_sec = 20
+enabled = true
+`,
+  },
+  {
+    id: "mcp-stdio-display-env",
+    title: "stdio MCP 转发 DISPLAY",
+    filename: "~/.codex/config.toml",
+    summary:
+      "本机有显示器、MCP 却只有 snapshot 时转发图形会话变量。键是 env_vars，不是 env_args。修不了沙箱。",
+    code: `[mcp_servers.playwright]
+command = "npx"
+args = ["-y", "@playwright/mcp@latest"]
+env_vars = ["DISPLAY", "WAYLAND_DISPLAY", "XAUTHORITY", "XDG_RUNTIME_DIR"]
+startup_timeout_sec = 20
+enabled = true
+`,
+  },
+  {
+    id: "mcp-notion-remote",
+    title: "Notion 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.notion.com/mcp。add 之后 mcp login notion。不要抄 rmcp 旗标、/sse 或 Claude 的 --transport http。",
+    code: `[mcp_servers.notion]
+url = "https://mcp.notion.com/mcp"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-slack-remote",
+    title: "Slack 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.slack.com/mcp。必须带预注册 oauth.client_id，否则 DCR 失败。不要抄 --transport http。",
+    code: `[mcp_servers.slack]
+url = "https://mcp.slack.com/mcp"
+enabled = true
+
+[mcp_servers.slack.oauth]
+client_id = "my-slack-app"
+`,
+  },
+  {
+    id: "mcp-sentry-remote",
+    title: "Sentry 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.sentry.dev/mcp。能接到 org/project。add 之后 mcp login sentry。不要抄 mcp-remote 或 Claude 的 --transport http。",
+    code: `[mcp_servers.sentry]
+url = "https://mcp.sentry.dev/mcp/my-org/my-project"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-atlassian-remote",
+    title: "Atlassian 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "现行入门页是 v2/mcp。add 之后 mcp login。不要抄 /sse 或把 authv2 当唯一入口。Atlassian 要 DCR，不要抄 Slack 的预注册 client_id。",
+    code: `[mcp_servers.atlassian]
+url = "https://mcp.atlassian.com/v2/mcp"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-stripe-remote",
+    title: "Stripe 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.stripe.com，没有 /mcp 后缀。add 之后 mcp login stripe。受限密钥用 bearer_token_env_var。不要和 OAuth 混用。",
+    code: `[mcp_servers.stripe]
+url = "https://mcp.stripe.com"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-openai-docs",
+    title: "OpenAI Docs MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方服务器名是驼峰 openaiDeveloperDocs。只读文档检索。不要当成桌面 WebMCP，也不要抄 --transport http。",
+    code: `[mcp_servers.openaiDeveloperDocs]
+url = "https://developers.openai.com/mcp"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-cloudflare-remote",
+    title: "Cloudflare 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.cloudflare.com/mcp。add 之后 mcp login。Cloudflare 的 Code Mode 不是 Codex 的 features.code_mode。文档服务器另加 cloudflare-docs。",
+    code: `[mcp_servers.cloudflare]
+url = "https://mcp.cloudflare.com/mcp"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-huggingface-remote",
+    title: "Hugging Face 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 huggingface.co/mcp。add 之后 mcp login。token 用 bearer_token_env_var。不要抄 Claude 的 -t http，也不要把 hf_ 写进 http_headers。",
+    code: `[mcp_servers.huggingface]
+url = "https://huggingface.co/mcp"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-amplitude-remote",
+    title: "Amplitude 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方 Codex 页是 mcp.amplitude.com/mcp。EU 换成 mcp.eu.amplitude.com/mcp 再 add 覆盖。随后 OAuth。不是埋点摄入。",
+    code: `[mcp_servers.amplitude]
+url = "https://mcp.amplitude.com/mcp"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-datadog-remote",
+    title: "Datadog 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "US1 是 mcp.datadoghq.com/v1/mcp。随后 mcp login。工具集写 X-Datadog-MCP-Toolsets，不要把 ?toolsets= 拼进 URL。",
+    code: `[mcp_servers.datadog]
+url = "https://mcp.datadoghq.com/v1/mcp"
+http_headers = { "X-Datadog-MCP-Toolsets" = "apm,llmobs" }
+enabled = true
+`,
+  },
+  {
+    id: "hf-inference-providers",
+    title: "Hugging Face 模型供应商",
+    filename: "~/.codex/config.toml",
+    summary:
+      "router.huggingface.co/v1，env_key = HF_TOKEN，wire_api = responses。再用 huggingface.config.toml 和 --profile huggingface。不是 Hub MCP。",
+    code: `[model_providers.huggingface]
+name = "Hugging Face"
+base_url = "https://router.huggingface.co/v1"
+env_key = "HF_TOKEN"
+wire_api = "responses"
+`,
+  },
+  {
+    id: "mcp-grafana-stdio",
+    title: "Grafana OSS stdio MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "uvx mcp-grafana。GRAFANA_URL 写 env 表。token 用 env_vars。不要抄 startup_timeout_ms，也不要把 token 写进 env。",
+    code: `[mcp_servers.grafana]
+command = "uvx"
+args = ["mcp-grafana"]
+env_vars = ["GRAFANA_SERVICE_ACCOUNT_TOKEN"]
+startup_timeout_sec = 60
+enabled = true
+
+[mcp_servers.grafana.env]
+GRAFANA_URL = "http://localhost:3000"
+`,
+  },
+  {
+    id: "mcp-grafana-cloud",
+    title: "Grafana Cloud 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "托管是 mcp.grafana.com/mcp。login 若 302 到文档，补 Accept 和 X-Grafana-URL。名字用 grafana_cloud，不要覆盖本机 grafana 表。",
+    code: `[mcp_servers.grafana_cloud]
+url = "https://mcp.grafana.com/mcp"
+http_headers = { "X-Grafana-URL" = "https://myinstance.grafana.net", "Accept" = "application/json, text/event-stream" }
+enabled = true
+`,
+  },
+  {
+    id: "mcp-vercel-remote",
+    title: "Vercel 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.vercel.com，没有 /mcp 后缀。add 之后 mcp login vercel。不要把 npx add-mcp 或 vercel mcp 当 Codex 主路径。",
+    code: `[mcp_servers.vercel]
+url = "https://mcp.vercel.com"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-supabase-remote",
+    title: "Supabase 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.supabase.com/mcp。查询 read_only=true 和 project_ref=abc123 写进 url。随后 mcp login。不要 PAT 当主路径。",
+    code: `[mcp_servers.supabase]
+url = "https://mcp.supabase.com/mcp?project_ref=abc123&read_only=true"
+enabled = true
+`,
+  },
+  {
+    id: "vercel-ai-gateway",
+    title: "Vercel AI Gateway 模型供应商",
+    filename: "~/.codex/config.toml",
+    summary:
+      "Codex 兼容入口是 ai-gateway.vercel.sh/codex/v1，wire_api = responses，env_key = AI_GATEWAY_API_KEY。再用 vercel.config.toml 和 --profile vercel。不是 Vercel MCP。",
+    code: `[model_providers.vercel]
+name = "Vercel AI Gateway"
+base_url = "https://ai-gateway.vercel.sh/codex/v1"
+env_key = "AI_GATEWAY_API_KEY"
+wire_api = "responses"
+`,
+  },
+  {
+    id: "mcp-netlify-remote",
+    title: "Netlify 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 netlify-mcp.netlify.app/mcp。add 之后 mcp login netlify。远程被拦才改 stdio npx @netlify/mcp。不要把 npx add-mcp 当 Codex 主路径。",
+    code: `[mcp_servers.netlify]
+url = "https://netlify-mcp.netlify.app/mcp"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-posthog-remote",
+    title: "PostHog 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.posthog.com/mcp。Codex 默认 CLI 模式。只读用 ?readonly=true。随后 mcp login。不要把 wizard 当 Codex 主路径。",
+    code: `[mcp_servers.posthog]
+url = "https://mcp.posthog.com/mcp?readonly=true"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-prisma-remote",
+    title: "Prisma 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.prisma.io/mcp。add 之后 mcp login prisma。插件是 marketplace add prisma/codex-plugin。不要抄 mcpServers JSON。",
+    code: `[mcp_servers.prisma]
+url = "https://mcp.prisma.io/mcp"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-neon-remote",
+    title: "Neon 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.neon.tech/mcp。查询 projectId=prj_abc123 写进 url。随后 mcp login。不要抄 /sse 或本地 stdio 包。",
+    code: `[mcp_servers.neon]
+url = "https://mcp.neon.tech/mcp?projectId=prj_abc123"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-planetscale-remote",
+    title: "PlanetScale 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.pscale.dev/mcp/planetscale。add 之后应弹出 OAuth。CI 才用 PLANETSCALE_API_TOKEN。不要抄 id:secret。",
+    code: `[mcp_servers.planetscale]
+url = "https://mcp.pscale.dev/mcp/planetscale"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-snyk-stdio",
+    title: "Snyk 本地 stdio MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方没有远程 MCP。表名是 snyk-security。密钥用 env_vars 转发 SNYK_TOKEN。SNYK_MCP_PROFILE 才写 env 表。先 --ade codex 装 Studio。",
+    code: `[mcp_servers.snyk-security]
+command = "npx"
+args = ["-y", "snyk@latest", "mcp", "-t", "stdio"]
+env_vars = ["SNYK_TOKEN"]
+enabled = true
+
+[mcp_servers.snyk-security.env]
+SNYK_MCP_PROFILE = "lite"
+`,
+  },
+  {
+    id: "mcp-circleci-remote",
+    title: "CircleCI 托管 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.circleci.com/v1/mcp。Codex 里插件才是主路径。CI 才用 CIRCLE_TOKEN。不要装已弃用的 npx 包。",
+    code: `[mcp_servers.circleci]
+url = "https://mcp.circleci.com/v1/mcp"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-firecrawl-remote",
+    title: "Firecrawl 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "交互主路径是 mcp.firecrawl.dev/v2/mcp-oauth，随后 mcp login。无账号或 API key 才用 /v2/mcp。不要把密钥拼进 URL。",
+    code: `[mcp_servers.firecrawl]
+url = "https://mcp.firecrawl.dev/v2/mcp-oauth"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-exa-remote",
+    title: "Exa 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.exa.ai/mcp。ChatGPT / Codex 推荐先装插件。生产密钥用 env_http_headers 的 x-api-key。不要抄 mcp-remote。",
+    code: `[mcp_servers.exa]
+url = "https://mcp.exa.ai/mcp"
+enabled = true
+
+[mcp_servers.exa.env_http_headers]
+x-api-key = "EXA_API_KEY"
+`,
+  },
+  {
+    id: "mcp-langfuse-docs",
+    title: "Langfuse 文档 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 langfuse.com/api/mcp。表名是 langfuse-docs。无鉴权。不要抄 mcp-remote，也不是产品 MCP。",
+    code: `[mcp_servers.langfuse-docs]
+url = "https://langfuse.com/api/mcp"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-launchdarkly-remote",
+    title: "LaunchDarkly 托管 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.launchdarkly.com/mcp/launchdarkly。随后 mcp login。不要抄本地 npx --api-key。联邦区和欧盟没有托管。",
+    code: `[mcp_servers.launchdarkly]
+url = "https://mcp.launchdarkly.com/mcp/launchdarkly"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-langfuse-cloud",
+    title: "Langfuse 产品 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 cloud.langfuse.com/api/public/mcp。Basic Auth 走 env_http_headers。不要把 token 写进 http_headers。不是 langfuse-docs。",
+    code: `[mcp_servers.langfuse]
+url = "https://cloud.langfuse.com/api/public/mcp"
+enabled = true
+
+[mcp_servers.langfuse.env_http_headers]
+Authorization = "LANGFUSE_MCP_AUTHORIZATION"
+`,
+  },
+  {
+    id: "mcp-circle-remote",
+    title: "Circle 代码生成 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 api.circle.com/v1/codegen/mcp。表名是 circle。不要和 CircleCI 搞混，也不要抄 npx @circle/mcp-server。",
+    code: `[mcp_servers.circle]
+url = "https://api.circle.com/v1/codegen/mcp"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-twilio-docs",
+    title: "Twilio 文档 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.twilio.com/docs。表名是 twilio-docs。无鉴权。不要抄 --transport http 或 mcp-remote。",
+    code: `[mcp_servers.twilio-docs]
+url = "https://mcp.twilio.com/docs"
+enabled = true
+`,
+  },
+  {
+    id: "shopify-ai-toolkit",
+    title: "Shopify Dev MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "只要文档/校验才用本地 shopify-dev-mcp。主路径仍是 plugin add shopify@openai-curated。不要抄 mcpServers JSON。",
+    code: `[mcp_servers.shopify-dev-mcp]
+command = "npx"
+args = ["-y", "@shopify/dev-mcp@latest"]
+enabled = true
+startup_timeout_sec = 60
+`,
+  },
+  {
+    id: "mcp-resend-remote",
+    title: "Resend 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.resend.com/mcp，带 /mcp 后缀。插件优先。无头才 bearer_token_env_var。不要把密钥写进 --env 或 http_headers。",
+    code: `[mcp_servers.resend]
+url = "https://mcp.resend.com/mcp"
+enabled = true
+`,
+  },
+  {
+    id: "railway-skills-plugin",
+    title: "Railway 源仓 marketplace",
+    filename: "terminal",
+    summary:
+      "公共目录仍是 /plugins 搜 Railway。源仓才 marketplace add railwayapp/railway-skills，再从 Railway marketplace 装。不要抄 Claude 的 plugin install。",
+    code: `codex plugin marketplace add railwayapp/railway-skills
+codex plugin list
+`,
+  },
+  {
+    id: "mongodb-agent-skills",
+    title: "MongoDB 本地 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "自建才用 mongodb-mcp-server。连接串走 env_vars。默认 --readOnly。Atlas 托管主路径仍是 /plugins 搜 mongodb-atlas。",
+    code: `[mcp_servers.mongodb]
+command = "npx"
+args = ["-y", "mongodb-mcp-server@latest", "--readOnly"]
+env_vars = ["MDB_MCP_CONNECTION_STRING"]
+enabled = true
+startup_timeout_sec = 60
+`,
+  },
+  {
+    id: "mcp-clickhouse-cloud",
+    title: "ClickHouse Cloud 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.clickhouse.cloud/mcp。先在控制台打开 MCP。add 之后 OAuth。不要抄 --transport http，也不要和 clickstack 搞混。",
+    code: `[mcp_servers.clickhouse-cloud]
+url = "https://mcp.clickhouse.cloud/mcp"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-render-remote",
+    title: "Render 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.render.com/mcp。必须带预注册 oauth.client_id = codex。插件优先。CI 才 bearer_token_env_var。不要把密钥写进 http_headers。",
+    code: `[mcp_servers.render]
+url = "https://mcp.render.com/mcp"
+enabled = true
+
+[mcp_servers.render.oauth]
+client_id = "codex"
+`,
+  },
+  {
+    id: "convex-codex-plugin",
+    title: "Convex 完整插件 marketplace",
+    filename: "terminal",
+    summary:
+      "完整现行构建是 marketplace add get-convex/convex-codex-plugin，再 plugin add convex@convex-codex-plugin。openai-curated 只是轻量连接器。",
+    code: `codex plugin marketplace add get-convex/convex-codex-plugin
+codex plugin add convex@convex-codex-plugin
+codex plugin list
+`,
+  },
+  {
+    id: "mcp-mixpanel-remote",
+    title: "Mixpanel 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.mixpanel.com/mcp。随后 mcp login。CI 才 env_http_headers。不要抄官方 headers 密钥或 mcp-remote。",
+    code: `[mcp_servers.mixpanel]
+url = "https://mcp.mixpanel.com/mcp"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-algolia-productivity",
+    title: "Algolia Productivity 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 mcp.algolia.com/mcp。随后 mcp login。先在控制台打开 Productivity。不要和 DocSearch 搞混。",
+    code: `[mcp_servers.algolia]
+url = "https://mcp.algolia.com/mcp"
+enabled = true
+`,
+  },
+  {
+    id: "mcp-algolia-docsearch",
+    title: "Algolia DocSearch 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方表名是 algolia-docsearch。地址是 mcp.algolia.com/1/docsearch/mcp。无鉴权。不要覆盖 Productivity 那张 algolia 表。",
+    code: `[mcp_servers.algolia-docsearch]
+url = "https://mcp.algolia.com/1/docsearch/mcp"
+enabled = true
+`,
+  },
+  {
+    id: "temporal-codex-plugin",
+    title: "Temporal 插件仓库回退",
+    filename: "terminal",
+    summary:
+      "主路径仍是 /plugins 搜 temporal。官方没给 plugin add id。仓库回退才拷 plugins/temporal 和 marketplace.json。",
+    code: `mkdir -p .agents/plugins plugins
+cp -r codex-temporal-plugin/plugins/temporal plugins/
+cp codex-temporal-plugin/.agents/plugins/marketplace.json .agents/plugins/
+`,
+  },
+  {
+    id: "mcp-newrelic-remote",
+    title: "New Relic 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "OAuth 主路径是 mcp add new-relic-mcp-server。API key 才用这张 new-relic 表和 env_http_headers。地址带 /mcp/ 尾斜杠。",
+    code: `[mcp_servers.new-relic]
+url = "https://mcp.newrelic.com/mcp/"
+enabled = true
+
+[mcp_servers.new-relic.env_http_headers]
+api-key = "NEW_RELIC_API_KEY"
+`,
+  },
+  {
+    id: "mcp-typesense-cloud",
+    title: "Typesense Cloud 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 cloud.typesense.org/mcp/v1。随后 mcp login。无头才 bearer_token_env_var。不要抄 --header 密钥。",
+    code: `[mcp_servers.typesense-cloud]
+url = "https://cloud.typesense.org/mcp/v1"
+enabled = true
+`,
+  },
+  {
+    id: "turso-codex-plugin",
+    title: "Turso Cloud 插件与远程 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 marketplace add tursodatabase/turso-mcp，再 plugin add turso@turso，再 mcp login。只要 MCP 才手写这张 turso 表。地址带 /mcp 后缀。",
+    code: `codex plugin marketplace add tursodatabase/turso-mcp
+codex plugin add turso@turso
+codex mcp login turso
+
+# 只要 MCP、不要技能时：
+# [mcp_servers.turso]
+# url = "https://mcp.turso.ai/mcp"
+# enabled = true
+`,
+  },
+  {
+    id: "cockroachdb-codex-plugin",
+    title: "CockroachDB Cloud 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方远程是 cockroachlabs.cloud/mcp。随后 mcp login。技能才 plugin add cockroachdb@cockroachdb-codex-plugin。不要把 Bearer 写进 http_headers。",
+    code: `[mcp_servers.cockroachdb-cloud]
+url = "https://cockroachlabs.cloud/mcp"
+enabled = true
+`,
+  },
+  {
+    id: "airtable-codex-plugin",
+    title: "Airtable 插件与远程 MCP",
+    filename: "terminal",
+    summary:
+      "官方文档是 plugin add airtable@openai-curated。只要 MCP 才手写这张 airtable 表。地址带 /mcp 后缀。无头才 bearer_token_env_var。",
+    code: `codex plugin add airtable@openai-curated
+
+# 只要 MCP、不要插件时：
+# [mcp_servers.airtable]
+# url = "https://mcp.airtable.com/mcp"
+# enabled = true
+`,
+  },
+  {
+    id: "motherduck-codex-plugin",
+    title: "MotherDuck 技能与远程 MCP",
+    filename: "terminal",
+    summary:
+      "技能是 marketplace add motherduckdb/agent-skills，再 /plugins 装。官方没给 plugin add id。远程对照 api.motherduck.com/mcp。无头才 bearer_token_env_var。",
+    code: `codex plugin marketplace add motherduckdb/agent-skills
+# 然后 TUI /plugins 装 MotherDuck Skills
+
+codex mcp add motherduck --url https://api.motherduck.com/mcp
+codex mcp login motherduck
+`,
+  },
+  {
+    id: "hubspot-dev-mcp",
+    title: "HubSpot 本地开发 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 hs mcp setup 勾选 Codex CLI。表名是 HubSpotDev。等价手写带 --ai-agent codex。不是 mcp.hubspot.com 那台 CRM。",
+    code: `hs mcp setup
+
+# 等价手写（全局 hs，CLI 8.2.0+）：
+codex mcp add HubSpotDev -- hs mcp start --ai-agent codex
+`,
+  },
+  {
+    id: "azure-skills-plugin",
+    title: "Azure Skills 插件与 Azure MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 marketplace add microsoft/azure-skills，再 /plugins 装 azure。官方没给 plugin add id。只要 MCP 才手写 @azure/mcp。",
+    code: `codex plugin marketplace add microsoft/azure-skills
+# 然后 TUI /plugins 装 azure
+
+# 只要 MCP、插件装不上时：
+codex mcp add azure -- npx -y @azure/mcp@latest server start
+`,
+  },
+  {
+    id: "azure-devops-local-mcp",
+    title: "Azure DevOps 本地 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是本地 stdio：mcp add azure-devops -- npx -y @azure-devops/mcp，组织名跟在包名后面。不是 mcp.dev.azure.com。PAT 才 --authentication pat，用 env_vars。",
+    code: `codex mcp add azure-devops -- npx -y @azure-devops/mcp Contoso
+
+# 已 az login 时：
+# codex mcp add azure-devops -- npx -y @azure-devops/mcp Contoso --authentication azcli
+`,
+  },
+  {
+    id: "tinybird-devtools-mcp",
+    title: "Tinybird DevTools MCP",
+    filename: "terminal",
+    summary:
+      "主路径是本地 stdio：mcp add tinybird -- npx -y @tinybirdco/devtools-mcp@latest。不要抄 -e TINYBIRD_TOKEN=。用 env_vars。远程 mcp.tinybird.co 是另一台。",
+    code: `codex mcp add tinybird -- npx -y @tinybirdco/devtools-mcp@latest
+`,
+  },
+  {
+    id: "upstash-codex-plugin",
+    title: "Upstash 插件与远程 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 marketplace add upstash/skills，再 plugin add upstash@upstash。插件会登记 mcp.upstash.com/mcp。不要抄本地 --api-key。不是 Context7。",
+    code: `codex plugin marketplace add upstash/skills
+codex plugin add upstash@upstash
+
+# 只要 MCP、插件装不上时：
+# codex mcp add upstash --url https://mcp.upstash.com/mcp
+# codex mcp login upstash
+`,
+  },
+  {
+    id: "gitlab-mcp-http",
+    title: "GitLab 远程 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add GitLab --url https://gitlab.com/api/v4/mcp，再 mcp login。不要抄 rmcp_client 或 mcp-remote。自建实例只换主机名。",
+    code: `codex mcp add GitLab --url https://gitlab.com/api/v4/mcp
+codex mcp login GitLab
+`,
+  },
+  {
+    id: "sanity-codex-mcp",
+    title: "Sanity 远程 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add Sanity --url https://mcp.sanity.io，再 mcp login Sanity。URL 没有 /mcp 后缀。技能才 marketplace add 后 /plugins 装 Sanity。",
+    code: `codex mcp add Sanity --url https://mcp.sanity.io
+codex mcp login Sanity
+
+# 技能 / 插件才：
+# codex plugin marketplace add sanity-io/agent-toolkit
+# 然后 TUI /plugins 选 Sanity Agent Toolkit，装 Sanity
+`,
+  },
+  {
+    id: "honeycomb-codex-plugin",
+    title: "Honeycomb 插件与远程 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 marketplace add honeycombio/agent-skill，再 plugin add honeycomb@honeycomb-plugins。插件会登记 mcp.honeycomb.io/mcp。不要抄 mcp-remote。欧盟换 eu1 主机。",
+    code: `codex plugin marketplace add honeycombio/agent-skill
+codex plugin add honeycomb@honeycomb-plugins
+
+# 只要 MCP、插件装不上，或欧盟团队时：
+# codex mcp add honeycomb --url https://mcp.honeycomb.io/mcp
+# codex mcp login honeycomb
+`,
+  },
+  {
+    id: "semgrep-guardian-mcp",
+    title: "Semgrep 本地 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是本地 stdio：mcp add semgrep -- semgrep mcp。先装 CLI 并 semgrep login && semgrep install-semgrep-pro。不要 mcp login，也不要抄 Claude 远程插件。",
+    code: `codex mcp add semgrep -- semgrep mcp
+
+# 手写 config.toml：
+# [mcp_servers.semgrep]
+# command = "semgrep"
+# args = ["mcp"]
+`,
+  },
+  {
+    id: "kagi-mcp-stdio",
+    title: "Kagi 搜索 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是本地 stdio：mcp add kagi -- uvx kagimcp。不要抄 --env KAGI_API_KEY=。用 env_vars。托管才 mcp.kagi.com/mcp。",
+    code: `codex mcp add kagi -- uvx kagimcp
+
+# [mcp_servers.kagi]
+# command = "uvx"
+# args = ["kagimcp"]
+# env_vars = ["KAGI_API_KEY"]
+`,
+  },
+  {
+    id: "pinecone-agent-skills",
+    title: "Pinecone 技能与 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 npx skills add pinecone-io/skills --agent codex。MCP 才 mcp add pinecone -- npx -y @pinecone-database/mcp。不要抄 Claude plugin。",
+    code: `npx skills add pinecone-io/skills --agent codex
+
+# 可选 MCP：
+# codex mcp add pinecone -- npx -y @pinecone-database/mcp
+`,
+  },
+  {
+    id: "heroku-mcp-http",
+    title: "Heroku 远程 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add heroku --url https://mcp.heroku.com/mcp，再 mcp login。不要抄 mcp-remote。本地才 heroku mcp:start；npx 才 env_vars。",
+    code: `codex mcp add heroku --url https://mcp.heroku.com/mcp
+codex mcp login heroku
+
+# 本地 stdio（不要和远程同名混用）：
+# codex mcp add heroku -- heroku mcp:start
+`,
+  },
+  {
+    id: "litestream-mcp-http",
+    title: "Litestream 本地 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add litestream --url http://localhost:3001。先在 YAML 开 mcp-addr，再 litestream replicate。不要 mcp login，也不要抄 --transport http。",
+    code: `codex mcp add litestream --url http://localhost:3001
+
+# litestream.yml:
+# mcp-addr: "127.0.0.1:3001"
+# 然后：litestream replicate -config litestream.yml
+`,
+  },
+  {
+    id: "pagerduty-mcp-http",
+    title: "PagerDuty 托管 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add pagerduty --url https://mcp.pagerduty.com/mcp。不要 mcp login。API key 用 env_http_headers 发 Token token=。不要 bearer_token_env_var。",
+    code: `export PAGERDUTY_AUTH="Token token=你的 User API Token"
+codex mcp add pagerduty --url https://mcp.pagerduty.com/mcp
+
+# [mcp_servers.pagerduty.env_http_headers]
+# Authorization = "PAGERDUTY_AUTH"
+`,
+  },
+  {
+    id: "fly-mcp-stdio",
+    title: "Fly.io 本地 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add fly -- fly mcp server。没有 --codex。不要对 config.toml 跑 --config，也不要 mcp login。不要抄 --sse 或 flyctl mcp proxy。",
+    code: `codex mcp add fly -- fly mcp server
+
+# [mcp_servers.fly]
+# command = "fly"
+# args = ["mcp", "server"]
+# enabled = true
+`,
+  },
+  {
+    id: "atlan-codex-mcp",
+    title: "Atlan 托管 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 marketplace add atlanhq/agent-toolkit，再 plugin add atlan@atlan，再 mcp add atlan --url https://mcp.atlan.com/mcp。装了插件仍要 mcp add。不要抄 atlan@atlan-marketplace。",
+    code: `codex plugin marketplace add https://github.com/atlanhq/agent-toolkit
+codex plugin add atlan@atlan
+codex mcp add atlan --url https://mcp.atlan.com/mcp
+`,
+  },
+  {
+    id: "splunk-o11y-mcp-http",
+    title: "Splunk Observability MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add splunk-o11y --url 网关（us0 用 region-iad10）。头是 env_http_headers 的 X-SF-TOKEN / X-SF-REALM。不要抄 connect --ide codex 的 http_headers，也不要 bearer_token_env_var。",
+    code: `export SPLUNK_O11Y_TOKEN=你的 Observability access token
+export SPLUNK_O11Y_REALM=us0
+codex mcp add splunk-o11y --url https://region-iad10.api.scs.splunk.com/system/mcp-gateway/v1/
+
+# [mcp_servers.splunk-o11y.env_http_headers]
+# X-SF-TOKEN = "SPLUNK_O11Y_TOKEN"
+# X-SF-REALM = "SPLUNK_O11Y_REALM"
+`,
+  },
+  {
+    id: "elastic-agent-builder-mcp",
+    title: "Elastic Agent Builder MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add elastic-agent-builder --url 你的 Kibana /api/agent_builder/mcp。头是 env_http_headers 的 Authorization: ApiKey。不要抄 mcp-remote，也不要 bearer_token_env_var。",
+    code: `export ELASTIC_AUTH="ApiKey 你的 encoded API key"
+codex mcp add elastic-agent-builder --url https://my-project.kb.us-east-1.aws.elastic.cloud/api/agent_builder/mcp
+
+# [mcp_servers.elastic-agent-builder.env_http_headers]
+# Authorization = "ELASTIC_AUTH"
+`,
+  },
+  {
+    id: "incident-io-codex-mcp",
+    title: "incident.io 托管 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 marketplace add incident-io/skills，再 plugin add incident-io@incident-io-skills。插件会登记 MCP 和 skills。IDE 没有插件才 mcp add incident_io --url https://mcp.incident.io/mcp，再 mcp login。不要抄 type = url。",
+    code: `codex plugin marketplace add incident-io/skills
+codex plugin add incident-io@incident-io-skills
+
+# IDE 没有插件、只要 MCP 时：
+# codex mcp add incident_io --url https://mcp.incident.io/mcp
+# codex mcp login incident_io
+`,
+  },
+  {
+    id: "1password-mcp-stdio",
+    title: "1Password Environments MCP",
+    filename: "terminal",
+    summary:
+      "主路径是本地 stdio：mcp add 1password -- 1password-mcp。先在桌面 Labs 打开 MCP Server。Mac / Linux。不要抄 Claude 插件或 op mcp-server environments。",
+    code: `codex mcp add 1password -- 1password-mcp
+
+# [mcp_servers.1password]
+# command = "1password-mcp"
+# enabled = true
+`,
+  },
+  {
+    id: "imgly-cesdk-skills",
+    title: "IMG.LY CE.SDK 技能与文档 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 npx skills add imgly/agent-skills -a codex。实时文档才 mcp add imgly_docs --url https://mcp.img.ly/mcp。不要抄 Claude 的 cesdk@imgly。",
+    code: `npx skills add imgly/agent-skills -a codex
+
+# 实时文档 MCP（无鉴权）：
+# codex mcp add imgly_docs --url https://mcp.img.ly/mcp
+`,
+  },
+  {
+    id: "imgly-codesign-mcp",
+    title: "IMG.LY CoDesign 本地 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add codesign -- npx -y @imgly/codesign-mcp@latest stdio。加完新开会话再发 start the CoDesign onboarding。不要抄 --scope user。",
+    code: `codex mcp add codesign -- npx -y @imgly/codesign-mcp@latest stdio
+
+# [mcp_servers.codesign]
+# command = "npx"
+# args = ["-y", "@imgly/codesign-mcp@latest", "stdio"]
+# enabled = true
+`,
+  },
+  {
+    id: "terraform-mcp-stdio",
+    title: "HashiCorp Terraform MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add terraform -- docker run -i --rm hashicorp/terraform-mcp-server。查公共 registry 不用 token。HCP / TFE 才 env_vars 转发 TFE_TOKEN。不要 mcp login。",
+    code: `codex mcp add terraform -- docker run -i --rm hashicorp/terraform-mcp-server
+
+# HCP / TFE：env_vars 转发，docker 用 -e TFE_TOKEN -e TFE_ADDRESS
+# 二进制：codex mcp add terraform -- terraform-mcp-server stdio
+`,
+  },
+  {
+    id: "clerk-mcp-run",
+    title: "Clerk MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 clerk mcp install --client codex，等价 mcp add clerk -- clerk mcp run。文档缺 --url 且带 rmcp，不要抄。不要 mcp login。",
+    code: `codex mcp add clerk -- clerk mcp run
+
+# 或：clerk mcp install --client codex
+# 不用 Clerk CLI 才：codex mcp add clerk --url https://mcp.clerk.com/mcp
+`,
+  },
+  {
+    id: "clerk-skills-plugin",
+    title: "Clerk Skills marketplace",
+    filename: "terminal",
+    summary:
+      "主路径是 plugin marketplace add clerk/skills，再 /plugins 装 clerk-skills。不要发明 plugin add。不要抄 npx skills add 当 Codex 专节。",
+    code: `codex plugin marketplace add clerk/skills
+
+# 然后 TUI /plugins 选 Clerk Skills，安装并启用 clerk-skills
+# 不要发明 plugin add 的 @id
+`,
+  },
+  {
+    id: "appcircle-mcp-http",
+    title: "Appcircle 远程 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add appcircle --url https://mcp.appcircle.io。bearer_token_env_var 读 APPCIRCLE_ACCESS_TOKEN。不要 mcp login。",
+    code: `export APPCIRCLE_ACCESS_TOKEN
+codex mcp add appcircle --url https://mcp.appcircle.io --bearer-token-env-var APPCIRCLE_ACCESS_TOKEN
+
+# [mcp_servers.appcircle]
+# url = "https://mcp.appcircle.io"
+# bearer_token_env_var = "APPCIRCLE_ACCESS_TOKEN"
+# enabled = true
+`,
+  },
+  {
+    id: "flutter-mcp-toolkit-plugin",
+    title: "Flutter MCP toolkit",
+    filename: "terminal",
+    summary:
+      "主路径是 flutter-mcp-toolkit init codex。或 marketplace add Arenukvern/mcp_flutter 再 /plugins 装。不要发明 plugin add。",
+    code: `flutter-mcp-toolkit init codex
+
+# 或：codex plugin marketplace add Arenukvern/mcp_flutter
+# 然后 TUI /plugins 选 Flutter MCP Toolkit
+# 不要发明 plugin add 的 @id
+`,
+  },
+  {
+    id: "revenuecat-codex-plugin",
+    title: "RevenueCat AI Toolkit",
+    filename: "terminal",
+    summary:
+      "主路径是 marketplace add RevenueCat/ai-toolkit，再 plugin add revenuecat@RevenueCat，再 mcp login RevenueCat。不要抄 mcp-remote。",
+    code: `codex plugin marketplace add RevenueCat/ai-toolkit
+codex plugin add revenuecat@RevenueCat
+codex mcp login RevenueCat
+
+# 可选：codex plugin add revenuecat-play-billing@RevenueCat
+# 插件 MCP 消失才：codex mcp add RevenueCat --url https://mcp.revenuecat.ai/mcp
+`,
+  },
+  {
+    id: "pathbound-mcp-http",
+    title: "Pathbound 远程 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add pathbound --url https://mcp.pathbound.ai/mcp，再 mcp login pathbound。不要抄 Claude.ai 或 ChatGPT Plugins。",
+    code: `codex mcp add pathbound --url https://mcp.pathbound.ai/mcp
+codex mcp login pathbound
+
+# [mcp_servers.pathbound]
+# url = "https://mcp.pathbound.ai/mcp"
+# enabled = true
+`,
+  },
+  {
+    id: "stackone-mcp-http",
+    title: "StackOne 远程 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add stackone --url https://mcp.stackone.com/mcp，再 mcp login stackone。不要抄 Claude 的 --transport http。无头才把 token 拼进 api.stackone.com/mcp。",
+    code: `codex mcp add stackone --url https://mcp.stackone.com/mcp
+codex mcp login stackone
+
+# [mcp_servers.stackone]
+# url = "https://mcp.stackone.com/mcp"
+# enabled = true
+`,
+  },
+  {
+    id: "butter-mcp-http",
+    title: "Butter 远程 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add butter --url https://mcp.hellobutter.io/mcp，再 mcp login butter。不要抄 Claude 的 --transport http。不是 ButterKit.app。",
+    code: `codex mcp add butter --url https://mcp.hellobutter.io/mcp
+codex mcp login butter
+
+# [mcp_servers.butter]
+# url = "https://mcp.hellobutter.io/mcp"
+# enabled = true
+`,
+  },
+  {
+    id: "design-revision-mcp-http",
+    title: "DesignRevision 远程 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add design-revision --url https://mcp.designrevision.com/mcp --bearer-token-env-var DESIGNREVISION_API_KEY。不要 mcp login。不要把 token 写进 http_headers。",
+    code: `codex mcp add design-revision --url https://mcp.designrevision.com/mcp --bearer-token-env-var DESIGNREVISION_API_KEY
+
+# [mcp_servers.design-revision]
+# url = "https://mcp.designrevision.com/mcp"
+# bearer_token_env_var = "DESIGNREVISION_API_KEY"
+# enabled = true
+`,
+  },
+  {
+    id: "shadcn-mcp-stdio",
+    title: "shadcn 官方 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "官方是手写 [mcp_servers.shadcn]，npx shadcn@latest mcp。shadcn CLI 不能自动改 config.toml。这是本地 stdio，不要 mcp login。",
+    code: `codex mcp add shadcn -- npx shadcn@latest mcp
+
+# [mcp_servers.shadcn]
+# command = "npx"
+# args = ["shadcn@latest", "mcp"]
+`,
+  },
+  {
+    id: "inngest-mcp-http",
+    title: "Inngest Cloud MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add inngest-cloud --url https://api.inngest.com/mcp --bearer-token-env-var INNGEST_API_KEY。不要 mcp login。本机另开 inngest-dev。",
+    code: `codex mcp add inngest-cloud --url https://api.inngest.com/mcp --bearer-token-env-var INNGEST_API_KEY
+
+# [mcp_servers.inngest-cloud]
+# url = "https://api.inngest.com/mcp"
+# bearer_token_env_var = "INNGEST_API_KEY"
+# enabled = true
+
+# 本机 Dev Server（先 inngest dev）
+# codex mcp add inngest-dev --url http://127.0.0.1:8288/mcp
+`,
+  },
+  {
+    id: "polar-mcp-http",
+    title: "Polar MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add polar --url https://mcp.polar.sh/mcp/polar-mcp，随后完成 OAuth。沙箱另开 polar-sandbox。不要抄 Claude 的 --transport http。",
+    code: `codex mcp add polar --url https://mcp.polar.sh/mcp/polar-mcp
+codex mcp login polar
+
+# [mcp_servers.polar]
+# url = "https://mcp.polar.sh/mcp/polar-mcp"
+# enabled = true
+
+# 沙箱
+# codex mcp add polar-sandbox --url https://mcp.polar.sh/mcp/polar-sandbox
+`,
+  },
+  {
+    id: "inngest-codex-plugin",
+    title: "Inngest Codex 插件",
+    filename: "terminal",
+    summary:
+      "主路径是 git clone 后 /plugin install …/inngest-codex-plugin/plugins/inngest。不要发明 plugin add inngest@。不要抄 Claude 的 inngest@inngest-claude-code-plugin。",
+    code: `git clone https://github.com/inngest/inngest-codex-plugin.git
+
+# Codex 会话里，换成你机器上的绝对路径：
+# /plugin install $HOME/src/inngest-codex-plugin/plugins/inngest
+
+# 备选：在克隆根加本地 marketplace
+# codex plugin marketplace add .
+`,
+  },
+  {
+    id: "appwrite-codex-plugin",
+    title: "Appwrite Codex 插件与远程 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 plugin marketplace add appwrite/codex-plugin，再 /plugins 装 Appwrite。远程 MCP 是 mcp add appwrite --url https://mcp.appwrite.io/，有尾斜杠。不要发明 plugin add appwrite@。",
+    code: `codex plugin marketplace add appwrite/codex-plugin
+
+# TUI：/plugins 选 Appwrite
+# /mcp 里没有 appwrite 时再加远程表：
+codex mcp add appwrite --url https://mcp.appwrite.io/
+codex mcp login appwrite
+
+# [mcp_servers.appwrite]
+# url = "https://mcp.appwrite.io/"
+# enabled = true
+`,
+  },
+  {
+    id: "trigger-mcp-stdio",
+    title: "Trigger.dev MCP",
+    filename: "config.toml",
+    summary:
+      "主路径是 npx trigger.dev@latest install-mcp --client openai-codex。表名 trigger，本地 stdio。必须 startup_timeout_sec = 30。不要 mcp login。不要 --yolo。",
+    code: `npx trigger.dev@latest install-mcp --client openai-codex
+
+# 或：
+# codex mcp add trigger -- npx trigger.dev@latest mcp
+
+# [mcp_servers.trigger]
+# command = "npx"
+# args = ["trigger.dev@latest", "mcp"]
+# startup_timeout_sec = 30
+# enabled = true
+`,
+  },
+  {
+    id: "workos-mcp-http",
+    title: "WorkOS MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add workos --url https://mcp.workos.com/mcp，再 mcp get / mcp login / mcp list。URL 带 /mcp。OAuth，不要 API key。不要发明 plugin add workos@。",
+    code: `codex mcp add workos --url https://mcp.workos.com/mcp
+codex mcp get workos
+codex mcp login workos
+codex mcp list
+
+# [mcp_servers.workos]
+# url = "https://mcp.workos.com/mcp"
+# enabled = true
+`,
+  },
+  {
+    id: "statsig-mcp-http",
+    title: "Statsig MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add statsig --url https://api.statsig.com/v1/mcp。URL 是 /v1/mcp。OAuth，浏览器没弹再 mcp login statsig。不要抄 npx mcp-remote。",
+    code: `codex mcp add statsig --url https://api.statsig.com/v1/mcp
+codex mcp login statsig
+
+# [mcp_servers.statsig]
+# url = "https://api.statsig.com/v1/mcp"
+# enabled = true
+`,
+  },
+  {
+    id: "contentful-mcp-stdio",
+    title: "Contentful MCP",
+    filename: "config.toml",
+    summary:
+      "主路径是 mcp add contentful -- npx -y @contentful/mcp-server。表名 contentful，本地 stdio。PAT 用 env_vars。不要 mcp login。不要发明远程 --url。",
+    code: `codex mcp add contentful -- npx -y @contentful/mcp-server
+
+# [mcp_servers.contentful]
+# command = "npx"
+# args = ["-y", "@contentful/mcp-server"]
+# env_vars = ["CONTENTFUL_MANAGEMENT_ACCESS_TOKEN", "SPACE_ID"]
+# startup_timeout_sec = 30
+# enabled = true
+`,
+  },
+  {
+    id: "loops-mcp-http",
+    title: "Loops MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add loops --url https://mcp.loops.so。URL 没有 /mcp。OAuth，浏览器没弹再 mcp login loops。不要发明 plugin add loops@。",
+    code: `codex mcp add loops --url https://mcp.loops.so
+codex mcp login loops
+
+# [mcp_servers.loops]
+# url = "https://mcp.loops.so"
+# enabled = true
+`,
+  },
+  {
+    id: "brightdata-mcp-stdio",
+    title: "Bright Data MCP",
+    filename: "config.toml",
+    summary:
+      "主路径是 mcp add brightdata -- npx -y @brightdata/mcp。表名 brightdata，本地 stdio。API_TOKEN 用 env_vars。不要 mcp login。不要把 token 拼进 URL。",
+    code: `codex mcp add brightdata -- npx -y @brightdata/mcp
+
+# [mcp_servers.brightdata]
+# command = "npx"
+# args = ["-y", "@brightdata/mcp"]
+# env_vars = ["API_TOKEN"]
+# startup_timeout_sec = 30
+# enabled = true
+`,
+  },
+  {
+    id: "buffer-mcp-http",
+    title: "Buffer MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add buffer --url https://mcp.buffer.com/mcp。URL 带 /mcp。OAuth，浏览器没弹再 mcp login buffer。不要发明 plugin add buffer@。",
+    code: `codex mcp add buffer --url https://mcp.buffer.com/mcp
+codex mcp login buffer
+
+# [mcp_servers.buffer]
+# url = "https://mcp.buffer.com/mcp"
+# enabled = true
+`,
+  },
+  {
+    id: "growthbook-mcp-stdio",
+    title: "GrowthBook MCP",
+    filename: "config.toml",
+    summary:
+      "主路径是 mcp add growthbook -- npx -y @growthbook/mcp@latest。表名 growthbook，本地 stdio。GB_API_KEY 用 env_vars。不要 mcp login。不要发明远程 --url。",
+    code: `codex mcp add growthbook -- npx -y @growthbook/mcp@latest
+
+# [mcp_servers.growthbook]
+# command = "npx"
+# args = ["-y", "@growthbook/mcp@latest"]
+# env_vars = ["GB_API_KEY"]
+# startup_timeout_sec = 30
+# enabled = true
+`,
+  },
+  {
+    id: "unleash-mcp-stdio",
+    title: "Unleash MCP",
+    filename: "config.toml",
+    summary:
+      "主路径是 mcp add unleash -- npx -y @unleash/mcp@latest --log-level error。表名 unleash，本地 stdio。UNLEASH_BASE_URL 和 UNLEASH_PAT 用 env_vars。不要 mcp login。不要抄 --transport http。",
+    code: `codex mcp add unleash -- npx -y @unleash/mcp@latest --log-level error
+
+# [mcp_servers.unleash]
+# command = "npx"
+# args = ["-y", "@unleash/mcp@latest", "--log-level", "error"]
+# env_vars = ["UNLEASH_BASE_URL", "UNLEASH_PAT"]
+# startup_timeout_sec = 30
+# enabled = true
+`,
+  },
+  {
+    id: "flagsmith-mcp-http",
+    title: "Flagsmith MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add flagsmith --url https://mcp.flagsmith.com。URL 没有 /mcp。OAuth，浏览器没弹再 mcp login flagsmith。不要发明 plugin add flagsmith@。",
+    code: `codex mcp add flagsmith --url https://mcp.flagsmith.com
+codex mcp login flagsmith
+
+# [mcp_servers.flagsmith]
+# url = "https://mcp.flagsmith.com"
+# enabled = true
+`,
+  },
+  {
+    id: "devcycle-mcp-http",
+    title: "DevCycle MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add devcycle --url https://mcp.devcycle.com/mcp。URL 带 /mcp。OAuth，浏览器没弹再 mcp login devcycle。不要发明 plugin add devcycle@。",
+    code: `codex mcp add devcycle --url https://mcp.devcycle.com/mcp
+codex mcp login devcycle
+
+# [mcp_servers.devcycle]
+# url = "https://mcp.devcycle.com/mcp"
+# enabled = true
+`,
+  },
+  {
+    id: "optimizely-mcp-http",
+    title: "Optimizely Experimentation MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add optimizely --url https://exp.mcp.opal.optimizely.com/mcp。URL 带 /mcp。OAuth 走 Opal，浏览器没弹再 mcp login optimizely。不要发明 plugin add optimizely@。",
+    code: `codex mcp add optimizely --url https://exp.mcp.opal.optimizely.com/mcp
+codex mcp login optimizely
+
+# [mcp_servers.optimizely]
+# url = "https://exp.mcp.opal.optimizely.com/mcp"
+# enabled = true
+`,
+  },
+  {
+    id: "digitalocean-inference-provider",
+    title: "DigitalOcean Inference 模型供应商",
+    filename: "~/.codex/config.toml",
+    summary:
+      "inference.do-ai.run/v1，env_key = MODEL_ACCESS_KEY，wire_api = responses。再用 digitalocean.config.toml 和 --profile digitalocean。不是 DigitalOcean MCP。",
+    code: `[model_providers.openai_custom]
+name = "OpenAI Compatible"
+base_url = "https://inference.do-ai.run/v1"
+env_key = "MODEL_ACCESS_KEY"
+wire_api = "responses"
+query_params = {}
+`,
+  },
+  {
+    id: "customerio-codex-plugin",
+    title: "Customer.io Codex 插件",
+    filename: "terminal",
+    summary:
+      "主路径是桌面 Plugins 或 /plugins 搜 Customer.io。不要 mcp add，也不要手贴 mcp.customer.io/mcp。不要发明 plugin add customerio@。",
+    code: `# 官方主路径：TUI /plugins 或桌面 Plugins 搜 Customer.io
+# 不要 codex mcp add，也不要手贴 URL
+# 插件底层入口（安装时不用填）：https://mcp.customer.io/mcp
+`,
+  },
+  {
+    id: "klaviyo-mcp-http",
+    title: "Klaviyo MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add klaviyo --url https://mcp.klaviyo.com/mcp。URL 带 /mcp。OAuth DCR，浏览器没弹再 mcp login klaviyo。不要发明 plugin add klaviyo@。",
+    code: `codex mcp add klaviyo --url https://mcp.klaviyo.com/mcp
+codex mcp login klaviyo
+
+# 先只读：
+# url = "https://mcp.klaviyo.com/mcp?read-only=true"
+
+# [mcp_servers.klaviyo]
+# url = "https://mcp.klaviyo.com/mcp"
+# enabled = true
+`,
+  },
+  {
+    id: "braze-mcp-http",
+    title: "Braze MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add braze --url https://mcp.braze.com/mcp。URL 带 /mcp。OAuth DCR，浏览器没弹再 mcp login braze。欧盟换 mcp.braze.eu/mcp。不要发明 plugin add braze@。",
+    code: `codex mcp add braze --url https://mcp.braze.com/mcp
+codex mcp login braze
+
+# 欧盟：
+# url = "https://mcp.braze.eu/mcp"
+
+# [mcp_servers.braze]
+# url = "https://mcp.braze.com/mcp"
+# enabled = true
+`,
+  },
+  {
+    id: "onesignal-codex-plugin",
+    title: "OneSignal Codex 插件",
+    filename: "terminal",
+    summary:
+      "主路径是桌面 Plugins 或 /plugins 搜 OneSignal。不要 mcp add，也不要手贴 api.onesignal.com/mcp/oauth。不要发明 plugin add onesignal@。",
+    code: `# 官方主路径：TUI /plugins 或桌面 Plugins 搜 OneSignal
+# 不要 codex mcp add，也不要手贴 URL
+# 插件底层入口（安装时不用填）：https://api.onesignal.com/mcp/oauth
+`,
+  },
+  {
+    id: "beehiiv-mcp-http",
+    title: "beehiiv MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add beehiiv --url https://mcp.beehiiv.com/mcp。URL 带 /mcp。OAuth，浏览器没弹再 mcp login beehiiv。不要发明 plugin add beehiiv@。",
+    code: `codex mcp add beehiiv --url https://mcp.beehiiv.com/mcp
+codex mcp login beehiiv
+
+# 多 workspace：
+# url = "https://mcp.beehiiv.com/mcp?account=1"
+
+# [mcp_servers.beehiiv]
+# url = "https://mcp.beehiiv.com/mcp"
+# enabled = true
+`,
+  },
+  {
+    id: "mailerlite-mcp-http",
+    title: "MailerLite MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add mailerlite --url https://mcp.mailerlite.com/mcp。URL 带 /mcp。OAuth，浏览器没弹再 mcp login mailerlite。不要发明 plugin add mailerlite@。",
+    code: `codex mcp add mailerlite --url https://mcp.mailerlite.com/mcp
+codex mcp login mailerlite
+
+# [mcp_servers.mailerlite]
+# url = "https://mcp.mailerlite.com/mcp"
+# enabled = true
+`,
+  },
+  {
+    id: "buildkite-mcp-http",
+    title: "Buildkite MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add buildkite --url https://mcp.buildkite.com/mcp。URL 带 /mcp。OAuth，浏览器没弹再 mcp login buildkite。不要发明 plugin add buildkite@。",
+    code: `codex mcp add buildkite --url https://mcp.buildkite.com/mcp
+codex mcp login buildkite
+
+# 只要读：
+# codex mcp add buildkite-readonly --url https://mcp.buildkite.com/mcp/readonly
+
+# 只要 pipelines：
+# url = "https://mcp.buildkite.com/mcp/x/pipelines"
+
+# [mcp_servers.buildkite]
+# url = "https://mcp.buildkite.com/mcp"
+# enabled = true
+`,
+  },
+  {
+    id: "pulumi-mcp-http",
+    title: "Pulumi MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add pulumi --url https://mcp.ai.pulumi.com/mcp。URL 带 /mcp。OAuth，浏览器没弹再 mcp login pulumi。不要发明 plugin add pulumi@。不要抄 bearer_token_env_var。",
+    code: `codex mcp add pulumi --url https://mcp.ai.pulumi.com/mcp
+codex mcp login pulumi
+
+# [mcp_servers.pulumi]
+# url = "https://mcp.ai.pulumi.com/mcp"
+# enabled = true
+`,
+  },
+  {
+    id: "pulumi-agent-skills",
+    title: "Pulumi Agent Skills marketplace",
+    filename: "terminal",
+    summary:
+      "主路径是 plugin marketplace add pulumi/agent-skills，再 /plugins 装 pulumi。不要发明 plugin add。不要并装 pulumi-migration。不要抄 npx skills add --agent junie 当 --agent codex。",
+    code: `codex plugin marketplace add pulumi/agent-skills
+
+# 然后 TUI /plugins 选 Pulumi Agent Skills，安装 pulumi
+# pulumi 已含 migration / delegation，不要并装那两个
+# 不要发明 plugin add 的 @id
+# 不要抄 npx skills add --agent junie 当 --agent codex
+`,
+  },
+  {
+    id: "pulumi-brand-http",
+    title: "Pulumi 品牌 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add pulumi-brand --url https://brand.pulumi.com/mcp。URL 带 /mcp。无鉴权，不要 mcp login。不要抄 mcp-remote。不要和 Cloud 远程 MCP 搞成一台。",
+    code: `codex mcp add pulumi-brand --url https://brand.pulumi.com/mcp
+
+# [mcp_servers.pulumi-brand]
+# url = "https://brand.pulumi.com/mcp"
+# enabled = true
+`,
+  },
+  {
+    id: "auth0-docs-mcp",
+    title: "Auth0 文档 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add auth0-docs-mcp-server --url https://auth0.com/docs/mcp。无鉴权，不要 mcp login。不要抄 --transport http。不要和管理租户 stdio 搞成一台。",
+    code: `codex mcp add auth0-docs-mcp-server --url https://auth0.com/docs/mcp
+codex mcp list
+
+# [mcp_servers.auth0-docs-mcp-server]
+# url = "https://auth0.com/docs/mcp"
+# enabled = true
+`,
+  },
+  {
+    id: "auth0-mcp-stdio",
+    title: "Auth0 管理租户 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是先 init，再 mcp add auth0 -- npx -y @auth0/auth0-mcp-server run。stdio，不要 mcp login。不要抄 Linux 写死的 DBUS 路径。不要和文档 HTTP 那台搞成一台。",
+    code: `npx @auth0/auth0-mcp-server init --read-only
+codex mcp add auth0 --env DEBUG=auth0-mcp -- npx -y @auth0/auth0-mcp-server run
+codex mcp list
+
+# [mcp_servers.auth0]
+# command = "npx"
+# args = ["-y", "@auth0/auth0-mcp-server", "run"]
+# startup_timeout_sec = 60
+`,
+  },
+  {
+    id: "netdata-cloud-http",
+    title: "Netdata Cloud MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add netdata-cloud --url https://app.netdata.cloud/api/v1/mcp，再 bearer_token_env_var 读 NETDATA_CLOUD_API_TOKEN。不要 mcp login。不要抄 mcp-remote。",
+    code: `export NETDATA_CLOUD_API_TOKEN
+codex mcp add netdata-cloud --url https://app.netdata.cloud/api/v1/mcp --bearer-token-env-var NETDATA_CLOUD_API_TOKEN
+codex mcp list
+
+# [mcp_servers.netdata-cloud]
+# url = "https://app.netdata.cloud/api/v1/mcp"
+# bearer_token_env_var = "NETDATA_CLOUD_API_TOKEN"
+`,
+  },
+  {
+    id: "nvidia-skills-codex",
+    title: "NVIDIA Agent Skills",
+    filename: "terminal",
+    summary:
+      "主路径是 npx skills add nvidia/skills --skill cuopt-numerical-optimization-api --agent codex。不要省略 --agent codex。不要发明 plugin add nvidia@。",
+    code: `npx skills add nvidia/skills --skill cuopt-numerical-optimization-api --agent codex
+
+# 先看目录：
+# npx skills add nvidia/skills --list
+`,
+  },
+  {
+    id: "postmark-agent-skills",
+    title: "Postmark Agent Skills",
+    filename: "terminal",
+    summary:
+      "主路径是 npx skills add ActiveCampaign/postmark-skills。官方没钉 --agent codex。示例技能是 postmark-send-email。不要发明 plugin add postmark@。",
+    code: `npx skills add ActiveCampaign/postmark-skills
+
+# 单项：
+# npx skills add ActiveCampaign/postmark-skills --skill postmark-send-email
+`,
+  },
+  {
+    id: "datadog-agent-skills",
+    title: "Datadog Agent Skills",
+    filename: "terminal",
+    summary:
+      "主路径是 npx skills add datadog-labs/agent-skills/agent-observability --full-depth -y。官方没钉 --agent codex。不要发明 plugin add。MCP 仍走 mcp.datadoghq.com/v1/mcp。",
+    code: `npx skills add datadog-labs/agent-skills/agent-observability --full-depth -y
+
+# 只要 pup 手册：
+# npx skills add datadog-labs/agent-skills --skill dd-pup --full-depth -y
+`,
+  },
+  {
+    id: "tavily-agent-skills",
+    title: "Tavily Agent Skills",
+    filename: "terminal",
+    summary:
+      "主路径是 npx skills add tavily-ai/skills --all。官方没钉 --agent codex。示例技能是 tavily-search。不要发明 mcp add 或 plugin add。",
+    code: `npx skills add tavily-ai/skills --all
+
+# 单项：
+# npx skills add tavily-ai/skills --skill tavily-search
+`,
+  },
+  {
+    id: "rudderstack-mcp-http",
+    title: "RudderStack MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add rudderstack --url https://mcp.rudderstack.com/mcp。URL 带 /mcp。OAuth，浏览器没弹再 mcp login rudderstack。不要发明 plugin add rudder@。不要抄 mcp-remote。",
+    code: `codex mcp add rudderstack --url https://mcp.rudderstack.com/mcp
+codex mcp login rudderstack
+
+# [mcp_servers.rudderstack]
+# url = "https://mcp.rudderstack.com/mcp"
+# enabled = true
+`,
+  },
+  {
+    id: "rudderstack-agent-skills",
+    title: "RudderStack Agent Skills",
+    filename: "terminal",
+    summary:
+      "主路径是 npx skills add rudderlabs/rudder-agent-skills。官方没钉 --agent codex。示例技能是 rudder-cli-workflow。不要发明 plugin add。不要抄 /plugin marketplace add。",
+    code: `npx skills add rudderlabs/rudder-agent-skills --list
+npx skills add rudderlabs/rudder-agent-skills --agent codex --skill rudder-cli-workflow
+
+# 官方示例钉的是 Claude：
+# npx skills add rudderlabs/rudder-agent-skills -a claude-code --skill rudder-cli-workflow
 `,
   },
 ];

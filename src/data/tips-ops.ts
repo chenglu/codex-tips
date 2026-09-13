@@ -856,7 +856,7 @@ Codex 已被报告并打过补丁。你仍应：
     level: "intermediate",
     surfaces: ["app", "cli"],
     tags: ["Playwright", "Chrome", "MCP", "排错"],
-    related: ["mcp-required-and-allowlist", "session-hygiene"],
+    related: ["playwright-mcp", "chrome-devtools-mcp", "mcp-required-and-allowlist"],
     sources: [
       {
         label: "openai/codex #28352",
@@ -1616,7 +1616,7 @@ codex exec --sandbox read-only "列出已连接 MCP 工具名，不要调用写�
     level: "advanced",
     surfaces: ["cli", "ci"],
     tags: ["MCP", "exec", "mcp_optional_startup_grace_ms"],
-    related: ["mcp-required-and-allowlist", "codex-exec-basics", "plugin-mcp-exec-key"],
+    related: ["mcp-required-and-allowlist", "mcp-startup-timeout-sec", "sqlcl-oracle-mcp"],
     sources: [
       {
         label: "OpenAI · Model Context Protocol",
