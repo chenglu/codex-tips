@@ -3631,5 +3631,25 @@ export const articles: Article[] = [
     summary:
       'installation.md 把 Codex 写成 --agent 旗标 codex，项目进 .agents/skills/，全局 ~/.codex/skills/。示例技能是 rudder-data-catalog。不要抄 Claude 的 /plugin install rudder-core。',
   },
+  {
+    title: 'MCP Client Configuration',
+    url: 'https://kuroco.app/docs/reference/mcp-client-configuration/',
+    source: 'Kuroco',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Kuroco', 'OAuth'],
+    summary:
+      '官方 Codex 节：不支持 CIMD。表名 kuroco，url 写成 g.kuroco.app 的 rcms-api/API_ID/mcp，再 [mcp_servers.kuroco.oauth] 写预注册 client_id，mcp login kuroco。Token Endpoint Auth Method 用 none。',
+  },
+  {
+    title: 'MCP Client Configuration with Authentication Header',
+    url: 'https://kuroco.app/docs/reference/mcp-client-configuration-authentication-header/',
+    source: 'Kuroco',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Kuroco'],
+    summary:
+      '官方 Codex 头认证：env_http_headers 把 X-RCMS-API-ACCESS-TOKEN 指到 KUROCO_MCP_TOKEN。不要把 token 写进 http_headers。Admin MCP 不吃这颗头。mcp add 写不了自定义头。',
+  },
 ];
 

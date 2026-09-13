@@ -2846,4 +2846,19 @@ npx skills add rudderlabs/rudder-agent-skills --agent codex --skill rudder-cli-w
 # npx skills add rudderlabs/rudder-agent-skills -a claude-code --skill rudder-cli-workflow
 `,
   },
+  {
+    id: "kuroco-mcp-http",
+    title: "Kuroco MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "主路径是 mcp add kuroco --url https://YOUR_SITE_KEY.g.kuroco.app/rcms-api/API_ID/mcp --oauth-client-id。不支持 CIMD。不要发明 plugin add。头认证才 env_http_headers 的 X-RCMS-API-ACCESS-TOKEN。",
+    code: `codex mcp add kuroco --url https://YOUR_SITE_KEY.g.kuroco.app/rcms-api/API_ID/mcp --oauth-client-id YOUR_CLIENT_ID
+codex mcp login kuroco
+
+# [mcp_servers.kuroco]
+# url = "https://YOUR_SITE_KEY.g.kuroco.app/rcms-api/API_ID/mcp"
+# [mcp_servers.kuroco.oauth]
+# client_id = "YOUR_CLIENT_ID"
+`,
+  },
 ];

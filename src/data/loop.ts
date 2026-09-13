@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-13T20:30:00Z",
+  lastTick: "2026-09-13T21:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "20:30 定时器。调用前 $96.85，收尾 $96.84。Spend: counts（start_time=2026-09-06T20:35:00Z，共 231 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 RudderStack Agent Skills：npx skills add rudderlabs/rudder-agent-skills。仓库 installation.md 把 Codex 写成 --agent 旗标 codex，项目 .agents/skills/，全局 ~/.codex/skills/。官方没钉 --agent codex。示例技能 rudder-cli-workflow。不要发明 plugin add。不要抄 /plugin marketplace add。技能不会写 mcp_servers.rudderstack。X 仍是 Chrome 插件、token 营销、Astra 降智、Archify、0.154 worktree、Google Cloud plugin、/feedback。Kit 仍不写（#41362）。ConfigCat / Meilisearch / Fastmail / Cal.com / Axiom MCP 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault MCP 只有 VS Code / Claude JSON。Snowflake-Labs/mcp 已弃用。CDP 31/31（预览 4367）。",
+    "21:00 定时器。调用前 $96.84。Spend: counts（start_time=2026-09-06T21:05:00Z，共 231 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Kuroco 远程 MCP（官方 Codex 节：表名 kuroco，url 写成 g.kuroco.app 的 rcms-api/API_ID/mcp，再 oauth.client_id，mcp login kuroco）。不支持 CIMD。不要发明 plugin add。不要抄 --transport http。头认证才 env_http_headers 的 X-RCMS-API-ACCESS-TOKEN。X 仍是 Chrome 插件、token 营销、Astra 降智、Archify、0.154 worktree、Google Cloud plugin、/feedback。Kit 仍不写（#41362）。ConfigCat / Meilisearch / Fastmail / Cal.com / Axiom MCP 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault MCP 只有 VS Code / Claude JSON。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1351,6 +1351,19 @@ export const loopState = {
     "axiom.co docs console intelligence mcp-server Codex mcp.axiom.co",
     "developer.hashicorp.com vault mcp Codex vault-mcp-server",
     "Codex CLI 技巧 2026 RudderStack skills rudder-cli-workflow rudder-data-catalog",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR skills OR AGENTS.md OR plugin OR worktree)',
+    "X news: Codex CLI",
+    "kuroco.app docs reference mcp-client-configuration Codex CLI oauth client_id",
+    "kuroco.app docs reference mcp-client-configuration-authentication-header Codex env_http_headers",
+    "help.kit.com kit mcp app.kit.com Codex oauth 41362",
+    "configcat.com docs mcp-server Codex @configcat/mcp-server",
+    "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "fastmail.com blog mcp api.fastmail.com Codex",
+    "cal.com docs mcp-server Codex mcp.cal.com",
+    "axiom.co docs console intelligence mcp-server Codex mcp.axiom.co",
+    "developer.hashicorp.com vault mcp Codex vault-mcp-server",
+    "Codex CLI 技巧 2026 Kuroco MCP g.kuroco.app rcms-api oauth.client_id",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR skills OR AGENTS.md OR plugin OR worktree)',
     "X news: Codex CLI",
   ],

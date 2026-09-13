@@ -10516,4 +10516,60 @@ CLI 技能要先有 \`rudder-cli\`。官方让你跑 setup 技能装二进制并
       },
     ],
   },
+  {
+    id: "kuroco-mcp-http",
+    no: 385,
+    title: "Kuroco MCP 用预注册 client_id，不要抄 CIMD 或 Claude 语法",
+    summary:
+      "官方 Codex 节：表名 kuroco，url 写成站点的 rcms-api/API_ID/mcp，再 oauth.client_id，mcp login kuroco。不支持 CIMD。不要发明 plugin add。不要把 token 写进 http_headers。",
+    body: `Kuroco 客户端配置页给 Codex CLI 有专节。内容 API 远程入口形如 \`https://YOUR_SITE_KEY.g.kuroco.app/rcms-api/API_ID/mcp\`，**带** \`/mcp\` 后缀。把 YOUR_SITE_KEY 和 API_ID 换成控制台里的站点键和内容 API 编号。官方表名就是 \`kuroco\`。Codex **不支持** CIMD，也没有 \`client_secret\` 键，必须在 Kuroco 把客户端登记成 PKCE 公有客户端：Token Endpoint Auth Method 选 \`none\`。
+
+官方 Codex 节是手写 TOML，再登录。CLI 等价是 \`--url\` 加 \`--oauth-client-id\`：
+
+\`\`\`bash
+codex mcp add kuroco --url https://YOUR_SITE_KEY.g.kuroco.app/rcms-api/API_ID/mcp --oauth-client-id YOUR_CLIENT_ID
+codex mcp login kuroco
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.kuroco]
+url = "https://YOUR_SITE_KEY.g.kuroco.app/rcms-api/API_ID/mcp"
+enabled = true
+
+[mcp_servers.kuroco.oauth]
+client_id = "YOUR_CLIENT_ID"
+\`\`\`
+
+第一次 \`mcp login kuroco\` 多半会停在 Kuroco 错误页 \`redirect_uri does not match a registered URI\`。从浏览器地址栏拷 \`redirect_uri\`，登记到该 OAuth 客户端，再 login 一次。Kuroco 按 RFC 8252 忽略循环回端口，路径段对同一 MCP URL 是稳定的，所以只登记一次。\`scopes\` 和 \`oauth_resource\` 通常可省略；若写 \`oauth_resource\`，必须和 \`url\` 完全相同。
+
+不要发明 \`codex plugin add kuroco@…\`。不要抄 Claude Code 的 \`claude mcp add --transport http kuroco …\`。不要抄 Cursor JSON 里的 \`CLIENT_SECRET\`。不要把文档里挤成一行的 \`[mcp_servers.kuroco]url = …\` 粘进 TOML。不要给这台 \`bearer_token_env_var\`：内容 API 的静态令牌走自定义头，不是 \`Authorization: Bearer\`。
+
+头认证是另一条线，只适用于 \`/rcms-api/API_ID/mcp\`，**不能**接到 Admin MCP（\`/direct/rcms_api/admin_mcp/\`）。\`codex mcp add\` 写不了自定义头，加完再改 \`env_http_headers\`。头名是 \`X-RCMS-API-ACCESS-TOKEN\`，右边写变量名 \`KUROCO_MCP_TOKEN\`，令牌放启动 Codex 的进程。不要把 token 字面量写进 \`http_headers\`。头认证这张表不要再 \`mcp login\`。
+
+Admin MCP 是另一条 URL，例如 \`…/direct/rcms_api/admin_mcp/x/all\`，裸 \`/admin_mcp/\` 会 400。不要和内容 API 那台搞成一张表。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add kuroco@openai-curated\`。
+- 不要抄 Claude 的 \`--transport http\` 或 Cursor 的 \`CLIENT_SECRET\`。
+- 不要把静态令牌写进 \`http_headers\` 或 URL。
+- 不要给它 \`required = true\` 挂全局。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完彻底新开会话。用 \`codex mcp get kuroco\` 看传输是 streamable_http。OAuth 路径的 \`/mcp\` 应显示 Auth: OAuth。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Kuroco", "OAuth", "HTTP"],
+    related: ["mcp-oauth-loopback-callback", "mcp-add-and-login", "mcp-slack-remote"],
+    sources: [
+      {
+        label: "Kuroco · MCP Client Configuration",
+        url: "https://kuroco.app/docs/reference/mcp-client-configuration/",
+      },
+      {
+        label: "Kuroco · MCP Authentication Header",
+        url: "https://kuroco.app/docs/reference/mcp-client-configuration-authentication-header/",
+      },
+    ],
+  },
 ];
