@@ -1,5 +1,7 @@
 import { useMemo, useState } from "react";
 import { community, type CommunityKind } from "../data/community";
+import { EmptyState } from "../components/EmptyState";
+import { FeedItem } from "../components/FeedItem";
 
 const filters: Array<"全部" | CommunityKind> = ["全部", "X", "新闻", "论坛"];
 
@@ -21,22 +23,39 @@ export function CommunityPage() {
     });
   }, [query, filter, sorted]);
 
+  const reset = () => {
+    setQuery("");
+    setFilter("全部");
+  };
+
   return (
-    <div className="article" style={{ maxWidth: 880 }}>
+    <div className="article catalog-page">
       <div className="brand-kicker">Field notes</div>
       <h1 className="page-title">社区</h1>
       <p className="note">
-        社交媒体和论坛里刚出现的用法、版本变化和踩坑。操作前仍以官方文档和本机{" "}
-        <code>/help</code> 为准。
+        社交媒体和论坛里刚出现的用法、版本变化和踩坑。操作前仍以官方文档和本机 <code>/help</code>{" "}
+        为准。
       </p>
-      <div className="filters" style={{ marginBottom: 22 }}>
+      <div className="filters">
         <label>
           检索
-          <input
-            value={query}
-            placeholder="搜索社区动态…"
-            onChange={(event) => setQuery(event.target.value)}
-          />
+          <span className="field-wrap">
+            <input
+              value={query}
+              placeholder="搜索社区动态…"
+              onChange={(event) => setQuery(event.target.value)}
+            />
+            {query ? (
+              <button
+                className="field-clear"
+                type="button"
+                aria-label="清空检索"
+                onClick={() => setQuery("")}
+              >
+                ×
+              </button>
+            ) : null}
+          </span>
         </label>
       </div>
       <div className="chip-row">
@@ -45,33 +64,29 @@ export function CommunityPage() {
             key={item}
             type="button"
             className={item === filter ? "chip is-on" : "chip"}
+            aria-pressed={item === filter}
             onClick={() => setFilter(item)}
           >
             {item}
           </button>
         ))}
       </div>
-      <div className="results-meta">
+      <div className="results-meta" aria-live="polite">
         {results.length} 条 · 共 {community.length}
       </div>
       {results.length === 0 ? (
-        <div className="empty">没有匹配的动态。</div>
+        <EmptyState onReset={reset}>没有匹配的动态。</EmptyState>
       ) : (
         <div className="feed">
           {results.map((item) => (
-            <a
+            <FeedItem
               key={item.url}
-              className="feed-item"
               href={item.url}
-              target="_blank"
-              rel="noreferrer"
-            >
-              <div className="kicker">
-                {item.source} · {item.kind} · {item.date}
-              </div>
-              <h3>{item.title}</h3>
-              <p>{item.summary}</p>
-            </a>
+              kicker={`${item.source} · ${item.kind} · ${item.date}`}
+              title={item.title}
+              summary={item.summary}
+              tags={item.tags}
+            />
           ))}
         </div>
       )}
