@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T00:48:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "00:06 定时器。调用前 $97.37。Spend: counts（start_time=2026-09-06T00:10:00Z，共 239 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.27。CDP 64 项全过（预览 4325）。收录 Pathbound 远程 MCP（mcp add pathbound --url https://mcp.pathbound.ai/mcp，再 mcp login pathbound）。不要抄 Claude.ai / ChatGPT Plugins。Asana 官方 Codex 节仍是 mcp-remote + 预注册 OAuth，无 DCR，不发明原生 mcp add asana。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Microsoft AI Engineer Coach。Buildkite 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。1Password Codex shell plugin 页仍缺完整 init 命令。",
+    "00:48 定时器。调用前 $97.27。Spend: counts（start_time=2026-09-06T00:50:00Z，共 237 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.26。CDP 60 项全过（预览 4326）。收录 StackOne 远程 MCP（mcp add stackone --url https://mcp.stackone.com/mcp，再 mcp login stackone）。无头才把仪表盘 session token 拼进 api.stackone.com/mcp。不要抄 Claude 的 --transport http。Asana 官方 Codex 节仍是 mcp-remote + 预注册 OAuth，无 DCR，不发明原生 mcp add asana。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Microsoft AI Engineer Coach。Buildkite 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。1Password Codex shell plugin 页仍缺完整 init 命令。ButterKit 有 stdio 路径但官方没写出 codex mcp add。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
