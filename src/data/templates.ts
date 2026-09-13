@@ -2795,4 +2795,16 @@ codex mcp list
 # npx skills add ActiveCampaign/postmark-skills --skill postmark-send-email
 `,
   },
+  {
+    id: "datadog-agent-skills",
+    title: "Datadog Agent Skills",
+    filename: "terminal",
+    summary:
+      "主路径是 npx skills add datadog-labs/agent-skills/agent-observability --full-depth -y。官方没钉 --agent codex。不要发明 plugin add。MCP 仍走 mcp.datadoghq.com/v1/mcp。",
+    code: `npx skills add datadog-labs/agent-skills/agent-observability --full-depth -y
+
+# 只要 pup 手册：
+# npx skills add datadog-labs/agent-skills --skill dd-pup --full-depth -y
+`,
+  },
 ];

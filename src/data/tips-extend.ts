@@ -3893,7 +3893,7 @@ GovCloud（\`app.ddog-gov.com\` / \`us2.ddog-gov.com\`）没有这台 MCP。站�
     level: "starter",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "Datadog", "OAuth", "HTTP"],
-    related: ["mcp-add-and-login", "mcp-http-env-headers", "mcp-amplitude-remote"],
+    related: ["mcp-add-and-login", "mcp-http-env-headers", "datadog-agent-skills"],
     sources: [
       {
         label: "Datadog · Set Up the MCP Server",
@@ -10298,6 +10298,56 @@ npx skills add ActiveCampaign/postmark-skills --skill postmark-send-email
       {
         label: "ActiveCampaign/postmark-skills",
         url: "https://github.com/ActiveCampaign/postmark-skills",
+      },
+    ],
+  },
+  {
+    id: "datadog-agent-skills",
+    no: 381,
+    title: "Datadog 技能用 agent-observability 路径，不要抄 Restart Claude Code",
+    summary:
+      "官方点名 Codex CLI：npx skills add datadog-labs/agent-skills/agent-observability --full-depth -y。官方没钉 --agent codex。不要发明 plugin add。MCP 仍走 mcp.datadoghq.com/v1/mcp。",
+    body: `Datadog Agent Observability 文档把 Codex CLI 列成兼容客户端，技能仓库 README 也点名 Codex CLI。这是 Agent Skills，不是 Codex \`/plugins\`，也不是再配一台新的远程 MCP。官方观测技能安装命令：
+
+\`\`\`bash
+npx skills add datadog-labs/agent-skills/agent-observability --full-depth -y
+\`\`\`
+
+只要 pup 命令手册时，仓库 README 的单项是 \`dd-pup\`：
+
+\`\`\`bash
+npx skills add datadog-labs/agent-skills --skill dd-pup --full-depth -y
+\`\`\`
+
+仓库名是 \`datadog-labs/agent-skills\`。官方**没有**钉 \`--agent codex\`。裸跑会按默认 agent 落盘，还可能改所有检测到的客户端。只要 Codex 时，skills CLI 允许自己加 \`--agent codex\`，这不是 Datadog 专节，也不是 \`/plugins\`。不要手拷到 \`~/.codex/skills\`。不要发明 \`codex plugin add datadog@…\`。
+
+技能教怎么查 Agent Observability 痕迹、评测实验、写 \`ddtrace.llmobs\` 代码。**不会**替你配 MCP。观测技能要 \`llmobs\` 工具集：Codex 已经有的远程表是 \`datadog\`，US1 现行入口是 \`https://mcp.datadoghq.com/v1/mcp\`，再 \`codex mcp login datadog\`。工具集写进 \`http_headers\` 的 \`X-Datadog-MCP-Toolsets\`，例如 \`llmobs,core\`。不要把 \`?toolsets=\` 拼进 \`url\`，也不要再抄旧的 \`/api/unstable/mcp-server/mcp\`。
+
+官方技能页下一步抄的是 Claude 的 \`claude mcp add --transport http\`，结尾还写 Restart Claude Code。**不要抄进 Codex**。Codex 改完新开会话，用 \`/skills\` 或 \`$agent-observability-session-classify\`。不要把文档里的 Claude 斜杠当成 Codex 斜杠命令。
+
+\`pup\` 是技能的后备后端：\`brew tap datadog-labs/pack\`，再 \`brew install datadog-labs/pack/pup\`，然后 \`pup auth login\`。技能找不到 MCP 才会切 \`pup\`；也可显式 \`--backend pup\`。不要把 \`DD_API_KEY\` / Application Key 写进 \`http_headers\`。GovCloud 没有这台 MCP。
+
+不要做这些：
+
+- 不要把 \`npx skills add datadog-labs/agent-skills/agent-observability\` 当成 Codex \`/plugins\`。
+- 不要发明 \`codex plugin add datadog@openai-curated\`。
+- 不要抄 \`claude mcp add\` 或把站点占位 URL 当 HTML。
+- 不要和 NVIDIA / Postmark 那几套技能装成同一条命令。
+
+网页 Cloud 不读本机技能目录。改完新开一轮，\`/skills\` 应能看见 \`agent-observability-session-classify\` 或 \`dd-pup\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["Skills", "Datadog", "MCP"],
+    related: ["mcp-datadog-remote", "nvidia-skills-codex", "postmark-agent-skills"],
+    sources: [
+      {
+        label: "Datadog · Agent Observability MCP and Skills",
+        url: "https://docs.datadoghq.com/llm_observability/build_with_ai/mcp_server/",
+      },
+      {
+        label: "datadog-labs/agent-skills",
+        url: "https://github.com/datadog-labs/agent-skills",
       },
     ],
   },

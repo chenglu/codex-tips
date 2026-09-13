@@ -3551,5 +3551,25 @@ export const articles: Article[] = [
     summary:
       '安装是 npx skills add ActiveCampaign/postmark-skills，单项加 --skill postmark-send-email。官方没钉 --agent codex。不要发明 plugin add。POSTMARK_SERVER_TOKEN 放进程环境。',
   },
+  {
+    title: 'Agent Observability MCP and Skills',
+    url: 'https://docs.datadoghq.com/llm_observability/build_with_ai/mcp_server/',
+    source: 'Datadog',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'Datadog', 'MCP'],
+    summary:
+      '官方点名 Codex CLI。技能是 npx skills add datadog-labs/agent-skills/agent-observability --full-depth -y。官方没钉 --agent codex。不要抄 Restart Claude Code 或 claude mcp add。MCP 仍走 mcp.datadoghq.com/v1/mcp。',
+  },
+  {
+    title: 'datadog-labs/agent-skills',
+    url: 'https://github.com/datadog-labs/agent-skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', 'Datadog'],
+    summary:
+      'README 点名 Codex CLI。观测技能路径是 datadog-labs/agent-skills/agent-observability。单项示例是 --skill dd-pup --full-depth -y。官方没钉 --agent codex。不要发明 plugin add。',
+  },
 ];
 
