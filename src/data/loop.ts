@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-13T11:46:00Z",
+  lastTick: "2026-09-13T12:04:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "11:46 定时器。调用前 $96.99。Spend: counts（start_time=2026-09-06T11:52:00Z，共 255 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 $96.98。收录 Customer.io 官方 Codex 插件（Plugins 或 /plugins 搜 Customer.io；不要手贴 https://mcp.customer.io/mcp；不要发明 plugin add customerio@）。GitHub README 仍可能写 listing 审核中。ConfigCat / Postmark 无 Codex 专节。Tavily / Buildkite / Meilisearch 仍无。do-app-platform-skills 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、Astra、Conductor、技能文风。",
+    "12:04 定时器。调用前 $96.98。Spend: counts（start_time=2026-09-06T12:10:00Z，共 254 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Klaviyo 远程 MCP（https://mcp.klaviyo.com/mcp；OAuth DCR；官方无 Codex 专节，对照 Other Clients 写 mcp add klaviyo）。不要发明 plugin add klaviyo@。不要把本地 uvx 当主路径。ConfigCat / Postmark / Buildkite / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、Astra、Conductor。收尾额度测完再写。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1139,6 +1139,17 @@ export const loopState = {
     "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
     "docs.digitalocean.com do-app-platform-skills --agent codex",
     "Codex CLI 技巧 2026 Customer.io plugin mcp.customer.io",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "developers.klaviyo.com klaviyo_mcp_server Codex mcp.klaviyo.com",
+    "help.klaviyo.com MCP Server Guide For Agencies mcp.klaviyo.com",
+    "configcat.com docs mcp-server Codex @configcat/mcp-server",
+    "postmarkapp.com mcp Codex @activecampaign/postmark-mcp",
+    "buildkite.com docs mcp-server Codex configuring-ai-tools",
+    "docs.tavily.com mcp Codex mcp.tavily.com",
+    "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "Codex CLI 技巧 2026 Klaviyo MCP mcp.klaviyo.com/mcp OAuth",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

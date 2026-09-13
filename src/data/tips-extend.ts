@@ -9536,4 +9536,75 @@ GitHub 仓库 README 仍可能写 listing 在等 OpenAI 审核。Plugins 里搜�
       },
     ],
   },
+  {
+    id: "klaviyo-mcp-http",
+    no: 367,
+    title: "Klaviyo MCP 用 mcp.klaviyo.com/mcp，再完成 OAuth",
+    summary:
+      "官方页没有 Codex 专节。对照 Other Clients：mcp add klaviyo --url https://mcp.klaviyo.com/mcp。URL 带 /mcp。OAuth DCR，浏览器没弹再 mcp login klaviyo。不要发明 plugin add klaviyo@。不要抄 Cursor JSON。",
+    body: `Klaviyo 官方安装页列了 Claude、ChatGPT App、ChatGPT Custom MCP、Cursor JSON、VS Code JSON 和 Other Clients，没有 Codex 专节。不要把 Cursor 的 \`mcpServers\` JSON 或 Claude 的 \`--transport http\` 抄进来。对照 Other Clients：远程 URL 是 \`https://mcp.klaviyo.com/mcp\`，鉴权是 OAuth + Dynamic Client Registration，传输是 Streamable HTTP。Codex 主路径自己 \`add\`：
+
+\`\`\`bash
+codex mcp add klaviyo --url https://mcp.klaviyo.com/mcp
+codex mcp login klaviyo
+\`\`\`
+
+官方 Cursor JSON 表名就是 \`klaviyo\`，手册 CLI 也用这个。URL 带 \`/mcp\` 后缀，不要写成光 \`https://mcp.klaviyo.com\`，也不要把文档站 \`https://developers.klaviyo.com/mcp\` 当成 MCP 入口。\`mcp add\` 写进用户层 \`~/.codex/config.toml\`。只写进了表、浏览器没弹时再跑 \`codex mcp login klaviyo\`。
+
+\`\`\`toml
+[mcp_servers.klaviyo]
+url = "https://mcp.klaviyo.com/mcp"
+enabled = true
+\`\`\`
+
+账号角色要 Owner、Admin 或 Manager。默认会拉很多工具；窗口小或选工具不准时，把查询参数写进 url，不要另开配置键：
+
+\`\`\`toml
+[mcp_servers.klaviyo]
+url = "https://mcp.klaviyo.com/mcp?read-only=true&core-tools-only=true"
+enabled = true
+\`\`\`
+
+常用查询参数：
+
+- \`read-only=true\`：关掉会改账号的工具。默认是 false，建议先只读。
+- \`core-tools-only=true\`：大约 40 个核心工具。ChatGPT 默认 true，Codex 默认 false。
+- \`disable-tools-with-user-generated-content=true\`：关掉会读用户生成内容的工具。
+- \`include-output-schemas=false\`：工具列表里不带 output schema。ChatGPT 默认 false。
+- \`beta=true\`：打开可能不稳的新工具。
+- \`toolsets=profiles:read,campaigns:read\`：只暴露所需 API scope 都被覆盖的工具，格式是 \`resource:access\`。
+- \`company=example-company\`：多账号时钉住公司名。Claude listed connector 和 ChatGPT App 控不了查询参数；Codex 手写 url 可以。
+
+机构文档也用 \`https://mcp.klaviyo.com/mcp?company=example-company\`。空格要编码。每个账号一张表、各跑一次 \`mcp login\`，不要指望一台服务器同时挂所有客户。
+
+不要发明 \`codex plugin add klaviyo@…\`。官方没给出 Codex marketplace id。不要抄 ChatGPT Developer Mode 的自定义 app。不要抄 \`npx mcp-remote\`。不要给这台 \`bearer_token_env_var\`。
+
+本地 \`uvx klaviyo-mcp-server@latest\` 不是主路径。网页客户端本来就该走远程。本地才要 \`PRIVATE_API_KEY\`；官方示例把密钥写进 \`env\` 表，Codex 改成 \`env_vars\`，不要字面量。\`READ_ONLY\` 和 \`ALLOW_USER_GENERATED_CONTENT\` 也只转发名字。Codex 不读 \`.env\`。
+
+先只读：问最近 30 天邮件活动表现，或哪些 flow 转化最好。改营销、改流程、发信会动账号，保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add klaviyo@openai-curated\`。
+- 不要抄 Claude 的 \`--transport http\` 或 Cursor JSON。
+- 不要把 \`PRIVATE_API_KEY\` 写进 \`env\` 表、\`http_headers\` 或 URL。
+- 不要给它 \`required = true\` 挂全局。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完彻底新开会话。用 \`codex mcp get klaviyo\` 看传输是 streamable_http。会话里 \`/mcp\` 应显示 Auth: OAuth。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Klaviyo", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "loops-mcp-http", "customerio-codex-plugin"],
+    sources: [
+      {
+        label: "Klaviyo · MCP server",
+        url: "https://developers.klaviyo.com/en/docs/klaviyo_mcp_server",
+      },
+      {
+        label: "Klaviyo · MCP Server Guide For Agencies",
+        url: "https://help.klaviyo.com/hc/en-us/articles/52833598880923",
+      },
+    ],
+  },
 ];

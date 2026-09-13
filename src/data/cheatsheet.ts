@@ -265,6 +265,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: "codex mcp add devcycle --url https://mcp.devcycle.com/mcp", meaning: "官方远程带 /mcp 后缀。OAuth，浏览器没弹再 mcp login devcycle。不要抄 /sse 或 npx mcp-remote。不要发明 plugin add devcycle@。本地另装 @devcycle/cli 才是 dvc-mcp" },
       { cmd: "codex mcp add optimizely --url https://exp.mcp.opal.optimizely.com/mcp", meaning: "官方 Codex 是 Settings 加 Streamable HTTP，Bearer 和头留空。CLI 等价这条。OAuth 走 Opal。不要抄 Claude 的 --transport http。不要发明 plugin add optimizely@" },
       { cmd: "/plugins 搜 Customer.io", meaning: "官方 Codex 是插件目录，不要手贴 mcp.customer.io/mcp，不要发明 plugin add customerio@。GitHub README 仍可能写 listing 审核中。不要抄 ChatGPT 自定义 connector" },
+      { cmd: "codex mcp add klaviyo --url https://mcp.klaviyo.com/mcp", meaning: "官方页没有 Codex 专节。对照 Other Clients：远程带 /mcp 后缀。OAuth DCR，浏览器没弹再 mcp login klaviyo。不要发明 plugin add klaviyo@。不要抄 Cursor JSON 或本地 uvx 的 PRIVATE_API_KEY" },
       { cmd: "codex mcp add convex -- npx … mcp start", meaning: "插件装不上才用手写 stdio。官方 MCP 是 npx convex mcp start，不是远程 URL。不要加 --dangerously-enable-production-deployments" },
       { cmd: "codex --profile huggingface", meaning: "[model_providers.huggingface] 走 router.huggingface.co/v1，wire_api = responses，env_key = HF_TOKEN。不是 Hub MCP，也不是 --oss" },
       { cmd: "codex --profile vercel", meaning: "[model_providers.vercel] 走 ai-gateway.vercel.sh/codex/v1，wire_api = responses，env_key = AI_GATEWAY_API_KEY。不是 Vercel MCP，也不是 --oss" },

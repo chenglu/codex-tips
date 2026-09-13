@@ -3281,5 +3281,25 @@ export const articles: Article[] = [
     summary:
       '账号管理员先打开 Settings → AI 里的 Customer.io MCP。ChatGPT 或 Codex 装官方插件；Cursor / Claude 另有插件。底层入口是 mcp.customer.io。不要把 API token 当主路径。',
   },
+  {
+    title: 'Klaviyo MCP server',
+    url: 'https://developers.klaviyo.com/en/docs/klaviyo_mcp_server',
+    source: 'Klaviyo',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Klaviyo', 'OAuth', 'HTTP'],
+    summary:
+      '官方推荐远程 https://mcp.klaviyo.com/mcp，OAuth DCR + Streamable HTTP。页上没有 Codex 专节，对照 Other Clients 写 mcp add klaviyo。不要抄 Cursor JSON 或本地 uvx 的 PRIVATE_API_KEY。',
+  },
+  {
+    title: 'Klaviyo MCP Server Guide For Agencies',
+    url: 'https://help.klaviyo.com/hc/en-us/articles/52833598880923',
+    source: 'Klaviyo',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Klaviyo', 'OAuth'],
+    summary:
+      '机构多账号把 company 写进 mcp.klaviyo.com URL，例如 https://mcp.klaviyo.com/mcp?company=example-company。要 Owner / Admin / Manager。Codex 手写 url 就能带查询参数，不要抄 Claude listed connector。',
+  },
 ];
 

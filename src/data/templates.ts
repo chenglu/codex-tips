@@ -2589,4 +2589,21 @@ query_params = {}
 # 插件底层入口（安装时不用填）：https://mcp.customer.io/mcp
 `,
   },
+  {
+    id: "klaviyo-mcp-http",
+    title: "Klaviyo MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add klaviyo --url https://mcp.klaviyo.com/mcp。URL 带 /mcp。OAuth DCR，浏览器没弹再 mcp login klaviyo。不要发明 plugin add klaviyo@。",
+    code: `codex mcp add klaviyo --url https://mcp.klaviyo.com/mcp
+codex mcp login klaviyo
+
+# 先只读：
+# url = "https://mcp.klaviyo.com/mcp?read-only=true"
+
+# [mcp_servers.klaviyo]
+# url = "https://mcp.klaviyo.com/mcp"
+# enabled = true
+`,
+  },
 ];
