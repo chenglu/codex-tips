@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T05:12:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "04:38 定时器（含未落地的 04:13）。调用前 $97.19。Spend: counts（start_time=2026-09-06T04:50:00Z，共 241 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.18。CDP 34/34 全过（预览 4333）。收录 Appwrite 官方 Codex 插件与远程 MCP（plugin marketplace add appwrite/codex-plugin，再 /plugins 装 Appwrite；mcp add appwrite --url https://mcp.appwrite.io/，有尾斜杠、没有 /mcp；OAuth，浏览器没弹再 mcp login appwrite）。不要发明 plugin add appwrite@。不要抄 Claude 的 --transport http。Cloud 不要把 --env APPWRITE_API_KEY 字面量当主路径。X 仍是 Claude vs Codex 营销、GPT-6 Astra、oh-my-openagent、日文预约任务。Buildkite 远程配置页仍无 Codex 专节。Meilisearch 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。",
+    "05:12 定时器。调用前 $97.18。Spend: counts（start_time=2026-09-06T05:20:00Z，共 241 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 仍为 $97.18。CDP 28/28 全过（预览 4334）。收录 Trigger.dev 官方 Codex stdio MCP（npx trigger.dev@latest install-mcp --client openai-codex；表名 trigger；startup_timeout_sec = 30）。不要 mcp login。不要 --yolo。不要发明 plugin add 或远程 URL。X 仍是 Claude vs Codex 营销、GPT-6 Astra、oh-my-openagent、日文预约任务。Buildkite 仍无 Codex 专节。Meilisearch 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
