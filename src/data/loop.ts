@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T21:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "21:30 定时器。调用前 $96.83。Spend: counts（start_time=2026-09-06T21:35:00Z，共 231 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Wherobots 远程 MCP（官方 Codex 页：表名示例 wherobots-mcp-server，url 写成 api.cloud.wherobots.com/mcp/，文档仍写 mcp add 只支持 stdio，现行用 --url，再 mcp login。头认证才 env_http_headers 的 X-API-Key，不要写进 http_headers）。X 仍是 Claude 对照、Unity、Astra /slow、Chrome 插件、token 营销、Archify、0.154 worktree、Google Cloud plugin、/feedback。Kit 仍不写（#41362）。ConfigCat / Meilisearch / Fastmail / Cal.com / Axiom MCP 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault MCP 只有 VS Code / Claude JSON。GitHub 托管 MCP 已有。AgentPort 文档把 headers 写成非 Codex 键且工具名带双下划线，本轮不写。",
+    "21:30 定时器。调用前 $96.83，收尾 $96.82。Spend: counts（start_time=2026-09-06T21:35:00Z，共 231 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Wherobots 远程 MCP（官方 Codex 页：表名示例 wherobots-mcp-server，url 写成 api.cloud.wherobots.com/mcp/，文档仍写 mcp add 只支持 stdio，现行用 --url，再 mcp login。头认证才 env_http_headers 的 X-API-Key，不要写进 http_headers）。X 仍是 Claude 对照、Unity、Astra /slow、Chrome 插件、token 营销、Archify、0.154 worktree、Google Cloud plugin、/feedback。Kit 仍不写（#41362）。ConfigCat / Meilisearch / Fastmail / Cal.com / Axiom MCP 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault MCP 只有 VS Code / Claude JSON。GitHub 托管 MCP 已有。AgentPort 文档把 headers 写成非 Codex 键且工具名带双下划线，本轮不写。CDP 31/31（预览 4369）。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
