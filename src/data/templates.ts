@@ -2861,4 +2861,18 @@ codex mcp login kuroco
 # client_id = "YOUR_CLIENT_ID"
 `,
   },
+  {
+    id: "wherobots-mcp-http",
+    title: "Wherobots MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add wherobots-mcp-server --url https://api.cloud.wherobots.com/mcp/。文档仍写只支持 stdio，现行用 --url。再 mcp login。不要把 API key 写进 http_headers，头认证才 env_http_headers 的 X-API-Key。",
+    code: `codex mcp add wherobots-mcp-server --url https://api.cloud.wherobots.com/mcp/
+codex mcp login wherobots-mcp-server
+
+# [mcp_servers.wherobots-mcp-server]
+# url = "https://api.cloud.wherobots.com/mcp/"
+# enabled = true
+`,
+  },
 ];

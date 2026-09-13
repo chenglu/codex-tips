@@ -10572,4 +10572,73 @@ Admin MCP 是另一条 URL，例如 \`…/direct/rcms_api/admin_mcp/x/all\`，�
       },
     ],
   },
+  {
+    id: "wherobots-mcp-http",
+    no: 386,
+    title: "Wherobots MCP 用 --url 加 mcp login，不要抄文档里的 stdio 限制",
+    summary:
+      "官方 Codex 页：表名示例 wherobots-mcp-server，url 写成 api.cloud.wherobots.com/mcp/，再 mcp login。文档仍写 mcp add 只支持 stdio，现行 Codex 用 --url。不要把 API key 写进 http_headers。",
+    body: `Wherobots 给 Codex CLI / 桌面有专节。远程入口是 \`https://api.cloud.wherobots.com/mcp/\`，**带** \`/mcp/\` 尾斜杠。官方示例表名是 \`wherobots-mcp-server\`。要 Professional、Innovation 或 Enterprise 组织；Admin 和 User 都能用。OAuth 不能在浏览器里注册新账号，先有 cloud.wherobots.com 账号。主机在 \`us-west-2\`。
+
+官方 Codex 页还写「远程 HTTP 只能手改 TOML，\`codex mcp add\` 只支持本地 stdio」。那句过时了。现行 Codex 远程用 \`--url\`：
+
+\`\`\`bash
+codex mcp add wherobots-mcp-server --url https://api.cloud.wherobots.com/mcp/
+codex mcp login wherobots-mcp-server
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.wherobots-mcp-server]
+url = "https://api.cloud.wherobots.com/mcp/"
+enabled = true
+\`\`\`
+
+\`mcp add\` 写进用户层 \`~/.codex/config.toml\`。浏览器没弹再跑 \`codex mcp login wherobots-mcp-server\`。登录后选组织和 Allow access。传输是 Streamable HTTP，不要抄 \`/sse\`。
+
+不要发明 \`codex plugin add wherobots@…\`。官方没给出 Codex marketplace id。不要抄 Claude Code 的 \`claude mcp add --transport http … --scope user\`。不要抄 Cursor marketplace、\`mcp.json\` 或把仓库 clone 到 \`~/.cursor/plugins\`。VS Code 扩展会自动配 MCP，那条不套 Codex。
+
+API key 是另一条线，给不走 OAuth 的编辑器用。官方 Codex 示例把密钥写进 \`http_headers\`，**不要抄**：密钥会进仓库。这台要的是 \`X-API-Key\`，不是 \`Authorization: Bearer\`，所以不要 \`bearer_token_env_var\`。\`codex mcp add\` 写不了自定义头，加完再改 \`env_http_headers\`。左边是头名，右边写变量名 \`WHEROBOTS_API_KEY\`，值放启动 Codex 的进程：
+
+\`\`\`toml
+[mcp_servers.wherobots-mcp-server]
+url = "https://api.cloud.wherobots.com/mcp/"
+enabled = true
+
+[mcp_servers.wherobots-mcp-server.env_http_headers]
+X-API-Key = "WHEROBOTS_API_KEY"
+\`\`\`
+
+从已经 \`export WHEROBOTS_API_KEY\` 的终端启动。Dock / 开始菜单打开的桌面没有 zshrc。Codex 不读 \`.env\`。变量缺失时这颗头会被静默丢掉。头认证这张表不要再 \`mcp login\`。
+
+技能是另一条线。官方 Codex 页是 \`npx skills add -g wherobots/agent-skills\`。\`-g\` 装到用户目录。官方**没有**钉 \`--agent codex\`。仓库三份技能是 \`wherobots-usage\`、\`wherobots-explore\`、\`wherobots-develop\`。技能不会写出 \`mcp_servers.wherobots-mcp-server\`。不要手拷到 \`~/.codex/skills\`。
+
+这台能浏览目录、生成 Spatial SQL、跑查询。默认 Tiny runtime，查询约 15 分钟超时，SQL Session 空闲约 5 分钟结束。只有真正在 Wherobots 上执行查询才按 Spatial Unit 计费。VS Code 命令面板里的 \`wherobotsjobsubmit.mcpServerQueryTimeout\` **不是** Codex 配置键，不要抄进 \`config.toml\`。保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。
+
+先只读：问「List the catalogs in my Wherobots Data Hub」。工具没出来就彻底新开会话。
+
+不要做这些：
+
+- 不要把官方那句「mcp add 只支持 stdio」当成现行限制。
+- 不要发明 \`codex plugin add wherobots@openai-curated\`。
+- 不要抄 Claude 的 \`--transport http\`、Cursor 插件或 \`/sse\`。
+- 不要把 API key 写进 \`http_headers\` 或 URL。
+- 不要给它 \`required = true\` 挂全局。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完彻底新开会话。用 \`codex mcp get wherobots-mcp-server\` 看传输是 streamable_http。OAuth 路径的 \`/mcp\` 应显示 Auth: OAuth。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Wherobots", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-http-env-headers", "mcp-oauth-loopback-callback"],
+    sources: [
+      {
+        label: "Wherobots · Set Up Wherobots in Codex",
+        url: "https://docs.wherobots.com/develop/agentic-tools/codex",
+      },
+      {
+        label: "wherobots/agent-skills",
+        url: "https://github.com/wherobots/agent-skills",
+      },
+    ],
+  },
 ];
