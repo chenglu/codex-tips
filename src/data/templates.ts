@@ -2476,4 +2476,18 @@ codex mcp login loops
 # enabled = true
 `,
   },
+  {
+    id: "buffer-mcp-http",
+    title: "Buffer MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add buffer --url https://mcp.buffer.com/mcp。URL 带 /mcp。OAuth，浏览器没弹再 mcp login buffer。不要发明 plugin add buffer@。",
+    code: `codex mcp add buffer --url https://mcp.buffer.com/mcp
+codex mcp login buffer
+
+# [mcp_servers.buffer]
+# url = "https://mcp.buffer.com/mcp"
+# enabled = true
+`,
+  },
 ];

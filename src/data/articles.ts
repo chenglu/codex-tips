@@ -3121,5 +3121,25 @@ export const articles: Article[] = [
     summary:
       '本地 @brightdata/mcp 用环境变量。必填 API_TOKEN。PRO_MODE=true 才开全部工具；GROUPS 或 TOOLS 会盖过 Pro。Codex 里用 env_vars 转发这些名字，不要把值写进 env 表。',
   },
+  {
+    title: 'ChatGPT',
+    url: 'https://developers.buffer.com/guides/integrations/chatgpt.html',
+    source: 'Buffer',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Buffer', 'OAuth', 'HTTP'],
+    summary:
+      '官方 Codex：mcp add buffer --url https://mcp.buffer.com/mcp。URL 带 /mcp。OAuth，浏览器没弹再 mcp login buffer。不要 API key。不要发明 plugin add buffer@。不要把 ChatGPT Developer mode 当 CLI 主路径。',
+  },
+  {
+    title: 'ChatGPT and Buffer Integration',
+    url: 'https://buffer.com/integrations/chatgpt',
+    source: 'Buffer',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Buffer', 'OAuth', 'HTTP'],
+    summary:
+      '营销页同样写 Codex CLI：mcp add buffer --url https://mcp.buffer.com/mcp。OAuth，浏览器会弹。网页 ChatGPT 走 Developer mode Connectors，不要抄进 config.toml。不要发明 plugin add buffer@。',
+  },
 ];
 

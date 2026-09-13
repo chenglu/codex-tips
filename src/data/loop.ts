@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-13T07:42:00Z",
+  lastTick: "2026-09-13T08:13:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "07:42 定时器。调用前 $97.06。Spend: counts（start_time=2026-09-06T07:48:00Z，共 223 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.05。CDP 28/28 全过（预览 4340）。收录 Bright Data 官方 Codex 本地 stdio（codex mcp add brightdata -- npx -y @brightdata/mcp；表名 brightdata；API_TOKEN 走 env_vars）。不要 mcp login。不要把 token 拼进 hosted URL。不要用 brightdata add mcp 写 mcp.json。GrowthBook 官方 MCP 页无 Codex 专节。Customer.io 是 ChatGPT/Codex 桌面插件，无 CLI mcp add。Builder.io / Webflow 无 CLI mcp add。Tavily / Buildkite / Meilisearch 仍无。DigitalOcean 仍未钉 --agent codex。X 仍是 Claude 课程、Unity 插件、OMO 编排、GPT-6 Astra。",
+    "08:13 定时器。调用前 $97.05。Spend: counts（start_time=2026-09-06T08:18:00Z，共 224 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度待测完后回写。收录 Buffer 官方 Codex 远程 MCP（codex mcp add buffer --url https://mcp.buffer.com/mcp；表名 buffer；URL 带 /mcp；OAuth，浏览器没弹再 mcp login buffer）。不要 API key。不要发明 plugin add buffer@。不要抄 ChatGPT Developer mode。GrowthBook 有 insights Codex stdio 文但官方 MCP 页无 Codex 专节，本轮不收。Customer.io 是桌面插件。Builder.io / Webflow 无 CLI mcp add。Tavily / Buildkite / Meilisearch 仍无。DigitalOcean 仍未钉 --agent codex。X 仍是 Claude 课程、Unity 插件、OMO 编排、GPT-6 Astra、Conductor worktree。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1041,6 +1041,19 @@ export const loopState = {
     "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
     "docs.digitalocean.com do-app-platform-skills --agent codex",
     "Codex CLI 技巧 2026 Bright Data MCP @brightdata/mcp env_vars",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "developers.buffer.com chatgpt Codex mcp add buffer mcp.buffer.com/mcp",
+    "buffer.com integrations chatgpt Codex CLI mcp add buffer",
+    "docs.growthbook.io integrations mcp Codex @growthbook/mcp",
+    "docs.customer.io ai plugins chatgpt-codex MCP",
+    "builder.io fusion-mcp-server mcp.builder.io Codex",
+    "help.webflow.com Connect Codex to Webflow plugin",
+    "docs.tavily.com mcp Codex mcp.tavily.com",
+    "buildkite.com docs mcp-server Codex configuring-ai-tools",
+    "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "Codex CLI 技巧 2026 Buffer MCP mcp.buffer.com/mcp OAuth",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

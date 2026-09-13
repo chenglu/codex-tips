@@ -9165,4 +9165,56 @@ enabled = true
       },
     ],
   },
+  {
+    id: "buffer-mcp-http",
+    no: 359,
+    title: "Buffer MCP 用 mcp.buffer.com/mcp，再完成 OAuth",
+    summary:
+      "官方 Codex：mcp add buffer --url https://mcp.buffer.com/mcp。URL 带 /mcp。OAuth，浏览器没弹再 mcp login buffer。不要 API key。不要发明 plugin add buffer@。不要抄 ChatGPT Developer mode。",
+    body: `Buffer 给 Codex CLI 有专节。官方主路径是远程 Streamable HTTP + OAuth，不要 API key，也不要 \`bearer_token_env_var\`：
+
+\`\`\`bash
+codex mcp add buffer --url https://mcp.buffer.com/mcp
+\`\`\`
+
+官方表名就是 \`buffer\`。URL 是 \`https://mcp.buffer.com/mcp\`，带 \`/mcp\` 后缀。\`mcp add\` 会写进用户层 \`~/.codex/config.toml\`。官方说这条会打开浏览器，让你登录 Buffer 并授权。只写进了表、浏览器没弹时再跑：
+
+\`\`\`bash
+codex mcp login buffer
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.buffer]
+url = "https://mcp.buffer.com/mcp"
+enabled = true
+\`\`\`
+
+不要抄同一页里 ChatGPT 的 Developer mode / Connectors：那是网页 ChatGPT，不是 Codex CLI。不要抄 Claude 的 \`--transport http\`。不要抄 Cursor 的 \`.cursor/mcp.json\`。不要抄 \`npx mcp-remote\`。不要发明 \`codex plugin add buffer@…\`。ChatGPT / Codex 插件目录里即使能搜到 Buffer，CLI 也没有一键安装，主路径仍是上面的 \`mcp add\`。不要把 Buffer API key、access token 写进 URL、\`http_headers\`、\`args\` 或 \`env\` 表。
+
+先只读：问列出这周已排期的 Buffer 帖子，或列出已连接的渠道。创建草稿、改排期会改账号，保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。网页 Cloud 不读 \`~/.codex/config.toml\`。改完彻底新开会话。\`codex mcp get buffer\` 看 url。TUI \`/mcp\` 里应看到 buffer 且 enabled。
+
+登录、凭证库相关命令在你平时的宿主 shell 里跑。隔离代理环境里失败，不证明 Buffer MCP 不可用。启动时报 \`MCP startup interrupted\` 且点名 \`buffer\`，多半是表写上了但没完成 OAuth：先 \`codex mcp get buffer\`，再 \`codex mcp login buffer\`，再 \`codex mcp list\`，然后新开会话。旧票卡住时先 \`codex mcp logout buffer\`，再重新 login。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add buffer@openai-curated\`。
+- 不要抄 Claude 的 \`--transport http\` 或 Cursor JSON。
+- 不要给这台 \`bearer_token_env_var\`，也不要把 token 写进 URL。
+- 不要给它 \`required = true\` 挂全局。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Buffer", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-http-not-sse", "workos-mcp-http"],
+    sources: [
+      {
+        label: "Buffer · ChatGPT and Codex",
+        url: "https://developers.buffer.com/guides/integrations/chatgpt.html",
+      },
+      {
+        label: "Buffer · ChatGPT integration",
+        url: "https://buffer.com/integrations/chatgpt",
+      },
+    ],
+  },
 ];
