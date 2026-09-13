@@ -2382,4 +2382,22 @@ codex mcp login appwrite
 # enabled = true
 `,
   },
+  {
+    id: "trigger-mcp-stdio",
+    title: "Trigger.dev MCP",
+    filename: "config.toml",
+    summary:
+      "主路径是 npx trigger.dev@latest install-mcp --client openai-codex。表名 trigger，本地 stdio。必须 startup_timeout_sec = 30。不要 mcp login。不要 --yolo。",
+    code: `npx trigger.dev@latest install-mcp --client openai-codex
+
+# 或：
+# codex mcp add trigger -- npx trigger.dev@latest mcp
+
+# [mcp_servers.trigger]
+# command = "npx"
+# args = ["trigger.dev@latest", "mcp"]
+# startup_timeout_sec = 30
+# enabled = true
+`,
+  },
 ];

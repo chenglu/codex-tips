@@ -2991,5 +2991,35 @@ export const articles: Article[] = [
     summary:
       '官方 MCP 总览。远程 URL 是 https://mcp.appwrite.io/，有尾斜杠。OAuth，不要 API key。Codex 专节仍是 mcp add appwrite。自托管才走本地 stdio。不要抄 Claude 的 --transport http。',
   },
+  {
+    title: 'MCP Introduction',
+    url: 'https://trigger.dev/docs/mcp-introduction',
+    source: 'Trigger.dev',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Trigger.dev', 'stdio'],
+    summary:
+      '官方 Codex：npx trigger.dev@latest install-mcp --client openai-codex。表名 trigger，本地 stdio，startup_timeout_sec = 30。不要 mcp login。不要 --yolo。不要抄 Claude 的 mcpServers JSON。search_docs 不用登录。',
+  },
+  {
+    title: 'Skills',
+    url: 'https://trigger.dev/docs/skills',
+    source: 'Trigger.dev',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'Trigger.dev', 'AGENTS.md'],
+    summary:
+      'Codex 走 npx trigger.dev@latest skills，装进项目 .agents/skills/。官方非交互示例只有 --target claude-code 和 cursor，不要发明 --target openai-codex。这不会登记 MCP。不要手拷 ~/.codex/skills。',
+  },
+  {
+    title: 'Building with AI: overview',
+    url: 'https://trigger.dev/docs/building-with-ai',
+    source: 'Trigger.dev',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Trigger.dev', 'Skills'],
+    summary:
+      '技能教怎么写 task，MCP 才部署和触发。Codex 专节仍是 install-mcp --client openai-codex。不要把 AGENTS.md 短规则整段当 MCP 配置。不要发明远程 mcp.trigger.dev。',
+  },
 ];
 

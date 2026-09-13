@@ -8820,4 +8820,76 @@ enabled = true
       },
     ],
   },
+  {
+    id: "trigger-mcp-stdio",
+    no: 353,
+    title: "Trigger.dev MCP 用 install-mcp --client openai-codex，本地 stdio 要 startup_timeout_sec 30",
+    summary:
+      "官方 Codex：npx trigger.dev@latest install-mcp --client openai-codex。表名 trigger，本地 stdio，不是远程 URL。必须 startup_timeout_sec = 30。不要 mcp login。不要 --yolo，也不要抄 Claude 的 mcpServers JSON。",
+    body: `Trigger.dev 给 Codex CLI 有专节。官方主路径是本机 **stdio**，不是远程 HTTP，也**不要** \`mcp login\`：
+
+\`\`\`bash
+npx trigger.dev@latest install-mcp --client openai-codex
+\`\`\`
+
+客户端 id 官方就是 \`openai-codex\`。这条只会改 Codex 的 \`~/.codex/config.toml\`。不要跑裸的 \`install-mcp\` 让它去探测所有客户端，更不要 \`--yolo\`：那会装进所有检测到的工具。这和 Codex 自己的 \`--yolo\` 批准开关不是一回事。
+
+原生等价写法：
+
+\`\`\`bash
+codex mcp add trigger -- npx trigger.dev@latest mcp
+\`\`\`
+
+官方表名就是 \`trigger\`。\`add\` 不会带上超时，装完把握手改成 30 秒。Codex 默认 10 秒，冷 \`npx\` 第一次拉包经常不够：
+
+\`\`\`toml
+[mcp_servers.trigger]
+command = "npx"
+args = ["trigger.dev@latest", "mcp"]
+startup_timeout_sec = 30
+enabled = true
+\`\`\`
+
+不要抄 Claude / Cursor 的 \`mcpServers\` JSON。不要发明 \`codex plugin add trigger@…\`。不要发明 \`codex mcp add trigger --url https://mcp.trigger.dev/mcp\`。不要把 API key 写进 \`env\` 表、\`args\` 或 \`http_headers\`。
+
+\`search_docs\` 不用登录就能搜文档。部署、触发任务、取消 run 要先在本机用 Trigger.dev CLI 登录；第一次调已鉴权工具时，MCP 会提示你跑 CLI login。这**不是** \`codex mcp login trigger\`。先只读：问 \`Search the trigger docs for a ffmpeg example\`。\`Deploy my project to production\` 和 \`Trigger my foobar task with a sample payload\` 会改云端，保持工具批准。不要一上来 Codex \`--yolo\`。不要 \`required = true\`。
+
+只要只读时，把 \`--readonly\` 加进 \`args\`（会藏 \`deploy\`、\`trigger_task\`、\`cancel_run\`）。钉某个项目或只连 dev 时同样写进 \`args\`，例如 \`--dev-only\` 和 \`--project-ref proj_abc123\`。不要把尖括号占位原样写进 TOML。
+
+技能是另一条路，教模型怎么写 task，不会登记 MCP。官方是：
+
+\`\`\`bash
+npx trigger.dev@latest skills
+\`\`\`
+
+Codex 会进项目 \`.agents/skills/\`。官方非交互示例只写了 \`--target claude-code\` 和 \`--target cursor\`，**不要发明** \`--target openai-codex\`。changelog 里的 \`npx skills add triggerdotdev/skills\` 是另一套安装器，技能名也是旧的，不要当 Codex 专节。不要把手拷进 \`~/.codex/skills\`。
+
+改完新开会话。用 \`codex mcp get trigger\` 看 command 是 npx。\`/mcp\` 里工具 0 先查 \`startup_timeout_sec\`。网页 Cloud 不读这份 \`config.toml\`，也跑不了本机 stdio。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add trigger@openai-curated\`。
+- 不要抄 Claude 的 \`mcpServers\` JSON 或 \`--client claude-code\`。
+- 不要对这台跑 \`mcp login\`，也不要给它远程 URL。
+- 不要给它 \`required = true\` 挂全局。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Trigger.dev", "stdio", "Skills"],
+    related: ["mcp-stdio-env-vars", "shadcn-mcp-stdio", "inngest-mcp-http"],
+    sources: [
+      {
+        label: "Trigger.dev · MCP Introduction",
+        url: "https://trigger.dev/docs/mcp-introduction",
+      },
+      {
+        label: "Trigger.dev · Skills",
+        url: "https://trigger.dev/docs/skills",
+      },
+      {
+        label: "Trigger.dev · Building with AI",
+        url: "https://trigger.dev/docs/building-with-ai",
+      },
+    ],
+  },
 ];
