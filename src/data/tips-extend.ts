@@ -10816,7 +10816,7 @@ TUI 输入 \`/plugins\` 搜 Webflow 是同一套公共目录。0.154 起先在**
       "官方 Codex 专节：OAuth 用 callbacks.omniapp.co/callback/mcp。API key 才是实例的 /mcp/https，并加 --url 与 bearer_token_env_var。官方 Option A 漏了 --url。不要抄 http_headers 里的 Bearer。",
     body: `Omni 给 Codex 有专节。OAuth 是推荐路径。组织管理员先打开：Settings → General 的 Enable AI、AI Hub → Features 的 Omni Agent、AI Hub → MCP 的 MCP server，以及 Settings → API Keys → Personal tokens。OAuth 要 PAT 开关。查询工具和文档搜索跟 Omni Agent 同一条管线；关掉 Agent 后，除 pickModel 外都会 403 Feature is not enabled。
 
-官方 OAuth 命令：
+官方远程入口是 \`https://callbacks.omniapp.co/callback/mcp\`，带 \`/callback/mcp\`。官方 OAuth 命令：
 
 \`\`\`bash
 codex mcp add omni --url https://callbacks.omniapp.co/callback/mcp
@@ -10829,7 +10829,7 @@ url = "https://callbacks.omniapp.co/callback/mcp"
 enabled = true
 \`\`\`
 
-这条 URL 是 MCP 入口，会在 OAuth 时把你路由到上次登录的 Omni 组织，**不是** Codex 自己的 loopback callback。加人多个组织时，先登出再登进要连的那个，马上跑登录。浏览器没弹再 \`codex mcp login omni\`。Omni 会自动建一颗 MCP OAuth PAT，跟普通 PAT 不是一类：任意用户（含 Viewer）都能走完流程，但权限仍跟应用内角色走，Viewer 查不了数。这些 PAT 目前不在 Omni 界面里显示。
+这是 MCP 入口，会在 OAuth 时把你路由到上次登录的 Omni 组织，**不是** Codex 自己的 loopback callback。加人多个组织时，先登出再登进要连的那个，马上跑登录。浏览器没弹再 \`codex mcp login omni\`。Omni 会自动建一颗 MCP OAuth PAT，跟普通 PAT 不是一类：任意用户（含 Viewer）都能走完流程，但权限仍跟应用内角色走，Viewer 查不了数。这些 PAT 目前不在 Omni 界面里显示。
 
 API key 是另一条 URL。官方示例主机是 \`acme.omniapp.co\`，路径是 \`/mcp/https\`，**不是** \`/mcp\`：
 
