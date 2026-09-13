@@ -2623,4 +2623,15 @@ codex mcp login braze
 # enabled = true
 `,
   },
+  {
+    id: "onesignal-codex-plugin",
+    title: "OneSignal Codex 插件",
+    filename: "terminal",
+    summary:
+      "主路径是桌面 Plugins 或 /plugins 搜 OneSignal。不要 mcp add，也不要手贴 api.onesignal.com/mcp/oauth。不要发明 plugin add onesignal@。",
+    code: `# 官方主路径：TUI /plugins 或桌面 Plugins 搜 OneSignal
+# 不要 codex mcp add，也不要手贴 URL
+# 插件底层入口（安装时不用填）：https://api.onesignal.com/mcp/oauth
+`,
+  },
 ];

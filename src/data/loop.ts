@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-13T12:41:00Z",
+  lastTick: "2026-09-13T13:17:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "12:41 定时器。调用前 $96.98。Spend: counts（start_time=2026-09-06T12:47:00Z，共 205 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 $96.97。收录 Braze 远程 MCP（https://mcp.braze.com/mcp；欧盟 mcp.braze.eu/mcp；OAuth DCR；官方已验证 OpenAI Codex）。不要发明 plugin add braze@。本地 beta 已弃用。OneSignal 官方 Codex 是 Plugins 目录，下一轮再核 marketplace。ConfigCat / Postmark / Buildkite / Tavily / Meilisearch 仍无 Codex 专节。Mailchimp / SendGrid 是 Composio，不要当官方。do-app-platform-skills 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、Astra、Conductor。",
+    "13:17 定时器。调用前 $96.97。Spend: counts（start_time=2026-09-06T13:23:00Z，共 204 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾待测。收录 OneSignal 官方 Codex 插件（Plugins 或 /plugins 搜 OneSignal；底层 https://api.onesignal.com/mcp/oauth；安装时不用手填）。不要发明 plugin add onesignal@。不要 mcp add 手贴 URL。不要 REST API key。Kit 官方是 app.kit.com/mcp，本轮未写。beehiiv 帮助页 409。ConfigCat / Postmark / Buildkite / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、Astra、Conductor。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1162,6 +1162,19 @@ export const loopState = {
     "docs.digitalocean.com do-app-platform-skills --agent codex",
     "composio.dev mailchimp sendgrid Codex 不要当官方",
     "Codex CLI 技巧 2026 Braze MCP mcp.braze.com/mcp OAuth",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "documentation.onesignal.com model-context-protocol Codex plugins api.onesignal.com",
+    "documentation.onesignal.com ai-data-practices Customer AI Agent MCP",
+    "help.kit.com kit mcp app.kit.com Codex",
+    "help.beehiiv.com mcp Codex",
+    "configcat.com docs mcp-server Codex @configcat/mcp-server",
+    "postmarkapp.com mcp Codex @activecampaign/postmark-mcp",
+    "buildkite.com docs mcp-server Codex configuring-ai-tools",
+    "docs.tavily.com mcp Codex mcp.tavily.com",
+    "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "Codex CLI 技巧 2026 OneSignal plugin api.onesignal.com/mcp/oauth",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

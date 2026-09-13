@@ -3321,5 +3321,25 @@ export const articles: Article[] = [
     summary:
       '远程入口是 mcp.braze.com/mcp。权限镜像仪表盘账号，不返回用户档案 PII。写工具也有，但官方不要 auto-mode。不要把已弃用的本机 PyPI 包当 Codex 主路径。',
   },
+  {
+    title: 'OneSignal MCP Server',
+    url: 'https://documentation.onesignal.com/docs/en/model-context-protocol',
+    source: 'OneSignal',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'OneSignal', 'plugins', 'OAuth'],
+    summary:
+      '官方 Codex 是 OpenAI / ChatGPT 插件目录搜 OneSignal，再 OAuth。底层入口是 https://api.onesignal.com/mcp/oauth，安装时不用手填。不要 REST API key，也不要发明 plugin add onesignal@。',
+  },
+  {
+    title: 'OneSignal AI data practices',
+    url: 'https://documentation.onesignal.com/docs/en/ai-data-practices',
+    source: 'OneSignal',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'OneSignal', 'OAuth'],
+    summary:
+      '仪表盘 OneSignal AI 不是 MCP。Customer AI Agent 才是外部客户端连 api.onesignal.com/mcp/oauth。Codex 走 Plugins，不要和仪表盘助手混为一谈。撤销在 Connected apps。',
+  },
 ];
 

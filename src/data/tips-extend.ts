@@ -9662,4 +9662,45 @@ enabled = true
       },
     ],
   },
+  {
+    id: "onesignal-codex-plugin",
+    no: 369,
+    title: "OneSignal 先 Plugins 搜 OneSignal，不要手贴 api.onesignal.com/mcp/oauth",
+    summary:
+      "官方 Codex 是插件目录：桌面 Plugins 或 TUI /plugins 搜 OneSignal，再 OAuth。底层是 https://api.onesignal.com/mcp/oauth，安装时不用手填。不要发明 plugin add onesignal@，也不要 mcp add 手贴 URL。不要 REST API key。",
+    body: `OneSignal 官方给 Codex 的推荐路径是 OpenAI / ChatGPT 插件目录，不是 \`codex mcp add\`。官方没给出 \`plugin add onesignal@\` 那种 marketplace id，不要自己编。
+
+桌面打开 Plugins，或 TUI 输入 \`/plugins\`，搜 OneSignal，装官方 listing，再完成 OAuth。CLI 和 IDE 扩展走同一份 OpenAI 插件目录；IDE 扩展没有 \`/plugins\` 斜杠命令时，用扩展自己的 Plugins 面板。ChatGPT 里用 \`@OneSignal\` 点名插件，那是 ChatGPT，不要抄进 Codex CLI。
+
+插件底层入口是 \`https://api.onesignal.com/mcp/oauth\`，文档写明 marketplace 安装时不用手填。已经用自定义 MCP 连过 OneSignal 的，先关掉那条再装插件。两边同时开会出现重复工具。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add onesignal@openai-curated\`。
+- 不要 \`codex mcp add onesignal --url …\` 当 CLI 主路径。那是没有 listing 的其他客户端。
+- 不要抄 Claude Code 的 \`--transport http\`、Cursor JSON 或 ChatGPT Developer Mode。
+- 不要抄第三方目录里的 App ID、REST API key 或 Smithery 表。官方连接全走 OAuth，配置里没有密钥可填。
+- 不要给它 \`required = true\`。
+
+先只读：问 \`onesignal_health\`，或列出这个账号能管的 app（\`list_apps\`）。开 beta 时部分 app 可能要先开通，健康检查以外的工具才会出来。\`send_message\` 是高影响操作，客户端应再确认一次；保持工具批准。不要一上来 \`--yolo\`。
+
+一次授权能覆盖账号有权限的多个 app，不必每台 app 配一张表。不确定 app ID 就先 \`list_apps\`。撤销走 OneSignal 账号里的 Connected apps，只撤当前客户端，不影响同事。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 也走 Plugins 搜 OneSignal。改完彻底新开会话，再用 \`codex plugin list\` 核对已装。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "OneSignal", "plugins", "OAuth"],
+    related: ["customerio-codex-plugin", "plugins-vs-skills", "braze-mcp-http"],
+    sources: [
+      {
+        label: "OneSignal · MCP Server",
+        url: "https://documentation.onesignal.com/docs/en/model-context-protocol",
+      },
+      {
+        label: "OneSignal · AI data practices",
+        url: "https://documentation.onesignal.com/docs/en/ai-data-practices",
+      },
+    ],
+  },
 ];
