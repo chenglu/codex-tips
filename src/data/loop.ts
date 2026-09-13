@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T13:17:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "13:17 定时器。调用前 $96.97。Spend: counts（start_time=2026-09-06T13:23:00Z，共 204 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾待测。收录 OneSignal 官方 Codex 插件（Plugins 或 /plugins 搜 OneSignal；底层 https://api.onesignal.com/mcp/oauth；安装时不用手填）。不要发明 plugin add onesignal@。不要 mcp add 手贴 URL。不要 REST API key。Kit 官方是 app.kit.com/mcp，本轮未写。beehiiv 帮助页 409。ConfigCat / Postmark / Buildkite / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、Astra、Conductor。",
+    "13:17 定时器。调用前 $96.97。Spend: counts（start_time=2026-09-06T13:23:00Z，共 204 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 $96.96。收录 OneSignal 官方 Codex 插件（Plugins 或 /plugins 搜 OneSignal；底层 https://api.onesignal.com/mcp/oauth；安装时不用手填）。不要发明 plugin add onesignal@。不要 mcp add 手贴 URL。不要 REST API key。Kit 官方是 app.kit.com/mcp，本轮未写。beehiiv 帮助页 409。ConfigCat / Postmark / Buildkite / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、Astra、Conductor。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
