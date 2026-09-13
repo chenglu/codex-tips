@@ -3691,5 +3691,25 @@ export const articles: Article[] = [
     summary:
       '总览把 Codex 标成 Terminal or desktop，MCP、Agent Skills 和 CLI 都要手工配。VS Code 行才是 Included。不要把扩展自动安装抄进 Codex，也不要发明 plugin add wherobots@。',
   },
+  {
+    title: 'MCP server',
+    url: 'https://learn.hex.tech/docs/api-integrations/mcp-server',
+    source: 'Hex',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Hex', 'plugins', 'OAuth'],
+    summary:
+      '官方 Codex 专节：Plugins 搜 Hex，点 Connect，再连捆绑的 Hex app。ChatGPT Business / Enterprise 管理员可能要先在 Workspace settings → Apps 打开 Hex app。Explorer 才能搜项目和 Threads，Editor 才能改 notebook。不要抄 Cursor 的 /add-plugin hex。',
+  },
+  {
+    title: 'Hex is now in Codex',
+    url: 'https://hex.tech/blog/hex-in-codex/',
+    source: 'Hex',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Hex', 'plugins'],
+    summary:
+      '2026-06-02 博客：Plugins 先装 Data Analytics plugin，再 Connect Hex。可以从 Codex 拉 Hex Threads，也可以用 CLI 建项目和加 cell。不要发明 plugin add hex@。',
+  },
 ];
 

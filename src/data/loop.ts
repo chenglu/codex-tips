@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-13T22:00:00Z",
+  lastTick: "2026-09-13T22:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "22:00 定时器。调用前 $96.82，收尾 $96.82。Spend: counts（start_time=2026-09-06T22:05:00Z，共 231 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Wherobots Agent Skills（官方 Codex 页：npx skills add -g wherobots/agent-skills，官方没钉 --agent codex。单项 --skill wherobots-usage。不要发明 plugin add。不要抄 Cursor 插件。技能不会写 MCP 表）。X 仍是 Claude 对照、Unity、Astra /slow、Chrome 插件、token 营销、Archify、0.154 worktree、Google Cloud plugin、/feedback。SpecterOps/skills 虽有 marketplace add，目录含钓鱼/C2/payload，本轮不写。Kit 仍不写（#41362）。ConfigCat / Meilisearch / Fastmail / Cal.com / Axiom MCP 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault MCP 只有 VS Code / Claude JSON。AgentPort 文档 headers 仍非 Codex 键。CDP 31/31（预览 4370）。",
+    "22:30 定时器。调用前 $96.82，收尾待测后写。Spend: counts（start_time=2026-09-06T22:35:00Z，共 230 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Hex Codex 插件（官方专节：桌面 Plugins 搜 Hex，点 Connect，再连捆绑的 Hex app。官方没给 plugin add id。不要抄 Cursor 的 /add-plugin hex。其它客户端才是 app.hex.tech/mcp。自定义域换 eu.hex.tech / hc.hex.tech）。changelog 2026-06-02 与博客同文，未另收。X 仍是 Claude 对照、Unity、Astra /slow、Chrome 插件、token 营销、Archify、0.154 worktree、Google Cloud plugin、/feedback。SpecterOps/skills 仍不写。Kit 仍不写（#41362）。ConfigCat / Meilisearch / Fastmail / Cal.com / Axiom MCP 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault MCP 只有 VS Code / Claude JSON。AgentPort 文档 headers 仍非 Codex 键。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1395,6 +1395,12 @@ export const loopState = {
     "developer.hashicorp.com vault mcp Codex vault-mcp-server",
     "docs.agentport.sh agents Codex mcp add agentport",
     "Codex CLI 技巧 2026 Wherobots skills -g wherobots-usage",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR skills OR AGENTS.md OR plugin OR worktree)',
+    "X news: Codex CLI",
+    "learn.hex.tech mcp-server Codex Plugins Hex app.hex.tech/mcp",
+    "hex.tech/blog/hex-in-codex Data Analytics plugin",
+    "learn.hex.tech changelog 2026-06-02 Hex Codex",
+    "Codex CLI 技巧 2026 Hex Plugins 搜 Hex bundled Hex app",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR skills OR AGENTS.md OR plugin OR worktree)',
     "X news: Codex CLI",
   ],

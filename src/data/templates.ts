@@ -2889,4 +2889,19 @@ npx skills add -g wherobots/agent-skills
 # npx skills add wherobots/agent-skills@wherobots-usage
 `,
   },
+  {
+    id: "hex-codex-plugin",
+    title: "Hex Codex 插件",
+    filename: "terminal",
+    summary:
+      "主路径是桌面 Plugins 或 /plugins 搜 Hex，点 Connect，再连捆绑的 Hex app。不要发明 plugin add hex@。不要抄 Cursor 的 /add-plugin hex。其它客户端才是 app.hex.tech/mcp。",
+    code: `# 官方主路径：TUI /plugins 或桌面 Plugins 搜 Hex
+# 点 Connect，再连捆绑的 Hex app 做 OAuth
+# 不要 codex plugin add hex@…
+# 不要 Cursor /add-plugin hex
+# 其它客户端（不是 Codex 专节）才是：
+# https://app.hex.tech/mcp
+# 自定义域换主机：eu.hex.tech / hc.hex.tech
+`,
+  },
 ];

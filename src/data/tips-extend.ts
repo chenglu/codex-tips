@@ -10704,4 +10704,52 @@ npx skills add wherobots/agent-skills@wherobots-usage
       },
     ],
   },
+  {
+    id: "hex-codex-plugin",
+    no: 388,
+    title: "Hex 先 Plugins 搜 Hex，不要发明 plugin add hex@",
+    summary:
+      "官方 Codex 专节：桌面 Plugins 搜 Hex，点 Connect，再连捆绑的 Hex app 做 OAuth。官方没给 plugin add id。不要抄 Cursor 的 /add-plugin hex。自定义域不是 Codex 专节。",
+    body: `Hex 给 Codex 的官方主路径是公共插件目录，不是 \`codex mcp add\`。Team / Enterprise 才能用；MCP 目前 beta。Explorer 及以上才能搜项目、开 Threads；Editor 及以上才能改 notebook。官方没给出 \`plugin add hex@\` 那种 marketplace id，不要自己编。
+
+ChatGPT Business / Enterprise 工作区里，管理员可能要先在 Workspace settings → Apps 打开 Hex app，用户才能在 Codex 装这个插件。
+
+官方 Codex 专节：
+
+1. Codex 应用打开 Plugins，搜 Hex
+2. 在 Hex 插件旁点 Connect
+3. 按提示连捆绑的 Hex app，完成 OAuth，多 workspace 时选对工作区
+
+博客和 changelog 还写：Plugins 先装 Data Analytics plugin，再 Connect Hex。以专节的 Plugins 搜 Hex 为准；目录里看到 Data Analytics 再连 Hex 也是同一条产品路径。
+
+0.154 起先在**当前会话**看 \`/plugins\`；当前会话没有再新开。IDE 扩展没有 \`/plugins\`，用桌面或 CLI。装完新开一轮，用 \`@\` 点名插件或捆绑技能，或直接问「在 Hex 里查本季 churn」。Explorer 可以搜项目、开 Threads；Editor 才能改 cell，或走插件捆绑的 Hex CLI。官方 Codex 专节没给 CLI 命令清单，不要发明 hex 子命令。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add hex@openai-curated\`。
+- 不要抄 Cursor 的 \`/add-plugin hex\`，也不要抄 Claude Settings → Connectors。
+- 不要把其它客户端的 \`mcpServers\` JSON 抄进 \`config.toml\` 当主路径。
+- 不要给它 \`required = true\`。
+
+Cursor / ChatGPT 官方插件只连 \`app.hex.tech\`。EU、HIPAA、单租户要换主机。Codex 专节**没有** \`--url\`。其它客户端 JSON 的 url 才是 \`https://app.hex.tech/mcp\`，**带** \`/mcp\`。这不是 Codex 专节，不要写成 \`codex mcp add hex --url\` 的官方主路径。自定义域只换主机，例如 \`eu.hex.tech\`、\`hc.hex.tech\` 或单租户域名，不要丢掉 \`/mcp\`。
+
+标成 Sensitive 的数据连接，MCP 不会用。对话里上传的文件也传不进 Hex。Threads 往往要几分钟；MCP 开的 Thread 是独立的，接不上 Hex 应用里已有的 Thread。改 notebook 只动草稿，不会改已发布 app。Admin 角色也不会自动获得每个项目的编辑权。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 也走 Plugins 搜 Hex。改完用 \`codex plugin list\` 核对已装。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["MCP", "Hex", "plugins", "OAuth"],
+    related: ["mcp-resend-remote", "customerio-codex-plugin", "onesignal-codex-plugin"],
+    sources: [
+      {
+        label: "Hex · MCP server",
+        url: "https://learn.hex.tech/docs/api-integrations/mcp-server",
+      },
+      {
+        label: "Hex · Hex is now in Codex",
+        url: "https://hex.tech/blog/hex-in-codex/",
+      },
+    ],
+  },
 ];
