@@ -10249,4 +10249,56 @@ npx skills add nvidia/skills --skill cuopt-numerical-optimization-api --agent co
       },
     ],
   },
+  {
+    id: "postmark-agent-skills",
+    no: 380,
+    title: "Postmark 技能用 ActiveCampaign/postmark-skills，不要发明 plugin add",
+    summary:
+      "博客点名 Codex：npx skills add ActiveCampaign/postmark-skills。官方没钉 --agent codex。示例技能是 postmark-send-email。不要发明 plugin add postmark@。这不是 MCP。",
+    body: `Postmark 的 Agent Skills 博客点名 OpenAI Codex 为兼容客户端。这是教代理怎么写 Postmark SDK / API 的技能，不是 Codex \`/plugins\`，也不是那台 \`@activecampaign/postmark-mcp\`。官方安装命令：
+
+\`\`\`bash
+npx skills add ActiveCampaign/postmark-skills
+\`\`\`
+
+只要某一项时再钉技能名。官方示例是 \`postmark-send-email\`：
+
+\`\`\`bash
+npx skills add ActiveCampaign/postmark-skills --skill postmark-send-email
+\`\`\`
+
+仓库名是 \`ActiveCampaign/postmark-skills\`。官方**没有**钉 \`--agent codex\`。裸跑会按默认 agent 落盘，还可能改所有检测到的客户端。只要 Codex 时，skills CLI 允许自己加 \`--agent codex\`，这不是 Postmark 专节，也不是 \`/plugins\`。不要手拷到 \`~/.codex/skills\`。不要发明 \`codex plugin add postmark@…\`。
+
+技能文件夹：\`postmark-send-email\`、\`postmark-inbound\`、\`postmark-templates\`、\`postmark-webhooks\`、\`postmark-email-best-practices\`。它们教 Message Streams、500 封一批、Handlebars 模板别名、inbound 的 \`StrippedTextReply\`。**不会**替你配 MCP。
+
+\`POSTMARK_SERVER_TOKEN\` 放进**启动 Codex 的那个进程**。不要把 token 写进 \`args\`、\`env\` 表或提示词。Codex 不读 \`.env\`。先验证发件域名或 Sender Signature。
+
+那台 MCP 是另一条线：\`npx -y @activecampaign/postmark-mcp\`，文档只给 Claude / Cursor / Windsurf 的 JSON。**不要发明** \`codex mcp add postmark --url\`，也不要把 \`POSTMARK_SERVER_TOKEN\` 抄进 JSON \`env\`。技能和 MCP 互补：技能写集成代码，MCP 才直接打你的账号。不要和 MailerLite / beehiiv 远程 MCP 搞成一台。
+
+装完新开会话。先问「用 Postmark 发一封欢迎信」，看它是否调起 \`postmark-send-email\`。
+
+不要做这些：
+
+- 不要把默认 \`npx skills add ActiveCampaign/postmark-skills\` 当成 Codex \`/plugins\`。
+- 不要发明 \`codex plugin add postmark@openai-curated\`。
+- 不要抄 \`@activecampaign/postmark-mcp\` 的 \`mcpServers\` JSON 当 Codex 主路径。
+- 不要把 token 写进仓库。
+
+网页 Cloud 不读本机技能目录。改完新开一轮，\`/skills\` 应能看见 \`postmark-send-email\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["Skills", "Postmark", "Email"],
+    related: ["nvidia-skills-codex", "pinecone-agent-skills", "mailerlite-mcp-http"],
+    sources: [
+      {
+        label: "Postmark · Teach your AI coding agent",
+        url: "https://postmarkapp.com/blog/teach-your-ai-coding-agent-how-to-send-email-with-postmark-skills",
+      },
+      {
+        label: "ActiveCampaign/postmark-skills",
+        url: "https://github.com/ActiveCampaign/postmark-skills",
+      },
+    ],
+  },
 ];

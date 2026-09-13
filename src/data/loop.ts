@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-13T18:00:00Z",
+  lastTick: "2026-09-13T18:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "18:00 定时器。调用前 $96.88。Spend: counts（start_time=2026-09-06T18:05:00Z，共 237 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 NVIDIA Agent Skills（官方 Codex：npx skills add nvidia/skills --skill cuopt-numerical-optimization-api --agent codex）。并更正 Datadog US1 为 mcp.datadoghq.com/v1/mcp。X 仍是 Archify、0.154 worktree、Google Cloud plugin、Astra、Conductor、/feedback。LaunchDarkly 无 Codex 专节不写。Kit 仍不写（#41362）。ConfigCat / Postmark / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。CDP 31/31（预览 4362）。收尾 $96.88。",
+    "18:30 定时器。调用前 $96.88。Spend: counts（start_time=2026-09-06T18:35:00Z，共 230 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Postmark Agent Skills（博客点名 Codex：npx skills add ActiveCampaign/postmark-skills，官方没钉 --agent codex，示例技能 postmark-send-email）。不要发明 plugin add。Postmark MCP 仍无 Codex 专节不写。X 仍是 Archify、0.154 worktree、Google Cloud plugin、Astra、Conductor、/feedback。Kit 仍不写（#41362）。ConfigCat / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1292,6 +1292,16 @@ export const loopState = {
     "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
     "docs.digitalocean.com do-app-platform-skills --agent codex",
     "Codex CLI 技巧 2026 NVIDIA skills --agent codex cuopt-numerical-optimization-api",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR NVIDIA OR skills OR AGENTS.md OR plugin OR worktree)',
+    "X news: Codex CLI",
+    "postmarkapp.com blog postmark-skills ActiveCampaign Codex postmark-send-email",
+    "github.com/ActiveCampaign/postmark-skills npx skills add Codex",
+    "help.kit.com kit mcp app.kit.com Codex oauth 41362",
+    "configcat.com docs mcp-server Codex @configcat/mcp-server",
+    "docs.tavily.com mcp Codex mcp.tavily.com",
+    "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "Codex CLI 技巧 2026 Postmark skills ActiveCampaign/postmark-skills",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR NVIDIA OR skills OR AGENTS.md OR plugin OR worktree)',
     "X news: Codex CLI",
   ],

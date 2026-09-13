@@ -278,6 +278,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: "codex mcp add auth0 -- npx -y @auth0/auth0-mcp-server run", meaning: "官方 Codex 管理租户 stdio。先 npx @auth0/auth0-mcp-server init。不要 mcp login。不要抄 Linux 写死的 DBUS 路径。不要和文档 HTTP 那台搞成一台" },
       { cmd: "codex mcp add netdata-cloud --url https://app.netdata.cloud/api/v1/mcp", meaning: "官方 Codex Cloud 节。Bearer 走 NETDATA_CLOUD_API_TOKEN，不要 mcp login。不要抄 experimental_use_rmcp_client 或 mcp-remote。本机 19999 是另一台" },
       { cmd: "npx skills add nvidia/skills --skill cuopt-numerical-optimization-api --agent codex", meaning: "官方 Codex 技能。不要省略 --agent codex。不要发明 plugin add nvidia@。目录先 --list。不是 /plugins" },
+      { cmd: "npx skills add ActiveCampaign/postmark-skills", meaning: "博客点名 Codex。官方没钉 --agent codex。示例技能是 postmark-send-email。不要发明 plugin add postmark@。这不是 @activecampaign/postmark-mcp" },
       { cmd: "codex mcp add convex -- npx … mcp start", meaning: "插件装不上才用手写 stdio。官方 MCP 是 npx convex mcp start，不是远程 URL。不要加 --dangerously-enable-production-deployments" },
       { cmd: "codex --profile huggingface", meaning: "[model_providers.huggingface] 走 router.huggingface.co/v1，wire_api = responses，env_key = HF_TOKEN。不是 Hub MCP，也不是 --oss" },
       { cmd: "codex --profile vercel", meaning: "[model_providers.vercel] 走 ai-gateway.vercel.sh/codex/v1，wire_api = responses，env_key = AI_GATEWAY_API_KEY。不是 Vercel MCP，也不是 --oss" },

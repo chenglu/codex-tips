@@ -2783,4 +2783,16 @@ codex mcp list
 # npx skills add nvidia/skills --list
 `,
   },
+  {
+    id: "postmark-agent-skills",
+    title: "Postmark Agent Skills",
+    filename: "terminal",
+    summary:
+      "主路径是 npx skills add ActiveCampaign/postmark-skills。官方没钉 --agent codex。示例技能是 postmark-send-email。不要发明 plugin add postmark@。",
+    code: `npx skills add ActiveCampaign/postmark-skills
+
+# 单项：
+# npx skills add ActiveCampaign/postmark-skills --skill postmark-send-email
+`,
+  },
 ];

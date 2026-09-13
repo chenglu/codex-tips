@@ -3531,5 +3531,25 @@ export const articles: Article[] = [
     summary:
       'Codex 专装：npx skills add nvidia/skills --skill cuopt-numerical-optimization-api --agent codex。项目默认进 .agents/skills/。加 --global --yes 才跟账号走。安装器要 1.5.16+。不要手拷 ~/.codex/skills。',
   },
+  {
+    title: 'Teach your AI coding agent how to send email with Postmark Skills',
+    url: 'https://postmarkapp.com/blog/teach-your-ai-coding-agent-how-to-send-email-with-postmark-skills',
+    source: 'Postmark',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'Postmark'],
+    summary:
+      '博客点名 Codex：npx skills add ActiveCampaign/postmark-skills。官方没钉 --agent codex。示例技能是 postmark-send-email。技能教 SDK，不是 MCP。不要发明 plugin add postmark@。',
+  },
+  {
+    title: 'ActiveCampaign/postmark-skills',
+    url: 'https://github.com/ActiveCampaign/postmark-skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'Postmark'],
+    summary:
+      '安装是 npx skills add ActiveCampaign/postmark-skills，单项加 --skill postmark-send-email。官方没钉 --agent codex。不要发明 plugin add。POSTMARK_SERVER_TOKEN 放进程环境。',
+  },
 ];
 
