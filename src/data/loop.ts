@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T20:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "20:00 定时器。调用前 $96.86。Spend: counts（start_time=2026-09-06T20:05:00Z，共 232 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 RudderStack 远程 MCP（官方 Codex 节：url = https://mcp.rudderstack.com/mcp，再 mcp login rudderstack）。不要发明 plugin add。不要抄 --transport http 或 mcp-remote。技能 rudderlabs/rudder-agent-skills 没钉 --agent codex，本轮只写 MCP。X 仍是 Archify、0.154 worktree、Google Cloud plugin、Astra、token 营销、/feedback。Kit 仍不写（#41362）。ConfigCat / Meilisearch / Fastmail / Cal.com / Axiom MCP 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault MCP 只有 VS Code / Claude JSON。Snowflake-Labs/mcp 已弃用。",
+    "20:00 定时器。调用前 $96.86，收尾 $96.85。Spend: counts（start_time=2026-09-06T20:05:00Z，共 232 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 RudderStack 远程 MCP（官方 Codex 节：url = https://mcp.rudderstack.com/mcp，再 mcp login rudderstack）。不要发明 plugin add。不要抄 --transport http 或 mcp-remote。技能 rudderlabs/rudder-agent-skills 没钉 --agent codex，本轮只写 MCP。X 仍是 Archify、0.154 worktree、Google Cloud plugin、Astra、token 营销、/feedback。Kit 仍不写（#41362）。ConfigCat / Meilisearch / Fastmail / Cal.com / Axiom MCP 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault MCP 只有 VS Code / Claude JSON。Snowflake-Labs/mcp 已弃用。CDP 29/29（预览 4366）。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
