@@ -275,6 +275,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: "codex plugin marketplace add pulumi/agent-skills", meaning: "官方 Codex 技能。再 /plugins 装 pulumi。不要发明 plugin add 的 @id。不要并装 pulumi-migration。不要抄 npx skills add --agent junie 当 --agent codex。不要和远程 MCP 搞成一台" },
       { cmd: "codex mcp add pulumi-brand --url https://brand.pulumi.com/mcp", meaning: "官方 Codex 节是 TOML。远程带 /mcp 后缀。无鉴权，不要 mcp login。不要抄 Claude 的 --transport http 或 mcp-remote。不要和 Cloud 远程 MCP 搞成一台" },
       { cmd: "codex mcp add auth0-docs-mcp-server --url https://auth0.com/docs/mcp", meaning: "官方 Codex 文档 MCP。无鉴权，不要 mcp login。不要抄 Claude 的 --transport http。不要和管理租户的 @auth0/auth0-mcp-server 搞成一台" },
+      { cmd: "codex mcp add auth0 -- npx -y @auth0/auth0-mcp-server run", meaning: "官方 Codex 管理租户 stdio。先 npx @auth0/auth0-mcp-server init。不要 mcp login。不要抄 Linux 写死的 DBUS 路径。不要和文档 HTTP 那台搞成一台" },
       { cmd: "codex mcp add convex -- npx … mcp start", meaning: "插件装不上才用手写 stdio。官方 MCP 是 npx convex mcp start，不是远程 URL。不要加 --dangerously-enable-production-deployments" },
       { cmd: "codex --profile huggingface", meaning: "[model_providers.huggingface] 走 router.huggingface.co/v1，wire_api = responses，env_key = HF_TOKEN。不是 Hub MCP，也不是 --oss" },
       { cmd: "codex --profile vercel", meaning: "[model_providers.vercel] 走 ai-gateway.vercel.sh/codex/v1，wire_api = responses，env_key = AI_GATEWAY_API_KEY。不是 Vercel MCP，也不是 --oss" },

@@ -3479,7 +3479,17 @@ export const articles: Article[] = [
     kind: '官方',
     tags: ['MCP', 'Auth0'],
     summary:
-      '这是管理租户的本地 MCP，不是文档站 auth0.com/docs/mcp。文档检索走 auth0-docs-mcp-server。管理 API 那台列的是 Claude Desktop / Cursor / Windsurf，不要把两台配成一张表。',
+      '这是管理租户的本地 MCP，不是文档站 auth0.com/docs/mcp。产品页只列 Claude Desktop / Cursor / Windsurf。Codex 节在 GitHub README：mcp add auth0 跑 @auth0/auth0-mcp-server run。不要把两台配成一张表。',
+  },
+  {
+    title: 'auth0/auth0-mcp-server',
+    url: 'https://github.com/auth0/auth0-mcp-server',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Auth0', 'stdio'],
+    summary:
+      '官方 Codex：先 npx @auth0/auth0-mcp-server init，再 mcp add auth0 -- npx -y @auth0/auth0-mcp-server run。stdio，不要 mcp login。不要抄 Linux 写死的 DBUS 路径。不要和文档 HTTP 那台搞成一台。',
   },
 ];
 

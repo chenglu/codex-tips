@@ -10071,11 +10071,70 @@ enabled = true
     level: "starter",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "Auth0", "文档", "HTTP"],
-    related: ["mcp-openai-docs", "workos-mcp-http", "mcp-http-not-sse"],
+    related: ["auth0-mcp-stdio", "mcp-openai-docs", "mcp-http-not-sse"],
     sources: [
       {
         label: "Auth0 · AI Doc Tools",
         url: "https://auth0.com/docs/get-started/build-with-ai-tools",
+      },
+      {
+        label: "Auth0 · Model Context Protocol (MCP) Server",
+        url: "https://auth0.com/docs/get-started/mcp",
+      },
+    ],
+  },
+  {
+    id: "auth0-mcp-stdio",
+    no: 377,
+    title: "Auth0 管理租户 MCP 用 mcp add auth0，先 init 不要 login",
+    summary:
+      "官方 Codex：先 npx @auth0/auth0-mcp-server init，再 mcp add auth0 -- npx -y @auth0/auth0-mcp-server run。这是 stdio，不要 mcp login。不要抄 Linux 写死的 DBUS 路径。不要和文档 HTTP 那台搞成一张表。",
+    body: `Auth0 管理租户 MCP 给 Codex 有专节，写在官方仓库 README，不在产品 MCP 页。先做设备授权（会开浏览器选租户），再登记本地 stdio。官方命令是 \`codex mcp add auth0 -- npx -y @auth0/auth0-mcp-server run\`：
+
+\`\`\`bash
+npx @auth0/auth0-mcp-server init --read-only
+codex mcp add auth0 --env DEBUG=auth0-mcp -- npx -y @auth0/auth0-mcp-server run
+codex mcp list
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.auth0]
+command = "npx"
+args = ["-y", "@auth0/auth0-mcp-server", "run"]
+startup_timeout_sec = 60
+enabled = true
+
+[mcp_servers.auth0.env]
+DEBUG = "auth0-mcp"
+\`\`\`
+
+用户层表名官方就是 \`auth0\`。这是 **stdio**，凭证进系统密钥环，**不要** \`codex mcp login auth0\`。不要 URL，不要 Bearer，不要 \`http_headers\`。冷 \`npx -y\` 把 \`startup_timeout_sec\` 提到 60。\`DEBUG=auth0-mcp\` 只是调试日志，不是 API 密钥。
+
+官方 Codex 示例还写了 \`--env DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus\`。那是某台 Linux 的会话总线，**不要**当通用配置抄。macOS / Windows 不要加。Linux 密钥环读不到时，用 \`env_vars = ["DBUS_SESSION_BUS_ADDRESS"]\` 转发**启动 Codex 那个进程**里已有的值。
+
+产品 MCP 页只列 Claude Desktop / Cursor / Windsurf。不要抄 \`init --client cursor\`、Claude JSON 或 Windsurf。不要发明 \`codex plugin add\` 带 @ 的 id。文档检索是另一台 HTTP：表名 \`auth0-docs-mcp-server\`，见相关技巧，不要和这张 \`auth0\` 搞成一台。
+
+这台会改租户：建应用、部署 Action、写 \`.env\`（\`auth0_onboarding\`）。先 \`init --read-only\`，或给 \`run\` 加 \`--tools\` 只放 \`auth0_list_*\` / \`auth0_get_*\`。软件仍标 beta。保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。
+
+私有云没有设备授权，\`init\` 另有 \`--auth0-domain\`、\`--auth0-client-id\`、\`--auth0-client-secret\`。不要把 client secret 写进 \`config.toml\` 或 \`args\`。换租户或过期再 \`init\`。用完 \`npx @auth0/auth0-mcp-server logout\`。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`init --client claude-code\` 或 \`mcpServers\` JSON。
+- 不要把官方示例里的 \`/run/user/1000/bus\` 抄到每台机器。
+- 不要发明 \`codex plugin add\` 带 @ 的 id。
+- 不要给它 \`required = true\` 挂全局。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完彻底新开会话。用 \`codex mcp get auth0\` 看 command 是 \`npx\`。会话里点名服务器 \`auth0\` 即可，不要把工具名写成双下划线那种内部拼接。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Auth0", "stdio", "租户"],
+    related: ["auth0-docs-mcp", "mcp-stdio-env-vars", "mcp-startup-timeout-sec"],
+    sources: [
+      {
+        label: "auth0/auth0-mcp-server",
+        url: "https://github.com/auth0/auth0-mcp-server",
       },
       {
         label: "Auth0 · Model Context Protocol (MCP) Server",

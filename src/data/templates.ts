@@ -2740,4 +2740,20 @@ codex mcp list
 # enabled = true
 `,
   },
+  {
+    id: "auth0-mcp-stdio",
+    title: "Auth0 管理租户 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是先 init，再 mcp add auth0 -- npx -y @auth0/auth0-mcp-server run。stdio，不要 mcp login。不要抄 Linux 写死的 DBUS 路径。不要和文档 HTTP 那台搞成一台。",
+    code: `npx @auth0/auth0-mcp-server init --read-only
+codex mcp add auth0 --env DEBUG=auth0-mcp -- npx -y @auth0/auth0-mcp-server run
+codex mcp list
+
+# [mcp_servers.auth0]
+# command = "npx"
+# args = ["-y", "@auth0/auth0-mcp-server", "run"]
+# startup_timeout_sec = 60
+`,
+  },
 ];
