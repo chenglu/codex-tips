@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T13:36:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "13:36 定时器。调用前 $96.96。Spend: counts（start_time=2026-09-06T13:42:00Z，共 235 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾待测。收录 beehiiv 远程 MCP（https://mcp.beehiiv.com/mcp；官方点名 Codex；OAuth）。不要发明 plugin add beehiiv@。Kit 仍不写：Codex 拒 OAuth metadata（openai/codex#41362，issuer 与授权端点 origin 不一致）。ConfigCat / Postmark / Buildkite / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、Astra、Conductor。",
+    "13:36 定时器。调用前 $96.96。Spend: counts（start_time=2026-09-06T13:42:00Z，共 235 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 $96.96。收录 beehiiv 远程 MCP（https://mcp.beehiiv.com/mcp；官方点名 Codex；OAuth）。不要发明 plugin add beehiiv@。Kit 仍不写：Codex 拒 OAuth metadata（openai/codex#41362，issuer 与授权端点 origin 不一致）。ConfigCat / Postmark / Buildkite / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、Astra、Conductor。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
