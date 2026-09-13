@@ -9703,4 +9703,59 @@ enabled = true
       },
     ],
   },
+  {
+    id: "beehiiv-mcp-http",
+    no: 370,
+    title: "beehiiv MCP 用 mcp.beehiiv.com/mcp，再完成 OAuth",
+    summary:
+      "官方安装页点名 Codex。mcp add beehiiv --url https://mcp.beehiiv.com/mcp。URL 带 /mcp。OAuth，浏览器没弹再 mcp login beehiiv。不要发明 plugin add beehiiv@。免费档只读，发布仍回仪表盘。",
+    body: `beehiiv 官方帮助页把 Codex 和 Claude、Cursor 并列。仪表盘路径是 Settings → MCP，选 Codex，跟屏幕向导授权。帮助页没贴 \`codex mcp add\` 原文，但远程入口就是 \`https://mcp.beehiiv.com/mcp\`，带 \`/mcp\` 后缀，不要尾斜杠。CLI 写成：
+
+\`\`\`bash
+codex mcp add beehiiv --url https://mcp.beehiiv.com/mcp
+codex mcp login beehiiv
+\`\`\`
+
+手册表名用 \`beehiiv\`。\`mcp add\` 写进用户层 \`~/.codex/config.toml\`。只写进了表、浏览器没弹时再跑 \`codex mcp login beehiiv\`。
+
+桌面 / IDE：Settings → MCP servers → Add server，传输选 Streamable HTTP，URL 填上面那条。Bearer token env var 和 Headers 留空。第一次用工具时会打开浏览器，用平时的 beehiiv 账号登录。
+
+\`\`\`toml
+[mcp_servers.beehiiv]
+url = "https://mcp.beehiiv.com/mcp"
+enabled = true
+\`\`\`
+
+多 workspace 时官方让每台连接用不同查询参数区分，例如 \`https://mcp.beehiiv.com/mcp?account=1\` 和 \`https://mcp.beehiiv.com/mcp?account=2\`。Codex 也要换表名，例如 \`beehiiv-2\`，各跑一次 \`mcp login\`。参数值可以自定，只要每台不一样。权限跟着当时登录的 workspace 角色走。
+
+不要发明 \`codex plugin add beehiiv@…\`。官方没给出 Codex marketplace id。不要抄 Claude 的 \`--transport http\`、Cursor JSON 或 ChatGPT Developer Mode。不要给这台 \`bearer_token_env_var\`。不要把 API key 写进 URL、\`http_headers\` 或 \`env\` 表。不要把第三方 \`beehiiv-cli\` 的本机插件当官方路径。营销页 \`features/mcp/getting-started\` 经常打不开，以帮助中心为准。
+
+全员都能连；免费档只能读。创建草稿、改分段、改自动化要付费计划。MCP 能起草件，不能发布或排期；自动化能配，不能在 MCP 里点启用。Stripe 账单读不到。新工具不出现时，在客户端断开再连一次。
+
+先只读：问最近几期打开率，或这个 workspace 有哪些 beehiiv 工具。改稿、改分段、改受众会动账号，保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add beehiiv@openai-curated\`。
+- 不要抄 Claude 的 \`--transport http\` 或 Cursor JSON。
+- 不要把 API key 写进 \`env\` 表、\`http_headers\` 或 URL。
+- 不要给它 \`required = true\` 挂全局。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完彻底新开会话。用 \`codex mcp get beehiiv\` 看传输是 streamable_http。会话里 \`/mcp\` 应显示 Auth: OAuth。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "beehiiv", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "loops-mcp-http", "klaviyo-mcp-http"],
+    sources: [
+      {
+        label: "beehiiv · Getting started with the MCP",
+        url: "https://www.beehiiv.com/support/article/39255979546263-getting-started-with-the-beehiiv-mcp",
+      },
+      {
+        label: "beehiiv · What you can do with the MCP",
+        url: "https://www.beehiiv.com/support/article/41262491804439-what-you-can-do-with-the-beehiiv-mcp",
+      },
+    ],
+  },
 ];

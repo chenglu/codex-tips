@@ -2634,4 +2634,21 @@ codex mcp login braze
 # 插件底层入口（安装时不用填）：https://api.onesignal.com/mcp/oauth
 `,
   },
+  {
+    id: "beehiiv-mcp-http",
+    title: "beehiiv MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add beehiiv --url https://mcp.beehiiv.com/mcp。URL 带 /mcp。OAuth，浏览器没弹再 mcp login beehiiv。不要发明 plugin add beehiiv@。",
+    code: `codex mcp add beehiiv --url https://mcp.beehiiv.com/mcp
+codex mcp login beehiiv
+
+# 多 workspace：
+# url = "https://mcp.beehiiv.com/mcp?account=1"
+
+# [mcp_servers.beehiiv]
+# url = "https://mcp.beehiiv.com/mcp"
+# enabled = true
+`,
+  },
 ];

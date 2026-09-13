@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-13T13:17:00Z",
+  lastTick: "2026-09-13T13:36:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "13:17 定时器。调用前 $96.97。Spend: counts（start_time=2026-09-06T13:23:00Z，共 204 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 $96.96。收录 OneSignal 官方 Codex 插件（Plugins 或 /plugins 搜 OneSignal；底层 https://api.onesignal.com/mcp/oauth；安装时不用手填）。不要发明 plugin add onesignal@。不要 mcp add 手贴 URL。不要 REST API key。Kit 官方是 app.kit.com/mcp，本轮未写。beehiiv 帮助页 409。ConfigCat / Postmark / Buildkite / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、Astra、Conductor。",
+    "13:36 定时器。调用前 $96.96。Spend: counts（start_time=2026-09-06T13:42:00Z，共 235 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾待测。收录 beehiiv 远程 MCP（https://mcp.beehiiv.com/mcp；官方点名 Codex；OAuth）。不要发明 plugin add beehiiv@。Kit 仍不写：Codex 拒 OAuth metadata（openai/codex#41362，issuer 与授权端点 origin 不一致）。ConfigCat / Postmark / Buildkite / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、Astra、Conductor。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1175,6 +1175,19 @@ export const loopState = {
     "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
     "docs.digitalocean.com do-app-platform-skills --agent codex",
     "Codex CLI 技巧 2026 OneSignal plugin api.onesignal.com/mcp/oauth",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "www.beehiiv.com support getting-started MCP Codex mcp.beehiiv.com",
+    "www.beehiiv.com support what-you-can-do beehiiv MCP",
+    "help.kit.com kit mcp app.kit.com Codex oauth issuer",
+    "github.com openai/codex issues 41362 Kit OAuth metadata",
+    "configcat.com docs mcp-server Codex @configcat/mcp-server",
+    "postmarkapp.com mcp Codex @activecampaign/postmark-mcp",
+    "buildkite.com docs mcp-server Codex configuring-ai-tools",
+    "docs.tavily.com mcp Codex mcp.tavily.com",
+    "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "Codex CLI 技巧 2026 beehiiv MCP mcp.beehiiv.com/mcp OAuth",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

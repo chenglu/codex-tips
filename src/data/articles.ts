@@ -3341,5 +3341,25 @@ export const articles: Article[] = [
     summary:
       '仪表盘 OneSignal AI 不是 MCP。Customer AI Agent 才是外部客户端连 api.onesignal.com/mcp/oauth。Codex 走 Plugins，不要和仪表盘助手混为一谈。撤销在 Connected apps。',
   },
+  {
+    title: 'Getting started with the beehiiv MCP',
+    url: 'https://www.beehiiv.com/support/article/39255979546263-getting-started-with-the-beehiiv-mcp',
+    source: 'beehiiv',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'beehiiv', 'OAuth', 'HTTP'],
+    summary:
+      '官方点名 Codex。远程是 https://mcp.beehiiv.com/mcp，OAuth。仪表盘 Settings → MCP 选 Codex。多 workspace 用 mcp.beehiiv.com/mcp?account=1 区分。免费只读。不要发明 plugin add beehiiv@。',
+  },
+  {
+    title: 'What you can do with the beehiiv MCP',
+    url: 'https://www.beehiiv.com/support/article/41262491804439-what-you-can-do-with-the-beehiiv-mcp',
+    source: 'beehiiv',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'beehiiv', 'OAuth'],
+    summary:
+      '连上 mcp.beehiiv.com/mcp 之后可以起草件、配自动化、管分段。发布和启用自动化仍回仪表盘。免费档只读。不要把这篇当 API 合同，也不要发明 plugin add beehiiv@。',
+  },
 ];
 
