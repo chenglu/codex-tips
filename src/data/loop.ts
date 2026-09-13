@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-13T17:00:00Z",
+  lastTick: "2026-09-13T17:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "17:00 定时器。调用前 $96.90。Spend: counts（start_time=2026-09-06T17:05:00Z，共 239 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Auth0 管理租户 stdio（官方 Codex：先 init，再 mcp add auth0 -- npx -y @auth0/auth0-mcp-server run）。不要 mcp login。不要抄 /run/user/1000/bus。Snowflake-Labs/mcp 已 deprecated，官方托管 MCP 无 Codex 专节，不写。Kit 仍不写（#41362）。ConfigCat / Postmark / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Netdata 有 Codex 页但夹着过期 experimental_use_rmcp_client 和 mcp-remote，留到下一轮。X 仍是 Archify、0.154 worktree、Google Cloud plugin、Astra、Conductor。CDP 28/28（预览 4360）。收尾 $96.89。",
+    "17:30 定时器。调用前 $96.89。Spend: counts（start_time=2026-09-06T17:35:00Z，共 239 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Netdata Cloud MCP（官方 Codex：mcp add netdata-cloud --url https://app.netdata.cloud/api/v1/mcp，bearer_token_env_var=NETDATA_CLOUD_API_TOKEN）。不要 mcp login。不要抄 experimental_use_rmcp_client 或 mcp-remote。Snowflake-Labs/mcp 已 deprecated。Kit 仍不写（#41362）。ConfigCat / Postmark / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。X 仍是 Archify、0.154 worktree、Google Cloud plugin、Astra、Conductor。收尾待测完回写。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1268,6 +1268,17 @@ export const loopState = {
     "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
     "docs.digitalocean.com do-app-platform-skills --agent codex",
     "Codex CLI 技巧 2026 Auth0 管理租户 MCP auth0-mcp-server run",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "learn.netdata.cloud openai-codex-cli app.netdata.cloud api v1 mcp",
+    "learn.netdata.cloud netdata-ai mcp scope:mcp NETDATA_CLOUD_API_TOKEN",
+    "help.kit.com kit mcp app.kit.com Codex oauth 41362",
+    "configcat.com docs mcp-server Codex @configcat/mcp-server",
+    "postmarkapp.com mcp Codex @activecampaign/postmark-mcp",
+    "docs.tavily.com mcp Codex mcp.tavily.com",
+    "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "Codex CLI 技巧 2026 Netdata Cloud MCP app.netdata.cloud/api/v1/mcp",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

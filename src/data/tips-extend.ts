@@ -10142,4 +10142,59 @@ DEBUG = "auth0-mcp"
       },
     ],
   },
+  {
+    id: "netdata-cloud-http",
+    no: 378,
+    title: "Netdata Cloud MCP 用 app.netdata.cloud/api/v1/mcp，不要 login",
+    summary:
+      "官方 Codex Cloud 节：mcp add netdata-cloud --url https://app.netdata.cloud/api/v1/mcp，再 bearer_token_env_var 读 NETDATA_CLOUD_API_TOKEN。不要 mcp login。不要抄 experimental_use_rmcp_client 或 mcp-remote。",
+    body: `Netdata 给 Codex 有专节。Cloud 主路径是远程 Streamable HTTP，官方 TOML 表名 \`netdata-cloud\`，URL 是 \`https://app.netdata.cloud/api/v1/mcp\`。CLI 等价：
+
+\`\`\`bash
+export NETDATA_CLOUD_API_TOKEN
+codex mcp add netdata-cloud --url https://app.netdata.cloud/api/v1/mcp --bearer-token-env-var NETDATA_CLOUD_API_TOKEN
+codex mcp list
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.netdata-cloud]
+url = "https://app.netdata.cloud/api/v1/mcp"
+bearer_token_env_var = "NETDATA_CLOUD_API_TOKEN"
+startup_timeout_sec = 20
+tool_timeout_sec = 120
+enabled = true
+\`\`\`
+
+URL 已经停在 \`/api/v1/mcp\`，不要再加一层 \`/mcp\`，也不要尾斜杠。要付费档 Cloud、节点已 claimed，token 勾 \`scope:mcp\`（User Settings → API Tokens）。这是 Bearer，**不要** \`codex mcp login netdata-cloud\`。不要把 token 写进 \`http_headers\`、\`args\` 或 URL。Codex 不读 \`.env\`；变量必须在**启动 Codex 的那个进程**里。Dock 打开的桌面没有 zshrc。
+
+同一页后半还在写 \`experimental_use_rmcp_client = true\`、\`bearer_token\` 占位，以及 \`codex mcp add netdata -- npx mcp-remote@latest … --header "Authorization: Bearer …"\`。那些是过期本地桥，**不要抄**。Codex 原生就会连 Streamable HTTP。SSE / WebSocket / \`nd-mcp\` 不是这台 Cloud 的路径。不要发明 \`codex plugin add\` 带 @ 的 id。
+
+本机 Agent / Parent（常见端口 19999）是另一张表，不要和 \`netdata-cloud\` 合成一台。官方本地 HTTP 示例不要当 Cloud 配置。
+
+先只读：问各节点 CPU，或最近一小时有没有异常。保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`--transport http\` 加 \`--header "Authorization: Bearer …"\`。
+- 不要抄 Cursor JSON，也不要把 token 写进 \`http_headers\`。
+- 不要抄 \`npx mcp-remote\` 或 \`experimental_use_rmcp_client\`。
+- 不要给它 \`required = true\` 挂全局。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完彻底新开会话。用 \`codex mcp get netdata-cloud\` 看传输是 streamable_http。会话里点名服务器 \`netdata-cloud\` 即可，不要把工具名写成双下划线那种内部拼接。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Netdata", "HTTP", "Bearer"],
+    related: ["mcp-http-bearer-env", "mcp-http-not-sse", "mcp-newrelic-remote"],
+    sources: [
+      {
+        label: "Learn Netdata · OpenAI Codex CLI",
+        url: "https://learn.netdata.cloud/docs/netdata-ai/mcp/supported-ai-clients/openai-codex-cli",
+      },
+      {
+        label: "Learn Netdata · Netdata MCP",
+        url: "https://learn.netdata.cloud/docs/netdata-ai/mcp",
+      },
+    ],
+  },
 ];

@@ -2756,4 +2756,19 @@ codex mcp list
 # startup_timeout_sec = 60
 `,
   },
+  {
+    id: "netdata-cloud-http",
+    title: "Netdata Cloud MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add netdata-cloud --url https://app.netdata.cloud/api/v1/mcp，再 bearer_token_env_var 读 NETDATA_CLOUD_API_TOKEN。不要 mcp login。不要抄 mcp-remote。",
+    code: `export NETDATA_CLOUD_API_TOKEN
+codex mcp add netdata-cloud --url https://app.netdata.cloud/api/v1/mcp --bearer-token-env-var NETDATA_CLOUD_API_TOKEN
+codex mcp list
+
+# [mcp_servers.netdata-cloud]
+# url = "https://app.netdata.cloud/api/v1/mcp"
+# bearer_token_env_var = "NETDATA_CLOUD_API_TOKEN"
+`,
+  },
 ];

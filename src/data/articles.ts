@@ -3491,5 +3491,25 @@ export const articles: Article[] = [
     summary:
       '官方 Codex：先 npx @auth0/auth0-mcp-server init，再 mcp add auth0 -- npx -y @auth0/auth0-mcp-server run。stdio，不要 mcp login。不要抄 Linux 写死的 DBUS 路径。不要和文档 HTTP 那台搞成一台。',
   },
+  {
+    title: 'OpenAI Codex CLI',
+    url: 'https://learn.netdata.cloud/docs/netdata-ai/mcp/supported-ai-clients/openai-codex-cli',
+    source: 'Learn Netdata',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Netdata', 'HTTP', 'Bearer'],
+    summary:
+      '官方 Codex Cloud 节：mcp add netdata-cloud --url https://app.netdata.cloud/api/v1/mcp，再 bearer_token_env_var 读 NETDATA_CLOUD_API_TOKEN。不要 mcp login。不要抄 experimental_use_rmcp_client 或 mcp-remote。',
+  },
+  {
+    title: 'Netdata MCP',
+    url: 'https://learn.netdata.cloud/docs/netdata-ai/mcp',
+    source: 'Learn Netdata',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Netdata', 'HTTP'],
+    summary:
+      'Cloud 终点是 app.netdata.cloud/api/v1/mcp，Bearer 要 scope:mcp。Codex 走 url + bearer_token_env_var。不要把 Claude 的 --header 或 mcp-remote 抄进 Codex。本机 19999 是另一台。',
+  },
 ];
 
