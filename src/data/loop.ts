@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T17:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "17:00 定时器。调用前 $96.90。Spend: counts（start_time=2026-09-06T17:05:00Z，共 239 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Auth0 管理租户 stdio（官方 Codex：先 init，再 mcp add auth0 -- npx -y @auth0/auth0-mcp-server run）。不要 mcp login。不要抄 /run/user/1000/bus。Snowflake-Labs/mcp 已 deprecated，官方托管 MCP 无 Codex 专节，不写。Kit 仍不写（#41362）。ConfigCat / Postmark / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Netdata 有 Codex 页但夹着过期 experimental_use_rmcp_client 和 mcp-remote，留到下一轮。X 仍是 Archify、0.154 worktree、Google Cloud plugin、Astra、Conductor。收尾待测完回写。",
+    "17:00 定时器。调用前 $96.90。Spend: counts（start_time=2026-09-06T17:05:00Z，共 239 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Auth0 管理租户 stdio（官方 Codex：先 init，再 mcp add auth0 -- npx -y @auth0/auth0-mcp-server run）。不要 mcp login。不要抄 /run/user/1000/bus。Snowflake-Labs/mcp 已 deprecated，官方托管 MCP 无 Codex 专节，不写。Kit 仍不写（#41362）。ConfigCat / Postmark / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Netdata 有 Codex 页但夹着过期 experimental_use_rmcp_client 和 mcp-remote，留到下一轮。X 仍是 Archify、0.154 worktree、Google Cloud plugin、Astra、Conductor。CDP 28/28（预览 4360）。收尾 $96.89。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
