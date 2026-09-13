@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T22:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "22:30 定时器。调用前 $96.82，收尾待测后写。Spend: counts（start_time=2026-09-06T22:35:00Z，共 230 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Hex Codex 插件（官方专节：桌面 Plugins 搜 Hex，点 Connect，再连捆绑的 Hex app。官方没给 plugin add id。不要抄 Cursor 的 /add-plugin hex。其它客户端才是 app.hex.tech/mcp。自定义域换 eu.hex.tech / hc.hex.tech）。changelog 2026-06-02 与博客同文，未另收。X 仍是 Claude 对照、Unity、Astra /slow、Chrome 插件、token 营销、Archify、0.154 worktree、Google Cloud plugin、/feedback。SpecterOps/skills 仍不写。Kit 仍不写（#41362）。ConfigCat / Meilisearch / Fastmail / Cal.com / Axiom MCP 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault MCP 只有 VS Code / Claude JSON。AgentPort 文档 headers 仍非 Codex 键。",
+    "22:30 定时器。调用前 $96.82，收尾 $96.81。Spend: counts（start_time=2026-09-06T22:35:00Z，共 230 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Hex Codex 插件（官方专节：桌面 Plugins 搜 Hex，点 Connect，再连捆绑的 Hex app。官方没给 plugin add id。不要抄 Cursor 的 /add-plugin hex。其它客户端才是 app.hex.tech/mcp。自定义域换 eu.hex.tech / hc.hex.tech）。changelog 2026-06-02 与博客同文，未另收。X 仍是 Claude 对照、Unity、Astra /slow、Chrome 插件、token 营销、Archify、0.154 worktree、Google Cloud plugin、/feedback。SpecterOps/skills 仍不写。Kit 仍不写（#41362）。ConfigCat / Meilisearch / Fastmail / Cal.com / Axiom MCP 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault MCP 只有 VS Code / Claude JSON。AgentPort 文档 headers 仍非 Codex 键。CDP 32/32（预览 4371）。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
