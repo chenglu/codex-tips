@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T02:12:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "01:49 定时器。调用前 $97.26。Spend: counts（start_time=2026-09-06T01:51:00Z，共 237 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.25。CDP 48 项全过（预览 4328）。收录 DesignRevision 远程 MCP（mcp add design-revision --url https://mcp.designrevision.com/mcp --bearer-token-env-var DESIGNREVISION_API_KEY）。不要 mcp login。不要抄 Claude 的 --header Bearer。X 仍是 Claude vs Codex、日文 0.154 worktree、oh-my-openagent 编排营销、Microsoft AI Engineer Coach。ButterKit 官方仍只给 UI 字段，不发明 mcp add。Buildkite 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。1Password Codex shell plugin 页仍缺完整 init 命令。",
+    "02:12 定时器。调用前 $97.25。Spend: counts（start_time=2026-09-06T02:13:00Z，共 238 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.24。CDP 54 项全过（预览 4329）。收录 shadcn 官方 MCP（手写 [mcp_servers.shadcn]，npx shadcn@latest mcp；CLI 等价 mcp add shadcn -- npx shadcn@latest mcp）。不要 mcp login。不要抄 Claude 的 mcp init --client claude。X 仍是 Claude vs Codex、日文 0.154 worktree、oh-my-openagent 编排营销。Meilisearch 仍只有 Claude Desktop JSON，不发明 mcp add。1Password Codex shell plugin 页仍写 op plugin init openai。ButterKit 官方仍只给 UI 字段。trailofbits/codex-config 是意见化配置仓库。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
