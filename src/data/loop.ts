@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T01:09:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "00:48 定时器。调用前 $97.27。Spend: counts（start_time=2026-09-06T00:50:00Z，共 237 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.26。CDP 60 项全过（预览 4326）。收录 StackOne 远程 MCP（mcp add stackone --url https://mcp.stackone.com/mcp，再 mcp login stackone）。无头才把仪表盘 session token 拼进 api.stackone.com/mcp。不要抄 Claude 的 --transport http。Asana 官方 Codex 节仍是 mcp-remote + 预注册 OAuth，无 DCR，不发明原生 mcp add asana。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Microsoft AI Engineer Coach。Buildkite 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。1Password Codex shell plugin 页仍缺完整 init 命令。ButterKit 有 stdio 路径但官方没写出 codex mcp add。",
+    "01:09 定时器。调用前 $97.26。Spend: counts（start_time=2026-09-06T01:11:00Z，共 236 条；01:10:00Z 因 7 日边界被拒后重试）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.26。CDP 52 项全过（预览 4327）。收录 Butter 远程 MCP（mcp add butter --url https://mcp.hellobutter.io/mcp，再 mcp login butter）。不要抄 Claude 的 --transport http。不是 ButterKit.app 那台本地 butterkit-mcp。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Microsoft AI Engineer Coach。DesignRevision 有 Codex 博客但主路径是 bearer DESIGNREVISION_API_KEY，本轮优先官方写出 mcp login 的 Butter。Buildkite 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。1Password Codex shell plugin 页仍缺完整 init 命令。ButterKit 官方仍只给 UI 字段，不发明 mcp add。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
