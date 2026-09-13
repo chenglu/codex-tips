@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T23:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "23:30 定时器。调用前 $96.81，收尾 $96.80。Spend: counts（start_time=2026-09-06T23:35:00Z，共 229 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Omni MCP（官方 Codex 专节：OAuth 用 callbacks.omniapp.co/callback/mcp；API key 才是实例 /mcp/https，必须带 --url 和 bearer_token_env_var。官方 Option A 漏了 --url。不要抄 http_headers 里的 Bearer）。X 仍是 Claude 对照、Unity、Astra /slow、Chrome 插件、token 营销、Archify、0.154 worktree、Google Cloud plugin、/feedback。Fastmail 仍是 mcp-remote 绕过。Builder Fusion / Snowflake 官方仍无 Codex 专节。Kit #41362、ConfigCat / Meilisearch / Cal.com / Axiom 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault MCP 只有 VS Code / Claude JSON。AgentPort 文档 headers 仍非 Codex 键。CDP 预览 4373。",
+    "23:30 定时器。调用前 $96.81，收尾 $96.80。Spend: counts（start_time=2026-09-06T23:35:00Z，共 229 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Omni MCP（官方 Codex 专节：OAuth 用 callbacks.omniapp.co/callback/mcp；API key 才是实例 /mcp/https，必须带 --url 和 bearer_token_env_var。官方 Option A 漏了 --url。不要抄 http_headers 里的 Bearer）。X 仍是 Claude 对照、Unity、Astra /slow、Chrome 插件、token 营销、Archify、0.154 worktree、Google Cloud plugin、/feedback。Fastmail 仍是 mcp-remote 绕过。Builder Fusion / Snowflake 官方仍无 Codex 专节。Kit #41362、ConfigCat / Meilisearch / Cal.com / Axiom 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault MCP 只有 VS Code / Claude JSON。AgentPort 文档 headers 仍非 Codex 键。CDP 33/33（预览 4374）。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
