@@ -9112,4 +9112,57 @@ curl -fsSL https://install.loops.so/skills | sh
       },
     ],
   },
+  {
+    id: "brightdata-mcp-stdio",
+    no: 358,
+    title: "Bright Data MCP 用 npx @brightdata/mcp，密钥走 env_vars",
+    summary:
+      "官方 Codex：mcp add brightdata -- npx -y @brightdata/mcp。表名 brightdata，本地 stdio。API_TOKEN 用 env_vars，不要抄 --env 字面量。不要 mcp login。不要把 token 拼进 mcp.brightdata.com URL。",
+    body: `Bright Data 给 Codex CLI 有专节。官方可执行命令是本机 stdio 包 \`@brightdata/mcp\`，用 API token，不是 OAuth，也不要 \`mcp login\`：
+
+\`\`\`bash
+codex mcp add brightdata -- npx -y @brightdata/mcp
+\`\`\`
+
+官方表名就是 \`brightdata\`。那条 \`--env API_TOKEN=…\` 和 \`[mcp_servers.brightdata.env]\` 字面量会把密钥写进 \`config.toml\`，不要抄。改成 \`env_vars\`，从启动 Codex 的进程转发名字：
+
+\`\`\`toml
+[mcp_servers.brightdata]
+command = "npx"
+args = ["-y", "@brightdata/mcp"]
+env_vars = ["API_TOKEN"]
+startup_timeout_sec = 30
+enabled = true
+\`\`\`
+
+必填是 \`API_TOKEN\`。默认是 Rapid / 基础工具（搜索和把页面刮成 Markdown）。要开全部 Pro 工具时，把 \`PRO_MODE\` 也加进 \`env_vars\`，在进程里设成 \`true\`。\`GROUPS\` 或 \`TOOLS\` 一旦转发，会盖过 Pro。自定义 Unlocker / Browser zone 时转发 \`WEB_UNLOCKER_ZONE\`、\`BROWSER_ZONE\`，不要把值写进 \`env\` 表。Codex 默认启动超时 10 秒，冷 \`npx\` 第一次拉包经常不够，所以加上 \`startup_timeout_sec = 30\`。
+
+不要抄官方 Hosted 那段把 \`token=\` 拼进 \`https://mcp.brightdata.com/mcp?token=…\` 的 TOML。密钥进 URL 会进配置文件和日志。也不要发明 \`bearer_token_env_var\` 去接这台 hosted；官方远程鉴权就是 query token。不要抄 FAQ 里的 \`/sse\` 地址，Codex 只接 Streamable HTTP。不要抄 Claude 的 \`--transport http\` 或 \`npx mcp-remote\`。不要发明 \`codex plugin add brightdata@…\`。官方 CLI \`brightdata add mcp --agent codex\` 写的是 \`~/.codex/mcp.json\`，Codex 用户层 MCP 读的是 \`config.toml\`，不要当主路径。博客里的表名 \`brightData\` 和内联 \`env = { … }\` 不要抄。
+
+\`API_TOKEN\` 必须在**启动 Codex 的那个进程**里。Codex 不读 \`.env\`。从 Dock 打开的桌面没有你在 zshrc 里 export 的变量。\`codex doctor\` 会标出点了名却缺失的 \`env_vars\`。改完彻底新开会话。用 \`codex mcp get brightdata\` 看 command 是 npx。\`/mcp\` 里工具 0 先查超时和环境。网页 Cloud 不读这份 \`config.toml\`，也跑不了本机 stdio。
+
+先只读：问 \`Search the live web for Bright Data MCP Codex setup\` 或 \`Fetch this public docs page as markdown\`。浏览器自动化、批量刮站和结构化抓取会走 Pro 配额，保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add brightdata@openai-curated\`。
+- 不要把 token 写进 URL、\`env\` 表、\`--env\` 字面量、\`args\` 或 \`http_headers\`。
+- 不要对这台跑 \`mcp login\`，也不要把 hosted query token 当 Codex 主路径。
+- 不要给它 \`required = true\` 挂全局。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Bright Data", "stdio", "env_vars"],
+    related: ["mcp-stdio-env-vars", "contentful-mcp-stdio", "trigger-mcp-stdio"],
+    sources: [
+      {
+        label: "Bright Data · Codex MCP",
+        url: "https://docs.brightdata.com/ai/mcp-server/integrations/codex",
+      },
+      {
+        label: "Bright Data · Local MCP advanced",
+        url: "https://docs.brightdata.com/ai/mcp-server/local/advanced",
+      },
+    ],
+  },
 ];

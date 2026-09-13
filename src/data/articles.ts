@@ -3101,5 +3101,25 @@ export const articles: Article[] = [
     summary:
       '技能页点名 Codex。官方安装是 curl install.loops.so/skills。不会登记 mcp.loops.so 那台远程 MCP。营销页 npx skills add loops-so/skills --global 没钉 --agent codex，不要发明。不要手拷 ~/.codex/skills。',
   },
+  {
+    title: 'Codex MCP server integration',
+    url: 'https://docs.brightdata.com/ai/mcp-server/integrations/codex',
+    source: 'Bright Data',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Bright Data', 'stdio'],
+    summary:
+      '官方 Codex：mcp add brightdata -- npx -y @brightdata/mcp。表名 brightdata，本地 stdio。不要把 --env 里的 API_TOKEN 字面量写进 TOML，改成 env_vars。不要 mcp login。不要抄 hosted 的 mcp.brightdata.com/mcp?token=。',
+  },
+  {
+    title: 'Local MCP server advanced configuration',
+    url: 'https://docs.brightdata.com/ai/mcp-server/local/advanced',
+    source: 'Bright Data',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Bright Data', 'stdio'],
+    summary:
+      '本地 @brightdata/mcp 用环境变量。必填 API_TOKEN。PRO_MODE=true 才开全部工具；GROUPS 或 TOOLS 会盖过 Pro。Codex 里用 env_vars 转发这些名字，不要把值写进 env 表。',
+  },
 ];
 

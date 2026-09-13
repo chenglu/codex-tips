@@ -2460,4 +2460,20 @@ codex mcp login loops
 # enabled = true
 `,
   },
+  {
+    id: "brightdata-mcp-stdio",
+    title: "Bright Data MCP",
+    filename: "config.toml",
+    summary:
+      "主路径是 mcp add brightdata -- npx -y @brightdata/mcp。表名 brightdata，本地 stdio。API_TOKEN 用 env_vars。不要 mcp login。不要把 token 拼进 URL。",
+    code: `codex mcp add brightdata -- npx -y @brightdata/mcp
+
+# [mcp_servers.brightdata]
+# command = "npx"
+# args = ["-y", "@brightdata/mcp"]
+# env_vars = ["API_TOKEN"]
+# startup_timeout_sec = 30
+# enabled = true
+`,
+  },
 ];
