@@ -3611,5 +3611,25 @@ export const articles: Article[] = [
     summary:
       '官方点名 Codex。远程入口是 https://mcp.rudderstack.com/mcp。能查管道、源、目的地、Tracking Plan，写操作只限 transformation。OAuth，事件值会打码。不要发明 plugin add rudder@。',
   },
+  {
+    title: 'How to Install RudderStack Agent Skills',
+    url: 'https://www.rudderstack.com/docs/ai-features/agent-skills/install/',
+    source: 'RudderStack',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'RudderStack'],
+    summary:
+      '官方安装是 npx skills add rudderlabs/rudder-agent-skills。官方没钉 --agent codex。单项示例是 -a claude-code --skill rudder-cli-workflow。不要抄 /plugin marketplace add。',
+  },
+  {
+    title: 'rudderlabs/rudder-agent-skills',
+    url: 'https://github.com/rudderlabs/rudder-agent-skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', 'RudderStack'],
+    summary:
+      'installation.md 把 Codex 写成 --agent 旗标 codex，项目进 .agents/skills/，全局 ~/.codex/skills/。示例技能是 rudder-data-catalog。不要抄 Claude 的 /plugin install rudder-core。',
+  },
 ];
 

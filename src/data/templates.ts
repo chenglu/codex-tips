@@ -2833,4 +2833,17 @@ codex mcp login rudderstack
 # enabled = true
 `,
   },
+  {
+    id: "rudderstack-agent-skills",
+    title: "RudderStack Agent Skills",
+    filename: "terminal",
+    summary:
+      "主路径是 npx skills add rudderlabs/rudder-agent-skills。官方没钉 --agent codex。示例技能是 rudder-cli-workflow。不要发明 plugin add。不要抄 /plugin marketplace add。",
+    code: `npx skills add rudderlabs/rudder-agent-skills --list
+npx skills add rudderlabs/rudder-agent-skills --agent codex --skill rudder-cli-workflow
+
+# 官方示例钉的是 Claude：
+# npx skills add rudderlabs/rudder-agent-skills -a claude-code --skill rudder-cli-workflow
+`,
+  },
 ];

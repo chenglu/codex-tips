@@ -10446,7 +10446,7 @@ enabled = true
     level: "starter",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "RudderStack", "OAuth", "HTTP"],
-    related: ["mcp-add-and-login", "mcp-http-not-sse", "beehiiv-mcp-http"],
+    related: ["rudderstack-agent-skills", "mcp-add-and-login", "mcp-http-not-sse"],
     sources: [
       {
         label: "RudderStack · How to Connect to RudderStack MCP",
@@ -10455,6 +10455,64 @@ enabled = true
       {
         label: "RudderStack · RudderStack MCP",
         url: "https://www.rudderstack.com/docs/ai-features/rudderstack-mcp/",
+      },
+    ],
+  },
+  {
+    id: "rudderstack-agent-skills",
+    no: 384,
+    title: "RudderStack 技能用 rudderlabs/rudder-agent-skills，不要抄 /plugin",
+    summary:
+      "仓库表把 Codex 写成 --agent codex。官方没钉。主路径是 npx skills add rudderlabs/rudder-agent-skills。示例技能是 rudder-cli-workflow。不要发明 plugin add。",
+    body: `RudderStack Agent Skills 安装页前提写 Claude Code、Cursor、Cline、OpenCode 或其它受支持代理。仓库 \`docs/installation.md\` 的 agent 表把 Codex 写成 \`--agent\` 旗标 \`codex\`，项目目录 \`.agents/skills/\`，全局 \`~/.codex/skills/\`。这是教代理怎么开 Rudder CLI、MCP、Terraform、Profiles 的技能，不是 Codex \`/plugins\`，也不会替你写 \`mcp_servers.rudderstack\`。官方安装命令：
+
+\`\`\`bash
+npx skills add rudderlabs/rudder-agent-skills
+\`\`\`
+
+先看目录：
+
+\`\`\`bash
+npx skills add rudderlabs/rudder-agent-skills --list
+\`\`\`
+
+官方单项示例钉的是 Claude：\`-a claude-code --skill rudder-cli-workflow\`。只要 Codex 时，skills CLI 允许自己改成 \`--agent codex\`，这不是 RudderStack 专节，也不是 \`/plugins\`：
+
+\`\`\`bash
+npx skills add rudderlabs/rudder-agent-skills --agent codex --skill rudder-cli-workflow
+\`\`\`
+
+仓库名是 \`rudderlabs/rudder-agent-skills\`。官方**没有**钉 \`--agent codex\`。\`-g --all\` 会把全部技能装进所有检测到的客户端。不要手拷到 \`~/.codex/skills\`。不要发明 \`codex plugin add rudder@…\`。
+
+不要抄 Claude Code 的 \`/plugin marketplace add rudderlabs/rudder-agent-skills\` 或 \`/plugin install rudder-core@rudder-agent-skills\`。那是 Claude 插件市场，Codex 看不见。Cursor 专节是 \`-a cursor\`，也不要当成 Codex 命令。
+
+官方安装页的斜杠是 Claude 风格：\`/rudder-cli-setup\`、\`/rudder-mcp-setup\`、\`/rudder-environment-check\`。Codex 用 \`/skills\` 或 \`$rudder-cli-setup\`、\`$rudder-mcp-setup\`。\`rudder-mcp-setup\` 教怎么连 \`mcp.rudderstack.com\`，**不会**替你写 \`[mcp_servers.rudderstack]\`。远程 MCP 仍走 \`codex mcp add rudderstack --url https://mcp.rudderstack.com/mcp\`，再 \`codex mcp login rudderstack\`。
+
+CLI 技能要先有 \`rudder-cli\`。官方让你跑 setup 技能装二进制并登录；仓库安装指南也可以 \`brew tap rudderlabs/rudder-iac\` 再 \`brew install rudder-cli\`，然后 \`rudder-cli auth login\`。Access token 放启动 CLI / Codex 的进程，不要写进 \`args\`、\`env\` 表或提示词。
+
+装完新开会话。先问「用 rudder-cli 校验当前 Tracking Plan」，看它是否调起 \`rudder-cli-workflow\`。数据目录技能名是 \`rudder-data-catalog\`。
+
+不要做这些：
+
+- 不要把默认 \`npx skills add rudderlabs/rudder-agent-skills\` 当成 Codex \`/plugins\`。
+- 不要发明 \`codex plugin add rudder@openai-curated\`。
+- 不要抄 Claude 的 \`/plugin marketplace add\`。
+- 不要以为技能会写出 \`mcp_servers.rudderstack\`。
+
+网页 Cloud 不读本机技能目录。改完新开一轮，\`/skills\` 应能看见 \`rudder-cli-workflow\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["Skills", "RudderStack", "CLI"],
+    related: ["rudderstack-mcp-http", "tavily-agent-skills", "datadog-agent-skills"],
+    sources: [
+      {
+        label: "RudderStack · How to Install Agent Skills",
+        url: "https://www.rudderstack.com/docs/ai-features/agent-skills/install/",
+      },
+      {
+        label: "rudderlabs/rudder-agent-skills",
+        url: "https://github.com/rudderlabs/rudder-agent-skills",
       },
     ],
   },

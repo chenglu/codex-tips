@@ -282,6 +282,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: "npx skills add datadog-labs/agent-skills/agent-observability --full-depth -y", meaning: "官方点名 Codex CLI。官方没钉 --agent codex。不要发明 plugin add。不要抄 Restart Claude Code。MCP 仍走 mcp.datadoghq.com/v1/mcp，工具集写 X-Datadog-MCP-Toolsets" },
       { cmd: "npx skills add tavily-ai/skills --all", meaning: "官方点名 Codex。官方没钉 --agent codex。示例技能是 tavily-search。不要发明 plugin add 或 mcp add。不要把 API key 拼进 mcp.tavily.com" },
       { cmd: "codex mcp add rudderstack --url https://mcp.rudderstack.com/mcp", meaning: "官方 Codex 节。远程带 /mcp 后缀。OAuth，浏览器没弹再 mcp login rudderstack。不要发明 plugin add rudder@。不要抄 Claude 的 --transport http 或 mcp-remote" },
+      { cmd: "npx skills add rudderlabs/rudder-agent-skills --agent codex --skill rudder-cli-workflow", meaning: "仓库表把 Codex 写成 --agent codex。官方没钉。默认安装是 npx skills add rudderlabs/rudder-agent-skills。不要发明 plugin add。不要抄 Claude 的 /plugin marketplace add" },
       { cmd: "codex mcp add convex -- npx … mcp start", meaning: "插件装不上才用手写 stdio。官方 MCP 是 npx convex mcp start，不是远程 URL。不要加 --dangerously-enable-production-deployments" },
       { cmd: "codex --profile huggingface", meaning: "[model_providers.huggingface] 走 router.huggingface.co/v1，wire_api = responses，env_key = HF_TOKEN。不是 Hub MCP，也不是 --oss" },
       { cmd: "codex --profile vercel", meaning: "[model_providers.vercel] 走 ai-gateway.vercel.sh/codex/v1，wire_api = responses，env_key = AI_GATEWAY_API_KEY。不是 Vercel MCP，也不是 --oss" },
