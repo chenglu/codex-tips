@@ -3571,5 +3571,25 @@ export const articles: Article[] = [
     summary:
       'README 点名 Codex CLI。观测技能路径是 datadog-labs/agent-skills/agent-observability。单项示例是 --skill dd-pup --full-depth -y。官方没钉 --agent codex。不要发明 plugin add。',
   },
+  {
+    title: 'Tavily Agent Skills',
+    url: 'https://docs.tavily.com/documentation/agent-skills',
+    source: 'Tavily',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'Tavily'],
+    summary:
+      '官方点名 Codex：npx skills add tavily-ai/skills --all。官方没钉 --agent codex。示例技能是 tavily-search。不要发明 mcp add 或 plugin add。技能走 tvly CLI，不是远程 MCP。',
+  },
+  {
+    title: 'tavily-ai/skills',
+    url: 'https://github.com/tavily-ai/skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', 'Tavily'],
+    summary:
+      '仓库名是 tavily-ai/skills。tvly init 会检测 Codex。单项示例是 --skill tavily-search。官方没钉 --agent codex。不要发明 plugin add。TAVILY_API_KEY 放进程环境。',
+  },
 ];
 

@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-13T19:00:00Z",
+  lastTick: "2026-09-13T19:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "19:00 定时器。调用前 $96.87，收尾 $96.86。Spend: counts（start_time=2026-09-06T19:05:00Z，共 238 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Datadog Agent Skills（官方点名 Codex CLI：npx skills add datadog-labs/agent-skills/agent-observability --full-depth -y，官方没钉 --agent codex，单项 dd-pup）。不要发明 plugin add。不要抄 Restart Claude Code 或 claude mcp add。MCP 仍走 mcp.datadoghq.com/v1/mcp。X 仍是 Archify、0.154 worktree、Google Cloud plugin、Astra、token 营销、/feedback。Kit 仍不写（#41362）。ConfigCat / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Fastmail 仍无 Codex 专节。CDP 29/29（预览 4364）。",
+    "19:30 定时器。调用前 $96.86。Spend: counts（start_time=2026-09-06T19:35:00Z，共 231 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Tavily Agent Skills（官方点名 Codex：npx skills add tavily-ai/skills --all，官方没钉 --agent codex，示例技能 tavily-search）。不要发明 plugin add 或 mcp add。Tavily MCP 仍无 Codex 专节不写。X 仍是 Archify、0.154 worktree、Google Cloud plugin、Astra、token 营销、/feedback。Kit 仍不写（#41362）。ConfigCat / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Fastmail 仍无 Codex 专节。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1314,6 +1314,17 @@ export const loopState = {
     "fastmail.com blog mcp api.fastmail.com Codex",
     "Codex CLI 技巧 2026 Datadog agent-skills agent-observability dd-pup",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR Datadog OR skills OR AGENTS.md OR plugin OR worktree)',
+    "X news: Codex CLI",
+    "docs.tavily.com documentation agent-skills Codex npx skills add tavily-ai/skills",
+    "github.com/tavily-ai/skills tvly init Codex tavily-search",
+    "docs.tavily.com documentation mcp Codex mcp.tavily.com",
+    "help.kit.com kit mcp app.kit.com Codex oauth 41362",
+    "configcat.com docs mcp-server Codex @configcat/mcp-server",
+    "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "fastmail.com blog mcp api.fastmail.com Codex",
+    "Codex CLI 技巧 2026 Tavily skills tavily-ai/skills tavily-search",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR Tavily OR skills OR AGENTS.md OR plugin OR worktree)',
     "X news: Codex CLI",
   ],
 };

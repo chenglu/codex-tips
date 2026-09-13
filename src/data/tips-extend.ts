@@ -10351,4 +10351,56 @@ npx skills add datadog-labs/agent-skills --skill dd-pup --full-depth -y
       },
     ],
   },
+  {
+    id: "tavily-agent-skills",
+    no: 382,
+    title: "Tavily 技能用 tavily-ai/skills，不要发明 mcp add",
+    summary:
+      "官方点名 Codex：npx skills add tavily-ai/skills --all。官方没钉 --agent codex。示例技能是 tavily-search。不要发明 plugin add 或 mcp add。",
+    body: `Tavily Agent Skills 文档把 Codex 列成兼容客户端。这是教代理怎么调 Tavily CLI 做搜索 / 抽取 / 爬取的技能，不是 Codex \`/plugins\`，也不是远程 MCP。官方安装命令：
+
+\`\`\`bash
+npx skills add tavily-ai/skills --all
+\`\`\`
+
+只要搜索时再钉技能名。官方示例是 \`tavily-search\`：
+
+\`\`\`bash
+npx skills add tavily-ai/skills --skill tavily-search
+\`\`\`
+
+仓库名是 \`tavily-ai/skills\`。官方**没有**钉 \`--agent codex\`。\`--all\` 还会把全部技能装进所有检测到的客户端。只要 Codex 时，skills CLI 允许自己加 \`--agent codex\` 并只装一项，这不是 Tavily 专节，也不是 \`/plugins\`。不要手拷到 \`~/.codex/skills\`。不要发明 \`codex plugin add tavily@…\`。
+
+技能要先有 Tavily CLI。文档用安装脚本；仓库 README 也可以 \`uv tool install tavily-cli\`。然后 \`tvly init\` 会登录，并检测 Claude Code、Codex、Cursor。远程会话用 \`tvly init --no-browser\`。\`tvly search\` / \`tvly extract\` 可以无钥、受速率限制；\`map\` / \`crawl\` / \`research\` 要先登录。\`TAVILY_API_KEY\` 放启动 \`tvly\` / Codex 的进程，不要写进 \`args\`、\`env\` 表或 URL 查询参数。
+
+官方技能页的斜杠是 Claude 风格。Codex 用 \`/skills\` 或 \`$tavily-search\`。不要把 \`/tavily-search\` 当成 Codex 斜杠命令。
+
+那台远程 MCP 是另一条线：文档只给 Cursor JSON、Claude Desktop、Claude Code 的 \`claude mcp add --transport http\`，以及 OpenAI Responses API。**不要发明** \`codex mcp add tavily --url\`，也不要把 API key 拼进 \`mcp.tavily.com\` 的查询参数，更不要抄 \`npx mcp-remote\`。技能走 CLI；MCP 才直接把工具挂进会话。不要和 Datadog / Postmark 技能装成一条命令。
+
+装完新开会话。先问「搜本周 AI 监管新闻」，看它是否调起 \`tavily-search\`。
+
+不要做这些：
+
+- 不要把默认 \`npx skills add tavily-ai/skills --all\` 当成 Codex \`/plugins\`。
+- 不要发明 \`codex plugin add tavily@openai-curated\`。
+- 不要发明 \`codex mcp add tavily --url https://mcp.tavily.com/mcp/\`。
+- 不要抄 Claude 的 \`/plugin marketplace add\`。
+
+网页 Cloud 不读本机技能目录。改完新开一轮，\`/skills\` 应能看见 \`tavily-search\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["Skills", "Tavily", "搜索"],
+    related: ["datadog-agent-skills", "postmark-agent-skills", "nvidia-skills-codex"],
+    sources: [
+      {
+        label: "Tavily · Agent Skills",
+        url: "https://docs.tavily.com/documentation/agent-skills",
+      },
+      {
+        label: "tavily-ai/skills",
+        url: "https://github.com/tavily-ai/skills",
+      },
+    ],
+  },
 ];

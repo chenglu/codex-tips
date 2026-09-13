@@ -2807,4 +2807,16 @@ codex mcp list
 # npx skills add datadog-labs/agent-skills --skill dd-pup --full-depth -y
 `,
   },
+  {
+    id: "tavily-agent-skills",
+    title: "Tavily Agent Skills",
+    filename: "terminal",
+    summary:
+      "主路径是 npx skills add tavily-ai/skills --all。官方没钉 --agent codex。示例技能是 tavily-search。不要发明 mcp add 或 plugin add。",
+    code: `npx skills add tavily-ai/skills --all
+
+# 单项：
+# npx skills add tavily-ai/skills --skill tavily-search
+`,
+  },
 ];
