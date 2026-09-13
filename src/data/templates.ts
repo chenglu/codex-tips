@@ -2536,4 +2536,18 @@ codex mcp login flagsmith
 # enabled = true
 `,
   },
+  {
+    id: "devcycle-mcp-http",
+    title: "DevCycle MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add devcycle --url https://mcp.devcycle.com/mcp。URL 带 /mcp。OAuth，浏览器没弹再 mcp login devcycle。不要发明 plugin add devcycle@。",
+    code: `codex mcp add devcycle --url https://mcp.devcycle.com/mcp
+codex mcp login devcycle
+
+# [mcp_servers.devcycle]
+# url = "https://mcp.devcycle.com/mcp"
+# enabled = true
+`,
+  },
 ];

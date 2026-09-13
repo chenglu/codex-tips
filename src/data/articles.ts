@@ -3201,5 +3201,25 @@ export const articles: Article[] = [
     summary:
       '自托管另开 flagsmith/flagsmith-mcp 容器。SaaS 仍是 mcp.flagsmith.com。容器也听 /mcp，但 Codex 专节 SaaS URL 不要自己加 /mcp。stdio 才要 FLAGSMITH_API_TOKEN，走 env_vars，不要抄 env 表字面量。',
   },
+  {
+    title: 'MCP Getting Started',
+    url: 'https://docs.devcycle.com/cli-mcp/mcp-getting-started',
+    source: 'DevCycle',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'DevCycle', 'OAuth', 'HTTP'],
+    summary:
+      '官方 Codex 写进 ~/.codex/config.toml：url = https://mcp.devcycle.com/mcp。带 /mcp。OAuth，浏览器没弹再 mcp login devcycle。不要抄 /sse 或 npx mcp-remote。不要发明 plugin add devcycle@。',
+  },
+  {
+    title: 'MCP Reference',
+    url: 'https://docs.devcycle.com/cli-mcp/mcp-reference',
+    source: 'DevCycle',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'DevCycle', 'stdio'],
+    summary:
+      '托管仍是 mcp.devcycle.com/mcp。本地 Codex 专节才是 command = dvc-mcp，先装 @devcycle/cli。不要 mcp login。CI 才转发 DEVCYCLE_CLIENT_ID 这类名字，走 env_vars。',
+  },
 ];
 

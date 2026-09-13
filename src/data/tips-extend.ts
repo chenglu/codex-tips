@@ -9374,4 +9374,55 @@ enabled = true
       },
     ],
   },
+  {
+    id: "devcycle-mcp-http",
+    no: 363,
+    title: "DevCycle MCP 用 mcp.devcycle.com/mcp，再完成 OAuth",
+    summary:
+      "官方 Codex：mcp add devcycle --url https://mcp.devcycle.com/mcp。URL 带 /mcp。OAuth，浏览器没弹再 mcp login devcycle。不要抄 /sse 或 npx mcp-remote。不要发明 plugin add devcycle@。",
+    body: `DevCycle 给 Codex CLI 有专节。入门页主路径是远程 Streamable HTTP + OAuth，不要 API key，也不要 \`bearer_token_env_var\`：
+
+\`\`\`bash
+codex mcp add devcycle --url https://mcp.devcycle.com/mcp
+codex mcp login devcycle
+\`\`\`
+
+官方表名就是 \`devcycle\`。URL 是 \`https://mcp.devcycle.com/mcp\`，带 \`/mcp\` 后缀。Cursor JSON 里的服务器名是 \`DevCycle\`，不要抄进 Codex 表名。\`mcp add\` 会写进用户层 \`~/.codex/config.toml\`。第一次用工具时会打开 \`mcp.devcycle.com\` 授权；只写进了表、浏览器没弹时再跑 \`codex mcp login devcycle\`。多组织时在 \`auth.devcycle.com\` 选组织。
+
+\`\`\`toml
+[mcp_servers.devcycle]
+url = "https://mcp.devcycle.com/mcp"
+enabled = true
+\`\`\`
+
+不要抄同一页的 SSE 备用地址 \`https://mcp.devcycle.com/sse\`，Codex 只接 Streamable HTTP。不要抄 Claude 的 \`claude mcp add --transport http\`。不要抄 Claude Desktop 的 \`npx mcp-remote@0.1.18\`。不要抄 Cursor JSON。不要发明 \`codex plugin add devcycle@…\`，注册表上的 \`com.devcycle/mcp\` 也不是 Codex marketplace id。不要把 client secret 写进 URL、\`http_headers\`、\`args\` 或 \`env\` 表。
+
+本地是另一条路，不是入门页主路径。先 \`npm install -g @devcycle/cli\`，官方 Codex 本地专节是 \`command = "dvc-mcp"\`。先 \`dvc login sso\` 再 \`dvc projects select\`。CI 才把 \`DEVCYCLE_CLIENT_ID\`、\`DEVCYCLE_CLIENT_SECRET\`、\`DEVCYCLE_PROJECT_KEY\` 放进 \`env_vars\`，不要抄 export 字面量。本地不要 \`mcp login\`。同一张表不能同时写 \`url\` 和 \`command\`。
+
+先只读：问列出当前项目的 feature，或 \`get_current_project\`。创建开关、改 targeting、写 production override 会改账号，保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。网页 Cloud 不读 \`~/.codex/config.toml\`。改完彻底新开会话。\`codex mcp get devcycle\` 看 url。TUI \`/mcp\` 里应看到 devcycle 且 enabled。
+
+登录、凭证库相关命令在你平时的宿主 shell 里跑。隔离代理环境里失败，不证明 DevCycle MCP 不可用。启动时报 \`MCP startup interrupted\` 且点名 \`devcycle\`，多半是表写上了但没完成 OAuth：先 \`codex mcp get devcycle\`，再 \`codex mcp login devcycle\`，再 \`codex mcp list\`，然后新开会话。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add devcycle@openai-curated\`。
+- 不要抄 Claude 的 \`--transport http\`、\`npx mcp-remote\` 或 \`/sse\`。
+- 不要给远程这台 \`bearer_token_env_var\`。
+- 不要给它 \`required = true\` 挂全局。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "DevCycle", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-http-not-sse", "flagsmith-mcp-http"],
+    sources: [
+      {
+        label: "DevCycle · MCP Getting Started",
+        url: "https://docs.devcycle.com/cli-mcp/mcp-getting-started",
+      },
+      {
+        label: "DevCycle · MCP Reference",
+        url: "https://docs.devcycle.com/cli-mcp/mcp-reference",
+      },
+    ],
+  },
 ];
