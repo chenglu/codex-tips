@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T14:13:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "14:13 定时器。调用前 $96.96。Spend: counts（start_time=2026-09-06T14:18:00Z，共 234 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾待测。收录 MailerLite 远程 MCP（https://mcp.mailerlite.com/mcp；任意 MCP 客户端；OAuth）。不要发明 plugin add mailerlite@。不要抄 Claude --transport http。Kit 仍不写（#41362）。Buildkite 远程仍是 mcp.buildkite.com/mcp，配置页无 Codex 专节。ConfigCat / Postmark / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、Astra、Conductor。",
+    "14:13 定时器。调用前 $96.96。Spend: counts（start_time=2026-09-06T14:18:00Z，共 234 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 $96.95。收录 MailerLite 远程 MCP（https://mcp.mailerlite.com/mcp；任意 MCP 客户端；OAuth）。不要发明 plugin add mailerlite@。不要抄 Claude --transport http。Kit 仍不写（#41362）。Buildkite 远程仍是 mcp.buildkite.com/mcp，配置页无 Codex 专节。ConfigCat / Postmark / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、Astra、Conductor。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
