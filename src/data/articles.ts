@@ -3631,5 +3631,65 @@ export const articles: Article[] = [
     summary:
       'installation.md 把 Codex 写成 --agent 旗标 codex，项目进 .agents/skills/，全局 ~/.codex/skills/。示例技能是 rudder-data-catalog。不要抄 Claude 的 /plugin install rudder-core。',
   },
+  {
+    title: 'MCP Client Configuration',
+    url: 'https://kuroco.app/docs/reference/mcp-client-configuration/',
+    source: 'Kuroco',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Kuroco', 'OAuth'],
+    summary:
+      '官方 Codex 节：不支持 CIMD。表名 kuroco，url 写成 g.kuroco.app 的 rcms-api/API_ID/mcp，再 [mcp_servers.kuroco.oauth] 写预注册 client_id，mcp login kuroco。Token Endpoint Auth Method 用 none。',
+  },
+  {
+    title: 'MCP Client Configuration with Authentication Header',
+    url: 'https://kuroco.app/docs/reference/mcp-client-configuration-authentication-header/',
+    source: 'Kuroco',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Kuroco'],
+    summary:
+      '官方 Codex 头认证：env_http_headers 把 X-RCMS-API-ACCESS-TOKEN 指到 KUROCO_MCP_TOKEN。不要把 token 写进 http_headers。Admin MCP 不吃这颗头。mcp add 写不了自定义头。',
+  },
+  {
+    title: 'Set Up Wherobots in Codex',
+    url: 'https://docs.wherobots.com/develop/agentic-tools/codex',
+    source: 'Wherobots',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Wherobots', 'OAuth'],
+    summary:
+      '官方 Codex 页：表名示例 wherobots-mcp-server，url 写成 api.cloud.wherobots.com/mcp/，再 mcp login。文档仍写 mcp add 只支持 stdio，现行 Codex 用 --url。OAuth 不能注册新账号。不要抄 --transport http，也不要把 API key 写进 http_headers。',
+  },
+  {
+    title: 'wherobots/agent-skills',
+    url: 'https://github.com/wherobots/agent-skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', 'Wherobots'],
+    summary:
+      '仓库三份技能：wherobots-usage、wherobots-explore、wherobots-develop。官方 Codex 安装是 npx skills add -g wherobots/agent-skills。官方没钉 --agent codex。不要抄 Cursor marketplace。技能不会写 mcp_servers。',
+  },
+  {
+    title: 'Install Agent Skills',
+    url: 'https://docs.wherobots.com/develop/agent-skills',
+    source: 'Wherobots',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'Wherobots'],
+    summary:
+      '安装页：npx skills add -g wherobots/agent-skills。单项示例是 --skill wherobots-usage，默认不带 -g。VS Code 扩展会自动带技能，Codex 要手工装。官方没钉 --agent codex。',
+  },
+  {
+    title: 'Get Started with Agentic Development',
+    url: 'https://docs.wherobots.com/develop/agentic-tools',
+    source: 'Wherobots',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'MCP', 'Wherobots'],
+    summary:
+      '总览把 Codex 标成 Terminal or desktop，MCP、Agent Skills 和 CLI 都要手工配。VS Code 行才是 Included。不要把扩展自动安装抄进 Codex，也不要发明 plugin add wherobots@。',
+  },
 ];
 

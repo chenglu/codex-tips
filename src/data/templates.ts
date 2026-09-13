@@ -2846,4 +2846,47 @@ npx skills add rudderlabs/rudder-agent-skills --agent codex --skill rudder-cli-w
 # npx skills add rudderlabs/rudder-agent-skills -a claude-code --skill rudder-cli-workflow
 `,
   },
+  {
+    id: "kuroco-mcp-http",
+    title: "Kuroco MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "主路径是 mcp add kuroco --url https://YOUR_SITE_KEY.g.kuroco.app/rcms-api/API_ID/mcp --oauth-client-id。不支持 CIMD。不要发明 plugin add。头认证才 env_http_headers 的 X-RCMS-API-ACCESS-TOKEN。",
+    code: `codex mcp add kuroco --url https://YOUR_SITE_KEY.g.kuroco.app/rcms-api/API_ID/mcp --oauth-client-id YOUR_CLIENT_ID
+codex mcp login kuroco
+
+# [mcp_servers.kuroco]
+# url = "https://YOUR_SITE_KEY.g.kuroco.app/rcms-api/API_ID/mcp"
+# [mcp_servers.kuroco.oauth]
+# client_id = "YOUR_CLIENT_ID"
+`,
+  },
+  {
+    id: "wherobots-mcp-http",
+    title: "Wherobots MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add wherobots-mcp-server --url https://api.cloud.wherobots.com/mcp/。文档仍写只支持 stdio，现行用 --url。再 mcp login。不要把 API key 写进 http_headers，头认证才 env_http_headers 的 X-API-Key。",
+    code: `codex mcp add wherobots-mcp-server --url https://api.cloud.wherobots.com/mcp/
+codex mcp login wherobots-mcp-server
+
+# [mcp_servers.wherobots-mcp-server]
+# url = "https://api.cloud.wherobots.com/mcp/"
+# enabled = true
+`,
+  },
+  {
+    id: "wherobots-agent-skills",
+    title: "Wherobots Agent Skills",
+    filename: "terminal",
+    summary:
+      "主路径是 npx skills add -g wherobots/agent-skills。官方没钉 --agent codex。单项示例是 --skill wherobots-usage。不要发明 plugin add。不要抄 Cursor 插件。",
+    code: `npx skills add wherobots/agent-skills --list
+npx skills add -g wherobots/agent-skills
+
+# 单项：
+# npx skills add -g wherobots/agent-skills --skill wherobots-usage
+# npx skills add wherobots/agent-skills@wherobots-usage
+`,
+  },
 ];
