@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T19:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "19:00 定时器。调用前 $96.87。Spend: counts（start_time=2026-09-06T19:05:00Z，共 238 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Datadog Agent Skills（官方点名 Codex CLI：npx skills add datadog-labs/agent-skills/agent-observability --full-depth -y，官方没钉 --agent codex，单项 dd-pup）。不要发明 plugin add。不要抄 Restart Claude Code 或 claude mcp add。MCP 仍走 mcp.datadoghq.com/v1/mcp。X 仍是 Archify、0.154 worktree、Google Cloud plugin、Astra、token 营销、/feedback。Kit 仍不写（#41362）。ConfigCat / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Fastmail 仍无 Codex 专节。",
+    "19:00 定时器。调用前 $96.87，收尾 $96.86。Spend: counts（start_time=2026-09-06T19:05:00Z，共 238 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Datadog Agent Skills（官方点名 Codex CLI：npx skills add datadog-labs/agent-skills/agent-observability --full-depth -y，官方没钉 --agent codex，单项 dd-pup）。不要发明 plugin add。不要抄 Restart Claude Code 或 claude mcp add。MCP 仍走 mcp.datadoghq.com/v1/mcp。X 仍是 Archify、0.154 worktree、Google Cloud plugin、Astra、token 营销、/feedback。Kit 仍不写（#41362）。ConfigCat / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Fastmail 仍无 Codex 专节。CDP 29/29（预览 4364）。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
