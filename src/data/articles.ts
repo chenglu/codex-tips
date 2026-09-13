@@ -3529,7 +3529,7 @@ export const articles: Article[] = [
     kind: '官方',
     tags: ['Skills', 'NVIDIA'],
     summary:
-      'Codex 专装要 --agent codex。项目默认进 .agents/skills/。加 --global --yes 才跟账号走。安装器要 1.5.16+。不要手拷 ~/.codex/skills。',
+      'Codex 专装：npx skills add nvidia/skills --skill cuopt-numerical-optimization-api --agent codex。项目默认进 .agents/skills/。加 --global --yes 才跟账号走。安装器要 1.5.16+。不要手拷 ~/.codex/skills。',
   },
 ];
 
