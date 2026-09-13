@@ -3,7 +3,7 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-12T23:46:00Z",
+  lastTick: "2026-09-13T00:06:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
     "23:46 定时器。调用前 $97.38。Spend: counts（start_time=2026-09-05T23:50:00Z，共 239 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.37。CDP 99 项全过（预览 4324）。收录 RevenueCat AI Toolkit（marketplace add RevenueCat/ai-toolkit，plugin add revenuecat@RevenueCat，mcp login RevenueCat）。不要抄 mcp-remote。v2.0.1 起插件名是小写 revenuecat。X 仍是 Claude vs Codex、日文 0.154 worktree、GPT-6-Astra、Microsoft AI Engineer Coach。Buildkite 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。1Password Codex shell plugin 页仍缺完整 init 命令。",
@@ -896,6 +896,15 @@ export const loopState = {
     "docs.digitalocean.com do-app-platform-skills --agent codex",
     "meilisearch.com docs integrations mcp Codex",
     "Codex CLI 技巧 2026 RevenueCat AI Toolkit plugin",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "pathbound.ai use-with openai Codex mcp.pathbound.ai mcp add pathbound",
+    "developers.asana.com connecting-mcp-clients Codex mcp-remote v2/mcp",
+    "stackone.com platform mcp ai-agent Codex mcp.stackone.com",
+    "developer.1password.com cli shell-plugins openai-codex op plugin init",
+    "buildkite.com docs mcp-server Codex configuring-ai-tools",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "Codex CLI 技巧 2026 Pathbound MCP mcp.pathbound.ai",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],

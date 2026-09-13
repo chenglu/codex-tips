@@ -2851,5 +2851,15 @@ export const articles: Article[] = [
     summary:
       '官方 Codex：marketplace add RevenueCat/ai-toolkit，再 plugin add revenuecat@RevenueCat，再 mcp login RevenueCat。远程是 mcp.revenuecat.ai/mcp。不要抄 mcp-remote 或把 API v2 key 写进 env。v2.0.1 起插件名是小写 revenuecat。',
   },
+  {
+    title: 'Pathbound + Codex—MCP setup for CLI & IDE',
+    url: 'https://pathbound.ai/use-with/openai/codex',
+    source: 'Pathbound',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Pathbound', 'OAuth'],
+    summary:
+      '官方 Codex：mcp add pathbound --url https://mcp.pathbound.ai/mcp，再 mcp login pathbound。URL 带 /mcp。不要抄 Claude.ai 或 ChatGPT Plugins。无头才 REST API key 走 bearer_token_env_var。',
+  },
 ];
 

@@ -8296,4 +8296,61 @@ enabled = true
       },
     ],
   },
+  {
+    id: "pathbound-mcp-http",
+    no: 344,
+    title: "Pathbound 远程 MCP 用 mcp.pathbound.ai/mcp，再 mcp login",
+    summary:
+      "官方 Codex：mcp add pathbound --url https://mcp.pathbound.ai/mcp，再 mcp login pathbound。URL 带 /mcp。不要抄 Claude.ai 或 ChatGPT Plugins。无头才 bearer_token_env_var。",
+    body: `Pathbound 给 Codex 有专节。官方 CLI 主路径是远程 Streamable HTTP + OAuth：
+
+\`\`\`bash
+codex mcp add pathbound --url https://mcp.pathbound.ai/mcp
+codex mcp login pathbound
+\`\`\`
+
+URL **带** \`/mcp\` 后缀。用户层表名官方就是 \`pathbound\`。不要发明不带后缀的 \`https://mcp.pathbound.ai\`。桌面 / IDE：Settings → MCP servers → Add server，选 Streamable HTTP，填同一地址，再 Authenticate。CLI、桌面、IDE 同机共享 \`~/.codex/config.toml\`，加一次即可。
+
+\`\`\`toml
+[mcp_servers.pathbound]
+url = "https://mcp.pathbound.ai/mcp"
+enabled = true
+\`\`\`
+
+不要抄 Claude.ai 的 Connected Apps / Add custom MCP。不要抄 ChatGPT 网页 Plugins 那条：那是开发者模式应用，不写 \`config.toml\`。不要发明 \`codex plugin add pathbound@…\`。不要抄 \`npx mcp-remote\`。不要抄 \`--transport http\`。不要抄 JSON \`mcpServers\`。
+
+连上后先问 \`get_contact\` / \`get_contact_timeline\` / \`aggregate_data\`。\`get_contact\` 最多带回 20 条事件，要聚合走 \`aggregate_data\`，不要自己翻页。大约 30 次工具调用 / 分钟会限流。
+
+OAuth 票覆盖 \`contacts:read\` / \`contacts:write\`、\`companies:read\` / \`companies:write\`、\`events:read\`。写联系人 / 公司、发邮件或 Apollo 序列会动真客户数据，保持工具批准。官方说版本回滚还没上线。先只读。不要一上来 \`--yolo\`。不要 \`required = true\`。网页 Cloud 不读 \`~/.codex/config.toml\`。
+
+无头 / CI 才用 REST API key（\`sk_\` 开头），走 \`bearer_token_env_var\`。不要 \`mcp login\` 这张表。不要把密钥写进 \`http_headers\`、\`args\`、\`env\` 表或 URL。不要抄 Anthropic 示例里的 \`authorization_token\` 字面量。值不要再加 \`Bearer\` 前缀。读分析勾 \`contacts:read\` 和 \`events:read\`；写操作还要 \`actions:write\`。一条连接只用一种鉴权。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add pathbound@openai-curated\`。
+- 不要抄 Claude.ai / ChatGPT 网页那套当 Codex 主路径。
+- 不要把 \`sk_\` 写进 \`http_headers\` 或 URL。
+- 不要给它 \`required = true\` 挂全局。
+
+改完新开会话。用 \`codex mcp get pathbound\` 看传输是 streamable_http。会话里 \`/mcp\` 应显示 Auth: OAuth（或 bearer）。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Pathbound", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-http-bearer-env", "mcp-http-not-sse"],
+    sources: [
+      {
+        label: "Pathbound · Codex",
+        url: "https://pathbound.ai/use-with/openai/codex",
+      },
+      {
+        label: "Pathbound · MCP overview",
+        url: "https://pathbound.ai/docs/mcp/overview",
+      },
+      {
+        label: "Pathbound · MCP authentication",
+        url: "https://pathbound.ai/docs/mcp/authentication",
+      },
+    ],
+  },
 ];

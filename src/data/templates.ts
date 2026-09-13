@@ -2246,4 +2246,18 @@ codex mcp login RevenueCat
 # 插件 MCP 消失才：codex mcp add RevenueCat --url https://mcp.revenuecat.ai/mcp
 `,
   },
+  {
+    id: "pathbound-mcp-http",
+    title: "Pathbound 远程 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add pathbound --url https://mcp.pathbound.ai/mcp，再 mcp login pathbound。不要抄 Claude.ai 或 ChatGPT Plugins。",
+    code: `codex mcp add pathbound --url https://mcp.pathbound.ai/mcp
+codex mcp login pathbound
+
+# [mcp_servers.pathbound]
+# url = "https://mcp.pathbound.ai/mcp"
+# enabled = true
+`,
+  },
 ];
