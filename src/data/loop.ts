@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T02:43:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "02:12 定时器。调用前 $97.25。Spend: counts（start_time=2026-09-06T02:13:00Z，共 238 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.24。CDP 54 项全过（预览 4329）。收录 shadcn 官方 MCP（手写 [mcp_servers.shadcn]，npx shadcn@latest mcp；CLI 等价 mcp add shadcn -- npx shadcn@latest mcp）。不要 mcp login。不要抄 Claude 的 mcp init --client claude。X 仍是 Claude vs Codex、日文 0.154 worktree、oh-my-openagent 编排营销。Meilisearch 仍只有 Claude Desktop JSON，不发明 mcp add。1Password Codex shell plugin 页仍写 op plugin init openai。ButterKit 官方仍只给 UI 字段。trailofbits/codex-config 是意见化配置仓库。",
+    "02:43 定时器。调用前 $97.24。Spend: counts（start_time=2026-09-06T02:45:00Z，共 239 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.22。CDP 48/48 全过（预览 4330）。收录 Inngest Cloud MCP（mcp add inngest-cloud --url https://api.inngest.com/mcp --bearer-token-env-var INNGEST_API_KEY；本机另开 inngest-dev → http://127.0.0.1:8288/mcp）。不要 mcp login。不要抄 Claude 的 --header Bearer。不要发明 plugin add inngest@。X 仍是 Claude vs Codex 营销、oh-my-openagent 编排、Microsoft AI Engineer Coach、日文预约任务。Buildkite 仍无 Codex 专节。Meilisearch 仍只有 Claude Desktop JSON。1Password Codex shell plugin 仍写 op plugin init openai。ButterKit 官方仍只给 UI 字段。DigitalOcean App Platform skills 仍未钉 --agent codex。Intercom 仍只有 npx mcp-remote。Polar 官方 Codex OAuth 留到下一轮。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
