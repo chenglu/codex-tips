@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T06:48:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "06:48 定时器。调用前 $97.10。Spend: counts（start_time=2026-09-06T06:54:00Z，共 1765 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Contentful 官方 Codex 本地 stdio（codex mcp add contentful -- npx -y @contentful/mcp-server；表名 contentful；PAT 走 env_vars）。不要 mcp login。不要发明远程 --url 或 plugin add contentful@。Tavily 官方无 Codex mcp add 专节。Buildkite / Meilisearch 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。X 仍是 Unity 插件营销、Claude vs Codex、日文优待 MCP、Tripo 3D。",
+    "06:48 定时器。调用前 $97.10。Spend: counts（start_time=2026-09-06T06:54:00Z，共 1765 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.07。CDP 28/28 全过（预览 4338）。收录 Contentful 官方 Codex 本地 stdio（codex mcp add contentful -- npx -y @contentful/mcp-server；表名 contentful；PAT 走 env_vars）。不要 mcp login。不要发明远程 --url 或 plugin add contentful@。Tavily 官方无 Codex mcp add 专节。Buildkite / Meilisearch 仍无 Codex 专节。DigitalOcean App Platform skills 仍未钉 --agent codex。X 仍是 Unity 插件营销、Claude vs Codex、日文优待 MCP、Tripo 3D。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
