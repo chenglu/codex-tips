@@ -70,8 +70,7 @@ export function App() {
         <header className="topbar">
           <div className="brand-nav">
             <a className="brand" href={href({ name: "home" })}>
-              <span className="brand-kicker">Chenglu · Codex Tips</span>
-              <span className="brand-title">Codex Tips</span>
+              <span className="brand-title">codex.tips</span>
             </a>
             <nav className="nav">
             <a
@@ -137,8 +136,8 @@ export function App() {
         {route.name === "about" && <AboutPage />}
 
         <footer className="footer">
-          <span>Codex Tips · Field Manual · 2026</span>
-          <span>一夜一线程 · 规则写进 AGENTS.md</span>
+          <span>Codex 实用技巧</span>
+          <span>技巧、配置与工作流</span>
         </footer>
       </div>
       <SearchModal open={searchOpen} onClose={() => setSearchOpen(false)} />

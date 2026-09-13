@@ -12,13 +12,13 @@ export function HomePage() {
         <div>
           <div className="brand-kicker">Field Manual · 2026 Edition</div>
           <h1>
-            全网 Codex
+            OpenAI Codex
             <br />
             实用技巧 <em>手册</em>
           </h1>
           <p className="lede">
-            把 OpenAI Codex 从「会聊天的补全」用成可配置的工程队友。这里按场景收了
-            CLI、桌面端、IDE 与 Cloud 上真正能省时间的操作法——提示、AGENTS.md、沙箱、斜杠命令、Skills、MCP、子代理与自动化。
+            按使用场景整理 CLI、桌面端、IDE 与 Cloud 的常用技巧，涵盖提示、配置、
+            Skills、MCP 与自动化。查找操作方法、复制模板，或阅读相关资料。
           </p>
           <div className="meta-row">
             <span>{tips.length} 条技巧</span>
