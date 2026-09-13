@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T08:38:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "08:38 定时器。调用前 $97.04。Spend: counts（start_time=2026-09-06T08:43:00Z，共 241 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度待测完后回写。收录 GrowthBook 官方 Codex 本地 stdio（codex mcp add growthbook -- npx -y @growthbook/mcp@latest；表名 growthbook；GB_API_KEY 走 env_vars）。不要 mcp login。不要发明远程 --url。不要发明 plugin add growthbook@。技能 npx skills add growthbook/skills 没钉 --agent codex。Flagsmith 文档有手写 Codex TOML 但没有 mcp add 专节，本轮不收。Customer.io 仍是桌面插件。Builder.io / Webflow 无 CLI mcp add。Tavily / Buildkite / Meilisearch 仍无。DigitalOcean 仍未钉 --agent codex。X 仍是 Claude 对照、Unity 插件、OMO、Astra、Conductor worktree。",
+    "08:38 定时器。调用前 $97.04。Spend: counts（start_time=2026-09-06T08:43:00Z，共 241 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.03。CDP 28/28 全过（预览 4342）。收录 GrowthBook 官方 Codex 本地 stdio（codex mcp add growthbook -- npx -y @growthbook/mcp@latest；表名 growthbook；GB_API_KEY 走 env_vars）。不要 mcp login。不要发明远程 --url。不要发明 plugin add growthbook@。技能 npx skills add growthbook/skills 没钉 --agent codex。Flagsmith 文档有手写 Codex TOML 但没有 mcp add 专节，本轮不收。Customer.io 仍是桌面插件。Builder.io / Webflow 无 CLI mcp add。Tavily / Buildkite / Meilisearch 仍无。DigitalOcean 仍未钉 --agent codex。X 仍是 Claude 对照、Unity 插件、OMO、Astra、Conductor worktree。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
