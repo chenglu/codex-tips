@@ -3441,5 +3441,25 @@ export const articles: Article[] = [
     summary:
       'marketplace.json 名是 pulumi-agent-skills。Codex 专节同样是 marketplace add pulumi/agent-skills，再 /plugins 装 pulumi。pulumi 已含 migration 和 delegation。不要发明 plugin add 的 @id。',
   },
+  {
+    title: 'Brand MCP server',
+    url: 'https://brand.pulumi.com/mcp-server/',
+    source: 'Pulumi',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Pulumi', 'HTTP'],
+    summary:
+      '官方 Codex 节是 [mcp_servers.pulumi-brand] url = https://brand.pulumi.com/mcp。远程带 /mcp 后缀。无鉴权，不要 mcp login。不要抄 Claude 的 --transport http 或 mcp-remote。不要和 Cloud 远程 MCP 搞成一台。',
+  },
+  {
+    title: 'Pulumi brand guidelines',
+    url: 'https://brand.pulumi.com/',
+    source: 'Pulumi',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Pulumi', 'HTTP'],
+    summary:
+      '品牌站把入口写在 brand.pulumi.com/mcp，Streamable HTTP，无鉴权。优先走 MCP，不要爬页面。这台只给色板、文案和 logo，不会动基础设施。',
+  },
 ];
 

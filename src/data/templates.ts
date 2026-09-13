@@ -2713,4 +2713,17 @@ codex mcp login pulumi
 # 不要抄 npx skills add --agent junie 当 --agent codex
 `,
   },
+  {
+    id: "pulumi-brand-http",
+    title: "Pulumi 品牌 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add pulumi-brand --url https://brand.pulumi.com/mcp。URL 带 /mcp。无鉴权，不要 mcp login。不要抄 mcp-remote。不要和 Cloud 远程 MCP 搞成一台。",
+    code: `codex mcp add pulumi-brand --url https://brand.pulumi.com/mcp
+
+# [mcp_servers.pulumi-brand]
+# url = "https://brand.pulumi.com/mcp"
+# enabled = true
+`,
+  },
 ];

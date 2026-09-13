@@ -9907,7 +9907,7 @@ enabled = true
 
 不要发明 \`codex plugin add pulumi@…\`。官方没给出这台 MCP 的 Codex marketplace id。技能是另一条官方 Codex 路，见相关技巧，不要跟这台 MCP 配成一张表。不要抄 Claude 的 \`--transport http\`。不要抄 Cursor JSON、Windsurf \`serverUrl\` 或 ChatGPT Developer Mode。不要抄 Claude Desktop / Kiro 的 \`npx mcp-remote\`。不要给这台 \`bearer_token_env_var = "PULUMI_ACCESS_TOKEN"\`；那是第三方 Codex 文把无头 PAT 抄成主路径。交互主路径是 OAuth，Access Token 只出现在浏览器同意页。
 
-本地 \`@pulumi/mcp-server\`（或 Docker 镜像 \`mcp/pulumi\`）给本机 CLI / CI 用，要本机装 Pulumi CLI，请求算你这边的配额。个人会话走远程 URL。本地才有 \`pulumi-cli-preview\` / \`pulumi-cli-up\` 这类 CLI 工具；远程才有 \`get-policy-violations\`、\`get-users\`。品牌站 \`brand.pulumi.com/mcp\` 是另一台 MCP，不要跟 \`mcp.ai.pulumi.com\` 混。
+本地 \`@pulumi/mcp-server\`（或 Docker 镜像 \`mcp/pulumi\`）给本机 CLI / CI 用，要本机装 Pulumi CLI，请求算你这边的配额。个人会话走远程 URL。本地才有 \`pulumi-cli-preview\` / \`pulumi-cli-up\` 这类 CLI 工具；远程才有 \`get-policy-violations\`、\`get-users\`。品牌站是另一台无鉴权 MCP，见相关技巧，不要跟这台 Cloud 远程混。
 
 这台能列 stack、按 Lucene 搜资源、查 Registry、看策略违规、把活交给 Pulumi Neo。\`neo-task-launcher\` 会在 Pulumi Cloud 里开自动化任务，可能改代码、开 PR。保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。
 
@@ -9925,7 +9925,7 @@ enabled = true
     level: "starter",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "Pulumi", "OAuth", "HTTP"],
-    related: ["mcp-add-and-login", "mcp-http-not-sse", "pulumi-agent-skills"],
+    related: ["mcp-add-and-login", "pulumi-agent-skills", "pulumi-brand-http"],
     sources: [
       {
         label: "Pulumi · MCP Server",
@@ -9978,6 +9978,57 @@ codex plugin marketplace add pulumi/agent-skills
       {
         label: "pulumi/agent-skills",
         url: "https://github.com/pulumi/agent-skills",
+      },
+    ],
+  },
+  {
+    id: "pulumi-brand-http",
+    no: 375,
+    title: "Pulumi 品牌 MCP 用 brand.pulumi.com/mcp，无鉴权不要 login",
+    summary:
+      "官方 Codex 节：mcp add pulumi-brand --url https://brand.pulumi.com/mcp。远程带 /mcp。无鉴权，不要 mcp login。不要抄 Claude 的 --transport http 或 mcp-remote。不要和 Cloud 远程 MCP 搞成一台。",
+    body: `Pulumi 品牌指南 MCP 给 Codex 有专节，写在品牌站的 MCP 页。官方 Codex 是手写 \`config.toml\`，表名 \`pulumi-brand\`，URL 是 \`https://brand.pulumi.com/mcp\`，带 \`/mcp\` 后缀，不要尾斜杠。CLI 等价：
+
+\`\`\`bash
+codex mcp add pulumi-brand --url https://brand.pulumi.com/mcp
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.pulumi-brand]
+url = "https://brand.pulumi.com/mcp"
+enabled = true
+\`\`\`
+
+用户层表名官方就是带连字符的 \`pulumi-brand\`（这不是插件 \`mcp.json\`，#33063 那套连字符问题不套这里）。\`mcp add\` 写进用户层 \`~/.codex/config.toml\`；官方也允许项目级 \`./.codex/config.toml\`（要先信任该仓库）。无鉴权、无 API key，**不要** \`codex mcp login pulumi-brand\`。不要 Bearer，不要 \`http_headers\`。
+
+桌面 / IDE：Settings → MCP servers → Add server，传输选 Streamable HTTP，URL 填上面那条。Bearer token env var 和 Headers 留空。
+
+这台只暴露品牌规范：查色板、字体、文案语气、术语、logo 变体、资源清单。它**不会**列 stack、跑 \`pulumi up\` 或把活交给 Neo。那些走 Cloud 远程 MCP（表名 \`pulumi\`），要 OAuth。技能捆走 marketplace，也不登记这张表。三台不要配成一张。
+
+先只读：问 logo 的最小留白，或让它 \`search_guidelines\`。取色用 \`get_color_palette\` / \`find_nearest_brand_color\`。\`get_logo\` 返回 CDN URL，不是改基础设施。连上前先看品牌站的 Generative AI Guidelines。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`--transport http\`、\`--scope user\` 或 \`mcpServers\` JSON。
+- 不要抄 Claude Desktop 的 \`npx mcp-remote\`。Codex 自己会连 Streamable HTTP。
+- 不要发明 \`codex plugin add\` 带 @ 的 id。官方没给出这台的 Codex marketplace id。
+- 不要给它 \`required = true\` 挂全局。
+- 不要一上来 \`--yolo\`。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完彻底新开会话。用 \`codex mcp get pulumi-brand\` 看传输是 streamable_http。会话里 \`/mcp\` 应显示这台，不要 Auth: OAuth。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Pulumi", "HTTP", "品牌"],
+    related: ["pulumi-mcp-http", "pulumi-agent-skills", "mcp-http-not-sse"],
+    sources: [
+      {
+        label: "Pulumi · Brand MCP server",
+        url: "https://brand.pulumi.com/mcp-server/",
+      },
+      {
+        label: "Pulumi · Brand guidelines",
+        url: "https://brand.pulumi.com/",
       },
     ],
   },

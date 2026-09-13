@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-13T15:30:00Z",
+  lastTick: "2026-09-13T16:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "15:30 定时器。调用前 $96.93。Spend: counts（start_time=2026-09-06T15:35:00Z，共 237 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 $96.91。收录 Pulumi Agent Skills（官方 Codex：plugin marketplace add pulumi/agent-skills，再 /plugins 装 pulumi）。不要发明 plugin add pulumi@。不要抄 Claude 的 pulumi@pulumi-agent-skills 或 npx skills add --agent junie。不要并装 pulumi-migration。远程 MCP 仍走 mcp.ai.pulumi.com/mcp。Brand MCP 留到下一轮。Kit 仍不写（#41362）。ConfigCat / Postmark / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。X 仍是 Archify、0.154 worktree、Google Cloud plugin、Astra、Conductor。",
+    "16:00 定时器。调用前 $96.91。Spend: counts（start_time=2026-09-06T16:05:00Z，共 206 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Pulumi 品牌 MCP（官方 Codex：mcp add pulumi-brand --url https://brand.pulumi.com/mcp）。无鉴权，不要 mcp login。不要抄 --transport http 或 mcp-remote。不要和 Cloud 远程 MCP 搞成一台。Kit 仍不写（#41362 仍 open）。ConfigCat / Postmark / Tavily / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。X 仍是 Archify、0.154 worktree、Google Cloud plugin、Astra、Conductor。收尾待测完回写。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1234,6 +1234,16 @@ export const loopState = {
     "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
     "docs.digitalocean.com do-app-platform-skills --agent codex",
     "Codex CLI 技巧 2026 Pulumi Agent Skills marketplace add pulumi/agent-skills",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "brand.pulumi.com mcp-server Codex pulumi-brand mcp add",
+    "help.kit.com kit mcp app.kit.com Codex oauth 41362",
+    "configcat.com docs mcp-server Codex @configcat/mcp-server",
+    "postmarkapp.com mcp Codex @activecampaign/postmark-mcp",
+    "docs.tavily.com mcp Codex mcp.tavily.com",
+    "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "Codex CLI 技巧 2026 Pulumi Brand MCP brand.pulumi.com/mcp",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],
