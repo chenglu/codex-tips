@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T22:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "22:00 定时器。调用前 $96.82。Spend: counts（start_time=2026-09-06T22:05:00Z，共 231 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Wherobots Agent Skills（官方 Codex 页：npx skills add -g wherobots/agent-skills，官方没钉 --agent codex。单项 --skill wherobots-usage。不要发明 plugin add。不要抄 Cursor 插件。技能不会写 MCP 表）。X 仍是 Claude 对照、Unity、Astra /slow、Chrome 插件、token 营销、Archify、0.154 worktree、Google Cloud plugin、/feedback。SpecterOps/skills 虽有 marketplace add，目录含钓鱼/C2/payload，本轮不写。Kit 仍不写（#41362）。ConfigCat / Meilisearch / Fastmail / Cal.com / Axiom MCP 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault MCP 只有 VS Code / Claude JSON。AgentPort 文档 headers 仍非 Codex 键。",
+    "22:00 定时器。调用前 $96.82，收尾 $96.82。Spend: counts（start_time=2026-09-06T22:05:00Z，共 231 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Wherobots Agent Skills（官方 Codex 页：npx skills add -g wherobots/agent-skills，官方没钉 --agent codex。单项 --skill wherobots-usage。不要发明 plugin add。不要抄 Cursor 插件。技能不会写 MCP 表）。X 仍是 Claude 对照、Unity、Astra /slow、Chrome 插件、token 营销、Archify、0.154 worktree、Google Cloud plugin、/feedback。SpecterOps/skills 虽有 marketplace add，目录含钓鱼/C2/payload，本轮不写。Kit 仍不写（#41362）。ConfigCat / Meilisearch / Fastmail / Cal.com / Axiom MCP 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault MCP 只有 VS Code / Claude JSON。AgentPort 文档 headers 仍非 Codex 键。CDP 31/31（预览 4370）。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
