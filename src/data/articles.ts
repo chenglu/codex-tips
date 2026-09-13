@@ -3181,5 +3181,25 @@ export const articles: Article[] = [
     summary:
       '仓库 Codex 专节同样是 @unleash/mcp@latest。必填 UNLEASH_BASE_URL 和 UNLEASH_PAT。README 远程示例把 --transport http 抄到 Codex 上，不要照抄。远程 /api/admin/mcp 是实验功能，要先在实例打开。',
   },
+  {
+    title: 'MCP Server',
+    url: 'https://docs.flagsmith.com/integrating-with-flagsmith/mcp-server',
+    source: 'Flagsmith',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Flagsmith', 'OAuth', 'HTTP'],
+    summary:
+      '官方 Codex 写进 ~/.codex/config.toml：url = https://mcp.flagsmith.com。没有 /mcp。OAuth，浏览器没弹再 mcp login flagsmith。不要抄 Claude 的 --transport http。不要发明 plugin add flagsmith@。旧 Gram 地址 2026-06-30 关停。',
+  },
+  {
+    title: 'Self-hosting the MCP Server',
+    url: 'https://docs.flagsmith.com/deployment-self-hosting/mcp-server',
+    source: 'Flagsmith',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Flagsmith', 'OAuth', 'HTTP'],
+    summary:
+      '自托管另开 flagsmith/flagsmith-mcp 容器。SaaS 仍是 mcp.flagsmith.com。容器也听 /mcp，但 Codex 专节 SaaS URL 不要自己加 /mcp。stdio 才要 FLAGSMITH_API_TOKEN，走 env_vars，不要抄 env 表字面量。',
+  },
 ];
 

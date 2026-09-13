@@ -2522,4 +2522,18 @@ codex mcp login buffer
 # enabled = true
 `,
   },
+  {
+    id: "flagsmith-mcp-http",
+    title: "Flagsmith MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add flagsmith --url https://mcp.flagsmith.com。URL 没有 /mcp。OAuth，浏览器没弹再 mcp login flagsmith。不要发明 plugin add flagsmith@。",
+    code: `codex mcp add flagsmith --url https://mcp.flagsmith.com
+codex mcp login flagsmith
+
+# [mcp_servers.flagsmith]
+# url = "https://mcp.flagsmith.com"
+# enabled = true
+`,
+  },
 ];

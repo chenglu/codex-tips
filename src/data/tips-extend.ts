@@ -9325,4 +9325,53 @@ enabled = true
       },
     ],
   },
+  {
+    id: "flagsmith-mcp-http",
+    no: 362,
+    title: "Flagsmith MCP 用 mcp.flagsmith.com，不要加 /mcp 后缀",
+    summary:
+      "官方 Codex：mcp add flagsmith --url https://mcp.flagsmith.com。URL 没有 /mcp。OAuth，浏览器没弹再 mcp login flagsmith。不要 API key。不要发明 plugin add flagsmith@。不要抄 Claude 的 --transport http。",
+    body: `Flagsmith 给 Codex CLI 有专节。官方主路径是远程 Streamable HTTP + OAuth，不要 API key，也不要 \`bearer_token_env_var\`：
+
+\`\`\`bash
+codex mcp add flagsmith --url https://mcp.flagsmith.com
+codex mcp login flagsmith
+\`\`\`
+
+官方表名就是 \`flagsmith\`。URL 是 \`https://mcp.flagsmith.com\`，**没有** \`/mcp\` 后缀。自托管容器虽然也听 \`/mcp\`，SaaS 文档写的就是光根地址，不要发明成 \`https://mcp.flagsmith.com/mcp\`。\`mcp add\` 会写进用户层 \`~/.codex/config.toml\`。只写进了表、浏览器没弹时再跑 \`codex mcp login flagsmith\`。
+
+\`\`\`toml
+[mcp_servers.flagsmith]
+url = "https://mcp.flagsmith.com"
+enabled = true
+\`\`\`
+
+不要抄 Claude 的 \`--transport http\`。不要抄 Cursor JSON。不要发明 \`codex plugin add flagsmith@…\`。不要把 Organisation API key 写进 URL、\`http_headers\`、\`args\` 或 \`env\` 表。无头才用 \`env_http_headers\` 的 \`Authorization\`，值必须带 \`Api-Key \` 前缀，不是 Bearer；不要 \`bearer_token_env_var\`。不要抄官方 stdio 那段把 \`FLAGSMITH_API_TOKEN\` 写进 \`env\` 表。旧地址 \`https://app.getgram.ai/mcp/flagsmith-mcp\` 已弃用，2026-06-30 关停，迁到 \`https://mcp.flagsmith.com\`。
+
+先只读：问列出能看到的组织和项目，或列出某个项目的开关。创建开关、改环境、发实验会改账号，保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。网页 Cloud 不读 \`~/.codex/config.toml\`。改完彻底新开会话。\`codex mcp get flagsmith\` 看 url。TUI \`/mcp\` 里应看到 flagsmith 且 enabled。
+
+登录、凭证库相关命令在你平时的宿主 shell 里跑。隔离代理环境里失败，不证明 Flagsmith MCP 不可用。启动时报 \`MCP startup interrupted\` 且点名 \`flagsmith\`，多半是表写上了但没完成 OAuth：先 \`codex mcp get flagsmith\`，再 \`codex mcp login flagsmith\`，再 \`codex mcp list\`，然后新开会话。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add flagsmith@openai-curated\`。
+- 不要抄 Claude 的 \`--transport http\` 或 Cursor JSON。
+- 不要给这台 \`bearer_token_env_var\`，也不要把 \`Api-Key\` 写进 \`http_headers\`。
+- 不要给它 \`required = true\` 挂全局。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Flagsmith", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-http-not-sse", "loops-mcp-http"],
+    sources: [
+      {
+        label: "Flagsmith · MCP Server",
+        url: "https://docs.flagsmith.com/integrating-with-flagsmith/mcp-server",
+      },
+      {
+        label: "Flagsmith · Self-hosting MCP",
+        url: "https://docs.flagsmith.com/deployment-self-hosting/mcp-server",
+      },
+    ],
+  },
 ];

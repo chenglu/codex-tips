@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-13T09:14:00Z",
+  lastTick: "2026-09-13T09:37:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "09:14 定时器。调用前 $97.03。Spend: counts（start_time=2026-09-06T09:18:00Z，共 240 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾 get_usage_credits 为 $97.03。CDP 28/28 全过（预览 4343）。收录 Unleash 官方 Codex 本地 stdio（codex mcp add unleash -- npx -y @unleash/mcp@latest --log-level error；表名 unleash；UNLEASH_BASE_URL 和 UNLEASH_PAT 走 env_vars）。不要 mcp login。不要抄 README 把 --transport http 写到 Codex。远程 /api/admin/mcp 是实验功能。Flagsmith 有 Codex TOML（mcp.flagsmith.com，无 /mcp）但本轮先收有 mcp add 专节的 Unleash。ConfigCat / Postmark 无 Codex 专节。Customer.io 仍是桌面插件。Tavily / Buildkite / Meilisearch 仍无。DigitalOcean 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、OMO、Astra、Conductor。",
+    "09:37 定时器。调用前 $97.03。Spend: counts（start_time=2026-09-06T09:42:00Z，共 240 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收尾额度待测完后回写。收录 Flagsmith 官方 Codex 远程 MCP（codex mcp add flagsmith --url https://mcp.flagsmith.com；表名 flagsmith；URL 没有 /mcp；OAuth，浏览器没弹再 mcp login flagsmith）。不要 API key。不要发明 plugin add flagsmith@。不要抄 Claude 的 --transport http。旧 Gram 地址不要再用。DevCycle / Optimizely 有 Codex 客户端节，本轮先收 Flagsmith。ConfigCat / Postmark 无 Codex 专节。Customer.io 仍是桌面插件。Tavily / Buildkite / Meilisearch 仍无。DigitalOcean 仍未钉 --agent codex。X 仍是 Claude 对照、Unity、OMO、Astra、Conductor。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1080,6 +1080,19 @@ export const loopState = {
     "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
     "docs.digitalocean.com do-app-platform-skills --agent codex",
     "Codex CLI 技巧 2026 Unleash MCP @unleash/mcp env_vars",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
+    "X news: Codex CLI",
+    "docs.flagsmith.com integrating-with-flagsmith mcp-server Codex mcp.flagsmith.com",
+    "docs.flagsmith.com deployment-self-hosting mcp-server FLAGSMITH_API_TOKEN",
+    "docs.devcycle.com cli-mcp mcp-getting-started Codex CLI",
+    "support.optimizely.com Experimentation MCP Codex exp.mcp.opal.optimizely.com",
+    "configcat.com docs mcp-server Codex @configcat/mcp-server",
+    "postmarkapp.com mcp Codex",
+    "docs.customer.io ai plugins chatgpt-codex MCP",
+    "buildkite.com docs mcp-server Codex configuring-ai-tools",
+    "docs.meilisearch.com mcp-server Codex uvx meilisearch-mcp",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "Codex CLI 技巧 2026 Flagsmith MCP mcp.flagsmith.com OAuth",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR AGENTS.md OR skills OR plugin OR worktree OR hooks)',
     "X news: Codex CLI",
   ],
