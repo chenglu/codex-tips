@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-13T23:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "23:00 定时器。调用前 $96.81，收尾待测后写。Spend: counts（start_time=2026-09-06T23:05:00Z，共 230 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Webflow Codex 插件（官方帮助：ChatGPT 桌面切到 Codex，Plugins 搜 Webflow，Install，再 Continue to Webflow。官方没给 plugin add id。不要抄 Claude --transport http 或 Cursor 插件。其它客户端才是 mcp.webflow.com/mcp。改画布要开 MCP Bridge App）。X 仍是 Claude 对照、Unity、Astra /slow、Chrome 插件、token 营销、Archify、0.154 worktree、Google Cloud plugin、/feedback。SpecterOps/skills 仍不写。Kit 仍不写（#41362）。ConfigCat / Meilisearch / Fastmail / Cal.com / Axiom MCP 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault MCP 只有 VS Code / Claude JSON。AgentPort 文档 headers 仍非 Codex 键。",
+    "23:00 定时器。调用前 $96.81，收尾 $96.81。Spend: counts（start_time=2026-09-06T23:05:00Z，共 230 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Webflow Codex 插件（官方帮助：ChatGPT 桌面切到 Codex，Plugins 搜 Webflow，Install，再 Continue to Webflow。官方没给 plugin add id。不要抄 Claude --transport http 或 Cursor 插件。其它客户端才是 mcp.webflow.com/mcp。改画布要开 MCP Bridge App）。X 仍是 Claude 对照、Unity、Astra /slow、Chrome 插件、token 营销、Archify、0.154 worktree、Google Cloud plugin、/feedback。SpecterOps/skills 仍不写。Kit 仍不写（#41362）。ConfigCat / Meilisearch / Fastmail / Cal.com / Axiom MCP 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault MCP 只有 VS Code / Claude JSON。AgentPort 文档 headers 仍非 Codex 键。CDP 32/32（预览 4372）。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
