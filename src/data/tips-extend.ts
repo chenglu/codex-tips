@@ -9905,7 +9905,7 @@ url = "https://mcp.ai.pulumi.com/mcp"
 enabled = true
 \`\`\`
 
-不要发明 \`codex plugin add pulumi@…\`。官方没给出 Codex marketplace id。技能是另一条官方 Codex 路：\`codex plugin marketplace add pulumi/agent-skills\`，再在 TUI 里装 \`pulumi\`（或只要 \`pulumi-migration\` / \`pulumi-delegation\` / \`pulumi-package-maintenance\`）。\`pulumi\` 已经包含 migration 和 delegation，不要再并装那两个。不要把通用安装器的 \`--agent junie\` 抄成 \`--agent codex\`。不要抄 Claude 的 \`--transport http\`。不要抄 Cursor JSON、Windsurf \`serverUrl\` 或 ChatGPT Developer Mode。不要抄 Claude Desktop / Kiro 的 \`npx mcp-remote\`。不要给这台 \`bearer_token_env_var = "PULUMI_ACCESS_TOKEN"\`；那是第三方 Codex 文把无头 PAT 抄成主路径。交互主路径是 OAuth，Access Token 只出现在浏览器同意页。
+不要发明 \`codex plugin add pulumi@…\`。官方没给出这台 MCP 的 Codex marketplace id。技能是另一条官方 Codex 路，见相关技巧，不要跟这台 MCP 配成一张表。不要抄 Claude 的 \`--transport http\`。不要抄 Cursor JSON、Windsurf \`serverUrl\` 或 ChatGPT Developer Mode。不要抄 Claude Desktop / Kiro 的 \`npx mcp-remote\`。不要给这台 \`bearer_token_env_var = "PULUMI_ACCESS_TOKEN"\`；那是第三方 Codex 文把无头 PAT 抄成主路径。交互主路径是 OAuth，Access Token 只出现在浏览器同意页。
 
 本地 \`@pulumi/mcp-server\`（或 Docker 镜像 \`mcp/pulumi\`）给本机 CLI / CI 用，要本机装 Pulumi CLI，请求算你这边的配额。个人会话走远程 URL。本地才有 \`pulumi-cli-preview\` / \`pulumi-cli-up\` 这类 CLI 工具；远程才有 \`get-policy-violations\`、\`get-users\`。品牌站 \`brand.pulumi.com/mcp\` 是另一台 MCP，不要跟 \`mcp.ai.pulumi.com\` 混。
 
@@ -9925,7 +9925,7 @@ enabled = true
     level: "starter",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "Pulumi", "OAuth", "HTTP"],
-    related: ["mcp-add-and-login", "mcp-http-not-sse", "buildkite-mcp-http"],
+    related: ["mcp-add-and-login", "mcp-http-not-sse", "pulumi-agent-skills"],
     sources: [
       {
         label: "Pulumi · MCP Server",
@@ -9934,6 +9934,50 @@ enabled = true
       {
         label: "Pulumi · Announcing Pulumi Remote MCP Server",
         url: "https://www.pulumi.com/blog/remote-mcp-server/",
+      },
+    ],
+  },
+  {
+    id: "pulumi-agent-skills",
+    no: 374,
+    title: "Pulumi Skills 官方 Codex 走 marketplace，不要发明 plugin add",
+    summary:
+      "官方 Codex：plugin marketplace add pulumi/agent-skills，再 /plugins 装 pulumi。不要把 Claude 的 pulumi@pulumi-agent-skills 抄成 plugin add。不要并装 pulumi-migration。不要抄 npx skills add --agent junie 当 --agent codex。",
+    body: `Pulumi Agent Skills 给 Codex 有专节，写在官方技能页和仓库 README。官方 Codex 主路径是加 marketplace，再在 TUI 里装插件。命令是 \`codex plugin marketplace add pulumi/agent-skills\`：
+
+\`\`\`bash
+codex plugin marketplace add pulumi/agent-skills
+\`\`\`
+
+加完重启 Codex（0.154 起也可先看当前会话），打开 \`/plugins\`，选 **Pulumi Agent Skills**，再装 \`pulumi\`。官方**没有**写出 \`codex plugin add\` 带 @ 的 id。不要把 Claude \`settings.json\` 里的 \`pulumi@pulumi-agent-skills\` 抄进 Codex。\`pulumi\` 已经包含 migration 和 delegation，不要再并装 \`pulumi-migration\` 或 \`pulumi-delegation\`。只要迁移或 Neo 交接时，才单独装那两个。维护 provider 仓才再加 \`pulumi-package-maintenance\`，它可以和前面任意一组一起装。
+
+这是**技能捆**，不登记 \`mcp_servers.pulumi\`。查 stack、搜资源、把活交给 Neo 工具，仍走远程 MCP 那条。不要把两台配成一张表。
+
+不要抄 Claude 的 \`/plugin marketplace add pulumi/agent-skills\` 或 \`/plugin install pulumi\`。不要抄 \`extraKnownMarketplaces\` JSON；那是 Claude 的 \`settings.json\`，marketplace 键必须是 \`pulumi-agent-skills\`，抄错名字插件会解析失败，也不是 Codex 命令。不要把 \`npx skills add pulumi/agent-skills/pulumi --skill '*'\` 当成 Codex 专节：通用安装器兼容 Codex，但**没有**钉 \`--agent codex\`。不要把示例里的 \`--agent junie\` 改成 \`--agent codex\`。不要把手拷进 \`~/.codex/skills\` 或 \`.agents/skills/\` 根目录。
+
+装上后用自然语言即可：迁 Terraform、写 ComponentResource、配 ESC、把进行中的活交给 Neo。Codex 里也可以用技能斜杠命令，例如 \`/pulumi-terraform-to-pulumi\`。\`pulumi up\` / Neo 交接会动真基础设施，保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。
+
+升级用 \`codex plugin marketplace upgrade\`，名字以 \`codex plugin marketplace list\` 为准。卸载在 \`/plugins\` 关掉。IDE 扩展没有 \`/plugins\`，用 CLI 加 marketplace，再到 TUI 或桌面去装。网页 Cloud 不读你这台 \`CODEX_HOME\` 插件缓存。当前会话没有技能，再新开。
+
+不要做这些：
+
+- 不要把 Claude 的 \`pulumi@pulumi-agent-skills\` 当成 Codex \`plugin add\` id。
+- 不要把 \`npx skills add … --agent junie\` 抄成 \`--agent codex\`。
+- 不要和远程 MCP 那张 \`mcp_servers.pulumi\` 搞成一台。
+- 不要给它 \`required = true\` 挂全局。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Pulumi", "Skills", "marketplace"],
+    related: ["pulumi-mcp-http", "plugins-vs-skills", "clerk-skills-plugin"],
+    sources: [
+      {
+        label: "Pulumi · Agent Skills",
+        url: "https://www.pulumi.com/docs/ai/skills/",
+      },
+      {
+        label: "pulumi/agent-skills",
+        url: "https://github.com/pulumi/agent-skills",
       },
     ],
   },

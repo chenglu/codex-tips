@@ -3421,5 +3421,25 @@ export const articles: Article[] = [
     summary:
       '托管入口就是 mcp.ai.pulumi.com/mcp。OAuth 把 Access Token 留在 Pulumi Cloud，不要散落在本机 env。本地 npm 包继续给离线或 CI。Neo 任务会改基础设施，保持批准。',
   },
+  {
+    title: 'Pulumi Agent Skills',
+    url: 'https://www.pulumi.com/docs/ai/skills/',
+    source: 'Pulumi',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'Pulumi', '插件'],
+    summary:
+      '官方 Codex 走 plugin marketplace add pulumi/agent-skills，再在 /plugins 装 pulumi。不要把 Claude 的 pulumi@pulumi-agent-skills 抄成 plugin add。不要并装 pulumi-migration。不要抄 npx skills add --agent junie 当 --agent codex。',
+  },
+  {
+    title: 'pulumi/agent-skills',
+    url: 'https://github.com/pulumi/agent-skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', 'Pulumi', '插件'],
+    summary:
+      'marketplace.json 名是 pulumi-agent-skills。Codex 专节同样是 marketplace add pulumi/agent-skills，再 /plugins 装 pulumi。pulumi 已含 migration 和 delegation。不要发明 plugin add 的 @id。',
+  },
 ];
 

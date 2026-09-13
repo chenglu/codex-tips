@@ -2699,4 +2699,18 @@ codex mcp login pulumi
 # enabled = true
 `,
   },
+  {
+    id: "pulumi-agent-skills",
+    title: "Pulumi Agent Skills marketplace",
+    filename: "terminal",
+    summary:
+      "主路径是 plugin marketplace add pulumi/agent-skills，再 /plugins 装 pulumi。不要发明 plugin add。不要并装 pulumi-migration。不要抄 npx skills add --agent junie 当 --agent codex。",
+    code: `codex plugin marketplace add pulumi/agent-skills
+
+# 然后 TUI /plugins 选 Pulumi Agent Skills，安装 pulumi
+# pulumi 已含 migration / delegation，不要并装那两个
+# 不要发明 plugin add 的 @id
+# 不要抄 npx skills add --agent junie 当 --agent codex
+`,
+  },
 ];
