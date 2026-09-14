@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-14T03:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "03:00 定时器。调用前 $96.66，收尾待测后补。Spend: counts（start_time=2026-09-07T03:05:00Z，共 230 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Squirrelscan 托管 MCP（官方 Codex：mcp add squirrelscan --url https://mcp.squirrelscan.com/mcp，再 mcp login。必须带 /mcp。无头才 SQUIRRELSCAN_API_KEY。不要叠 OAuth 和 bearer。不要写 experimental_environment。本机 squirrel mcp 是 stdio，另起表。不要发明 plugin add）。X 仍是 Claude 对照、Unity、Astra /slow、token 营销、Archify、OMO 编排、/feedback。Fastmail 仍是 mcp-remote。Builder Fusion / Snowflake 官方仍无 Codex 专节。Kit / ConfigCat / Meilisearch / Cal.com / Axiom 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault 仍跳过。AgentPort 官方 TOML 仍写成 headers。Infisical / Browserbase 无 Codex 专节。",
+    "03:00 定时器。调用前 $96.66，收尾 $96.65。CDP 34/34，预览 4382，CDP 9482。Spend: counts（start_time=2026-09-07T03:05:00Z，共 230 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Squirrelscan 托管 MCP（官方 Codex：mcp add squirrelscan --url https://mcp.squirrelscan.com/mcp，再 mcp login。必须带 /mcp。无头才 SQUIRRELSCAN_API_KEY。不要叠 OAuth 和 bearer。不要写 experimental_environment。本机 squirrel mcp 是 stdio，另起表。不要发明 plugin add）。X 仍是 Claude 对照、Unity、Astra /slow、token 营销、Archify、OMO 编排、/feedback。Fastmail 仍是 mcp-remote。Builder Fusion / Snowflake 官方仍无 Codex 专节。Kit / ConfigCat / Meilisearch / Cal.com / Axiom 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault 仍跳过。AgentPort 官方 TOML 仍写成 headers。Infisical / Browserbase 无 Codex 专节。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
