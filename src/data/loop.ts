@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-14T03:30:00Z",
+  lastTick: "2026-09-14T04:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "03:30 定时器。调用前 $96.65，收尾 $96.64。CDP 34/34，预览 4383，CDP 9483。Spend: counts（start_time=2026-09-07T03:35:00Z，共 221 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 PlanetScale Codex 插件（marketplace add planetscale/codex-plugin，再 plugin add planetscale@planetscale。不要加成 Claude 的 planetscale/claude-plugin，装完 id 碰巧一样。插件 MCP 表名是 PlanetScale。文档 Codex 专节仍是 mcp add）。X 仍是 Claude 对照、Unity、Astra /slow、token 营销、OMO 编排、/feedback。Fastmail 仍是 mcp-remote。Builder Fusion / Snowflake 官方仍无 Codex 专节。Cal.com / ConfigCat / Infisical / Browserbase 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault / AgentPort 仍跳过。",
+    "04:30 定时器。调用前 $96.62。Spend: counts（start_time=2026-09-07T04:35:00Z，共 228 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Snowflake Cortex Code：clone Snowflake-Labs/subagent-cortex-code，再 bash integrations/codex/install.sh 装 cortexcode-tool。不要跑 npx skills add。这不是托管 Cortex Agents MCP。X 仍是 Claude 对照、Unity、Astra /slow、token 营销、OMO 编排、Agent Skill 热榜。Fastmail 仍是 mcp-remote。Builder Fusion / Infisical / Cal.com / ConfigCat / Browserbase / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault 官方仍是 VS Code JSON。AgentPort 仍写 headers 密钥。GEOly 插件见 PR #14。收尾额度见下一提交。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1512,6 +1512,18 @@ export const loopState = {
     "builder.io fusion-mcp-server mcp.builder.io Codex",
     "snowflake cortex MCP Codex mcp add",
     "Codex CLI 技巧 2026 PlanetScale codex-plugin planetscale@planetscale",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR skills OR AGENTS.md OR plugin OR worktree)',
+    "X news: Codex CLI",
+    "github.com/Snowflake-Labs/subagent-cortex-code Codex cortexcode-tool",
+    "docs.snowflake.com cortex-code-cli Codex which cortex connections.toml",
+    "docs.infisical.com mcp Codex",
+    "cal.com docs mcp-server Codex",
+    "configcat.com docs mcp Codex",
+    "browserbase mcp Codex API key",
+    "fastmail.com mcp Codex mcp-remote api.fastmail.com",
+    "builder.io fusion-mcp-server mcp.builder.io Codex",
+    "docs.agentport.sh agents Codex mcp add headers",
+    "Codex CLI 技巧 2026 Snowflake Cortex Code cortexcode-tool",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR skills OR AGENTS.md OR plugin OR worktree)',
     "X news: Codex CLI",
   ],

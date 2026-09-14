@@ -4031,5 +4031,35 @@ export const articles: Article[] = [
     summary:
       '引擎技能上游：MySQL、Postgres、Vitess、Neki。Codex 插件 vendor 后带 database- 前缀，例如 database-mysql。不要和操作技能仓抄成同一个 marketplace 源。',
   },
+  {
+    title: 'Cortex Code Skill',
+    url: 'https://github.com/Snowflake-Labs/subagent-cortex-code',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', 'Snowflake', 'Cortex', 'Codex'],
+    summary:
+      'Codex 不要跑 npx skills add，改走 integrations/codex/install.sh 装 cortexcode-tool。先确认 which cortex 有路径。不要发明 plugin add。',
+  },
+  {
+    title: 'Cortex Code for Codex — CLI Install',
+    url: 'https://github.com/Snowflake-Labs/subagent-cortex-code/blob/main/integrations/codex/README.md',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['CLI', 'Snowflake', 'Cortex', 'Codex'],
+    summary:
+      '默认 envelope 是 RO，聊天批准后再带 --yes。不要后台 disown。配置在 ~/.local/lib/cortexcode-tool/config.yaml。',
+  },
+  {
+    title: 'CoCo CLI',
+    url: 'https://docs.snowflake.com/en/user-guide/cortex-code/cortex-code-cli',
+    source: 'Snowflake Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['CLI', 'Snowflake', 'Cortex'],
+    summary:
+      '命令是 cortex，连接写在 ~/.snowflake/connections.toml。which cortex 要有路径。官方写中国大陆不可用。这不是 Codex 的 mcp add。',
+  },
 ];
 
