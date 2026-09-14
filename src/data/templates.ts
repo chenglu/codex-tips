@@ -3021,4 +3021,27 @@ enabled = true
 # enabled = true
 `,
   },
+  {
+    id: "alloy-mcp-http",
+    title: "Alloy MCP",
+    filename: "config.toml",
+    summary:
+      "官方 Codex：url 是 https://mcp.alloy.app/mcp，再 mcp login alloy。这是 alloy.app 原型会话，不是 alloy.cx。无头才 ALLOY_MCP_API_KEY。不要抄 mcp-remote 的 X-MCP-API-Key。",
+    code: `codex mcp add alloy --url https://mcp.alloy.app/mcp
+codex mcp login alloy
+
+# 已有 bearer 表时先卸：
+# codex mcp remove alloy
+
+# 无头 / CI：
+# [mcp_servers.alloy]
+# url = "https://mcp.alloy.app/mcp"
+# bearer_token_env_var = "ALLOY_MCP_API_KEY"
+# enabled = true
+
+[mcp_servers.alloy]
+url = "https://mcp.alloy.app/mcp"
+enabled = true
+`,
+  },
 ];

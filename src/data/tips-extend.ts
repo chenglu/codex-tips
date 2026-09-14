@@ -11142,4 +11142,73 @@ Bearer 和 \`mcp login\` **是两条路，不要叠**。配置了 \`bearer_token
       },
     ],
   },
+  {
+    id: "alloy-mcp-http",
+    no: 395,
+    title: "Alloy MCP 用 mcp.alloy.app/mcp，不要和 alloy.cx 搞混",
+    summary:
+      "官方 Codex：mcp add alloy --url https://mcp.alloy.app/mcp，再 mcp login alloy。这是 alloy.app 原型会话。无头才 ALLOY_MCP_API_KEY。不要抄 mcp-remote 的 X-MCP-API-Key，不要发明 plugin add。",
+    body: `这是 \`alloy.app\` 的原型 / 开发会话工具，**不是** \`alloy.cx\` 知识库，也**不是** \`mcp.index.inc\` 那家 Planning and Feedback。给 Codex 有专节。远程入口是 \`https://mcp.alloy.app/mcp\`，**带** \`/mcp\`。Streamable HTTP。先 OAuth：
+
+\`\`\`bash
+codex mcp add alloy --url https://mcp.alloy.app/mcp
+codex mcp login alloy
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.alloy]
+url = "https://mcp.alloy.app/mcp"
+enabled = true
+\`\`\`
+
+桌面走 Settings → Integrations & MCP，名字填 Alloy，URL 填同一条。CLI / 桌面 / IDE 共用这份配置。浏览器没弹再跑 \`codex mcp login alloy\`。\`codex mcp list\` 应列出 \`alloy\`。TUI 里 \`/mcp\` 看是否还要授权。
+
+已经配过 bearer 的 \`alloy\` 表，先卸再走 OAuth：
+
+\`\`\`bash
+codex mcp remove alloy
+codex mcp add alloy --url https://mcp.alloy.app/mcp
+codex mcp login alloy
+\`\`\`
+
+无头 / CI 才走工作区 MCP key。到 Alloy 工作区 Settings → MCP 建。官方 Codex 专节：
+
+\`\`\`toml
+[mcp_servers.alloy]
+url = "https://mcp.alloy.app/mcp"
+bearer_token_env_var = "ALLOY_MCP_API_KEY"
+enabled = true
+\`\`\`
+
+\`bearer_token_env_var\` 填变量**名**。把密钥 export 成 \`ALLOY_MCP_API_KEY\`。Codex 读启动它那个进程里的环境。Codex 不读 \`.env\`。Dock / 开始菜单打开的桌面没有 zshrc。从已经 export 的终端启动。密钥按工作区划界，只能读那个工作区里的会话。
+
+Bearer 和 \`mcp login\` **是两条路，不要叠**。配置了 \`bearer_token_env_var\` / \`http_headers\` / \`env_http_headers\` 时，每次请求都带这颗头，会盖掉已存的 OAuth。于是登录看起来成功，调用却一直 401。交互路径把这些头删掉。
+
+总览页给只懂 stdio 的客户端写了 \`npx mcp-remote\`，密钥头是 \`X-MCP-API-Key\`。那不是 Codex 路径。不要抄 \`--transport http\`，不要把 \`X-MCP-API-Key\` 写进 \`http_headers\`。Codex 无头按专节用 \`ALLOY_MCP_API_KEY\`。
+
+不要发明 \`codex plugin add alloy@\`。\`alloy.cx\` 的 \`work-with-alloy\` 插件读的是 \`ALLOY_TOKEN\` 和 \`api.alloy.cx\`，不是这条。若文档写成 \`https://mcp.index.inc/mcp\`，那是另一家产品，表名也叫 \`alloy\`，先 \`codex mcp get alloy\` 看 url。
+
+粘贴 Alloy 会话链接，让它汇总聊天、列文件、读原型内容或开发会话 diff。会话必须属于你授权的那个工作区。不要 \`required = true\`。不要一上来 \`--yolo\`。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完彻底新开会话。用 \`codex mcp get alloy\` 看传输是 streamable_http。OAuth 路径的 Auth 应显示 OAuth。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Alloy", "OAuth", "HTTP", "bearer_token_env_var"],
+    related: ["mcp-add-and-login", "mcp-http-bearer-env", "windmill-mcp-http"],
+    sources: [
+      {
+        label: "Alloy · Codex MCP",
+        url: "https://alloy.app/guide/integrations/codex-mcp",
+      },
+      {
+        label: "Alloy · MCP",
+        url: "https://alloy.app/guide/integrations/mcp",
+      },
+      {
+        label: "Alloy · Alloy MCP",
+        url: "https://alloy.app/launches/alloy-mcp",
+      },
+    ],
+  },
 ];

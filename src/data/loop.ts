@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-14T01:00:00Z",
+  lastTick: "2026-09-14T01:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "01:00 定时器。调用前 $96.68，收尾 $96.68。CDP 34/34，预览 4378，CDP 9478。Spend: counts（start_time=2026-09-07T01:05:00Z，共 229 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 ReUI MCP（官方 Codex：mcp add reui --url https://mcp.reui.io，不要加 /mcp；再 mcp login。无头才 bearer_token_env_var REUI_LICENSE_KEY。OAuth 和 bearer 不要叠。安装器可能写成 /api/mcp。不要把 components.json 占位符抄进 http_headers）。X 仍是 Claude 对照、Unity、Astra /slow、Chrome 插件、token 营销、Archify、0.154 worktree、/feedback。Fastmail 仍是 mcp-remote。Builder Fusion / Snowflake 官方仍无 Codex 专节。Kit #41362、ConfigCat / Meilisearch / Cal.com / Axiom 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault / AgentPort 仍跳过。",
+    "01:30 定时器。调用前 $96.68，收尾待测。Spend: counts（start_time=2026-09-07T01:35:00Z，共 247 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Alloy MCP（官方 Codex：mcp add alloy --url https://mcp.alloy.app/mcp，再 mcp login。这是 alloy.app 原型会话，不是 alloy.cx / mcp.index.inc。无头才 ALLOY_MCP_API_KEY。不要抄 mcp-remote 的 X-MCP-API-Key）。X 仍是 Claude 对照、Unity、Astra /slow、token 营销、Archify、0.154 worktree、/feedback。Fastmail 仍是 mcp-remote。Builder Fusion / Snowflake 官方仍无 Codex 专节。Kit #41362、ConfigCat / Meilisearch / Cal.com / Axiom 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault 仍跳过。AgentPort 官方 TOML 仍写成 headers。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1454,6 +1454,17 @@ export const loopState = {
     "builder.io fusion-mcp-server mcp.builder.io Codex",
     "snowflake cortex MCP Codex mcp add",
     "Codex CLI 技巧 2026 ReUI MCP mcp.reui.io 不要加 /mcp",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR skills OR AGENTS.md OR plugin OR worktree)',
+    "X news: Codex CLI",
+    "alloy.app guide integrations Codex mcp add alloy mcp.alloy.app",
+    "alloy.app guide integrations mcp Streamable HTTP X-MCP-API-Key",
+    "alloy.app launches alloy-mcp Codex prototyping",
+    "docs.agentport.sh agents Codex mcp add headers",
+    "docs.digitalocean.com do-app-platform-skills --agent codex",
+    "fastmail.com mcp Codex mcp-remote api.fastmail.com",
+    "builder.io fusion-mcp-server mcp.builder.io Codex",
+    "snowflake cortex MCP Codex mcp add",
+    "Codex CLI 技巧 2026 Alloy MCP mcp.alloy.app/mcp",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR skills OR AGENTS.md OR plugin OR worktree)',
     "X news: Codex CLI",
   ],

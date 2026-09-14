@@ -3881,5 +3881,35 @@ export const articles: Article[] = [
     summary:
       'Premium 才把许可证写进 .env.local 和 components.json 的 Bearer ${REUI_LICENSE_KEY}。那是 shadcn CLI 展开的。Codex MCP 用 bearer_token_env_var 读进程环境，不要把占位符抄进 http_headers。',
   },
+  {
+    title: 'Codex MCP integration',
+    url: 'https://alloy.app/guide/integrations/codex-mcp',
+    source: 'Alloy',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Alloy', 'OAuth'],
+    summary:
+      '官方 Codex：mcp add alloy --url，再 mcp login。这是 alloy.app 原型会话，不要和 alloy.cx 或 mcp.index.inc 搞混。无头才 ALLOY_MCP_API_KEY。已有 bearer 表先 mcp remove。',
+  },
+  {
+    title: 'MCP',
+    url: 'https://alloy.app/guide/integrations/mcp',
+    source: 'Alloy',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Alloy'],
+    summary:
+      '入口带 /mcp 后缀，Streamable HTTP。Codex 走 mcp add 再 login。X-MCP-API-Key 是 mcp-remote 桥，不是 Codex 头。不要抄 Claude 的 --transport http。',
+  },
+  {
+    title: 'Alloy MCP',
+    url: 'https://alloy.app/launches/alloy-mcp',
+    source: 'Alloy',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Alloy'],
+    summary:
+      'Alloy MCP 把原型会话的设计、聊天、文件交给 Codex。连上后贴会话链接，不要手工拷聊天记录。面向 Claude 和 Codex，不是 alloy.cx 那套插件。',
+  },
 ];
 
