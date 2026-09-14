@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-14T01:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "01:30 定时器。调用前 $96.68，收尾待测。Spend: counts（start_time=2026-09-07T01:35:00Z，共 247 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Alloy MCP（官方 Codex：mcp add alloy --url https://mcp.alloy.app/mcp，再 mcp login。这是 alloy.app 原型会话，不是 alloy.cx / mcp.index.inc。无头才 ALLOY_MCP_API_KEY。不要抄 mcp-remote 的 X-MCP-API-Key）。X 仍是 Claude 对照、Unity、Astra /slow、token 营销、Archify、0.154 worktree、/feedback。Fastmail 仍是 mcp-remote。Builder Fusion / Snowflake 官方仍无 Codex 专节。Kit #41362、ConfigCat / Meilisearch / Cal.com / Axiom 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault 仍跳过。AgentPort 官方 TOML 仍写成 headers。",
+    "01:30 定时器。调用前 $96.68，收尾 $96.67。CDP 34/34，预览 4379，CDP 9479。Spend: counts（start_time=2026-09-07T01:35:00Z，共 247 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Alloy MCP（官方 Codex：mcp add alloy --url https://mcp.alloy.app/mcp，再 mcp login。这是 alloy.app 原型会话，不是 alloy.cx / mcp.index.inc。无头才 ALLOY_MCP_API_KEY。不要抄 mcp-remote 的 X-MCP-API-Key）。X 仍是 Claude 对照、Unity、Astra /slow、token 营销、Archify、0.154 worktree、/feedback。Fastmail 仍是 mcp-remote。Builder Fusion / Snowflake 官方仍无 Codex 专节。Kit #41362、ConfigCat / Meilisearch / Cal.com / Axiom 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault 仍跳过。AgentPort 官方 TOML 仍写成 headers。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
