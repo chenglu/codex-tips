@@ -11270,4 +11270,80 @@ Admin 会改文档。会话先 \`checkout\` 绑到一条分支，再改，再用
       },
     ],
   },
+  {
+    id: "squirrelscan-mcp-http",
+    no: 398,
+    title: "连接 Squirrelscan 托管 MCP",
+    summary:
+      "连接 https://mcp.squirrelscan.com/mcp，使用 OAuth 登录。无头环境可通过 SQUIRRELSCAN_API_KEY 认证，本地 stdio 服务需单独配置。",
+    body: `Squirrelscan 托管 MCP 提供云端审计、报告、issue tracker 和规则目录。远程入口为 \`https://mcp.squirrelscan.com/mcp\`，使用 Streamable HTTP，地址需保留 \`/mcp\` 后缀。
+
+交互使用 OAuth：
+
+\`\`\`bash
+codex mcp add squirrelscan --url https://mcp.squirrelscan.com/mcp
+codex mcp login squirrelscan
+\`\`\`
+
+对应配置：
+
+\`\`\`toml
+[mcp_servers.squirrelscan]
+url = "https://mcp.squirrelscan.com/mcp"
+enabled = true
+\`\`\`
+
+桌面端也可在 Settings → Integrations & MCP 中添加相同地址。运行 \`codex mcp list\` 查看连接，在会话中通过 \`/mcp\` 检查授权状态。
+
+### 选择连接方式
+
+| 场景 | 连接方式 | 说明 |
+| --- | --- | --- |
+| 交互使用托管服务 | 远程 URL + OAuth | 云端审计、共享组织状态和 issue tracker |
+| 无头环境或 CI | 相同 URL + API key | 通过环境变量提供凭据，无需 OAuth 登录 |
+| 本地审计 | \`squirrel mcp\`，stdio | 免费、可离线、可扫描 localhost；使用独立服务名，如 squirrelscan-local |
+
+\`squirrel audit\` 是 CLI 审计命令，\`squirrel mcp\` 则提供本地 MCP 引擎。托管与本地服务分别配置，可避免同名配置相互覆盖。\`experimental_environment\` 适用于 stdio 远端执行器，不适用于此 HTTP 连接。
+
+### 无头环境或 CI
+
+\`\`\`bash
+codex mcp add squirrelscan --url https://mcp.squirrelscan.com/mcp --bearer-token-env-var SQUIRRELSCAN_API_KEY
+\`\`\`
+
+\`bearer_token_env_var\` 填环境变量名。可用 \`squirrel keys create --shell\` 创建密钥，并在启动 Codex 的环境中设置 \`SQUIRRELSCAN_API_KEY\`。从 Dock 或开始菜单启动的桌面应用通常不会加载终端环境变量；Codex 也不会自动读取 \`.env\`。
+
+OAuth 与 Bearer token 请选择一种认证方式。手动配置的认证头会覆盖已保存的 OAuth，可能导致登录成功但请求返回 401。切换到 OAuth 前，请移除旧的 Bearer 配置。
+
+### 配置范围与审计费用
+
+\`codex mcp add\` 将连接写入用户层 \`~/.codex/config.toml\`。如需限定项目，可将配置块放入项目的 \`.codex/config.toml\`，在项目受信任后生效。
+
+\`run_audit\` 会消耗 credits。估算超过阈值时，首次调用返回估价，确认后再携带 \`confirm\` 执行。
+
+技能可作为工作流补充，通过 \`npx skills add squirrelscan/squirrelscan\` 安装。技能安装与 MCP 连接需分别完成。
+
+移除连接时，先运行 \`codex mcp logout squirrelscan\`，再移除对应配置。网页 Cloud 不读取本机的 \`~/.codex/config.toml\`。
+
+配置后运行 \`codex mcp get squirrelscan\`，确认地址为 \`https://mcp.squirrelscan.com/mcp\`，传输为 streamable_http。OAuth 连接应显示 OAuth，API key 连接应显示变量名 \`SQUIRRELSCAN_API_KEY\`。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Squirrelscan", "OAuth", "HTTP", "bearer_token_env_var"],
+    related: ["mcp-add-and-login", "alloy-mcp-http", "mintlify-admin-mcp"],
+    sources: [
+      {
+        label: "squirrelscan · Codex",
+        url: "https://docs.squirrelscan.com/developers/agents/codex",
+      },
+      {
+        label: "squirrelscan · MCP clients",
+        url: "https://docs.squirrelscan.com/developers/mcp-clients",
+      },
+      {
+        label: "squirrelscan · Hosted MCP",
+        url: "https://docs.squirrelscan.com/developers/mcp",
+      },
+    ],
+  },
 ];

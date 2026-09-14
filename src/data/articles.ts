@@ -3971,5 +3971,35 @@ export const articles: Article[] = [
     summary:
       '介绍只读文档检索 MCP，地址为站点域名加 /mcp，与 Admin MCP 使用不同的入口。',
   },
+  {
+    title: 'squirrelscan for OpenAI Codex',
+    url: 'https://docs.squirrelscan.com/developers/agents/codex',
+    source: 'squirrelscan',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Squirrelscan', 'Skills', 'Codex'],
+    summary:
+      '介绍 Squirrelscan 托管 MCP 在 Codex 中的连接方式，以及可单独安装的工作流技能。',
+  },
+  {
+    title: 'MCP client setup',
+    url: 'https://docs.squirrelscan.com/developers/mcp-clients',
+    source: 'squirrelscan',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Squirrelscan', 'OAuth', 'Codex'],
+    summary:
+      '介绍 OAuth 和 API key 两种认证方式、用户层配置，以及无头环境的 SQUIRRELSCAN_API_KEY 设置。',
+  },
+  {
+    title: 'Hosted MCP server',
+    url: 'https://docs.squirrelscan.com/developers/mcp',
+    source: 'squirrelscan',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Squirrelscan'],
+    summary:
+      '介绍托管 MCP 的审计、报告和 issue tracker。高额度审计需确认估价，本地 stdio 引擎可独立用于离线审计。',
+  },
 ];
 

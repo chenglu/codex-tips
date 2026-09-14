@@ -3080,4 +3080,27 @@ url = "https://mcp.mintlify.com"
 enabled = true
 `,
   },
+  {
+    id: "squirrelscan-mcp-http",
+    title: "Squirrelscan 托管 MCP",
+    filename: "config.toml",
+    summary:
+      "连接 https://mcp.squirrelscan.com/mcp，使用 OAuth 登录。无头环境可通过 SQUIRRELSCAN_API_KEY 认证，本地 stdio 服务需单独配置。",
+    code: `codex mcp add squirrelscan --url https://mcp.squirrelscan.com/mcp
+codex mcp login squirrelscan
+
+# 已有 bearer 表时先卸：
+# codex mcp remove squirrelscan
+
+# 无头 / CI：
+# [mcp_servers.squirrelscan]
+# url = "https://mcp.squirrelscan.com/mcp"
+# bearer_token_env_var = "SQUIRRELSCAN_API_KEY"
+# enabled = true
+
+[mcp_servers.squirrelscan]
+url = "https://mcp.squirrelscan.com/mcp"
+enabled = true
+`,
+  },
 ];
