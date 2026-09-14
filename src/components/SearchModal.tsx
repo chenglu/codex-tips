@@ -1,6 +1,7 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { tips } from "../data/tips";
 import { searchCatalog } from "../lib/search";
+import { EmptyState } from "./EmptyState";
 
 export function SearchModal({
   open,
@@ -11,7 +12,9 @@ export function SearchModal({
 }) {
   const [query, setQuery] = useState("");
   const [active, setActive] = useState(0);
-  const results = useMemo(() => searchCatalog(query, tips, 10), [query]);
+  const results = useMemo(() => searchCatalog(query, tips, 12), [query]);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (open) {
@@ -23,6 +26,40 @@ export function SearchModal({
   useEffect(() => {
     setActive(0);
   }, [query]);
+
+  useEffect(() => {
+    if (!open) return;
+    const previous = document.activeElement as HTMLElement | null;
+    const overflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    inputRef.current?.focus();
+
+    const onTab = (event: KeyboardEvent) => {
+      if (event.key !== "Tab" || !dialogRef.current) return;
+      const nodes = [
+        ...dialogRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input, textarea, select, [tabindex]:not([tabindex="-1"])',
+        ),
+      ];
+      if (nodes.length === 0) return;
+      const first = nodes[0];
+      const last = nodes[nodes.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    window.addEventListener("keydown", onTab);
+    return () => {
+      document.body.style.overflow = overflow;
+      window.removeEventListener("keydown", onTab);
+      previous?.focus();
+    };
+  }, [open]);
 
   useEffect(() => {
     if (!open) return;
@@ -51,43 +88,75 @@ export function SearchModal({
     return () => window.removeEventListener("keydown", onKey);
   }, [open, onClose, results, active]);
 
+  useEffect(() => {
+    document.getElementById(`search-opt-${active}`)?.scrollIntoView({ block: "nearest" });
+  }, [active, results]);
+
   if (!open) return null;
 
   return (
-    <div className="modal-backdrop" onClick={onClose}>
+    <div className="modal-backdrop">
+      <button className="modal-scrim" type="button" tabIndex={-1} aria-label="关闭检索" onClick={onClose} />
       <div
+        ref={dialogRef}
         className="modal"
         role="dialog"
-        aria-label="搜索手册"
-        onClick={(event) => event.stopPropagation()}
+        aria-modal="true"
+        aria-labelledby="search-title"
       >
-        <input
-          autoFocus
-          placeholder="搜索技巧、文章、社区动态…"
-          value={query}
-          onChange={(event) => setQuery(event.target.value)}
-        />
-        <div className="modal-list">
+        <div className="modal-head">
+          <h2 id="search-title" className="sr-only">
+            检索手册
+          </h2>
+          <input
+            ref={inputRef}
+            role="combobox"
+            aria-autocomplete="list"
+            aria-expanded="true"
+            aria-controls="search-results"
+            aria-activedescendant={results[active] ? `search-opt-${active}` : undefined}
+            placeholder="搜索技巧、模板、文章、社区动态…"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+          />
+          <button className="icon-btn modal-close" type="button" onClick={onClose}>
+            Esc
+          </button>
+        </div>
+        <div id="search-results" className="modal-list" role="listbox">
           {results.map((hit, index) => (
             <a
-              key={`${hit.kind}-${hit.href}`}
+              id={`search-opt-${index}`}
+              key={`${hit.kind}-${hit.href}-${hit.title}`}
+              role="option"
+              aria-selected={index === active}
               className={index === active ? "is-active" : undefined}
               href={hit.href}
               target={hit.href.startsWith("#") ? undefined : "_blank"}
               rel={hit.href.startsWith("#") ? undefined : "noreferrer"}
+              onMouseEnter={() => setActive(index)}
               onClick={onClose}
             >
-              <div className="kicker">
-                {hit.kicker} · {hit.title}
-              </div>
-              <div style={{ color: "var(--muted)", fontSize: 14 }}>{hit.summary}</div>
+              <div className="kicker">{hit.kicker}</div>
+              <div className="modal-hit-title">{hit.title}</div>
+              <div className="modal-hit-summary">{hit.summary}</div>
             </a>
           ))}
           {results.length === 0 && (
-            <div className="empty" style={{ padding: 16 }}>
-              没有匹配。试试 AGENTS.md、/plan、sandbox、exec。
-            </div>
+            <EmptyState>没有匹配。试试 AGENTS.md、/plan、sandbox、exec。</EmptyState>
           )}
+        </div>
+        <div className="modal-foot">
+          <span>
+            <kbd>↑</kbd>
+            <kbd>↓</kbd> 移动
+          </span>
+          <span>
+            <kbd>Enter</kbd> 打开
+          </span>
+          <span>
+            <kbd>Esc</kbd> 关闭
+          </span>
         </div>
       </div>
     </div>

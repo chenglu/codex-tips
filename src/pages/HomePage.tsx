@@ -4,8 +4,18 @@ import { community } from "../data/community";
 import { featuredTips, tips } from "../data/tips";
 import { href } from "../lib/routes";
 import { TipCard } from "../components/TipCard";
+import { FeedItem } from "../components/FeedItem";
+
+const categoryCounts: Record<string, number> = {};
+for (const tip of tips) {
+  categoryCounts[tip.category] = (categoryCounts[tip.category] ?? 0) + 1;
+}
+
+const highlights = featuredTips.length > 0 ? featuredTips.slice(0, 6) : tips.slice(0, 6);
 
 export function HomePage() {
+  const latestCommunity = [...community].sort((a, b) => (a.date < b.date ? 1 : -1)).slice(0, 4);
+
   return (
     <>
       <section className="hero">
@@ -20,11 +30,19 @@ export function HomePage() {
             把 OpenAI Codex 从「会聊天的补全」用成可配置的工程队友。这里按场景收了
             CLI、桌面端、IDE 与 Cloud 上真正能省时间的操作法——提示、AGENTS.md、沙箱、斜杠命令、Skills、MCP、子代理与自动化。
           </p>
+          <div className="hero-actions">
+            <a className="btn" href={href({ name: "browse", search: "" })}>
+              打开目录
+            </a>
+            <a className="btn btn-ghost" href={href({ name: "cheatsheet" })}>
+              打开速查
+            </a>
+          </div>
           <div className="meta-row">
             <span>{tips.length} 条技巧</span>
             <span>{articles.length} 篇文章</span>
             <span>{community.length} 条社区动态</span>
-            <span>按 / 键检索</span>
+            <span>按 / 或 ⌘K 检索</span>
           </div>
         </div>
         <div className="stack">
@@ -51,56 +69,56 @@ export function HomePage() {
         </div>
       </section>
 
-      <div className="section-head">
-        <h2>先读这几条</h2>
-        <a href={href({ name: "browse", search: "" })}>进入目录 →</a>
-      </div>
-      <div className="grid">
-        {featuredTips.slice(0, 6).map((tip) => (
-          <TipCard key={tip.id} tip={tip} />
-        ))}
-      </div>
-
-      <div className="section-head" style={{ marginTop: 48 }}>
-        <h2>社区刚在说什么</h2>
-        <a href={href({ name: "community" })}>全部动态 →</a>
-      </div>
-      <div className="feed">
-        {[...community]
-          .sort((a, b) => (a.date < b.date ? 1 : -1))
-          .slice(0, 4)
-          .map((item) => (
+      <div className="section-block">
+        <div className="section-head">
+          <h2>章节</h2>
+          <a href={href({ name: "browse", search: "" })}>全部目录 →</a>
+        </div>
+        <div className="chapters">
+          {categories.map((category) => (
             <a
-              key={item.url}
-              className="feed-item"
-              href={item.url}
-              target="_blank"
-              rel="noreferrer"
+              key={category.id}
+              className="chapter"
+              href={href({ name: "browse", search: `?cat=${category.id}` })}
             >
-              <div className="kicker">
-                {item.source} · {item.kind} · {item.date}
-              </div>
-              <h3>{item.title}</h3>
-              <p>{item.summary}</p>
+              <div className="no">CH {category.chapter}</div>
+              <h3>{category.name}</h3>
+              <p>{category.blurb}</p>
+              <div className="count">{categoryCounts[category.id] ?? 0} 条</div>
             </a>
           ))}
+        </div>
       </div>
 
-      <div className="section-head" style={{ marginTop: 48 }}>
-        <h2>章节</h2>
+      <div className="section-block">
+        <div className="section-head">
+          <h2>先读这几条</h2>
+          <a href={href({ name: "browse", search: "" })}>进入目录 →</a>
+        </div>
+        <div className="grid">
+          {highlights.map((tip) => (
+            <TipCard key={tip.id} tip={tip} />
+          ))}
+        </div>
       </div>
-      <div className="chapters">
-        {categories.map((category) => (
-          <a
-            key={category.id}
-            className="chapter"
-            href={href({ name: "browse", search: `?cat=${category.id}` })}
-          >
-            <div className="no">CH {category.chapter}</div>
-            <h3>{category.name}</h3>
-            <p>{category.blurb}</p>
-          </a>
-        ))}
+
+      <div className="section-block">
+        <div className="section-head">
+          <h2>社区刚在说什么</h2>
+          <a href={href({ name: "community" })}>全部动态 →</a>
+        </div>
+        <div className="feed">
+          {latestCommunity.map((item) => (
+            <FeedItem
+              key={item.url}
+              href={item.url}
+              kicker={`${item.source} · ${item.kind} · ${item.date}`}
+              title={item.title}
+              summary={item.summary}
+              tags={item.tags}
+            />
+          ))}
+        </div>
       </div>
     </>
   );
