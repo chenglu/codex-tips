@@ -3,6 +3,7 @@ import { categories } from "../data/categories";
 import { tips } from "../data/tips";
 import { EmptyState } from "../components/EmptyState";
 import { TipCard } from "../components/TipCard";
+import { navigate } from "../lib/navigate";
 import { href } from "../lib/routes";
 import { useMedia } from "../lib/hooks";
 import { levelLabel, surfaceLabel } from "../lib/labels";
@@ -37,9 +38,7 @@ for (const tip of tips) {
 }
 
 function writeFilters(next: Filters) {
-  const nextHash = href({ name: "browse", search: filtersToSearch(next) });
-  window.history.replaceState(null, "", nextHash);
-  window.dispatchEvent(new HashChangeEvent("hashchange"));
+  navigate(href({ name: "browse", search: filtersToSearch(next) }), true);
 }
 
 export function BrowsePage({ search }: { search: string }) {
@@ -98,7 +97,7 @@ export function BrowsePage({ search }: { search: string }) {
     <div className="layout">
       <aside className="side">
         <div className="brand-kicker">Index</div>
-        <h2 className="side-title">目录</h2>
+        <h1 className="side-title">目录</h1>
         <div className="filters">
           <label>
             检索

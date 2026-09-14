@@ -11134,4 +11134,140 @@ Codex 可直接连接 Streamable HTTP 服务。无头环境使用 \`ALLOY_MCP_AP
       },
     ],
   },
+  {
+    id: "firebase-agent-skills",
+    no: 396,
+    title: "安装与更新 Firebase Agent Skills",
+    summary:
+      "通过 firebase/agent-skills 安装 firebase@firebase 插件，使用 marketplace upgrade 更新。技能提供工作流指导，Firebase MCP 用于访问项目资源。",
+    body: `Firebase 文档包含 Codex 配置说明，写在 Agent Skills 文档。这是官方插件，不是手拷 SKILL.md。CLI：
+
+\`\`\`bash
+codex plugin marketplace add firebase/agent-skills
+codex plugin add firebase@firebase
+\`\`\`
+
+桌面先在终端跑完 \`marketplace add\`，**彻底重启** Codex 应用，再打开 Plugins，选 Firebase 源，点 Install。新任务里用 \`@Firebase\` 选这份插件，或直接提 Firebase 任务。
+
+升级时先更新插件源：
+
+\`\`\`bash
+codex plugin marketplace upgrade firebase
+\`\`\`
+
+若更新未生效，可重新安装：
+
+\`\`\`bash
+codex plugin remove firebase@firebase
+codex plugin add firebase@firebase
+\`\`\`
+
+GitHub README 的 Option 4 写成 \`firebase/skills\`。文档专节是 \`firebase/agent-skills\`。\`github.com/firebase/skills\` 会转到 \`firebase/agent-skills\`。安装时使用文档中的 \`firebase/agent-skills\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`，应能看到 \`firebase@firebase\`。没有再新开。IDE 扩展没有 \`/plugins\`。
+
+技能举例：\`firebase-basics\`、\`firebase-auth-basics\`、\`firebase-firestore-standard\`、\`firebase-app-hosting-basics\`、\`firebase-crashlytics\`。文档说技能应和 Firebase MCP **互补**：技能提供工作流指导，MCP 用于访问项目资源。
+
+Firebase **MCP 页没有 Codex 专节**。它只列 Antigravity / Claude / Cursor / VS Code / Firebase Studio。stdio 启动命令各家一样是 \`npx -y firebase-tools@latest mcp\`，鉴权走本机 \`firebase login\` 或 ADC，无需运行 \`mcp login\`。插件主路径装不上、只要这台 MCP 时，才手写用户层回退：
+
+\`\`\`bash
+codex mcp add firebase -- npx -y firebase-tools@latest mcp
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.firebase]
+command = "npx"
+args = ["-y", "firebase-tools@latest", "mcp"]
+enabled = true
+startup_timeout_sec = 60
+\`\`\`
+
+上述 MCP 配置为 stdio 方式。npx 冷启动慢，超时就加大 \`startup_timeout_sec\`。MCP / CLI 会改 Firebase 项目，
+
+网页 Cloud 不读取本机 marketplace。配置后用 \`codex plugin list\` 核对 \`firebase@firebase\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Firebase", "Skills", "MCP"],
+    related: ["google-cloud-developer-plugin", "plugin-session-refresh", "azure-skills-plugin"],
+    sources: [
+      {
+        label: "Firebase · Agent skills",
+        url: "https://firebase.google.com/docs/ai-assistance/agent-skills",
+      },
+      {
+        label: "firebase/agent-skills",
+        url: "https://github.com/firebase/agent-skills",
+      },
+      {
+        label: "Firebase · MCP server",
+        url: "https://firebase.google.com/docs/ai-assistance/mcp-server",
+      },
+    ],
+  },
+  {
+    id: "mintlify-admin-mcp",
+    no: 397,
+    title: "连接 Mintlify Admin MCP",
+    summary:
+      "连接 https://mcp.mintlify.com 并通过 OAuth 登录，管理文档与导航。只读文档检索需使用独立的 mintlify-docs 配置。",
+    body: `这是 Mintlify **Admin MCP**：改文档内容、导航、\`docs.json\` 和部分仪表盘设置，并能开 PR。文档包含 Codex 配置说明。远程入口是 \`https://mcp.mintlify.com\`，无需添加 \`/mcp\` 后缀。Streamable HTTP。必须交互 OAuth，官方没给 API key / bearer 路径。
+
+官方 TOML：
+
+\`\`\`toml
+[mcp_servers.mintlify]
+url = "https://mcp.mintlify.com"
+enabled = true
+\`\`\`
+
+CLI 等价：
+
+\`\`\`bash
+codex mcp add mintlify --url https://mcp.mintlify.com
+codex mcp login mintlify
+\`\`\`
+
+桌面走 Settings → Integrations & MCP，名字填 mintlify，URL 填同一条。CLI / 桌面 / IDE 共用这份配置。若浏览器未打开，运行 \`codex mcp login mintlify\`。\`codex mcp list\` 应列出 \`mintlify\`。TUI 里 \`/mcp\` 看是否还要授权。
+
+Admin 和文档检索使用不同入口，需分别配置服务名：
+
+| 用途 | URL | 官方写在 |
+| --- | --- | --- |
+| Admin（写文档、开 PR） | \`https://mcp.mintlify.com\` | Admin MCP 的 Codex 专节 |
+| 文档检索（只读） | \`https://mintlify.com/docs/mcp\` | 写作指南 / Search MCP 的 Codex 示例 |
+
+写作指南和 Search MCP 页的 Codex 示例都是 \`[mcp_servers.mintlify]\` 指向 \`https://mintlify.com/docs/mcp\`。同名配置会覆盖 Admin。文档检索请使用独立服务名：
+
+\`\`\`bash
+codex mcp add mintlify-docs --url https://mintlify.com/docs/mcp
+\`\`\`
+
+自己站点的检索 MCP 在站点域名后面加 \`/mcp\`，再另起表名，不要覆盖 \`mintlify\`。全站索引是 \`https://index.mintlify.com\`，又是第三台。
+
+Admin 会改文档。会话先 \`checkout\` 绑到一条分支，再改，再用 \`save\` 开 PR。部署管理（工作流、成员、账单、集成）是 Code mode，**立刻写进线上**，没有 PR。
+
+移除连接：删除 \`~/.codex/config.toml\` 里的 \`[mcp_servers.mintlify]\`。仪表盘 Settings → Security & access → Connected apps 撤销授权。已创建的 PR 会保留。
+
+网页 Cloud 不读取 \`~/.codex/config.toml\`。配置后用 \`codex mcp get mintlify\` 看 url 是 \`https://mcp.mintlify.com\`，传输是 streamable_http。OAuth 路径的 Auth 应显示 OAuth。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Mintlify", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "alloy-mcp-http", "windmill-mcp-http"],
+    sources: [
+      {
+        label: "Mintlify · Admin MCP",
+        url: "https://www.mintlify.com/docs/ai/mintlify-mcp",
+      },
+      {
+        label: "Mintlify · Write documentation with Codex",
+        url: "https://www.mintlify.com/docs/guides/codex",
+      },
+      {
+        label: "Mintlify · Search MCP",
+        url: "https://www.mintlify.com/docs/ai/model-context-protocol",
+      },
+    ],
+  },
 ];

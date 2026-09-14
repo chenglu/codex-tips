@@ -1,7 +1,17 @@
 import { useEffect, useRef, useState } from "react";
+import { DocumentMeta } from "./components/DocumentMeta";
 import { SearchModal } from "./components/SearchModal";
-import { tipMap } from "./data/tips";
-import { href, parseHash, routeScrollKey, type Route } from "./lib/routes";
+import { navItems } from "./lib/nav";
+import { navigate, shouldInterceptLink } from "./lib/navigate";
+import {
+  href,
+  isFilePath,
+  parseCurrentLocation,
+  parseHash,
+  routeScrollKey,
+  withTrailingSlash,
+  type Route,
+} from "./lib/routes";
 import { AboutPage } from "./pages/AboutPage";
 import { ArticlesPage } from "./pages/ArticlesPage";
 import { BrowsePage } from "./pages/BrowsePage";
@@ -12,22 +22,55 @@ import { NotFoundPage } from "./pages/NotFoundPage";
 import { TemplatesPage } from "./pages/TemplatesPage";
 import { TipPage } from "./pages/TipPage";
 
-const navItems: { name: Route["name"]; href: string; label: string }[] = [
-  { name: "browse", href: href({ name: "browse", search: "" }), label: "目录" },
-  { name: "cheatsheet", href: href({ name: "cheatsheet" }), label: "速查" },
-  { name: "templates", href: href({ name: "templates" }), label: "模板" },
-  { name: "articles", href: href({ name: "articles" }), label: "文章" },
-  { name: "community", href: href({ name: "community" }), label: "社区" },
-  { name: "about", href: href({ name: "about" }), label: "关于" },
-];
+function navHref(name: (typeof navItems)[number]["name"]): string {
+  return name === "browse" ? href({ name: "browse", search: "" }) : href({ name });
+}
 
-function useHashRoute(): Route {
-  const [route, setRoute] = useState<Route>(() => parseHash(window.location.hash));
+function initialRoute(): Route {
+  const hash = window.location.hash;
+  if (hash.startsWith("#/")) {
+    const route = parseHash(hash);
+    window.history.replaceState(null, "", href(route));
+    return route;
+  }
+  return parseCurrentLocation();
+}
+
+function usePathRoute(): Route {
+  const [route, setRoute] = useState<Route>(initialRoute);
+
   useEffect(() => {
-    const onChange = () => setRoute(parseHash(window.location.hash));
-    window.addEventListener("hashchange", onChange);
-    return () => window.removeEventListener("hashchange", onChange);
+    const onChange = () => setRoute(parseCurrentLocation());
+    window.addEventListener("popstate", onChange);
+    return () => window.removeEventListener("popstate", onChange);
   }, []);
+
+  useEffect(() => {
+    const onClick = (event: MouseEvent) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+      const anchor = target.closest("a");
+      if (!(anchor instanceof HTMLAnchorElement)) return;
+      if (!shouldInterceptLink(anchor, event)) return;
+      const url = new URL(anchor.href);
+      event.preventDefault();
+      navigate(`${url.pathname}${url.search}${url.hash}`);
+    };
+    document.addEventListener("click", onClick);
+    return () => document.removeEventListener("click", onClick);
+  }, []);
+
+  useEffect(() => {
+    if (route.name === "notfound") return;
+    const desired = href(route);
+    const current = `${window.location.pathname}${window.location.search}`;
+    if (current === desired) return;
+    if (isFilePath(window.location.pathname)) return;
+    if (withTrailingSlash(window.location.pathname) !== window.location.pathname || current !== desired) {
+      window.history.replaceState(null, "", desired);
+    }
+  }, [route]);
+
   return route;
 }
 
@@ -36,33 +79,8 @@ function navActive(route: Route, name: Route["name"]): boolean {
   return route.name === name;
 }
 
-function documentTitle(route: Route): string {
-  switch (route.name) {
-    case "home":
-      return "Codex Tips · 现场手册";
-    case "browse":
-      return "目录 · Codex Tips";
-    case "tip": {
-      const tip = tipMap.get(route.id);
-      return tip ? `${tip.title} · Codex Tips` : "未找到 · Codex Tips";
-    }
-    case "cheatsheet":
-      return "速查表 · Codex Tips";
-    case "templates":
-      return "模板 · Codex Tips";
-    case "articles":
-      return "文章 · Codex Tips";
-    case "community":
-      return "社区 · Codex Tips";
-    case "about":
-      return "关于 · Codex Tips";
-    case "notfound":
-      return "未找到 · Codex Tips";
-  }
-}
-
 export function App() {
-  const route = useHashRoute();
+  const route = usePathRoute();
   const [searchOpen, setSearchOpen] = useState(false);
   const [theme, setTheme] = useState<"night" | "paper">(() => {
     return (localStorage.getItem("codex-tips-theme") as "night" | "paper") || "night";
@@ -80,10 +98,6 @@ export function App() {
       .querySelector('meta[name="theme-color"]')
       ?.setAttribute("content", theme === "paper" ? "#f3eee3" : "#0b0c0a");
   }, [theme]);
-
-  useEffect(() => {
-    document.title = documentTitle(route);
-  }, [route]);
 
   useEffect(() => {
     const nextKey = routeScrollKey(route);
@@ -111,6 +125,7 @@ export function App() {
 
   return (
     <>
+      <DocumentMeta route={route} />
       <a className="skip-link" href="#content">
         跳到正文
       </a>
@@ -133,7 +148,7 @@ export function App() {
                     key={item.name}
                     className={navActive(route, item.name) ? "is-active" : undefined}
                     aria-current={navActive(route, item.name) ? "page" : undefined}
-                    href={item.href}
+                    href={navHref(item.name)}
                   >
                     {item.label}
                   </a>

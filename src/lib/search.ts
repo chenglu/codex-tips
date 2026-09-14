@@ -1,6 +1,7 @@
 import { articles } from "../data/articles";
 import { community } from "../data/community";
 import { templates } from "../data/templates";
+import { href } from "./routes";
 import type { CategoryId, Level, Surface, Tip } from "../types";
 
 export interface Filters {
@@ -88,42 +89,42 @@ const pageHits: SearchHit[] = [
     kind: "page",
     title: "目录",
     summary: "按章节、难度、入口过滤全部技巧",
-    href: "#/tips",
+    href: href({ name: "browse", search: "" }),
     kicker: "页面",
   },
   {
     kind: "page",
     title: "速查表",
     summary: "启动、TUI、斜杠命令、旗标与 exec",
-    href: "#/cheatsheet",
+    href: href({ name: "cheatsheet" }),
     kicker: "页面",
   },
   {
     kind: "page",
     title: "模板",
     summary: "AGENTS.md、config、hooks、终端与 CI 骨架",
-    href: "#/templates",
+    href: href({ name: "templates" }),
     kicker: "页面",
   },
   {
     kind: "page",
     title: "文章",
     summary: "官方文档、教程、清单与示例仓库",
-    href: "#/articles",
+    href: href({ name: "articles" }),
     kicker: "页面",
   },
   {
     kind: "page",
     title: "社区",
     summary: "X、论坛和刚出现的用法",
-    href: "#/community",
+    href: href({ name: "community" }),
     kicker: "页面",
   },
   {
     kind: "page",
     title: "关于",
     summary: "使用说明与资料来源",
-    href: "#/about",
+    href: href({ name: "about" }),
     kicker: "页面",
   },
 ];
@@ -141,7 +142,7 @@ export function searchCatalog(query: string, tips: Tip[], limit = 12): SearchHit
         kind: "tip",
         title: tip.title,
         summary: tip.summary,
-        href: `#/tips/${tip.id}`,
+        href: href({ name: "tip", id: tip.id }),
         kicker: `TIP ${String(tip.no).padStart(3, "0")}`,
       });
     }
@@ -163,7 +164,7 @@ export function searchCatalog(query: string, tips: Tip[], limit = 12): SearchHit
       kind: "tip",
       title: tip.title,
       summary: tip.summary,
-      href: `#/tips/${tip.id}`,
+      href: href({ name: "tip", id: tip.id }),
       kicker: `TIP ${String(tip.no).padStart(3, "0")}`,
     });
   }
@@ -175,7 +176,7 @@ export function searchCatalog(query: string, tips: Tip[], limit = 12): SearchHit
       kind: "page",
       title: item.title,
       summary: item.summary,
-      href: `#/templates/${item.id}`,
+      href: href({ name: "templates", id: item.id }),
       kicker: `模板 · ${item.filename}`,
     });
   }

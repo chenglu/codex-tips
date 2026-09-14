@@ -11,14 +11,31 @@ npm install
 npm run dev
 ```
 
-生产构建：
+开发服务器在 `http://127.0.0.1:5173/codex-tips/`。生产构建：
 
 ```bash
 npm run build
 npm run preview
 ```
 
-站点是静态的，`base` 为相对路径，可放到任意静态托管。按 `/` 或 `⌘K` 检索。
+站点按 GitHub Pages 项目页部署，默认 `base` 为 `/codex-tips/`。若挂到自定义域名根路径：
+
+```bash
+SITE_BASE=/ SITE_URL=https://example.com npm run build
+```
+
+## URL
+
+页面使用路径地址，例如 `/tips/teammate-not-chatbot/`。旧的 hash 地址（`#/tips/...`）会在浏览器里改写到对应路径。
+
+构建时会生成：
+
+- 每个页面的预渲染 HTML（含标题、描述、Open Graph、JSON-LD 与正文）
+- `sitemap.xml`、`robots.txt`、`feed.xml`
+- `llms.txt` / `llms-full.txt`（给生成式引擎的索引与全文）
+- 技巧与模板的 Markdown 副本（`/tips/{id}.md`）
+
+按 `/` 或 `⌘K` 检索。
 
 ## 内容结构
 

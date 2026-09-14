@@ -3044,4 +3044,40 @@ url = "https://mcp.alloy.app/mcp"
 enabled = true
 `,
   },
+  {
+    id: "firebase-agent-skills",
+    title: "Firebase Agent Skills 插件",
+    filename: "terminal",
+    summary:
+      "通过 firebase/agent-skills 安装 firebase@firebase 插件，使用 marketplace upgrade 更新。技能提供工作流指导，Firebase MCP 用于访问项目资源。",
+    code: `codex plugin marketplace add firebase/agent-skills
+codex plugin add firebase@firebase
+
+# 升级：
+# codex plugin marketplace upgrade firebase
+# 刷新捡不到再：
+# codex plugin remove firebase@firebase
+# codex plugin add firebase@firebase
+
+# 只要 MCP、插件装不上时（MCP 页没有 Codex 专节）：
+# codex mcp add firebase -- npx -y firebase-tools@latest mcp
+`,
+  },
+  {
+    id: "mintlify-admin-mcp",
+    title: "Mintlify Admin MCP",
+    filename: "config.toml",
+    summary:
+      "连接 https://mcp.mintlify.com 并通过 OAuth 登录，管理文档与导航。只读文档检索需使用独立的 mintlify-docs 配置。",
+    code: `codex mcp add mintlify --url https://mcp.mintlify.com
+codex mcp login mintlify
+
+# 文档检索另开表，不要覆盖 Admin：
+# codex mcp add mintlify-docs --url https://mintlify.com/docs/mcp
+
+[mcp_servers.mintlify]
+url = "https://mcp.mintlify.com"
+enabled = true
+`,
+  },
 ];

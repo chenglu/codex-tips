@@ -3911,5 +3911,65 @@ export const articles: Article[] = [
     summary:
       '介绍通过 MCP 读取 Alloy 原型会话中的设计、聊天和文件，连接后可直接提供会话链接。',
   },
+  {
+    title: 'Firebase agent skills',
+    url: 'https://firebase.google.com/docs/ai-assistance/agent-skills',
+    source: 'Firebase',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', '插件', 'Firebase', 'Codex'],
+    summary:
+      '介绍 Firebase 插件的安装和更新：使用 firebase/agent-skills 插件源，安装 firebase@firebase。',
+  },
+  {
+    title: 'firebase/agent-skills',
+    url: 'https://github.com/firebase/agent-skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', '插件', 'Firebase'],
+    summary:
+      'Firebase Agent Skills 源码仓库，包含工作流技能与插件安装说明。',
+  },
+  {
+    title: 'Firebase MCP server',
+    url: 'https://firebase.google.com/docs/ai-assistance/mcp-server',
+    source: 'Firebase',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Firebase'],
+    summary:
+      '介绍 Firebase MCP 的 stdio 连接，通过 firebase login 或 ADC 认证，访问 Firebase 项目资源。',
+  },
+  {
+    title: 'Admin Model Context Protocol (MCP) server',
+    url: 'https://www.mintlify.com/docs/ai/mintlify-mcp',
+    source: 'Mintlify',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Mintlify', 'OAuth', 'Codex'],
+    summary:
+      '介绍 Mintlify Admin MCP 的 OAuth 连接与文档编辑流程，使用 checkout 选择分支，再通过 save 创建 PR。',
+  },
+  {
+    title: 'Write documentation with Codex',
+    url: 'https://www.mintlify.com/docs/guides/codex',
+    source: 'Mintlify',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Mintlify', 'AGENTS.md', 'Skills'],
+    summary:
+      '介绍 AGENTS.md、写作技能与文档检索 MCP。文档检索需与 Admin MCP 分别配置服务名。',
+  },
+  {
+    title: 'Search Model Context Protocol (MCP) server',
+    url: 'https://www.mintlify.com/docs/ai/model-context-protocol',
+    source: 'Mintlify',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Mintlify'],
+    summary:
+      '介绍只读文档检索 MCP，地址为站点域名加 /mcp，与 Admin MCP 使用不同的入口。',
+  },
 ];
 
