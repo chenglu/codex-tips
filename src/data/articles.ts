@@ -3691,5 +3691,225 @@ export const articles: Article[] = [
     summary:
       '总览把 Codex 标成 Terminal or desktop，MCP、Agent Skills 和 CLI 都要手工配。VS Code 行才是 Included。不要把扩展自动安装抄进 Codex，也不要发明 plugin add wherobots@。',
   },
+  {
+    title: 'MCP server',
+    url: 'https://learn.hex.tech/docs/api-integrations/mcp-server',
+    source: 'Hex',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Hex', 'plugins', 'OAuth'],
+    summary:
+      '官方 Codex 专节：Plugins 搜 Hex，点 Connect，再连捆绑的 Hex app。ChatGPT Business / Enterprise 管理员可能要先在 Workspace settings → Apps 打开 Hex app。Explorer 才能搜项目和 Threads，Editor 才能改 notebook。不要抄 Cursor 的 /add-plugin hex。',
+  },
+  {
+    title: 'Hex is now in Codex',
+    url: 'https://hex.tech/blog/hex-in-codex/',
+    source: 'Hex',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Hex', 'plugins'],
+    summary:
+      '2026-06-02 博客：Plugins 先装 Data Analytics plugin，再 Connect Hex。可以从 Codex 拉 Hex Threads，也可以用 CLI 建项目和加 cell。不要发明 plugin add hex@。',
+  },
+  {
+    title: 'Connect Codex to Webflow',
+    url: 'https://help.webflow.com/hc/en-us/articles/53625430351507-Connect-Codex-to-Webflow',
+    source: 'Webflow',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Webflow', 'plugins', 'OAuth'],
+    summary:
+      '官方帮助：ChatGPT 桌面切到 Codex，Plugins 搜 Webflow，点 Install，再 Continue to Webflow。只有 Workspace owner、admin 或 Site manager 能授权。不要发明 plugin add webflow@。',
+  },
+  {
+    title: 'Webflow is now available in Codex',
+    url: 'https://webflow.com/updates/webflow-in-codex',
+    source: 'Webflow',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Webflow', 'plugins', 'Skills'],
+    summary:
+      '2026-08-24 产品更新：Webflow MCP 2.0 进 Codex。连上后带站点审计、CMS、安全发布等内置技能。当前不消耗 AI credits。不要把 Claude 的 webflow-skills marketplace 抄进 Codex。',
+  },
+  {
+    title: 'Using the MCP Server in Codex',
+    url: 'https://docs.omni.co/ai/mcp/codex',
+    source: 'Omni',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Omni', 'OAuth'],
+    summary:
+      '官方 Codex 专节：OAuth 用 callbacks.omniapp.co/callback/mcp。API key 才是实例的 /mcp/https。官方 Option A 漏了 --url。不要抄 http_headers 里的 Bearer，改走 bearer_token_env_var。不要抄 Claude 的 --transport http。',
+  },
+  {
+    title: 'MCP authentication',
+    url: 'https://docs.omni.co/ai/mcp/authentication',
+    source: 'Omni',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Omni', 'OAuth'],
+    summary:
+      'OAuth 入口是 callbacks.omniapp.co/callback/mcp；API key 才是实例主机加 /mcp/https。多组织要先登进目标实例。MCP OAuth PAT 跟普通 PAT 不同，Viewer 也能走完流程但查不了数。',
+  },
+  {
+    title: 'MCP server tools',
+    url: 'https://docs.omni.co/ai/mcp/tools',
+    source: 'Omni',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Omni'],
+    summary:
+      'getData 和 runQuery 要管理员打开 Single shot query generation，默认关。关掉 Omni Agent 后除 pickModel 外会 403。askOmni 改已有 dashboard 进草稿，新建会立刻发布。',
+  },
+  {
+    title: 'Codex',
+    url: 'https://docs.dagu.sh/mcp/clients/codex',
+    source: 'Dagu',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Dagu', 'HTTP'],
+    summary:
+      '官方 Codex 专节：mcp add dagu --url。builtin 鉴权加 --bearer-token-env-var DAGU_MCP_API_KEY。不要把密钥写进 http_headers。不要抄 Claude 的 --transport http。Profile 不要抄成 $CODEX_HOME/.config.toml。',
+  },
+  {
+    title: 'MCP Quickstart',
+    url: 'https://docs.dagu.sh/mcp/quickstart',
+    source: 'Dagu',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Dagu'],
+    summary:
+      '本机先 dagu start-all，入口是 http://localhost:8080/mcp。远程换主机仍带 /mcp。base path 漏了会 404。改工作流先 dagu_change 的 preview 再 apply。',
+  },
+  {
+    title: 'MCP Clients',
+    url: 'https://docs.dagu.sh/mcp/clients/',
+    source: 'Dagu',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Dagu'],
+    summary:
+      '对照表：Codex 只走 Bearer，而且只从环境变量取。Dagu 只有 Streamable HTTP，没有 SSE。stdio / SSE 客户端才要 mcp-remote，不要抄进 Codex。',
+  },
+  {
+    title: 'How to use the Prefect MCP server',
+    url: 'https://docs.prefect.io/v3/how-to-guides/ai/use-prefect-mcp-server',
+    source: 'Prefect',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Prefect', 'plugins'],
+    summary:
+      '官方 Codex CLI 节给本机 stdio：mcp add prefect -- uvx --from prefect-mcp prefect-mcp-server。手写 TOML 错写成 [mcp.prefect]。Cloud 凭据用 PREFECT_API_URL 和 PREFECT_API_KEY。MCP 工具只读，写入走 prefect CLI。目前 beta。',
+  },
+  {
+    title: 'prefect-mcp-server',
+    url: 'https://github.com/prefecthq/prefect-mcp-server',
+    source: 'PrefectHQ',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Prefect', 'plugins'],
+    summary:
+      'Codex 插件主路径是 marketplace add prefecthq/prefect-mcp-server，再 plugin add prefect@prefect。Cloud OAuth，插件里不要 API key。已装插件时本机 stdio 要换表名。插件登记的托管入口是 prefect.fastmcp.app/mcp。',
+  },
+  {
+    title: 'SECURITY.md',
+    url: 'https://github.com/PrefectHQ/prefect-mcp-server/blob/main/SECURITY.md',
+    source: 'PrefectHQ',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Prefect', '安全'],
+    summary:
+      'MCP 只读凭证拦不住客户端用 prefect CLI 删资源。Cloud OAuth 只覆盖授权时勾选的工作区。自托管 basic auth 用 PREFECT_API_AUTH_STRING，不要和 Cloud API key 混用。',
+  },
+  {
+    title: 'MCP',
+    url: 'https://help.gowindmill.com/features/mcp',
+    source: 'Windmill',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Windmill', 'OAuth'],
+    summary:
+      '官方 Codex 专节：mcp add windmill --url https://mcp.gowindmill.com/mcp，再 mcp login。OAuth 后台刷新，不像 Dashboard 大约七天过期。Claude 插件 windmill-dev/windmill-plugin 不是 Codex 路径。',
+  },
+  {
+    title: 'Codex',
+    url: 'https://help.gowindmill.com/integrations/codex',
+    source: 'Windmill',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Windmill', '分析'],
+    summary:
+      '这是 Settings → Integrations 的 Codex 用量同步，不是 MCP。要 ChatGPT Enterprise 或 Codex 计划。管理员贴 API key 和 Workspace ID，只读线程 / 额度 / token，不读代码和对话。',
+  },
+  {
+    title: 'Pulse Surveys',
+    url: 'https://help.gowindmill.com/features/pulse-surveys',
+    source: 'Windmill',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Windmill'],
+    summary:
+      'Pulse 结果也可以经 MCP 让助手汇总。MCP 只返回你在 Dashboard 里已经能看见的 Pulse。数据会进你连接的那个模型；Windmill 自己的 MCP 服务不把数据送给别的模型。',
+  },
+  {
+    title: 'Codex',
+    url: 'https://reui.io/docs/codex',
+    source: 'ReUI',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'ReUI', 'OAuth'],
+    summary:
+      '官方 Codex：mcp add reui --url https://mcp.reui.io，不要加 /mcp。再 mcp login。无头才 bearer_token_env_var REUI_LICENSE_KEY。安装器可能写成 /api/mcp。OAuth 和 bearer 不要叠，否则登录成功仍 401。',
+  },
+  {
+    title: 'MCP Server',
+    url: 'https://reui.io/docs/mcp',
+    source: 'ReUI',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'ReUI'],
+    summary:
+      '入口是 mcp.reui.io，Streamable HTTP。工具含 search、get_component、get_install_command、get_agent_skill。PAT 形如 reui_pat_，默认约 90 天过期，mcp login 换不了 PAT。OAuth 刷新大约 60 天。',
+  },
+  {
+    title: 'License Setup',
+    url: 'https://reui.io/docs/license-setup',
+    source: 'ReUI',
+    lang: '英文',
+    kind: '官方',
+    tags: ['ReUI', 'shadcn'],
+    summary:
+      'Premium 才把许可证写进 .env.local 和 components.json 的 Bearer ${REUI_LICENSE_KEY}。那是 shadcn CLI 展开的。Codex MCP 用 bearer_token_env_var 读进程环境，不要把占位符抄进 http_headers。',
+  },
+  {
+    title: 'Codex MCP integration',
+    url: 'https://alloy.app/guide/integrations/codex-mcp',
+    source: 'Alloy',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Alloy', 'OAuth'],
+    summary:
+      '官方 Codex：mcp add alloy --url，再 mcp login。这是 alloy.app 原型会话，不要和 alloy.cx 或 mcp.index.inc 搞混。无头才 ALLOY_MCP_API_KEY。已有 bearer 表先 mcp remove。',
+  },
+  {
+    title: 'MCP',
+    url: 'https://alloy.app/guide/integrations/mcp',
+    source: 'Alloy',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Alloy'],
+    summary:
+      '入口带 /mcp 后缀，Streamable HTTP。Codex 走 mcp add 再 login。X-MCP-API-Key 是 mcp-remote 桥，不是 Codex 头。不要抄 Claude 的 --transport http。',
+  },
+  {
+    title: 'Alloy MCP',
+    url: 'https://alloy.app/launches/alloy-mcp',
+    source: 'Alloy',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Alloy'],
+    summary:
+      'Alloy MCP 把原型会话的设计、聊天、文件交给 Codex。连上后贴会话链接，不要手工拷聊天记录。面向 Claude 和 Codex，不是 alloy.cx 那套插件。',
+  },
 ];
 
