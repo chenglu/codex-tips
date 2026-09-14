@@ -3851,5 +3851,35 @@ export const articles: Article[] = [
     summary:
       'Pulse 结果也可以经 MCP 让助手汇总。MCP 只返回你在 Dashboard 里已经能看见的 Pulse。数据会进你连接的那个模型；Windmill 自己的 MCP 服务不把数据送给别的模型。',
   },
+  {
+    title: 'Codex',
+    url: 'https://reui.io/docs/codex',
+    source: 'ReUI',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'ReUI', 'OAuth'],
+    summary:
+      '官方 Codex：mcp add reui --url https://mcp.reui.io，不要加 /mcp。再 mcp login。无头才 bearer_token_env_var REUI_LICENSE_KEY。安装器可能写成 /api/mcp。OAuth 和 bearer 不要叠，否则登录成功仍 401。',
+  },
+  {
+    title: 'MCP Server',
+    url: 'https://reui.io/docs/mcp',
+    source: 'ReUI',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'ReUI'],
+    summary:
+      '入口是 mcp.reui.io，Streamable HTTP。工具含 search、get_component、get_install_command、get_agent_skill。PAT 形如 reui_pat_，默认约 90 天过期，mcp login 换不了 PAT。OAuth 刷新大约 60 天。',
+  },
+  {
+    title: 'License Setup',
+    url: 'https://reui.io/docs/license-setup',
+    source: 'ReUI',
+    lang: '英文',
+    kind: '官方',
+    tags: ['ReUI', 'shadcn'],
+    summary:
+      'Premium 才把许可证写进 .env.local 和 components.json 的 Bearer ${REUI_LICENSE_KEY}。那是 shadcn CLI 展开的。Codex MCP 用 bearer_token_env_var 读进程环境，不要把占位符抄进 http_headers。',
+  },
 ];
 

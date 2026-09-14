@@ -11075,4 +11075,71 @@ enabled = true
       },
     ],
   },
+  {
+    id: "reui-mcp-http",
+    no: 394,
+    title: "ReUI MCP 用 mcp.reui.io，不要加 /mcp，OAuth 和 bearer 不要叠",
+    summary:
+      "官方 Codex：mcp add reui --url https://mcp.reui.io，再 mcp login reui。不要加 /mcp。无头才 bearer_token_env_var REUI_LICENSE_KEY。安装器可能写成 /api/mcp。不要把 components.json 的占位符抄进 http_headers。",
+    body: `ReUI 给 Codex 有专节。远程入口是 \`https://mcp.reui.io\`，**没有** \`/mcp\` 后缀。Streamable HTTP。先 OAuth：
+
+\`\`\`bash
+codex mcp add reui --url https://mcp.reui.io
+codex mcp login reui
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.reui]
+url = "https://mcp.reui.io"
+enabled = true
+\`\`\`
+
+浏览器会开 Sign in with ReUI。没有账号会在这一步建免费号。\`codex mcp list\` 应列出 \`reui\`。TUI 里 \`/mcp\` 看是否还要授权。
+
+无头 / CI 才走个人 token。到 Account → MCP 建，样子是 \`reui_pat_\` 开头，只显示一次。官方 Codex 命令：
+
+\`\`\`bash
+codex mcp add reui --url https://mcp.reui.io --bearer-token-env-var REUI_LICENSE_KEY
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.reui]
+url = "https://mcp.reui.io"
+bearer_token_env_var = "REUI_LICENSE_KEY"
+enabled = true
+\`\`\`
+
+\`--bearer-token-env-var\` 填变量**名**。Codex 读启动它那个进程里的 \`REUI_LICENSE_KEY\`。Codex 不读 \`.env.local\`。Dock / 开始菜单打开的桌面没有 zshrc。从已经 export 的终端启动。
+
+Bearer 和 \`mcp login\` **是两条路，不要叠**。配置了 \`bearer_token_env_var\` / \`http_headers\` / \`env_http_headers\` 时，每次请求都带这颗头，会盖掉已存的 OAuth。于是登录看起来成功，调用却一直 401。交互路径把这些头删掉。PAT 过期或吊销时 \`mcp login\` 救不了，要去 Account → MCP 换新 token。401 响应体会写明是 OAuth 还是 PAT。
+
+官方还写：安装器可能把 URL 写成 \`https://mcp.reui.io/api/mcp\`。以专节的 \`codex mcp add reui --url https://mcp.reui.io\` 为准。不要自己加 \`/mcp\`。改完用 \`codex mcp get reui\` 看 url。
+
+不要把 \`components.json\` 里的 \`\${REUI_LICENSE_KEY}\` 抄进 \`http_headers\`。那是 shadcn CLI 从 \`.env.local\` 展开的写法，Codex 的 TOML **不会**展开，服务器会收到字面量然后 401。Premium 组件才把许可证写进 \`.env.local\` 和 \`@reui\` registry 头，那是 shadcn 安装器用的，不是这条 MCP OAuth。
+
+技能安装器官方是 \`curl -fsSL https://mcp.reui.io/install | node -\`，会往项目里丢 ReUI skill。不要发明 \`codex plugin add reui@\`。不要抄 Claude 的 \`--transport http\` 或 \`npx mcp-remote\`。
+
+免费档大约每天 100 次工具调用；22 个组件和 \`c-*\` 示例不用许可证。装 premium 才要 Pro / Ultimate。先问「Use ReUI to scaffold an admin app」。工具灰掉就 \`codex mcp login reui\` 再新开会话。不要 \`required = true\`。不要一上来 \`--yolo\`。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完彻底新开会话。用 \`codex mcp get reui\` 看传输是 streamable_http。OAuth 路径的 Auth 应显示 OAuth。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "ReUI", "OAuth", "HTTP", "bearer_token_env_var"],
+    related: ["mcp-add-and-login", "mcp-http-bearer-env", "shadcn-mcp-stdio"],
+    sources: [
+      {
+        label: "ReUI · Codex",
+        url: "https://reui.io/docs/codex",
+      },
+      {
+        label: "ReUI · MCP Server",
+        url: "https://reui.io/docs/mcp",
+      },
+      {
+        label: "ReUI · License Setup",
+        url: "https://reui.io/docs/license-setup",
+      },
+    ],
+  },
 ];

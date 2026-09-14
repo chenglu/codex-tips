@@ -2998,4 +2998,27 @@ url = "https://mcp.gowindmill.com/mcp"
 enabled = true
 `,
   },
+  {
+    id: "reui-mcp-http",
+    title: "ReUI MCP",
+    filename: "config.toml",
+    summary:
+      "官方 Codex：url 是 https://mcp.reui.io，不要加 /mcp。交互走 mcp login。无头才 bearer_token_env_var。OAuth 和 bearer 不要叠。不要把 components.json 的占位符抄进 http_headers。",
+    code: `codex mcp add reui --url https://mcp.reui.io
+codex mcp login reui
+
+# 无头 / CI：
+# codex mcp add reui --url https://mcp.reui.io --bearer-token-env-var REUI_LICENSE_KEY
+
+[mcp_servers.reui]
+url = "https://mcp.reui.io"
+enabled = true
+
+# 无头示例：
+# [mcp_servers.reui]
+# url = "https://mcp.reui.io"
+# bearer_token_env_var = "REUI_LICENSE_KEY"
+# enabled = true
+`,
+  },
 ];
