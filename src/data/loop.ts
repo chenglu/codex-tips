@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-14T06:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "06:30 定时器。调用前 $96.60，收尾待测。Spend: counts（start_time=2026-09-07T06:35:00Z，共 223 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Endor Labs：mcp add endor-cli-tools -- npx -y endorctl ai-tools mcp-server。stdio，不要 mcp login。企业版 env_vars。文档 MCP 另起 endor-docs，占位 ENDOR_DOCS_KEY。不叠仍开着的 #18 ClickHouse stdio。",
+    "06:30 定时器。调用前 $96.60，收尾 $96.54。Spend: counts（start_time=2026-09-07T06:35:00Z，共 223 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Endor Labs：mcp add endor-cli-tools -- npx -y endorctl ai-tools mcp-server。stdio，不要 mcp login。企业版 env_vars。文档 MCP 另起 endor-docs，占位 ENDOR_DOCS_KEY。不叠仍开着的 #18 ClickHouse stdio。CDP 24/24，预览 4389，路径 /tips/mcp-endor-cli-tools/。站点 404 技巧 / 418 文章 / 88 社区。X 仍是 Claude 技能仓、优待 MCP、SkySynth 插件广告、Calliope/Hangar 营销、SpecterOps 目录、Premiere Astra。Solo agentregistry 有 Codex 节但要本机 K8s+Keycloak，本轮先收 Endor。Infisical / Vault / dbt / Fastmail / Builder Fusion / Cal.com / ConfigCat / Browserbase 仍无可用 Codex 专节。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
