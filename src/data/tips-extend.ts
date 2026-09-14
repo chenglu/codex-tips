@@ -11825,4 +11825,92 @@ OAuth 和 bearer 不要写进同一张表。API key 那张不要再 \`mcp login\
       },
     ],
   },
+  {
+    id: "mcp-endor-cli-tools",
+    no: 404,
+    title: "Endor Labs 扫描 MCP 走本地 stdio，表名 endor-cli-tools",
+    summary:
+      "官方 Codex：mcp add endor-cli-tools -- npx -y endorctl ai-tools mcp-server。stdio，不要 mcp login。企业版命名空间走 env_vars。文档 MCP 是另一张 HTTP 表 endor-docs，要占位 bearer。不要把 Agent Kit 或治理钩子当成这台 MCP。",
+    body: `Endor Labs 给 Codex 的**扫描** MCP 是本机 stdio，不是远程 HTTP。官方用户层表名是 \`endor-cli-tools\`。它通过 \`npx\` 或系统里的 \`endorctl\` 起进程，再去云端查依赖、漏洞、泄露密钥和 SAST。不要给它写 \`url\`，也不要抄 \`type = "http"\`。
+
+需要 Node.js 18 或以上，官方推荐 24 LTS。\`npx\` 跟 Node 一起装，不必再装一份 npm。低于 24 时，扫描前可能先打一行 CommonJS / ESM 的 \`ExperimentalWarning\`，那是 Node 自己的提示，不是 \`endorctl\` 挂了。
+
+开发版免费，用 Endor 默认策略，不必先开账号。第一次用工具会弹出浏览器，走 GitHub、GitLab 或 Google 登录：
+
+\`\`\`bash
+codex mcp add endor-cli-tools -- npx -y endorctl ai-tools mcp-server
+codex mcp list
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.endor-cli-tools]
+command = "npx"
+args = ["-y", "endorctl", "ai-tools", "mcp-server"]
+enabled = true
+\`\`\`
+
+这是 stdio，**不要** \`codex mcp login\`。Codex 写进 \`~/.codex/config.toml\`，对你所有项目生效。不要抄 Claude / Cursor 的 \`mcpServers\` JSON。冷 \`npx\` 握手慢，可加 \`startup_timeout_sec = 60\`。不要 \`required = true\`。不要一上来 \`--yolo\`。
+
+企业版才读你们组织的策略。开发者至少要有 Read-Only。命名空间和登录方式从**启动 Codex 的那个进程**转发，不要写成 \`--env KEY=…\` 字面量，TOML 占位符也不会展开：
+
+\`\`\`toml
+[mcp_servers.endor-cli-tools]
+command = "npx"
+args = ["-y", "endorctl", "ai-tools", "mcp-server"]
+env_vars = ["ENDOR_NAMESPACE", "ENDOR_MCP_SERVER_AUTH_MODE", "ENDOR_MCP_SERVER_AUTH_TENANT"]
+enabled = true
+\`\`\`
+
+\`ENDOR_MCP_SERVER_AUTH_MODE\` 可以是 \`github\` / \`gitlab\` / \`google\` / \`sso\`。选 \`sso\` 才需要 \`ENDOR_MCP_SERVER_AUTH_TENANT\`。开发版不写这三项，默认浏览器登录。自定义密钥规则一类非密钥路径，才写进 \`[mcp_servers.endor-cli-tools.env]\`，例如 \`SECRETS_RULES_PATH\`。
+
+连上后让它查 npm 包 \`lodash\` 的 \`4.17.20\` 有没有漏洞。官方会走 \`check_dependency_for_vulnerabilities\`。还可以查依赖风险和恶意包、拉漏洞详情、跑 \`scan\`（依赖 / SAST / Git 历史里的密钥）。\`security_review\` 看未提交 diff 或相对主分支的提交，只要企业版，还要在控制台打开 AI security code review，并配好 \`ENDOR_NAMESPACE\`。MCP 返回全量发现，不做函数级可达性，也不按 action policy 过滤。
+
+只要部分工具时，在同一张表写 \`enabled_tools\`，官方示例是 \`check_dependency_for_vulnerabilities\` 和 \`scan\`。TUI 里用 \`/mcp\` 看已启用的服务器。仓库根的 \`AGENTS.md\` 可以写「改 lockfile 先查依赖」，官方示例还要求走这台 MCP、不要直接调 \`endorctl\`；按你们流程改，不要整段粘贴。
+
+默认 \`npx -y endorctl\` 把最新包丢进 \`~/.npm/_npx/\`，**不会**用你 Homebrew 装的那份。版本旧了就清 npx 缓存，或把 \`args\` 里的包名钉成 \`endorctl@版本\`。公司代理让 npx 超时，改成系统二进制：
+
+\`\`\`bash
+codex mcp add endor-cli-tools -- endorctl ai-tools mcp-server
+\`\`\`
+
+\`command\` 写成 \`which endorctl\` 给出的绝对路径；fnm / nvm 尤其不要写裸命令名。Windows 还要把 npm 全局 bin 加进 PATH，用 \`npm config get prefix\` 核对。
+
+不要和这几条搞混：
+
+- 文档 MCP 是另一张 HTTP 表 \`endor-docs\`，地址 \`https://docs.endorlabs.com/mcp\`，**没有**鉴权。Codex 会误探 OAuth 然后失败。官方权宜是占位 bearer：先 \`export ENDOR_DOCS_KEY=dummy\`，再 \`codex mcp add endor-docs --url https://docs.endorlabs.com/mcp --bearer-token-env-var ENDOR_DOCS_KEY\`。变量必须在启动 Codex 的进程里。不要和 \`endor-cli-tools\` 写成同一张表。
+- Agent Kit 是工作流插件，不是这台扫描 MCP。官方 Codex 页是 \`codex plugin marketplace add endorlabs/ai-plugins --sparse .agents/plugins --sparse plugins/codex/endor-labs-agent-kit\`，装完新开会话。文档没写 \`plugin add\`。清单 name 和插件 name 都是 \`endor-labs-agent-kit\`。不要抄 Claude 的 \`endor-labs-agent-kit@endorlabs\`，也不要把 \`npx skills add https://docs.endorlabs.com\` 当 Codex 插件安装器。
+- Coding Agent Governance 钩子是 \`endorctl ai-audit codex\`，写在 \`[hooks]\` 或 \`hooks.json\`，用来拦命令 / 文件 / MCP。不要把 API 密钥写进 command 字面量。不要同时 export \`ENDOR_TOKEN\`。那不是 \`mcp add\`。
+
+不要做这些：
+
+- 不要发明 \`codex mcp add endor --url https://api.endorlabs.com\`。
+- 不要抄 \`claude mcp add\` 或 Cursor 的 JSON。
+- 不要把 PAT / API secret 写进 \`args\`、\`env\` 表或 \`http_headers\`。
+- 不要把 \`endor-cli-tools\` 和 \`endor-docs\` 叠成两张同名表。
+
+网页 Cloud 读不到这台本机 CLI。改完新开会话。用 \`codex mcp get endor-cli-tools\` 看传输是 stdio，command 是 npx 还是绝对路径。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Endor Labs", "stdio", "SCA"],
+    related: ["mcp-add-and-login", "mcp-snyk-stdio", "mcp-stdio-env-vars"],
+    sources: [
+      {
+        label: "Endor Labs · MCP in Codex",
+        url: "https://docs.endorlabs.com/setup-deployment/mcp/codex",
+      },
+      {
+        label: "Endor Labs · Documentation MCP",
+        url: "https://docs.endorlabs.com/introduction/docs-mcp-server",
+      },
+      {
+        label: "Endor Labs · Agent Kit in Codex",
+        url: "https://docs.endorlabs.com/secure-ai-coding/agent-kit/codex",
+      },
+      {
+        label: "Endor Labs · Deploy hooks for Codex",
+        url: "https://docs.endorlabs.com/agent-governance/codex",
+      },
+    ],
+  },
 ];

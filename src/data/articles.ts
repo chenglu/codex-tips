@@ -4151,4 +4151,44 @@ export const articles: Article[] = [
     summary:
       'Codex 是 marketplace add n8n-io/skills，再 plugin add n8n-skills@n8n-io。插件不会登记 MCP，还要 mcp add n8n-mcp。不要和文档表名 n8n 叠成两台。不要用 npx skills add 当插件安装器。',
   },
+  {
+    title: 'Endor Labs MCP server in OpenAI Codex',
+    url: 'https://docs.endorlabs.com/setup-deployment/mcp/codex',
+    source: 'Endor Labs Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Endor Labs', 'stdio', 'Codex'],
+    summary:
+      '官方 Codex 节是 mcp add endor-cli-tools -- npx -y endorctl ai-tools mcp-server。stdio，不要 mcp login。企业版用 ENDOR_MCP_SERVER_AUTH_TENANT 这类 env_vars，不要写成 --env 字面量。',
+  },
+  {
+    title: 'Documentation MCP server',
+    url: 'https://docs.endorlabs.com/introduction/docs-mcp-server',
+    source: 'Endor Labs Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Endor Labs', '文档', 'Codex'],
+    summary:
+      '远程是 docs.endorlabs.com/mcp，无鉴权。Codex 会误探 OAuth。官方权宜是占位 ENDOR_DOCS_KEY=dummy，再 bearer_token_env_var。不要和扫描表 endor-cli-tools 写成同一张。',
+  },
+  {
+    title: 'Endor Labs Agent Kit in OpenAI Codex',
+    url: 'https://docs.endorlabs.com/secure-ai-coding/agent-kit/codex',
+    source: 'Endor Labs Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'Endor Labs', 'Skills', 'Codex'],
+    summary:
+      '官方 Codex 页是 marketplace add endorlabs/ai-plugins，带两个 --sparse。文档没写 plugin add。清单 name 是 endor-labs-agent-kit。不要抄 Claude 的 @endorlabs。这不是扫描 MCP。',
+  },
+  {
+    title: 'Deploy hooks for Codex',
+    url: 'https://docs.endorlabs.com/agent-governance/codex',
+    source: 'Endor Labs Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['hooks', 'Endor Labs', 'Codex'],
+    summary:
+      'Coding Agent Governance 用 endorctl ai-audit codex 写进 hooks 表。不要把 API 密钥写进 command 字面量，也不要同时 export ENDOR_TOKEN。这不是 mcp add endor-cli-tools。',
+  },
 ];
