@@ -11346,4 +11346,70 @@ OAuth 与 Bearer token 请选择一种认证方式。手动配置的认证头会
       },
     ],
   },
+  {
+    id: "planetscale-codex-plugin",
+    no: 399,
+    title: "安装与配置 PlanetScale Codex 插件",
+    summary:
+      "从 planetscale/codex-plugin 安装 planetscale@planetscale，连接托管 MCP 并加载数据库技能。插件使用的 MCP 服务名为 PlanetScale。",
+    body: `PlanetScale Codex 插件将托管 MCP 与数据库技能打包提供。安装源为 \`planetscale/codex-plugin\`。
+
+\`\`\`bash
+codex plugin marketplace add planetscale/codex-plugin
+codex plugin add planetscale@planetscale
+\`\`\`
+
+插件清单中的 marketplace 和插件名称均为 \`planetscale\`，因此完整标识为 \`planetscale@planetscale\`。桌面端可在添加插件源后重启应用，打开 Plugins，选择 PlanetScale 并安装。在任务中使用 \`@PlanetScale\`，或直接描述数据库任务。
+
+### 更新与登录
+
+\`\`\`bash
+codex plugin marketplace upgrade planetscale
+\`\`\`
+
+通过 \`/plugins\` 或 \`codex plugin list\` 检查安装状态。若当前会话未显示插件，请重新打开会话。
+
+插件注册的 MCP 服务名为 \`PlanetScale\`，首字母大写，地址为 \`https://mcp.pscale.dev/mcp/planetscale\`。需要登录时运行：
+
+\`\`\`bash
+codex mcp login PlanetScale
+\`\`\`
+
+### 单独配置 MCP
+
+如果只需要 MCP，可使用文档中的独立连接方式：
+
+\`\`\`bash
+codex mcp add planetscale --url https://mcp.pscale.dev/mcp/planetscale
+\`\`\`
+
+独立连接的服务名为小写 \`planetscale\`。它与插件中的 \`PlanetScale\` 指向同一服务，选择一种配置方式即可，避免重复连接。CI 或无头环境可沿用独立配置，通过 \`PLANETSCALE_API_TOKEN\` 提供凭据；插件的 OAuth 连接无需叠加 Bearer token。
+
+### 技能与数据库操作
+
+插件包含操作技能（如 \`safe-orchestrator\`）和引擎技能（\`database-mysql\`、\`database-postgres\`、\`database-vitess\`、\`database-neki\`）。索引分别位于 \`skills/planetscale\` 和 \`skills/database\`。单独安装技能与安装完整插件是不同的操作。
+
+MCP 支持执行 SQL。写查询会拦截没有 WHERE 的 UPDATE、DELETE，以及 TRUNCATE；DDL 仍需确认。访问生产数据库时，应按任务需要配置读写权限。
+
+网页 Cloud 不读取本机 marketplace。安装后运行 \`codex plugin list\` 核对 \`planetscale@planetscale\`，再用 \`codex mcp get PlanetScale\` 检查服务地址。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "PlanetScale", "Skills", "MCP"],
+    related: ["mcp-planetscale-remote", "firebase-agent-skills", "plugin-session-refresh"],
+    sources: [
+      {
+        label: "planetscale/codex-plugin",
+        url: "https://github.com/planetscale/codex-plugin",
+      },
+      {
+        label: "planetscale/skills",
+        url: "https://github.com/planetscale/skills",
+      },
+      {
+        label: "PlanetScale · MCP",
+        url: "https://planetscale.com/docs/connect/mcp",
+      },
+    ],
+  },
 ];

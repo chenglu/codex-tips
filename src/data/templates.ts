@@ -3103,4 +3103,23 @@ url = "https://mcp.squirrelscan.com/mcp"
 enabled = true
 `,
   },
+  {
+    id: "planetscale-codex-plugin",
+    title: "PlanetScale Codex 插件",
+    filename: "terminal",
+    summary:
+      "从 planetscale/codex-plugin 安装 planetscale@planetscale，连接托管 MCP 并加载数据库技能。插件使用的 MCP 服务名为 PlanetScale。",
+    code: `codex plugin marketplace add planetscale/codex-plugin
+codex plugin add planetscale@planetscale
+
+# 升级：
+# codex plugin marketplace upgrade planetscale
+
+# 插件 MCP 表名是 PlanetScale（首字母大写）：
+# codex mcp login PlanetScale
+
+# 只要 MCP、不要技能（文档 Codex 专节）：
+# codex mcp add planetscale --url https://mcp.pscale.dev/mcp/planetscale
+`,
+  },
 ];

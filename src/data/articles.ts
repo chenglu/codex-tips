@@ -4001,5 +4001,35 @@ export const articles: Article[] = [
     summary:
       '介绍托管 MCP 的审计、报告和 issue tracker。高额度审计需确认估价，本地 stdio 引擎可独立用于离线审计。',
   },
+  {
+    title: 'PlanetScale Codex Plugin',
+    url: 'https://github.com/planetscale/codex-plugin',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['插件', 'PlanetScale', 'MCP', 'Skills', 'Codex'],
+    summary:
+      'PlanetScale 的 Codex 插件仓库，提供托管 MCP 和数据库技能。安装源为 planetscale/codex-plugin，插件标识为 planetscale@planetscale。',
+  },
+  {
+    title: 'planetscale/skills',
+    url: 'https://github.com/planetscale/skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', 'PlanetScale'],
+    summary:
+      'PlanetScale 操作技能仓库，包含 safe-orchestrator 等技能。Codex 插件将这些内容收录在 skills/planetscale 中。',
+  },
+  {
+    title: 'planetscale/database-skills',
+    url: 'https://github.com/planetscale/database-skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', 'PlanetScale', '数据库'],
+    summary:
+      '提供 MySQL、Postgres、Vitess 和 Neki 引擎技能。Codex 插件中的技能名称带 database- 前缀，如 database-mysql。',
+  },
 ];
 
