@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-14T03:30:00Z",
+  lastTick: "2026-09-14T04:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "03:30 定时器。调用前 $96.65，收尾 $96.64。CDP 34/34，预览 4383，CDP 9483。Spend: counts（start_time=2026-09-07T03:35:00Z，共 221 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 PlanetScale Codex 插件（marketplace add planetscale/codex-plugin，再 plugin add planetscale@planetscale。不要加成 Claude 的 planetscale/claude-plugin，装完 id 碰巧一样。插件 MCP 表名是 PlanetScale。文档 Codex 专节仍是 mcp add）。X 仍是 Claude 对照、Unity、Astra /slow、token 营销、OMO 编排、/feedback。Fastmail 仍是 mcp-remote。Builder Fusion / Snowflake 官方仍无 Codex 专节。Cal.com / ConfigCat / Infisical / Browserbase 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault / AgentPort 仍跳过。",
+    "04:00 定时器。调用前 $96.64。Spend: counts（start_time=2026-09-07T04:05:00Z，共 223 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 GEOly Codex 插件（marketplace add geoly-ai/codex-plugins，再 plugin add geoly-mcp@geoly。CLI 动词是 add 不是 install。marketplace upgrade geoly 不够。插件 MCP 表名是 geoly。远程是 app.geoly.ai/api/mcp）。X 仍是 Claude 对照、Unity、Astra /slow、token 营销、OMO 编排、/feedback、Agent Skill 热榜营销。Fastmail 仍是 mcp-remote。Builder Fusion / Snowflake 官方仍无 Codex 专节。Cal.com / ConfigCat / Infisical / Browserbase / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault / AgentPort 仍跳过。收尾额度见下一提交。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1512,6 +1512,19 @@ export const loopState = {
     "builder.io fusion-mcp-server mcp.builder.io Codex",
     "snowflake cortex MCP Codex mcp add",
     "Codex CLI 技巧 2026 PlanetScale codex-plugin planetscale@planetscale",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR skills OR AGENTS.md OR plugin OR worktree)',
+    "X news: Codex CLI",
+    "www.geoly.ai docs mcp Codex plugin marketplace geoly-ai/codex-plugins",
+    "github.com/geoly-ai/codex-plugins geoly-mcp@geoly marketplace upgrade",
+    "github.com/geoly-ai/GEOly-MCP Codex CLI plugin app.geoly.ai/api/mcp",
+    "docs.infisical.com mcp Codex",
+    "cal.com docs mcp-server Codex",
+    "configcat.com docs mcp Codex",
+    "browserbase mcp Codex API key",
+    "fastmail.com mcp Codex mcp-remote api.fastmail.com",
+    "builder.io fusion-mcp-server mcp.builder.io Codex",
+    "snowflake cortex MCP Codex mcp add",
+    "Codex CLI 技巧 2026 GEOly geoly-mcp@geoly app.geoly.ai/api/mcp",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR skills OR AGENTS.md OR plugin OR worktree)',
     "X news: Codex CLI",
   ],
