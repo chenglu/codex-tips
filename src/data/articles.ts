@@ -4091,4 +4091,34 @@ export const articles: Article[] = [
     summary:
       '命令是 cortex，连接写在 ~/.snowflake/connections.toml。which cortex 要有路径。官方写中国大陆不可用。这不是 Codex 的 mcp add。',
   },
+  {
+    title: 'GitLab Orbit Local MCP server',
+    url: 'https://docs.gitlab.com/orbit/local/access/mcp/',
+    source: 'GitLab Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'GitLab', 'Orbit', 'stdio', 'Codex'],
+    summary:
+      '官方 Codex 节是 mcp add orbit-cli -- orbit mcp serve。glab 包装是 glab orbit mcp serve。查本机 DuckDB 图谱，不是 GitLab 实例。不要 mcp login，也不要抄 Claude 的 --scope。',
+  },
+  {
+    title: 'GitLab Orbit CLI',
+    url: 'https://docs.gitlab.com/orbit/local/access/cli/',
+    source: 'GitLab Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['CLI', 'GitLab', 'Orbit', 'Codex'],
+    summary:
+      '独立二进制 orbit，图谱默认 ~/.orbit/graph.duckdb。orbit mcp serve 提供 index、get_graph_schema、run_sql。orbit setup codex 会写 AGENTS.md，不是 MCP 安装器。',
+  },
+  {
+    title: 'GitLab Orbit Remote MCP',
+    url: 'https://docs.gitlab.com/orbit/remote/access/mcp/',
+    source: 'GitLab Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'GitLab', 'Orbit', 'mcp-remote'],
+    summary:
+      '远程入口是 gitlab.com/api/v4/orbit/mcp。官方给 Codex 的示例仍是 npx mcp-remote，不要当 Codex 主路径。不要和本地 orbit-cli 或实例 api/v4/mcp 写成同一张表。',
+  },
 ];

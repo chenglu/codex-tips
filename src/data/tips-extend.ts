@@ -6861,7 +6861,7 @@ enabled = true
 也不要和这几条搞混：
 
 - Cloud 评论审查是另一条线，要项目环境和 webhook，不是这台 MCP。
-- Orbit 知识图谱是 \`https://gitlab.com/api/v4/orbit/mcp\`。官方给 Codex 的示例仍是 \`mcp-remote\`，不要和 \`GitLab\` 写成同一张表。
+- 本地 Orbit 图谱是 \`codex mcp add orbit-cli -- orbit mcp serve\`，表名是 \`orbit-cli\`。远程 Orbit 才是 \`https://gitlab.com/api/v4/orbit/mcp\`，官方给 Codex 的示例仍是 \`mcp-remote\`，不要当 Codex 主路径，也不要和 \`GitLab\` / \`orbit-cli\` 写成同一张表。
 - \`glab mcp serve\` 是实验性本地 stdio，文档面向 Claude Code，不要当 Codex 主路径。
 
 不要做这些：
@@ -6876,7 +6876,7 @@ enabled = true
     level: "starter",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "GitLab", "OAuth"],
-    related: ["mcp-add-and-login", "gitlab-mr-codex-review", "upstash-codex-plugin"],
+    related: ["mcp-add-and-login", "gitlab-mr-codex-review", "gitlab-orbit-local-mcp"],
     sources: [
       {
         label: "GitLab · MCP server",
@@ -11667,6 +11667,85 @@ bash integrations/codex/uninstall.sh
       {
         label: "Snowflake · CoCo CLI",
         url: "https://docs.snowflake.com/en/user-guide/cortex-code/cortex-code-cli",
+      },
+    ],
+  },
+  {
+    id: "gitlab-orbit-local-mcp",
+    no: 402,
+    title: "GitLab Orbit Local 用 orbit-cli，不要抄远程 mcp-remote",
+    summary:
+      "官方 Codex：mcp add orbit-cli -- orbit mcp serve。先装 orbit，which orbit 要有路径。这是查本机 DuckDB 图谱，不是 api/v4/mcp。远程 Orbit 官方仍给 Codex 抄 mcp-remote，不要当主路径。",
+    body: `GitLab Orbit Local 给 Codex 有专节：把本机代码图谱暴露成 **stdio** MCP。它查的是 \`~/.orbit/graph.duckdb\`，**不是** GitLab 实例，也不是托管 \`api/v4/mcp\`。官方表名是 \`orbit-cli\`。
+
+先装独立 CLI \`orbit\`，并确认有路径：
+
+\`\`\`bash
+which orbit
+orbit help
+\`\`\`
+
+官方安装器是 knowledge-graph 仓里的 \`install.sh\`，也可以 \`npm install -g @gitlab/orbit\`。已经在用 \`glab\` 时，改跑 \`glab orbit --install\`，之后命令是 \`glab orbit …\`。缺二进制时去官方 CLI 页安装，不要把那条 curl 管道当成 Codex 主路径。
+
+然后才登记 Codex：
+
+\`\`\`bash
+codex mcp add orbit-cli -- orbit mcp serve
+codex mcp list
+\`\`\`
+
+走 \`glab\` 包装时：
+
+\`\`\`bash
+codex mcp add orbit-cli -- glab orbit mcp serve
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.orbit-cli]
+command = "orbit"
+args = ["mcp", "serve"]
+enabled = true
+\`\`\`
+
+这是 stdio，**不要** \`codex mcp login\`。Codex 会写进 \`~/.codex/config.toml\`，对你所有项目生效。不要抄 Claude 的 \`--scope local\` / \`--scope project\`。不要把 command 写成一整串 \`orbit mcp serve\`。
+
+工具是 \`index\`、\`get_graph_schema\`、\`run_sql\`。\`run_sql\` 只读，单次大约 1 MB 封顶。图谱默认在 \`~/.orbit/graph.duckdb\`。会话里可以让它索引当前仓库；也可以先在终端跑 \`orbit index .\`。切分支不会自动更新图谱，要按**签出路径**再索引。多仓库共用一个 DuckDB 文件。
+
+可选：\`orbit setup codex\` 会在 \`AGENTS.md\` 里写入带 orbit 标记的说明块，默认写用户层。\`--project\` 才会进当前仓库，随后出现在 \`git status\`。这不是 MCP 安装器。不要跑 \`glab skills install --global orbit\` 当 Codex \`/plugins\`。
+
+不要和这几条搞混：
+
+- GitLab 实例 MCP 是 \`codex mcp add GitLab --url https://gitlab.com/api/v4/mcp\`，再 \`mcp login GitLab\`。远程入口单独写是 \`https://gitlab.com/api/v4/mcp\`。那是 issue / MR，不是本地图谱。
+- 远程 Orbit 是 \`https://gitlab.com/api/v4/orbit/mcp\`。官方给 Codex 的示例仍是 \`npx mcp-remote\`，不要当 Codex 主路径，也不要和 \`orbit-cli\` 写成同一张表。
+- \`glab mcp serve\` 是另一台实验性本地服务器，文档面向 Claude Code。
+
+本地 Orbit 不消耗 GitLab Credits。MCP 页标 Experiment。保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add orbit@\` 或 \`codex mcp add orbit-local --url\`。
+- 不要抄 \`claude mcp add orbit-cli -- orbit mcp serve\`。
+- 不要把 PAT 写进 \`env\`、\`args\` 或 \`http_headers\`。
+- 不要抄 Cursor 的 \`type: stdio\` JSON。
+
+网页 Cloud 读不到这台本机 CLI。改完新开会话。用 \`codex mcp get orbit-cli\` 看传输是 stdio。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "GitLab", "Orbit", "stdio"],
+    related: ["gitlab-mcp-http", "mcp-add-and-login", "fly-mcp-stdio"],
+    sources: [
+      {
+        label: "GitLab · Orbit Local MCP",
+        url: "https://docs.gitlab.com/orbit/local/access/mcp/",
+      },
+      {
+        label: "GitLab · Orbit CLI",
+        url: "https://docs.gitlab.com/orbit/local/access/cli/",
+      },
+      {
+        label: "GitLab · Orbit Remote MCP",
+        url: "https://docs.gitlab.com/orbit/remote/access/mcp/",
       },
     ],
   },
