@@ -4531,4 +4531,34 @@ export const articles: Article[] = [
     summary:
       'Learn 产品页没有 Codex 安装表，命令以仓库 README 的 Codex 行为准。公开文档无鉴权。浏览器打开常 405。不要和 Azure MCP 搞成一台。',
   },
+  {
+    title: 'dotnet/skills',
+    url: 'https://github.com/dotnet/skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', '.NET', '插件', 'Codex'],
+    summary:
+      '官方 Codex：marketplace add dotnet/skills，再 /plugins 装。清单名是 dotnet-agent-skills。README 的 Copilot 节是斜杠 plugin install，不要抄进 Codex。不要和 microsoft/azure-skills 搞成同一份。',
+  },
+  {
+    title: 'Helicone MCP Server',
+    url: 'https://docs.helicone.ai/integrations/tools/mcp',
+    source: 'Helicone Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Helicone', 'stdio', 'Codex'],
+    summary:
+      '文档 Codex 块把 sk-helicone 占位写进 env 表，要用 env_vars。官方是 npx @helicone/mcp@latest 本地 stdio，表名 helicone。不要 mcp login，不要发明 plugin add。',
+  },
+  {
+    title: 'helicone-mcp',
+    url: 'https://github.com/Helicone/helicone/tree/main/helicone-mcp',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Helicone', 'stdio'],
+    summary:
+      '源仓 README 给的仍是 mcpServers JSON 加 HELICONE_API_KEY 字面量。Codex 对照改成 [mcp_servers.helicone] 和 env_vars。基址写死 api.helicone.ai，欧盟密钥会 401。',
+  },
 ];

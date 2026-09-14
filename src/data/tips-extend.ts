@@ -12740,4 +12740,117 @@ codex plugin add microsoft-docs@microsoftdocs-local
       },
     ],
   },
+  {
+    id: "dotnet-skills-plugin",
+    no: 417,
+    title: ".NET 技能用 marketplace 加 dotnet/skills，不要抄 Copilot 的 plugin install",
+    summary:
+      "官方 Codex：marketplace add dotnet/skills，再 /plugins 装。dotnet/skills 清单名是 dotnet-agent-skills，官方没给 plugin add id。不要抄 Copilot 的 /plugin install。不要和 Azure Skills 搞成同一份。",
+    body: `.NET 团队给 Codex 有专节，写在 \`dotnet/skills\` 仓库 README。这是**插件 marketplace**，不是手拷 SKILL.md。要求 Codex CLI **0.121.0** 以上。官方 Codex 主路径：
+
+\`\`\`bash
+codex plugin marketplace add dotnet/skills
+\`\`\`
+
+然后 TUI \`/plugins\` 或桌面 Plugins 打开 **.NET Agent Skills** 这一栏，再装你要的插件。升级用清单名，不是仓库路径：
+
+\`\`\`bash
+codex plugin marketplace upgrade dotnet-agent-skills
+\`\`\`
+
+dotnet/skills 清单名是 \`dotnet-agent-skills\`，官方没给 plugin add id。不要把 Copilot / Claude 的 \`/plugin marketplace add dotnet/skills\` 或 \`/plugin install dotnet@dotnet-agent-skills\` 抄进 Codex。Codex 加源是 \`codex plugin marketplace add\`，装插件走 \`/plugins\`，**不要发明** \`codex plugin add dotnet@dotnet-agent-skills\`。
+
+0.154 起先看**当前会话**；当前会话 \`/plugins\` 没有再新开。桌面改 marketplace.json 仍要重启应用。IDE 扩展没有 \`/plugins\`。CLI 装好的插件，Codex 桌面也能用。
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`dotnet-agent-skills\`，展示名是 .NET Agent Skills。插件都是仓内本地路径，例如：
+
+- \`dotnet\`：C# 语言服务（LSP）和日常 .NET 技能
+- \`dotnet-msbuild\` / \`dotnet-nuget\` / \`dotnet-upgrade\`：构建、包、升级
+- \`dotnet-aspnetcore\` / \`dotnet-blazor\` / \`dotnet-maui\`：Web 和跨平台
+- \`dotnet-test\` / \`dotnet-test-migration\`：测试和框架迁移
+- \`dotnet11\`：.NET 11 新 API
+
+不要和 \`microsoft/azure-skills\` 搞成同一份源。那份清单名是 \`azure-skills\`，主插件是 \`azure\`，带 Azure MCP。这份是 .NET / C# 技能。
+
+README 另给一条单技能回退：\`skill-installer install https://github.com/dotnet/skills/tree/main/plugins/dotnet/skills/…\`。那是 skill-installer，**不是** Codex \`/plugins\`，也不会登记 marketplace。不要用 \`npx skills add\` 当 Codex 插件安装器。不要手拷到 \`~/.codex/skills\`；现行个人目录是 \`~/.agents/skills\`。
+
+不要抄 Cursor 的 marketplace 面板或 VS Code 的 \`chat.plugins.marketplaces\`。不要抄 \`/plugin update …@dotnet-agent-skills\`；Codex 升级 marketplace 是上面那条 \`upgrade\`。
+
+网页 Cloud 不读本机 marketplace。改完用 \`codex plugin marketplace list\` 核对清单名是 \`dotnet-agent-skills\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", ".NET", "Skills", "C#"],
+    related: ["azure-skills-plugin", "plugin-session-refresh", "firebase-agent-skills"],
+    sources: [
+      {
+        label: "dotnet/skills",
+        url: "https://github.com/dotnet/skills",
+      },
+      {
+        label: "Codex plugins",
+        url: "https://developers.openai.com/codex/plugins",
+      },
+    ],
+  },
+  {
+    id: "mcp-helicone-stdio",
+    no: 418,
+    title: "Helicone MCP 走本地 npx stdio，密钥不要写进 env 表",
+    summary:
+      "官方 Codex：mcp add helicone -- npx @helicone/mcp@latest。stdio，不要 mcp login。密钥用 env_vars 转发 HELICONE_API_KEY。不要发明 plugin add，也不要配成 model_providers。",
+    body: `Helicone 给 Codex 的是**本机 stdio**，不是远程 HTTP。官方 MCP 页有 Codex 专节，表名就是 \`helicone\`。包是 \`@helicone/mcp@latest\`，用 \`npx\` 起进程，再去查你账号里的请求和会话。不要给它写 \`url\`，也不要抄 \`type = "http"\`。
+
+Helicone 官方 Codex 把 HELICONE_API_KEY 写成 env 表字面量。那是把密钥嵌进 \`~/.codex/config.toml\`，TOML 占位符也不会展开。Codex 正确写法是从**启动 Codex 的那个进程**转发变量名：
+
+\`\`\`bash
+codex mcp add helicone -- npx @helicone/mcp@latest
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.helicone]
+command = "npx"
+args = ["@helicone/mcp@latest"]
+env_vars = ["HELICONE_API_KEY"]
+enabled = true
+startup_timeout_sec = 60
+\`\`\`
+
+这是 stdio，**不要** \`codex mcp login helicone\`。\`mcp add\` 写进用户层 \`~/.codex/config.toml\`，对你所有项目生效。官方 TOML 没写 \`-y\`；冷启动想跳过 npm 确认，才把 args 改成 \`["-y", "@helicone/mcp@latest"]\`。不要 \`required = true\`。不要一上来 \`--yolo\`：查请求时若打开响应体，密钥和提示词会进上下文。
+
+密钥从 [Settings → API Keys](https://us.helicone.ai/settings/api-keys) 拿，欧盟账号走 [eu.helicone.ai](https://eu.helicone.ai/settings/api-keys)。变量必须在启动 Codex 的 shell 里。不要把 \`sk-helicone-\` 开头的值写进 \`env\` 表、\`args\` 或 \`http_headers\`。
+
+欧盟密钥目前仍打美区 \`https://api.helicone.ai\`。\`@helicone/mcp@latest\` 和仓库里的 \`helicone-client.ts\` 都把基址写死了，设 \`HELICONE_BASE_URL\` **不会**被读到，请求会 401。在上游合进可读环境变量之前，不要把欧盟密钥当这台 MCP 的主路径。
+
+官方文档 Codex 节只写了查请求、查会话。源仓 README 还多了 AI Gateway 调用；那是这台 stdio 服务器自己的工具，**不是** \`[model_providers]\`，也不要另起一张 HTTP 表。不要发明 \`codex plugin add helicone@…\`。
+
+不要做这些：
+
+- 不要抄 \`mcpServers\` JSON。Codex 用 \`[mcp_servers.helicone]\`。
+- 不要抄 Claude Desktop / Cursor 的 \`env.HELICONE_API_KEY\` 字面量。
+- 不要给它 \`url = "https://api.helicone.ai"\` 再 \`mcp login\`。
+- 不要和 Langfuse 文档 MCP、产品 MCP 写成同一张表。
+- 不要把 Helicone AI Gateway 配成 Codex 的模型供应商来「代替」这台查询 MCP。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get helicone\` 看传输是 stdio，command 是 npx。会话里 \`/mcp\` 只是核对工具，不是登录入口。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Helicone", "stdio", "观测"],
+    related: ["mcp-add-and-login", "mcp-stdio-env-vars", "mcp-langfuse-cloud"],
+    sources: [
+      {
+        label: "Helicone · MCP Server",
+        url: "https://docs.helicone.ai/integrations/tools/mcp",
+      },
+      {
+        label: "Helicone/helicone · helicone-mcp",
+        url: "https://github.com/Helicone/helicone/tree/main/helicone-mcp",
+      },
+      {
+        label: "@helicone/mcp",
+        url: "https://www.npmjs.com/package/@helicone/mcp",
+      },
+    ],
+  },
 ];

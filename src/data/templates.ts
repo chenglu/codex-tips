@@ -3489,4 +3489,46 @@ codex plugin add apify@apify-plugins
 # /plugin install microsoft-docs@microsoft-docs-marketplace
 `,
   },
+  {
+    id: "dotnet-skills-plugin",
+    title: ".NET Agent Skills 插件",
+    filename: "terminal",
+    summary:
+      "主路径是 marketplace add dotnet/skills，再 /plugins 装。upgrade 用清单名 dotnet-agent-skills 不是仓库路径。官方没给 plugin add id。",
+    code: `codex plugin marketplace add dotnet/skills
+
+# TUI /plugins 或桌面 Plugins 打开 .NET Agent Skills 再装
+# 例如 dotnet、dotnet-msbuild、dotnet-aspnetcore、dotnet-blazor、dotnet11
+
+codex plugin marketplace upgrade dotnet-agent-skills
+
+# 不要：
+# /plugin marketplace add dotnet/skills
+# /plugin install dotnet@dotnet-agent-skills
+# npx skills add
+# skill-installer 当 /plugins
+`,
+  },
+  {
+    id: "mcp-helicone-stdio",
+    title: "Helicone 本地 stdio MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "密钥走 env_vars 转发 HELICONE_API_KEY，不要抄文档 env 表里的 sk-helicone。主路径是 mcp add helicone -- npx @helicone/mcp@latest。stdio，不要 mcp login。",
+    code: `codex mcp add helicone -- npx @helicone/mcp@latest
+
+[mcp_servers.helicone]
+command = "npx"
+args = ["@helicone/mcp@latest"]
+env_vars = ["HELICONE_API_KEY"]
+enabled = true
+startup_timeout_sec = 60
+
+# 不要：
+# [mcp_servers.helicone.env]
+# HELICONE_API_KEY = "sk-helicone-xxxxxxx"
+# codex mcp login helicone
+# url = "https://api.helicone.ai"
+`,
+  },
 ];

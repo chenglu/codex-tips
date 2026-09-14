@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-14T12:00:00Z",
+  lastTick: "2026-09-14T13:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "12:00 收口。#11 SEO/GEO 之后，#18/#20–#30 都卡在同一批数据文件末尾，和已合入的 #19 Endor Labs 冲突。本轮按到达顺序改号合入 TIP 405–416：ClickHouse stdio、JFrog 插件、Nowledge Mem、Solo agentregistry、ECC、MATLAB MCP、SurrealDB、Infisical Agent Proxy、Postman MCP、Apify 插件、Nylas MCP、Microsoft Learn MCP。站点 416 技巧。原 PR 可关。",
+    "13:00 收口续。#32 .NET Agent Skills、#33 Helicone stdio 又从 main 抢 TIP 405，会和本 PR 的 405–416 冲突。并入为 TIP 417 dotnet-skills-plugin、TIP 418 mcp-helicone-stdio。站点 418 技巧。合入后关 #18、#20–#33。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1638,6 +1638,27 @@ export const loopState = {
     "MicrosoftDocs/mcp .codex-plugin microsoftdocs-local microsoft-docs",
     "mslearn setup --cli --codex ~/.agents/skills Microsoft Learn MCP",
     "Codex CLI 技巧 2026 Microsoft Learn MCP microsoft-learn api/mcp",
+    "github.com/dotnet/skills Codex plugin marketplace add dotnet-agent-skills",
+    "dotnet.github.io skills Codex CLI plugin marketplace",
+    "hashicorp consul-mcp-server Codex mcp add docker",
+    "developers.notion.com guides mcp Codex mcp login notion",
+    "infisical.com docs mcp Codex documentation server",
+    "developer.salesforce.com hosted-mcp Codex",
+    "docs.getdbt.com mcp Codex mcp add",
+    "meilisearch.com docs mcp Codex uvx meilisearch-mcp",
+    "fastmail.com mcp Codex mcp-remote",
+    "builder.io fusion-mcp-server Codex",
+    "configcat mcp Codex",
+    "Codex CLI 技巧 2026 dotnet/skills marketplace add dotnet-agent-skills",
+    "docs.helicone.ai integrations tools mcp Codex config.toml helicone",
+    "github.com Helicone helicone-mcp HELICONE_API_KEY env_vars",
+    "npmjs.com @helicone/mcp Codex stdio",
+    "github.com amd/skills Codex plugin marketplace add",
+    "docs.docker.com mcp client connect --global codex MCP_DOCKER",
+    "docs.danubeai.com mcp-clients Codex --header danube-api-key",
+    "docs.newrelic.com agentic-ai mcp setup Codex include-tags",
+    "workos.com docs mcp Codex mcp add workos",
+    "Codex CLI 技巧 2026 Helicone MCP npx @helicone/mcp env_vars",
   ],
 };
 
