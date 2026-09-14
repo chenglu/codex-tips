@@ -1,12 +1,7 @@
 import type { Tip } from "../types";
 import { categoryMap } from "../data/categories";
 import { href } from "../lib/routes";
-
-const levelLabel = {
-  starter: "入门",
-  intermediate: "进阶",
-  advanced: "高阶",
-};
+import { levelLabel } from "../lib/labels";
 
 export function TipCard({ tip }: { tip: Tip }) {
   const category = categoryMap[tip.category];

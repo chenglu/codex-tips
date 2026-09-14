@@ -10,16 +10,18 @@ export function AboutPage() {
         不同版本的命令和配置可能有所变化，使用时请参考
         <a href="https://developers.openai.com/codex" target="_blank" rel="noreferrer">
           developers.openai.com/codex
-        </a>
+        </a>{" "}
         和本机 <code>/help</code> 为准。
       </p>
       <h2>怎么用</h2>
       <ul>
-        <li>按 <kbd>/</kbd> 或 <kbd>⌘K</kbd> 检索技巧、文章和社区动态</li>
-        <li>目录可按章节、难度、入口过滤</li>
+        <li>
+          按 <kbd>/</kbd> 或 <kbd>⌘K</kbd> 检索技巧、模板、文章和社区动态
+        </li>
+        <li>目录可按章节、难度、入口过滤；点技巧卡片进入正文</li>
         <li>文章页是外链阅读清单，社区页跟踪 X 和论坛里刚出现的用法</li>
-        <li>速查表汇总常用命令和快捷键</li>
-        <li>模板页可复制 AGENTS.md、config、skill、子代理骨架</li>
+        <li>速查表可按关键字过滤，点命令即可复制</li>
+        <li>模板页可按类型筛选，复制 AGENTS.md、config、skill、子代理骨架</li>
       </ul>
       <h2>主要来源</h2>
       <ul>

@@ -1,5 +1,6 @@
 import { articles } from "../data/articles";
 import { community } from "../data/community";
+import { templates } from "../data/templates";
 import type { CategoryId, Level, Surface, Tip } from "../types";
 
 export interface Filters {
@@ -24,7 +25,7 @@ export function emptyFilters(): Filters {
 }
 
 export function parseHashQuery(search: string): Partial<Filters> {
-  const params = new URLSearchParams(search);
+  const params = new URLSearchParams(search.startsWith("?") ? search.slice(1) : search);
   const next: Partial<Filters> = {};
   const q = params.get("q");
   if (q) next.query = q;
@@ -75,16 +76,82 @@ export function searchTips(tips: Tip[], filters: Filters): Tip[] {
 }
 
 export type SearchHit = {
-  kind: "tip" | "article" | "community";
+  kind: "tip" | "article" | "community" | "page";
   title: string;
   summary: string;
   href: string;
   kicker: string;
 };
 
-export function searchCatalog(query: string, tips: Tip[], limit = 10): SearchHit[] {
+const pageHits: SearchHit[] = [
+  {
+    kind: "page",
+    title: "目录",
+    summary: "按章节、难度、入口过滤全部技巧",
+    href: "#/tips",
+    kicker: "页面",
+  },
+  {
+    kind: "page",
+    title: "速查表",
+    summary: "启动、TUI、斜杠命令、旗标与 exec",
+    href: "#/cheatsheet",
+    kicker: "页面",
+  },
+  {
+    kind: "page",
+    title: "模板",
+    summary: "AGENTS.md、config、hooks、终端与 CI 骨架",
+    href: "#/templates",
+    kicker: "页面",
+  },
+  {
+    kind: "page",
+    title: "文章",
+    summary: "官方文档、教程、清单与示例仓库",
+    href: "#/articles",
+    kicker: "页面",
+  },
+  {
+    kind: "page",
+    title: "社区",
+    summary: "X、论坛和刚出现的用法",
+    href: "#/community",
+    kicker: "页面",
+  },
+  {
+    kind: "page",
+    title: "关于",
+    summary: "使用说明与资料来源",
+    href: "#/about",
+    kicker: "页面",
+  },
+];
+
+export function searchCatalog(query: string, tips: Tip[], limit = 12): SearchHit[] {
   const needle = query.trim().toLowerCase();
   const hits: SearchHit[] = [];
+
+  if (!needle) {
+    hits.push(...pageHits);
+    const featured = tips.filter((tip) => tip.featured);
+    const starter = featured.length > 0 ? featured : tips.slice(0, 6);
+    for (const tip of starter) {
+      hits.push({
+        kind: "tip",
+        title: tip.title,
+        summary: tip.summary,
+        href: `#/tips/${tip.id}`,
+        kicker: `TIP ${String(tip.no).padStart(3, "0")}`,
+      });
+    }
+    return hits.slice(0, limit);
+  }
+
+  for (const page of pageHits) {
+    const text = `${page.title} ${page.summary} ${page.kicker}`.toLowerCase();
+    if (text.includes(needle)) hits.push(page);
+  }
 
   for (const tip of searchTips(tips, {
     query,
@@ -101,29 +168,40 @@ export function searchCatalog(query: string, tips: Tip[], limit = 10): SearchHit
     });
   }
 
-  if (needle) {
-    for (const article of articles) {
-      const text = `${article.title} ${article.source} ${article.summary} ${article.tags.join(" ")}`.toLowerCase();
-      if (!text.includes(needle)) continue;
-      hits.push({
-        kind: "article",
-        title: article.title,
-        summary: article.summary,
-        href: article.url,
-        kicker: `文章 · ${article.source}`,
-      });
-    }
-    for (const item of community) {
-      const text = `${item.title} ${item.source} ${item.summary} ${item.tags.join(" ")}`.toLowerCase();
-      if (!text.includes(needle)) continue;
-      hits.push({
-        kind: "community",
-        title: item.title,
-        summary: item.summary,
-        href: item.url,
-        kicker: `社区 · ${item.kind}`,
-      });
-    }
+  for (const item of templates) {
+    const text = `${item.title} ${item.filename} ${item.summary}`.toLowerCase();
+    if (!text.includes(needle)) continue;
+    hits.push({
+      kind: "page",
+      title: item.title,
+      summary: item.summary,
+      href: `#/templates/${item.id}`,
+      kicker: `模板 · ${item.filename}`,
+    });
+  }
+
+  for (const article of articles) {
+    const text = `${article.title} ${article.source} ${article.summary} ${article.tags.join(" ")}`.toLowerCase();
+    if (!text.includes(needle)) continue;
+    hits.push({
+      kind: "article",
+      title: article.title,
+      summary: article.summary,
+      href: article.url,
+      kicker: `文章 · ${article.source}`,
+    });
+  }
+
+  for (const item of community) {
+    const text = `${item.title} ${item.source} ${item.summary} ${item.tags.join(" ")}`.toLowerCase();
+    if (!text.includes(needle)) continue;
+    hits.push({
+      kind: "community",
+      title: item.title,
+      summary: item.summary,
+      href: item.url,
+      kicker: `社区 · ${item.kind}`,
+    });
   }
 
   return hits.slice(0, limit);

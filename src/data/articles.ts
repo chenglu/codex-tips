@@ -3691,5 +3691,225 @@ export const articles: Article[] = [
     summary:
       '介绍 Wherobots 的 MCP、Agent Skills 和 CLI。在 Codex 的终端与桌面环境中，这些工具需要分别安装和配置。',
   },
+  {
+    title: 'MCP server',
+    url: 'https://learn.hex.tech/docs/api-integrations/mcp-server',
+    source: 'Hex',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Hex', 'plugins', 'OAuth'],
+    summary:
+      '介绍 Hex 插件的连接方式、OAuth 授权和角色权限。企业工作区可能需要管理员先启用 Hex app。',
+  },
+  {
+    title: 'Hex is now in Codex',
+    url: 'https://hex.tech/blog/hex-in-codex/',
+    source: 'Hex',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Hex', 'plugins'],
+    summary:
+      '介绍在 Codex 中连接 Hex、查询 Threads，以及通过 CLI 创建项目和编辑 cell。',
+  },
+  {
+    title: 'Connect Codex to Webflow',
+    url: 'https://help.webflow.com/hc/en-us/articles/53625430351507-Connect-Codex-to-Webflow',
+    source: 'Webflow',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Webflow', 'plugins', 'OAuth'],
+    summary:
+      '介绍 Webflow 插件的安装、站点选择和授权步骤。授权需要 Workspace owner、admin 或 Site manager 权限。',
+  },
+  {
+    title: 'Webflow is now available in Codex',
+    url: 'https://webflow.com/updates/webflow-in-codex',
+    source: 'Webflow',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Webflow', 'plugins', 'Skills'],
+    summary:
+      '介绍 Webflow 在 Codex 中的集成，包括站点审计、CMS 和发布相关技能。',
+  },
+  {
+    title: 'Using the MCP Server in Codex',
+    url: 'https://docs.omni.co/ai/mcp/codex',
+    source: 'Omni',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Omni', 'OAuth'],
+    summary:
+      '提供 Omni 的 OAuth 和 API key 配置。两种认证方式使用不同入口，API key 可通过 bearer_token_env_var 提供。',
+  },
+  {
+    title: 'MCP authentication',
+    url: 'https://docs.omni.co/ai/mcp/authentication',
+    source: 'Omni',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Omni', 'OAuth'],
+    summary:
+      '解释 OAuth、API key 和多组织登录。MCP OAuth PAT 与普通 PAT 不同，数据访问仍受用户角色限制。',
+  },
+  {
+    title: 'MCP server tools',
+    url: 'https://docs.omni.co/ai/mcp/tools',
+    source: 'Omni',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Omni'],
+    summary:
+      '介绍 getData、runQuery 和 askOmni。查询工具需要管理员启用；修改已有 dashboard 会进入草稿，新建则会直接发布。',
+  },
+  {
+    title: 'Codex',
+    url: 'https://docs.dagu.sh/mcp/clients/codex',
+    source: 'Dagu',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Dagu', 'HTTP'],
+    summary:
+      '介绍通过 --url 连接 Dagu，并用 DAGU_MCP_API_KEY 环境变量提供 builtin 认证所需的 API key。',
+  },
+  {
+    title: 'MCP Quickstart',
+    url: 'https://docs.dagu.sh/mcp/quickstart',
+    source: 'Dagu',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Dagu'],
+    summary:
+      '介绍启动 Dagu、设置 /mcp 地址，以及使用 dagu_change 的 preview 和 apply 模式修改工作流。',
+  },
+  {
+    title: 'MCP Clients',
+    url: 'https://docs.dagu.sh/mcp/clients/',
+    source: 'Dagu',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Dagu'],
+    summary:
+      '比较各客户端的连接方式。Dagu 提供 Streamable HTTP，Codex 可直接连接并通过环境变量提供 Bearer token。',
+  },
+  {
+    title: 'How to use the Prefect MCP server',
+    url: 'https://docs.prefect.io/v3/how-to-guides/ai/use-prefect-mcp-server',
+    source: 'Prefect',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Prefect', 'plugins'],
+    summary:
+      '介绍通过 uvx 启动本地 Prefect MCP，配置工作区和凭据。MCP 提供只读工具，资源修改通过 Prefect CLI 完成。',
+  },
+  {
+    title: 'prefect-mcp-server',
+    url: 'https://github.com/prefecthq/prefect-mcp-server',
+    source: 'PrefectHQ',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Prefect', 'plugins'],
+    summary:
+      '提供 Prefect Codex 插件，可安装 prefect@prefect 并通过 OAuth 连接托管 MCP。本地 stdio 服务需使用独立名称。',
+  },
+  {
+    title: 'SECURITY.md',
+    url: 'https://github.com/PrefectHQ/prefect-mcp-server/blob/main/SECURITY.md',
+    source: 'PrefectHQ',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Prefect', '安全'],
+    summary:
+      '说明 MCP 与 CLI 的权限边界、OAuth 工作区范围，以及自托管服务的 PREFECT_API_AUTH_STRING 认证方式。',
+  },
+  {
+    title: 'MCP',
+    url: 'https://help.gowindmill.com/features/mcp',
+    source: 'Windmill',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Windmill', 'OAuth'],
+    summary:
+      '介绍 Windmill 的 OAuth MCP 连接，可用于访问授权范围内的团队管理数据。',
+  },
+  {
+    title: 'Codex',
+    url: 'https://help.gowindmill.com/integrations/codex',
+    source: 'Windmill',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Windmill', '分析'],
+    summary:
+      '介绍 Settings → Integrations 中的 Codex 用量同步，包括工作区配置及线程、额度和 token 统计。此功能与 MCP 连接分开配置。',
+  },
+  {
+    title: 'Pulse Surveys',
+    url: 'https://help.gowindmill.com/features/pulse-surveys',
+    source: 'Windmill',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Windmill'],
+    summary:
+      '介绍通过 MCP 汇总 Pulse 结果，返回范围遵循用户在 Dashboard 中已有的访问权限。',
+  },
+  {
+    title: 'Codex',
+    url: 'https://reui.io/docs/codex',
+    source: 'ReUI',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'ReUI', 'OAuth'],
+    summary:
+      '介绍 ReUI 的 OAuth 和个人 token 认证。入口为 https://mcp.reui.io，无头环境使用 REUI_LICENSE_KEY，认证方式应单独配置。',
+  },
+  {
+    title: 'MCP Server',
+    url: 'https://reui.io/docs/mcp',
+    source: 'ReUI',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'ReUI'],
+    summary:
+      '介绍 ReUI 的组件搜索、组件读取、安装命令和技能工具，以及 OAuth 和 PAT 的有效期。',
+  },
+  {
+    title: 'License Setup',
+    url: 'https://reui.io/docs/license-setup',
+    source: 'ReUI',
+    lang: '英文',
+    kind: '官方',
+    tags: ['ReUI', 'shadcn'],
+    summary:
+      '介绍 Premium 组件的许可证配置。shadcn CLI 读取 .env.local；Codex MCP 通过 bearer_token_env_var 读取环境变量。',
+  },
+  {
+    title: 'Codex MCP integration',
+    url: 'https://alloy.app/guide/integrations/codex-mcp',
+    source: 'Alloy',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Alloy', 'OAuth'],
+    summary:
+      '介绍连接 alloy.app 的原型会话，支持 OAuth 和工作区 MCP key。切换认证方式前需清理旧配置。',
+  },
+  {
+    title: 'MCP',
+    url: 'https://alloy.app/guide/integrations/mcp',
+    source: 'Alloy',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Alloy'],
+    summary:
+      '介绍 Alloy 的 Streamable HTTP MCP 入口和不同客户端的连接方式。Codex 可直接添加远程服务并登录。',
+  },
+  {
+    title: 'Alloy MCP',
+    url: 'https://alloy.app/launches/alloy-mcp',
+    source: 'Alloy',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Alloy'],
+    summary:
+      '介绍通过 MCP 读取 Alloy 原型会话中的设计、聊天和文件，连接后可直接提供会话链接。',
+  },
 ];
 

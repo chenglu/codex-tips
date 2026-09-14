@@ -10676,4 +10676,462 @@ npx skills add wherobots/agent-skills@wherobots-usage
       },
     ],
   },
+  {
+    id: "hex-codex-plugin",
+    no: 388,
+    title: "连接 Hex 插件",
+    summary:
+      "在 Plugins 中搜索 Hex，连接 Hex app 并完成 OAuth。项目查询和编辑能力取决于当前账号权限。",
+    body: `Hex 可通过 Codex 的公共插件目录连接。Team / Enterprise 才能用；MCP 目前 beta。Explorer 及以上才能搜项目、开 Threads；Editor 及以上才能改 notebook。
+
+ChatGPT Business / Enterprise 工作区里，管理员可能要先在 Workspace settings → Apps 打开 Hex app，用户才能在 Codex 装这个插件。
+
+官方 Codex 专节：
+
+1. Codex 应用打开 Plugins，搜 Hex
+2. 在 Hex 插件旁点 Connect
+3. 按提示连捆绑的 Hex app，完成 OAuth，多 workspace 时选对工作区
+
+博客和 changelog 还写：Plugins 先装 Data Analytics plugin，再 Connect Hex。以专节的 Plugins 搜 Hex 为准；目录里看到 Data Analytics 再连 Hex 也是同一条产品路径。
+
+0.154 起先在**当前会话**看 \`/plugins\`；当前会话没有再新开。IDE 扩展没有 \`/plugins\`，用桌面或 CLI。安装后重新打开会话，用 \`@\` 点名插件或捆绑技能，或直接问「在 Hex 里查本季 churn」。Explorer 可以搜项目、开 Threads；Editor 才能改 cell，或走插件捆绑的 Hex CLI。CLI 命令请参考 Hex 文档。
+
+自定义域部署请参考 Hex 的客户端支持说明。其他客户端的 MCP 地址为 \`https://app.hex.tech/mcp\`；切换到 EU、HIPAA 或单租户域名时，保留 \`/mcp\` 路径。
+
+标成 Sensitive 的数据连接，MCP 不会用。对话里上传的文件也传不进 Hex。Threads 往往要几分钟；MCP 开的 Thread 是独立的，接不上 Hex 应用里已有的 Thread。改 notebook 只动草稿，不会改已发布 app。Admin 角色也不会自动获得每个项目的编辑权。
+
+网页 Cloud 不读取 \`~/.codex/config.toml\`。Cloud 也走 Plugins 搜 Hex。配置后用 \`codex plugin list\` 核对已装。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["MCP", "Hex", "plugins", "OAuth"],
+    related: ["mcp-resend-remote", "customerio-codex-plugin", "onesignal-codex-plugin"],
+    sources: [
+      {
+        label: "Hex · MCP server",
+        url: "https://learn.hex.tech/docs/api-integrations/mcp-server",
+      },
+      {
+        label: "Hex · Hex is now in Codex",
+        url: "https://hex.tech/blog/hex-in-codex/",
+      },
+    ],
+  },
+  {
+    id: "webflow-codex-plugin",
+    no: 389,
+    title: "连接 Webflow 插件",
+    summary:
+      "在 Plugins 中安装 Webflow 并授权站点。编辑画布、样式和组件时，需要在 Designer 中启动 MCP Bridge App。",
+    body: `Webflow 可通过 Codex 的公共插件目录连接。帮助中心写：在 ChatGPT 桌面应用切到 Codex，Plugins 搜 Webflow，点 Install。
+
+只有 Workspace owner、Workspace admin 或 Site manager 才能给站点授权。Reviewer 不行。MCP 跟着你现有的 Webflow 权限走，装插件不会抬权限。一次授权只覆盖一个 workspace；要换 workspace，先卸再装、重新授权。
+
+官方帮助步骤：
+
+1. 打开 ChatGPT 桌面应用，切到 Codex
+2. 打开 Plugins，搜 Webflow
+3. 在 Webflow 插件旁点 Install
+4. Connect Webflow 对话框里点 Continue to Webflow
+5. 浏览器里勾选要给 Codex 的站点或 Workspace
+6. 点 Authorize App，回到 Codex
+
+TUI 输入 \`/plugins\` 搜 Webflow 是同一套公共目录。0.154 起先在**当前会话**看 \`/plugins\`；当前会话没有再新开。IDE 扩展没有 \`/plugins\`，用桌面或 CLI。安装后重新打开会话，直接问「列出这个站点的 CMS Collection 和字段」，或让它搭一个博客 Collection 加起步条目。
+
+Webflow 的 Codex 帮助采用插件安装流程。其他客户端使用的远程地址为 \`https://mcp.webflow.com/mcp\`；Beta 和文档站使用独立入口。
+
+改画布、样式、组件要走 Designer API：浏览器打开该站点的 Designer，按 \`E\` 打开 Apps，启动 Webflow MCP Bridge App，连上后再让 Codex 动手。桥接应用会在 OAuth 时自动装，不在公开 Marketplace。只管 CMS、Collection、自定义代码时，Designer 可以不开。
+
+Webflow 插件包含站点审计、CMS、发布和开发脚手架等技能。
+
+网页 Cloud 不读取 \`~/.codex/config.toml\`。Cloud 也走 Plugins 搜 Webflow。配置后用 \`codex plugin list\` 核对已装。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["MCP", "Webflow", "plugins", "OAuth"],
+    related: ["hex-codex-plugin", "customerio-codex-plugin", "onesignal-codex-plugin"],
+    sources: [
+      {
+        label: "Webflow · Connect Codex to Webflow",
+        url: "https://help.webflow.com/hc/en-us/articles/53625430351507-Connect-Codex-to-Webflow",
+      },
+      {
+        label: "Webflow · Webflow is now available in Codex",
+        url: "https://webflow.com/updates/webflow-in-codex",
+      },
+      {
+        label: "Webflow · Getting started",
+        url: "https://developers.webflow.com/mcp/reference/getting-started",
+      },
+    ],
+  },
+  {
+    id: "omni-mcp-http",
+    no: 390,
+    title: "通过 OAuth 或 API key 连接 Omni MCP",
+    summary:
+      "OAuth 使用 callbacks.omniapp.co/callback/mcp；API key 使用实例的 /mcp/https 地址，并通过环境变量提供凭据。",
+    body: `Omni 文档包含 Codex 的配置说明。OAuth 是推荐路径。组织管理员先打开：Settings → General 的 Enable AI、AI Hub → Features 的 Omni Agent、AI Hub → MCP 的 MCP server，以及 Settings → API Keys → Personal tokens。OAuth 要 PAT 开关。查询工具和文档搜索跟 Omni Agent 同一条管线；关掉 Agent 后，除 pickModel 外都会 403 Feature is not enabled。
+
+官方远程入口是 \`https://callbacks.omniapp.co/callback/mcp\`，带 \`/callback/mcp\`。官方 OAuth 命令：
+
+\`\`\`bash
+codex mcp add omni --url https://callbacks.omniapp.co/callback/mcp
+codex
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.omni]
+url = "https://callbacks.omniapp.co/callback/mcp"
+enabled = true
+\`\`\`
+
+这是 MCP 入口，会在 OAuth 时把你路由到上次登录的 Omni 组织，**不是** Codex 自己的 loopback callback。加入多个组织时，先登出再登进要连的那个，随后登录。若浏览器未打开，运行 \`codex mcp login omni\`。Omni 会自动创建一个 MCP OAuth PAT，跟普通 PAT 不是一类：任意用户（含 Viewer）都能走完流程，但权限仍跟应用内角色走，Viewer 无法查询数据。这些 PAT 目前不在 Omni 界面里显示。
+
+API key 是另一条 URL。官方示例主机是 \`acme.omniapp.co\`，路径是 \`/mcp/https\`，**不是** \`/mcp\`：
+
+\`\`\`bash
+codex mcp add omni --url https://acme.omniapp.co/mcp/https --bearer-token-env-var OMNI_API_KEY
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.omni]
+url = "https://acme.omniapp.co/mcp/https"
+bearer_token_env_var = "OMNI_API_KEY"
+enabled = true
+\`\`\`
+
+把 \`acme.omniapp.co\` 换成你的实例。官方 Option A 写成 \`codex mcp add omni https://…/mcp/https\`，**漏了** \`--url\`。缺少该参数时，URL 会被当作 stdio 命令。为避免在配置中明文保存密钥，Codex 用 \`bearer_token_env_var\`，读的是启动 Codex 那个进程里的变量名。从已经 export 的终端启动。从 Dock 或开始菜单启动的桌面应用通常不会加载终端环境变量。Codex 不读 \`.env\`。
+
+可选范围头可以留在 \`http_headers\`，它们不是密钥：\`X-MCP-Model-ID\`、\`X-MCP-Topic-Name\`、\`X-MCP-User-Required\`、\`X-MCP-User-ID\`、\`X-MCP-Query-All-Views\`。模型 ID 在模型页 URL 的 \`/models/…/ide/model\` 那段。\`X-MCP-Query-All-Views\` 要模型也打开 \`query_all_views_and_fields\`。同名表再 \`mcp add\` 一次会覆盖；OAuth 入口和 API key 入口应使用不同的服务名，避免两张表都叫 \`omni\` 的表。
+
+单次查询 \`getData\` / \`runQuery\` 默认关，要管理员打开 Single shot query generation。复杂分析才是 \`askOmni\` + \`checkStatus\`。改已有 dashboard 会进草稿，要人审再发布；新建 dashboard 会立刻发布。\`runQuery\` 默认 500 行、上限 10000，带 \`userEditedSQL\` 的请求会被拒。
+
+可以先询问「Hey Omni, tell me how many users signed up last month」。若工具未出现，请重新打开会话。
+
+网页 Cloud 不读取 \`~/.codex/config.toml\`。修改后重新打开会话。用 \`codex mcp get omni\` 看传输是 streamable_http。OAuth 路径的 \`/mcp\` 应显示 Auth: OAuth。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Omni", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-http-bearer-env", "mcp-mixpanel-remote"],
+    sources: [
+      {
+        label: "Omni · Using the MCP Server in Codex",
+        url: "https://docs.omni.co/ai/mcp/codex",
+      },
+      {
+        label: "Omni · MCP authentication",
+        url: "https://docs.omni.co/ai/mcp/authentication",
+      },
+      {
+        label: "Omni · MCP server tools",
+        url: "https://docs.omni.co/ai/mcp/tools",
+      },
+    ],
+  },
+  {
+    id: "dagu-mcp-http",
+    no: 391,
+    title: "连接 Dagu MCP",
+    summary:
+      "启动 Dagu 后连接 /mcp。使用 builtin 鉴权时，通过 DAGU_MCP_API_KEY 环境变量提供 API key。",
+    body: `Dagu 文档包含 Codex 的配置说明。MCP 做在 Dagu HTTP 服务里，不用再装客户端包。先 \`dagu start-all\`。本机入口是 \`http://localhost:8080/mcp\`，**带** \`/mcp\`。官方写：只有客户端和 Dagu 在同一台机器时才用 localhost。远程换成 \`https://dagu.example.com/mcp\`。服务挂在 \`/dagu\` 这种 base path 时，MCP 在 \`https://dagu.example.com/dagu/mcp\`，漏了前缀会 404。
+
+无鉴权（\`none\`）只给隔离本机：
+
+\`\`\`bash
+codex mcp add dagu --url http://localhost:8080/mcp
+\`\`\`
+
+\`builtin\` 鉴权要 API key。官方 Codex 命令：
+
+\`\`\`bash
+codex mcp add dagu --url http://localhost:8080/mcp --bearer-token-env-var DAGU_MCP_API_KEY
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.dagu]
+url = "http://localhost:8080/mcp"
+bearer_token_env_var = "DAGU_MCP_API_KEY"
+enabled = true
+\`\`\`
+
+\`--bearer-token-env-var\` 填的是变量**名**，不是 key。Codex 从启动环境中读取 \`DAGU_MCP_API_KEY\`。先 export 再开 \`codex\`。从 Dock 或开始菜单启动的桌面应用通常不会加载终端环境变量。Codex 不读 \`.env\`。客户端对照表写明：Codex 只走 Bearer，而且只从环境变量取。通过环境变量保存凭据。此服务使用 API key 认证，无需运行 \`mcp login dagu\`。
+
+角色跟 Web UI / REST 同一套：\`viewer\` 只读，\`operator\` 能跑/停，\`developer\` 才能改 DAG。给 AI 的 key 尽量只开 \`mcp\` surface，无需同时开放 \`rest_api\`。可以先让它 \`dagu_read\` \`dagu://reference/authoring\`。改工作流先 \`dagu_change\` 的 \`mode=preview\`，确认后再 \`apply\`。跑任务走 \`dagu_execute\`。
+
+Dagu 的连接配置保存在用户层 \`~/.codex/config.toml\`。使用独立 profile 时，文件为 \`~/.codex/名字.config.toml\`，通过 \`--profile\` 加载。
+
+网页 Cloud 不读取 \`~/.codex/config.toml\`。修改后重新打开会话。用 \`codex mcp get dagu\` 看传输是 streamable_http。会话里 \`/mcp\` 应列出 \`dagu_read\`、\`dagu_change\`、\`dagu_execute\`。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Dagu", "HTTP", "bearer_token_env_var"],
+    related: ["mcp-http-bearer-env", "mcp-add-and-login", "litestream-mcp-http"],
+    sources: [
+      {
+        label: "Dagu · Codex",
+        url: "https://docs.dagu.sh/mcp/clients/codex",
+      },
+      {
+        label: "Dagu · MCP Quickstart",
+        url: "https://docs.dagu.sh/mcp/quickstart",
+      },
+      {
+        label: "Dagu · MCP Clients",
+        url: "https://docs.dagu.sh/mcp/clients/",
+      },
+    ],
+  },
+  {
+    id: "prefect-codex-plugin",
+    no: 392,
+    title: "安装 Prefect 插件与配置本地 MCP",
+    summary:
+      "安装 prefect@prefect 后，通过 OAuth 连接 Prefect Cloud。本地 stdio 模式可连接自托管服务或指定工作区。",
+    body: `Prefect MCP 目前 beta。给 Codex 的**官方主路径**是插件：连 Prefect Cloud 托管只读 MCP，走 Cloud OAuth。插件使用 OAuth，无需提供 API key，也不读取 \`~/.prefect/profiles.toml\`。源仓是 \`prefecthq/prefect-mcp-server\`。marketplace.json 名是 \`prefect\`，插件 \`name\` 也是 \`prefect\`，所以 id 是 \`prefect@prefect\`。源仓 README 的 Codex Plugin 节：
+
+\`\`\`bash
+codex plugin marketplace add prefecthq/prefect-mcp-server
+codex plugin add prefect@prefect
+\`\`\`
+
+0.154 起先在**当前会话**看 \`/plugins\`；当前会话没有再新开。IDE 扩展没有 \`/plugins\`，用桌面或 CLI。安装后重新打开会话，用 \`@\` 点名插件，或直接问「Why did my latest Prefect flow run fail?」。先让它 \`get_identity\`，确认当前连的是哪套工作区，再查失败的 flow run。托管模式下，工作区范围的工具还要带已授权的 \`workspace_id\`。
+
+插件自动登记 \`https://prefect.fastmcp.app/mcp\`，无需重复添加同名 MCP 服务。
+
+自托管 Prefect、需要指定 Cloud workspace、或插件装不上时，才走本机 stdio。官方 Codex CLI 节是 \`uvx --from prefect-mcp prefect-mcp-server\`：
+
+\`\`\`bash
+codex mcp add prefect -- uvx --from prefect-mcp prefect-mcp-server
+\`\`\`
+
+无环境变量时，stdio 继承当前 Prefect profile（\`~/.prefect/profiles.toml\`）。已经装了插件时，把本机表改名 \`prefect_local\`，以便与插件连接区分。
+
+指定 Cloud workspace 时，\`PREFECT_API_URL\` 可以写进 \`env\` 表（不是密钥）。从浏览器仪表板改写：地址是 \`https://app.prefect.cloud/account/\` 加账号 UUID、\`/workspace/\` 加工作区 UUID；MCP 用 \`https://api.prefect.cloud/api/accounts/\` 加同一账号 UUID、\`/workspaces/\` 再加工作区 UUID。通过环境变量提供 \`PREFECT_API_KEY\`，避免将密钥直接保存到配置文件。用 \`env_vars\` 从启动环境中转发：
+
+\`\`\`toml
+[mcp_servers.prefect]
+command = "uvx"
+args = ["--from", "prefect-mcp", "prefect-mcp-server"]
+env_vars = ["PREFECT_API_KEY"]
+startup_timeout_sec = 60
+enabled = true
+
+[mcp_servers.prefect.env]
+PREFECT_API_URL = "https://api.prefect.cloud/api/accounts/ACCOUNT_UUID/workspaces/WORKSPACE_UUID"
+\`\`\`
+
+把 \`ACCOUNT_UUID\` / \`WORKSPACE_UUID\` 换成仪表板里的 UUID。自托管改成例如 \`http://127.0.0.1:4200/api\`，并把 \`env_vars\` 换成 \`PREFECT_API_AUTH_STRING\`（格式是 \`username:password\`），使用自托管服务的凭据。Team / Pro / Enterprise 可用只读服务账号。\`env\` 表是字面量。Codex 不读 \`.env\`。从已经 export 的终端启动。从 Dock 或开始菜单启动的桌面应用通常不会加载终端环境变量。
+
+手写 TOML 时，使用 \`[mcp_servers.prefect]\` 和 \`[mcp_servers.prefect.env]\` 配置节。
+
+MCP 工具用于读取 dashboard、deployment、flow run、日志、work pool 和文档。创建或修改资源通过 \`prefect\` CLI 完成，CLI 权限需单独管理。若 \`uvx\` 首次启动较慢，可设置 \`startup_timeout_sec = 60\`。
+
+网页 Cloud 不读取 \`~/.codex/config.toml\`。配置后用 \`codex plugin list\` 核对已装。stdio 对照 \`codex mcp get prefect\` 看 command 是 \`uvx\`。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Prefect", "plugins", "OAuth", "stdio"],
+    related: ["honeycomb-codex-plugin", "mcp-stdio-env-vars", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "Prefect · How to use the Prefect MCP server",
+        url: "https://docs.prefect.io/v3/how-to-guides/ai/use-prefect-mcp-server",
+      },
+      {
+        label: "prefecthq/prefect-mcp-server",
+        url: "https://github.com/prefecthq/prefect-mcp-server",
+      },
+      {
+        label: "prefect-mcp-server · SECURITY.md",
+        url: "https://github.com/PrefectHQ/prefect-mcp-server/blob/main/SECURITY.md",
+      },
+    ],
+  },
+  {
+    id: "windmill-mcp-http",
+    no: 393,
+    title: "连接 Windmill 的 1:1 与团队管理工具",
+    summary:
+      "连接 gowindmill.com 的团队管理服务，通过 OAuth 访问 1:1 议程、Pulse 和反馈。",
+    body: `这是 \`gowindmill.com\` 的 1:1 / People 产品，**不是** \`windmill.dev\` 工作流平台。文档包含 Codex 的配置说明。远程入口是 \`https://mcp.gowindmill.com/mcp\`，**带** \`/mcp\`。鉴权是个人账号 OAuth，权限跟你在 Windmill Dashboard 里能看见的一样；Dashboard 有的动作，MCP 不一定都暴露。每位用户需要在自己的 Codex 中单独连接和登录。
+
+官方 Codex 命令：
+
+\`\`\`bash
+codex mcp add windmill --url https://mcp.gowindmill.com/mcp
+codex mcp login windmill
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.windmill]
+url = "https://mcp.gowindmill.com/mcp"
+enabled = true
+\`\`\`
+
+若浏览器未打开，运行 \`codex mcp login windmill\`。第一次调工具时也会跳到浏览器。OAuth 刷新在后台转，没有 Dashboard 那种大约七天过期；卸掉服务器、管理员撤掉 connector、或会话被作废时才要重登。卸掉用 \`codex mcp remove windmill\`。
+
+连上后可以先询问「What 1:1s do I have coming up this week?」或让它读最近一次 Pulse。可以改 1:1 议程、发 Pulse、写反馈和 shoutout；绩效评审只能读，不能起草或提交，也不能发评审催办。公开 MCP 不能移除 workspace 成员。私人笔记只能动你自己的。改组织数据要
+
+Settings → Integrations 中的 Codex 分析是独立功能。管理员配置 API key 和 Workspace ID 后，可读取线程、额度和 token 用量，不读取代码和对话。
+
+网页 Cloud 不读取 \`~/.codex/config.toml\`。修改后重新打开会话。用 \`codex mcp get windmill\` 看传输是 streamable_http。会话里 \`/mcp\` 的 Auth 应显示 OAuth。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Windmill", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-mixpanel-remote", "loops-mcp-http"],
+    sources: [
+      {
+        label: "Windmill · MCP",
+        url: "https://help.gowindmill.com/features/mcp",
+      },
+      {
+        label: "Windmill · Codex integration",
+        url: "https://help.gowindmill.com/integrations/codex",
+      },
+      {
+        label: "Windmill · Pulse Surveys",
+        url: "https://help.gowindmill.com/features/pulse-surveys",
+      },
+    ],
+  },
+  {
+    id: "reui-mcp-http",
+    no: 394,
+    title: "连接 ReUI MCP",
+    summary:
+      "服务地址为 https://mcp.reui.io。交互使用 OAuth，无头环境可通过 REUI_LICENSE_KEY 提供个人 token。",
+    body: `ReUI 文档包含 Codex 的配置说明。远程入口是 \`https://mcp.reui.io\`，**没有** \`/mcp\` 后缀。Streamable HTTP。先 OAuth：
+
+\`\`\`bash
+codex mcp add reui --url https://mcp.reui.io
+codex mcp login reui
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.reui]
+url = "https://mcp.reui.io"
+enabled = true
+\`\`\`
+
+浏览器会开 Sign in with ReUI。没有账号会在这一步建免费号。\`codex mcp list\` 应列出 \`reui\`。TUI 里 \`/mcp\` 看是否还要授权。
+
+无头 / CI 才走个人 token。到 Account → MCP 建，样子是 \`reui_pat_\` 开头，只显示一次。官方 Codex 命令：
+
+\`\`\`bash
+codex mcp add reui --url https://mcp.reui.io --bearer-token-env-var REUI_LICENSE_KEY
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.reui]
+url = "https://mcp.reui.io"
+bearer_token_env_var = "REUI_LICENSE_KEY"
+enabled = true
+\`\`\`
+
+\`--bearer-token-env-var\` 填变量**名**。Codex 从启动环境中读取 \`REUI_LICENSE_KEY\`。Codex 不读 \`.env.local\`。从 Dock 或开始菜单启动的桌面应用通常不会加载终端环境变量。从已经 export 的终端启动。
+
+Bearer token 和 OAuth 请选择一种认证方式。配置了 \`bearer_token_env_var\` / \`http_headers\` / \`env_http_headers\` 时，每次请求都带该请求头，会盖掉已存的 OAuth。于是登录看起来成功，调用却一直 401。使用 OAuth 时，请移除手动配置的认证头。PAT 过期或被吊销时，需要到 Account → MCP 换新 token。401 响应体会写明是 OAuth 还是 PAT。
+
+官方还写：安装器可能把 URL 写成 \`https://mcp.reui.io/api/mcp\`。以专节的 \`codex mcp add reui --url https://mcp.reui.io\` 为准。地址无需添加 \`/mcp\` 后缀。配置后用 \`codex mcp get reui\` 看 url。
+
+\`components.json\` 中的 \`\${REUI_LICENSE_KEY}\` 占位符仅适用于 shadcn CLI。那是 shadcn CLI 从 \`.env.local\` 展开的写法，Codex 的 TOML **不会**展开，服务器会收到字面量然后 401。Premium 组件才把许可证写进 \`.env.local\` 和 \`@reui\` registry 头，那是 shadcn 安装器用的，不是这条 MCP OAuth。
+
+技能安装器官方是 \`curl -fsSL https://mcp.reui.io/install | node -\`，会在项目中安装 ReUI skill。
+
+免费档大约每天 100 次工具调用；22 个组件和 \`c-*\` 示例不用许可证。装 premium 才要 Pro / Ultimate。先问「Use ReUI to scaffold an admin app」。工具灰掉就 \`codex mcp login reui\` 再新开会话。
+
+网页 Cloud 不读取 \`~/.codex/config.toml\`。修改后重新打开会话。用 \`codex mcp get reui\` 看传输是 streamable_http。OAuth 路径的 Auth 应显示 OAuth。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "ReUI", "OAuth", "HTTP", "bearer_token_env_var"],
+    related: ["mcp-add-and-login", "mcp-http-bearer-env", "shadcn-mcp-stdio"],
+    sources: [
+      {
+        label: "ReUI · Codex",
+        url: "https://reui.io/docs/codex",
+      },
+      {
+        label: "ReUI · MCP Server",
+        url: "https://reui.io/docs/mcp",
+      },
+      {
+        label: "ReUI · License Setup",
+        url: "https://reui.io/docs/license-setup",
+      },
+    ],
+  },
+  {
+    id: "alloy-mcp-http",
+    no: 395,
+    title: "连接 Alloy 原型与开发会话",
+    summary:
+      "连接 alloy.app 的原型和开发会话。交互使用 OAuth，无头环境可通过 ALLOY_MCP_API_KEY 提供工作区凭据。",
+    body: `这是 \`alloy.app\` 的原型 / 开发会话工具，**不是** \`alloy.cx\` 知识库，也**不是** \`mcp.index.inc\` 的 Planning and Feedback 产品。文档包含 Codex 的配置说明。远程入口是 \`https://mcp.alloy.app/mcp\`，**带** \`/mcp\`。Streamable HTTP。先 OAuth：
+
+\`\`\`bash
+codex mcp add alloy --url https://mcp.alloy.app/mcp
+codex mcp login alloy
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.alloy]
+url = "https://mcp.alloy.app/mcp"
+enabled = true
+\`\`\`
+
+桌面走 Settings → Integrations & MCP，名字填 Alloy，URL 填同一条。CLI / 桌面 / IDE 共用这份配置。若浏览器未打开，运行 \`codex mcp login alloy\`。\`codex mcp list\` 应列出 \`alloy\`。TUI 里 \`/mcp\` 看是否还要授权。
+
+已经配过 bearer 的 \`alloy\` 表，先卸再走 OAuth：
+
+\`\`\`bash
+codex mcp remove alloy
+codex mcp add alloy --url https://mcp.alloy.app/mcp
+codex mcp login alloy
+\`\`\`
+
+无头 / CI 才走工作区 MCP key。到 Alloy 工作区 Settings → MCP 建。官方 Codex 专节：
+
+\`\`\`toml
+[mcp_servers.alloy]
+url = "https://mcp.alloy.app/mcp"
+bearer_token_env_var = "ALLOY_MCP_API_KEY"
+enabled = true
+\`\`\`
+
+\`bearer_token_env_var\` 填变量**名**。把密钥 export 成 \`ALLOY_MCP_API_KEY\`。Codex 从启动环境中读取该变量。Codex 不读 \`.env\`。从 Dock 或开始菜单启动的桌面应用通常不会加载终端环境变量。从已经 export 的终端启动。密钥按工作区划界，只能读那个工作区里的会话。
+
+Bearer token 和 OAuth 请选择一种认证方式。配置了 \`bearer_token_env_var\` / \`http_headers\` / \`env_http_headers\` 时，每次请求都带该请求头，会盖掉已存的 OAuth。于是登录看起来成功，调用却一直 401。使用 OAuth 时，请移除手动配置的认证头。
+
+Codex 可直接连接 Streamable HTTP 服务。无头环境使用 \`ALLOY_MCP_API_KEY\` 提供凭据。
+
+\`alloy.cx\` 的 \`work-with-alloy\` 插件读的是 \`ALLOY_TOKEN\` 和 \`api.alloy.cx\`，不是这条。若文档写成 \`https://mcp.index.inc/mcp\`，那是另一家产品，表名也叫 \`alloy\`，先 \`codex mcp get alloy\` 看 url。
+
+粘贴 Alloy 会话链接，让它汇总聊天、列文件、读原型内容或开发会话 diff。会话必须属于你授权的那个工作区。
+
+网页 Cloud 不读取 \`~/.codex/config.toml\`。修改后重新打开会话。用 \`codex mcp get alloy\` 看传输是 streamable_http。OAuth 路径的 Auth 应显示 OAuth。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Alloy", "OAuth", "HTTP", "bearer_token_env_var"],
+    related: ["mcp-add-and-login", "mcp-http-bearer-env", "windmill-mcp-http"],
+    sources: [
+      {
+        label: "Alloy · Codex MCP",
+        url: "https://alloy.app/guide/integrations/codex-mcp",
+      },
+      {
+        label: "Alloy · MCP",
+        url: "https://alloy.app/guide/integrations/mcp",
+      },
+      {
+        label: "Alloy · Alloy MCP",
+        url: "https://alloy.app/launches/alloy-mcp",
+      },
+    ],
+  },
 ];

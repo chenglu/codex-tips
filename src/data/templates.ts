@@ -2889,4 +2889,159 @@ npx skills add -g wherobots/agent-skills
 # npx skills add wherobots/agent-skills@wherobots-usage
 `,
   },
+  {
+    id: "hex-codex-plugin",
+    title: "Hex Codex 插件",
+    filename: "terminal",
+    summary:
+      "在 Plugins 中搜索 Hex，连接 Hex app 并完成 OAuth。项目查询和编辑能力取决于当前账号权限。",
+    code: `# 官方主路径：TUI /plugins 或桌面 Plugins 搜 Hex
+# 点 Connect，再连捆绑的 Hex app 做 OAuth
+# 不要 codex plugin add hex@…
+# 不要 Cursor /add-plugin hex
+# 其它客户端（不是 Codex 专节）才是：
+# https://app.hex.tech/mcp
+# 自定义域换主机：eu.hex.tech / hc.hex.tech
+`,
+  },
+  {
+    id: "webflow-codex-plugin",
+    title: "Webflow Codex 插件",
+    filename: "terminal",
+    summary:
+      "在 Plugins 中安装 Webflow 并授权站点。编辑画布、样式和组件时，需要在 Designer 中启动 MCP Bridge App。",
+    code: `# 官方主路径：ChatGPT 桌面切到 Codex，Plugins 搜 Webflow
+# 或 TUI /plugins 搜 Webflow
+# 点 Install，再 Continue to Webflow 做 OAuth
+# 不要 codex plugin add webflow@…
+# 不要 claude mcp add --transport http
+# 其它客户端（不是 Codex 帮助主路径）才是：
+# https://mcp.webflow.com/mcp
+# 改画布：Designer 按 E，开 Webflow MCP Bridge App
+`,
+  },
+  {
+    id: "omni-mcp-http",
+    title: "Omni MCP",
+    filename: "config.toml",
+    summary:
+      "OAuth 使用 callbacks.omniapp.co/callback/mcp；API key 使用实例的 /mcp/https 地址，并通过环境变量提供凭据。",
+    code: `codex mcp add omni --url https://callbacks.omniapp.co/callback/mcp
+# 浏览器没弹再：codex mcp login omni
+
+# API key（把 acme.omniapp.co 换成你的实例）：
+# codex mcp add omni --url https://acme.omniapp.co/mcp/https --bearer-token-env-var OMNI_API_KEY
+
+[mcp_servers.omni]
+url = "https://callbacks.omniapp.co/callback/mcp"
+enabled = true
+
+# API key 示例：
+# [mcp_servers.omni]
+# url = "https://acme.omniapp.co/mcp/https"
+# bearer_token_env_var = "OMNI_API_KEY"
+# enabled = true
+`,
+  },
+  {
+    id: "dagu-mcp-http",
+    title: "Dagu MCP",
+    filename: "config.toml",
+    summary:
+      "启动 Dagu 后连接 /mcp。使用 builtin 鉴权时，通过 DAGU_MCP_API_KEY 环境变量提供 API key。",
+    code: `codex mcp add dagu --url http://localhost:8080/mcp --bearer-token-env-var DAGU_MCP_API_KEY
+
+# 无鉴权本机：
+# codex mcp add dagu --url http://localhost:8080/mcp
+
+[mcp_servers.dagu]
+url = "http://localhost:8080/mcp"
+bearer_token_env_var = "DAGU_MCP_API_KEY"
+enabled = true
+`,
+  },
+  {
+    id: "prefect-codex-plugin",
+    title: "Prefect Codex 插件",
+    filename: "terminal",
+    summary:
+      "安装 prefect@prefect 后，通过 OAuth 连接 Prefect Cloud。本地 stdio 模式可连接自托管服务或指定工作区。",
+    code: `codex plugin marketplace add prefecthq/prefect-mcp-server
+codex plugin add prefect@prefect
+
+# 本机 stdio（插件已装时改名 prefect_local）：
+# codex mcp add prefect -- uvx --from prefect-mcp prefect-mcp-server
+
+# 官方手写 TOML 错写成 [mcp.prefect]，应是：
+[mcp_servers.prefect]
+command = "uvx"
+args = ["--from", "prefect-mcp", "prefect-mcp-server"]
+env_vars = ["PREFECT_API_KEY"]
+startup_timeout_sec = 60
+enabled = true
+
+[mcp_servers.prefect.env]
+PREFECT_API_URL = "https://api.prefect.cloud/api/accounts/ACCOUNT_UUID/workspaces/WORKSPACE_UUID"
+`,
+  },
+  {
+    id: "windmill-mcp-http",
+    title: "Windmill MCP",
+    filename: "config.toml",
+    summary:
+      "连接 gowindmill.com 的团队管理服务，通过 OAuth 访问 1:1 议程、Pulse 和反馈。",
+    code: `codex mcp add windmill --url https://mcp.gowindmill.com/mcp
+codex mcp login windmill
+
+[mcp_servers.windmill]
+url = "https://mcp.gowindmill.com/mcp"
+enabled = true
+`,
+  },
+  {
+    id: "reui-mcp-http",
+    title: "ReUI MCP",
+    filename: "config.toml",
+    summary:
+      "服务地址为 https://mcp.reui.io。交互使用 OAuth，无头环境可通过 REUI_LICENSE_KEY 提供个人 token。",
+    code: `codex mcp add reui --url https://mcp.reui.io
+codex mcp login reui
+
+# 无头 / CI：
+# codex mcp add reui --url https://mcp.reui.io --bearer-token-env-var REUI_LICENSE_KEY
+
+[mcp_servers.reui]
+url = "https://mcp.reui.io"
+enabled = true
+
+# 无头示例：
+# [mcp_servers.reui]
+# url = "https://mcp.reui.io"
+# bearer_token_env_var = "REUI_LICENSE_KEY"
+# enabled = true
+`,
+  },
+  {
+    id: "alloy-mcp-http",
+    title: "Alloy MCP",
+    filename: "config.toml",
+    summary:
+      "连接 alloy.app 的原型和开发会话。交互使用 OAuth，无头环境可通过 ALLOY_MCP_API_KEY 提供工作区凭据。",
+    code: `codex mcp add alloy --url https://mcp.alloy.app/mcp
+codex mcp login alloy
+
+# 已有 bearer 表时先卸：
+# codex mcp remove alloy
+
+# 无头 / CI：
+# [mcp_servers.alloy]
+# url = "https://mcp.alloy.app/mcp"
+# bearer_token_env_var = "ALLOY_MCP_API_KEY"
+# enabled = true
+
+[mcp_servers.alloy]
+url = "https://mcp.alloy.app/mcp"
+enabled = true
+`,
+  },
 ];
