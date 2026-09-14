@@ -3144,4 +3144,26 @@ codex plugin add geoly-mcp@geoly
 # codex plugin marketplace remove geoly
 `,
   },
+  {
+    id: "cortexcode-tool-codex",
+    title: "Snowflake Cortex Code CLI",
+    filename: "terminal",
+    summary:
+      "主路径是 clone 后 bash integrations/codex/install.sh。不要跑 npx skills add。先 which cortex。聊天批准后再 --yes --envelope RO。",
+    code: `git clone https://github.com/Snowflake-Labs/subagent-cortex-code.git
+cd subagent-cortex-code
+bash integrations/codex/install.sh
+
+# 先确认 Cortex CLI：
+# which cortex
+# cortex connections list
+
+# 核对：
+# cortexcode-tool --version
+# cortexcode-tool --envelope RO "How many databases do I have in Snowflake?"
+
+# 卸：
+# bash integrations/codex/uninstall.sh
+`,
+  },
 ];

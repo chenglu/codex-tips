@@ -11597,4 +11597,77 @@ MCP Credits 不是 AI Credits。付费公域情报才扣 MCP Credits；自有品
       },
     ],
   },
+  {
+    id: "cortexcode-tool-codex",
+    no: 401,
+    title: "Snowflake Cortex Code 用 cortexcode-tool，不要跑 npx skills add",
+    summary:
+      "官方 Codex：clone Snowflake-Labs/subagent-cortex-code，再 bash integrations/codex/install.sh。不要跑 npx skills add。先装 Cortex CLI，which cortex 要有路径。聊天批准后再 --yes，默认 envelope 是 RO。",
+    body: `Snowflake Labs 给 Codex 有专节，写在 \`subagent-cortex-code\` 仓库。Codex **不走技能目录**，走独立 CLI \`cortexcode-tool\`，好在会话里先要沙箱/网络批准，再带 \`--yes\` 前台跑。
+
+先装 Cortex Code CLI（命令是 \`cortex\`），并确认有活动连接：
+
+\`\`\`bash
+which cortex
+cortex connections list
+\`\`\`
+
+\`which cortex\` 必须返回路径。官方文档写 CoCo CLI 在中国大陆不可用。连接写在 \`~/.snowflake/connections.toml\`，和 Snowflake CLI 共用。缺 CLI 时去官方 CoCo CLI 页安装，不要把那条 curl 管道当成 Codex 主路径。
+
+然后才装 Codex 桥：
+
+\`\`\`bash
+git clone https://github.com/Snowflake-Labs/subagent-cortex-code.git
+cd subagent-cortex-code
+bash integrations/codex/install.sh
+\`\`\`
+
+脚本把 \`cortexcode-tool\` 装到 \`~/.local/bin/\`，配置写到 \`~/.local/lib/cortexcode-tool/config.yaml\`，并自动读当前 Cortex 连接。需要 Python 3.8+。\`~/.local/bin\` 不在 PATH 就先加进去。
+
+核对：
+
+\`\`\`bash
+cortexcode-tool --version
+cortexcode-tool --envelope RO "How many databases do I have in Snowflake?"
+\`\`\`
+
+第一次在 Codex 会话里先跑 \`which cortexcode-tool\` 和 \`cortexcode-tool --help\`。之后问 Snowflake 问题，它应调这个命令。默认 envelope 是 \`RO\`。聊天里先批准计划，再让它带 \`--yes\` 重试同一条**前台**命令。不要后台 \`&\` 或 \`disown\`；跑 30 到 90 秒是正常的。
+
+不要把 \`approval_mode\` 改成 \`auto\`，除非组织策略明确放开。\`NONE\` 会在执行前被拒。\`DEPLOY\` 还要额外确认。不要一上来 \`--yolo\`。
+
+换连接就再跑一遍安装脚本，或改 \`config.yaml\` 里的 \`connection_name\`。卸：
+
+\`\`\`bash
+bash integrations/codex/uninstall.sh
+\`\`\`
+
+不要做这些：
+
+- 不要跑 \`npx skills add snowflake-labs/subagent-cortex-code\`。那是 Claude / Cursor / Windsurf 的路。
+- 不要抄 \`--agent cortex\`。那不是 Codex agent 名。
+- 不要发明 \`codex plugin add snowflake@\` 或 \`codex mcp add cortexcode\`。
+- 不要和托管 Cortex Agents MCP、已弃用的 \`Snowflake-Labs/mcp\` 搞成一台。
+- 不要把手拷进 \`~/.claude/skills\` 或 \`~/.codex/skills\`。
+
+网页 Cloud 读不到这台本机 CLI。改完新开会话，再问有哪些数据库。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["Skills", "Snowflake", "Cortex", "CLI"],
+    related: ["nvidia-skills-codex", "firebase-agent-skills", "skill-locations"],
+    sources: [
+      {
+        label: "Snowflake-Labs/subagent-cortex-code",
+        url: "https://github.com/Snowflake-Labs/subagent-cortex-code",
+      },
+      {
+        label: "Cortex Code for Codex",
+        url: "https://github.com/Snowflake-Labs/subagent-cortex-code/blob/main/integrations/codex/README.md",
+      },
+      {
+        label: "Snowflake · CoCo CLI",
+        url: "https://docs.snowflake.com/en/user-guide/cortex-code/cortex-code-cli",
+      },
+    ],
+  },
 ];
