@@ -3941,5 +3941,35 @@ export const articles: Article[] = [
     summary:
       '这一页没有 Codex 专节。Claude MCP 插件走 firebase/firebase-tools，不要抄 firebase/firebase-tools 当 Codex marketplace。stdio 是 npx firebase-tools mcp，鉴权走 firebase login / ADC，不要 mcp login。',
   },
+  {
+    title: 'Admin Model Context Protocol (MCP) server',
+    url: 'https://www.mintlify.com/docs/ai/mintlify-mcp',
+    source: 'Mintlify',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Mintlify', 'OAuth', 'Codex'],
+    summary:
+      '官方 Codex TOML 指向 mcp.mintlify.com，不要加 /mcp。OAuth。两份官方文档都用了 mintlify 这张表，Admin 和文档检索不要叠成一台。改内容先 checkout 再 save。',
+  },
+  {
+    title: 'Write documentation with Codex',
+    url: 'https://www.mintlify.com/docs/guides/codex',
+    source: 'Mintlify',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Mintlify', 'AGENTS.md', 'Skills'],
+    summary:
+      '仓库根放 AGENTS.md。技能是 npx skills add https://mintlify.com/docs，不是插件。这份把 mintlify 表写成 mintlify.com/docs/mcp，会盖掉 Admin 的 mcp.mintlify.com。',
+  },
+  {
+    title: 'Search Model Context Protocol (MCP) server',
+    url: 'https://www.mintlify.com/docs/ai/model-context-protocol',
+    source: 'Mintlify',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Mintlify'],
+    summary:
+      '站点检索 MCP 在站点域名 /mcp，Mintlify 自己的是 mintlify.com/docs/mcp。Codex 示例也叫 mintlify 表。只读。不要把 Search MCP 和 Admin MCP 叠成一台。不要抄 Claude 的 --transport http。',
+  },
 ];
 

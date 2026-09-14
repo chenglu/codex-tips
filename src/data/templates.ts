@@ -3063,4 +3063,21 @@ codex plugin add firebase@firebase
 # codex mcp add firebase -- npx -y firebase-tools@latest mcp
 `,
   },
+  {
+    id: "mintlify-admin-mcp",
+    title: "Mintlify Admin MCP",
+    filename: "config.toml",
+    summary:
+      "官方 Codex：url 是 https://mcp.mintlify.com，再 mcp login mintlify。不要加 /mcp。文档检索是 mintlify.com/docs/mcp，另开表，不要覆盖 Admin。",
+    code: `codex mcp add mintlify --url https://mcp.mintlify.com
+codex mcp login mintlify
+
+# 文档检索另开表，不要覆盖 Admin：
+# codex mcp add mintlify-docs --url https://mintlify.com/docs/mcp
+
+[mcp_servers.mintlify]
+url = "https://mcp.mintlify.com"
+enabled = true
+`,
+  },
 ];

@@ -11291,4 +11291,78 @@ startup_timeout_sec = 60
       },
     ],
   },
+  {
+    id: "mintlify-admin-mcp",
+    no: 397,
+    title: "Mintlify Admin MCP 用 mcp.mintlify.com，不要和文档检索叠表",
+    summary:
+      "官方 Codex：mcp add mintlify --url https://mcp.mintlify.com，再 mcp login。不要加 /mcp。写作指南把同名表写成 mintlify.com/docs/mcp，不要叠成一台。OAuth，不要发明 plugin add。",
+    body: `这是 Mintlify **Admin MCP**：改文档内容、导航、\`docs.json\` 和部分仪表盘设置，并能开 PR。给 Codex 有专节。远程入口是 \`https://mcp.mintlify.com\`，**不要加** \`/mcp\`。Streamable HTTP。必须交互 OAuth，官方没给 API key / bearer 路径。
+
+官方 TOML：
+
+\`\`\`toml
+[mcp_servers.mintlify]
+url = "https://mcp.mintlify.com"
+enabled = true
+\`\`\`
+
+CLI 等价：
+
+\`\`\`bash
+codex mcp add mintlify --url https://mcp.mintlify.com
+codex mcp login mintlify
+\`\`\`
+
+桌面走 Settings → Integrations & MCP，名字填 mintlify，URL 填同一条。CLI / 桌面 / IDE 共用这份配置。浏览器没弹再跑 \`codex mcp login mintlify\`。\`codex mcp list\` 应列出 \`mintlify\`。TUI 里 \`/mcp\` 看是否还要授权。
+
+**两份官方文档都用了 mintlify 这张表，不要叠成一台：**
+
+| 用途 | URL | 官方写在 |
+| --- | --- | --- |
+| Admin（写文档、开 PR） | \`https://mcp.mintlify.com\` | Admin MCP 的 Codex 专节 |
+| 文档检索（只读） | \`https://mintlify.com/docs/mcp\` | 写作指南 / Search MCP 的 Codex 示例 |
+
+写作指南和 Search MCP 页的 Codex 示例都是 \`[mcp_servers.mintlify]\` 指向 \`https://mintlify.com/docs/mcp\`。那会**盖掉** Admin。文档检索另开表：
+
+\`\`\`bash
+codex mcp add mintlify-docs --url https://mintlify.com/docs/mcp
+\`\`\`
+
+自己站点的检索 MCP 在站点域名后面加 \`/mcp\`，再另起表名，不要覆盖 \`mintlify\`。全站索引是 \`https://index.mintlify.com\`，又是第三台。
+
+Admin 会改文档。会话先 \`checkout\` 绑到一条分支，再改，再用 \`save\` 开 PR。部署管理（工作流、成员、账单、集成）是 Code mode，**立刻写进线上**，没有 PR。保持工具批准。不要 \`required = true\`。不要一上来 \`--yolo\`。
+
+不要做这些：
+
+- 不要给 \`https://mcp.mintlify.com\` 再拼 \`/mcp\`。
+- 不要抄 Claude 的 \`claude mcp add --transport http mintlify https://mcp.mintlify.com\`。
+- 不要发明 \`codex plugin add mintlify@\`。
+- 不要把 \`npx skills add https://mintlify.com/docs\` 当 Admin MCP。那是技能安装器。
+- 不要叠 OAuth 和 \`bearer_token_env_var\` / \`http_headers\`。官方要求交互登录。
+- 不要把 Cursor 的 \`mcp.json\` 或 ChatGPT 应用目录连接器当 CLI 主路径。
+
+卸掉：删 \`~/.codex/config.toml\` 里的 \`[mcp_servers.mintlify]\`。仪表盘 Settings → Security & access → Connected apps 撤销授权。已经开出去的 PR 不会跟着关。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完用 \`codex mcp get mintlify\` 看 url 是 \`https://mcp.mintlify.com\`，传输是 streamable_http。OAuth 路径的 Auth 应显示 OAuth。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Mintlify", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "alloy-mcp-http", "windmill-mcp-http"],
+    sources: [
+      {
+        label: "Mintlify · Admin MCP",
+        url: "https://www.mintlify.com/docs/ai/mintlify-mcp",
+      },
+      {
+        label: "Mintlify · Write documentation with Codex",
+        url: "https://www.mintlify.com/docs/guides/codex",
+      },
+      {
+        label: "Mintlify · Search MCP",
+        url: "https://www.mintlify.com/docs/ai/model-context-protocol",
+      },
+    ],
+  },
 ];
