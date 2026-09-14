@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-14T05:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "05:30 定时器。调用前 $96.61，收尾待测。CDP 待测，预览 4387，CDP 9487。Spend: counts（start_time=2026-09-07T05:35:00Z，共 226 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 n8n：marketplace add n8n-io/skills，再 plugin add n8n-skills@n8n-io；MCP 要自己 mcp add n8n-mcp，路径是 mcp-server/http。文档表示例是 n8n，不要叠。不要抄 experimental_use_rmcp_client。X 仍是 Claude 对照、Unity、Astra /slow、token 营销、OMO 编排、Agent Skill 热榜。Fastmail 仍是 mcp-remote。Builder Fusion / Infisical / Cal.com / ConfigCat / Browserbase / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault 官方仍是 VS Code JSON。AgentPort 仍写 headers 密钥。awesome-codex-plugins 是目录聚合。GitLab Orbit Local 见开着的 PR #16。",
+    "05:30 定时器。调用前 $96.61，收尾 $96.60。Spend: counts（start_time=2026-09-07T05:35:00Z，共 226 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 n8n：marketplace add n8n-io/skills，再 plugin add n8n-skills@n8n-io；MCP 要自己 mcp add n8n-mcp，路径是 mcp-server/http。文档表示例是 n8n，不要叠。不要抄 experimental_use_rmcp_client。CDP 34/34，预览 4387，路径 /tips/n8n-codex-mcp/。站点 402 技巧 / 411 文章 / 88 社区。X 仍是 Claude 对照、Unity、Astra /slow、token 营销、OMO 编排、Agent Skill 热榜。Fastmail 仍是 mcp-remote。Builder Fusion / Infisical / Cal.com / ConfigCat / Browserbase / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault 官方仍是 VS Code JSON。AgentPort 仍写 headers 密钥。awesome-codex-plugins 是目录聚合。GitLab Orbit Local 见开着的 PR #16。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
