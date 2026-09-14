@@ -3184,4 +3184,27 @@ bash integrations/codex/install.sh
 # npx mcp-remote https://gitlab.com/api/v4/orbit/mcp
 `,
   },
+  {
+    id: "n8n-codex-mcp",
+    title: "n8n Codex 插件与 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 marketplace add n8n-io/skills，再 plugin add n8n-skills@n8n-io。MCP 要自己 mcp add n8n-mcp，路径是 mcp-server/http。不要叠文档那张 n8n 表。",
+    code: `codex plugin marketplace add n8n-io/skills
+codex plugin add n8n-skills@n8n-io
+
+codex mcp add n8n-mcp --url https://acme.app.n8n.cloud/mcp-server/http
+codex mcp login n8n-mcp
+
+# 只要 MCP、不要技能（文档 Codex 专节表名是 n8n）：
+# codex mcp add n8n --url https://acme.app.n8n.cloud/mcp-server/http
+# codex mcp login n8n
+
+# 无头 / CI：
+# [mcp_servers.n8n-mcp]
+# url = "https://acme.app.n8n.cloud/mcp-server/http"
+# bearer_token_env_var = "N8N_MCP_TOKEN"
+# enabled = true
+`,
+  },
 ];

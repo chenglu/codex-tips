@@ -11749,4 +11749,80 @@ enabled = true
       },
     ],
   },
+  {
+    id: "n8n-codex-mcp",
+    no: 403,
+    title: "n8n MCP 用 mcp-server/http，插件不会替你登记",
+    summary:
+      "官方 Codex：marketplace add n8n-io/skills，再 plugin add n8n-skills@n8n-io。MCP 要自己 mcp add n8n-mcp --url，路径是 mcp-server/http。文档示例表名是 n8n，不要叠两张。不要抄 experimental_use_rmcp_client。",
+    body: `n8n 给 Codex 有专节，而且技能仓也点名 Codex。技能插件**不会**替 Codex 登记 MCP。先在 n8n 打开 Settings → Instance-level MCP。Cloud 示例主机是 \`acme.app.n8n.cloud\`，完整入口是 \`https://acme.app.n8n.cloud/mcp-server/http\`。本机默认是 \`http://localhost:5678/mcp-server/http\`。路径是 \`/mcp-server/http\`，**不是** \`/mcp\`，也不是编辑器地址栏。
+
+技能仓要求 Codex 0.142.0 以上：
+
+\`\`\`bash
+codex plugin marketplace add n8n-io/skills
+codex plugin add n8n-skills@n8n-io
+\`\`\`
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 n8n-io，插件 name 是 n8n-skills，所以是 \`n8n-skills@n8n-io\`。装完会弹出 hook 信任提示（SessionStart / PreToolUse / PostToolUse），批准后再新开会话。不要抄 Claude 的 \`/plugin marketplace add n8n-io/skills\` 或 \`/plugin install n8n-skills@n8n-io\`。
+
+然后才接线。技能仓 Codex 节用表名 \`n8n-mcp\`：
+
+\`\`\`bash
+codex mcp add n8n-mcp --url https://acme.app.n8n.cloud/mcp-server/http
+codex mcp login n8n-mcp
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.n8n-mcp]
+url = "https://acme.app.n8n.cloud/mcp-server/http"
+enabled = true
+\`\`\`
+
+文档客户端示例把 OAuth 表写成 \`n8n\`，命令是 \`codex mcp add n8n --url …\` 再 \`mcp login n8n\`。两张表指向同一 URL，**不要叠**。走技能仓就用 \`n8n-mcp\`；只要 MCP、不要技能才用文档那张 \`n8n\`。
+
+不要抄文档 TOML 里的 \`[features] experimental_use_rmcp_client = true\`。现行 Codex 自己连 Streamable HTTP。
+
+无头 / CI 才用 API key。文档把密钥写进 \`http_headers\` 的 \`authorization = "Bearer …"\`，不要抄。改用 \`bearer_token_env_var\`，变量必须在启动 Codex 的进程里：
+
+\`\`\`toml
+[mcp_servers.n8n-mcp]
+url = "https://acme.app.n8n.cloud/mcp-server/http"
+bearer_token_env_var = "N8N_MCP_TOKEN"
+enabled = true
+\`\`\`
+
+OAuth 和 bearer 不要写进同一张表。API key 那张不要再 \`mcp login\`。
+
+还要给**具体工作流**打开 Available in MCP。实例开关不等于每条都能跑。\`execute_workflow\` 默认跑已发布版本。能改工作流，保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add n8n@openai-curated\`。
+- 不要把 \`npx skills add n8n-io/skills\` 当 Codex 插件安装器。
+- 不要抄 Claude 的 \`--transport http\` 或 \`--header "Authorization: Bearer …"\`。
+- 不要抄 Claude Desktop 的 \`npx supergateway\`。
+- 不要把手写 \`n8n\` 表和 \`n8n-mcp\` 表叠成两台。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get n8n-mcp\` 看传输是 streamable_http，url 是 \`https://acme.app.n8n.cloud/mcp-server/http\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["plugins", "n8n", "Skills", "MCP"],
+    related: ["mcp-add-and-login", "mcp-http-bearer-env", "airtable-codex-plugin"],
+    sources: [
+      {
+        label: "n8n · MCP client examples",
+        url: "https://docs.n8n.io/connect/connect-to-n8n-mcp-server/mcp-client-examples/",
+      },
+      {
+        label: "n8n · Connect to MCP server",
+        url: "https://docs.n8n.io/connect/connect-to-n8n-mcp-server/",
+      },
+      {
+        label: "n8n-io/skills",
+        url: "https://github.com/n8n-io/skills",
+      },
+    ],
+  },
 ];
