@@ -3182,4 +3182,351 @@ bash integrations/codex/install.sh
 
 `,
   },
+  {
+    id: "n8n-codex-mcp",
+    title: "n8n Codex 插件与 MCP",
+    filename: "terminal",
+    summary:
+      "安装 n8n-skills@n8n-io 后，单独连接实例的 /mcp-server/http。技能插件与 MCP 连接分别配置。",
+    code: `codex plugin marketplace add n8n-io/skills
+codex plugin add n8n-skills@n8n-io
+
+codex mcp add n8n-mcp --url https://acme.app.n8n.cloud/mcp-server/http
+codex mcp login n8n-mcp
+
+# 只要 MCP、不要技能（文档 Codex 专节表名是 n8n）：
+# codex mcp add n8n --url https://acme.app.n8n.cloud/mcp-server/http
+# codex mcp login n8n
+
+# 无头 / CI：
+# [mcp_servers.n8n-mcp]
+# url = "https://acme.app.n8n.cloud/mcp-server/http"
+# bearer_token_env_var = "N8N_MCP_TOKEN"
+# enabled = true
+`,
+  },
+  {
+    id: "mcp-endor-cli-tools",
+    title: "Endor Labs 扫描 MCP",
+    filename: "terminal",
+    summary:
+      "通过本地 endorctl stdio 服务扫描依赖和代码。企业命名空间与凭据通过 env_vars 提供，文档服务使用独立连接。",
+    code: `codex mcp add endor-cli-tools -- npx -y endorctl ai-tools mcp-server
+
+# 企业版命名空间（不要 --env 字面量）：
+# env_vars = ["ENDOR_NAMESPACE", "ENDOR_MCP_SERVER_AUTH_MODE", "ENDOR_MCP_SERVER_AUTH_TENANT"]
+
+# 系统已装 endorctl：
+# codex mcp add endor-cli-tools -- endorctl ai-tools mcp-server
+
+# 文档 MCP（另一张表，占位 bearer）：
+# export ENDOR_DOCS_KEY=dummy
+# codex mcp add endor-docs --url https://docs.endorlabs.com/mcp --bearer-token-env-var ENDOR_DOCS_KEY
+
+# 不要：
+# codex mcp login endor-cli-tools
+# npx skills add https://docs.endorlabs.com
+`,
+  },
+  {
+    id: "mcp-clickhouse-stdio",
+    title: "ClickHouse 自建 mcp-clickhouse",
+    filename: "~/.codex/config.toml",
+    summary:
+      "通过 uv 启动 mcp-clickhouse，并使用 env_vars 提供连接信息与密码。默认采用只读查询，独立于 Cloud 托管服务。",
+    code: `codex mcp add mcp-clickhouse -- uv run --with mcp-clickhouse --python 3.10 mcp-clickhouse
+
+[mcp_servers.mcp-clickhouse]
+command = "uv"
+args = ["run", "--with", "mcp-clickhouse", "--python", "3.10", "mcp-clickhouse"]
+env_vars = ["CLICKHOUSE_HOST", "CLICKHOUSE_USER", "CLICKHOUSE_PASSWORD"]
+startup_timeout_sec = 60
+enabled = true
+
+[mcp_servers.mcp-clickhouse.env]
+CLICKHOUSE_SECURE = "true"
+
+# 自建明文 HTTP 才改：
+# CLICKHOUSE_SECURE = "false"
+# 并把 CLICKHOUSE_PORT 加进 env_vars
+`,
+  },
+  {
+    id: "jfrog-codex-plugin",
+    title: "JFrog Codex 插件",
+    filename: "terminal",
+    summary:
+      "安装 jfrog@codex-plugin，将插件 .mcp.json 中的地址改为自己的 JFrog 实例，再通过 OAuth 登录。",
+    code: `codex plugin marketplace add jfrog/codex-plugin
+codex plugin add jfrog@codex-plugin
+
+# 把安装路径/.mcp.json 的 url 改成：
+# https://acme.jfrog.io/mcp
+codex mcp login jfrog
+
+# 只要 MCP、不要插件：
+# codex mcp add jfrog --url https://acme.jfrog.io/mcp
+# codex mcp login jfrog
+
+# 不要：
+# export JFROG_PLATFORM_URL=...
+# 抄文档 mcpServers JSON
+`,
+  },
+  {
+    id: "nowledge-mem-codex-plugin",
+    title: "Nowledge Mem Codex 插件",
+    filename: "terminal",
+    summary:
+      "先准备 Mem 和 nmem CLI，再使用两个 --sparse 参数添加插件源。安装后运行 install_hooks.py，连接本地 Mem 服务。",
+    code: `pip install nmem-cli
+nmem doctor
+
+codex plugin marketplace add nowledge-co/community --sparse .agents --sparse nowledge-mem-codex-plugin
+codex plugin add nowledge-mem@nowledge-community
+
+HOOK_SETUP="$(find ~/.codex/plugins/cache -path '*/nowledge-mem/*/scripts/install_hooks.py' -print 2>/dev/null | sort | tail -1)"
+python3 "$HOOK_SETUP"
+
+# 捆绑 MCP：http://127.0.0.1:14242/mcp/
+# 不要：codex mcp login nowledge-mem
+# 远程才覆盖 [mcp_servers.nowledge-mem]
+`,
+  },
+  {
+    id: "mcp-solo-agentregistry",
+    title: "Solo agentregistry Codex MCP",
+    filename: "terminal",
+    summary:
+      "通过 localhost:31313/mcp 读取注册表目录。静态令牌使用 ARCTL_TOKEN，生产 OAuth 配置资源地址后登录。",
+    code: `export ARCTL_TOKEN="$(arctl user info --show-tokens | jq -r .access_token)"
+codex mcp add agentregistry --url http://localhost:31313/mcp --bearer-token-env-var ARCTL_TOKEN
+
+# 生产 Ingress + OAuth（IdP 必须 HTTPS）：
+# codex mcp add agentregistry --url https://registry.acme.example/mcp --oauth-resource https://registry.acme.example/mcp
+# codex mcp login agentregistry --scopes openid,profile
+
+# 不要：
+# arctl configure codex
+# claude mcp add --transport http --header "Authorization: Bearer …"
+`,
+  },
+  {
+    id: "ecc-codex-native-plugin",
+    title: "ECC 原生 Codex 插件",
+    filename: "terminal",
+    summary:
+      "从 affaan-m/ECC 安装 ecc@ecc。插件与旧版同步脚本选择一种安装方式，钩子在 /hooks 中单独确认信任。",
+    code: `codex plugin marketplace add affaan-m/ECC
+codex plugin add ecc@ecc
+codex plugin list --json
+
+# 刷新：
+# codex plugin marketplace upgrade ecc
+# codex plugin add ecc@ecc
+
+# 本地 checkout：
+# codex plugin marketplace add /absolute/path/to/ECC
+# codex plugin add ecc@ecc
+
+# 不要：
+# bash scripts/sync-ecc-to-codex.sh
+# /plugin install ecc@ecc
+`,
+  },
+  {
+    id: "matlab-mcp-stdio",
+    title: "MATLAB MCP stdio",
+    filename: "terminal",
+    summary:
+      "使用本地 matlab-mcp-server 二进制的绝对路径建立 stdio 连接。Windows 环境需通过 env_vars 转发 WINDIR。",
+    code: `chmod +x /home/acme/Downloads/matlab-mcp-server
+codex mcp add matlab -- /home/acme/Downloads/matlab-mcp-server
+
+# 钉根目录和工作目录（matlab-root 不要带 /bin）：
+# codex mcp add matlab -- /home/acme/Downloads/matlab-mcp-server --matlab-root=/home/acme/MATLAB/R2026a --initial-working-folder=/home/acme/myproject
+
+# Windows（手写 env_vars，mcp add 不会写）：
+# [mcp_servers.matlab]
+# command = 'C:\\Users\\acme\\Downloads\\matlab-mcp-server-windows-x64.exe'
+# args = []
+# env_vars = ["WINDIR"]
+# enabled = true
+
+# 不要：
+# claude mcp add --transport stdio matlab -- …
+# matlab-mcp-server.mcpb
+`,
+  },
+  {
+    id: "surrealdb-codex-mcp",
+    title: "SurrealDB Codex MCP",
+    filename: "terminal",
+    summary:
+      "托管服务地址为 https://mcp.surrealdb.com，通过 OAuth 登录。无头环境使用 SURREALDB_TOKEN，本地服务独立配置。",
+    code: `codex mcp add surrealdb --url https://mcp.surrealdb.com
+codex mcp login surrealdb
+
+# 插件（技能 + MCP）：
+# codex plugin marketplace add surrealdb/ai-codex-plugin --ref main
+# codex plugin add surrealdb@surrealdb
+
+# 无头 / CI（官方变量名是 SURREALDB_TOKEN）：
+# [mcp_servers.surrealdb]
+# url = "https://mcp.surrealdb.com"
+# bearer_token_env_var = "SURREALDB_TOKEN"
+# enabled = true
+
+# 本机实例才带 /mcp：
+# codex mcp add surrealdb-local --url http://127.0.0.1:8000/mcp --bearer-token-env-var SURREALDB_MCP_TOKEN
+
+# 不要：
+# https://mcp.surrealdb.com/mcp
+# claude mcp add --transport http surrealdb https://mcp.surrealdb.com
+`,
+  },
+  {
+    id: "infisical-agent-proxy-codex",
+    title: "Infisical Agent Proxy 包装 Codex",
+    filename: "terminal",
+    summary:
+      "使用 infisical secrets agent-proxy run 启动 Codex，由凭据代理提供访问控制。连接现有代理时使用 connect。",
+    code: `infisical secrets agent-proxy run -e dev --path=/coding-agent -- codex
+
+# 靠 CODEX_API_KEY 登录时：
+# infisical secrets agent-proxy run -e dev --path=/coding-agent --pass-env CODEX_API_KEY -- codex
+
+# 已有独立代理：
+# infisical secrets agent-proxy connect --proxy=proxy.acme.internal:17322 --env=staging --path=/coding-agent -- codex
+
+# 不要：
+# infisical secrets agent-proxy run --proxy=127.0.0.1:17322 -- codex
+# claude mcp add --transport http Infisical https://infisical.com/docs/mcp
+# codex mcp add Infisical --url https://infisical.com/docs/mcp
+`,
+  },
+  {
+    id: "postman-codex-mcp",
+    title: "Postman Codex MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "默认工具入口为 /minimal，完整工具入口为 /mcp。US 支持 OAuth，EU 使用 API key；本地 stdio 连接单独配置。",
+    code: `codex mcp add postman --url https://mcp.postman.com/minimal
+codex mcp login postman
+
+# EU / 无头（不要和 OAuth 写进同一张表）：
+# codex mcp add postman --url https://mcp.eu.postman.com/minimal --bearer-token-env-var POSTMAN_API_KEY
+
+# [mcp_servers.postman]
+# url = "https://mcp.postman.com/minimal"
+# enabled = true
+
+# 本机 stdio 另起表。不要抄文档的 --env 字面量密钥：
+# [mcp_servers.postman-local]
+# command = "npx"
+# args = ["-y", "@postman/postman-mcp-server"]
+# env_vars = ["POSTMAN_API_KEY"]
+# enabled = true
+`,
+  },
+  {
+    id: "apify-codex-plugin",
+    title: "Apify Codex 插件",
+    filename: "terminal",
+    summary:
+      "安装 apify@apify-plugins 后自动登记远程 MCP，通过 OAuth 登录。无头工作流使用 APIFY_TOKEN。",
+    code: `codex plugin marketplace add apify/apify-codex-plugin
+codex plugin add apify@apify-plugins
+
+# 只要 MCP、不要技能（不要和插件叠）：
+# codex mcp add apify --url https://mcp.apify.com
+# codex mcp login apify
+
+# 无头：在启动 Codex 的进程里准备 APIFY_TOKEN，不要写进 http_headers
+`,
+  },
+  {
+    id: "nylas-codex-mcp",
+    title: "Nylas Codex MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "US 使用 mcp.us.nylas.com，EU 使用 mcp.eu.nylas.com。通过 NYLAS_API_KEY 提供 Bearer 凭据，无需 OAuth 登录。",
+    code: `codex mcp add nylas --url https://mcp.us.nylas.com --bearer-token-env-var NYLAS_API_KEY
+
+# EU：
+# codex mcp add nylas --url https://mcp.eu.nylas.com --bearer-token-env-var NYLAS_API_KEY
+
+# [mcp_servers.nylas]
+# url = "https://mcp.us.nylas.com"
+# bearer_token_env_var = "NYLAS_API_KEY"
+# enabled = true
+
+# 有 Nylas CLI 也可以（不要和手写表叠）：
+# nylas mcp install --assistant codex
+`,
+  },
+  {
+    id: "microsoft-learn-codex-mcp",
+    title: "Microsoft Learn Codex MCP",
+    filename: "terminal",
+    summary:
+      "通过 learn.microsoft.com/api/mcp 查询公开文档，无需登录或密钥。该服务与 Azure 资源管理 MCP 分别配置。",
+    code: `codex mcp add microsoft-learn --url https://learn.microsoft.com/api/mcp
+
+# [mcp_servers.microsoft-learn]
+# url = "https://learn.microsoft.com/api/mcp"
+# enabled = true
+
+# 可选插件（README 用户表没写；不要和手写表叠）：
+# codex plugin marketplace add MicrosoftDocs/mcp
+# codex plugin add microsoft-docs@microsoftdocs-local
+
+# 不要：
+# codex mcp login microsoft-learn
+# https://learn.microsoft.com/api/mcp/openai-compatible
+# /plugin install microsoft-docs@microsoft-docs-marketplace
+`,
+  },
+  {
+    id: "dotnet-skills-plugin",
+    title: ".NET Agent Skills 插件",
+    filename: "terminal",
+    summary:
+      "添加 dotnet/skills 插件源后，在 /plugins 中选择安装。更新源使用清单名 dotnet-agent-skills。",
+    code: `codex plugin marketplace add dotnet/skills
+
+# TUI /plugins 或桌面 Plugins 打开 .NET Agent Skills 再装
+# 例如 dotnet、dotnet-msbuild、dotnet-aspnetcore、dotnet-blazor、dotnet11
+
+codex plugin marketplace upgrade dotnet-agent-skills
+
+# 不要：
+# /plugin marketplace add dotnet/skills
+# /plugin install dotnet@dotnet-agent-skills
+# npx skills add
+# skill-installer 当 /plugins
+`,
+  },
+  {
+    id: "mcp-helicone-stdio",
+    title: "Helicone 本地 stdio MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "通过 npx 启动本地 stdio 服务，使用 env_vars 转发 HELICONE_API_KEY。欧盟账号需注意当前服务基址的兼容限制。",
+    code: `codex mcp add helicone -- npx @helicone/mcp@latest
+
+[mcp_servers.helicone]
+command = "npx"
+args = ["@helicone/mcp@latest"]
+env_vars = ["HELICONE_API_KEY"]
+enabled = true
+startup_timeout_sec = 60
+
+# 不要：
+# [mcp_servers.helicone.env]
+# HELICONE_API_KEY = "sk-helicone-xxxxxxx"
+# codex mcp login helicone
+# url = "https://api.helicone.ai"
+`,
+  },
 ];

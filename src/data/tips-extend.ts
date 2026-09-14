@@ -11617,4 +11617,1024 @@ enabled = true
       },
     ],
   },
+  {
+    id: "n8n-codex-mcp",
+    no: 403,
+    title: "配置 n8n 技能插件与 MCP",
+    summary:
+      "安装 n8n-skills@n8n-io 后，单独连接实例的 /mcp-server/http。技能插件与 MCP 连接分别配置。",
+    body: `n8n 文档包含 Codex 配置说明，而且技能仓也点名 Codex。技能插件**不会**替 Codex 登记 MCP。先在 n8n 打开 Settings → Instance-level MCP。Cloud 示例主机是 \`acme.app.n8n.cloud\`，完整入口是 \`https://acme.app.n8n.cloud/mcp-server/http\`。本机默认是 \`http://localhost:5678/mcp-server/http\`。路径是 \`/mcp-server/http\`，**不是** \`/mcp\`，也不是编辑器地址栏。
+
+技能仓要求 Codex 0.142.0 以上：
+
+\`\`\`bash
+codex plugin marketplace add n8n-io/skills
+codex plugin add n8n-skills@n8n-io
+\`\`\`
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 n8n-io，插件 name 是 n8n-skills，所以是 \`n8n-skills@n8n-io\`。装完会弹出 hook 信任提示（SessionStart / PreToolUse / PostToolUse），批准后再新开会话。
+
+然后才接线。技能仓 Codex 节用表名 \`n8n-mcp\`：
+
+\`\`\`bash
+codex mcp add n8n-mcp --url https://acme.app.n8n.cloud/mcp-server/http
+codex mcp login n8n-mcp
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.n8n-mcp]
+url = "https://acme.app.n8n.cloud/mcp-server/http"
+enabled = true
+\`\`\`
+
+文档客户端示例把 OAuth 表写成 \`n8n\`，命令是 \`codex mcp add n8n --url …\` 再 \`mcp login n8n\`。两张表指向同一 URL，选择一种即可。走技能仓就用 \`n8n-mcp\`；只要 MCP、不要技能才用文档那张 \`n8n\`。
+
+此连接无需启用 experimental_use_rmcp_client。现行 Codex 自己连 Streamable HTTP。
+
+无头 / CI 才用 API key。文档把密钥写进 \`http_headers\` 的 \`authorization = "Bearer …"\`，不要抄。改用 \`bearer_token_env_var\`，变量必须在启动 Codex 的进程里：
+
+\`\`\`toml
+[mcp_servers.n8n-mcp]
+url = "https://acme.app.n8n.cloud/mcp-server/http"
+bearer_token_env_var = "N8N_MCP_TOKEN"
+enabled = true
+\`\`\`
+
+OAuth 与 Bearer token 请选择一种认证方式。API key 认证无需 OAuth 登录。
+
+还要给**具体工作流**打开 Available in MCP。实例开关不等于每条都能跑。\`execute_workflow\` 默认跑已发布版本。能改工作流，保持工具批准。
+
+网页 Cloud 不读取 \`~/.codex/config.toml\`。配置后重新打开会话。用 \`codex mcp get n8n-mcp\` 看传输是 streamable_http，url 是 \`https://acme.app.n8n.cloud/mcp-server/http\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["plugins", "n8n", "Skills", "MCP"],
+    related: ["mcp-add-and-login", "mcp-http-bearer-env", "airtable-codex-plugin"],
+    sources: [
+      {
+        label: "n8n · MCP client examples",
+        url: "https://docs.n8n.io/connect/connect-to-n8n-mcp-server/mcp-client-examples/",
+      },
+      {
+        label: "n8n · Connect to MCP server",
+        url: "https://docs.n8n.io/connect/connect-to-n8n-mcp-server/",
+      },
+      {
+        label: "n8n-io/skills",
+        url: "https://github.com/n8n-io/skills",
+      },
+    ],
+  },
+  {
+    id: "mcp-endor-cli-tools",
+    no: 404,
+    title: "连接 Endor Labs 扫描 MCP",
+    summary:
+      "通过本地 endorctl stdio 服务扫描依赖和代码。企业命名空间与凭据通过 env_vars 提供，文档服务使用独立连接。",
+    body: `Endor Labs 给 Codex 的**扫描** MCP 是本机 stdio，不是远程 HTTP。官方用户层表名是 \`endor-cli-tools\`。它通过 \`npx\` 或系统里的 \`endorctl\` 起进程，再去云端查依赖、漏洞、泄露密钥和 SAST。配置使用 command 和 args。
+
+需要 Node.js 18 或以上，官方推荐 24 LTS。\`npx\` 跟 Node 一起装，不必再装一份 npm。低于 24 时，扫描前可能先打一行 CommonJS / ESM 的 \`ExperimentalWarning\`，那是 Node 自己的提示，不是 \`endorctl\` 挂了。
+
+开发版免费，用 Endor 默认策略，不必先开账号。第一次用工具会弹出浏览器，走 GitHub、GitLab 或 Google 登录：
+
+\`\`\`bash
+codex mcp add endor-cli-tools -- npx -y endorctl ai-tools mcp-server
+codex mcp list
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.endor-cli-tools]
+command = "npx"
+args = ["-y", "endorctl", "ai-tools", "mcp-server"]
+enabled = true
+\`\`\`
+
+这是本地 stdio 服务，无需 OAuth 登录。Codex 写进 \`~/.codex/config.toml\`，对你所有项目生效。冷 \`npx\` 握手慢，可加 \`startup_timeout_sec = 60\`。
+
+企业版才读你们组织的策略。开发者至少要有 Read-Only。命名空间和登录方式从**启动 Codex 的那个进程**转发，不要写成 \`--env KEY=…\` 字面量，TOML 占位符也不会展开：
+
+\`\`\`toml
+[mcp_servers.endor-cli-tools]
+command = "npx"
+args = ["-y", "endorctl", "ai-tools", "mcp-server"]
+env_vars = ["ENDOR_NAMESPACE", "ENDOR_MCP_SERVER_AUTH_MODE", "ENDOR_MCP_SERVER_AUTH_TENANT"]
+enabled = true
+\`\`\`
+
+\`ENDOR_MCP_SERVER_AUTH_MODE\` 可以是 \`github\` / \`gitlab\` / \`google\` / \`sso\`。选 \`sso\` 才需要 \`ENDOR_MCP_SERVER_AUTH_TENANT\`。开发版不写这三项，默认浏览器登录。自定义密钥规则一类非密钥路径，才写进 \`[mcp_servers.endor-cli-tools.env]\`，例如 \`SECRETS_RULES_PATH\`。
+
+连上后让它查 npm 包 \`lodash\` 的 \`4.17.20\` 有没有漏洞。官方会走 \`check_dependency_for_vulnerabilities\`。还可以查依赖风险和恶意包、拉漏洞详情、跑 \`scan\`（依赖 / SAST / Git 历史里的密钥）。\`security_review\` 看未提交 diff 或相对主分支的提交，只要企业版，还要在控制台打开 AI security code review，并配好 \`ENDOR_NAMESPACE\`。MCP 返回全量发现，不做函数级可达性，也不按 action policy 过滤。
+
+只要部分工具时，在同一张表写 \`enabled_tools\`，官方示例是 \`check_dependency_for_vulnerabilities\` 和 \`scan\`。TUI 里用 \`/mcp\` 看已启用的服务器。仓库根的 \`AGENTS.md\` 可以写「改 lockfile 先查依赖」，官方示例还要求走这台 MCP、不要直接调 \`endorctl\`；按你们流程改，不要整段粘贴。
+
+默认 \`npx -y endorctl\` 把最新包丢进 \`~/.npm/_npx/\`，**不会**用你 Homebrew 装的那份。版本旧了就清 npx 缓存，或把 \`args\` 里的包名钉成 \`endorctl@版本\`。公司代理让 npx 超时，改成系统二进制：
+
+\`\`\`bash
+codex mcp add endor-cli-tools -- endorctl ai-tools mcp-server
+\`\`\`
+
+\`command\` 写成 \`which endorctl\` 给出的绝对路径；fnm / nvm 尤其不要写裸命令名。Windows 还要把 npm 全局 bin 加进 PATH，用 \`npm config get prefix\` 核对。
+
+相关服务与配置：
+
+- 文档 MCP 是另一张 HTTP 表 \`endor-docs\`，地址 \`https://docs.endorlabs.com/mcp\`，**没有**鉴权。Codex 会误探 OAuth 然后失败。官方权宜是占位 bearer：先 \`export ENDOR_DOCS_KEY=dummy\`，再 \`codex mcp add endor-docs --url https://docs.endorlabs.com/mcp --bearer-token-env-var ENDOR_DOCS_KEY\`。变量必须在启动 Codex 的进程里。不要和 \`endor-cli-tools\` 写成同一张表。
+- Agent Kit 是工作流插件，不是这台扫描 MCP。官方 Codex 页是 \`codex plugin marketplace add endorlabs/ai-plugins --sparse .agents/plugins --sparse plugins/codex/endor-labs-agent-kit\`，装完新开会话。文档没写 \`plugin add\`。清单 name 和插件 name 都是 \`endor-labs-agent-kit\`。
+- Coding Agent Governance 钩子是 \`endorctl ai-audit codex\`，写在 \`[hooks]\` 或 \`hooks.json\`，用来拦命令 / 文件 / MCP。API 密钥通过凭据配置提供。不要同时 export \`ENDOR_TOKEN\`。那不是 \`mcp add\`。
+
+网页 Cloud 读不到这台本机 CLI。配置后重新打开会话。用 \`codex mcp get endor-cli-tools\` 看传输是 stdio，command 是 npx 还是绝对路径。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Endor Labs", "stdio", "SCA"],
+    related: ["mcp-add-and-login", "mcp-snyk-stdio", "mcp-stdio-env-vars"],
+    sources: [
+      {
+        label: "Endor Labs · MCP in Codex",
+        url: "https://docs.endorlabs.com/setup-deployment/mcp/codex",
+      },
+      {
+        label: "Endor Labs · Documentation MCP",
+        url: "https://docs.endorlabs.com/introduction/docs-mcp-server",
+      },
+      {
+        label: "Endor Labs · Agent Kit in Codex",
+        url: "https://docs.endorlabs.com/secure-ai-coding/agent-kit/codex",
+      },
+      {
+        label: "Endor Labs · Deploy hooks for Codex",
+        url: "https://docs.endorlabs.com/agent-governance/codex",
+      },
+    ],
+  },
+  {
+    id: "mcp-clickhouse-stdio",
+    no: 405,
+    title: "连接 ClickHouse 本地 MCP",
+    summary:
+      "通过 uv 启动 mcp-clickhouse，并使用 env_vars 提供连接信息与密码。默认采用只读查询，独立于 Cloud 托管服务。",
+    body: `ClickHouse 文档包含 Codex 配置说明：本机 **stdio** 包 \`mcp-clickhouse\`，经 HTTP 接口去查**你的**集群（Cloud 主机或自建都行）。这不是托管 \`mcp.clickhouse.cloud/mcp\`，也不是 ClickStack 的 \`/clickstack\`。官方表名就是 \`mcp-clickhouse\`。
+
+先装 \`uv\`，并确认有路径：
+
+\`\`\`bash
+which uv
+\`\`\`
+
+\`which uv\` 必须返回路径。缺了去官方 uv 页安装，不要把那条 curl 管道当成 Codex 主路径。
+
+然后才登记。文档那条 \`--env CLICKHOUSE_PASSWORD=your-clickhouse-password\` 会把密钥写进 \`config.toml\`，**不要抄**。先 add 命令，再改 TOML：
+
+\`\`\`bash
+codex mcp add mcp-clickhouse -- uv run --with mcp-clickhouse --python 3.10 mcp-clickhouse
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.mcp-clickhouse]
+command = "uv"
+args = ["run", "--with", "mcp-clickhouse", "--python", "3.10", "mcp-clickhouse"]
+env_vars = ["CLICKHOUSE_HOST", "CLICKHOUSE_USER", "CLICKHOUSE_PASSWORD"]
+startup_timeout_sec = 60
+enabled = true
+
+[mcp_servers.mcp-clickhouse.env]
+CLICKHOUSE_SECURE = "true"
+\`\`\`
+
+\`CLICKHOUSE_HOST\` / \`CLICKHOUSE_USER\` / \`CLICKHOUSE_PASSWORD\` 必须在**启动 Codex 的那个进程**里。Codex 不读 \`.env\`。Cloud 服务默认 HTTPS，端口默认 \`8443\`，保持 \`CLICKHOUSE_SECURE = "true"\`。自建明文 HTTP 才改成 \`"false"\`，并把 \`CLICKHOUSE_PORT\` 加进 \`env_vars\`（常见是 \`8123\`）。建议为查询创建独立的只读用户。
+
+这是本地 stdio 服务，无需 OAuth 登录。冷 \`uv run --with\` 第一次拉包经常超过默认 10 秒，所以加上 \`startup_timeout_sec = 60\`。默认查询只读（\`CLICKHOUSE_ALLOW_WRITE_ACCESS\` 为 false）。写入和删除权限需按实际任务单独配置。
+
+相关服务与配置：
+
+- Cloud 托管 MCP 是 \`codex mcp add clickhouse-cloud --url https://mcp.clickhouse.cloud/mcp\`，再 OAuth。那张表名是 \`clickhouse-cloud\`。
+- ClickStack 观测端点是 \`https://mcp.clickhouse.cloud/clickstack\`。官方 ClickStack 页没有 Codex 专节，不要当这条的主路径。
+- 公共插件目录 \`/plugins\` 搜 ClickHouse 捆绑的是托管远程 MCP，不是这台本机 \`uv\` 进程。
+
+网页 Cloud 读不到这台本机 stdio。配置后重新打开会话。用 \`codex mcp get mcp-clickhouse\` 看 command 是 \`uv\`。\`/mcp\` 里工具 0 先查超时、\`which uv\` 和进程环境。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "ClickHouse", "stdio", "env_vars"],
+    related: ["mcp-clickhouse-cloud", "mcp-stdio-env-vars", "mcp-grafana-stdio"],
+    sources: [
+      {
+        label: "ClickHouse · Set up MCP server",
+        url: "https://clickhouse.com/docs/guides/use-cases/ai-ml/MCP/claude-desktop",
+      },
+      {
+        label: "ClickHouse/mcp-clickhouse",
+        url: "https://github.com/ClickHouse/mcp-clickhouse",
+      },
+      {
+        label: "ClickHouse · ClickStack MCP",
+        url: "https://clickhouse.com/docs/clickstack/mcp",
+      },
+    ],
+  },
+  {
+    id: "jfrog-codex-plugin",
+    no: 406,
+    title: "安装与配置 JFrog Codex 插件",
+    summary:
+      "安装 jfrog@codex-plugin，将插件 .mcp.json 中的地址改为自己的 JFrog 实例，再通过 OAuth 登录。",
+    body: `JFrog 给 Codex 有正式插件仓，把平台技能、包审查和捆绑 MCP 打在一起。清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`codex-plugin\`，插件 name 是 \`jfrog\`，所以是 \`jfrog@codex-plugin\`。在普通终端执行安装命令：
+
+\`\`\`bash
+codex plugin marketplace add jfrog/codex-plugin
+codex plugin add jfrog@codex-plugin
+codex plugin list
+\`\`\`
+
+\`codex plugin list\` 应看到 \`jfrog@codex-plugin\` 一行是 installed, enabled，并给出安装路径。0.154 起先看**当前会话**；当前会话没有再新开。桌面改 marketplace 仍要重启应用。不要用 \`npx skills add jfrog/jfrog-skills\` 当 Codex 插件安装器。
+
+插件已经带 MCP，表名就是 \`jfrog\`。捆绑文件是安装路径下的 \`.mcp.json\`，占位主机要改成你们的 JPD，路径是 \`/mcp\`。示例：
+
+\`\`\`json
+{
+  "jfrog": {
+    "url": "https://acme.jfrog.io/mcp"
+  }
+}
+\`\`\`
+
+平台管理员必须先在实例上打开 JFrog MCP Server。改完主机再登录，这是 OAuth，**不要**把 access token 写进配置：
+
+\`\`\`bash
+codex mcp login jfrog
+codex mcp list
+\`\`\`
+
+然后新开会话。技能还要本机 \`jf\` CLI：先 \`jf login\`，或从没配过就 \`jf config add\`。Agent Guard（可选）还要 Node.js 18、npx，以及带 AI Catalog 的订阅；JFrog CLI 2.105.0 起才能从 CLI 配置自动解析凭据。
+
+MCP 连不上时，官方要你跑 \`jfrog-init\`，必要时再改 \`.mcp.json\` 主机、\`mcp login jfrog\`、重启。**不要**以为 \`export JFROG_PLATFORM_URL\` 会替 Codex 登记 MCP；Codex 读的是插件 \`.mcp.json\` 里的 url。占位符没改，只重装插件不够。
+
+相关服务与配置：
+
+- 集成文档给 Codex 抄的是 \`mcpServers\` JSON。Codex 用户层是 \`[mcp_servers.jfrog]\`。只要 MCP、不要插件时才手写：
+
+\`\`\`bash
+codex mcp add jfrog --url https://acme.jfrog.io/mcp
+codex mcp login jfrog
+\`\`\`
+
+使用插件时无需重复添加同名连接。
+
+- \`jf agent plugins install jfrog --harness codex\` 是 Artifactory 的 agentplugins 仓，装到 \`~/.agents/plugins/local/\`。那不是 GitHub marketplace 这条。
+- 密钥不要写进 chat。Agent Guard 要密钥时会给你一条在终端跑的命令。
+
+网页 Cloud 不读取这份本机插件和 \`~/.codex/config.toml\`。配置后重新打开会话。用 \`codex mcp get jfrog\` 看 url 是 \`https://acme.jfrog.io/mcp\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["plugins", "JFrog", "Skills", "MCP"],
+    related: ["mcp-add-and-login", "plugin-session-refresh", "planetscale-codex-plugin"],
+    sources: [
+      {
+        label: "jfrog/codex-plugin",
+        url: "https://github.com/jfrog/codex-plugin",
+      },
+      {
+        label: "JFrog · Add MCP server to a client",
+        url: "https://docs.jfrog.com/integrations/docs/add-the-jfrog-mcp-server-to-an-mcp-client",
+      },
+      {
+        label: "JFrog · OpenAI Codex",
+        url: "https://jfrog.com/integrations/openai-codex/",
+      },
+    ],
+  },
+  {
+    id: "nowledge-mem-codex-plugin",
+    no: 407,
+    title: "配置 Nowledge Mem 插件",
+    summary:
+      "先准备 Mem 和 nmem CLI，再使用两个 --sparse 参数添加插件源。安装后运行 install_hooks.py，连接本地 Mem 服务。",
+    body: `Nowledge Mem 文档包含 Codex 配置说明。桌面和 CLI 共用 \`~/.codex\`。先让本机 Mem 跑起来，并装好 \`nmem\`：\`pip install nmem-cli\`，或 \`uvx --from nmem-cli nmem --version\`。已经在用桌面时，走 Settings → Preferences → Developer Tools → Install CLI。装完跑 \`nmem --version\` 和 \`nmem doctor\`。
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 nowledge-community，插件 name 是 nowledge-mem。两个 \`--sparse\` 都要写，只拉元数据和 Codex 包：
+
+\`\`\`bash
+codex plugin marketplace add nowledge-co/community --sparse .agents --sparse nowledge-mem-codex-plugin
+codex plugin add nowledge-mem@nowledge-community
+\`\`\`
+
+全量 clone 社区仓会 \`git clone marketplace source timed out after 30s\` 或 \`early EOF\`。旧文把文件拷进 \`~/.codex/plugins/cache/local/…\`，不要再走。也可以 \`/plugins\` 搜 nowledge-mem@nowledge-community。
+
+文档仍让你在 \`~/.codex/config.toml\` 打开插件和钩子：
+
+\`\`\`toml
+[features]
+plugins = true
+hooks = true
+
+[plugins."nowledge-mem@nowledge-community"]
+enabled = true
+\`\`\`
+
+现行 Codex 会从已启用插件自动加载钩子。**不要**手写 \`plugin_hooks = true\`，让 \`install_hooks.py\` 检测旧主机。取缓存里最新那条脚本：
+
+\`\`\`bash
+HOOK_SETUP="$(find ~/.codex/plugins/cache -path '*/nowledge-mem/*/scripts/install_hooks.py' -print 2>/dev/null | sort | tail -1)"
+python3 "$HOOK_SETUP"
+\`\`\`
+
+Windows 用 \`py -3\`。找不到脚本就先 \`/plugins\` 再装一次。新开会话后，SessionStart / UserPromptSubmit / Stop 要**启用且信任**，两道闸。SessionStart 注入 Context Bundle（没有再退到 Working Memory）。UserPromptSubmit 把续写、回归、先前决定这类问题导向检索。Stop 跑 \`nmem t save --from codex\`。
+
+捆绑 MCP 是 \`http://127.0.0.1:14242/mcp/\`。用户层若写 \`[mcp_servers.nowledge-mem]\` 会覆盖捆绑端点，远程 Mem 或自定义端口才覆盖。**不要** \`codex mcp login nowledge-mem\`。那是 OAuth。本地默认不用手写 MCP 表。\`codex mcp list\` 显示 Not logged in 时，升级 \`nmem-cli\`，用桌面装 CLI，再重跑 hook setup。
+
+远程才改客户端，密钥不要写进 \`http_headers\`，也不要贴进聊天：
+
+\`\`\`bash
+nmem config client set url https://mem.acme.example
+nmem config client set api-key
+\`\`\`
+
+不要用尖括号占位（会被当 HTML）。示例主机用 acme。远程还要覆盖 MCP 端点：跑 \`nmem config mcp show --host codex\`，把生成的 TOML 贴进用户层，或重跑 0.1.11+ 的 hook setup。不要手抄一套和捆绑表叠成两台。
+
+若同时开 Codex 本地 Memory：Settings → Personalization 关掉 Allow memory generation from tool-assisted tasks，或：
+
+\`\`\`toml
+[memories]
+disable_on_external_context = true
+\`\`\`
+
+否则 Codex 会把刚从 Mem 读到的内容再写成一份本地摘要。插件 0.1.26+ 才有更强检索路由。完全关掉 Codex 本地 Memory 也是完整装法。
+
+不要改已安装插件目录里的 \`AGENTS.md\`；合并进仓库根。报 \`unknown field description, expected hooks\` 时升到 0.1.19+。更新先 \`marketplace remove nowledge-community\`，再带两个 \`--sparse\` 加回去并 \`plugin add\`；\`marketplace upgrade\` 可能不刷新已装包缓存。WSL 要在跑 Codex 的那个 distro 里装和更新，不要让 Windows 桌面代跑。
+
+仓库内嵌备选：把包拷到 \`.agents/nowledge-mem\`，marketplace name 写成 \`local\`，path 相对仓库根，再开 \`[plugins."nowledge-mem@local"]\`，hook 脚本改跑 \`python3 ./.agents/nowledge-mem/scripts/install_hooks.py\`。旧 prompts 包 \`nowledge-mem-codex-prompts\` 可删 \`~/.codex/prompts/{read_working_memory,search_memory,save_session,distill}.md\`。
+
+技能仍在：\`$nowledge-mem:working-memory\`、\`search-memory\`、\`save-thread\`、\`distill-memory\`、\`status\`。网页 Cloud 不读取 \`~/.codex/config.toml\`。配置后重新打开会话。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["plugins", "Nowledge", "MCP", "hooks", "Skills"],
+    related: ["plugin-session-refresh", "mcp-add-and-login", "memories-use-vs-generate"],
+    sources: [
+      {
+        label: "Nowledge Mem · Codex CLI",
+        url: "https://mem.nowledge.co/docs/integrations/codex-cli",
+      },
+      {
+        label: "nowledge-co/community",
+        url: "https://github.com/nowledge-co/community",
+      },
+      {
+        label: "Nowledge Mem · SKILL.md",
+        url: "https://mem.nowledge.co/SKILL.md",
+      },
+    ],
+  },
+  {
+    id: "mcp-solo-agentregistry",
+    no: 408,
+    title: "连接 Solo agentregistry",
+    summary:
+      "通过 localhost:31313/mcp 读取注册表目录。静态令牌使用 ARCTL_TOKEN，生产 OAuth 配置资源地址后登录。",
+    body: `Solo Enterprise for agentregistry 文档包含 Codex 配置说明。这台 MCP **只读目录**：列 agents / servers / skills / prompts / models / plugins / deployments / runtimes，**不会**替你调用目录里登记的那些 MCP。先 \`arctl user login\`，再接线。
+
+Codex **没有** \`arctl configure\` 子命令。那张表只有 claude-code / cursor / vscode / kiro，写的是各宿主的 JSON。默认 URL 还是 agentgateway 的 \`http://localhost:21212/mcp\`，**不是**注册表桥。
+
+本机先把注册表服务的 \`31313\` 端口转出来。UI / REST 是 \`12121\`，MCP 桥是 \`31313\`。URL 要带 \`/mcp\`：
+
+\`\`\`bash
+kubectl -n agentregistry-system port-forward svc/agentregistry-enterprise-server 31313:31313
+export ARCTL_TOKEN="$(arctl user info --show-tokens | jq -r .access_token)"
+codex mcp add agentregistry --url http://localhost:31313/mcp --bearer-token-env-var ARCTL_TOKEN
+\`\`\`
+
+\`ARCTL_TOKEN\` 必须在**启动 Codex 的进程**里。令牌会随 OIDC 会话过期，过期后重新 export，必要时再 \`mcp add\` 一次。通过环境变量提供 token。
+
+Ingress 示例主机用 \`registry.acme.example\`：
+
+\`\`\`bash
+codex mcp add agentregistry --url https://registry.acme.example/mcp --bearer-token-env-var ARCTL_TOKEN
+\`\`\`
+
+生产环境、IdP 走 HTTPS，并且 Helm 打开了 OAuth 发现时，才用交互登录。本机那套 Keycloak 常是明文 HTTP，MCP 客户端拒发 token 请求，本地请走上面的静态头：
+
+\`\`\`bash
+codex mcp add agentregistry --url https://registry.acme.example/mcp --oauth-resource https://registry.acme.example/mcp
+codex mcp login agentregistry --scopes openid,profile
+\`\`\`
+
+\`oauth-resource\` 要和 \`url\` 相同，这样 RFC 9728 元数据才对得上 \`/.well-known/oauth-protected-resource/mcp\`。OAuth 与 Bearer token 请选择一种认证方式。
+
+网页 Cloud 不读取 \`~/.codex/config.toml\`。配置后重新打开会话。用 \`codex mcp get agentregistry\` 看传输是 streamable_http，url 带 \`31313/mcp\` 或你的 ingress \`/mcp\`。`,
+    category: "mcp",
+    level: "advanced",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Solo", "agentregistry", "OAuth"],
+    related: ["mcp-add-and-login", "mcp-http-bearer-env", "mcp-oauth-resource"],
+    sources: [
+      {
+        label: "Solo · Registry MCP server",
+        url: "https://docs.solo.io/agentregistry/latest/setup/mcp-server/",
+      },
+      {
+        label: "Solo · arctl configure",
+        url: "https://docs.solo.io/agentregistry/latest/reference/cli/arctl-configure/",
+      },
+      {
+        label: "Solo · arctl CLI",
+        url: "https://docs.solo.io/agentregistry/latest/reference/cli/",
+      },
+    ],
+  },
+  {
+    id: "ecc-codex-native-plugin",
+    no: 409,
+    title: "安装 ECC 原生 Codex 插件",
+    summary:
+      "从 affaan-m/ECC 安装 ecc@ecc。插件与旧版同步脚本选择一种安装方式，钩子在 /hooks 中单独确认信任。",
+    body: `Everything Claude Code（ECC）给 Codex 有原生插件专节，写在仓库 README 和 \`.codex-plugin/README.md\`。要求 Codex 0.146.0 以上。CLI 动词是 \`plugin add\`，不是 \`plugin install\`。源仓简写是 \`affaan-m/ECC\`，清单 \`.agents/plugins/marketplace.json\` 的 name 是 ecc，插件 name 也是 ecc，所以是 \`ecc@ecc\`。
+
+\`\`\`bash
+codex plugin marketplace add affaan-m/ECC
+codex plugin add ecc@ecc
+codex plugin list --json
+\`\`\`
+
+两条 add 都可以再跑：marketplace 已加过会报 \`alreadyAdded: true\`，插件 add 会保持同一条已启用登记。刷新先升级清单，再装一次缓存：
+
+\`\`\`bash
+codex plugin marketplace upgrade ecc
+codex plugin add ecc@ecc
+\`\`\`
+
+本地开发时将 checkout 根目录作为插件源：
+
+\`\`\`bash
+codex plugin marketplace add /absolute/path/to/ECC
+codex plugin add ecc@ecc
+\`\`\`
+
+marketplace 入口指向**仓库根**，这样 Codex 拷进缓存时 \`skills/\`、\`.mcp.json\`、\`hooks/\` 和脚本还在一起。marketplace 根应指向完整仓库，而非 \`.codex-plugin/\` 子目录：父级相对路径会逃出缓存，装完技能和 MCP 都是空的。
+
+启用状态记在当前 \`CODEX_HOME\`（默认 \`~/.codex\`），对用这个 home 的会话生效。**没有** Claude 的 \`user\` / \`project\` / \`local\` 三档。不要抄 \`/plugin marketplace add https://github.com/affaan-m/ECC\` 或 \`/plugin install ecc@ecc\`。不要把 \`npx skills add\` 当 Codex 插件安装器。
+
+装完打开 \`/plugins\` 看 \`ecc@ecc\`。钩子是另一套控制：原生清单绑的是 \`./hooks/codex-hooks.json\`，目前核实过的是同步 \`SessionStart\`。Codex 默认开钩子支持，但**不会**因为装了插件就静默授权命令。新开会话，打开 \`/hooks\`，审过再信任。哈希变了要再审一次。不要把 Claude 的 \`off\` / \`minimal\` / \`standard\` / \`strict\` 四档套到 Codex，也不要手写 \`plugin_hooks\`。
+
+会话里走引导配置用 \`\$configure-ecc\`。那是技能调用，不是 Claude 的 \`/ecc:configure-ecc\`，也替不了第一次的 \`plugin add\`。
+
+默认捆绑的 MCP 只剩 \`chrome-devtools\`（\`npx -y chrome-devtools-mcp@latest\`）。\`github\`、\`context7\`、\`exa\`、\`memory\`、\`playwright\`、\`sequential-thinking\` 已退役，工作改由技能包 CLI / REST，或 Codex 自己的能力。它们还在 \`mcp-configs/mcp-servers.json\` 里可选。已经手写过 \`[mcp_servers.chrome-devtools]\` 就不要和插件那张再叠一台。插件**不会**改 \`~/.codex/config.toml\` 里的模型、沙箱这些键。
+
+不要和遗留 \`bash scripts/sync-ecc-to-codex.sh\` 叠用。那条路把文件合并进 \`~/.codex\`，**不会**登记 marketplace，现行 Codex 请走原生插件。仓库里直接开 Codex、读根 \`AGENTS.md\` 和可信的 \`.codex/\`，也是项目本地路径，同样不要再叠一条全局 marketplace。
+
+\`codex plugin list\` 只证明登记成功。要从 ECC checkout 核对缓存里的技能、MCP 和资源，跑：
+
+\`\`\`bash
+node scripts/codex/check-plugin-cache.js
+\`\`\`
+
+0.154 起先看**当前会话**；当前会话没有再新开。桌面改 marketplace 后彻底退出再开。IDE 扩展没有 \`/plugins\`，用 CLI 加完再到 TUI 或桌面去装。网页 Cloud 不读取你这台 \`CODEX_HOME\` 插件缓存。
+
+钩子会跑命令，保持工具批准。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["plugins", "ECC", "Skills", "hooks"],
+    related: ["n8n-codex-mcp", "plugin-marketplace-ref-sparse", "chrome-devtools-mcp"],
+    sources: [
+      {
+        label: "affaan-m/ECC",
+        url: "https://github.com/affaan-m/ECC",
+      },
+      {
+        label: "ECC · Codex native plugin",
+        url: "https://github.com/affaan-m/ECC/blob/main/.codex-plugin/README.md",
+      },
+      {
+        label: "ECC · configure-ecc",
+        url: "https://github.com/affaan-m/ECC/blob/main/skills/configure-ecc/SKILL.md",
+      },
+    ],
+  },
+  {
+    id: "matlab-mcp-stdio",
+    no: 410,
+    title: "连接 MATLAB MCP Server",
+    summary:
+      "使用本地 matlab-mcp-server 二进制的绝对路径建立 stdio 连接。Windows 环境需通过 env_vars 转发 WINDIR。",
+    body: `MathWorks 给 MATLAB MCP Server 写了 Codex 专节，源仓是 \`matlab/matlab-mcp-server\`。先装 MATLAB R2021a 或更新，并让它在 PATH 里。再从 [Releases](https://github.com/matlab/matlab-mcp-server/releases/latest) 下对应平台的二进制，给可执行权限。这是**本机 stdio**，不是远程 URL。
+
+Linux / macOS 示例把二进制放在 \`/home/acme/Downloads/matlab-mcp-server\`：
+
+\`\`\`bash
+chmod +x /home/acme/Downloads/matlab-mcp-server
+codex mcp add matlab -- /home/acme/Downloads/matlab-mcp-server
+\`\`\`
+
+钉 MATLAB 根目录和工作目录时，参数写在 \`--\` 后面。\`--matlab-root\` **不要**带 \`/bin\`：
+
+\`\`\`bash
+codex mcp add matlab -- /home/acme/Downloads/matlab-mcp-server --matlab-root=/home/acme/MATLAB/R2026a --initial-working-folder=/home/acme/myproject
+\`\`\`
+
+用户层表名是 \`matlab\`。这是本地 stdio 服务，无需 OAuth 登录。
+
+Windows 配置需注意：Codex 起 stdio 子进程时**不转发** \`WINDIR\`，Simulink 初始化可能无法正常启动（\`matlab/matlab-mcp-server#32\`）。\`mcp add\` 不会写 \`env_vars\`，要自己改 \`C:\\Users\\acme\\.codex\\config.toml\`。路径用单引号，避免反斜杠被 TOML 解释为转义字符：
+
+\`\`\`toml
+[mcp_servers.matlab]
+command = 'C:\\Users\\acme\\Downloads\\matlab-mcp-server-windows-x64.exe'
+args = []
+env_vars = ["WINDIR"]
+enabled = true
+\`\`\`
+
+MathWorks Answers 把同一张表写成 \`matlab-core\`，**不要抄**。官方 README 是 \`matlab\`。\`env_vars\` 是从 Codex 进程透传变量名，不要写成 \`[mcp_servers.matlab.env]\` 里的字面量，也不要把 \`WINDIR=C:\\\\Windows\` 用 \`--env\` 写进配置。
+
+CLI 旗标也能改成环境变量：给旗标加上 \`MW_MCP_SERVER_\` 前缀、改大写、连字符变下划线。例如 \`--matlab-root\` 对应 \`MW_MCP_SERVER_MATLAB_ROOT\`。同时写时，CLI 旗标优先。
+
+接到已有 MATLAB 会话（R2023a 起）才用 \`--matlab-session-mode=existing\` 或默认的 \`auto\`。第一次先跑二进制的 \`--setup-matlab\` 装 MATLAB MCP Server Toolbox，再在 MATLAB 命令窗口执行 \`shareMATLABSession()\`。\`existing\` 不要和 \`matlab-root\` / \`initial-working-folder\` / \`matlab-display-mode\` 一起用。
+
+默认会向 MathWorks 打匿名用量；不想要就加 \`--disable-telemetry=true\`。要桌面 GUI 时，无显示环境再透传 \`DISPLAY\` / \`WAYLAND_DISPLAY\`，见 stdio 显示器那条。网页 Cloud 读不到这台本机二进制。
+
+能跑任意 MATLAB 代码，保持工具批准。许可证不允许把这台 MCP 共享给多人。配置后重新打开会话。用 \`codex mcp get matlab\` 看传输是 stdio、命令是绝对路径。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "MATLAB", "stdio", "Windows"],
+    related: ["mcp-add-and-login", "mcp-stdio-display-env", "chrome-devtools-mcp"],
+    sources: [
+      {
+        label: "matlab/matlab-mcp-server",
+        url: "https://github.com/matlab/matlab-mcp-server",
+      },
+      {
+        label: "matlab-mcp-server#32",
+        url: "https://github.com/matlab/matlab-mcp-server/issues/32",
+      },
+      {
+        label: "MATLAB Answers · WINDIR",
+        url: "https://www.mathworks.com/matlabcentral/answers/2183464-why-does-matlab-r2025b-crash-when-opening-simulink-through-matlab-mcp-core-server-on-windows-with-co",
+      },
+    ],
+  },
+  {
+    id: "surrealdb-codex-mcp",
+    no: 411,
+    title: "连接 SurrealDB 托管 MCP",
+    summary:
+      "托管服务地址为 https://mcp.surrealdb.com，通过 OAuth 登录。无头环境使用 SURREALDB_TOKEN，本地服务独立配置。",
+    body: `SurrealDB 文档包含 Codex 配置说明，写在 \`surrealdb.com/docs/agents/codex\`。托管入口是 \`https://mcp.surrealdb.com\`，就在主机根上，**不要**再拼 \`/mcp\` 或 \`/sse\`。拼了会 404。它和 \`https://api.surrealdb.com/api/mcp\` 是同一挂载，**不要**两张表都加。
+
+只要 Cloud MCP：
+
+\`\`\`bash
+codex mcp add surrealdb --url https://mcp.surrealdb.com
+codex mcp login surrealdb
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.surrealdb]
+url = "https://mcp.surrealdb.com"
+enabled = true
+\`\`\`
+
+会话里批准 OAuth。托管页 TOML 还写过 \`auth = "oauth"\`，\`mcp add\` 之后用 \`mcp login\` 即可，不要再抄 Claude 的 \`--transport http\`。无头 / CI 才用个人访问令牌。官方 Codex 页的变量名是 \`SURREALDB_TOKEN\`，必须在**启动 Codex 的进程**里：
+
+\`\`\`toml
+[mcp_servers.surrealdb]
+url = "https://mcp.surrealdb.com"
+bearer_token_env_var = "SURREALDB_TOKEN"
+enabled = true
+\`\`\`
+
+OAuth 与 Bearer token 请选择一种认证方式。令牌那张不要再 \`mcp login\`。通过环境变量提供 token。
+
+要技能和 MCP 打在一起，才走官方插件仓。清单 \`.agents/plugins/marketplace.json\` 的 name 是 surrealdb，插件 name 是 surrealdb，所以是 \`surrealdb@surrealdb\`：
+
+\`\`\`bash
+codex plugin marketplace add surrealdb/ai-codex-plugin --ref main
+codex plugin add surrealdb@surrealdb
+\`\`\`
+
+装完策略是 \`ON_INSTALL\`，应弹出 Surreal ID 登录。仓里还有 \`agent-memory@surrealdb\`（同一托管 URL）和 \`surrealdb-local@surrealdb\`（自建）。\`surrealdb\` 和 \`agent-memory\` 会把同一套托管工具登记成两台，不需要就只装一个。Agent Memory / Spectron 旧文还写 \`spectron@surrealdb\` 和本地 clone 再 \`marketplace add "$PWD"\`，现行清单**没有** spectron，不要抄。
+
+插件已经登记 \`surrealdb\` 时，不要再手写一张同 URL 的 \`[mcp_servers.surrealdb]\`。官方 \`npx skills add surrealdb/agent-skills\` 只装技能，**不会**登记 MCP，也未指定 \`--agent codex\`，不要把它当插件安装器，也不要和插件技能叠两份。
+
+自建 / 本机实例才带 \`/mcp\`。默认示例：
+
+\`\`\`bash
+export SURREALDB_MCP_URL="http://127.0.0.1:8000/mcp"
+export SURREALDB_MCP_TOKEN="your-session-jwt"
+codex mcp add surrealdb-local --url http://127.0.0.1:8000/mcp --bearer-token-env-var SURREALDB_MCP_TOKEN
+\`\`\`
+
+本机 404 先看实例有没有 \`--deny-http mcp\`。\`surreal-bearer-\` 开头的 grant key **不是** HTTP 访问令牌，要先换成 JWT。不要用 \`surreal mcp\` stdio 去接正在跑的那台库：stdio 会另起嵌入式 datastore。不要把本机 \`/mcp\` 和托管根 URL 写成同一张表。
+
+能改 schema 和数据，保持工具批准。网页 Cloud 不读取你这台 \`CODEX_HOME\`。配置后重新打开会话。用 \`codex mcp get surrealdb\` 看传输是 streamable_http，url 是 \`https://mcp.surrealdb.com\`。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "SurrealDB", "plugins", "OAuth"],
+    related: ["mcp-add-and-login", "mcp-http-bearer-env", "n8n-codex-mcp"],
+    sources: [
+      {
+        label: "SurrealDB · Codex",
+        url: "https://surrealdb.com/docs/agents/codex",
+      },
+      {
+        label: "surrealdb/ai-codex-plugin",
+        url: "https://github.com/surrealdb/ai-codex-plugin",
+      },
+      {
+        label: "SurrealDB · MCP endpoint",
+        url: "https://mcp.surrealdb.com/",
+      },
+    ],
+  },
+  {
+    id: "infisical-agent-proxy-codex",
+    no: 412,
+    title: "通过 Infisical Agent Proxy 启动 Codex",
+    summary:
+      "使用 infisical secrets agent-proxy run 启动 Codex，由凭据代理提供访问控制。连接现有代理时使用 connect。",
+    body: `Infisical Agent Proxy 把 Codex 当成会走 \`HTTPS_PROXY\` 的客户端。官方本机命令就是在 \`--\` 后面写 \`codex\`。这**不是** MCP：不要 \`codex mcp add Infisical\`，也不要把文档 MCP 页的 Claude / Cursor JSON 抄进 \`config.toml\`。
+
+先 \`infisical login\`，在 Secrets 项目里放一条密钥，并在同一文件夹加 proxied service。Quickstart 示例路径是 \`/coding-agent\`，GitHub 模板会给 Codex 一个 \`GITHUB_TOKEN\` 占位符，出站时再换成真 PAT。从有 \`.infisical.json\` 的目录启动：
+
+\`\`\`bash
+infisical secrets agent-proxy run -e dev --path=/coding-agent -- codex
+\`\`\`
+
+\`--\` 后面是 Codex 自己的启动命令，原样执行。Linux 先装 bubblewrap。Windows 没有这层 OS 沙箱，\`run\` 会拒绝启动，除非你显式 \`--no-sandbox\`。\`run\` 会自行启动代理；连接已有代理时使用 \`connect\`。
+
+已经有一台独立代理时才用 \`connect\`，要和 \`start\` 成对，走机器身份，不是你的登录会话：
+
+\`\`\`bash
+infisical secrets agent-proxy connect --proxy=proxy.acme.internal:17322 --env=staging --path=/coding-agent -- codex
+\`\`\`
+
+沙箱默认开，而且套在 Codex 自己的沙箱外面，代理侧的限制抬不掉。官方允许读写 \`~/.codex\`，ChatGPT 登录态还在。\`~/.infisical\`、钥匙串、\`~/.ssh\` 会被拒。不要 \`--allow-read ~/.infisical\`。名字里带 \`TOKEN\` / \`API_KEY\` / \`SECRET\` 的环境变量会被清掉；若 Codex 靠 \`CODEX_API_KEY\` 登录，加 \`--pass-env CODEX_API_KEY\`。真密钥不会进 Codex 进程。
+
+Codex 走环境变量信任：\`run\` 会设 \`SSL_CERT_FILE\` 等，指向本机临时 CA。临时目录形如 \`/tmp/infisical-agent-proxy-run-XXXXXX/\`，退出就删。只有 HTTP / HTTPS 会被代理，SSH 不行。沙箱里 \`Could not resolve host\` 往往表示工具没走代理。本机 \`127.0.0.1:5432\` 这类回环也到不了。
+
+网页 Cloud 不读取这台包装。改完新开被包装的会话。`,
+    category: "security",
+    level: "starter",
+    surfaces: ["cli", "ci"],
+    tags: ["Infisical", "Agent Proxy", "sandbox", "secrets"],
+    related: ["1password-mcp-stdio", "api-key-inline-env", "cli-auth-credentials-store"],
+    sources: [
+      {
+        label: "Infisical · Local Agent Proxy",
+        url: "https://infisical.com/docs/documentation/platform/agent-proxy/local-agent-proxy",
+      },
+      {
+        label: "Infisical · agent-proxy CLI",
+        url: "https://infisical.com/docs/cli/commands/agent-proxy",
+      },
+      {
+        label: "Infisical · Agent Proxy quickstart",
+        url: "https://infisical.com/docs/documentation/platform/agent-proxy/quickstart",
+      },
+    ],
+  },
+  {
+    id: "postman-codex-mcp",
+    no: 413,
+    title: "配置 Postman MCP 的工具范围与认证",
+    summary:
+      "默认工具入口为 /minimal，完整工具入口为 /mcp。US 支持 OAuth，EU 使用 API key；本地 stdio 连接单独配置。",
+    body: `Postman 给 Codex CLI 有专节。远程是 Streamable HTTP，不是 \`npx mcp-remote\` 包装。US 默认 OAuth，不必先造 API key。EU 远程**只有** API key，没有 OAuth。
+
+远程按工具面换路径，**同一张** \`postman\` 表改 url，不要叠四张：
+
+| 配置 | US | EU |
+| --- | --- | --- |
+| Minimal（默认） | \`https://mcp.postman.com/minimal\` | \`https://mcp.eu.postman.com/minimal\` |
+| Code | \`https://mcp.postman.com/code\` | \`https://mcp.eu.postman.com/code\` |
+| Full | \`https://mcp.postman.com/mcp\` | \`https://mcp.eu.postman.com/mcp\` |
+| Learn | \`https://mcp.postman.com/learn\` | \`https://mcp.eu.postman.com/learn\` |
+
+Full 是 \`/mcp\`，**不是**光主机根，也不是 \`/minimal\`。Learn 查文档；Code 生成客户端代码。先走 Minimal，工具太多再换面。
+
+US 主路径：
+
+\`\`\`bash
+codex mcp add postman --url https://mcp.postman.com/minimal
+\`\`\`
+
+若浏览器未打开，运行 \`codex mcp login postman\`。文档没强制写 login，现行 Codex 对 OAuth 远程仍常用这一步。
+
+\`\`\`toml
+[mcp_servers.postman]
+url = "https://mcp.postman.com/minimal"
+enabled = true
+\`\`\`
+
+US 无头 / CI 才加 API key。EU 远程**必须**走密钥，不要 \`mcp login\`：
+
+\`\`\`bash
+codex mcp add postman --url https://mcp.eu.postman.com/minimal --bearer-token-env-var POSTMAN_API_KEY
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.postman]
+url = "https://mcp.eu.postman.com/minimal"
+bearer_token_env_var = "POSTMAN_API_KEY"
+enabled = true
+\`\`\`
+
+变量必须在**启动 Codex 的那个进程**里。OAuth 与 Bearer token 请选择一种认证方式。API key 认证无需 OAuth 登录。通过环境变量提供 token。
+
+当前连接无需设置 \`experimental_use_rmcp_client\`。现行 Codex 自带 Streamable HTTP；\`codex mcp add --url\` 不认得就升级 CLI，不要开实验开关。
+
+本机是另一台 stdio，包名 \`@postman/postman-mcp-server\`。**不要**和远程共用 \`postman\` 表，另起 \`postman-local\`。文档写成 \`codex mcp add postman --env POSTMAN_API_KEY=\` 再接密钥，不要抄——那会把字面量写进 \`env\` 表。改用 \`env_vars\`，密钥放在启动 Codex 的进程里：
+
+\`\`\`toml
+[mcp_servers.postman-local]
+command = "npx"
+args = ["-y", "@postman/postman-mcp-server"]
+env_vars = ["POSTMAN_API_KEY"]
+enabled = true
+\`\`\`
+
+本机工具面用旗标，不是 URL：默认 Minimal；Code 加 \`--code\`，Full 加 \`--full\`，Learn 加 \`--learn\`。EU 本机再加 \`--region eu\`，或设 \`POSTMAN_API_BASE_URL\`。启动横幅打到 stdout 会 \`Transport closed\`，可在 args 里加 \`--quiet\`。
+
+网页 Cloud 不读取 \`~/.codex/config.toml\`。配置后重新打开会话。用 \`codex mcp get postman\` 看传输是 streamable_http，url 是 \`https://mcp.postman.com/minimal\`。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Postman", "OAuth", "stdio"],
+    related: ["mcp-add-and-login", "mcp-http-bearer-env", "mcp-stdio-env-vars"],
+    sources: [
+      {
+        label: "Postman · Remote MCP",
+        url: "https://learning.postman.com/docs/reference/postman-api/postman-mcp-server/postman-mcp-remote-server",
+      },
+      {
+        label: "Postman · Local MCP",
+        url: "https://learning.postman.com/docs/reference/postman-api/postman-mcp-server/postman-mcp-local-server",
+      },
+      {
+        label: "postmanlabs/postman-mcp-server",
+        url: "https://github.com/postmanlabs/postman-mcp-server",
+      },
+    ],
+  },
+  {
+    id: "apify-codex-plugin",
+    no: 414,
+    title: "安装 Apify Codex 插件",
+    summary:
+      "安装 apify@apify-plugins 后自动登记远程 MCP，通过 OAuth 登录。无头工作流使用 APIFY_TOKEN。",
+    body: `Apify 给 Codex CLI 和桌面都有专节。插件**会**替 Codex 登记 MCP，这点和 n8n 技能仓相反。官方安装页只写了 \`/plugins\` 点选；清单 \`.agents/plugins/marketplace.json\` 的 name 是 apify-plugins，插件 name 是 apify，CLI 等价是：
+
+\`\`\`bash
+codex plugin marketplace add apify/apify-codex-plugin
+codex plugin add apify@apify-plugins
+\`\`\`
+
+\`codex plugin list\` 应看到 \`apify@apify-plugins\` 为 installed, enabled。桌面在 Plugins → Personal 的 Apify Plugin 下装。IDE 扩展没有 \`/plugins\`，用 CLI 装完新开会话。
+
+插件 \`.mcp.json\` 把远程写成 \`https://mcp.apify.com/?client=codex+plugin\`，表名是 \`apify\`。**不要**再 \`codex mcp add apify --url https://mcp.apify.com\` 叠一张。也不要跑 \`apify mcp install codex\`——那会再写一张用户层 \`apify\` 表。
+
+装插件或第一次连 MCP 时走 OAuth。浏览器没弹，把终端里的 URL 粘进浏览器。官方 CLI 页写搜索 Store 可以不登录；仓库 README 写默认入口所有工具都要账号。跑 Actor、读数据集必须登录。无头 / SSH 才在**启动 Codex 的那个进程**里准备 \`APIFY_TOKEN\`，不要写进 \`http_headers\`，也
+
+只要 MCP、不要技能，才手写：
+
+\`\`\`bash
+codex mcp add apify --url https://mcp.apify.com
+codex mcp login apify
+\`\`\`
+
+OAuth 与 Bearer token 请选择一种认证方式。API key 那张用 \`bearer_token_env_var = "APIFY_TOKEN"\`，不要再 \`mcp login\`。默认 URL **没有** \`/mcp\` 后缀。token 通过凭据配置提供。不要抄即将弃用的 SSE，也不要抄本机 \`npx @apify/actors-mcp-server\` 当插件主路径。
+
+\`apify-actor-development\`、\`apify-actorization\`、\`apify-ultimate-scraper\` 还要本机 Apify CLI：
+
+\`\`\`bash
+npm install -g apify-cli
+apify login
+\`\`\`
+
+\`apify-sdk-integration\` 和无头工作流才读进程里的 \`APIFY_TOKEN\`。长 Actor 可能超过单次工具等待，拆小再跑。Actor 计费是 Apify 套餐，不是 Codex 额度。能改仓库的技能保持工具批准。
+
+网页 Cloud 不读取 \`~/.codex/config.toml\`。配置后重新打开会话。用 \`codex mcp get apify\` 看传输是 streamable_http，url 带 \`mcp.apify.com\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["plugins", "Apify", "Skills", "MCP"],
+    related: ["mcp-add-and-login", "mcp-http-bearer-env", "n8n-codex-mcp"],
+    sources: [
+      {
+        label: "Apify · Codex CLI",
+        url: "https://docs.apify.com/integrations/codex-cli",
+      },
+      {
+        label: "Apify · Codex desktop",
+        url: "https://docs.apify.com/integrations/codex-app",
+      },
+      {
+        label: "apify/apify-codex-plugin",
+        url: "https://github.com/apify/apify-codex-plugin",
+      },
+    ],
+  },
+  {
+    id: "nylas-codex-mcp",
+    no: 415,
+    title: "使用 API key 连接 Nylas MCP",
+    summary:
+      "US 使用 mcp.us.nylas.com，EU 使用 mcp.eu.nylas.com。通过 NYLAS_API_KEY 提供 Bearer 凭据，无需 OAuth 登录。",
+    body: `Nylas 给 Codex CLI 有专节。远程是 Streamable HTTP + Bearer，**不是** OAuth。官方写明不必走代理包装，也不要 \`mcp login\`。
+
+US 默认入口是 \`https://mcp.us.nylas.com\`，**没有** \`/mcp\` 后缀。EU 应用换 \`https://mcp.eu.nylas.com\`。不要和 Linear 那条 \`mcp.linear.app/mcp\` 抄成一样。
+
+\`\`\`bash
+codex mcp add nylas --url https://mcp.us.nylas.com --bearer-token-env-var NYLAS_API_KEY
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.nylas]
+url = "https://mcp.us.nylas.com"
+bearer_token_env_var = "NYLAS_API_KEY"
+enabled = true
+\`\`\`
+
+变量必须在**启动 Codex 的那个进程**里。文档示例把密钥写成 \`export NYLAS_API_KEY=\` 再接字面量，不要把密钥写进 \`config.toml\` 或 \`http_headers\`。桌面从 Dock 打开常常没有 zshrc；从已 export 的终端启动，或彻底退出后再开。
+
+有 Nylas CLI 也可以 \`nylas mcp install --assistant codex\`，再 \`nylas mcp status\`。它会写同一张 \`nylas\` 表，**不要**和手写 \`mcp add\` 叠成两台。
+
+发信是两步：先 \`confirm_send_message\` / \`confirm_send_draft\` 拿确认哈希，再 \`send_message\` / \`send_draft\`。删草稿和删事件不可逆，保持工具批准。大邮箱加上日期或搜索过滤，必要时把 \`tool_timeout_sec\` 提到 \`90\`。
+
+先在 Nylas 控制台建应用、API key，并至少连一个 grant（Gmail / Outlook / IMAP 等）。网页 Cloud 不读取 \`~/.codex/config.toml\`。配置后重新打开会话。用 \`codex mcp get nylas\` 看传输是 streamable_http，url 是 \`https://mcp.us.nylas.com\`，Auth 是 Bearer。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Nylas", "Bearer", "邮件"],
+    related: ["mcp-http-bearer-env", "mcp-add-and-login", "mcp-http-not-sse"],
+    sources: [
+      {
+        label: "Nylas · Codex CLI",
+        url: "https://developer.nylas.com/docs/cookbook/ai/mcp/codex-cli/",
+      },
+      {
+        label: "Nylas · MCP server",
+        url: "https://developer.nylas.com/docs/dev-guide/mcp/",
+      },
+    ],
+  },
+  {
+    id: "microsoft-learn-codex-mcp",
+    no: 416,
+    title: "连接 Microsoft Learn 文档 MCP",
+    summary:
+      "通过 learn.microsoft.com/api/mcp 查询公开文档，无需登录或密钥。该服务与 Azure 资源管理 MCP 分别配置。",
+    body: `Microsoft Learn MCP 是远程 Streamable HTTP，读公开文档，无需密钥。仓库 README 给 Codex 的一行是：
+
+\`\`\`bash
+codex mcp add microsoft-learn --url https://learn.microsoft.com/api/mcp
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.microsoft-learn]
+url = "https://learn.microsoft.com/api/mcp"
+enabled = true
+\`\`\`
+
+入口是 \`/api/mcp\`，**不要**再叠一层 \`/mcp\`。**microsoft-learn 远程无鉴权无需 OAuth 登录**。不要 \`--bearer-token-env-var\`，也浏览器打开这支 URL 常回 405，那是给 MCP 客户端的，不是网页。
+
+Deep Research 才用 \`https://learn.microsoft.com/api/mcp/openai-compatible\`，**不是** Codex 这张表。实验参数 \`maxTokenBudget\` 仅在需要时配置。
+
+仓库里有 \`.codex-plugin\` 和 \`.agents/plugins/marketplace.json\`。清单 name 是 \`microsoftdocs-local\`，插件 name 是 \`microsoft-docs\`。README 用户表**没写** \`plugin marketplace add\`。想装插件再：
+
+\`\`\`bash
+codex plugin marketplace add MicrosoftDocs/mcp
+codex plugin add microsoft-docs@microsoftdocs-local
+\`\`\`
+
+插件 \`.mcp.json\` 会登记同一张 \`microsoft-learn\` 表。**不要**和手写 \`mcp add microsoft-learn\` 叠成两台。Copilot 的 \`/plugin install microsoftdocs/mcp\` 也不是 Codex。
+
+\`mslearn setup --cli --codex\` 只把 CLI 技能写到 \`~/.agents/skills/\`（项目层是 \`.agents/skills/\`），**不会**写 MCP 表。有 MCP 时技能应让模型优先走 MCP，CLI 技能只当回退。不要把 \`npx @microsoft/learn-cli\` 当 \`codex mcp add\`。
+
+Azure Skills 使用独立的插件源和资源管理工具。那边是 \`marketplace add microsoft/azure-skills\`，插件 MCP 是本机 \`npx @azure/mcp@latest server start\`，要 \`az login\`，会动订阅。Learn MCP 只查文档。也不要和 Azure DevOps 本地 \`@azure-devops/mcp\` 写成一台。
+
+工具会随服务变，不要把名字写进脚本。会话里用 \`/mcp\` 看当前列表。保持工具批准。
+
+网页 Cloud 不读取 \`~/.codex/config.toml\`。配置后重新打开会话。用 \`codex mcp get microsoft-learn\` 看传输是 streamable_http，url 是 \`https://learn.microsoft.com/api/mcp\`，Auth 是 Unsupported。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Microsoft Learn", "文档"],
+    related: ["azure-skills-plugin", "azure-devops-local-mcp", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "MicrosoftDocs/mcp",
+        url: "https://github.com/MicrosoftDocs/mcp",
+      },
+      {
+        label: "Microsoft Learn MCP Server",
+        url: "https://learn.microsoft.com/en-us/training/support/mcp",
+      },
+    ],
+  },
+  {
+    id: "dotnet-skills-plugin",
+    no: 417,
+    title: "安装 .NET 技能插件",
+    summary:
+      "添加 dotnet/skills 插件源后，在 /plugins 中选择安装。更新源使用清单名 dotnet-agent-skills。",
+    body: `.NET 团队文档包含 Codex 配置说明，写在 \`dotnet/skills\` 仓库 README。这是**插件 marketplace**，不是手拷 SKILL.md。要求 Codex CLI **0.121.0** 以上。官方 Codex 主路径：
+
+\`\`\`bash
+codex plugin marketplace add dotnet/skills
+\`\`\`
+
+然后 TUI \`/plugins\` 或桌面 Plugins 打开 **.NET Agent Skills** 这一栏，再装你要的插件。升级用清单名，不是仓库路径：
+
+\`\`\`bash
+codex plugin marketplace upgrade dotnet-agent-skills
+\`\`\`
+
+dotnet/skills 清单名是 \`dotnet-agent-skills\`，官方没给 plugin add id。不要把 Copilot / Claude 的 \`/plugin marketplace add dotnet/skills\` 或 \`/plugin install dotnet@dotnet-agent-skills\` 抄进 Codex。Codex 加源是 \`codex plugin marketplace add\`，装插件走 \`/plugins\`，**不要发明** \`codex plugin add dotnet@dotnet-agent-skills\`。
+
+0.154 起先看**当前会话**；当前会话 \`/plugins\` 没有再新开。桌面改 marketplace.json 仍要重启应用。IDE 扩展没有 \`/plugins\`。CLI 装好的插件，Codex 桌面也能用。
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`dotnet-agent-skills\`，展示名是 .NET Agent Skills。插件都是仓内本地路径，例如：
+
+- \`dotnet\`：C# 语言服务（LSP）和日常 .NET 技能
+- \`dotnet-msbuild\` / \`dotnet-nuget\` / \`dotnet-upgrade\`：构建、包、升级
+- \`dotnet-aspnetcore\` / \`dotnet-blazor\` / \`dotnet-maui\`：Web 和跨平台
+- \`dotnet-test\` / \`dotnet-test-migration\`：测试和框架迁移
+- \`dotnet11\`：.NET 11 新 API
+
+\`microsoft/azure-skills\` 是独立的插件源。那份清单名是 \`azure-skills\`，主插件是 \`azure\`，带 Azure MCP。这份是 .NET / C# 技能。
+
+README 另给一条单技能回退：\`skill-installer install https://github.com/dotnet/skills/tree/main/plugins/dotnet/skills/…\`。那是 skill-installer，**不是** Codex \`/plugins\`，也不会登记 marketplace。不要用 \`npx skills add\` 当 Codex 插件安装器。不要手拷到 \`~/.codex/skills\`；现行个人目录是 \`~/.agents/skills\`。
+
+不要抄 \`/plugin update …@dotnet-agent-skills\`；Codex 升级 marketplace 是上面那条 \`upgrade\`。
+
+网页 Cloud 不读取本机 marketplace。配置后用 \`codex plugin marketplace list\` 核对清单名是 \`dotnet-agent-skills\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", ".NET", "Skills", "C#"],
+    related: ["azure-skills-plugin", "plugin-session-refresh", "firebase-agent-skills"],
+    sources: [
+      {
+        label: "dotnet/skills",
+        url: "https://github.com/dotnet/skills",
+      },
+      {
+        label: "Codex plugins",
+        url: "https://developers.openai.com/codex/plugins",
+      },
+    ],
+  },
+  {
+    id: "mcp-helicone-stdio",
+    no: 418,
+    title: "连接 Helicone 请求与会话 MCP",
+    summary:
+      "通过 npx 启动本地 stdio 服务，使用 env_vars 转发 HELICONE_API_KEY。欧盟账号需注意当前服务基址的兼容限制。",
+    body: `Helicone 给 Codex 的是**本机 stdio**，不是远程 HTTP。官方 MCP 页有 Codex 专节，表名就是 \`helicone\`。包是 \`@helicone/mcp@latest\`，用 \`npx\` 起进程，再去查你账号里的请求和会话。配置使用 command 和 args。
+
+Helicone 官方 Codex 把 HELICONE_API_KEY 写成 env 表字面量。那是把密钥嵌进 \`~/.codex/config.toml\`，TOML 占位符也不会展开。Codex 正确写法是从**启动 Codex 的那个进程**转发变量名：
+
+\`\`\`bash
+codex mcp add helicone -- npx @helicone/mcp@latest
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.helicone]
+command = "npx"
+args = ["@helicone/mcp@latest"]
+env_vars = ["HELICONE_API_KEY"]
+enabled = true
+startup_timeout_sec = 60
+\`\`\`
+
+这是 stdio，**不要** \`codex mcp login helicone\`。\`mcp add\` 写进用户层 \`~/.codex/config.toml\`，对你所有项目生效。官方 TOML 没写 \`-y\`；冷启动想跳过 npm 确认，才把 args 改成 \`["-y", "@helicone/mcp@latest"]\`。不要一上来 \`--yolo\`：查请求时若打开响应体，密钥和提示词会进上下文。
+
+密钥从 [Settings → API Keys](https://us.helicone.ai/settings/api-keys) 拿，欧盟账号走 [eu.helicone.ai](https://eu.helicone.ai/settings/api-keys)。变量必须在启动 Codex 的 shell 里。不要把 \`sk-helicone-\` 开头的值写进 \`env\` 表、\`args\` 或 \`http_headers\`。
+
+欧盟密钥目前仍打美区 \`https://api.helicone.ai\`。\`@helicone/mcp@latest\` 和仓库里的 \`helicone-client.ts\` 都把基址写死了，设 \`HELICONE_BASE_URL\` **不会**被读到，请求会 401。在上游合进可读环境变量之前，不要把欧盟密钥当这台 MCP 的主路径。
+
+官方文档 Codex 节只写了查请求、查会话。源仓 README 还多了 AI Gateway 调用；那是这台 stdio 服务器自己的工具，**不是** \`[model_providers]\`，也不要另起一张 HTTP 表。
+
+网页 Cloud 不读取 \`~/.codex/config.toml\`。配置后重新打开会话。用 \`codex mcp get helicone\` 看传输是 stdio，command 是 npx。会话里 \`/mcp\` 只是核对工具，不是登录入口。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Helicone", "stdio", "观测"],
+    related: ["mcp-add-and-login", "mcp-stdio-env-vars", "mcp-langfuse-cloud"],
+    sources: [
+      {
+        label: "Helicone · MCP Server",
+        url: "https://docs.helicone.ai/integrations/tools/mcp",
+      },
+      {
+        label: "Helicone/helicone · helicone-mcp",
+        url: "https://github.com/Helicone/helicone/tree/main/helicone-mcp",
+      },
+      {
+        label: "@helicone/mcp",
+        url: "https://www.npmjs.com/package/@helicone/mcp",
+      },
+    ],
+  },
 ];

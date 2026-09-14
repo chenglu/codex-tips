@@ -4121,4 +4121,444 @@ export const articles: Article[] = [
     summary:
       '介绍 GitLab Orbit 的远程 MCP，入口为 gitlab.com/api/v4/orbit/mcp。远程服务与本地 Orbit、GitLab 实例 MCP 分别配置。',
   },
+  {
+    title: 'Connecting Codex CLI to n8n MCP server',
+    url: 'https://docs.n8n.io/connect/connect-to-n8n-mcp-server/mcp-client-examples/',
+    source: 'n8n Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'n8n', 'OAuth', 'Codex'],
+    summary:
+      '介绍通过 /mcp-server/http 连接 n8n，支持 OAuth 或通过环境变量提供 API key。',
+  },
+  {
+    title: 'Connect to n8n MCP server',
+    url: 'https://docs.n8n.io/connect/connect-to-n8n-mcp-server/',
+    source: 'n8n Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'n8n', 'OAuth'],
+    summary:
+      '介绍实例级 MCP 开关和工作流的 Available in MCP 设置，工作流需单独开放。',
+  },
+  {
+    title: 'n8n-io/skills',
+    url: 'https://github.com/n8n-io/skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', 'n8n', '插件', 'Codex'],
+    summary:
+      '提供 n8n 技能插件，安装后需单独配置 MCP 连接，避免重复登记同一实例。',
+  },
+  {
+    title: 'Endor Labs MCP server in OpenAI Codex',
+    url: 'https://docs.endorlabs.com/setup-deployment/mcp/codex',
+    source: 'Endor Labs Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Endor Labs', 'stdio', 'Codex'],
+    summary:
+      '介绍通过 npx 启动 Endor Labs 扫描服务，企业命名空间和认证信息通过 env_vars 提供。',
+  },
+  {
+    title: 'Documentation MCP server',
+    url: 'https://docs.endorlabs.com/introduction/docs-mcp-server',
+    source: 'Endor Labs Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Endor Labs', '文档', 'Codex'],
+    summary:
+      '介绍 Endor Labs 文档 MCP，以及 Codex OAuth 探测失败时的占位 Bearer 配置方法。',
+  },
+  {
+    title: 'Endor Labs Agent Kit in OpenAI Codex',
+    url: 'https://docs.endorlabs.com/secure-ai-coding/agent-kit/codex',
+    source: 'Endor Labs Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'Endor Labs', 'Skills', 'Codex'],
+    summary:
+      '介绍 Endor Labs Agent Kit 的插件源和 sparse 安装参数，工作流插件与扫描 MCP 分别配置。',
+  },
+  {
+    title: 'Deploy hooks for Codex',
+    url: 'https://docs.endorlabs.com/agent-governance/codex',
+    source: 'Endor Labs Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['hooks', 'Endor Labs', 'Codex'],
+    summary:
+      '介绍通过 endorctl ai-audit codex 配置治理钩子，管理命令、文件和 MCP 操作。',
+  },
+  {
+    title: 'Set up the ClickHouse MCP server',
+    url: 'https://clickhouse.com/docs/guides/use-cases/ai-ml/MCP/claude-desktop',
+    source: 'ClickHouse Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'ClickHouse', 'stdio', 'Codex'],
+    summary:
+      '介绍通过 uv 启动 mcp-clickhouse，并通过环境变量提供数据库凭据。',
+  },
+  {
+    title: 'ClickHouse/mcp-clickhouse',
+    url: 'https://github.com/ClickHouse/mcp-clickhouse',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'ClickHouse', 'stdio'],
+    summary:
+      'ClickHouse 本地 MCP 源码仓库，采用 stdio，默认只读查询，可按需设置访问权限。',
+  },
+  {
+    title: 'ClickStack MCP server',
+    url: 'https://clickhouse.com/docs/clickstack/mcp',
+    source: 'ClickHouse Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'ClickHouse', 'ClickStack'],
+    summary:
+      '介绍 ClickStack 的云端观测 MCP，与数据库查询服务使用不同入口。',
+  },
+  {
+    title: 'jfrog/codex-plugin',
+    url: 'https://github.com/jfrog/codex-plugin',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['plugins', 'JFrog', 'MCP', 'Codex'],
+    summary:
+      '提供 JFrog Codex 插件，包含平台技能及 MCP。连接前需在插件配置中填写实例地址。',
+  },
+  {
+    title: 'Add the JFrog MCP Server to an MCP Client',
+    url: 'https://docs.jfrog.com/integrations/docs/add-the-jfrog-mcp-server-to-an-mcp-client',
+    source: 'JFrog Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'JFrog', 'OAuth'],
+    summary:
+      '介绍 JFrog 实例 MCP 的启用和 OAuth 连接。Codex 用户配置使用 mcp_servers 格式。',
+  },
+  {
+    title: 'OpenAI Codex | JFrog',
+    url: 'https://jfrog.com/integrations/openai-codex/',
+    source: 'JFrog',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'JFrog', 'Codex'],
+    summary:
+      '介绍 JFrog 在 Codex 中的 Artifactory、包审查和 Agent Guard 集成。',
+  },
+  {
+    title: 'Nowledge Mem · Codex CLI',
+    url: 'https://mem.nowledge.co/docs/integrations/codex-cli',
+    source: 'Nowledge Mem Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Codex', '插件', 'MCP', 'hooks', 'Nowledge'],
+    summary:
+      '介绍 Nowledge Mem 的插件安装、本地 MCP、钩子设置和远程连接配置。',
+  },
+  {
+    title: 'nowledge-co/community',
+    url: 'https://github.com/nowledge-co/community',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['插件', 'Nowledge', 'marketplace', 'Codex'],
+    summary:
+      'Nowledge 社区插件仓库，Codex 安装仅需 .agents 元数据与 nowledge-mem-codex-plugin 包。',
+  },
+  {
+    title: 'Nowledge Mem Connect Skill',
+    url: 'https://mem.nowledge.co/SKILL.md',
+    source: 'Nowledge Mem Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['nmem', 'MCP', 'Codex', 'Nowledge'],
+    summary:
+      '介绍 nmem doctor、插件安装与钩子设置，远程配置可由 nmem config mcp show 生成。',
+  },
+  {
+    title: 'Registry MCP server',
+    url: 'https://docs.solo.io/agentregistry/latest/setup/mcp-server/',
+    source: 'Solo Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Solo', 'agentregistry', 'Codex', 'OAuth'],
+    summary:
+      '介绍通过 MCP 读取 agentregistry 目录，支持静态令牌或生产 OAuth。MCP 桥默认端口为 31313。',
+  },
+  {
+    title: 'arctl configure',
+    url: 'https://docs.solo.io/agentregistry/latest/reference/cli/arctl-configure/',
+    source: 'Solo Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['CLI', 'Solo', 'agentregistry'],
+    summary:
+      '列出 arctl configure 支持的客户端。Codex 连接需单独配置，注册表 MCP 桥与 agentgateway 使用不同端口。',
+  },
+  {
+    title: 'arctl CLI',
+    url: 'https://docs.solo.io/agentregistry/latest/reference/cli/',
+    source: 'Solo Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['CLI', 'Solo', 'arctl'],
+    summary:
+      '介绍 arctl 登录、用户信息和令牌管理。REST 服务与 MCP 桥分别使用独立端口。',
+  },
+  {
+    title: 'affaan-m/ECC',
+    url: 'https://github.com/affaan-m/ECC',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', '插件', 'ECC', 'Codex'],
+    summary:
+      '提供 ECC 原生 Codex 插件。迁移时可卸载旧同步层，保留会话记录。',
+  },
+  {
+    title: 'ECC Codex native plugin',
+    url: 'https://github.com/affaan-m/ECC/blob/main/.codex-plugin/README.md',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['plugins', 'ECC', 'hooks', 'Codex'],
+    summary:
+      '介绍 ECC 插件结构和安装要求，插件源应指向仓库根，确保技能、钩子和 MCP 一起进入缓存。',
+  },
+  {
+    title: 'ECC configure-ecc skill',
+    url: 'https://github.com/affaan-m/ECC/blob/main/skills/configure-ecc/SKILL.md',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', 'ECC', 'hooks', 'Codex'],
+    summary:
+      '介绍 ECC 的配置引导流程，包括插件更新、安装路径获取和 welcome.js 初始化。',
+  },
+  {
+    title: 'matlab/matlab-mcp-server',
+    url: 'https://github.com/matlab/matlab-mcp-server',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'MATLAB', 'stdio', 'Codex'],
+    summary:
+      'MATLAB MCP Server 源码与安装说明，Codex 通过本地二进制的绝对路径连接。',
+  },
+  {
+    title: 'Codex does not forward WINDIR to MATLAB MCP',
+    url: 'https://github.com/matlab/matlab-mcp-server/issues/32',
+    source: 'matlab/matlab-mcp-server#32',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'MATLAB', 'Windows', 'WINDIR'],
+    summary:
+      '记录 Codex 子进程缺少 WINDIR 导致的 Windows 兼容问题，可通过 env_vars 转发该变量。',
+  },
+  {
+    title: 'MATLAB R2025b Simulink crash via Codex MCP on Windows',
+    url: 'https://www.mathworks.com/matlabcentral/answers/2183464-why-does-matlab-r2025b-crash-when-opening-simulink-through-matlab-mcp-core-server-on-windows-with-co',
+    source: 'MATLAB Answers',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'MATLAB', 'Simulink', 'Windows'],
+    summary:
+      '记录 Windows 上 MATLAB 与 Simulink 的相关故障及 WINDIR 复现条件，配置后需重启应用。',
+  },
+  {
+    title: 'SurrealDB Codex',
+    url: 'https://surrealdb.com/docs/agents/codex',
+    source: 'SurrealDB Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'SurrealDB', 'OAuth', 'Codex'],
+    summary:
+      '介绍 SurrealDB 托管 MCP 的 OAuth 和无头认证，以及可单独安装的技能。',
+  },
+  {
+    title: 'surrealdb/ai-codex-plugin',
+    url: 'https://github.com/surrealdb/ai-codex-plugin',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['plugins', 'SurrealDB', 'MCP', 'Codex'],
+    summary:
+      'SurrealDB Codex 插件仓库，包含数据库技能与 MCP。与独立连接同时使用时需避免重复工具。',
+  },
+  {
+    title: 'SurrealDB hosted MCP',
+    url: 'https://mcp.surrealdb.com/',
+    source: 'SurrealDB',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'SurrealDB', 'OAuth'],
+    summary:
+      '介绍 SurrealDB 托管 MCP 地址与认证，服务位于主机根路径。',
+  },
+  {
+    title: 'Local Agent Proxy',
+    url: 'https://infisical.com/docs/documentation/platform/agent-proxy/local-agent-proxy',
+    source: 'Infisical Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Infisical', 'Agent Proxy', 'Codex', 'sandbox'],
+    summary:
+      '介绍通过 Infisical Agent Proxy 启动 Codex，在代理中替换凭据并控制出站访问。',
+  },
+  {
+    title: 'infisical secrets agent-proxy',
+    url: 'https://infisical.com/docs/cli/commands/agent-proxy',
+    source: 'Infisical Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Infisical', 'CLI', 'Codex'],
+    summary:
+      '介绍 agent-proxy 的 run、start 和 connect 命令，以及本地与远程代理配置。',
+  },
+  {
+    title: 'Set up credentials',
+    url: 'https://infisical.com/docs/documentation/platform/agent-proxy/quickstart',
+    source: 'Infisical Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Infisical', 'Agent Proxy', 'GitHub'],
+    summary:
+      '介绍代理凭据与服务配置，使客户端使用占位凭据并由代理处理真实密钥。',
+  },
+  {
+    title: 'Set up a remote Postman MCP server',
+    url: 'https://learning.postman.com/docs/reference/postman-api/postman-mcp-server/postman-mcp-remote-server',
+    source: 'Postman Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Postman', 'OAuth', 'Codex'],
+    summary:
+      '介绍 Postman 远程工具入口和认证方式，US 支持 OAuth，EU 使用 API key。',
+  },
+  {
+    title: 'Set up a local Postman MCP server',
+    url: 'https://learning.postman.com/docs/reference/postman-api/postman-mcp-server/postman-mcp-local-server',
+    source: 'Postman Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Postman', 'stdio', 'Codex'],
+    summary:
+      '介绍本地 Postman stdio 服务，凭据通过环境变量提供，与远程连接使用不同服务名。',
+  },
+  {
+    title: 'postmanlabs/postman-mcp-server',
+    url: 'https://github.com/postmanlabs/postman-mcp-server',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Postman', 'Codex'],
+    summary:
+      'Postman MCP Server 源码仓库，包含工具集和客户端连接说明。',
+  },
+  {
+    title: 'Codex CLI integration',
+    url: 'https://docs.apify.com/integrations/codex-cli',
+    source: 'Apify Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Apify', '插件', 'Codex'],
+    summary:
+      '介绍 Apify 在 Codex CLI 中的安装、OAuth 连接和工具使用。',
+  },
+  {
+    title: 'Codex in the ChatGPT desktop app',
+    url: 'https://docs.apify.com/integrations/codex-app',
+    source: 'Apify Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Apify', '插件', '桌面'],
+    summary:
+      '介绍 Apify 在桌面端的插件安装和授权流程。',
+  },
+  {
+    title: 'apify/apify-codex-plugin',
+    url: 'https://github.com/apify/apify-codex-plugin',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Apify', '插件', 'Codex'],
+    summary:
+      'Apify Codex 插件仓库，捆绑远程 MCP 与技能，安装后无需重复添加同名连接。',
+  },
+  {
+    title: 'How to use Nylas MCP with Codex CLI',
+    url: 'https://developer.nylas.com/docs/cookbook/ai/mcp/codex-cli/',
+    source: 'Nylas Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Nylas', 'Bearer', 'Codex'],
+    summary:
+      '介绍通过 NYLAS_API_KEY 连接 Nylas，US 和 EU 使用各自区域入口。',
+  },
+  {
+    title: 'Nylas MCP server',
+    url: 'https://developer.nylas.com/docs/dev-guide/mcp/',
+    source: 'Nylas Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Nylas', 'Bearer'],
+    summary:
+      '介绍 Nylas MCP 的邮件、日历工具及发送确认流程，访问范围由授权决定。',
+  },
+  {
+    title: 'Microsoft Learn MCP Server',
+    url: 'https://github.com/MicrosoftDocs/mcp',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Microsoft Learn', 'Codex'],
+    summary:
+      'Microsoft Learn MCP 源码与客户端安装说明，公开文档查询无需登录。',
+  },
+  {
+    title: 'Microsoft Learn MCP Server overview',
+    url: 'https://learn.microsoft.com/en-us/training/support/mcp',
+    source: 'Microsoft Learn',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Microsoft Learn', '文档'],
+    summary:
+      '介绍 Microsoft Learn 文档检索 MCP 的用途、工具及客户端接入方式。',
+  },
+  {
+    title: 'dotnet/skills',
+    url: 'https://github.com/dotnet/skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', '.NET', '插件', 'Codex'],
+    summary:
+      '.NET 技能插件仓库，添加 dotnet/skills 后在插件目录选择安装，更新时使用 dotnet-agent-skills 清单名。',
+  },
+  {
+    title: 'Helicone MCP Server',
+    url: 'https://docs.helicone.ai/integrations/tools/mcp',
+    source: 'Helicone Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Helicone', 'stdio', 'Codex'],
+    summary:
+      '介绍 Helicone 的本地 stdio MCP，通过环境变量提供 API key，查询请求和会话。',
+  },
+  {
+    title: 'helicone-mcp',
+    url: 'https://github.com/Helicone/helicone/tree/main/helicone-mcp',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Helicone', 'stdio'],
+    summary:
+      'Helicone MCP 源码及工具说明，包括当前服务基址与区域兼容限制。',
+  },
 ];
