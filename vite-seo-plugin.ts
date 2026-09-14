@@ -165,6 +165,10 @@ function writeDeep(file: string, contents: string | Buffer) {
   writeFileSync(file, contents);
 }
 
+function writeUtf8(file: string, contents: string) {
+  writeDeep(file, `\uFEFF${contents}`);
+}
+
 function xmlEscape(value: string): string {
   return value.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
@@ -361,8 +365,8 @@ export function seoPlugin(): Plugin {
       writeDeep(path.join(outDir, ".nojekyll"), "");
       writeDeep(path.join(outDir, "robots.txt"), buildRobots(ctx));
       writeDeep(path.join(outDir, "sitemap.xml"), buildSitemap(ctx, lastmod));
-      writeDeep(path.join(outDir, "llms.txt"), buildLlmsTxt(ctx));
-      writeDeep(path.join(outDir, "llms-full.txt"), buildLlmsFull());
+      writeUtf8(path.join(outDir, "llms.txt"), buildLlmsTxt(ctx));
+      writeUtf8(path.join(outDir, "llms-full.txt"), buildLlmsFull());
       writeDeep(path.join(outDir, "feed.xml"), buildFeed(ctx));
       writeDeep(path.join(outDir, "catalog.json"), `${JSON.stringify(buildCatalog(ctx), null, 2)}\n`);
 
@@ -381,7 +385,7 @@ export function seoPlugin(): Plugin {
         const md = markdownForRoute(route);
         const mdPath = markdownAppPath(route);
         if (!md || !mdPath) continue;
-        writeDeep(path.join(outDir, mdPath.replace(/^\//, "")), md);
+        writeUtf8(path.join(outDir, mdPath.replace(/^\//, "")), md);
       }
 
       for (const route of routes) {
