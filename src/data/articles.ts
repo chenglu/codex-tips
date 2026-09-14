@@ -4561,4 +4561,24 @@ export const articles: Article[] = [
     summary:
       '源仓 README 给的仍是 mcpServers JSON 加 HELICONE_API_KEY 字面量。Codex 对照改成 [mcp_servers.helicone] 和 env_vars。基址写死 api.helicone.ai，欧盟密钥会 401。',
   },
+  {
+    title: 'Get started with Docker MCP Toolkit',
+    url: 'https://docs.docker.com/ai/mcp-catalog-and-toolkit/get-started/',
+    source: 'Docker Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Docker', 'Codex', 'stdio'],
+    summary:
+      '官方核对是 codex mcp list 里 MCP_DOCKER 的 Auth 列 Unsupported。Desktop 4.62+ 开 Beta Toolkit。测试句要 profile 里已有 GitHub。不要抄同页 Claude JSON。',
+  },
+  {
+    title: 'docker mcp client connect',
+    url: 'https://docs.docker.com/reference/cli/docker/mcp/client/connect/',
+    source: 'Docker Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Docker', 'CLI', 'Codex'],
+    summary:
+      '支持的客户端名单含 codex。必须 --global / -g，可选 --profile。漏掉全局旗标会报 only supports global configuration。不要抄 vscode 那种项目级 mcp.json。',
+  },
 ];

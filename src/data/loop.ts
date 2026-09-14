@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-14T13:00:00Z",
+  lastTick: "2026-09-14T14:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "13:00 收口续。#32 .NET Agent Skills、#33 Helicone stdio 又从 main 抢 TIP 405，会和本 PR 的 405–416 冲突。并入为 TIP 417 dotnet-skills-plugin、TIP 418 mcp-helicone-stdio。站点 418 技巧。合入后关 #18、#20–#33。",
+    "14:00 定时器。调用前 $96.42，收尾待 CDP 后更新。Spend: counts（start_time=2026-09-07T14:05:00Z，共 219 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Docker MCP Toolkit：docker mcp client connect --global codex。表名 MCP_DOCKER。stdio，不要 mcp login。Auth 列 Unsupported。从 origin/main（#31 405–416 + #32/#33 成 417/418）新开，不叠仍开着的 #34 旧编号。X 仍是 Claude→Codex 炒作、bro/caveman 技能、Unity、Astra、Google Cloud 插件（main 已有）、0.155 alpha 回滚、日文全功能文。Vault / Infisical 文档 MCP / dbt / Fastmail / Builder Fusion / Cal.com / ConfigCat 仍无可用 Codex 专节。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1659,6 +1659,21 @@ export const loopState = {
     "docs.newrelic.com agentic-ai mcp setup Codex include-tags",
     "workos.com docs mcp Codex mcp add workos",
     "Codex CLI 技巧 2026 Helicone MCP npx @helicone/mcp env_vars",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR skills OR AGENTS.md OR plugin OR worktree)',
+    "X news: Codex CLI",
+    "docs.docker.com ai mcp-catalog-and-toolkit get-started Codex MCP_DOCKER",
+    "docs.docker.com reference cli docker mcp client connect --global Codex",
+    "github.com/docker/mcp-gateway pkg/client connect.go ErrCodexOnlySupportsGlobalConfiguration",
+    "docs.docker.com ai mcp-catalog-and-toolkit cli docker mcp gateway run",
+    "docker.com blog connect-codex-to-mcp-servers-mcp-toolkit mcp-client configure 过期",
+    "simplified.guide codex docker-mcp-server-add MCP_DOCKER",
+    "hashicorp vault-mcp-server Codex mcp add",
+    "docs.getdbt.com wizard-mcp Codex",
+    "fastmail.com mcp Codex mcp-remote",
+    "github.com/amd/skills Codex plugin marketplace",
+    "Codex CLI 技巧 2026 Docker MCP Toolkit MCP_DOCKER --global",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR skills OR AGENTS.md OR plugin OR worktree)',
+    "X news: Codex CLI",
   ],
 };
 
