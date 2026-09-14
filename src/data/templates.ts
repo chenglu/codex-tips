@@ -3122,4 +3122,64 @@ codex plugin add planetscale@planetscale
 # codex mcp add planetscale --url https://mcp.pscale.dev/mcp/planetscale
 `,
   },
+  {
+    id: "geoly-codex-plugin",
+    title: "GEOly Codex 插件",
+    filename: "terminal",
+    summary:
+      "从 geoly-ai/codex-plugins 安装 geoly-mcp@geoly，通过 OAuth 连接。更新时先刷新插件源，再重新安装插件并打开新会话。",
+    code: `codex plugin marketplace add geoly-ai/codex-plugins
+codex plugin add geoly-mcp@geoly
+
+# 升级三步（upgrade 只刷新目录）：
+# codex plugin marketplace upgrade geoly
+# codex plugin add geoly-mcp@geoly
+# 彻底退出并新开会话
+
+# 若未打开 OAuth 页面：
+# codex mcp login geoly
+
+# 卸载：
+# codex plugin remove geoly-mcp
+# codex plugin marketplace remove geoly
+`,
+  },
+  {
+    id: "cortexcode-tool-codex",
+    title: "Snowflake Cortex Code CLI",
+    filename: "terminal",
+    summary:
+      "先安装并配置 Cortex CLI，再运行 integrations/codex/install.sh 安装 cortexcode-tool。默认使用 RO 模式，按审批结果执行命令。",
+    code: `git clone https://github.com/Snowflake-Labs/subagent-cortex-code.git
+cd subagent-cortex-code
+bash integrations/codex/install.sh
+
+# 先确认 Cortex CLI：
+# which cortex
+# cortex connections list
+
+# 核对：
+# cortexcode-tool --version
+# cortexcode-tool --envelope RO "How many databases do I have in Snowflake?"
+
+# 卸载：
+# bash integrations/codex/uninstall.sh
+`,
+  },
+  {
+    id: "gitlab-orbit-local-mcp",
+    title: "GitLab Orbit Local MCP",
+    filename: "terminal",
+    summary:
+      "安装 Orbit CLI 后，通过 orbit mcp serve 连接本地代码图谱。服务使用 stdio，可索引仓库并执行只读图谱查询。",
+    code: `codex mcp add orbit-cli -- orbit mcp serve
+
+# glab 包装：
+# codex mcp add orbit-cli -- glab orbit mcp serve
+
+# 可选先索引当前仓库：
+# orbit index .
+
+`,
+  },
 ];

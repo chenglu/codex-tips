@@ -4031,5 +4031,94 @@ export const articles: Article[] = [
     summary:
       '提供 MySQL、Postgres、Vitess 和 Neki 引擎技能。Codex 插件中的技能名称带 database- 前缀，如 database-mysql。',
   },
+  {
+    title: 'GEOly MCP User Guide',
+    url: 'https://www.geoly.ai/docs/mcp',
+    source: 'GEOly Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'GEOly', '插件', 'Codex'],
+    summary:
+      '介绍 GEOly 插件的安装、OAuth 连接和更新流程。更新需刷新插件源并重新安装插件。',
+  },
+  {
+    title: 'GEOly Codex plugin marketplace',
+    url: 'https://github.com/geoly-ai/codex-plugins',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['插件', 'GEOly', 'MCP', 'Skills', 'Codex'],
+    summary:
+      'GEOly 的 Codex 插件源，插件标识为 geoly-mcp@geoly，包含托管 MCP 与工作流技能。',
+  },
+  {
+    title: 'GEOly MCP Server',
+    url: 'https://github.com/geoly-ai/GEOly-MCP',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'GEOly', 'OAuth'],
+    summary:
+      '介绍 GEOly 托管 Streamable HTTP 服务，入口为 app.geoly.ai/api/mcp。',
+  },
+  {
+    title: 'Cortex Code Skill',
+    url: 'https://github.com/Snowflake-Labs/subagent-cortex-code',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', 'Snowflake', 'Cortex', 'Codex'],
+    summary:
+      '提供 Cortex Code 的客户端集成。Codex 使用 integrations/codex/install.sh 安装 cortexcode-tool，需先准备 Cortex CLI。',
+  },
+  {
+    title: 'Cortex Code for Codex — CLI Install',
+    url: 'https://github.com/Snowflake-Labs/subagent-cortex-code/blob/main/integrations/codex/README.md',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['CLI', 'Snowflake', 'Cortex', 'Codex'],
+    summary:
+      '介绍 cortexcode-tool 的配置、RO 模式和前台执行流程。配置文件位于 ~/.local/lib/cortexcode-tool/config.yaml。',
+  },
+  {
+    title: 'CoCo CLI',
+    url: 'https://docs.snowflake.com/en/user-guide/cortex-code/cortex-code-cli',
+    source: 'Snowflake Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['CLI', 'Snowflake', 'Cortex'],
+    summary:
+      '介绍 Cortex CLI 安装与连接管理，连接保存在 ~/.snowflake/connections.toml，并说明服务区域限制。',
+  },
+  {
+    title: 'GitLab Orbit Local MCP server',
+    url: 'https://docs.gitlab.com/orbit/local/access/mcp/',
+    source: 'GitLab Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'GitLab', 'Orbit', 'stdio', 'Codex'],
+    summary:
+      '介绍通过 orbit mcp serve 将本地 DuckDB 代码图谱接入 Codex，也支持 glab orbit 包装命令。',
+  },
+  {
+    title: 'GitLab Orbit CLI',
+    url: 'https://docs.gitlab.com/orbit/local/access/cli/',
+    source: 'GitLab Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['CLI', 'GitLab', 'Orbit', 'Codex'],
+    summary:
+      '介绍 Orbit 的安装、索引和查询工具。orbit setup codex 可向 AGENTS.md 添加使用说明。',
+  },
+  {
+    title: 'GitLab Orbit Remote MCP',
+    url: 'https://docs.gitlab.com/orbit/remote/access/mcp/',
+    source: 'GitLab Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'GitLab', 'Orbit', 'mcp-remote'],
+    summary:
+      '介绍 GitLab Orbit 的远程 MCP，入口为 gitlab.com/api/v4/orbit/mcp。远程服务与本地 Orbit、GitLab 实例 MCP 分别配置。',
+  },
 ];
-

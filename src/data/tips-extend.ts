@@ -6861,7 +6861,7 @@ enabled = true
 也不要和这几条搞混：
 
 - Cloud 评论审查是另一条线，要项目环境和 webhook，不是这台 MCP。
-- Orbit 知识图谱是 \`https://gitlab.com/api/v4/orbit/mcp\`。官方给 Codex 的示例仍是 \`mcp-remote\`，不要和 \`GitLab\` 写成同一张表。
+- 本地 Orbit 图谱是 \`codex mcp add orbit-cli -- orbit mcp serve\`，表名是 \`orbit-cli\`。远程 Orbit 才是 \`https://gitlab.com/api/v4/orbit/mcp\`，官方给 Codex 的示例仍是 \`mcp-remote\`，不要当 Codex 主路径，也不要和 \`GitLab\` / \`orbit-cli\` 写成同一张表。
 - \`glab mcp serve\` 是实验性本地 stdio，文档面向 Claude Code，不要当 Codex 主路径。
 
 不要做这些：
@@ -6876,7 +6876,7 @@ enabled = true
     level: "starter",
     surfaces: ["cli", "app", "ide"],
     tags: ["MCP", "GitLab", "OAuth"],
-    related: ["mcp-add-and-login", "gitlab-mr-codex-review", "upstash-codex-plugin"],
+    related: ["mcp-add-and-login", "gitlab-mr-codex-review", "gitlab-orbit-local-mcp"],
     sources: [
       {
         label: "GitLab · MCP server",
@@ -11409,6 +11409,211 @@ MCP 支持执行 SQL。写查询会拦截没有 WHERE 的 UPDATE、DELETE，以�
       {
         label: "PlanetScale · MCP",
         url: "https://planetscale.com/docs/connect/mcp",
+      },
+    ],
+  },
+  {
+    id: "geoly-codex-plugin",
+    no: 400,
+    title: "安装与更新 GEOly Codex 插件",
+    summary:
+      "从 geoly-ai/codex-plugins 安装 geoly-mcp@geoly，通过 OAuth 连接。更新时先刷新插件源，再重新安装插件并打开新会话。",
+    body: `GEOly 文档包含 Codex 配置说明，写在 MCP 文档。这是官方插件仓，把托管 MCP 和 \`geoly-mcp\` 技能打在一起。源是 \`geoly-ai/codex-plugins\`。
+
+\`\`\`bash
+codex plugin marketplace add geoly-ai/codex-plugins
+codex plugin add geoly-mcp@geoly
+\`\`\`
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 geoly，插件 name 是 geoly-mcp，所以是 \`geoly-mcp@geoly\`。CLI 动词是 \`plugin add\`，不是 \`install\`。会话斜杠才是 \`/plugin install geoly-mcp@geoly\`。
+
+安装后应打开 GEOly OAuth 授权页面。若未打开，运行：
+
+\`\`\`bash
+codex mcp login geoly
+\`\`\`
+
+桌面先在终端跑完 \`marketplace add\` 和 \`plugin add\`，**彻底退出** Codex 应用再开。桌面若 OAuth 后工具仍不出现，官方建议改走 CLI。0.154 起先看**当前会话**的 \`/plugins\`，应能看到 \`geoly-mcp@geoly\`。没有再新开。IDE 扩展没有 \`/plugins\`。
+
+更新插件时，先刷新插件源，再更新已安装的副本：
+
+\`\`\`bash
+codex plugin marketplace upgrade geoly
+codex plugin add geoly-mcp@geoly
+\`\`\`
+
+然后彻底退出并新开会话。授权过期再接 OAuth。卸插件：
+
+\`\`\`bash
+codex plugin remove geoly-mcp
+codex plugin marketplace remove geoly
+\`\`\`
+
+插件 MCP 表名是小写 \`geoly\`。远程 URL 是 \`https://app.geoly.ai/api/mcp\`。地址以 \`/api/mcp\` 结尾。插件 \`.mcp.json\` 还带 \`oauth_resource\` 指向同一地址，以及静态头 \`X-Client-Name\` / \`X-Client-Version\`。插件会管理这些配置，无需重复添加同名服务。
+
+多组织授权默认只读；写操作需要指定一个组织。远程 URL 可加查询参数 \`org_id\`，把组织 id 接在等号后面。请填入实际组织 ID。
+
+此插件推荐使用 OAuth。无头 / CI 走 GEOly CLI 或只读 token，不是这套插件。密钥通过环境变量等凭据配置提供。
+
+技能随插件一起安装和更新。
+
+MCP Credits 不是 AI Credits。付费公域情报才扣 MCP Credits；自有品牌监测、额度查询和免费工具不扣。额度用 \`get_quota\` 查。写工具要人确认；全组织授权没有写工具。
+
+网页 Cloud 不读取本机 marketplace。配置后用 \`codex plugin list\` 核对 \`geoly-mcp@geoly\`；\`codex mcp get geoly\` 看 url 是 \`https://app.geoly.ai/api/mcp\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "GEOly", "Skills", "MCP"],
+    related: ["planetscale-codex-plugin", "firebase-agent-skills", "plugin-session-refresh"],
+    sources: [
+      {
+        label: "GEOly · MCP User Guide",
+        url: "https://www.geoly.ai/docs/mcp",
+      },
+      {
+        label: "geoly-ai/codex-plugins",
+        url: "https://github.com/geoly-ai/codex-plugins",
+      },
+      {
+        label: "geoly-ai/GEOly-MCP",
+        url: "https://github.com/geoly-ai/GEOly-MCP",
+      },
+    ],
+  },
+  {
+    id: "cortexcode-tool-codex",
+    no: 401,
+    title: "安装 Snowflake Cortex Code CLI 集成",
+    summary:
+      "先安装并配置 Cortex CLI，再运行 integrations/codex/install.sh 安装 cortexcode-tool。默认使用 RO 模式，按审批结果执行命令。",
+    body: `Snowflake Labs 文档包含 Codex 配置说明，写在 \`subagent-cortex-code\` 仓库。Codex 集成使用独立 CLI \`cortexcode-tool\`。执行前按会话要求完成沙箱和网络授权，获得批准后使用 \`--yes\` 在前台执行。
+
+先装 Cortex Code CLI（命令是 \`cortex\`），并确认有活动连接：
+
+\`\`\`bash
+which cortex
+cortex connections list
+\`\`\`
+
+\`which cortex\` 必须返回路径。官方文档写 CoCo CLI 在中国大陆不可用。连接写在 \`~/.snowflake/connections.toml\`，和 Snowflake CLI 共用。尚未安装 CLI 时，请先参考 CoCo CLI 官方安装说明。
+
+接着安装 Codex 集成工具：
+
+\`\`\`bash
+git clone https://github.com/Snowflake-Labs/subagent-cortex-code.git
+cd subagent-cortex-code
+bash integrations/codex/install.sh
+\`\`\`
+
+脚本把 \`cortexcode-tool\` 装到 \`~/.local/bin/\`，配置写到 \`~/.local/lib/cortexcode-tool/config.yaml\`，并自动读当前 Cortex 连接。需要 Python 3.8+。\`~/.local/bin\` 不在 PATH 就先加进去。
+
+核对：
+
+\`\`\`bash
+cortexcode-tool --version
+cortexcode-tool --envelope RO "How many databases do I have in Snowflake?"
+\`\`\`
+
+第一次在 Codex 会话里先跑 \`which cortexcode-tool\` 和 \`cortexcode-tool --help\`。之后问 Snowflake 问题，它应调这个命令。默认 envelope 是 \`RO\`。聊天里先批准计划，再让它带 \`--yes\` 重试同一条**前台**命令。命令应在前台执行，通常需要 30 到 90 秒。
+
+\`approval_mode\` 应遵循组织策略。\`NONE\` 会在执行前被拒。\`DEPLOY\` 还要额外确认。
+
+换连接就再跑一遍安装脚本，或改 \`config.yaml\` 里的 \`connection_name\`。卸：
+
+\`\`\`bash
+bash integrations/codex/uninstall.sh
+\`\`\`
+
+网页 Cloud 读不到这台本机 CLI。配置后重新打开会话，再问有哪些数据库。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["Skills", "Snowflake", "Cortex", "CLI"],
+    related: ["nvidia-skills-codex", "firebase-agent-skills", "skill-locations"],
+    sources: [
+      {
+        label: "Snowflake-Labs/subagent-cortex-code",
+        url: "https://github.com/Snowflake-Labs/subagent-cortex-code",
+      },
+      {
+        label: "Cortex Code for Codex",
+        url: "https://github.com/Snowflake-Labs/subagent-cortex-code/blob/main/integrations/codex/README.md",
+      },
+      {
+        label: "Snowflake · CoCo CLI",
+        url: "https://docs.snowflake.com/en/user-guide/cortex-code/cortex-code-cli",
+      },
+    ],
+  },
+  {
+    id: "gitlab-orbit-local-mcp",
+    no: 402,
+    title: "连接 GitLab Orbit Local MCP",
+    summary:
+      "安装 Orbit CLI 后，通过 orbit mcp serve 连接本地代码图谱。服务使用 stdio，可索引仓库并执行只读图谱查询。",
+    body: `GitLab Orbit Local 文档包含 Codex 配置说明：把本机代码图谱暴露成 **stdio** MCP。它查的是 \`~/.orbit/graph.duckdb\`，**不是** GitLab 实例，也不是托管 \`api/v4/mcp\`。官方表名是 \`orbit-cli\`。
+
+先装独立 CLI \`orbit\`，并确认有路径：
+
+\`\`\`bash
+which orbit
+orbit help
+\`\`\`
+
+官方安装器是 knowledge-graph 仓里的 \`install.sh\`，也可以 \`npm install -g @gitlab/orbit\`。已经在用 \`glab\` 时，改跑 \`glab orbit --install\`，之后命令是 \`glab orbit …\`。尚未安装时，请先参考官方 CLI 安装说明。
+
+添加 Codex MCP 连接：
+
+\`\`\`bash
+codex mcp add orbit-cli -- orbit mcp serve
+codex mcp list
+\`\`\`
+
+走 \`glab\` 包装时：
+
+\`\`\`bash
+codex mcp add orbit-cli -- glab orbit mcp serve
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.orbit-cli]
+command = "orbit"
+args = ["mcp", "serve"]
+enabled = true
+\`\`\`
+
+这是本地 stdio 服务，无需 OAuth 登录。Codex 会写进 \`~/.codex/config.toml\`，对你所有项目生效。配置中 command 为可执行文件名，参数单独放在 args 中。
+
+工具是 \`index\`、\`get_graph_schema\`、\`run_sql\`。\`run_sql\` 只读，单次大约 1 MB 封顶。图谱默认在 \`~/.orbit/graph.duckdb\`。会话里可以让它索引当前仓库；也可以先在终端跑 \`orbit index .\`。切分支不会自动更新图谱，要按**签出路径**再索引。多仓库共用一个 DuckDB 文件。
+
+可选：\`orbit setup codex\` 会在 \`AGENTS.md\` 里写入带 orbit 标记的说明块，默认写用户层。\`--project\` 才会进当前仓库，随后出现在 \`git status\`。该命令只添加使用说明，MCP 连接需要单独配置。
+
+其他 GitLab 服务：
+
+- GitLab 实例 MCP 是 \`codex mcp add GitLab --url https://gitlab.com/api/v4/mcp\`，再 \`mcp login GitLab\`。远程入口单独写是 \`https://gitlab.com/api/v4/mcp\`。那是 issue / MR，不是本地图谱。
+- 远程 Orbit 是 \`https://gitlab.com/api/v4/orbit/mcp\`。它与本地 Orbit 是独立服务，需要使用不同配置。
+- \`glab mcp serve\` 是另一台实验性本地服务器，文档面向 Claude Code。
+
+本地 Orbit 不消耗 GitLab Credits。MCP 页标 Experiment。
+
+网页 Cloud 读不到这台本机 CLI。配置后重新打开会话。用 \`codex mcp get orbit-cli\` 看传输是 stdio。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "GitLab", "Orbit", "stdio"],
+    related: ["gitlab-mcp-http", "mcp-add-and-login", "fly-mcp-stdio"],
+    sources: [
+      {
+        label: "GitLab · Orbit Local MCP",
+        url: "https://docs.gitlab.com/orbit/local/access/mcp/",
+      },
+      {
+        label: "GitLab · Orbit CLI",
+        url: "https://docs.gitlab.com/orbit/local/access/cli/",
+      },
+      {
+        label: "GitLab · Orbit Remote MCP",
+        url: "https://docs.gitlab.com/orbit/remote/access/mcp/",
       },
     ],
   },
