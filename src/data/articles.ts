@@ -4032,6 +4032,36 @@ export const articles: Article[] = [
       '引擎技能上游：MySQL、Postgres、Vitess、Neki。Codex 插件 vendor 后带 database- 前缀，例如 database-mysql。不要和操作技能仓抄成同一个 marketplace 源。',
   },
   {
+    title: 'GEOly MCP User Guide',
+    url: 'https://www.geoly.ai/docs/mcp',
+    source: 'GEOly Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'GEOly', '插件', 'Codex'],
+    summary:
+      '官方 Codex 专节：marketplace add geoly-ai/codex-plugins，再 plugin add geoly-mcp@geoly。过时工具先 upgrade geoly 再重装插件。不要抄 Claude 的 --transport http。',
+  },
+  {
+    title: 'GEOly Codex plugin marketplace',
+    url: 'https://github.com/geoly-ai/codex-plugins',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['插件', 'GEOly', 'MCP', 'Skills', 'Codex'],
+    summary:
+      '自托管 marketplace。CLI 动词是 plugin add 不是 install。marketplace upgrade geoly 不够还要再 plugin add。清单 name 是 geoly，插件名是 geoly-mcp。',
+  },
+  {
+    title: 'GEOly MCP Server',
+    url: 'https://github.com/geoly-ai/GEOly-MCP',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'GEOly', 'OAuth'],
+    summary:
+      '托管 Streamable HTTP。远程入口写 app.geoly.ai/api/mcp，不要再拼一层斜杠 mcp。Codex 走插件仓，不要抄 mcp-remote 当 Codex 主路径。',
+  },
+  {
     title: 'Cortex Code Skill',
     url: 'https://github.com/Snowflake-Labs/subagent-cortex-code',
     source: 'GitHub',
@@ -4062,4 +4092,3 @@ export const articles: Article[] = [
       '命令是 cortex，连接写在 ~/.snowflake/connections.toml。which cortex 要有路径。官方写中国大陆不可用。这不是 Codex 的 mcp add。',
   },
 ];
-

@@ -11521,8 +11521,85 @@ MCP 能跑 SQL。写查询会拦没有 WHERE 的 UPDATE / DELETE，也会拦 TRU
     ],
   },
   {
-    id: "cortexcode-tool-codex",
+    id: "geoly-codex-plugin",
     no: 400,
+    title: "GEOly 插件用 marketplace 加 geoly-ai/codex-plugins，再 plugin add geoly-mcp@geoly",
+    summary:
+      "官方 Codex：marketplace add geoly-ai/codex-plugins，再 plugin add geoly-mcp@geoly。CLI 动词是 add 不是 install。marketplace upgrade geoly 不够，还要再 plugin add。插件 MCP 表名是 geoly。远程是 app.geoly.ai/api/mcp。",
+    body: `GEOly 给 Codex 有专节，写在 MCP 文档。这是官方插件仓，把托管 MCP 和 \`geoly-mcp\` 技能打在一起。源是 \`geoly-ai/codex-plugins\`。
+
+\`\`\`bash
+codex plugin marketplace add geoly-ai/codex-plugins
+codex plugin add geoly-mcp@geoly
+\`\`\`
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 geoly，插件 name 是 geoly-mcp，所以是 \`geoly-mcp@geoly\`。不要发明 \`geoly@geoly\`。CLI 动词是 \`plugin add\`，不是 \`install\`。会话斜杠才是 \`/plugin install geoly-mcp@geoly\`。
+
+装上策略是 \`ON_INSTALL\`，应弹出 GEOly OAuth。没弹再：
+
+\`\`\`bash
+codex mcp login geoly
+\`\`\`
+
+桌面先在终端跑完 \`marketplace add\` 和 \`plugin add\`，**彻底退出** Codex 应用再开。桌面若 OAuth 后工具仍不出现，官方建议改走 CLI。0.154 起先看**当前会话**的 \`/plugins\`，应能看到 \`geoly-mcp@geoly\`。没有再新开。IDE 扩展没有 \`/plugins\`。不要一上来 \`/new\`。
+
+过时工具不要只刷新目录。官方 FAQ 和仓库 README 都说 \`marketplace upgrade\` **不够**：它只拉新清单，不更新已装副本。三步：
+
+\`\`\`bash
+codex plugin marketplace upgrade geoly
+codex plugin add geoly-mcp@geoly
+\`\`\`
+
+然后彻底退出并新开会话。授权过期再接 OAuth。卸插件：
+
+\`\`\`bash
+codex plugin remove geoly-mcp
+codex plugin marketplace remove geoly
+\`\`\`
+
+插件 MCP 表名是小写 \`geoly\`。远程 URL 是 \`https://app.geoly.ai/api/mcp\`。这是 \`/api/mcp\`，不要再拼一层 \`/mcp\`，也不要发明 \`mcp.geoly.ai\`。插件 \`.mcp.json\` 还带 \`oauth_resource\` 指向同一地址，以及静态头 \`X-Client-Name\` / \`X-Client-Version\`。不要把版本头手抄进用户层当主路径。不要把手写 \`[mcp_servers.geoly]\` 和插件那张表叠成两台。
+
+多组织授权默认只读；写操作要钉一个组织。远程 URL 可加查询参数 \`org_id\`，把组织 id 接在等号后面。不要写尖括号占位。
+
+官方推荐 OAuth，不要新配静态 \`geom_\` token 当 Codex 主路径。无头 / CI 走 GEOly CLI 或只读 token，不是这套插件。不要把密钥写进 \`http_headers\`。
+
+技能随插件走。不要用 \`npx skills add\` 当插件安装器。
+
+MCP Credits 不是 AI Credits。付费公域情报才扣 MCP Credits；自有品牌监测、额度查询和免费工具不扣。额度用 \`get_quota\` 查。写工具要人确认；全组织授权没有写工具。不要 \`required = true\`。不要一上来 \`--yolo\`。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`claude mcp add --transport http geoly "https://app.geoly.ai/api/mcp"\` 当 Codex 主路径。
+- 不要抄 Cursor 的 \`mcp.json\`，也不要抄 Claude Desktop 的 \`npx mcp-remote\`。
+- 不要把会话里的 \`/plugin install\` 当成终端命令。
+- 不要发明 \`plugin add geoly@geoly\`。
+- 不要以为 \`marketplace upgrade geoly\` 已经更新了已装插件。
+- 不要给远程再拼一层 \`/mcp\`。
+
+网页 Cloud 不读本机 marketplace。改完用 \`codex plugin list\` 核对 \`geoly-mcp@geoly\`；\`codex mcp get geoly\` 看 url 是 \`https://app.geoly.ai/api/mcp\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "GEOly", "Skills", "MCP"],
+    related: ["planetscale-codex-plugin", "firebase-agent-skills", "plugin-session-refresh"],
+    sources: [
+      {
+        label: "GEOly · MCP User Guide",
+        url: "https://www.geoly.ai/docs/mcp",
+      },
+      {
+        label: "geoly-ai/codex-plugins",
+        url: "https://github.com/geoly-ai/codex-plugins",
+      },
+      {
+        label: "geoly-ai/GEOly-MCP",
+        url: "https://github.com/geoly-ai/GEOly-MCP",
+      },
+    ],
+  },
+  {
+    id: "cortexcode-tool-codex",
+    no: 401,
     title: "Snowflake Cortex Code 用 cortexcode-tool，不要跑 npx skills add",
     summary:
       "官方 Codex：clone Snowflake-Labs/subagent-cortex-code，再 bash integrations/codex/install.sh。不要跑 npx skills add。先装 Cortex CLI，which cortex 要有路径。聊天批准后再 --yes，默认 envelope 是 RO。",
