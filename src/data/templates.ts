@@ -3103,4 +3103,23 @@ url = "https://mcp.squirrelscan.com/mcp"
 enabled = true
 `,
   },
+  {
+    id: "planetscale-codex-plugin",
+    title: "PlanetScale Codex 插件",
+    filename: "terminal",
+    summary:
+      "主路径是 marketplace add planetscale/codex-plugin，再 plugin add planetscale@planetscale。不要加成 claude-plugin。只要 MCP 才走 mcp add planetscale。插件表名是 PlanetScale。",
+    code: `codex plugin marketplace add planetscale/codex-plugin
+codex plugin add planetscale@planetscale
+
+# 升级：
+# codex plugin marketplace upgrade planetscale
+
+# 插件 MCP 表名是 PlanetScale（首字母大写）：
+# codex mcp login PlanetScale
+
+# 只要 MCP、不要技能（文档 Codex 专节）：
+# codex mcp add planetscale --url https://mcp.pscale.dev/mcp/planetscale
+`,
+  },
 ];

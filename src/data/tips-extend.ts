@@ -11453,4 +11453,71 @@ Bearer 和 \`mcp login\` **是两条路，不要叠**。配置了 \`bearer_token
       },
     ],
   },
+  {
+    id: "planetscale-codex-plugin",
+    no: 399,
+    title: "PlanetScale 插件用 marketplace 加 planetscale/codex-plugin，不要加成 claude-plugin",
+    summary:
+      "官方 Codex 插件仓：marketplace add planetscale/codex-plugin，再 plugin add planetscale@planetscale。Claude 源是 planetscale/claude-plugin，装完 id 碰巧一样。文档 Codex 专节仍是 mcp add，只要 MCP 走那条。插件 MCP 表名是 PlanetScale。",
+    body: `PlanetScale 给 Codex 另有一份**插件仓**，把托管 MCP 和技能打在一起。源是 \`planetscale/codex-plugin\`，不是文档 Claude 节里的 \`planetscale/claude-plugin\`。
+
+\`\`\`bash
+codex plugin marketplace add planetscale/codex-plugin
+codex plugin add planetscale@planetscale
+\`\`\`
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 planetscale，插件 name 也是 planetscale，所以是 \`planetscale@planetscale\`。官方 README 只写了 \`marketplace add\`，桌面再在 Plugins 装 PlanetScale。CLI 按清单是上面这条。
+
+桌面先在终端跑完 \`marketplace add\`，**彻底重启** Codex 应用，再打开 Plugins，选 PlanetScale 源，点 Install。新任务里用 \`@PlanetScale\` 或直接提数据库任务。
+
+升级先刷新仓快照：
+
+\`\`\`bash
+codex plugin marketplace upgrade planetscale
+\`\`\`
+
+0.154 起先看**当前会话**的 \`/plugins\`，应能看到 \`planetscale@planetscale\`。没有再新开。IDE 扩展没有 \`/plugins\`。不要一上来 \`/new\`。
+
+插件捆绑的 MCP 写在 \`.mcp.json\`，表名是 **PlanetScale**（首字母大写），URL 仍是 \`https://mcp.pscale.dev/mcp/planetscale\`。装完若 \`/mcp\` 没有，先重启，再：
+
+\`\`\`bash
+codex mcp login PlanetScale
+\`\`\`
+
+文档 Codex 专节仍是 \`codex mcp add planetscale --url https://mcp.pscale.dev/mcp/planetscale\`。那是只要 MCP、不要技能的路径，表名是小写 planetscale。已经手写过小写表时，不要再叠一张大写 PlanetScale 指同一 URL。CI / 无头仍走小写表的 \`PLANETSCALE_API_TOKEN\`，不要给插件那张再叠 bearer。
+
+技能来自两份上游：操作技能（例如 \`safe-orchestrator\`）和引擎技能（\`database-mysql\`、\`database-postgres\`、\`database-vitess\`、\`database-neki\`）。索引在 \`skills/planetscale\` 和 \`skills/database\`。不要用 \`npx skills add planetscale/skills\` 当 Codex 插件安装器。
+
+MCP 能跑 SQL。写查询会拦没有 WHERE 的 UPDATE / DELETE，也会拦 TRUNCATE；DDL 仍要人同意。生产库不要一上来给写权限。不要 \`required = true\`。不要一上来 \`--yolo\`。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`/plugin marketplace add planetscale/claude-plugin\` 或 \`/plugin install planetscale@planetscale\`。装完 id 碰巧一样，**源仓不是同一个**。
+- 不要发明 \`plugin add planetscale@codex-plugin\`。清单 name 是 planetscale。
+- 不要把 \`npx skills add\` 当插件安装器。
+- 不要抄 Claude 的 \`claude mcp add --transport http planetscale …\`。
+- 不要跑已删除的 \`pscale mcp\` 本地服务器。
+- 不要把手写小写 \`planetscale\` 表和插件大写 \`PlanetScale\` 叠成两台。
+
+网页 Cloud 不读本机 marketplace。改完用 \`codex plugin list\` 核对 \`planetscale@planetscale\`；\`codex mcp get PlanetScale\` 看 url 是 \`https://mcp.pscale.dev/mcp/planetscale\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "PlanetScale", "Skills", "MCP"],
+    related: ["mcp-planetscale-remote", "firebase-agent-skills", "plugin-session-refresh"],
+    sources: [
+      {
+        label: "planetscale/codex-plugin",
+        url: "https://github.com/planetscale/codex-plugin",
+      },
+      {
+        label: "planetscale/skills",
+        url: "https://github.com/planetscale/skills",
+      },
+      {
+        label: "PlanetScale · MCP",
+        url: "https://planetscale.com/docs/connect/mcp",
+      },
+    ],
+  },
 ];

@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-14T03:00:00Z",
+  lastTick: "2026-09-14T03:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "03:00 定时器。调用前 $96.66，收尾 $96.65。CDP 34/34，预览 4382，CDP 9482。Spend: counts（start_time=2026-09-07T03:05:00Z，共 230 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Squirrelscan 托管 MCP（官方 Codex：mcp add squirrelscan --url https://mcp.squirrelscan.com/mcp，再 mcp login。必须带 /mcp。无头才 SQUIRRELSCAN_API_KEY。不要叠 OAuth 和 bearer。不要写 experimental_environment。本机 squirrel mcp 是 stdio，另起表。不要发明 plugin add）。X 仍是 Claude 对照、Unity、Astra /slow、token 营销、Archify、OMO 编排、/feedback。Fastmail 仍是 mcp-remote。Builder Fusion / Snowflake 官方仍无 Codex 专节。Kit / ConfigCat / Meilisearch / Cal.com / Axiom 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault 仍跳过。AgentPort 官方 TOML 仍写成 headers。Infisical / Browserbase 无 Codex 专节。",
+    "03:30 定时器。调用前 $96.65，收尾待测后补。Spend: counts（start_time=2026-09-07T03:35:00Z，共 221 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 PlanetScale Codex 插件（marketplace add planetscale/codex-plugin，再 plugin add planetscale@planetscale。不要加成 Claude 的 planetscale/claude-plugin，装完 id 碰巧一样。插件 MCP 表名是 PlanetScale。文档 Codex 专节仍是 mcp add）。X 仍是 Claude 对照、Unity、Astra /slow、token 营销、OMO 编排、/feedback。Fastmail 仍是 mcp-remote。Builder Fusion / Snowflake 官方仍无 Codex 专节。Cal.com / ConfigCat / Infisical / Browserbase 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault / AgentPort 仍跳过。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1500,6 +1500,18 @@ export const loopState = {
     "builder.io fusion-mcp-server mcp.builder.io Codex",
     "snowflake cortex MCP Codex mcp add",
     "Codex CLI 技巧 2026 Squirrelscan MCP mcp.squirrelscan.com/mcp",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR skills OR AGENTS.md OR plugin OR worktree)',
+    "X news: Codex CLI",
+    "github.com/planetscale/codex-plugin marketplace add Codex",
+    "planetscale.com docs connect mcp Codex mcp add planetscale claude-plugin",
+    "github.com/planetscale/skills database-skills Codex plugin",
+    "docs.infisical.com mcp Codex",
+    "cal.com docs mcp-server Codex",
+    "browserbase mcp Codex API key",
+    "fastmail.com mcp Codex mcp-remote api.fastmail.com",
+    "builder.io fusion-mcp-server mcp.builder.io Codex",
+    "snowflake cortex MCP Codex mcp add",
+    "Codex CLI 技巧 2026 PlanetScale codex-plugin planetscale@planetscale",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR skills OR AGENTS.md OR plugin OR worktree)',
     "X news: Codex CLI",
   ],
