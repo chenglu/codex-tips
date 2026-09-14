@@ -3529,4 +3529,256 @@ startup_timeout_sec = 60
 # url = "https://api.helicone.ai"
 `,
   },
+  {
+    id: "mcp-docker-toolkit",
+    title: "Docker MCP Toolkit",
+    filename: "terminal",
+    summary:
+      "使用 docker mcp client connect --global codex 连接本地网关，服务名为 MCP_DOCKER。网关采用 stdio，服务器授权在 Docker Desktop 中完成。",
+    code: `docker mcp client connect --global codex
+
+# 指定 profile：
+# docker mcp client connect --global --profile web-dev codex
+
+# 手写等价（已经 connect 过就不要再 add）：
+# codex mcp add MCP_DOCKER -- docker mcp gateway run
+
+# [mcp_servers.MCP_DOCKER]
+# command = "docker"
+# args = ["mcp", "gateway", "run"]
+# enabled = true
+# startup_timeout_sec = 60
+
+# 断开：
+# docker mcp client disconnect --global codex
+
+# 不要：
+# docker mcp client connect codex
+# docker mcp-client configure codex
+# codex mcp login MCP_DOCKER
+# docker mcp client connect vscode
+`,
+  },
+  {
+    id: "amd-skills-plugin",
+    title: "AMD Skills 插件",
+    filename: "terminal",
+    summary:
+      "从 amd/skills 安装 amd-skills@amd-skills。插件包含精选技能，不包含 MCP，更新时使用清单名 amd-skills。",
+    code: `codex plugin marketplace add amd/skills
+codex plugin add amd-skills@amd-skills
+
+# TUI /plugins 打开 AMD Skills 再装也可以
+codex plugin marketplace upgrade amd-skills
+
+# 插件包外的单项才：
+# npx skills add amd/skills --skill serving-llms-on-epyc --agent codex
+
+# 不要：
+# npx skills add amd/skills
+# /plugin marketplace add amd/skills
+# plugin add amd@amd-skills
+# plugin add amd-skills@openai-curated
+# 手拷到 ~/.codex/skills
+`,
+  },
+  {
+    id: "mcp-danube-http",
+    title: "Danube 远程 HTTP MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "连接 https://mcp.danubeai.com/mcp，通过 DANUBE_API_KEY 环境变量提供 Bearer 凭据。自定义请求头认证可作为备用方式。",
+    code: `codex mcp add danube --url https://mcp.danubeai.com/mcp --bearer-token-env-var DANUBE_API_KEY
+
+[mcp_servers.danube]
+url = "https://mcp.danubeai.com/mcp"
+bearer_token_env_var = "DANUBE_API_KEY"
+enabled = true
+startup_timeout_sec = 30
+
+# 自定义头回退才：
+# [mcp_servers.danube.env_http_headers]
+# danube-api-key = "DANUBE_API_KEY"
+
+# 不要：
+# [mcp_servers.danube.http_headers]
+# danube-api-key = "dk_xxxxxxx"
+# codex mcp login danube
+# url 去掉 /mcp
+`,
+  },
+  {
+    id: "mcp-asana-v2-remote",
+    title: "Asana V2 mcp-remote 凭证文件",
+    filename: "~/.codex/config.toml",
+    summary:
+      "先注册 MCP app，再使用 mcp-remote 桥接。客户端凭据保存在权限为 600 的 JSON 文件中，通过 @ 加绝对路径读取。",
+    code: `{
+  "client_id": "YOUR_CLIENT_ID",
+  "client_secret": "YOUR_CLIENT_SECRET"
+}
+
+# chmod 600 /absolute/path/to/mcp_oauth_client.json
+
+[mcp_servers.asana]
+command = "npx"
+args = [
+  "-y",
+  "mcp-remote@latest",
+  "https://mcp.asana.com/v2/mcp",
+  "3334",
+  "--static-oauth-client-info",
+  "@/absolute/path/to/mcp_oauth_client.json",
+  "--resource",
+  "https://mcp.asana.com/v2"
+]
+startup_timeout_sec = 60
+
+# 不要：
+# codex mcp add asana --url https://mcp.asana.com/v2/mcp
+# codex mcp login asana
+# https://mcp.asana.com/sse
+# --client-secret 写进 args
+`,
+  },
+  {
+    id: "mcp-sequel-http",
+    title: "Sequel 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "连接 api.sequel.sh/mcp，通过 SEQUEL_API_KEY 提供 Bearer 凭据。Codex 使用 config.toml 配置，无需 OAuth 登录。",
+    code: `codex mcp add sequel --url https://api.sequel.sh/mcp --bearer-token-env-var SEQUEL_API_KEY
+
+[mcp_servers.sequel]
+url = "https://api.sequel.sh/mcp"
+bearer_token_env_var = "SEQUEL_API_KEY"
+
+# 可选：sequel login && sequel install codex
+# 然后用 codex mcp get sequel 核对，不要留下 config.yaml
+
+# 不要：
+# ~/.codex/config.yaml
+# type: http
+# http_headers = { Authorization = "Bearer sql_…" }
+# codex mcp login sequel
+# npx -y sequel-mcp
+`,
+  },
+  {
+    id: "ug-mcp-add-codex",
+    title: "Databricks ug mcp add",
+    filename: "terminal",
+    summary:
+      "安装 unity-gateway 后运行 ug mcp add --agents codex。连接使用 ug mcp-proxy stdio 桥，通过 ug codex 启动。",
+    code: `uv tool install git+https://github.com/databricks/unity-gateway
+databricks auth login
+ug mcp add --agents codex --services CATALOG.SCHEMA.SERVICE
+ug codex
+
+# 只加不删。configure mcp 会整表替换：
+# ug mcp add --services uc-functions:main.tools
+# ug mcp add --services system.ai.slack
+
+# 不要：
+# ucode 当已经改名后的唯一命令（它只是别名）
+# npx mcp-remote https://WORKSPACE/api/2.0/mcp/functions/...
+# codex mcp login
+# 把 PAT 写进 http_headers
+# ug configure mcp 当「再加一台」
+`,
+  },
+  {
+    id: "b2c-dx-mcp-codex-plugin",
+    title: "Salesforce B2C marketplace",
+    filename: "terminal",
+    summary:
+      "安装 b2c-dx-mcp@b2c-developer-tooling，使用本地 stdio 服务。插件工作目录为插件根，项目路径需按实际配置。",
+    code: `codex plugin marketplace add SalesforceCommerceCloud/b2c-developer-tooling
+codex plugin add b2c@b2c-developer-tooling
+codex plugin add b2c-cli@b2c-developer-tooling
+codex plugin add b2c-dx-mcp@b2c-developer-tooling
+
+# IDE 没有 /plugins 才手写：
+# codex mcp add b2c-dx-mcp -- npx -y @salesforce/b2c-dx-mcp@latest --allow-non-ga-tools
+
+# 不要：
+# claude plugin install b2c-dx-mcp
+# npx @salesforce/b2c-cli setup skills --ide codex
+# codex mcp login b2c-dx-mcp
+# 把 client-secret 写进 config.toml env
+`,
+  },
+  {
+    id: "expo-codex-plugin",
+    title: "Expo 官方插件",
+    filename: "terminal",
+    summary:
+      "安装 expo@openai-curated 后运行 mcp login expo。插件自动登记 mcp.expo.dev/mcp 并提供相关技能。",
+    code: `codex plugin add expo@openai-curated
+codex mcp login expo
+
+# 只要 MCP、不装插件：
+# codex mcp add expo --url https://mcp.expo.dev/mcp
+# codex mcp login expo
+
+# [mcp_servers.expo]
+# url = "https://mcp.expo.dev/mcp"
+# enabled = true
+
+# 不要：
+# claude plugin install expo@claude-plugins-official
+# npx skills add expo/skills
+# codex plugin add expo@expo
+# npx mcp-remote https://mcp.expo.dev/mcp
+`,
+  },
+  {
+    id: "glean-codex-plugin",
+    title: "Glean 官方插件",
+    filename: "terminal",
+    summary:
+      "安装 glean@glean-codex-plugins，再添加组织提供的 MCP 地址并通过 OAuth 登录。安装后重新打开任务。",
+    code: `codex plugin marketplace add gleanwork/codex-plugins
+codex plugin add glean@glean-codex-plugins
+codex mcp add glean --url https://acme-be.glean.com/mcp/engineering
+codex mcp login glean
+
+# [mcp_servers.glean]
+# url = "https://acme-be.glean.com/mcp/engineering"
+# enabled = true
+
+# 可选公开文档：
+# codex plugin add glean-dev-docs@glean-codex-plugins
+# codex mcp add glean-dev-docs --url https://developers.glean.com/mcp
+
+# 不要：
+# /plugin marketplace add gleanwork/claude-plugins
+# /plugin install glean@glean-plugins
+# /add-plugin glean
+# /glean_run
+# codex plugin add glean@openai-curated
+# npx mcp-remote https://acme-be.glean.com/mcp/engineering
+`,
+  },
+  {
+    id: "calendarbridge-codex-mcp",
+    title: "CalendarBridge 远程 MCP",
+    filename: "terminal",
+    summary:
+      "连接 manageapi.calendarbridge.com/mcp，通过 OAuth 2.1 登录。连接免费，执行日历操作需要有效订阅。",
+    code: `codex mcp add calendarbridge --url https://manageapi.calendarbridge.com/mcp
+codex mcp login calendarbridge
+
+# [mcp_servers.calendarbridge]
+# url = "https://manageapi.calendarbridge.com/mcp"
+# enabled = true
+
+# 不要：
+# claude mcp add calendarbridge --transport http
+# npx mcp-remote https://manageapi.calendarbridge.com/mcp
+# codex plugin add calendarbridge@
+# https://mcp.cal.com
+# bearer_token_env_var
+`,
+  },
 ];

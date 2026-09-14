@@ -4561,4 +4561,214 @@ export const articles: Article[] = [
     summary:
       'Helicone MCP 源码及工具说明，包括当前服务基址与区域兼容限制。',
   },
+  {
+    title: 'Get started with Docker MCP Toolkit',
+    url: 'https://docs.docker.com/ai/mcp-catalog-and-toolkit/get-started/',
+    source: 'Docker Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Docker', 'Codex', 'stdio'],
+    summary:
+      '介绍 Docker MCP Toolkit 的安装、服务器授权和客户端连接。Codex 使用 --global，网关服务名为 MCP_DOCKER。',
+  },
+  {
+    title: 'docker mcp client connect',
+    url: 'https://docs.docker.com/reference/cli/docker/mcp/client/connect/',
+    source: 'Docker Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Docker', 'CLI', 'Codex'],
+    summary:
+      'Docker 客户端连接命令参考，Codex 连接需使用 --global 参数。',
+  },
+  {
+    title: 'amd/skills',
+    url: 'https://github.com/amd/skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', 'AMD', '插件', 'Codex'],
+    summary:
+      'AMD 技能仓库，Codex 可通过 marketplace 安装精选技能插件，插件本身不包含 MCP。',
+  },
+  {
+    title: 'amd/skills marketplace.json',
+    url: 'https://github.com/amd/skills/blob/main/.agents/plugins/marketplace.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', 'AMD', '插件', 'marketplace'],
+    summary:
+      'AMD 插件清单，marketplace 与插件名称均为 amd-skills，更新时使用该清单名。',
+  },
+  {
+    title: 'Danube · Codex CLI',
+    url: 'https://docs.danubeai.com/mcp-clients/codex-cli',
+    source: 'Danube Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Danube', 'bearer', 'Codex'],
+    summary:
+      '介绍 Danube 的 Codex CLI 连接，通过 DANUBE_API_KEY 环境变量提供 Bearer 凭据。',
+  },
+  {
+    title: 'danube-mcp',
+    url: 'https://github.com/danubeai/danube-mcp',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Danube', 'HTTP'],
+    summary:
+      'Danube MCP 源码与客户端配置说明，Codex 使用 mcp_servers 和环境变量保存认证配置。',
+  },
+  {
+    title: "Connecting Coding Clients to Asana's V2 server",
+    url: 'https://developers.asana.com/docs/connecting-mcp-clients-to-asanas-v2-server',
+    source: 'Asana Developers',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Asana', 'Codex', 'OAuth'],
+    summary:
+      '介绍 Asana V2 的客户端注册和凭据文件配置，Codex 使用 mcp-remote stdio 桥接。',
+  },
+  {
+    title: "Integrating with Asana's MCP Server",
+    url: 'https://developers.asana.com/docs/integrating-with-asanas-mcp-server',
+    source: 'Asana Developers',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Asana', 'OAuth'],
+    summary:
+      '介绍 MCP app 注册、OAuth 资源地址及服务入口。MCP token 与普通 REST API token 用途不同。',
+  },
+  {
+    title: 'Install Sequel MCP',
+    url: 'https://sequel.sh/docs/install',
+    source: 'Sequel Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Sequel', 'Codex'],
+    summary:
+      '介绍通过 Sequel 安装器或手写配置接入 Codex，服务入口为 api.sequel.sh/mcp。',
+  },
+  {
+    title: 'How to Connect PostgreSQL to OpenAI Codex Using Sequel',
+    url: 'https://sequel.sh/blog/connect-postgresql-codex',
+    source: 'Sequel Blog',
+    lang: '英文',
+    kind: '教程',
+    tags: ['MCP', 'Sequel', 'Codex', 'PostgreSQL'],
+    summary:
+      '介绍使用 Sequel 连接 PostgreSQL，Codex 的配置保存在 config.toml，密钥通过环境变量提供。',
+  },
+  {
+    title: 'Connect MCPs to AI assistants and coding agents',
+    url: 'https://docs.databricks.com/aws/en/agents/mcp-tools/connect-clients',
+    source: 'Databricks Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Databricks', 'Codex', 'ug'],
+    summary:
+      '介绍通过 ug mcp add --agents codex 添加 Databricks MCP，连接使用 ug mcp-proxy 桥接。',
+  },
+  {
+    title: 'databricks/unity-gateway',
+    url: 'https://github.com/databricks/unity-gateway',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Databricks', 'ug', 'Codex'],
+    summary:
+      'Unity Gateway 源码仓库，提供安装、配置及 ug codex 启动说明。',
+  },
+  {
+    title: 'Agent Skills & Plugins',
+    url: 'https://salesforcecommercecloud.github.io/b2c-developer-tooling/guide/agent-skills',
+    source: 'B2C Developer Toolkit',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'Salesforce', 'B2C', 'Codex'],
+    summary:
+      '介绍 Salesforce B2C 技能与插件，MCP 插件标识为 b2c-dx-mcp@b2c-developer-tooling。',
+  },
+  {
+    title: 'SalesforceCommerceCloud/b2c-developer-tooling',
+    url: 'https://github.com/SalesforceCommerceCloud/b2c-developer-tooling',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Salesforce', 'B2C', 'plugins'],
+    summary:
+      'B2C Developer Toolkit 源码仓库，MCP 插件通过 npx 启动 @salesforce/b2c-dx-mcp。',
+  },
+  {
+    title: 'Codex and Expo',
+    url: 'https://docs.expo.dev/agents/codex/',
+    source: 'Expo Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Expo', '插件', 'Codex'],
+    summary:
+      '介绍 Expo 插件安装和 OAuth 登录，插件自动提供技能并登记 MCP。',
+  },
+  {
+    title: 'Using Model Context Protocol (MCP) with Expo',
+    url: 'https://docs.expo.dev/mcp/',
+    source: 'Expo Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Expo', 'OAuth', 'EAS'],
+    summary:
+      '介绍 Expo 远程 MCP 与本地截图功能，后者需要 expo-mcp 和对应环境开关。',
+  },
+  {
+    title: 'Glean Plugin for Codex',
+    url: 'https://developers.glean.com/guides/mcp/codex',
+    source: 'Glean Developer',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Glean', '插件', 'Codex'],
+    summary:
+      '介绍 Glean Codex 插件安装，以及组织 MCP 地址配置和 OAuth 登录。',
+  },
+  {
+    title: 'Set up the Glean plug-in in Codex',
+    url: 'https://docs.glean.com/user-guide/mcp/glean-plugin-codex',
+    source: 'Glean Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Glean', 'OAuth', 'Codex'],
+    summary:
+      '介绍从 MCP Configurator 获取组织地址、完成授权并验证 Glean 搜索。',
+  },
+  {
+    title: 'gleanwork/codex-plugins',
+    url: 'https://github.com/gleanwork/codex-plugins',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['plugins', 'Glean', 'Skills', 'Codex'],
+    summary:
+      'Glean Codex 插件源，另提供可选的公共开发文档插件 glean-dev-docs。',
+  },
+  {
+    title: 'Bring Your Own AI Agent (MCP)',
+    url: 'https://help.calendarbridge.com/user-docs/bring-your-own-agent-mcp/',
+    source: 'CalendarBridge Help',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'CalendarBridge', 'OAuth', 'Codex'],
+    summary:
+      '介绍 CalendarBridge 的 OAuth 连接和订阅要求，支持 Codex CLI。',
+  },
+  {
+    title: 'Bring Your Own AI Agent to CalendarBridge',
+    url: 'https://help.calendarbridge.com/announcements/bring-your-own-agent/',
+    source: 'CalendarBridge Help',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'CalendarBridge', 'Codex'],
+    summary:
+      '介绍通过自有 AI 助手访问 CalendarBridge，使用 OAuth 授权日历操作。',
+  },
 ];
