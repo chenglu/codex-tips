@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-14T02:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "02:30 定时器。调用前 $96.66。Spend: counts（start_time=2026-09-07T02:35:00Z，共 229 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Mintlify Admin MCP（官方 Codex：mcp add mintlify --url https://mcp.mintlify.com，再 mcp login。不要加 /mcp。写作指南把同名表写成 mintlify.com/docs/mcp，不要叠成一台。OAuth，不要发明 plugin add）。X 仍是 Claude 对照、Unity、Astra /slow、token 营销、Archify、OMO 编排、/feedback。Fastmail 仍是 mcp-remote。Builder Fusion / Snowflake 官方仍无 Codex 专节。Kit #41362、ConfigCat / Meilisearch / Cal.com / Axiom 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault 仍跳过。AgentPort 官方 TOML 仍写成 headers。Infisical / Browserbase 无 Codex 专节。",
+    "02:30 定时器。调用前 $96.66，收尾 $96.66。CDP 34/34，预览 4381，CDP 9481。Spend: counts（start_time=2026-09-07T02:35:00Z，共 229 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Mintlify Admin MCP（官方 Codex：mcp add mintlify --url https://mcp.mintlify.com，再 mcp login。不要加 /mcp。写作指南把同名表写成 mintlify.com/docs/mcp，不要叠成一台。OAuth，不要发明 plugin add）。X 仍是 Claude 对照、Unity、Astra /slow、token 营销、Archify、OMO 编排、/feedback。Fastmail 仍是 mcp-remote。Builder Fusion / Snowflake 官方仍无 Codex 专节。Kit #41362、ConfigCat / Meilisearch / Cal.com / Axiom 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault 仍跳过。AgentPort 官方 TOML 仍写成 headers。Infisical / Browserbase 无 Codex 专节。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
