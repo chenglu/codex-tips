@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-14T01:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "01:00 定时器。调用前 $96.68，收尾待测。Spend: counts（start_time=2026-09-07T01:05:00Z，共 229 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 ReUI MCP（官方 Codex：mcp add reui --url https://mcp.reui.io，不要加 /mcp；再 mcp login。无头才 bearer_token_env_var REUI_LICENSE_KEY。OAuth 和 bearer 不要叠。安装器可能写成 /api/mcp。不要把 components.json 占位符抄进 http_headers）。X 仍是 Claude 对照、Unity、Astra /slow、Chrome 插件、token 营销、Archify、0.154 worktree、/feedback。Fastmail 仍是 mcp-remote。Builder Fusion / Snowflake 官方仍无 Codex 专节。Kit #41362、ConfigCat / Meilisearch / Cal.com / Axiom 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault / AgentPort 仍跳过。",
+    "01:00 定时器。调用前 $96.68，收尾 $96.68。CDP 34/34，预览 4378，CDP 9478。Spend: counts（start_time=2026-09-07T01:05:00Z，共 229 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 ReUI MCP（官方 Codex：mcp add reui --url https://mcp.reui.io，不要加 /mcp；再 mcp login。无头才 bearer_token_env_var REUI_LICENSE_KEY。OAuth 和 bearer 不要叠。安装器可能写成 /api/mcp。不要把 components.json 占位符抄进 http_headers）。X 仍是 Claude 对照、Unity、Astra /slow、Chrome 插件、token 营销、Archify、0.154 worktree、/feedback。Fastmail 仍是 mcp-remote。Builder Fusion / Snowflake 官方仍无 Codex 专节。Kit #41362、ConfigCat / Meilisearch / Cal.com / Axiom 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault / AgentPort 仍跳过。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
