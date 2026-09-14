@@ -3561,4 +3561,109 @@ startup_timeout_sec = 60
 # docker mcp client connect vscode
 `,
   },
+  {
+    id: "amd-skills-plugin",
+    title: "AMD Skills 插件",
+    filename: "terminal",
+    summary:
+      "upgrade 用清单名 amd-skills 不是仓库路径 amd/skills。主路径是 marketplace add amd/skills，再 plugin add amd-skills@amd-skills。",
+    code: `codex plugin marketplace add amd/skills
+codex plugin add amd-skills@amd-skills
+
+# TUI /plugins 打开 AMD Skills 再装也可以
+codex plugin marketplace upgrade amd-skills
+
+# 插件包外的单项才：
+# npx skills add amd/skills --skill serving-llms-on-epyc --agent codex
+
+# 不要：
+# npx skills add amd/skills
+# /plugin marketplace add amd/skills
+# plugin add amd@amd-skills
+# plugin add amd-skills@openai-curated
+# 手拷到 ~/.codex/skills
+`,
+  },
+  {
+    id: "mcp-danube-http",
+    title: "Danube 远程 HTTP MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "不要把 danube-api-key 写进 http_headers，改 bearer_token_env_var。主路径是 mcp add danube --url https://mcp.danubeai.com/mcp --bearer-token-env-var DANUBE_API_KEY。",
+    code: `codex mcp add danube --url https://mcp.danubeai.com/mcp --bearer-token-env-var DANUBE_API_KEY
+
+[mcp_servers.danube]
+url = "https://mcp.danubeai.com/mcp"
+bearer_token_env_var = "DANUBE_API_KEY"
+enabled = true
+startup_timeout_sec = 30
+
+# 自定义头回退才：
+# [mcp_servers.danube.env_http_headers]
+# danube-api-key = "DANUBE_API_KEY"
+
+# 不要：
+# [mcp_servers.danube.http_headers]
+# danube-api-key = "dk_xxxxxxx"
+# codex mcp login danube
+# url 去掉 /mcp
+`,
+  },
+  {
+    id: "mcp-asana-v2-remote",
+    title: "Asana V2 mcp-remote 凭证文件",
+    filename: "~/.codex/config.toml",
+    summary:
+      "Asana 官方 Codex 走 stdio 桥。@ 后必须是绝对路径，~ 不会展开。不要 mcp add --url，也不要把 client_secret 写进 args。",
+    code: `{
+  "client_id": "YOUR_CLIENT_ID",
+  "client_secret": "YOUR_CLIENT_SECRET"
+}
+
+# chmod 600 /absolute/path/to/mcp_oauth_client.json
+
+[mcp_servers.asana]
+command = "npx"
+args = [
+  "-y",
+  "mcp-remote@latest",
+  "https://mcp.asana.com/v2/mcp",
+  "3334",
+  "--static-oauth-client-info",
+  "@/absolute/path/to/mcp_oauth_client.json",
+  "--resource",
+  "https://mcp.asana.com/v2"
+]
+startup_timeout_sec = 60
+
+# 不要：
+# codex mcp add asana --url https://mcp.asana.com/v2/mcp
+# codex mcp login asana
+# https://mcp.asana.com/sse
+# --client-secret 写进 args
+`,
+  },
+  {
+    id: "mcp-sequel-http",
+    title: "Sequel 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "远程是 api.sequel.sh/mcp。不要把 sql_ 密钥写进 http_headers，改 bearer_token_env_var。不要抄 config.yaml，也不要 mcp login。",
+    code: `codex mcp add sequel --url https://api.sequel.sh/mcp --bearer-token-env-var SEQUEL_API_KEY
+
+[mcp_servers.sequel]
+url = "https://api.sequel.sh/mcp"
+bearer_token_env_var = "SEQUEL_API_KEY"
+
+# 可选：sequel login && sequel install codex
+# 然后用 codex mcp get sequel 核对，不要留下 config.yaml
+
+# 不要：
+# ~/.codex/config.yaml
+# type: http
+# http_headers = { Authorization = "Bearer sql_…" }
+# codex mcp login sequel
+# npx -y sequel-mcp
+`,
+  },
 ];

@@ -4581,4 +4581,84 @@ export const articles: Article[] = [
     summary:
       '支持的客户端名单含 codex。必须 --global / -g，可选 --profile。漏掉全局旗标会报 only supports global configuration。不要抄 vscode 那种项目级 mcp.json。',
   },
+  {
+    title: 'amd/skills',
+    url: 'https://github.com/amd/skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', 'AMD', '插件', 'Codex'],
+    summary:
+      'README 仍写 Until marketplace integration lands，现行 Codex 走 marketplace add amd/skills。再 plugin add amd-skills@amd-skills。npx skills add 不是插件安装器。插件没有 MCP。',
+  },
+  {
+    title: 'amd/skills marketplace.json',
+    url: 'https://github.com/amd/skills/blob/main/.agents/plugins/marketplace.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', 'AMD', '插件', 'marketplace'],
+    summary:
+      '清单 name 和插件 name 都是 amd-skills，source.path 是仓库根。ON_INSTALL 会在安装时弹信任提示。upgrade 用清单名 amd-skills，不要写成仓库路径 amd/skills。',
+  },
+  {
+    title: 'Danube · Codex CLI',
+    url: 'https://docs.danubeai.com/mcp-clients/codex-cli',
+    source: 'Danube Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Danube', 'bearer', 'Codex'],
+    summary:
+      '文档承认 mcp add 设不了自定义头，改走 bearer_token_env_var DANUBE_API_KEY。远程是 mcp.danubeai.com/mcp。不要把 dk_ 写进 http_headers。不要 mcp login。',
+  },
+  {
+    title: 'danube-mcp',
+    url: 'https://github.com/danubeai/danube-mcp',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Danube', 'HTTP'],
+    summary:
+      '源仓 README 只给 Claude mcpServers JSON 和 danube-api-key 字面量。Codex 对照改成 [mcp_servers.danube] 加 bearer_token_env_var。不要抄 type = streamable-http。',
+  },
+  {
+    title: "Connecting Coding Clients to Asana's V2 server",
+    url: 'https://developers.asana.com/docs/connecting-mcp-clients-to-asanas-v2-server',
+    source: 'Asana Developers',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Asana', 'Codex', 'OAuth'],
+    summary:
+      'Asana 不支持 DCR，Codex 节把 client_secret 放进 @ 前缀的 json 文件。stdio 桥是 mcp-remote@latest，Redirect 是 localhost:3334/oauth/callback。不要 mcp add --url，也不要抄 Claude / Cursor。',
+  },
+  {
+    title: "Integrating with Asana's MCP Server",
+    url: 'https://developers.asana.com/docs/integrating-with-asanas-mcp-server',
+    source: 'Asana Developers',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Asana', 'OAuth'],
+    summary:
+      '先建 MCP app，再预注册 client id / secret。resource 是 https://mcp.asana.com/v2，服务器 URL 才带 /mcp。V1 /sse 已弃用。MCP token 不能打普通 REST。',
+  },
+  {
+    title: 'Install Sequel MCP',
+    url: 'https://sequel.sh/docs/install',
+    source: 'Sequel Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Sequel', 'Codex'],
+    summary:
+      'Codex slug 是 codex，只 global，不装 SKILL.md。远程是 api.sequel.sh/mcp。CLI 是 sequel install codex。手写对照 mcp add 加 bearer_token_env_var，不要 mcp login。',
+  },
+  {
+    title: 'How to Connect PostgreSQL to OpenAI Codex Using Sequel',
+    url: 'https://sequel.sh/blog/connect-postgresql-codex',
+    source: 'Sequel Blog',
+    lang: '英文',
+    kind: '教程',
+    tags: ['MCP', 'Sequel', 'Codex', 'PostgreSQL'],
+    summary:
+      '营销页写成 ~/.codex/config.yaml 和 headers 里的 sql_ 密钥，Codex 对照改 toml。博客给的是 [mcp_servers.sequel] 加 bearer_token_env_var = SEQUEL_API_KEY。不要 mcp login。',
+  },
 ];

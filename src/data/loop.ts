@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-14T14:00:00Z",
+  lastTick: "2026-09-14T16:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "14:00 定时器。调用前 $96.42，收尾 $96.40。Spend: counts（start_time=2026-09-07T14:05:00Z，共 219 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Docker MCP Toolkit：docker mcp client connect --global codex。表名 MCP_DOCKER。stdio，不要 mcp login。Auth 列 Unsupported。从 origin/main（#31 405–416 + #32/#33 成 417/418）新开，不叠仍开着的 #34 旧编号。CDP 25/25，预览 4404，路径 /tips/mcp-docker-toolkit/。站点 419 技巧 / 457 文章 / 88 社区。X 仍是 Claude→Codex 炒作、bro/caveman 技能、Unity、Astra、Google Cloud 插件（main 已有）、0.155 alpha 回滚、日文全功能文。Vault / Infisical 文档 MCP / dbt / Fastmail / Builder Fusion / Cal.com / ConfigCat 仍无可用 Codex 专节。",
+    "16:00 收口。#35 Docker Toolkit 合入后，#36–#39 都还抢 TIP 419。按到达顺序改号：420 amd-skills-plugin、421 mcp-danube-http、422 mcp-asana-v2-remote、423 mcp-sequel-http。#34 与已合入的 #35 重复。站点 423 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1674,6 +1674,34 @@ export const loopState = {
     "Codex CLI 技巧 2026 Docker MCP Toolkit MCP_DOCKER --global",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR skills OR AGENTS.md OR plugin OR worktree)',
     "X news: Codex CLI",
+    "github.com amd/skills .agents/plugins/marketplace.json amd-skills",
+    "github.com amd/skills .codex-plugin plugin.json generate_codex_plugin.py",
+    "docs.docker.com mcp client connect --global codex (skip open PR 35)",
+    "hashicorp vault consul mcp Codex skip no codex section",
+    "infisical docs mcp Codex skip Claude only",
+    "fastmail mcp-remote Codex skip",
+    "awesome-codex-plugins plugin install skip",
+    "Codex CLI 技巧 2026 amd/skills marketplace add amd-skills@amd-skills",
+    "docs.danubeai.com mcp-clients codex-cli bearer_token_env_var DANUBE_API_KEY",
+    "github.com danubeai/danube-mcp mcp.danubeai.com",
+    "docs.docker.com mcp client connect --global (skip open PR 35)",
+    "github.com amd/skills marketplace (skip open PR 36)",
+    "hashicorp vault consul Infisical Fastmail skip",
+    "Codex CLI 技巧 2026 Danube MCP mcp.danubeai.com danube-api-key",
+    "developers.asana.com connecting-mcp-clients Codex --static-oauth-client-info mcp_oauth_client.json",
+    "developers.asana.com integrating-with-asanas-mcp-server DCR resource v2/mcp",
+    "Asana V2 MCP Codex mcp-remote 3334 oauth callback credentials file",
+    "sequel.sh docs install Codex slug sequel install (skipped yaml trap)",
+    "X news: Codex CLI 2026-09-14 15:30",
+    "Codex CLI 技巧 2026 Asana V2 mcp-remote 凭证文件 不要 mcp add --url",
+    "sequel.sh docs install Codex slug sequel install codex api.sequel.sh/mcp",
+    "sequel.sh blog connect-postgresql-codex config.toml bearer_token_env_var",
+    "sequel.sh agents/codex config.yaml trap",
+    "render.com docs mcp-server Codex already in site",
+    "docs.turso.tech integrations mcp already in site",
+    "docs.databricks.com ucode mcp add --agents codex (deferred)",
+    "X news: Codex CLI 2026-09-14 16:00",
+    "Codex CLI 技巧 2026 Sequel MCP api.sequel.sh config.toml bearer",
   ],
 };
 
