@@ -3911,5 +3911,35 @@ export const articles: Article[] = [
     summary:
       'Alloy MCP 把原型会话的设计、聊天、文件交给 Codex。连上后贴会话链接，不要手工拷聊天记录。面向 Claude 和 Codex，不是 alloy.cx 那套插件。',
   },
+  {
+    title: 'Firebase agent skills',
+    url: 'https://firebase.google.com/docs/ai-assistance/agent-skills',
+    source: 'Firebase',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', '插件', 'Firebase', 'Codex'],
+    summary:
+      '官方 Codex：marketplace add 再 plugin add firebase@firebase。升级用 marketplace upgrade firebase。README 写成 firebase/skills，以这份专节的 firebase/agent-skills 为准。不要抄 Claude 的 plugin install。',
+  },
+  {
+    title: 'firebase/agent-skills',
+    url: 'https://github.com/firebase/agent-skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', '插件', 'Firebase'],
+    summary:
+      'README Option 4 写成 firebase/skills，文档专节是 firebase/agent-skills。github.com/firebase/skills 会转到这个仓。Codex 以文档专节为准，不要把 npx skills add 当插件安装器。',
+  },
+  {
+    title: 'Firebase MCP server',
+    url: 'https://firebase.google.com/docs/ai-assistance/mcp-server',
+    source: 'Firebase',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Firebase'],
+    summary:
+      '这一页没有 Codex 专节。Claude MCP 插件走 firebase/firebase-tools，不要抄 firebase/firebase-tools 当 Codex marketplace。stdio 是 npx firebase-tools mcp，鉴权走 firebase login / ADC，不要 mcp login。',
+  },
 ];
 

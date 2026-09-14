@@ -11211,4 +11211,84 @@ Bearer 和 \`mcp login\` **是两条路，不要叠**。配置了 \`bearer_token
       },
     ],
   },
+  {
+    id: "firebase-agent-skills",
+    no: 396,
+    title: "Firebase 技能用 marketplace 加 firebase/agent-skills，不要抄 firebase-tools",
+    summary:
+      "官方 Codex：marketplace add firebase/agent-skills，再 plugin add firebase@firebase。README 写成 firebase/skills，以文档专节为准。不要抄 Claude 的 firebase/firebase-tools。不要用 npx skills add 当插件安装器。",
+    body: `Firebase 给 Codex 有专节，写在 Agent Skills 文档。这是官方插件，不是手拷 SKILL.md。CLI：
+
+\`\`\`bash
+codex plugin marketplace add firebase/agent-skills
+codex plugin add firebase@firebase
+\`\`\`
+
+桌面先在终端跑完 \`marketplace add\`，**彻底重启** Codex 应用，再打开 Plugins，选 Firebase 源，点 Install。新任务里用 \`@Firebase\` 选这份插件，或直接提 Firebase 任务。
+
+升级先刷新仓快照：
+
+\`\`\`bash
+codex plugin marketplace upgrade firebase
+\`\`\`
+
+刷新捡不到再卸再装：
+
+\`\`\`bash
+codex plugin remove firebase@firebase
+codex plugin add firebase@firebase
+\`\`\`
+
+GitHub README 的 Option 4 写成 \`firebase/skills\`。文档专节是 \`firebase/agent-skills\`。\`github.com/firebase/skills\` 会转到 \`firebase/agent-skills\`。**以文档专节为准。** 不要把 README 那条当 Codex marketplace 源。
+
+0.154 起先看**当前会话**的 \`/plugins\`，应能看到 \`firebase@firebase\`。没有再新开。IDE 扩展没有 \`/plugins\`。不要一上来 \`/new\`。
+
+技能举例：\`firebase-basics\`、\`firebase-auth-basics\`、\`firebase-firestore-standard\`、\`firebase-app-hosting-basics\`、\`firebase-crashlytics\`。文档说技能应和 Firebase MCP **互补**：技能教工作流和护栏，MCP 才去动项目里的资源。
+
+Firebase **MCP 页没有 Codex 专节**。它只列 Antigravity / Claude / Cursor / VS Code / Firebase Studio。stdio 启动命令各家一样是 \`npx -y firebase-tools@latest mcp\`，鉴权走本机 \`firebase login\` 或 ADC，**不要**再 \`mcp login\`。插件主路径装不上、只要这台 MCP 时，才手写用户层回退：
+
+\`\`\`bash
+codex mcp add firebase -- npx -y firebase-tools@latest mcp
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.firebase]
+command = "npx"
+args = ["-y", "firebase-tools@latest", "mcp"]
+enabled = true
+startup_timeout_sec = 60
+\`\`\`
+
+这不是官方 Codex \`mcp add\` 主路径，也不要发明远程 \`--url\`。npx 冷启动慢，超时就加大 \`startup_timeout_sec\`。MCP / CLI 会改 Firebase 项目，保持工具批准。不要 \`required = true\`。不要一上来 \`--yolo\`。
+
+不要做这些：
+
+- 不要抄 Claude MCP 插件：\`claude plugin marketplace add firebase/firebase-tools\` 再 \`claude plugin install firebase@firebase\`。那是 **firebase-tools** marketplace，和技能仓不是同一个源，虽然插件 id 都叫 \`firebase@firebase\`。
+- 不要把 Claude 技能命令 \`claude plugin marketplace add firebase/agent-skills\` / \`claude plugin install firebase@firebase\` 当成 Codex 命令。Codex 是 \`codex plugin marketplace add\` 加 \`codex plugin add\`。
+- 不要用 \`npx skills add firebase/agent-skills\`（或 README 的 \`firebase/skills\`）当 Codex 插件安装器。那是 Other agents / Cursor（\`--agent=cursor\`）拷 SKILL.md，不会走 Codex marketplace。
+- 不要和 \`google/skills\` 的 \`google-cloud-developer@google-plugins\` 搞混。
+- 不要发明别的 \`plugin add firebase@…\` id。官方就是 \`firebase@firebase\`。
+- 不要手拷到 \`~/.codex/skills\`。现行个人目录是 \`~/.agents/skills\`，而且那条不会登记插件。
+
+网页 Cloud 不读本机 marketplace。改完用 \`codex plugin list\` 核对 \`firebase@firebase\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Firebase", "Skills", "MCP"],
+    related: ["google-cloud-developer-plugin", "plugin-session-refresh", "azure-skills-plugin"],
+    sources: [
+      {
+        label: "Firebase · Agent skills",
+        url: "https://firebase.google.com/docs/ai-assistance/agent-skills",
+      },
+      {
+        label: "firebase/agent-skills",
+        url: "https://github.com/firebase/agent-skills",
+      },
+      {
+        label: "Firebase · MCP server",
+        url: "https://firebase.google.com/docs/ai-assistance/mcp-server",
+      },
+    ],
+  },
 ];

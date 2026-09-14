@@ -3044,4 +3044,23 @@ url = "https://mcp.alloy.app/mcp"
 enabled = true
 `,
   },
+  {
+    id: "firebase-agent-skills",
+    title: "Firebase Agent Skills 插件",
+    filename: "terminal",
+    summary:
+      "主路径是 marketplace add firebase/agent-skills，再 plugin add firebase@firebase。不要抄 README 的 firebase/skills，也不要抄 Claude 的 firebase/firebase-tools。npx skills add 不是 Codex 插件安装器。",
+    code: `codex plugin marketplace add firebase/agent-skills
+codex plugin add firebase@firebase
+
+# 升级：
+# codex plugin marketplace upgrade firebase
+# 刷新捡不到再：
+# codex plugin remove firebase@firebase
+# codex plugin add firebase@firebase
+
+# 只要 MCP、插件装不上时（MCP 页没有 Codex 专节）：
+# codex mcp add firebase -- npx -y firebase-tools@latest mcp
+`,
+  },
 ];
