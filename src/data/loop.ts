@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-14T14:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "14:00 定时器。调用前 $96.42，收尾待 CDP 后更新。Spend: counts（start_time=2026-09-07T14:05:00Z，共 219 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Docker MCP Toolkit：docker mcp client connect --global codex。表名 MCP_DOCKER。stdio，不要 mcp login。Auth 列 Unsupported。从 origin/main（#31 405–416 + #32/#33 成 417/418）新开，不叠仍开着的 #34 旧编号。X 仍是 Claude→Codex 炒作、bro/caveman 技能、Unity、Astra、Google Cloud 插件（main 已有）、0.155 alpha 回滚、日文全功能文。Vault / Infisical 文档 MCP / dbt / Fastmail / Builder Fusion / Cal.com / ConfigCat 仍无可用 Codex 专节。",
+    "14:00 定时器。调用前 $96.42，收尾 $96.40。Spend: counts（start_time=2026-09-07T14:05:00Z，共 219 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Docker MCP Toolkit：docker mcp client connect --global codex。表名 MCP_DOCKER。stdio，不要 mcp login。Auth 列 Unsupported。从 origin/main（#31 405–416 + #32/#33 成 417/418）新开，不叠仍开着的 #34 旧编号。CDP 25/25，预览 4404，路径 /tips/mcp-docker-toolkit/。站点 419 技巧 / 457 文章 / 88 社区。X 仍是 Claude→Codex 炒作、bro/caveman 技能、Unity、Astra、Google Cloud 插件（main 已有）、0.155 alpha 回滚、日文全功能文。Vault / Infisical 文档 MCP / dbt / Fastmail / Builder Fusion / Cal.com / ConfigCat 仍无可用 Codex 专节。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
