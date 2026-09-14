@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-14T16:00:00Z",
+  lastTick: "2026-09-14T18:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "16:00 收口。#35 Docker Toolkit 合入后，#36–#39 都还抢 TIP 419。按到达顺序改号：420 amd-skills-plugin、421 mcp-danube-http、422 mcp-asana-v2-remote、423 mcp-sequel-http。#34 与已合入的 #35 重复。站点 423 技巧。",
+    "18:00 收口。#35 合入后 #36–#39 改号 420–423 已在本 PR；再并入仍开着的 #41–#44：424 ug-mcp-add-codex、425 b2c-dx-mcp-codex-plugin、426 expo-codex-plugin、427 glean-codex-plugin。合入后关 #36–#39、#41–#44。站点 427 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1702,6 +1702,35 @@ export const loopState = {
     "docs.databricks.com ucode mcp add --agents codex (deferred)",
     "X news: Codex CLI 2026-09-14 16:00",
     "Codex CLI 技巧 2026 Sequel MCP api.sequel.sh config.toml bearer",
+    "docs.databricks.com aws agents mcp-tools connect-clients Codex ug mcp add",
+    "github.com/databricks/unity-gateway ug mcp-proxy ucode.config.toml",
+    "github.com/databricks/ucode 重定向 unity-gateway Codex",
+    "docs.databricks.com ai-gateway coding-agent-integration-model-services ucode Codex",
+    "cal.com mcp Codex",
+    "Codex CLI 技巧 2026 Databricks ug mcp add --agents codex mcp-proxy",
+    "salesforcecommercecloud.github.io b2c-developer-tooling Codex plugin marketplace add",
+    "github.com/SalesforceCommerceCloud/b2c-developer-tooling b2c-dx-mcp Codex",
+    "docs.unity.com ai unity-plugin Codex marketplace",
+    "Codex CLI 技巧 2026 Salesforce B2C b2c-dx-mcp marketplace",
+    "docs.expo.dev agents/codex plugin add expo@openai-curated mcp login expo",
+    "docs.expo.dev mcp mcp.expo.dev/mcp Codex mcp add expo",
+    "docs.expo.dev skills expo@openai-curated",
+    "github.com/expo/skills Codex plugin add expo@openai-curated",
+    "clerk.com docs mcp Codex clerk mcp run 已有",
+    "workos.com docs mcp Codex mcp add workos 已有",
+    "mongodb.com docs Codex mongodb/agent-skills 已有",
+    "hashicorp vault-mcp-server Codex 仍无专节",
+    "fastmail.com mcp Codex 仍无专节",
+    "docs.getdbt.com wizard-mcp Codex 仍无专节",
+    "Codex CLI 技巧 2026 Expo plugin add expo@openai-curated",
+    "developers.glean.com guides mcp codex plugin marketplace add gleanwork/codex-plugins",
+    "docs.glean.com user-guide mcp glean-plugin-codex mcp login glean",
+    "github.com/gleanwork/codex-plugins glean@glean-codex-plugins",
+    "docs.glean.com administration platform mcp glean-plugin-codex",
+    "glean-dev-docs developers.glean.com/mcp Codex",
+    "configcat mcp Codex 仍无专节",
+    "meilisearch mcp Codex 仍无专节",
+    "Codex CLI 技巧 2026 Glean plugin add glean@glean-codex-plugins",
   ],
 };
 

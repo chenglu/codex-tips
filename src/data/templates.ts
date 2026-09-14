@@ -3666,4 +3666,100 @@ bearer_token_env_var = "SEQUEL_API_KEY"
 # npx -y sequel-mcp
 `,
   },
+  {
+    id: "ug-mcp-add-codex",
+    title: "Databricks ug mcp add",
+    filename: "terminal",
+    summary:
+      "官方 Codex 是 ug mcp add --agents codex。不要抄 Cursor 的 mcp-remote，Codex 表是 ug mcp-proxy stdio。启动用 ug codex，不要裸跑。",
+    code: `uv tool install git+https://github.com/databricks/unity-gateway
+databricks auth login
+ug mcp add --agents codex --services CATALOG.SCHEMA.SERVICE
+ug codex
+
+# 只加不删。configure mcp 会整表替换：
+# ug mcp add --services uc-functions:main.tools
+# ug mcp add --services system.ai.slack
+
+# 不要：
+# ucode 当已经改名后的唯一命令（它只是别名）
+# npx mcp-remote https://WORKSPACE/api/2.0/mcp/functions/...
+# codex mcp login
+# 把 PAT 写进 http_headers
+# ug configure mcp 当「再加一台」
+`,
+  },
+  {
+    id: "b2c-dx-mcp-codex-plugin",
+    title: "Salesforce B2C marketplace",
+    filename: "terminal",
+    summary:
+      "官方 Codex 是 marketplace add 再 plugin add b2c-dx-mcp。不要把 b2c setup skills --ide codex 当插件安装器。插件 cwd 不是仓库根。",
+    code: `codex plugin marketplace add SalesforceCommerceCloud/b2c-developer-tooling
+codex plugin add b2c@b2c-developer-tooling
+codex plugin add b2c-cli@b2c-developer-tooling
+codex plugin add b2c-dx-mcp@b2c-developer-tooling
+
+# IDE 没有 /plugins 才手写：
+# codex mcp add b2c-dx-mcp -- npx -y @salesforce/b2c-dx-mcp@latest --allow-non-ga-tools
+
+# 不要：
+# claude plugin install b2c-dx-mcp
+# npx @salesforce/b2c-cli setup skills --ide codex
+# codex mcp login b2c-dx-mcp
+# 把 client-secret 写进 config.toml env
+`,
+  },
+  {
+    id: "expo-codex-plugin",
+    title: "Expo 官方插件",
+    filename: "terminal",
+    summary:
+      "主路径是 plugin add expo@openai-curated，再 mcp login expo。插件会登记 mcp.expo.dev/mcp。不要抄 Claude 的 expo@claude-plugins-official。不要把 npx skills add 当 Codex 安装器。",
+    code: `codex plugin add expo@openai-curated
+codex mcp login expo
+
+# 只要 MCP、不装插件：
+# codex mcp add expo --url https://mcp.expo.dev/mcp
+# codex mcp login expo
+
+# [mcp_servers.expo]
+# url = "https://mcp.expo.dev/mcp"
+# enabled = true
+
+# 不要：
+# claude plugin install expo@claude-plugins-official
+# npx skills add expo/skills
+# codex plugin add expo@expo
+# npx mcp-remote https://mcp.expo.dev/mcp
+`,
+  },
+  {
+    id: "glean-codex-plugin",
+    title: "Glean 官方插件",
+    filename: "terminal",
+    summary:
+      "主路径是 marketplace add gleanwork/codex-plugins，再 plugin add glean@glean-codex-plugins。组织远程还要 mcp add glean，再 mcp login glean。不要把 Cursor 的 /add-plugin glean 当 Codex 安装器。",
+    code: `codex plugin marketplace add gleanwork/codex-plugins
+codex plugin add glean@glean-codex-plugins
+codex mcp add glean --url https://acme-be.glean.com/mcp/engineering
+codex mcp login glean
+
+# [mcp_servers.glean]
+# url = "https://acme-be.glean.com/mcp/engineering"
+# enabled = true
+
+# 可选公开文档：
+# codex plugin add glean-dev-docs@glean-codex-plugins
+# codex mcp add glean-dev-docs --url https://developers.glean.com/mcp
+
+# 不要：
+# /plugin marketplace add gleanwork/claude-plugins
+# /plugin install glean@glean-plugins
+# /add-plugin glean
+# /glean_run
+# codex plugin add glean@openai-curated
+# npx mcp-remote https://acme-be.glean.com/mcp/engineering
+`,
+  },
 ];
