@@ -4091,4 +4091,34 @@ export const articles: Article[] = [
     summary:
       '命令是 cortex，连接写在 ~/.snowflake/connections.toml。which cortex 要有路径。官方写中国大陆不可用。这不是 Codex 的 mcp add。',
   },
+  {
+    title: 'Connecting Codex CLI to n8n MCP server',
+    url: 'https://docs.n8n.io/connect/connect-to-n8n-mcp-server/mcp-client-examples/',
+    source: 'n8n Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'n8n', 'OAuth', 'Codex'],
+    summary:
+      '官方 Codex 节是 mcp add n8n --url，路径是 mcp-server/http，再 mcp login n8n。不要抄 experimental_use_rmcp_client。API key 示例把 Bearer 写进 http_headers，不要抄。',
+  },
+  {
+    title: 'Connect to n8n MCP server',
+    url: 'https://docs.n8n.io/connect/connect-to-n8n-mcp-server/',
+    source: 'n8n Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'n8n', 'OAuth'],
+    summary:
+      '先打开 Instance-level MCP。Server URL 以 mcp-server/http 结尾，不要贴编辑器地址。工作流还要单独打开 Available in MCP。技能仓是 n8n-io/skills。',
+  },
+  {
+    title: 'n8n-io/skills',
+    url: 'https://github.com/n8n-io/skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', 'n8n', '插件', 'Codex'],
+    summary:
+      'Codex 是 marketplace add n8n-io/skills，再 plugin add n8n-skills@n8n-io。插件不会登记 MCP，还要 mcp add n8n-mcp。不要和文档表名 n8n 叠成两台。不要用 npx skills add 当插件安装器。',
+  },
 ];
