@@ -3207,4 +3207,27 @@ codex mcp login n8n-mcp
 # enabled = true
 `,
   },
+  {
+    id: "mcp-endor-cli-tools",
+    title: "Endor Labs 扫描 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add endor-cli-tools -- npx -y endorctl ai-tools mcp-server。stdio，不要 mcp login。文档 MCP 另起 endor-docs 表，占位 ENDOR_DOCS_KEY。",
+    code: `codex mcp add endor-cli-tools -- npx -y endorctl ai-tools mcp-server
+
+# 企业版命名空间（不要 --env 字面量）：
+# env_vars = ["ENDOR_NAMESPACE", "ENDOR_MCP_SERVER_AUTH_MODE", "ENDOR_MCP_SERVER_AUTH_TENANT"]
+
+# 系统已装 endorctl：
+# codex mcp add endor-cli-tools -- endorctl ai-tools mcp-server
+
+# 文档 MCP（另一张表，占位 bearer）：
+# export ENDOR_DOCS_KEY=dummy
+# codex mcp add endor-docs --url https://docs.endorlabs.com/mcp --bearer-token-env-var ENDOR_DOCS_KEY
+
+# 不要：
+# codex mcp login endor-cli-tools
+# npx skills add https://docs.endorlabs.com
+`,
+  },
 ];
