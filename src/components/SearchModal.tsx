@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { tips } from "../data/tips";
+import { isInternalHref, navigate } from "../lib/navigate";
 import { searchCatalog } from "../lib/search";
 import { EmptyState } from "./EmptyState";
 
@@ -76,8 +77,8 @@ export function SearchModal({
       if (event.key === "Enter" && results[active]) {
         event.preventDefault();
         const hit = results[active];
-        if (hit.href.startsWith("#")) {
-          window.location.hash = hit.href.replace(/^#/, "");
+        if (isInternalHref(hit.href)) {
+          navigate(hit.href);
         } else {
           window.open(hit.href, "_blank", "noreferrer");
         }
@@ -132,8 +133,8 @@ export function SearchModal({
               aria-selected={index === active}
               className={index === active ? "is-active" : undefined}
               href={hit.href}
-              target={hit.href.startsWith("#") ? undefined : "_blank"}
-              rel={hit.href.startsWith("#") ? undefined : "noreferrer"}
+              target={isInternalHref(hit.href) ? undefined : "_blank"}
+              rel={isInternalHref(hit.href) ? undefined : "noreferrer"}
               onMouseEnter={() => setActive(index)}
               onClick={onClose}
             >

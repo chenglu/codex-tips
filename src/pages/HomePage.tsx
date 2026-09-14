@@ -2,6 +2,7 @@ import { categories } from "../data/categories";
 import { articles } from "../data/articles";
 import { community } from "../data/community";
 import { featuredTips, tips } from "../data/tips";
+import { siteFaqs } from "../lib/faq";
 import { href } from "../lib/routes";
 import { TipCard } from "../components/TipCard";
 import { FeedItem } from "../components/FeedItem";
@@ -119,6 +120,21 @@ export function HomePage() {
             />
           ))}
         </div>
+      </div>
+
+      <div className="section-block">
+        <div className="section-head">
+          <h2>常见问题</h2>
+          <a href={href({ name: "about" })}>关于手册 →</a>
+        </div>
+        <dl className="faq">
+          {siteFaqs.map((item) => (
+            <div key={item.q} className="faq-item">
+              <dt>{item.q}</dt>
+              <dd>{item.a}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
     </>
   );
