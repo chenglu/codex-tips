@@ -3821,5 +3821,35 @@ export const articles: Article[] = [
     summary:
       'MCP 只读凭证拦不住客户端用 prefect CLI 删资源。Cloud OAuth 只覆盖授权时勾选的工作区。自托管 basic auth 用 PREFECT_API_AUTH_STRING，不要和 Cloud API key 混用。',
   },
+  {
+    title: 'MCP',
+    url: 'https://help.gowindmill.com/features/mcp',
+    source: 'Windmill',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Windmill', 'OAuth'],
+    summary:
+      '官方 Codex 专节：mcp add windmill --url https://mcp.gowindmill.com/mcp，再 mcp login。OAuth 后台刷新，不像 Dashboard 大约七天过期。Claude 插件 windmill-dev/windmill-plugin 不是 Codex 路径。',
+  },
+  {
+    title: 'Codex',
+    url: 'https://help.gowindmill.com/integrations/codex',
+    source: 'Windmill',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Windmill', '分析'],
+    summary:
+      '这是 Settings → Integrations 的 Codex 用量同步，不是 MCP。要 ChatGPT Enterprise 或 Codex 计划。管理员贴 API key 和 Workspace ID，只读线程 / 额度 / token，不读代码和对话。',
+  },
+  {
+    title: 'Pulse Surveys',
+    url: 'https://help.gowindmill.com/features/pulse-surveys',
+    source: 'Windmill',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Windmill'],
+    summary:
+      'Pulse 结果也可以经 MCP 让助手汇总。MCP 只返回你在 Dashboard 里已经能看见的 Pulse。数据会进你连接的那个模型；Windmill 自己的 MCP 服务不把数据送给别的模型。',
+  },
 ];
 

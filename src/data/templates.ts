@@ -2984,4 +2984,18 @@ enabled = true
 PREFECT_API_URL = "https://api.prefect.cloud/api/accounts/ACCOUNT_UUID/workspaces/WORKSPACE_UUID"
 `,
   },
+  {
+    id: "windmill-mcp-http",
+    title: "Windmill MCP",
+    filename: "config.toml",
+    summary:
+      "官方 Codex 专节：mcp.gowindmill.com/mcp，再 mcp login windmill。不是 windmill.dev。不要发明 plugin add。不要抄 Claude 的 --transport http。",
+    code: `codex mcp add windmill --url https://mcp.gowindmill.com/mcp
+codex mcp login windmill
+
+[mcp_servers.windmill]
+url = "https://mcp.gowindmill.com/mcp"
+enabled = true
+`,
+  },
 ];

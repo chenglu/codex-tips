@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-14T00:00:00Z",
+  lastTick: "2026-09-14T00:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "00:00 定时器。调用前 $96.80，收尾 $96.69。Spend: counts（start_time=2026-09-07T00:05:00Z，共 229 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Prefect Codex 插件（marketplace add prefecthq/prefect-mcp-server，再 plugin add prefect@prefect。Cloud OAuth。stdio 才 uvx --from prefect-mcp。官方 TOML 错写成 [mcp.prefect]。不要抄 Claude --transport http）。Windmill 1:1 MCP（mcp.gowindmill.com/mcp）有 Codex 专节，留 00:30。X 仍是 Claude 对照、Unity、Astra /slow、Chrome 插件、token 营销。Fastmail 仍是 mcp-remote。Builder Fusion / Snowflake 官方仍无 Codex 专节。Kit #41362、ConfigCat / Meilisearch / Cal.com / Axiom 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault / AgentPort / ReUI 仍跳过。CDP 35/35（预览 4376）。",
+    "00:30 定时器。调用前 $96.69，收尾待测。Spend: counts（start_time=2026-09-07T00:35:00Z，共 230 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Windmill MCP（官方 Codex 专节：mcp add windmill --url https://mcp.gowindmill.com/mcp，再 mcp login。这是 gowindmill 的 1:1 产品，不是 windmill.dev。不要发明 plugin add，不要抄 Claude --transport http。Settings → Integrations 的 Codex 分析是另一条）。X 仍是 Claude 对照、Unity、Astra /slow、Chrome 插件、token 营销、Archify、0.154 worktree、/feedback。ReUI 仍跳过（URL 有 mcp.reui.io 与 /api/mcp 两套写法）。Fastmail 仍是 mcp-remote。Builder Fusion / Snowflake 官方仍无 Codex 专节。Kit #41362、ConfigCat / Meilisearch / Cal.com / Axiom 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault / AgentPort 仍跳过。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1436,6 +1436,15 @@ export const loopState = {
     "builder.io fusion-mcp-server mcp.builder.io Codex",
     "snowflake cortex MCP Codex mcp add",
     "Codex CLI 技巧 2026 Prefect plugin prefect@prefect uvx prefect-mcp",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR skills OR AGENTS.md OR plugin OR worktree)',
+    "X news: Codex CLI",
+    "help.gowindmill.com features mcp Codex mcp.gowindmill.com mcp login windmill",
+    "help.gowindmill.com integrations codex analytics API key Workspace ID",
+    "reui.io docs codex mcp add REUI_LICENSE_KEY mcp.reui.io",
+    "fastmail.com mcp Codex mcp-remote api.fastmail.com",
+    "builder.io fusion-mcp-server mcp.builder.io Codex",
+    "snowflake cortex MCP Codex mcp add",
+    "Codex CLI 技巧 2026 Windmill MCP mcp.gowindmill.com/mcp",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR skills OR AGENTS.md OR plugin OR worktree)',
     "X news: Codex CLI",
   ],

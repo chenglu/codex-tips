@@ -11019,4 +11019,60 @@ MCP 工具本身只读：看 dashboard、deployment、flow run、日志、work p
       },
     ],
   },
+  {
+    id: "windmill-mcp-http",
+    no: 393,
+    title: "Windmill MCP 用 mcp.gowindmill.com/mcp 再 login",
+    summary:
+      "官方 Codex 专节：codex mcp add windmill --url https://mcp.gowindmill.com/mcp，再 mcp login windmill。这是 gowindmill 的 1:1 产品，不是 windmill.dev。不要发明 plugin add，不要抄 Claude 的 --transport http。",
+    body: `这是 \`gowindmill.com\` 的 1:1 / People 产品，**不是** \`windmill.dev\` 工作流平台。给 Codex 有专节。远程入口是 \`https://mcp.gowindmill.com/mcp\`，**带** \`/mcp\`。鉴权是个人账号 OAuth，权限跟你在 Windmill Dashboard 里能看见的一样；Dashboard 有的动作，MCP 不一定都暴露。每人在自己的 Codex 里加一次、登一次，不要共用别人的登录。
+
+官方 Codex 命令：
+
+\`\`\`bash
+codex mcp add windmill --url https://mcp.gowindmill.com/mcp
+codex mcp login windmill
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.windmill]
+url = "https://mcp.gowindmill.com/mcp"
+enabled = true
+\`\`\`
+
+浏览器没弹再跑 \`codex mcp login windmill\`。第一次调工具时也会跳到浏览器。OAuth 刷新在后台转，没有 Dashboard 那种大约七天过期；卸掉服务器、管理员撤掉 connector、或会话被作废时才要重登。卸掉用 \`codex mcp remove windmill\`。
+
+连上后先只读：问「What 1:1s do I have coming up this week?」或让它读最近一次 Pulse。可以改 1:1 议程、发 Pulse、写反馈和 shoutout；绩效评审只能读，不能起草或提交，也不能发评审催办。公开 MCP 不能移除 workspace 成员。私人笔记只能动你自己的。改组织数据要保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。
+
+不要和 Settings → Integrations 里的 Codex 分析搞混。那条要 ChatGPT Enterprise / Codex 计划，管理员贴 API key 和 Workspace ID，读的是线程 / 额度 / token 用量，**不读**代码和对话，也**不是**这条 MCP。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add windmill@\`。\`windmill-dev/windmill-plugin\` 只给 Claude 付费计划，不是 Codex marketplace id。
+- 不要抄 Claude 的 \`claude mcp add --transport http windmill https://mcp.gowindmill.com/mcp\`，也不要抄 Cursor 的 \`~/.cursor/mcp.json\`。
+- 不要抄 \`npx mcp-remote\`。官方写的是 Streamable HTTP。
+- 不要把 API key 写进 URL 或 \`http_headers\`。这条走 OAuth。
+- 不要给它 \`required = true\` 挂全局。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完彻底新开会话。用 \`codex mcp get windmill\` 看传输是 streamable_http。会话里 \`/mcp\` 的 Auth 应显示 OAuth。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Windmill", "OAuth", "HTTP"],
+    related: ["mcp-add-and-login", "mcp-mixpanel-remote", "loops-mcp-http"],
+    sources: [
+      {
+        label: "Windmill · MCP",
+        url: "https://help.gowindmill.com/features/mcp",
+      },
+      {
+        label: "Windmill · Codex integration",
+        url: "https://help.gowindmill.com/integrations/codex",
+      },
+      {
+        label: "Windmill · Pulse Surveys",
+        url: "https://help.gowindmill.com/features/pulse-surveys",
+      },
+    ],
+  },
 ];
