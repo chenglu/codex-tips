@@ -4001,5 +4001,35 @@ export const articles: Article[] = [
     summary:
       'Streamable HTTP。run_audit 超阈值要二次 confirm。本地 squirrel mcp 是免费 stdio 引擎，没有 issue tracker。不要和托管 HTTP 写成同一张表。',
   },
+  {
+    title: 'PlanetScale Codex Plugin',
+    url: 'https://github.com/planetscale/codex-plugin',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['插件', 'PlanetScale', 'MCP', 'Skills', 'Codex'],
+    summary:
+      '官方 Codex 插件仓。marketplace add planetscale/codex-plugin，再 plugin add planetscale@planetscale。不要把 Claude 的 planetscale/claude-plugin 加成 Codex 源。插件 MCP 表名是 PlanetScale。',
+  },
+  {
+    title: 'planetscale/skills',
+    url: 'https://github.com/planetscale/skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', 'PlanetScale'],
+    summary:
+      'PlanetScale 操作技能上游。Codex 插件会 vendor 进来，索引在 skills/planetscale。示例是 safe-orchestrator。不要用 npx skills add 当 Codex 插件安装器。',
+  },
+  {
+    title: 'planetscale/database-skills',
+    url: 'https://github.com/planetscale/database-skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', 'PlanetScale', '数据库'],
+    summary:
+      '引擎技能上游：MySQL、Postgres、Vitess、Neki。Codex 插件 vendor 后带 database- 前缀，例如 database-mysql。不要和操作技能仓抄成同一个 marketplace 源。',
+  },
 ];
 
