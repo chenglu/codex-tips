@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-14T04:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "04:30 定时器。调用前 $96.62。Spend: counts（start_time=2026-09-07T04:35:00Z，共 228 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Snowflake Cortex Code：clone Snowflake-Labs/subagent-cortex-code，再 bash integrations/codex/install.sh 装 cortexcode-tool。不要跑 npx skills add。这不是托管 Cortex Agents MCP。X 仍是 Claude 对照、Unity、Astra /slow、token 营销、OMO 编排、Agent Skill 热榜。Fastmail 仍是 mcp-remote。Builder Fusion / Infisical / Cal.com / ConfigCat / Browserbase / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault 官方仍是 VS Code JSON。AgentPort 仍写 headers 密钥。GEOly 插件见 PR #14。收尾额度见下一提交。",
+    "04:30 定时器。调用前 $96.62，收尾 $96.62。CDP 35/35，预览 4385，CDP 9485。Spend: counts（start_time=2026-09-07T04:35:00Z，共 228 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Snowflake Cortex Code：clone Snowflake-Labs/subagent-cortex-code，再 bash integrations/codex/install.sh 装 cortexcode-tool。不要跑 npx skills add。这不是托管 Cortex Agents MCP。X 仍是 Claude 对照、Unity、Astra /slow、token 营销、OMO 编排、Agent Skill 热榜。Fastmail 仍是 mcp-remote。Builder Fusion / Infisical / Cal.com / ConfigCat / Browserbase / Meilisearch 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault 官方仍是 VS Code JSON。AgentPort 仍写 headers 密钥。GEOly 插件见 PR #14。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
