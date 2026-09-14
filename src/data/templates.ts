@@ -3167,6 +3167,24 @@ bash integrations/codex/install.sh
 `,
   },
   {
+    id: "gitlab-orbit-local-mcp",
+    title: "GitLab Orbit Local MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add orbit-cli -- orbit mcp serve。先 which orbit。不要 mcp login。不要抄远程 api/v4/orbit/mcp 的 mcp-remote。",
+    code: `codex mcp add orbit-cli -- orbit mcp serve
+
+# glab 包装：
+# codex mcp add orbit-cli -- glab orbit mcp serve
+
+# 可选先索引当前仓库：
+# orbit index .
+
+# 不要：
+# npx mcp-remote https://gitlab.com/api/v4/orbit/mcp
+`,
+  },
+  {
     id: "n8n-codex-mcp",
     title: "n8n Codex 插件与 MCP",
     filename: "terminal",
