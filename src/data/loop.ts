@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-14T03:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "03:30 定时器。调用前 $96.65，收尾待测后补。Spend: counts（start_time=2026-09-07T03:35:00Z，共 221 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 PlanetScale Codex 插件（marketplace add planetscale/codex-plugin，再 plugin add planetscale@planetscale。不要加成 Claude 的 planetscale/claude-plugin，装完 id 碰巧一样。插件 MCP 表名是 PlanetScale。文档 Codex 专节仍是 mcp add）。X 仍是 Claude 对照、Unity、Astra /slow、token 营销、OMO 编排、/feedback。Fastmail 仍是 mcp-remote。Builder Fusion / Snowflake 官方仍无 Codex 专节。Cal.com / ConfigCat / Infisical / Browserbase 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault / AgentPort 仍跳过。",
+    "03:30 定时器。调用前 $96.65，收尾 $96.64。CDP 34/34，预览 4383，CDP 9483。Spend: counts（start_time=2026-09-07T03:35:00Z，共 221 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 PlanetScale Codex 插件（marketplace add planetscale/codex-plugin，再 plugin add planetscale@planetscale。不要加成 Claude 的 planetscale/claude-plugin，装完 id 碰巧一样。插件 MCP 表名是 PlanetScale。文档 Codex 专节仍是 mcp add）。X 仍是 Claude 对照、Unity、Astra /slow、token 营销、OMO 编排、/feedback。Fastmail 仍是 mcp-remote。Builder Fusion / Snowflake 官方仍无 Codex 专节。Cal.com / ConfigCat / Infisical / Browserbase 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault / AgentPort 仍跳过。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
