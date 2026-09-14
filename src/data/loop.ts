@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-14T18:00:00Z",
+  lastTick: "2026-09-14T18:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "18:00 收口。#35 合入后 #36–#39 改号 420–423 已在本 PR；再并入仍开着的 #41–#44：424 ug-mcp-add-codex、425 b2c-dx-mcp-codex-plugin、426 expo-codex-plugin、427 glean-codex-plugin。合入后关 #36–#39、#41–#44。站点 427 技巧。",
+    "18:30 收口。#35 合入后把仍开着的收录 PR 按到达顺序改号：420 amd-skills-plugin、421 mcp-danube-http、422 mcp-asana-v2-remote、423 mcp-sequel-http、424 ug-mcp-add-codex、425 b2c-dx-mcp-codex-plugin、426 expo-codex-plugin、427 glean-codex-plugin、428 calendarbridge-codex-mcp。合入后关 #36–#39、#41–#45。站点 428 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1731,6 +1731,13 @@ export const loopState = {
     "configcat mcp Codex 仍无专节",
     "meilisearch mcp Codex 仍无专节",
     "Codex CLI 技巧 2026 Glean plugin add glean@glean-codex-plugins",
+    "help.calendarbridge.com user-docs bring-your-own-agent-mcp Codex CLI",
+    "help.calendarbridge.com announcements bring-your-own-agent Codex",
+    "calendarbridge.com blog MCP Codex manageapi.calendarbridge.com/mcp",
+    "cal.com docs mcp-server Codex 仍无专节",
+    "developer.hashicorp.com vault mcp Codex 仍无专节",
+    "merge.dev okta zendesk servicenow agents-md 不是 MCP",
+    "Codex CLI 技巧 2026 CalendarBridge mcp add calendarbridge",
   ],
 };
 

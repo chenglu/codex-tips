@@ -4751,4 +4751,24 @@ export const articles: Article[] = [
     summary:
       '清单名是 glean-codex-plugins。可选第二插件 glean-dev-docs@glean-codex-plugins，公共文档 MCP 是 developers.glean.com/mcp。README 还写 Set up Glean for me。不要手改这份 generated 仓。',
   },
+  {
+    title: 'Bring Your Own AI Agent (MCP)',
+    url: 'https://help.calendarbridge.com/user-docs/bring-your-own-agent-mcp/',
+    source: 'CalendarBridge Help',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'CalendarBridge', 'OAuth', 'Codex'],
+    summary:
+      '官方 Codex CLI：mcp add calendarbridge --url 走 manageapi.calendarbridge.com/mcp。连上免费，改日历要有效订阅。OAuth 2.1，不要 API key。不要抄 Claude 的 --transport http。',
+  },
+  {
+    title: 'Bring Your Own AI Agent to CalendarBridge',
+    url: 'https://help.calendarbridge.com/announcements/bring-your-own-agent/',
+    source: 'CalendarBridge Help',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'CalendarBridge', 'Codex'],
+    summary:
+      '公告写明 Codex 在客户端名单里。连接走 OAuth，没有长效 key。动作要订阅。不要和邮件 Scheduling Assistant 搞成同一条安装路径。',
+  },
 ];

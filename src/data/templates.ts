@@ -3762,4 +3762,25 @@ codex mcp login glean
 # npx mcp-remote https://acme-be.glean.com/mcp/engineering
 `,
   },
+  {
+    id: "calendarbridge-codex-mcp",
+    title: "CalendarBridge 远程 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add calendarbridge --url https://manageapi.calendarbridge.com/mcp，再 mcp login calendarbridge。不要把邮箱 AI Scheduling Assistant 当 MCP 安装器。",
+    code: `codex mcp add calendarbridge --url https://manageapi.calendarbridge.com/mcp
+codex mcp login calendarbridge
+
+# [mcp_servers.calendarbridge]
+# url = "https://manageapi.calendarbridge.com/mcp"
+# enabled = true
+
+# 不要：
+# claude mcp add calendarbridge --transport http
+# npx mcp-remote https://manageapi.calendarbridge.com/mcp
+# codex plugin add calendarbridge@
+# https://mcp.cal.com
+# bearer_token_env_var
+`,
+  },
 ];

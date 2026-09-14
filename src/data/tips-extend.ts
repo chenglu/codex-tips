@@ -13441,4 +13441,61 @@ Cursor / Claude 用 \`/glean_run\`，第一次还会要工作邮箱。Codex **�
       },
     ],
   },
+  {
+    id: "calendarbridge-codex-mcp",
+    no: 428,
+    title: "CalendarBridge MCP 走 manageapi.calendarbridge.com/mcp，再 mcp login",
+    summary:
+      "官方 Codex CLI：mcp add calendarbridge --url 走 manageapi.calendarbridge.com/mcp，带 /mcp。随后 mcp login calendarbridge。OAuth 2.1，不要 API key。不要抄 Claude 的 --transport http，也不要发明 plugin add。",
+    body: `CalendarBridge MCP 走 manageapi.calendarbridge.com/mcp，再 mcp login。官方帮助给 Codex CLI 单独一行，远程是 Streamable HTTP + OAuth 2.1（PKCE）。这不是 Cal.com 的 \`mcp.cal.com\`，也不是 CalendarBridge 那个靠邮件干活的 AI Scheduling Assistant。
+
+先登录 https://app.calendarbridge.com/login/，侧栏 AI Assistant → Bring Your Own Agent (MCP)，把 Server URL **整段**抄下来，必须带 \`https://\`。帮助页示例是：
+
+\`\`\`bash
+codex mcp add calendarbridge --url https://manageapi.calendarbridge.com/mcp
+codex mcp login calendarbridge
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.calendarbridge]
+url = "https://manageapi.calendarbridge.com/mcp"
+enabled = true
+\`\`\`
+
+用户层表名官方就是 \`calendarbridge\`。URL **带** \`/mcp\` 后缀。没有 API key、没有 client secret，不要 \`--bearer-token-env-var\`，也不要把 token 拼进查询串。文档写完 \`mcp add\` 后在 TUI 敲 \`/mcp\` 再选 calendarbridge，那就是走 OAuth；CLI 等价是 \`mcp login calendarbridge\`。浏览器里签 CalendarBridge，只勾你要的权限，再 Allow。
+
+连上客户端在每个套餐都能做，含 Basic。真正读改日历、建 scheduler、改 sync **要有效订阅**。订阅过期后连接还在，工具会让你去 app.calendarbridge.com 重新激活。
+
+写事件、删 sync、发助手邮件保持批准。不要一上来 \`--yolo\`。不要 \`required = true\`。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`claude mcp add calendarbridge --transport http\`。Codex 用 \`--url\`，自己走 HTTP。
+- 不要抄 Cursor JSON、ChatGPT Developer Mode 插件，也不要抄 Gemini / OpenClaw 的 \`--transport\`。
+- 不要发明 \`codex plugin add calendarbridge@\`。
+- 不要抄 \`npx mcp-remote https://manageapi.calendarbridge.com/mcp\`。
+- 不要和 Cal.com 的 \`mcp.cal.com\` 写成一台。
+- 不要把邮箱里的 AI Scheduling Assistant 当成这条 MCP 的安装器。助手仍走邮件；MCP 可以代你给助手发消息，但要另勾 Send through your assistants。
+
+从控制台 Connected agents 可以 Revoke。网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get calendarbridge\` 看传输是 streamable_http，url 是 \`https://manageapi.calendarbridge.com/mcp\`。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "CalendarBridge", "OAuth", "日历"],
+    related: ["mcp-add-and-login", "mcp-oauth-loopback-callback", "nylas-codex-mcp"],
+    sources: [
+      {
+        label: "CalendarBridge · Bring Your Own Agent (MCP)",
+        url: "https://help.calendarbridge.com/user-docs/bring-your-own-agent-mcp/",
+      },
+      {
+        label: "CalendarBridge · Bring Your Own Agent announcement",
+        url: "https://help.calendarbridge.com/announcements/bring-your-own-agent/",
+      },
+      {
+        label: "CalendarBridge · MCP Ready",
+        url: "https://calendarbridge.com/blog/bring-your-own-ai-agent-to-calendarbridge-mcp-ready/",
+      },
+    ],
+  },
 ];
