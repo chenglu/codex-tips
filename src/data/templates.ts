@@ -3531,4 +3531,34 @@ startup_timeout_sec = 60
 # url = "https://api.helicone.ai"
 `,
   },
+  {
+    id: "mcp-docker-toolkit",
+    title: "Docker MCP Toolkit",
+    filename: "terminal",
+    summary:
+      "主路径是 docker mcp client connect --global codex。connect 漏掉 --global 会报 only supports global configuration。表名 MCP_DOCKER。stdio，不要 mcp login。",
+    code: `docker mcp client connect --global codex
+
+# 指定 profile：
+# docker mcp client connect --global --profile web-dev codex
+
+# 手写等价（已经 connect 过就不要再 add）：
+# codex mcp add MCP_DOCKER -- docker mcp gateway run
+
+# [mcp_servers.MCP_DOCKER]
+# command = "docker"
+# args = ["mcp", "gateway", "run"]
+# enabled = true
+# startup_timeout_sec = 60
+
+# 断开：
+# docker mcp client disconnect --global codex
+
+# 不要：
+# docker mcp client connect codex
+# docker mcp-client configure codex
+# codex mcp login MCP_DOCKER
+# docker mcp client connect vscode
+`,
+  },
 ];

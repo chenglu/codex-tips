@@ -12853,4 +12853,83 @@ startup_timeout_sec = 60
       },
     ],
   },
+  {
+    id: "mcp-docker-toolkit",
+    no: 419,
+    title: "Docker MCP Toolkit 必须 --global，表名 MCP_DOCKER",
+    summary:
+      "Codex 接 Docker Toolkit 必须 --global，表名是 MCP_DOCKER。CLI 是 docker mcp client connect --global codex。stdio，不要 mcp login。核对 Auth 列是 Unsupported。不要抄旧博客 mcp-client configure。",
+    body: `Docker Desktop 的 MCP Toolkit 给 Codex 有专节。它不是远程 HTTP，也不是 Docker Hub REST。本机网关走 stdio，官方用户层表名是 \`MCP_DOCKER\`。Codex 只认全局配置，\`docker mcp client connect\` **必须**带 \`--global\`（或 \`-g\`），漏了会报 \`codex only supports global configuration\`。
+
+先装 Docker Desktop **4.62** 或以上。Settings → Beta features → Enable Docker MCP Toolkit，再 Apply。只要 Engine、没有 \`docker mcp\` 插件不够。在 Toolkit 里建 profile、从 Catalog 加服务器；需要 OAuth 的服务器在 Desktop 里授权，**不要**对网关这张表跑 \`codex mcp login\`。
+
+主路径用 Desktop：MCP Toolkit → Clients → 找到 Codex → Connect。CLI 等价：
+
+\`\`\`bash
+docker mcp client connect --global codex
+codex mcp list
+\`\`\`
+
+指定 profile（官方 CLI 示例常用 \`web-dev\`）：
+
+\`\`\`bash
+docker mcp client connect --global --profile web-dev codex
+\`\`\`
+
+官方核对 \`codex mcp list\` 应看到 \`MCP_DOCKER\`，Command 是 \`docker\`，Args 是 \`mcp gateway run\`，Status 是 enabled，**Auth 列是 Unsupported**。那是预期：网关自己不走 Codex 的 OAuth 探活。
+
+手写等价（已经 \`connect\` 过就不要再 add 一张同名表）：
+
+\`\`\`bash
+codex mcp add MCP_DOCKER -- docker mcp gateway run
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.MCP_DOCKER]
+command = "docker"
+args = ["mcp", "gateway", "run"]
+enabled = true
+startup_timeout_sec = 60
+\`\`\`
+
+指定 profile 时 \`args\` 写成 \`["mcp", "gateway", "run", "--profile", "web-dev"]\`。网关冷启动大约 15–25 秒，默认握手 10 秒不够，所以加 \`startup_timeout_sec = 60\`。这是 stdio，不要写 \`url\`，也不要抄 Claude / Cursor 的 \`mcpServers\` JSON，也不要抄 \`type = "stdio"\`。
+
+断开：
+
+\`\`\`bash
+docker mcp client disconnect --global codex
+\`\`\`
+
+Catalog 里常见 Playwright、GitHub 一类服务器。官方测试句是 \`codex "Use the GitHub MCP server to show me my open pull requests"\`，前提是 profile 里已经加了 GitHub 并完成授权。Playwright 走 Toolkit 时由网关拉容器，不要再叠一张 \`playwright\` stdio 表指向 \`npx @playwright/mcp\`。
+
+不要和这几条搞混：
+
+- 2025 年 10 月那篇 Docker 博客写 \`docker mcp-client configure codex\`，命令已经作废，现行是 \`docker mcp client connect\`。
+- VS Code 可以 \`docker mcp client connect vscode\` 写项目级 \`.vscode/mcp.json\`。Codex **没有**项目级 connect，不要漏 \`--global\`，也不要把那份 JSON 贴进 \`config.toml\`。
+- GitHub issue 里有人把表名写成 \`docker-mcp-gateway\`。官方文档和 \`mcp list\` 示例都是 \`MCP_DOCKER\`。
+- 这不是 Composio / 第三方 Docker Hub MCP，也不是给 Codex 发明 \`plugin add docker@\`。
+
+\`which docker\` 找不到时，把 \`command\` 写成 Desktop 的 \`docker\` 绝对路径；Windows + WSL 常要指向 \`docker.exe\`。路径带空格时让 Codex 自己写进 TOML，不要拆成两个 args。不要 \`required = true\`。不要一上来 \`--yolo\`。保持工具批准。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get MCP_DOCKER\` 看传输是 stdio，command 是 \`docker\`。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Docker", "MCP Toolkit", "stdio"],
+    related: ["mcp-add-and-login", "mcp-startup-timeout-sec", "playwright-mcp"],
+    sources: [
+      {
+        label: "Docker Docs · Get started with MCP Toolkit",
+        url: "https://docs.docker.com/ai/mcp-catalog-and-toolkit/get-started/",
+      },
+      {
+        label: "Docker Docs · docker mcp client connect",
+        url: "https://docs.docker.com/reference/cli/docker/mcp/client/connect/",
+      },
+      {
+        label: "docker/mcp-gateway · ConnectCodex",
+        url: "https://github.com/docker/mcp-gateway/blob/0c227325/pkg/client/connect.go",
+      },
+    ],
+  },
 ];
