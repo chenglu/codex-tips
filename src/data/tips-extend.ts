@@ -10516,4 +10516,164 @@ CLI 技能要先有 \`rudder-cli\`。官方让你跑 setup 技能装二进制并
       },
     ],
   },
+  {
+    id: "kuroco-mcp-http",
+    no: 385,
+    title: "使用预注册客户端连接 Kuroco MCP",
+    summary:
+      "配置内容 API 地址和预注册的 OAuth client_id，再运行 mcp login kuroco。静态令牌认证可通过环境变量设置请求头。",
+    body: `Kuroco 文档提供了 Codex CLI 的配置说明。内容 API 远程入口形如 \`https://YOUR_SITE_KEY.g.kuroco.app/rcms-api/API_ID/mcp\`，**带** \`/mcp\` 后缀。把 YOUR_SITE_KEY 和 API_ID 换成控制台里的站点键和内容 API 编号。配置中的服务名为 \`kuroco\`。Codex **不支持** CIMD，也没有 \`client_secret\` 键，必须在 Kuroco 把客户端登记成 PKCE 公有客户端：Token Endpoint Auth Method 选 \`none\`。
+
+可以编辑 TOML 后登录，也可以使用 CLI，参数为 \`--url\` 加 \`--oauth-client-id\`：
+
+\`\`\`bash
+codex mcp add kuroco --url https://YOUR_SITE_KEY.g.kuroco.app/rcms-api/API_ID/mcp --oauth-client-id YOUR_CLIENT_ID
+codex mcp login kuroco
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.kuroco]
+url = "https://YOUR_SITE_KEY.g.kuroco.app/rcms-api/API_ID/mcp"
+enabled = true
+
+[mcp_servers.kuroco.oauth]
+client_id = "YOUR_CLIENT_ID"
+\`\`\`
+
+首次登录时，若出现 \`redirect_uri does not match a registered URI\`。从浏览器地址栏复制 \`redirect_uri\`，登记到该 OAuth 客户端，重新登录。Kuroco 按 RFC 8252 忽略循环回端口，路径段对同一 MCP URL 是稳定的，所以只登记一次。\`scopes\` 和 \`oauth_resource\` 通常可省略；若写 \`oauth_resource\`，必须和 \`url\` 完全相同。
+
+也可以使用请求头认证，只适用于 \`/rcms-api/API_ID/mcp\`，**不能**接到 Admin MCP（\`/direct/rcms_api/admin_mcp/\`）。\`codex mcp add\` 写不了自定义头，添加服务后设置 \`env_http_headers\`。头名是 \`X-RCMS-API-ACCESS-TOKEN\`，右边写变量名 \`KUROCO_MCP_TOKEN\`，在启动 Codex 的环境中设置令牌。使用请求头认证时，无需运行 \`mcp login\`。
+
+Admin MCP 是另一条 URL，例如 \`…/direct/rcms_api/admin_mcp/x/all\`，裸 \`/admin_mcp/\` 会 400。请为 Admin MCP 单独建立配置。
+
+网页 Cloud 不读取 \`~/.codex/config.toml\`。修改后重新打开会话。用 \`codex mcp get kuroco\` 看传输是 streamable_http。OAuth 路径的 \`/mcp\` 应显示 Auth: OAuth。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Kuroco", "OAuth", "HTTP"],
+    related: ["mcp-oauth-loopback-callback", "mcp-add-and-login", "mcp-slack-remote"],
+    sources: [
+      {
+        label: "Kuroco · MCP Client Configuration",
+        url: "https://kuroco.app/docs/reference/mcp-client-configuration/",
+      },
+      {
+        label: "Kuroco · MCP Authentication Header",
+        url: "https://kuroco.app/docs/reference/mcp-client-configuration-authentication-header/",
+      },
+    ],
+  },
+  {
+    id: "wherobots-mcp-http",
+    no: 386,
+    title: "连接 Wherobots MCP",
+    summary:
+      "使用 --url 添加远程服务，再通过 OAuth 登录。也可通过环境变量提供 X-API-Key 请求头。",
+    body: `Wherobots 文档提供了 Codex CLI 和桌面端的配置说明。远程入口是 \`https://api.cloud.wherobots.com/mcp/\`，**带** \`/mcp/\` 尾斜杠。官方示例表名是 \`wherobots-mcp-server\`。需要 Professional、Innovation 或 Enterprise 组织；Admin 和 User 都能用。OAuth 不能在浏览器里注册新账号，需先创建 cloud.wherobots.com 账号。主机在 \`us-west-2\`。
+
+官方 Codex 页还写「远程 HTTP 只能手改 TOML，\`codex mcp add\` 只支持本地 stdio」。远程服务可以使用 \`--url\`：
+
+\`\`\`bash
+codex mcp add wherobots-mcp-server --url https://api.cloud.wherobots.com/mcp/
+codex mcp login wherobots-mcp-server
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.wherobots-mcp-server]
+url = "https://api.cloud.wherobots.com/mcp/"
+enabled = true
+\`\`\`
+
+\`mcp add\` 写进用户层 \`~/.codex/config.toml\`。若浏览器未打开，运行 \`codex mcp login wherobots-mcp-server\`。登录后选组织和 Allow access。传输协议为 Streamable HTTP。
+
+也可使用 API key 认证，通过环境变量提供 \`X-API-Key\` 请求头，避免在配置文件中直接保存密钥。\`codex mcp add\` 写不了自定义头，添加服务后设置 \`env_http_headers\`。左边是头名，右边写变量名 \`WHEROBOTS_API_KEY\`，在启动 Codex 的环境中设置变量值：
+
+\`\`\`toml
+[mcp_servers.wherobots-mcp-server]
+url = "https://api.cloud.wherobots.com/mcp/"
+enabled = true
+
+[mcp_servers.wherobots-mcp-server.env_http_headers]
+X-API-Key = "WHEROBOTS_API_KEY"
+\`\`\`
+
+从已经 \`export WHEROBOTS_API_KEY\` 的终端启动。从 Dock 或开始菜单启动的桌面应用通常不会加载终端的环境变量。Codex 不读 \`.env\`。变量缺失时该请求头会被静默丢掉。使用请求头认证时，无需运行 \`mcp login\`。
+
+技能需要单独安装。仓库名是 \`wherobots/agent-skills\`。官方 Codex 页是 \`npx skills add -g wherobots/agent-skills\`。\`-g\` 装到用户目录。官方安装示例未指定 \`--agent codex\`。仓库包含三项技能： \`wherobots-usage\`、\`wherobots-explore\`、\`wherobots-develop\`。技能不会写出 \`mcp_servers.wherobots-mcp-server\`。
+
+该服务支持浏览目录、生成 Spatial SQL、执行查询。默认 Tiny runtime，查询约 15 分钟超时，SQL Session 空闲约 5 分钟结束。在 Wherobots 上执行查询时按 Spatial Unit 计费。VS Code 命令面板里的 \`wherobotsjobsubmit.mcpServerQueryTimeout\` 仅适用于该扩展。
+
+可以先询问「List the catalogs in my Wherobots Data Hub」。若工具未出现，请重新打开会话。
+
+网页 Cloud 不读取 \`~/.codex/config.toml\`。修改后重新打开会话。用 \`codex mcp get wherobots-mcp-server\` 看传输是 streamable_http。OAuth 路径的 \`/mcp\` 应显示 Auth: OAuth。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Wherobots", "OAuth", "HTTP"],
+    related: ["wherobots-agent-skills", "mcp-add-and-login", "mcp-http-env-headers"],
+    sources: [
+      {
+        label: "Wherobots · Set Up Wherobots in Codex",
+        url: "https://docs.wherobots.com/develop/agentic-tools/codex",
+      },
+      {
+        label: "wherobots/agent-skills",
+        url: "https://github.com/wherobots/agent-skills",
+      },
+    ],
+  },
+  {
+    id: "wherobots-agent-skills",
+    no: 387,
+    title: "安装 Wherobots Agent Skills",
+    summary:
+      "使用 npx skills add -g wherobots/agent-skills 安装技能，也可用 --skill 选择单项。MCP 连接需要单独配置。",
+    body: `在 Codex CLI 和桌面端使用 Wherobots 时，需要分别配置 MCP、Agent Skills 和 CLI。仓库名是 \`wherobots/agent-skills\`。技能用于指导代理选择 MCP、CLI 或 SDK，MCP 连接仍需单独配置 \`mcp_servers.wherobots-mcp-server\`。
+
+官方 Codex 页的安装命令带 \`-g\`，装到用户目录：
+
+\`\`\`bash
+npx skills add -g wherobots/agent-skills
+\`\`\`
+
+先看目录：
+
+\`\`\`bash
+npx skills add wherobots/agent-skills --list
+\`\`\`
+
+安装页单项示例是 \`--skill wherobots-usage\`，默认不带 \`-g\`，会落到当前项目。需要全局安装时使用 \`-g\`，也可指定 \`--agent codex\`。官方安装示例未指定 \`--agent codex\`。仓库 README 还写 skills.sh 语法 \`wherobots/agent-skills@wherobots-usage\`：
+
+\`\`\`bash
+npx skills add -g wherobots/agent-skills --skill wherobots-usage
+npx skills add wherobots/agent-skills@wherobots-usage
+\`\`\`
+
+仓库包含三项技能：\`wherobots-usage\`（选 MCP / CLI / SDK）、\`wherobots-explore\`（目录和 Spatial SQL）、\`wherobots-develop\`（CLI / SDK / 提交作业）。Codex 用 \`/skills\` 或 \`$wherobots-usage\`、\`$wherobots-explore\`、\`$wherobots-develop\`。
+
+远程 MCP 仍走 \`codex mcp add wherobots-mcp-server --url https://api.cloud.wherobots.com/mcp/\`，再 \`codex mcp login wherobots-mcp-server\`。explore 工作流需要先建立 MCP 连接。
+
+安装后重新打开会话。先问「帮我选 MCP 还是 CLI 来列 Data Hub 目录」，看它是否调起 \`wherobots-usage\`。
+
+网页 Cloud 不读取本机技能目录。修改后重新打开会话，\`/skills\` 应能看见 \`wherobots-usage\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["Skills", "Wherobots", "CLI"],
+    related: ["wherobots-mcp-http", "rudderstack-agent-skills", "tavily-agent-skills"],
+    sources: [
+      {
+        label: "Wherobots · Set Up Wherobots in Codex",
+        url: "https://docs.wherobots.com/develop/agentic-tools/codex",
+      },
+      {
+        label: "Wherobots · Install Agent Skills",
+        url: "https://docs.wherobots.com/develop/agent-skills",
+      },
+      {
+        label: "wherobots/agent-skills",
+        url: "https://github.com/wherobots/agent-skills",
+      },
+    ],
+  },
 ];

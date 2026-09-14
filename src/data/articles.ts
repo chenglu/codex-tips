@@ -3631,5 +3631,65 @@ export const articles: Article[] = [
     summary:
       'installation.md 把 Codex 写成 --agent 旗标 codex，项目进 .agents/skills/，全局 ~/.codex/skills/。示例技能是 rudder-data-catalog。不要抄 Claude 的 /plugin install rudder-core。',
   },
+  {
+    title: 'MCP Client Configuration',
+    url: 'https://kuroco.app/docs/reference/mcp-client-configuration/',
+    source: 'Kuroco',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Kuroco', 'OAuth'],
+    summary:
+      '介绍 Kuroco 在 Codex 中的 OAuth 配置：设置内容 API 地址和预注册的 client_id，再运行 mcp login kuroco。客户端使用 PKCE，Token Endpoint Auth Method 设为 none。',
+  },
+  {
+    title: 'MCP Client Configuration with Authentication Header',
+    url: 'https://kuroco.app/docs/reference/mcp-client-configuration-authentication-header/',
+    source: 'Kuroco',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Kuroco'],
+    summary:
+      '介绍通过 env_http_headers 将 X-RCMS-API-ACCESS-TOKEN 映射到 KUROCO_MCP_TOKEN 环境变量。此认证方式适用于内容 API，Admin MCP 需单独配置。',
+  },
+  {
+    title: 'Set Up Wherobots in Codex',
+    url: 'https://docs.wherobots.com/develop/agentic-tools/codex',
+    source: 'Wherobots',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Wherobots', 'OAuth'],
+    summary:
+      '介绍 Wherobots 远程 MCP 的配置与 OAuth 登录。服务地址为 api.cloud.wherobots.com/mcp/，登录前需要已有 Wherobots 账号。',
+  },
+  {
+    title: 'wherobots/agent-skills',
+    url: 'https://github.com/wherobots/agent-skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', 'Wherobots'],
+    summary:
+      '提供 wherobots-usage、wherobots-explore 和 wherobots-develop 三项技能，可使用 npx skills add -g wherobots/agent-skills 安装。MCP 连接需单独配置。',
+  },
+  {
+    title: 'Install Agent Skills',
+    url: 'https://docs.wherobots.com/develop/agent-skills',
+    source: 'Wherobots',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'Wherobots'],
+    summary:
+      '介绍 Wherobots 技能的安装方式，可用 --skill wherobots-usage 选择单项，使用 -g 安装到用户目录。',
+  },
+  {
+    title: 'Get Started with Agentic Development',
+    url: 'https://docs.wherobots.com/develop/agentic-tools',
+    source: 'Wherobots',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'MCP', 'Wherobots'],
+    summary:
+      '介绍 Wherobots 的 MCP、Agent Skills 和 CLI。在 Codex 的终端与桌面环境中，这些工具需要分别安装和配置。',
+  },
 ];
 

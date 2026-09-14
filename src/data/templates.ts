@@ -2846,4 +2846,47 @@ npx skills add rudderlabs/rudder-agent-skills --agent codex --skill rudder-cli-w
 # npx skills add rudderlabs/rudder-agent-skills -a claude-code --skill rudder-cli-workflow
 `,
   },
+  {
+    id: "kuroco-mcp-http",
+    title: "Kuroco MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "设置内容 API 地址和预注册的 OAuth client_id，然后登录 Kuroco。",
+    code: `codex mcp add kuroco --url https://YOUR_SITE_KEY.g.kuroco.app/rcms-api/API_ID/mcp --oauth-client-id YOUR_CLIENT_ID
+codex mcp login kuroco
+
+# [mcp_servers.kuroco]
+# url = "https://YOUR_SITE_KEY.g.kuroco.app/rcms-api/API_ID/mcp"
+# [mcp_servers.kuroco.oauth]
+# client_id = "YOUR_CLIENT_ID"
+`,
+  },
+  {
+    id: "wherobots-mcp-http",
+    title: "Wherobots MCP",
+    filename: "terminal",
+    summary:
+      "添加 Wherobots 远程 MCP，并通过 OAuth 登录。服务地址保留 /mcp/ 尾斜杠。",
+    code: `codex mcp add wherobots-mcp-server --url https://api.cloud.wherobots.com/mcp/
+codex mcp login wherobots-mcp-server
+
+# [mcp_servers.wherobots-mcp-server]
+# url = "https://api.cloud.wherobots.com/mcp/"
+# enabled = true
+`,
+  },
+  {
+    id: "wherobots-agent-skills",
+    title: "Wherobots Agent Skills",
+    filename: "terminal",
+    summary:
+      "查看可用技能并安装到用户目录，也可通过 --skill 选择单项。",
+    code: `npx skills add wherobots/agent-skills --list
+npx skills add -g wherobots/agent-skills
+
+# 单项：
+# npx skills add -g wherobots/agent-skills --skill wherobots-usage
+# npx skills add wherobots/agent-skills@wherobots-usage
+`,
+  },
 ];
