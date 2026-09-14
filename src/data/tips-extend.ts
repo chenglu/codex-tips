@@ -10944,4 +10944,79 @@ enabled = true
       },
     ],
   },
+  {
+    id: "prefect-codex-plugin",
+    no: 392,
+    title: "Prefect 插件用 prefect@prefect，stdio 不要抄 [mcp.prefect]",
+    summary:
+      "官方 Codex 插件：marketplace add prefecthq/prefect-mcp-server，再 plugin add prefect@prefect。Cloud OAuth，插件里不要 API key。本机 stdio 才 uvx --from prefect-mcp。官方 TOML 错写成 [mcp.prefect]。",
+    body: `Prefect MCP 目前 beta。给 Codex 的**官方主路径**是插件：连 Prefect Cloud 托管只读 MCP，走 Cloud OAuth。插件里不要 API key，也不读 \`~/.prefect/profiles.toml\`。源仓是 \`prefecthq/prefect-mcp-server\`。marketplace.json 名是 \`prefect\`，插件 \`name\` 也是 \`prefect\`，所以 id 是 \`prefect@prefect\`。源仓 README 的 Codex Plugin 节：
+
+\`\`\`bash
+codex plugin marketplace add prefecthq/prefect-mcp-server
+codex plugin add prefect@prefect
+\`\`\`
+
+0.154 起先在**当前会话**看 \`/plugins\`；当前会话没有再新开。IDE 扩展没有 \`/plugins\`，用桌面或 CLI。装完新开一轮，用 \`@\` 点名插件，或直接问「Why did my latest Prefect flow run fail?」。先让它 \`get_identity\`，确认当前连的是哪套工作区，再查失败的 flow run。托管模式下，工作区范围的工具还要带已授权的 \`workspace_id\`。
+
+插件会登记托管入口 \`https://prefect.fastmcp.app/mcp\`，**带** \`/mcp\`。不要再手写一张同名 \`prefect\` 表。插件已经登记 MCP 就不要再 \`mcp add\` 同一张表。不要抄 Claude 的 \`claude mcp add --transport http prefect https://prefect.fastmcp.app/mcp\`。
+
+自托管 Prefect、要钉某个 Cloud workspace、或插件装不上时，才走本机 stdio。官方 Codex CLI 节是 \`uvx --from prefect-mcp prefect-mcp-server\`：
+
+\`\`\`bash
+codex mcp add prefect -- uvx --from prefect-mcp prefect-mcp-server
+\`\`\`
+
+无环境变量时，stdio 继承当前 Prefect profile（\`~/.prefect/profiles.toml\`）。已经装了插件时，把本机表改名 \`prefect_local\`，不要覆盖插件那台。用户层表名用下划线；官方示例 \`prefect-local\` 带连字符，Codex 表名连字符容易踩坑。
+
+显式钉 Cloud workspace 时，\`PREFECT_API_URL\` 可以写进 \`env\` 表（不是密钥）。从浏览器仪表板改写：地址是 \`https://app.prefect.cloud/account/\` 加账号 UUID、\`/workspace/\` 加工作区 UUID；MCP 用 \`https://api.prefect.cloud/api/accounts/\` 加同一账号 UUID、\`/workspaces/\` 再加工区 UUID。密钥 \`PREFECT_API_KEY\` **不要**抄官方的 \`--env PREFECT_API_KEY=...\`，那会把字面量写进 config。用 \`env_vars\` 从启动 Codex 的进程转发：
+
+\`\`\`toml
+[mcp_servers.prefect]
+command = "uvx"
+args = ["--from", "prefect-mcp", "prefect-mcp-server"]
+env_vars = ["PREFECT_API_KEY"]
+startup_timeout_sec = 60
+enabled = true
+
+[mcp_servers.prefect.env]
+PREFECT_API_URL = "https://api.prefect.cloud/api/accounts/ACCOUNT_UUID/workspaces/WORKSPACE_UUID"
+\`\`\`
+
+把 \`ACCOUNT_UUID\` / \`WORKSPACE_UUID\` 换成仪表板里的 UUID。自托管改成例如 \`http://127.0.0.1:4200/api\`，并把 \`env_vars\` 换成 \`PREFECT_API_AUTH_STRING\`（格式是 \`username:password\`），不要再用 Cloud 的 API key。Team / Pro / Enterprise 可用只读服务账号。\`env\` 表是字面量。Codex 不读 \`.env\`。从已经 export 的终端启动。Dock / 开始菜单打开的桌面没有 zshrc。
+
+官方手写 TOML **错写成** \`[mcp.prefect]\` 和 \`[mcp.prefect.env]\`。Codex 正确键是 \`[mcp_servers.prefect]\` 和 \`[mcp_servers.prefect.env]\`。不要抄。
+
+MCP 工具本身只读：看 dashboard、deployment、flow run、日志、work pool，以及文档代理。创建或改资源走 \`prefect\` CLI，不要指望 MCP 写入。只读 MCP 凭证**拦不住**模型在 shell 里跑 \`prefect deployment delete\`。保持工具批准。不要一上来 \`--yolo\`。不要 \`required = true\`。冷 \`uvx\` 可能慢，才加 \`startup_timeout_sec = 60\`。
+
+不要做这些：
+
+- 不要发明 \`prefect@openai-curated\`。官方 id 就是 \`prefect@prefect\`。
+- 不要抄 Claude 的 \`/plugin marketplace add prefecthq/prefect-mcp-server\` 或 \`/plugin install prefect\`。
+- 不要抄 Claude 的 \`--transport http\`，也不要抄 Cursor JSON 或 \`npx mcp-remote\`。
+- 不要把自建 Horizon 的 \`*.fastmcp.app/mcp\` 当成 Codex 主路径。那台的 Prefect 凭据配在 Horizon 上。
+- 不要把 \`PREFECT_API_KEY\` 写进 \`env\` 表、\`args\` 或 \`http_headers\`。
+- 不要给它 \`required = true\` 挂全局。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完用 \`codex plugin list\` 核对已装。stdio 对照 \`codex mcp get prefect\` 看 command 是 \`uvx\`。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Prefect", "plugins", "OAuth", "stdio"],
+    related: ["honeycomb-codex-plugin", "mcp-stdio-env-vars", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "Prefect · How to use the Prefect MCP server",
+        url: "https://docs.prefect.io/v3/how-to-guides/ai/use-prefect-mcp-server",
+      },
+      {
+        label: "prefecthq/prefect-mcp-server",
+        url: "https://github.com/prefecthq/prefect-mcp-server",
+      },
+      {
+        label: "prefect-mcp-server · SECURITY.md",
+        url: "https://github.com/PrefectHQ/prefect-mcp-server/blob/main/SECURITY.md",
+      },
+    ],
+  },
 ];

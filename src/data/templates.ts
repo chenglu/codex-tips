@@ -2960,4 +2960,28 @@ bearer_token_env_var = "DAGU_MCP_API_KEY"
 enabled = true
 `,
   },
+  {
+    id: "prefect-codex-plugin",
+    title: "Prefect Codex 插件",
+    filename: "terminal",
+    summary:
+      "主路径是 marketplace add prefecthq/prefect-mcp-server，再 plugin add prefect@prefect。本机 stdio 才 uvx --from prefect-mcp。官方 TOML 错写成 [mcp.prefect]。不要抄 Claude 的 --transport http。",
+    code: `codex plugin marketplace add prefecthq/prefect-mcp-server
+codex plugin add prefect@prefect
+
+# 本机 stdio（插件已装时改名 prefect_local）：
+# codex mcp add prefect -- uvx --from prefect-mcp prefect-mcp-server
+
+# 官方手写 TOML 错写成 [mcp.prefect]，应是：
+[mcp_servers.prefect]
+command = "uvx"
+args = ["--from", "prefect-mcp", "prefect-mcp-server"]
+env_vars = ["PREFECT_API_KEY"]
+startup_timeout_sec = 60
+enabled = true
+
+[mcp_servers.prefect.env]
+PREFECT_API_URL = "https://api.prefect.cloud/api/accounts/ACCOUNT_UUID/workspaces/WORKSPACE_UUID"
+`,
+  },
 ];

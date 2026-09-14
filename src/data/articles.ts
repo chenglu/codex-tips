@@ -3791,5 +3791,35 @@ export const articles: Article[] = [
     summary:
       '对照表：Codex 只走 Bearer，而且只从环境变量取。Dagu 只有 Streamable HTTP，没有 SSE。stdio / SSE 客户端才要 mcp-remote，不要抄进 Codex。',
   },
+  {
+    title: 'How to use the Prefect MCP server',
+    url: 'https://docs.prefect.io/v3/how-to-guides/ai/use-prefect-mcp-server',
+    source: 'Prefect',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Prefect', 'plugins'],
+    summary:
+      '官方 Codex CLI 节给本机 stdio：mcp add prefect -- uvx --from prefect-mcp prefect-mcp-server。手写 TOML 错写成 [mcp.prefect]。Cloud 凭据用 PREFECT_API_URL 和 PREFECT_API_KEY。MCP 工具只读，写入走 prefect CLI。目前 beta。',
+  },
+  {
+    title: 'prefect-mcp-server',
+    url: 'https://github.com/prefecthq/prefect-mcp-server',
+    source: 'PrefectHQ',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Prefect', 'plugins'],
+    summary:
+      'Codex 插件主路径是 marketplace add prefecthq/prefect-mcp-server，再 plugin add prefect@prefect。Cloud OAuth，插件里不要 API key。已装插件时本机 stdio 要换表名。插件登记的托管入口是 prefect.fastmcp.app/mcp。',
+  },
+  {
+    title: 'SECURITY.md',
+    url: 'https://github.com/PrefectHQ/prefect-mcp-server/blob/main/SECURITY.md',
+    source: 'PrefectHQ',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Prefect', '安全'],
+    summary:
+      'MCP 只读凭证拦不住客户端用 prefect CLI 删资源。Cloud OAuth 只覆盖授权时勾选的工作区。自托管 basic auth 用 PREFECT_API_AUTH_STRING，不要和 Cloud API key 混用。',
+  },
 ];
 
