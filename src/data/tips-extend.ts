@@ -12932,4 +12932,570 @@ Catalog 里常见 Playwright、GitHub 一类服务器。官方测试句是 \`cod
       },
     ],
   },
+  {
+    id: "amd-skills-plugin",
+    no: 420,
+    title: "AMD Skills 用 marketplace 加 amd/skills，不要抄 README 的 npx skills add",
+    summary:
+      "AMD 技能仓清单名是 amd-skills，再 plugin add amd-skills@amd-skills。README 主路径仍是 npx skills add，那不是 Codex 插件安装器。插件只带精选子集，没有 MCP。",
+    body: `AMD 给 Codex 已经有仓库 marketplace，文件在 \`.agents/plugins/marketplace.json\` 和 \`.codex-plugin/plugin.json\`。生成脚本写明：\`codex plugin marketplace add amd/skills\` 会露出这份捆。README 安装节还停在 vercel-labs 的 \`skills\` CLI，并以「Until marketplace integration lands」带手拷路径；**现行 Codex 主路径是插件 marketplace**，不是 \`npx skills add\`。
+
+\`\`\`bash
+codex plugin marketplace add amd/skills
+codex plugin add amd-skills@amd-skills
+codex plugin marketplace list
+\`\`\`
+
+清单 \`name\` 和插件 \`name\` 都是 \`amd-skills\`，所以装插件是 \`amd-skills@amd-skills\`。不要发明 \`amd@amd-skills\` 或 \`amd-skills@openai-curated\`。升级用清单名，不是仓库路径：
+
+\`\`\`bash
+codex plugin marketplace upgrade amd-skills
+\`\`\`
+
+也可以 TUI \`/plugins\` 打开 **AMD Skills** 再装。0.154 起先看**当前会话**；当前会话没有再新开。桌面改 marketplace.json 仍要重启应用。IDE 扩展没有 \`/plugins\`。CLI 装好的插件，Codex 桌面也能用。
+
+这是**技能插件**，\`plugin.json\` 没有 MCP，不要 \`codex mcp add\`。清单 \`policy.authentication\` 是 \`ON_INSTALL\`：安装时可能弹出钩子/信任提示，批准后再用。网页 Cloud 不读本机 marketplace。
+
+插件只带精选子集，不是整个 catalog。现行 \`plugin.json\` 的 skills 是：
+
+- \`local-ai-use\` / \`local-ai-app-integration\`：本机 Ryzen AI 图像、语音和把云端应用改走本地推理
+- \`serving-llms-on-instinct\`：在 Instinct GPU 上用 vLLM 起推理
+- \`hyperloom-workload-optimizer\`：Instinct 推理吞吐
+- \`tracelens-analysis-orchestrator\`：PyTorch trace / TraceLens
+
+目录里还有 \`serving-llms-on-epyc\`、\`lemonade-router-builder\`、\`magpie-kernel-evaluator\`，以及 planned 的 \`rocm-doctor\` / \`hrr-replay-analysis\`。这些**不在**这份插件包里，不要写成已经装上。单项才：
+
+\`\`\`bash
+npx skills add amd/skills --skill serving-llms-on-epyc --agent codex
+\`\`\`
+
+那是把 SKILL.md 拷进技能目录，**不会**登记 marketplace。不要省略 \`--agent codex\`。不要手拷到 \`~/.codex/skills\`；README 手动路径是 \`$HOME/.agents/skills\` 或仓库 \`.agents/skills\`。
+
+不要抄 Claude 的 \`/plugin marketplace add\` 或 \`/plugin install\`。不要和 \`google/skills\` 的 \`google-cloud-developer@google-plugins\` 搞混：那份清单名是 \`google-plugins\`，这份是 \`amd-skills\`。
+
+改完用 \`codex plugin marketplace list\` 核对清单名是 \`amd-skills\`，\`codex plugin list\` 里应有 \`amd-skills@amd-skills\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "AMD", "Skills", "ROCm"],
+    related: ["dotnet-skills-plugin", "plugin-session-refresh", "google-cloud-developer-plugin"],
+    sources: [
+      {
+        label: "amd/skills",
+        url: "https://github.com/amd/skills",
+      },
+      {
+        label: "amd/skills marketplace.json",
+        url: "https://github.com/amd/skills/blob/main/.agents/plugins/marketplace.json",
+      },
+      {
+        label: "Codex plugins",
+        url: "https://developers.openai.com/codex/plugins",
+      },
+    ],
+  },
+  {
+    id: "mcp-danube-http",
+    no: 421,
+    title: "Danube MCP 走 mcp.danubeai.com/mcp 加 bearer，不要抄文档 http_headers",
+    summary:
+      "文档 TOML 把 API 密钥写进 http_headers，CLI 改走 DANUBE_API_KEY。官方 Codex：mcp add danube --url https://mcp.danubeai.com/mcp --bearer-token-env-var DANUBE_API_KEY。URL 带 /mcp。不要 mcp login。",
+    body: `Danube 给 Codex CLI 有专节。远程是 Streamable HTTP，表名就是 \`danube\`。文档先承认 \`codex mcp add\` **设不了自定义头**，于是把密钥写进 \`http_headers\`。那会把 \`dk_\` 嵌进 \`~/.codex/config.toml\`。同一页的官方替代路径才是 CLI 主路径：
+
+\`\`\`bash
+codex mcp add danube --url https://mcp.danubeai.com/mcp --bearer-token-env-var DANUBE_API_KEY
+\`\`\`
+
+URL **带** \`/mcp\` 后缀。\`DANUBE_API_KEY\` 必须在**启动 Codex 的那个进程**里；Dock / 开始菜单打开的桌面读不到 zshrc。键里填的是变量名，不是 token。这是 bearer，**不要** \`codex mcp login danube\`。
+
+\`\`\`toml
+[mcp_servers.danube]
+url = "https://mcp.danubeai.com/mcp"
+bearer_token_env_var = "DANUBE_API_KEY"
+enabled = true
+startup_timeout_sec = 30
+\`\`\`
+
+密钥从 [Danube Dashboard → API Keys](https://danubeai.com/dashboard/api-keys) 拿。不要把 \`dk_\` 写进 \`http_headers\`、\`args\`、\`env\` 表或 URL。文档 TOML 示例：
+
+\`\`\`toml
+[mcp_servers.danube.http_headers]
+danube-api-key = "YOUR_API_KEY"
+\`\`\`
+
+**不要抄。** 自定义头回退才用 \`env_http_headers\`，左边是头名 \`danube-api-key\`（必须小写），右边仍是变量名：
+
+\`\`\`toml
+[mcp_servers.danube]
+url = "https://mcp.danubeai.com/mcp"
+enabled = true
+
+[mcp_servers.danube.env_http_headers]
+danube-api-key = "DANUBE_API_KEY"
+\`\`\`
+
+Bearer 若 401，再改走这套自定义头，不要两套叠。Skill 页写过有的客户端不认 \`Authorization: Bearer\`；Codex CLI 专节明确说 CLI 认 bearer。先走官方 CLI 那条。
+
+桌面 Settings → MCP Servers 的 Authenticate 是贴 API key 的 OAuth 页，**不要**和 CLI 的 bearer 叠成两套。CLI、桌面、IDE 扩展共用 \`~/.codex/config.toml\`。项目层才写可信仓库的 \`.codex/config.toml\`。
+
+不要抄 Claude / Cursor 的 \`mcpServers\` JSON。不要抄 \`npx mcp-remote\`。不要发明 \`codex plugin add danube@…\`。官方 Agent Skill 页面向 Claude，不是 Codex \`/plugins\`。这台能搜工具并真正执行（发信、改钱包限额），保持工具批准，不要一上来 \`--yolo\`。不要 \`required = true\`。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get danube\` 看传输是 streamable_http、Auth 是 Bearer。\`/mcp\` 只是核对工具，不是登录入口。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Danube", "HTTP", "bearer"],
+    related: ["mcp-http-bearer-env", "mcp-http-env-headers", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "Danube · Codex CLI",
+        url: "https://docs.danubeai.com/mcp-clients/codex-cli",
+      },
+      {
+        label: "Danube · Codex desktop",
+        url: "https://docs.danubeai.com/mcp-clients/codex",
+      },
+      {
+        label: "danubeai/danube-mcp",
+        url: "https://github.com/danubeai/danube-mcp",
+      },
+    ],
+  },
+  {
+    id: "mcp-asana-v2-remote",
+    no: 422,
+    title: "Asana V2 官方 Codex 走 mcp-remote 加凭证文件，不要 mcp add --url",
+    summary:
+      "Asana 不支持 DCR。官方 Codex 节是 stdio 桥接 mcp-remote@latest，client 凭证写进 chmod 600 的 json，用 @ 绝对路径读取。不要 mcp add --url，也不要 mcp login asana。",
+    body: `Asana V2 官方 Codex 走 mcp-remote 加凭证文件，不要 mcp add --url。远程入口是 \`https://mcp.asana.com/v2/mcp\`，本身是 Streamable HTTP，但 V2 **不支持** Dynamic Client Registration。必须先在 [Asana 开发者控制台](https://app.asana.com/0/my-apps) 建 **MCP app**，拿到 client ID / secret。Codex 没有 Claude Code 那种 \`--client-id\` / \`--client-secret\` 旗标，所以官方 Codex 节才用 \`npx mcp-remote@latest\` 当本机 stdio 桥。这是站点里「远程 MCP 不要先套 mcp-remote」的**例外**，不是默认修法。
+
+先登记 MCP app，OAuth Redirect URL 必须写成：
+
+\`http://localhost:3334/oauth/callback\`
+
+不要抄 Claude Code 的 \`8080/callback\`、Cursor 的 \`cursor://\` 协议，或 VS Code 的 \`127.0.0.1:33418/\`。控制台和客户端必须**逐字**一致。工作区在 Manage distribution 里至少勾一个，否则授权会报 This app is not available to your Asana workspace。
+
+凭证不要写进 \`args\`、不要 export 进进程命令行。官方让你建一份只有自己能读的 json：
+
+\`\`\`bash
+mkdir -p ~/.asana
+chmod 700 ~/.asana
+\`\`\`
+
+\`\`\`json
+{
+  "client_id": "YOUR_CLIENT_ID",
+  "client_secret": "YOUR_CLIENT_SECRET"
+}
+\`\`\`
+
+\`\`\`bash
+chmod 600 ~/.asana/mcp_oauth_client.json
+\`\`\`
+
+然后手写用户层 \`~/.codex/config.toml\`。文档里的 \`codex mcp\` 初始化命令含糊，不要当主路径。\`~\` **不会**展开，\`@\` 后面必须是绝对路径：
+
+\`\`\`toml
+[mcp_servers.asana]
+command = "npx"
+args = [
+  "-y",
+  "mcp-remote@latest",
+  "https://mcp.asana.com/v2/mcp",
+  "3334",
+  "--static-oauth-client-info",
+  "@/Users/YOUR_USERNAME/.asana/mcp_oauth_client.json",
+  "--resource",
+  "https://mcp.asana.com/v2"
+]
+startup_timeout_sec = 60
+\`\`\`
+
+Linux 把路径换成 \`/home/YOU/.asana/mcp_oauth_client.json\`。\`@\` 前缀让 mcp-remote **运行时**读文件，避免 \`client_secret\` 出现在进程列表。\`3334\` 是回调端口，对应上面那条 Redirect URL。\`--resource\` 是 \`https://mcp.asana.com/v2\`，**不要**再加 \`/mcp\`。冷启动 npx 把 \`startup_timeout_sec\` 提到 60。不要 \`required = true\`。现行文档直接 \`command = "npx"\`，不要再包一层 \`sh -c\`。
+
+这是 stdio 桥，**不要** \`codex mcp add asana --url https://mcp.asana.com/v2/mcp\`，也**不要** \`codex mcp login asana\`。博客里那套把 Asana 当成支持 DCR 的远程 HTTP，会在客户端注册处失败。配好后打开 Codex 设置的 MCP servers，点 Asana 触发浏览器授权；票进 \`~/.mcp-auth/\`。CLI 会话里 \`/mcp\` 只是核对工具，不是登录入口。
+
+\`mcp-remote\` 是社区实验包，Asana **不提供**支持。官方更推荐 Claude Code 的原生预注册 OAuth；Codex 没有等价旗标，才走桥。用之前自己看清风险。本机要有 Node.js / npm。
+
+V1 \`https://mcp.asana.com/sse\` 已弃用，关闭日期后来延到 2026-08-05。不要抄 \`/sse\`，也不要给 Codex 选旧 SSE 传输。MCP app 签出来的 token **只能**打 MCP 服务器，不能拿去调普通 Asana REST。
+
+不要做这些：
+
+- 不要抄 Claude Code 的 \`--transport http\`、\`--client-id\`、交互粘贴 \`--client-secret\`。
+- 不要抄 Cursor JSON 的 \`auth.CLIENT_ID\` / \`auth.CLIENT_SECRET\`。
+- 不要抄 Windsurf / Kiro 把 client 凭证塞进 args 里的 JSON 字符串；那会进进程命令行。
+- 不要把 \`ASANA_CLIENT_SECRET\` 写进 \`env\` 表或 \`args\`。那是给别的客户端的环境变量提示，不是 Codex 主路径。
+- 不要发明 \`codex plugin add asana@…\`。
+- 不要一上来 \`--yolo\`：任务和评论会进上下文。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get asana\` 看传输是 stdio，command 是 npx。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Asana", "OAuth", "mcp-remote"],
+    related: ["mcp-http-not-sse", "mcp-add-and-login", "kuroco-mcp-http"],
+    sources: [
+      {
+        label: "Asana · Connecting Coding Clients to the V2 server",
+        url: "https://developers.asana.com/docs/connecting-mcp-clients-to-asanas-v2-server",
+      },
+      {
+        label: "Asana · Integrating with Asana's MCP Server",
+        url: "https://developers.asana.com/docs/integrating-with-asanas-mcp-server",
+      },
+    ],
+  },
+  {
+    id: "mcp-sequel-http",
+    no: 423,
+    title: "Sequel 官方 Codex 读 config.toml 加 bearer，不要抄 config.yaml",
+    summary:
+      "远程是 api.sequel.sh/mcp。手写：mcp add sequel --url … --bearer-token-env-var SEQUEL_API_KEY。不要 mcp login。营销页的 config.yaml 和 headers 里的 sql_ 密钥不要抄。",
+    body: `Sequel 官方 Codex 读 config.toml 加 bearer，不要抄 config.yaml。托管入口是 \`https://api.sequel.sh/mcp\`，**有** \`/mcp\` 后缀。安装页把 Codex slug 写成 \`codex\`，只支持 **global**，**不**装 \`SKILL.md\`（技能只走 MCP playbook）。鉴权是 API key（\`sql_\` 开头），不是 OAuth。OAuth 是给 ChatGPT / Claude.ai 那种连接器的。
+
+博客里的 Codex 对照写法：
+
+\`\`\`bash
+codex mcp add sequel --url https://api.sequel.sh/mcp --bearer-token-env-var SEQUEL_API_KEY
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.sequel]
+url = "https://api.sequel.sh/mcp"
+bearer_token_env_var = "SEQUEL_API_KEY"
+\`\`\`
+
+\`SEQUEL_API_KEY\` 必须在**启动 Codex 的那个进程**里。Codex 不读 \`.env\`。不要把 \`sql_\` 开头的值写进 \`http_headers\`、\`args\` 或 \`env\` 表。这是 HTTP，**不要** \`codex mcp login sequel\`。
+
+官方安装页更快的是 Sequel CLI：\`curl -fsSL https://sequel.sh/install | sh\`，再 \`sequel login\`，再 \`sequel install codex\`。它会建一把给这个 agent 的 key 并写配置。写完立刻 \`codex mcp get sequel\`：传输应是 streamable_http，鉴权应是 bearer 环境变量名，不是字面量密钥。若 CLI 写出 \`~/.codex/config.yaml\` 或把 \`sql_\` 写进 headers，删掉那份，改回上面的 TOML。
+
+\`/agents/codex\` 和 \`/sources/mcp/codex\` 营销页把路径写成 \`~/.codex/config.yaml\`，还写 \`type: http\` 和 \`Authorization: Bearer sql_your_api_key\`。Codex **只读** \`config.toml\`，也没有 \`type = "http"\` 这个键。密钥进配置文件会进备份和日志。
+
+不要做这些：
+
+- 不要 \`codex mcp login sequel\`。文档把 OAuth 留给 ChatGPT / Claude.ai。
+- 不要发明 \`codex plugin add sequel@…\`。Codex slug 只登记 MCP。
+- 不要和 ClickHouse Cloud \`mcp.clickhouse.cloud/mcp\`、自建 \`mcp-clickhouse\` 搞成一台。Sequel 是 Sequel 账号里连上的那些源，不是 ClickHouse 官方 MCP。
+- 不要抄 \`npx -y sequel-mcp\` / \`codex mcp add sequel-mcp\`。那是社区本地 stdio 包，不是 \`api.sequel.sh\`。
+- 不要把 Sequel 当成 PostHog / Mixpanel / Amplitude 官方远程 MCP 的替代表。那些产品自己有 Codex 专节。
+- 不要一上来 \`--yolo\`：查询结果会进上下文。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get sequel\` 看 url 是 \`https://api.sequel.sh/mcp\`。会话里问「list my Sequel connections」做核对。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Sequel", "HTTP", "bearer"],
+    related: ["mcp-http-bearer-env", "mcp-clickhouse-cloud", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "Sequel · Install Sequel MCP",
+        url: "https://sequel.sh/docs/install",
+      },
+      {
+        label: "Sequel · Connect PostgreSQL to Codex",
+        url: "https://sequel.sh/blog/connect-postgresql-codex",
+      },
+      {
+        label: "Sequel · Getting Started",
+        url: "https://sequel.sh/docs/getting-started",
+      },
+    ],
+  },
+  {
+    id: "ug-mcp-add-codex",
+    no: 424,
+    title: "Databricks MCP 用 ug mcp add --agents codex，stdio 桥是 ug mcp-proxy",
+    summary:
+      "官方 Codex：uv tool install git+https://github.com/databricks/unity-gateway，再 ug mcp add --agents codex。stdio 桥是 ug mcp-proxy，不要 mcp login，不要抄 mcp-remote。启动用 ug codex。",
+    body: `Databricks MCP 用 ug mcp add --agents codex，stdio 桥是 ug mcp-proxy。Connect clients 页给 Codex 的主路径不再是手写 \`url\` 再 \`mcp login\`，也不要自己建 OAuth app。先装 Unity Gateway CLI（主命令是 \`ug\`，\`ucode\` 只是别名）：
+
+\`\`\`bash
+uv tool install git+https://github.com/databricks/unity-gateway
+databricks auth login
+ug mcp add --agents codex --services CATALOG.SCHEMA.SERVICE
+ug codex
+\`\`\`
+
+\`CATALOG.SCHEMA.SERVICE\` 换成 Unity Catalog 里 MCP Service 的全名，例如 \`system.ai.slack\`。文档页把三行命令粘成一行，自己拆开跑。需要 Python 3.12+ 和 \`uv\`。先有 Databricks CLI 登录；不要在 Codex 里再 \`codex mcp login\`。
+
+每台 Databricks MCP 在 Codex 里都是 **stdio** 子进程，command 是 \`ug\`，干的是 \`mcp-proxy\`：本机桥去打 workspace 的 Streamable HTTP，每次请求用 Databricks CLI profile 现签 OAuth。不要给它写 \`url\`，也不要抄 Cursor 示例的 \`npx mcp-remote\` 加 \`client_secret\`。
+
+\`ug configure mcp\` **会整表替换**，没选中的服务器会被拿掉。只加、不删用 \`ug mcp add\`。无参数 \`ug mcp add\` 会开选择器，已登记的标 already configured，关不掉。V2（Vector Search、UC Functions、外连、Genie、Apps）不在选择器里，要带类型前缀：
+
+\`\`\`bash
+ug mcp add --services uc-functions:main.tools
+ug mcp add --services vector-search:main.docs
+ug mcp add --services genie-space:SPACE_ID
+ug mcp add --services app:my-app
+ug mcp add --services external:my-connection
+\`\`\`
+
+\`ug\` 给 Codex 写的可能是 \`~/.codex/ucode.config.toml\`，不一定是 \`config.toml\`。日常启动用 \`ug codex\`，不要以为裸 \`codex\` 一定能看见这些 MCP。改完新开会话。核对：\`ug status\`，再在 \`ug codex\` 会话里 \`/mcp\`。默认 \`codex mcp get\` 不一定读 \`ucode.config.toml\`。
+
+文档或旧仓名若仍写 \`ucode\` / \`databricks/ucode\`，那是别名和旧地址：现行主命令是 \`ug\`，安装 URL 是 \`unity-gateway\`。卸服务器用 \`ug mcp remove --agents codex\`，不要手改再 \`codex mcp remove\`。
+
+这和「把 Codex 模型流量打进 Databricks AI Gateway」不是同一件事。模型路由是 \`ug configure --agents codex\` / \`ug codex\`；本条只登记 MCP。不要把 AI Gateway 的 \`model_providers.Databricks\` 块当成 MCP 表。
+
+不要做这些：
+
+- 不要抄 Cursor / Windsurf 的 \`mcp-remote\` JSON，也不要把 client secret 写进 args。
+- 不要把 PAT 写进 \`http_headers\` 当 Codex 主路径。无头才 \`ug configure --profiles DEFAULT --use-pat\`，而且必须显式 \`--use-pat\`。
+- 不要发明 \`codex plugin add databricks@…\`。
+- 不要和 Azure MCP、Microsoft Learn \`microsoft-learn\` 配成一台。
+- 不要一上来 \`ug codex --full-auto\`。
+
+网页 Cloud 不读本机 \`ug\` 配置。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["MCP", "Databricks", "ug", "stdio"],
+    related: ["mcp-add-and-login", "mcp-docker-toolkit", "mcp-http-not-sse"],
+    sources: [
+      {
+        label: "Databricks · Connect MCPs to coding agents",
+        url: "https://docs.databricks.com/aws/en/agents/mcp-tools/connect-clients",
+      },
+      {
+        label: "databricks/unity-gateway",
+        url: "https://github.com/databricks/unity-gateway",
+      },
+    ],
+  },
+  {
+    id: "b2c-dx-mcp-codex-plugin",
+    no: 425,
+    title: "Salesforce B2C 用 marketplace 装 b2c-dx-mcp，插件 cwd 不是仓库根",
+    summary:
+      "官方 Codex：marketplace add SalesforceCommerceCloud/b2c-developer-tooling，再 plugin add b2c-dx-mcp@b2c-developer-tooling。stdio，不要 mcp login。插件 cwd 是插件根。IDE 才手写 npx @salesforce/b2c-dx-mcp。",
+    body: `Salesforce B2C 用 marketplace 装 b2c-dx-mcp，插件 cwd 不是仓库根。官方 Codex 技能和 MCP 都走同一份 marketplace，清单 name 是 \`b2c-developer-tooling\`。先加源，再装技能，MCP 另装 \`b2c-dx-mcp\`：
+
+\`\`\`bash
+codex plugin marketplace add SalesforceCommerceCloud/b2c-developer-tooling
+codex plugin add b2c@b2c-developer-tooling
+codex plugin add b2c-cli@b2c-developer-tooling
+codex plugin add b2c-dx-mcp@b2c-developer-tooling
+\`\`\`
+
+需要 Node.js **22.16.0** 或以上，而且 \`npx\` 必须在启动 Codex 的那个进程 PATH 里。装完新开会话。0.154 起先看当前 \`/plugins\` 和 \`/mcp\`；当前会话没有再新开。可选再装 \`b2c-ops@b2c-developer-tooling\` 或 \`storefront-next@b2c-developer-tooling\`。Figma 那两份还要另接 Figma MCP，不要以为 B2C 插件会带上。
+
+IDE 扩展没有 \`/plugins\`。官方手写是本地 **stdio**，不要 \`url\`，也不要 \`codex mcp login\`：
+
+\`\`\`bash
+codex mcp add b2c-dx-mcp -- npx -y @salesforce/b2c-dx-mcp@latest --allow-non-ga-tools
+\`\`\`
+
+\`--allow-non-ga-tools\` 打开预览工具。插件自带的 \`.mcp.json\` **没有**这面旗标，不要把两套 args 混成一张表。插件已经登记 MCP 时，不要再 \`mcp add\` 同一张 \`b2c-dx-mcp\`。
+
+Agent Plugins 没写 \`cwd\` 时，MCP 的工作目录是**插件根**，不是你打开的仓库。凭证放项目根 \`dw.json\` 或 \`.env\`，让模型带 \`projectDirectory\`，或在仓库里启动 Codex 再手写 \`mcp add\`。不要把 \`hostname\` / \`client-secret\` 写进 \`~/.codex/config.toml\` 的 \`env\` 表。连上后让它跑 \`config_inspect\` 看解析到哪份配置。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`plugin install b2c-dx-mcp\`（没 \`@b2c-developer-tooling\`），也不要抄 \`claude mcp add --transport stdio\`。
+- 不要把 \`npx @salesforce/b2c-cli setup skills --ide codex\` 当插件安装器。它拷到 \`.codex/skills/\`，不会登记 MCP，也不是 Codex 现行的 \`~/.agents/skills\`。
+- 不要发明 \`codex plugin add salesforce@…\`。
+- 不要和 Salesforce 平台 Hosted MCP / Agentforce 搞成一台。
+- 不要一上来 \`--full-auto\`。
+
+网页 Cloud 不读本机 marketplace。ChatGPT 网页要用 Secure MCP Tunnel，不是 \`config.toml\`。核对：\`codex plugin list\` 看到 \`b2c-dx-mcp@b2c-developer-tooling\`；手写路径用 \`codex mcp get b2c-dx-mcp\` 看 command 是 \`npx\`。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Salesforce", "B2C", "plugins"],
+    related: ["plugin-session-refresh", "unity-codex-plugin", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "B2C Developer Toolkit · Agent Skills",
+        url: "https://salesforcecommercecloud.github.io/b2c-developer-tooling/guide/agent-skills",
+      },
+      {
+        label: "B2C Developer Toolkit · MCP Installation",
+        url: "https://salesforcecommercecloud.github.io/b2c-developer-tooling/mcp/installation.html",
+      },
+      {
+        label: "SalesforceCommerceCloud/b2c-developer-tooling",
+        url: "https://github.com/SalesforceCommerceCloud/b2c-developer-tooling",
+      },
+    ],
+  },
+  {
+    id: "expo-codex-plugin",
+    no: 426,
+    title: "Expo 插件用 plugin add expo@openai-curated，再 mcp login expo",
+    summary:
+      "官方 Codex：codex plugin add expo@openai-curated，再 mcp login expo。插件会登记 mcp.expo.dev/mcp。不要抄 Claude 的 expo@claude-plugins-official，也不要把 npx skills add 当 Codex 安装器。",
+    body: `Expo 插件用 plugin add expo@openai-curated，再 mcp login expo。官方 Codex 页这一条会装 Expo Skills，并登记远程 MCP。
+
+\`\`\`bash
+codex plugin add expo@openai-curated
+codex mcp login expo
+\`\`\`
+
+插件 id 是 \`expo@openai-curated\`。TUI \`/plugins\` 或桌面 Plugins 选 OpenAI Curated 搜 expo，效果一样。0.154 起先看**当前会话**；当前会话没有再新开。\`codex plugin list\` 应看到 \`expo@openai-curated\`。随后 \`mcp login expo\` 打开浏览器登 Expo 账号。已经装了插件就**不要**再 \`mcp add\` 同一张表。
+
+只要远程 MCP、不装技能时，官方 MCP 页的 Codex 节是：
+
+\`\`\`bash
+codex mcp add expo --url https://mcp.expo.dev/mcp
+codex mcp login expo
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.expo]
+url = "https://mcp.expo.dev/mcp"
+enabled = true
+\`\`\`
+
+用户层表名官方就是 \`expo\`。URL **带** \`/mcp\` 后缀。不要抄 Claude 的 \`--transport http\`，也不要抄 Cursor / VS Code 的 JSON。插件已经登记过就不要再手写这张表。连上后可让它读 \`package.json\` 里的 Expo SDK 版本做一次只读核对。\`search_documentation\` 要 EAS 付费档。触发 EAS Build / 工作流、回 App Store 评论这类写入保持批准。不要一上来 \`--yolo\`。不要 \`required = true\`。
+
+本地模拟器截图、点按、开 React Native DevTools 是另一层，要 SDK 54+。在项目里 \`npx expo install expo-mcp --dev\`，用**同一 Expo 账号** \`npx expo whoami\`，再 \`EXPO_UNSTABLE_MCP_SERVER=1 npx expo start\`。起停 Metro 之后要重连 MCP。本机 iOS 能力只在 macOS 模拟器；网页 Cloud 够不到你笔记本上的 Metro。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`claude plugin install expo@claude-plugins-official\`。Codex 插件 id 是 \`expo@openai-curated\`。
+- 不要把 \`npx skills add expo/skills\` 当 Codex 主路径。那是给 Cursor 一类客户端拷 SKILL.md，不会登记 MCP。
+- 不要发明 \`codex plugin add expo@expo\` 或 \`expo@claude-plugins-official\`。
+- 不要抄 \`npx mcp-remote https://mcp.expo.dev/mcp\`。Codex 自己走 HTTP。
+- 不要把本机 \`expo-mcp\` 包当成远程 MCP 的替代安装器。
+
+源仓 marketplace 回退才 \`codex plugin marketplace add expo/skills --ref main\`，再在 \`/plugins\` 装 expo；官方 Codex 页仍是 curated 那条。网页 Cloud 不读 \`~/.codex/config.toml\`。改完用 \`codex plugin list\`；用户层对照 \`codex mcp get expo\` 看传输是 streamable_http。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Expo", "EAS", "插件", "OAuth"],
+    related: ["shopify-ai-toolkit", "mcp-add-and-login", "unity-codex-plugin"],
+    sources: [
+      {
+        label: "Expo · Codex",
+        url: "https://docs.expo.dev/agents/codex/",
+      },
+      {
+        label: "Expo · MCP Server",
+        url: "https://docs.expo.dev/mcp/",
+      },
+      {
+        label: "expo/skills",
+        url: "https://github.com/expo/skills",
+      },
+    ],
+  },
+  {
+    id: "glean-codex-plugin",
+    no: 427,
+    title: "Glean 插件用 marketplace 加 gleanwork/codex-plugins，再 mcp login glean",
+    summary:
+      "官方 Codex：marketplace add gleanwork/codex-plugins，再 plugin add glean@glean-codex-plugins。组织远程还要 mcp add glean，再 mcp login glean。不要抄 Claude 的 glean@glean-plugins，也不要把 /glean_run 当 Codex 斜杠。",
+    body: `Glean 插件用 marketplace 加 gleanwork/codex-plugins，再 mcp login glean。官方 Codex 页把企业知识插件和组织远程 MCP 拆开：插件会装 Skills，并带一台本机 stdio 网关；组织搜索入口还要自己登记。
+
+先让管理员打开 Glean 的 OAuth、Dynamic Client Registration（只放行已批准应用时把 Glean CLI 加进名单）和 MCP 服务器。你自己打开 MCP Configurator（头像 → Your settings → Third party apps and MCP），抄**组织后端地址**和**服务器名**。文档示例是 \`https://acme-be.glean.com/mcp/engineering\`，路径带 \`/mcp/\`，不要猜。
+
+在**普通终端**装，不要在 Codex TUI 里跑：
+
+\`\`\`bash
+codex plugin marketplace add gleanwork/codex-plugins
+codex plugin add glean@glean-codex-plugins
+codex mcp add glean --url https://acme-be.glean.com/mcp/engineering
+codex mcp login glean
+\`\`\`
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`glean-codex-plugins\`，插件 name 是 \`glean\`，所以是 \`glean@glean-codex-plugins\`。\`codex plugin list\` 应看到 installed, enabled。0.154 起先看**当前会话**；当前会话没有再新开。随后 \`mcp login glean\` 打开浏览器走公司 SSO。已经登记过就**不要**再 \`mcp add\` 同一张 \`glean\` 表。
+
+\`\`\`toml
+[mcp_servers.glean]
+url = "https://acme-be.glean.com/mcp/engineering"
+enabled = true
+\`\`\`
+
+用户层表名官方就是 \`glean\`。这是 Streamable HTTP + OAuth，不要写 \`command\`，不要抄 Claude 的 \`--transport http\`，也不要抄 Cursor / VS Code 的 JSON。插件 \`.mcp.json\` 另有一台本机 \`glean_plugin\`（\`node ./mcp/start.mjs\`，开 HITL），那是插件网关，**不要**再手写一张 \`glean_plugin\`。
+
+只要远程 MCP、不装技能时，只跑上面的 \`mcp add\` / \`mcp login\`。仓 README 还可以 \`codex plugin add glean-dev-docs@glean-codex-plugins\`，再 \`codex mcp add glean-dev-docs --url https://developers.glean.com/mcp\`；那是**公开开发者文档**，不是你们公司的索引，不要和 \`glean\` 叠成一台。公开这张默认不必 \`mcp login\`。
+
+Cursor / Claude 用 \`/glean_run\`，第一次还会要工作邮箱。Codex **没有**这条斜杠：用自然语言让它搜 Glean，认证走 \`mcp login glean\`。验证句官方是 \`Search for my company onboarding docs in Glean.\` 网关先 \`find_skills\` 再 \`run_tool\`，不要猜下游工具名。写 Google Doc / Jira 保持批准。不要一上来 \`--yolo\`。不要 \`required = true\`。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`/plugin marketplace add gleanwork/claude-plugins\` 或 \`/plugin install glean@glean-plugins\`。Codex 清单名是 \`glean-codex-plugins\`。
+- 不要抄 Cursor 的 \`/add-plugin glean\`。
+- 不要把 \`/glean_run\` 当 Codex 斜杠。
+- 不要发明 \`codex plugin add glean@openai-curated\` 或 \`glean@glean-plugins\`。
+- 不要抄 \`npx mcp-remote https://acme-be.glean.com/mcp/engineering\`。Codex 自己走 HTTP。
+- 不要把 \`npx skills add\` 当这份插件安装器。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get glean\` 看传输是 streamable_http，url 带你们公司的 \`/mcp/\` 路径。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Glean", "插件", "OAuth"],
+    related: ["mcp-add-and-login", "n8n-codex-mcp", "jfrog-codex-plugin"],
+    sources: [
+      {
+        label: "Glean · Plugin for Codex",
+        url: "https://developers.glean.com/guides/mcp/codex",
+      },
+      {
+        label: "Glean · Set up the plug-in in Codex",
+        url: "https://docs.glean.com/user-guide/mcp/glean-plugin-codex",
+      },
+      {
+        label: "gleanwork/codex-plugins",
+        url: "https://github.com/gleanwork/codex-plugins",
+      },
+    ],
+  },
+  {
+    id: "calendarbridge-codex-mcp",
+    no: 428,
+    title: "CalendarBridge MCP 走 manageapi.calendarbridge.com/mcp，再 mcp login",
+    summary:
+      "官方 Codex CLI：mcp add calendarbridge --url 走 manageapi.calendarbridge.com/mcp，带 /mcp。随后 mcp login calendarbridge。OAuth 2.1，不要 API key。不要抄 Claude 的 --transport http，也不要发明 plugin add。",
+    body: `CalendarBridge MCP 走 manageapi.calendarbridge.com/mcp，再 mcp login。官方帮助给 Codex CLI 单独一行，远程是 Streamable HTTP + OAuth 2.1（PKCE）。这不是 Cal.com 的 \`mcp.cal.com\`，也不是 CalendarBridge 那个靠邮件干活的 AI Scheduling Assistant。
+
+先登录 https://app.calendarbridge.com/login/，侧栏 AI Assistant → Bring Your Own Agent (MCP)，把 Server URL **整段**抄下来，必须带 \`https://\`。帮助页示例是：
+
+\`\`\`bash
+codex mcp add calendarbridge --url https://manageapi.calendarbridge.com/mcp
+codex mcp login calendarbridge
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.calendarbridge]
+url = "https://manageapi.calendarbridge.com/mcp"
+enabled = true
+\`\`\`
+
+用户层表名官方就是 \`calendarbridge\`。URL **带** \`/mcp\` 后缀。没有 API key、没有 client secret，不要 \`--bearer-token-env-var\`，也不要把 token 拼进查询串。文档写完 \`mcp add\` 后在 TUI 敲 \`/mcp\` 再选 calendarbridge，那就是走 OAuth；CLI 等价是 \`mcp login calendarbridge\`。浏览器里签 CalendarBridge，只勾你要的权限，再 Allow。
+
+连上客户端在每个套餐都能做，含 Basic。真正读改日历、建 scheduler、改 sync **要有效订阅**。订阅过期后连接还在，工具会让你去 app.calendarbridge.com 重新激活。
+
+写事件、删 sync、发助手邮件保持批准。不要一上来 \`--yolo\`。不要 \`required = true\`。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`claude mcp add calendarbridge --transport http\`。Codex 用 \`--url\`，自己走 HTTP。
+- 不要抄 Cursor JSON、ChatGPT Developer Mode 插件，也不要抄 Gemini / OpenClaw 的 \`--transport\`。
+- 不要发明 \`codex plugin add calendarbridge@\`。
+- 不要抄 \`npx mcp-remote https://manageapi.calendarbridge.com/mcp\`。
+- 不要和 Cal.com 的 \`mcp.cal.com\` 写成一台。
+- 不要把邮箱里的 AI Scheduling Assistant 当成这条 MCP 的安装器。助手仍走邮件；MCP 可以代你给助手发消息，但要另勾 Send through your assistants。
+
+从控制台 Connected agents 可以 Revoke。网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get calendarbridge\` 看传输是 streamable_http，url 是 \`https://manageapi.calendarbridge.com/mcp\`。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "CalendarBridge", "OAuth", "日历"],
+    related: ["mcp-add-and-login", "mcp-oauth-loopback-callback", "nylas-codex-mcp"],
+    sources: [
+      {
+        label: "CalendarBridge · Bring Your Own Agent (MCP)",
+        url: "https://help.calendarbridge.com/user-docs/bring-your-own-agent-mcp/",
+      },
+      {
+        label: "CalendarBridge · Bring Your Own Agent announcement",
+        url: "https://help.calendarbridge.com/announcements/bring-your-own-agent/",
+      },
+      {
+        label: "CalendarBridge · MCP Ready",
+        url: "https://calendarbridge.com/blog/bring-your-own-ai-agent-to-calendarbridge-mcp-ready/",
+      },
+    ],
+  },
 ];

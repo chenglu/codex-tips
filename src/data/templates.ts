@@ -3561,4 +3561,226 @@ startup_timeout_sec = 60
 # docker mcp client connect vscode
 `,
   },
+  {
+    id: "amd-skills-plugin",
+    title: "AMD Skills 插件",
+    filename: "terminal",
+    summary:
+      "upgrade 用清单名 amd-skills 不是仓库路径 amd/skills。主路径是 marketplace add amd/skills，再 plugin add amd-skills@amd-skills。",
+    code: `codex plugin marketplace add amd/skills
+codex plugin add amd-skills@amd-skills
+
+# TUI /plugins 打开 AMD Skills 再装也可以
+codex plugin marketplace upgrade amd-skills
+
+# 插件包外的单项才：
+# npx skills add amd/skills --skill serving-llms-on-epyc --agent codex
+
+# 不要：
+# npx skills add amd/skills
+# /plugin marketplace add amd/skills
+# plugin add amd@amd-skills
+# plugin add amd-skills@openai-curated
+# 手拷到 ~/.codex/skills
+`,
+  },
+  {
+    id: "mcp-danube-http",
+    title: "Danube 远程 HTTP MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "不要把 danube-api-key 写进 http_headers，改 bearer_token_env_var。主路径是 mcp add danube --url https://mcp.danubeai.com/mcp --bearer-token-env-var DANUBE_API_KEY。",
+    code: `codex mcp add danube --url https://mcp.danubeai.com/mcp --bearer-token-env-var DANUBE_API_KEY
+
+[mcp_servers.danube]
+url = "https://mcp.danubeai.com/mcp"
+bearer_token_env_var = "DANUBE_API_KEY"
+enabled = true
+startup_timeout_sec = 30
+
+# 自定义头回退才：
+# [mcp_servers.danube.env_http_headers]
+# danube-api-key = "DANUBE_API_KEY"
+
+# 不要：
+# [mcp_servers.danube.http_headers]
+# danube-api-key = "dk_xxxxxxx"
+# codex mcp login danube
+# url 去掉 /mcp
+`,
+  },
+  {
+    id: "mcp-asana-v2-remote",
+    title: "Asana V2 mcp-remote 凭证文件",
+    filename: "~/.codex/config.toml",
+    summary:
+      "Asana 官方 Codex 走 stdio 桥。@ 后必须是绝对路径，~ 不会展开。不要 mcp add --url，也不要把 client_secret 写进 args。",
+    code: `{
+  "client_id": "YOUR_CLIENT_ID",
+  "client_secret": "YOUR_CLIENT_SECRET"
+}
+
+# chmod 600 /absolute/path/to/mcp_oauth_client.json
+
+[mcp_servers.asana]
+command = "npx"
+args = [
+  "-y",
+  "mcp-remote@latest",
+  "https://mcp.asana.com/v2/mcp",
+  "3334",
+  "--static-oauth-client-info",
+  "@/absolute/path/to/mcp_oauth_client.json",
+  "--resource",
+  "https://mcp.asana.com/v2"
+]
+startup_timeout_sec = 60
+
+# 不要：
+# codex mcp add asana --url https://mcp.asana.com/v2/mcp
+# codex mcp login asana
+# https://mcp.asana.com/sse
+# --client-secret 写进 args
+`,
+  },
+  {
+    id: "mcp-sequel-http",
+    title: "Sequel 远程 MCP",
+    filename: "~/.codex/config.toml",
+    summary:
+      "远程是 api.sequel.sh/mcp。不要把 sql_ 密钥写进 http_headers，改 bearer_token_env_var。不要抄 config.yaml，也不要 mcp login。",
+    code: `codex mcp add sequel --url https://api.sequel.sh/mcp --bearer-token-env-var SEQUEL_API_KEY
+
+[mcp_servers.sequel]
+url = "https://api.sequel.sh/mcp"
+bearer_token_env_var = "SEQUEL_API_KEY"
+
+# 可选：sequel login && sequel install codex
+# 然后用 codex mcp get sequel 核对，不要留下 config.yaml
+
+# 不要：
+# ~/.codex/config.yaml
+# type: http
+# http_headers = { Authorization = "Bearer sql_…" }
+# codex mcp login sequel
+# npx -y sequel-mcp
+`,
+  },
+  {
+    id: "ug-mcp-add-codex",
+    title: "Databricks ug mcp add",
+    filename: "terminal",
+    summary:
+      "官方 Codex 是 ug mcp add --agents codex。不要抄 Cursor 的 mcp-remote，Codex 表是 ug mcp-proxy stdio。启动用 ug codex，不要裸跑。",
+    code: `uv tool install git+https://github.com/databricks/unity-gateway
+databricks auth login
+ug mcp add --agents codex --services CATALOG.SCHEMA.SERVICE
+ug codex
+
+# 只加不删。configure mcp 会整表替换：
+# ug mcp add --services uc-functions:main.tools
+# ug mcp add --services system.ai.slack
+
+# 不要：
+# ucode 当已经改名后的唯一命令（它只是别名）
+# npx mcp-remote https://WORKSPACE/api/2.0/mcp/functions/...
+# codex mcp login
+# 把 PAT 写进 http_headers
+# ug configure mcp 当「再加一台」
+`,
+  },
+  {
+    id: "b2c-dx-mcp-codex-plugin",
+    title: "Salesforce B2C marketplace",
+    filename: "terminal",
+    summary:
+      "官方 Codex 是 marketplace add 再 plugin add b2c-dx-mcp。不要把 b2c setup skills --ide codex 当插件安装器。插件 cwd 不是仓库根。",
+    code: `codex plugin marketplace add SalesforceCommerceCloud/b2c-developer-tooling
+codex plugin add b2c@b2c-developer-tooling
+codex plugin add b2c-cli@b2c-developer-tooling
+codex plugin add b2c-dx-mcp@b2c-developer-tooling
+
+# IDE 没有 /plugins 才手写：
+# codex mcp add b2c-dx-mcp -- npx -y @salesforce/b2c-dx-mcp@latest --allow-non-ga-tools
+
+# 不要：
+# claude plugin install b2c-dx-mcp
+# npx @salesforce/b2c-cli setup skills --ide codex
+# codex mcp login b2c-dx-mcp
+# 把 client-secret 写进 config.toml env
+`,
+  },
+  {
+    id: "expo-codex-plugin",
+    title: "Expo 官方插件",
+    filename: "terminal",
+    summary:
+      "主路径是 plugin add expo@openai-curated，再 mcp login expo。插件会登记 mcp.expo.dev/mcp。不要抄 Claude 的 expo@claude-plugins-official。不要把 npx skills add 当 Codex 安装器。",
+    code: `codex plugin add expo@openai-curated
+codex mcp login expo
+
+# 只要 MCP、不装插件：
+# codex mcp add expo --url https://mcp.expo.dev/mcp
+# codex mcp login expo
+
+# [mcp_servers.expo]
+# url = "https://mcp.expo.dev/mcp"
+# enabled = true
+
+# 不要：
+# claude plugin install expo@claude-plugins-official
+# npx skills add expo/skills
+# codex plugin add expo@expo
+# npx mcp-remote https://mcp.expo.dev/mcp
+`,
+  },
+  {
+    id: "glean-codex-plugin",
+    title: "Glean 官方插件",
+    filename: "terminal",
+    summary:
+      "主路径是 marketplace add gleanwork/codex-plugins，再 plugin add glean@glean-codex-plugins。组织远程还要 mcp add glean，再 mcp login glean。不要把 Cursor 的 /add-plugin glean 当 Codex 安装器。",
+    code: `codex plugin marketplace add gleanwork/codex-plugins
+codex plugin add glean@glean-codex-plugins
+codex mcp add glean --url https://acme-be.glean.com/mcp/engineering
+codex mcp login glean
+
+# [mcp_servers.glean]
+# url = "https://acme-be.glean.com/mcp/engineering"
+# enabled = true
+
+# 可选公开文档：
+# codex plugin add glean-dev-docs@glean-codex-plugins
+# codex mcp add glean-dev-docs --url https://developers.glean.com/mcp
+
+# 不要：
+# /plugin marketplace add gleanwork/claude-plugins
+# /plugin install glean@glean-plugins
+# /add-plugin glean
+# /glean_run
+# codex plugin add glean@openai-curated
+# npx mcp-remote https://acme-be.glean.com/mcp/engineering
+`,
+  },
+  {
+    id: "calendarbridge-codex-mcp",
+    title: "CalendarBridge 远程 MCP",
+    filename: "terminal",
+    summary:
+      "主路径是 mcp add calendarbridge --url https://manageapi.calendarbridge.com/mcp，再 mcp login calendarbridge。不要把邮箱 AI Scheduling Assistant 当 MCP 安装器。",
+    code: `codex mcp add calendarbridge --url https://manageapi.calendarbridge.com/mcp
+codex mcp login calendarbridge
+
+# [mcp_servers.calendarbridge]
+# url = "https://manageapi.calendarbridge.com/mcp"
+# enabled = true
+
+# 不要：
+# claude mcp add calendarbridge --transport http
+# npx mcp-remote https://manageapi.calendarbridge.com/mcp
+# codex plugin add calendarbridge@
+# https://mcp.cal.com
+# bearer_token_env_var
+`,
+  },
 ];
