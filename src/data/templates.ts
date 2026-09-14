@@ -3122,4 +3122,26 @@ codex plugin add planetscale@planetscale
 # codex mcp add planetscale --url https://mcp.pscale.dev/mcp/planetscale
 `,
   },
+  {
+    id: "geoly-codex-plugin",
+    title: "GEOly Codex 插件",
+    filename: "terminal",
+    summary:
+      "主路径是 marketplace add geoly-ai/codex-plugins，再 plugin add geoly-mcp@geoly。CLI 动词是 add 不是 install。upgrade geoly 不够，还要再 plugin add。插件表名是 geoly。",
+    code: `codex plugin marketplace add geoly-ai/codex-plugins
+codex plugin add geoly-mcp@geoly
+
+# 升级三步（upgrade 只刷新目录）：
+# codex plugin marketplace upgrade geoly
+# codex plugin add geoly-mcp@geoly
+# 彻底退出并新开会话
+
+# 没弹 OAuth 再：
+# codex mcp login geoly
+
+# 卸：
+# codex plugin remove geoly-mcp
+# codex plugin marketplace remove geoly
+`,
+  },
 ];
