@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-14T02:30:00Z",
+  lastTick: "2026-09-14T03:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "02:30 定时器。调用前 $96.66，收尾 $96.66。CDP 34/34，预览 4381，CDP 9481。Spend: counts（start_time=2026-09-07T02:35:00Z，共 229 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Mintlify Admin MCP（官方 Codex：mcp add mintlify --url https://mcp.mintlify.com，再 mcp login。不要加 /mcp。写作指南把同名表写成 mintlify.com/docs/mcp，不要叠成一台。OAuth，不要发明 plugin add）。X 仍是 Claude 对照、Unity、Astra /slow、token 营销、Archify、OMO 编排、/feedback。Fastmail 仍是 mcp-remote。Builder Fusion / Snowflake 官方仍无 Codex 专节。Kit #41362、ConfigCat / Meilisearch / Cal.com / Axiom 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault 仍跳过。AgentPort 官方 TOML 仍写成 headers。Infisical / Browserbase 无 Codex 专节。",
+    "03:00 定时器。调用前 $96.66，收尾 $96.65。CDP 34/34，预览 4382，CDP 9482。Spend: counts（start_time=2026-09-07T03:05:00Z，共 230 条）+ search_news(10) + search_posts_all=10。未调用 get_news。收录 Squirrelscan 托管 MCP（官方 Codex：mcp add squirrelscan --url https://mcp.squirrelscan.com/mcp，再 mcp login。必须带 /mcp。无头才 SQUIRRELSCAN_API_KEY。不要叠 OAuth 和 bearer。不要写 experimental_environment。本机 squirrel mcp 是 stdio，另起表。不要发明 plugin add）。X 仍是 Claude 对照、Unity、Astra /slow、token 营销、Archify、OMO 编排、/feedback。Fastmail 仍是 mcp-remote。Builder Fusion / Snowflake 官方仍无 Codex 专节。Kit / ConfigCat / Meilisearch / Cal.com / Axiom 仍无 Codex 专节。do-app-platform-skills 仍未钉 --agent codex。Vault 仍跳过。AgentPort 官方 TOML 仍写成 headers。Infisical / Browserbase 无 Codex 专节。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1488,6 +1488,18 @@ export const loopState = {
     "builder.io fusion-mcp-server mcp.builder.io Codex",
     "snowflake cortex MCP Codex mcp add",
     "Codex CLI 技巧 2026 Mintlify Admin MCP mcp.mintlify.com",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR skills OR AGENTS.md OR plugin OR worktree)',
+    "X news: Codex CLI",
+    "docs.squirrelscan.com developers agents Codex mcp add squirrelscan",
+    "docs.squirrelscan.com developers mcp-clients Codex bearer_token_env_var",
+    "docs.squirrelscan.com developers mcp Hosted MCP squirrel mcp stdio",
+    "squirrelscan.com for Codex mcp.squirrelscan.com/mcp",
+    "docs.infisical.com mcp Codex",
+    "browserbase mcp Codex API key",
+    "fastmail.com mcp Codex mcp-remote api.fastmail.com",
+    "builder.io fusion-mcp-server mcp.builder.io Codex",
+    "snowflake cortex MCP Codex mcp add",
+    "Codex CLI 技巧 2026 Squirrelscan MCP mcp.squirrelscan.com/mcp",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR skills OR AGENTS.md OR plugin OR worktree)',
     "X news: Codex CLI",
   ],

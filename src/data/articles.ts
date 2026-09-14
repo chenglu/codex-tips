@@ -3971,5 +3971,35 @@ export const articles: Article[] = [
     summary:
       '站点检索 MCP 在站点域名 /mcp，Mintlify 自己的是 mintlify.com/docs/mcp。Codex 示例也叫 mintlify 表。只读。不要把 Search MCP 和 Admin MCP 叠成一台。不要抄 Claude 的 --transport http。',
   },
+  {
+    title: 'squirrelscan for OpenAI Codex',
+    url: 'https://docs.squirrelscan.com/developers/agents/codex',
+    source: 'squirrelscan',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Squirrelscan', 'Skills', 'Codex'],
+    summary:
+      '官方 Codex：mcp add squirrelscan 再 mcp login。托管入口必须带斜杠 mcp。不要给 squirrelscan 写 experimental_environment。技能是 npx skills add squirrelscan/squirrelscan，不是插件。',
+  },
+  {
+    title: 'MCP client setup',
+    url: 'https://docs.squirrelscan.com/developers/mcp-clients',
+    source: 'squirrelscan',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Squirrelscan', 'OAuth', 'Codex'],
+    summary:
+      'Codex 专节：url 指向托管 MCP，再 mcp login。codex mcp add 只写全局配置。SQUIRRELSCAN_API_KEY 才是无头路径。OAuth 和 bearer 不要叠进同一张表。',
+  },
+  {
+    title: 'Hosted MCP server',
+    url: 'https://docs.squirrelscan.com/developers/mcp',
+    source: 'squirrelscan',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Squirrelscan'],
+    summary:
+      'Streamable HTTP。run_audit 超阈值要二次 confirm。本地 squirrel mcp 是免费 stdio 引擎，没有 issue tracker。不要和托管 HTTP 写成同一张表。',
+  },
 ];
 

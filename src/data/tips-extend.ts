@@ -11365,4 +11365,92 @@ Admin 会改文档。会话先 \`checkout\` 绑到一条分支，再改，再用
       },
     ],
   },
+  {
+    id: "squirrelscan-mcp-http",
+    no: 398,
+    title: "Squirrelscan 托管 MCP 用 mcp.squirrelscan.com/mcp，不要和本地 squirrel mcp 叠",
+    summary:
+      "官方 Codex：mcp add squirrelscan --url https://mcp.squirrelscan.com/mcp，再 mcp login。必须带 /mcp。无头才 SQUIRRELSCAN_API_KEY。不要叠 OAuth 和 bearer。不要写 experimental_environment。不要发明 plugin add。",
+    body: `这是 squirrelscan **托管** MCP：云端审计、报告、issue tracker 和规则目录。给 Codex 有专节。远程入口是 \`https://mcp.squirrelscan.com/mcp\`，**必须带** \`/mcp\`。Streamable HTTP。交互走 OAuth；无头 / CI 才 Bearer。
+
+官方 TOML（OAuth 路径不要写 bearer）：
+
+\`\`\`toml
+[mcp_servers.squirrelscan]
+url = "https://mcp.squirrelscan.com/mcp"
+enabled = true
+\`\`\`
+
+CLI 等价：
+
+\`\`\`bash
+codex mcp add squirrelscan --url https://mcp.squirrelscan.com/mcp
+codex mcp login squirrelscan
+\`\`\`
+
+桌面走 Settings → Integrations & MCP，名字填 squirrelscan，URL 填同一条。CLI / 桌面 / IDE 共用这份配置。浏览器没弹再跑 \`codex mcp login squirrelscan\`。\`codex mcp list\` 应列出 squirrelscan。TUI 里 \`/mcp\` 看是否还要授权。
+
+**三件事不要叠成一台：**
+
+| 用途 | 怎么接 | 说明 |
+| --- | --- | --- |
+| 托管 MCP（issue tracker、渲染、credits） | \`https://mcp.squirrelscan.com/mcp\` + \`mcp login\` | 官方 Codex 主路径 |
+| 无头 / CI | 同一 URL + \`bearer_token_env_var = "SQUIRRELSCAN_API_KEY"\` | 不要再 \`mcp login\` |
+| 本机 \`squirrel mcp\` | stdio，免费离线审计 | 另起表名，不要覆盖 squirrelscan |
+
+本地 CLI（\`curl -fsSL https://install.squirrelscan.com | bash\`）是 \`squirrel\` 二进制，用来跑 \`squirrel audit\`。那不是 MCP。CLI 自带的 \`squirrel mcp\` 是 **stdio** 本地引擎：免费、可离线、可扫 localhost。托管才有共享组织状态、issue tracker 和浏览器渲染。两台不要写进同一张 \`[mcp_servers.squirrelscan]\`。本机 stdio 另开表，例如 squirrelscan-local。
+
+不要给这台写 \`experimental_environment\`。那是 stdio 走远端执行器的键，**不支持** Streamable HTTP。
+
+无头：
+
+\`\`\`bash
+codex mcp add squirrelscan --url https://mcp.squirrelscan.com/mcp --bearer-token-env-var SQUIRRELSCAN_API_KEY
+\`\`\`
+
+\`bearer_token_env_var\` 填变量**名**。把密钥 export 成 \`SQUIRRELSCAN_API_KEY\`。Codex 读启动它那个进程里的环境。Codex 不读 \`.env\`。Dock / 开始菜单打开的桌面没有 zshrc。从已经 export 的终端启动。用 \`squirrel keys create --shell\` 铸钥匙。
+
+Bearer 和 \`mcp login\` **是两条路，不要叠**。配置了 \`bearer_token_env_var\` / \`http_headers\` / \`env_http_headers\` 时，每次请求都带这颗头，会盖掉已存的 OAuth。于是登录看起来成功，调用却一直 401。交互路径把这些头删掉。
+
+\`codex mcp add\` / \`mcp login\` 只写全局 \`~/.codex/config.toml\`。要限定一个项目，把手写的 \`[mcp_servers.squirrelscan]\` 块放进该项目 \`.codex/config.toml\`，项目受信任后才生效。
+
+\`run_audit\` 会花 credits。估算超过阈值时第一次调用只返回估价，确认后再带 confirm 跑。保持工具批准。不要 \`required = true\`。不要一上来 \`--yolo\`。
+
+技能是可选补充，不是 MCP 安装器。官方 Codex 页是 \`npx skills add squirrelscan/squirrelscan\`，没钉 \`--agent codex\`。技能进 \`~/.agents/skills\`。不要发明 \`codex plugin add squirrelscan@\`。
+
+不要做这些：
+
+- 不要把 \`https://mcp.squirrelscan.com/mcp\` 的 \`/mcp\` 砍掉。
+- 不要抄 Claude 的 \`claude mcp add --transport http squirrelscan https://mcp.squirrelscan.com/mcp\`。
+- 不要发明 \`codex plugin add squirrelscan@\`。
+- 不要把 \`npx skills add squirrelscan/squirrelscan\` 当 MCP 安装器。
+- 不要叠 OAuth 和 bearer。
+- 不要把 API key 写进 \`http_headers\` 或 \`args\`。
+- 不要抄 Cursor 的 \`mcp.json\`，也不要抄 \`/sse\`。
+- 不要用 \`npx mcp-remote\`。
+- 不要把本机 \`squirrel mcp\` stdio 覆盖托管那张表。
+
+卸掉：\`codex mcp logout squirrelscan\`，再删 \`~/.codex/config.toml\` 里的 \`[mcp_servers.squirrelscan]\`。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完用 \`codex mcp get squirrelscan\` 看 url 是 \`https://mcp.squirrelscan.com/mcp\`，传输是 streamable_http。OAuth 路径的 Auth 应显示 OAuth。Bearer 路径应显示 \`SQUIRRELSCAN_API_KEY\`。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Squirrelscan", "OAuth", "HTTP", "bearer_token_env_var"],
+    related: ["mcp-add-and-login", "alloy-mcp-http", "mintlify-admin-mcp"],
+    sources: [
+      {
+        label: "squirrelscan · Codex",
+        url: "https://docs.squirrelscan.com/developers/agents/codex",
+      },
+      {
+        label: "squirrelscan · MCP clients",
+        url: "https://docs.squirrelscan.com/developers/mcp-clients",
+      },
+      {
+        label: "squirrelscan · Hosted MCP",
+        url: "https://docs.squirrelscan.com/developers/mcp",
+      },
+    ],
+  },
 ];
