@@ -4436,5 +4436,137 @@ codex --profile modelstudio -m qwen3.8-max
         url: "https://docs.modelstudio.console.alibabacloud.com/en/model-studio/compatibility-with-openai-responses-api",
       },
     ],
+  },
+  {
+    id: "byteplus-codex-gateway",
+    no: 477,
+    title: "通过 BytePlus ModelArk 连接模型服务",
+    summary: "使用独立 profile 连接 Coding Plan 的 Responses 入口，通过 ARK_API_KEY 认证。/api/v3 按量入口另行计费，需使用 /api/coding/v3。",
+    body: `使用独立 profile 连接 Coding Plan 的 Responses 入口，通过 ARK_API_KEY 认证。/api/v3 按量入口另行计费，需使用 /api/coding/v3。
+
+Codex 的模型请求发送到 BytePlus ModelArk Coding Plan 的 OpenAI Responses 入口。官方 Codex 页给了 \`[model_providers.byteplus-coding-plan]\` 和 \`wire_api = "responses"\`。\`env_key\` 已经是变量**名** \`ARK_API_KEY\`，在启动 Codex 的进程里 \`export\`。不要和 \`experimental_bearer_token\` / \`requires_openai_auth\` / \`[model_providers.*.auth]\` 叠在同一张供应商表。
+
+\`base_url\` 必须是 \`https://ark.ap-southeast.bytepluses.com/api/coding/v3\`。不要抄 Anthropic 的 \`https://ark.ap-southeast.bytepluses.com/api/coding\`，更不要打按量主机 \`https://ark.ap-southeast.bytepluses.com/api/v3\`——官方写明那条不走 Coding Plan 配额，会另计费。**Codex 不会在 \`base_url\` 里展开环境变量**。不要写 \`openai_base_url\`。这不是火山引擎国内站 \`ark.cn-beijing.volces.com\`，密钥和主机不要混。
+
+不要把顶层 \`model_provider = "byteplus-coding-plan"\` 一上来写进用户 config，除非你就是要把**所有**会话都改走 BytePlus。官方手册和 ArkCLI Helper 都会改成默认。更稳妥是独立 profile（0.134 起不要再写 \`[profiles.byteplus]\`）：
+
+\`\`\`toml
+# ~/.codex/config.toml
+[model_providers.byteplus-coding-plan]
+name = "byteplus-coding-plan"
+base_url = "https://ark.ap-southeast.bytepluses.com/api/coding/v3"
+env_key = "ARK_API_KEY"
+wire_api = "responses"
+\`\`\`
+
+\`\`\`toml
+# ~/.codex/byteplus.config.toml
+model_provider = "byteplus-coding-plan"
+model = "ark-code-latest"
+model_supports_reasoning_summaries = true
+model_reasoning_effort = "medium"
+\`\`\`
+
+\`\`\`bash
+export ARK_API_KEY=YOUR_ARK_API_KEY
+codex --profile byteplus
+codex --profile byteplus -m ark-code-latest
+\`\`\`
+
+\`ark-code-latest\` 是控制台里切换的别名，改完等几分钟再生效。也可以改成控制台给出的具体模型 ID。官方还写 \`model_supports_reasoning_summaries = true\`，reasoning 档是 \`low\` / \`medium\` / \`high\`。
+
+官方一键是 \`npm install -g @byteplus/ark-cli\`，再 \`arkcli helper\`。套餐选 \`coding-plan_ap-southeast-1_personal\`，智能体只勾 Codex。向导会改 \`~/.codex/config.toml\` 并可能写成全局默认；跑完改回独立 profile。不要把 \`arkcli +connect\` 当成只装 Codex 的命令，它会把技能安装到本机其它助手。状态目录是 \`~/.arkcli-bp\`，不是 \`~/.codex\`。
+
+配置注意事项：
+
+- 不要再写 \`[profiles.byteplus]\` 或 \`wire_api = "chat"\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`byteplus-coding-plan\` 是新 ID，可以。
+- 不要写进项目 \`.codex/config.toml\`。项目文件改不了 \`model_provider\` / \`model_providers\`。
+
+改完新开会话。\`codex --profile byteplus\` 启动后，发送一条简短请求验证连接。401 先看是不是拿按量密钥打了 Coding Plan 主机，或国内站密钥打了 \`bytepluses.com\`。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["model_providers", "BytePlus", "ModelArk", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "model-catalog-json", "vercel-ai-gateway"],
+    sources: [
+      {
+        label: "BytePlus · Codex",
+        url: "https://docs.byteplus.com/en/docs/ModelArk/2556056",
+      },
+      {
+        label: "BytePlus · Ark CLI guide for Coding Plan",
+        url: "https://docs.byteplus.com/en/docs/modelark/2656115",
+      },
+      {
+        label: "BytePlus · ModelArk FAQs",
+        url: "https://docs.byteplus.com/api/docs/ModelArk/2165245",
+      },
+    ],
+  },
+  {
+    id: "tokenhub-codex-gateway",
+    no: 478,
+    title: "通过腾讯云 TokenHub 连接模型服务",
+    summary: "使用独立 profile 连接 TokenHub 的 /v1 入口，通过 HY3_API_KEY 认证。模型使用 hy3，密钥需与服务地域匹配。",
+    body: `使用独立 profile 连接 TokenHub 的 /v1 入口，通过 HY3_API_KEY 认证。模型使用 hy3，密钥需与服务地域匹配。
+
+Codex 的模型请求发送到 TokenHub 的 OpenAI Responses 入口。官方 Codex 页给了 \`[model_providers.hy3-tokenhub]\` 和 \`wire_api = "responses"\`。\`env_key\` 已经是变量**名** \`HY3_API_KEY\`，在启动 Codex 的进程里 \`export\`。不要和 \`experimental_bearer_token\` / \`requires_openai_auth\` / \`[model_providers.*.auth]\` 叠在同一张供应商表。不要把密钥写进 \`launchctl setenv\` 演示里的引号，也不要写进 \`http_headers\`。
+
+\`base_url\` 必须带 \`/v1\`：国内广州是 \`https://tokenhub.tencentmaas.com/v1\`。国际站 Codex 页常写成 \`https://tokenhub-intl.tencentcloudmaas.com\` 且漏掉 \`/v1\`，要补成 \`https://tokenhub-intl.tencentcloudmaas.com/v1\`。API 使用说明把新加坡写成 \`https://tokenhub-intl.tencentmaas.com\`，同样要加 \`/v1\`。两套国际主机名不要混用，密钥和地域也不要交叉。**Codex 不会在 \`base_url\` 里展开环境变量**。不要写 \`openai_base_url\`。不要打 Anthropic 的 \`/v1/messages\`，也不要打 Chat Completions 的 \`/v1/chat/completions\`。
+
+不要把顶层 \`model_provider = "hy3-tokenhub"\` 一上来写进用户 config，除非你就是要把**所有**会话都改走 TokenHub。官方手册会改成默认。更稳妥是独立 profile（0.134 起不要再写 \`[profiles.tokenhub]\`）：
+
+\`\`\`toml
+# ~/.codex/config.toml
+[model_providers.hy3-tokenhub]
+name = "Hy3 via tokenhub"
+base_url = "https://tokenhub.tencentmaas.com/v1"
+env_key = "HY3_API_KEY"
+wire_api = "responses"
+\`\`\`
+
+\`\`\`toml
+# ~/.codex/tokenhub.config.toml
+model_provider = "hy3-tokenhub"
+model = "hy3"
+disable_response_storage = true
+\`\`\`
+
+\`\`\`bash
+export HY3_API_KEY="YOUR_TOKENHUB_KEY"
+codex --profile tokenhub
+codex --profile tokenhub -m hy3
+\`\`\`
+
+创建密钥时若勾了限定范围，必须包含 Hy3。模型 ID 以 \`GET /v1/models\` 为准。国际站渲染有时把表名写成 \`[model_providers. hy3- tokenhub]\`，中间不要留空格。
+
+配置注意事项：
+
+- 不要抄 Token Plan / Coding Plan 的 \`wire_api = "chat"\`。\`https://api.lkeap.cloud.tencent.com/plan/v3\`、\`https://tokenhub.tencentmaas.com/plan/v3\`、\`https://api.lkeap.cloud.tencent.com/coding/v3\` 都是 Chat Completions，现行 Codex 会在加载配置时配置错误。残留的 chat 表即使不用也会把CLI 无法启动。
+- 不要 \`npm install -g @openai/codex@0.80.0\` 去迁就 Token Plan。
+- 不要写进项目 \`.codex/config.toml\`。项目文件改不了 \`model_provider\` / \`model_providers\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`hy3-tokenhub\` 是新 ID，可以。
+
+改完新开会话。\`codex --profile tokenhub\` 启动后，发送一条简短请求验证连接。401 先看是不是拿 Token Plan 密钥打了 \`/v1\`，或国内站密钥打了 \`tokenhub-intl\`。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["model_providers", "TokenHub", "腾讯云", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "vercel-ai-gateway", "hf-inference-providers"],
+    sources: [
+      {
+        label: "腾讯云 · TokenHub Codex",
+        url: "https://cloud.tencent.com/document/product/1823/133532",
+      },
+      {
+        label: "腾讯云 · TokenHub API 使用说明",
+        url: "https://cloud.tencent.com/document/product/1823/130078",
+      },
+      {
+        label: "腾讯云 · TokenHub OpenAI Responses",
+        url: "https://cloud.tencent.com/document/product/1823/135873",
+      },
+    ],
   }
 ];

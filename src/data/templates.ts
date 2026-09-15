@@ -5005,5 +5005,187 @@ codex --profile modelstudio
 # plugin add modelstudio@
 # npm install -g @openai/codex@0.80.0
 `,
+  },
+  {
+    id: "byteplus-codex-gateway",
+    title: "通过 BytePlus ModelArk 连接模型服务",
+    filename: "~/.codex/byteplus.config.toml",
+    summary: "使用独立 profile 连接 Coding Plan 的 Responses 入口，通过 ARK_API_KEY 认证。/api/v3 按量入口另行计费，需使用 /api/coding/v3。",
+    code: `export ARK_API_KEY=YOUR_ARK_API_KEY
+
+# ~/.codex/config.toml
+[model_providers.byteplus-coding-plan]
+name = "byteplus-coding-plan"
+base_url = "https://ark.ap-southeast.bytepluses.com/api/coding/v3"
+env_key = "ARK_API_KEY"
+wire_api = "responses"
+
+# ~/.codex/byteplus.config.toml
+model_provider = "byteplus-coding-plan"
+model = "ark-code-latest"
+model_supports_reasoning_summaries = true
+model_reasoning_effort = "medium"
+
+codex --profile byteplus
+
+# 可选一键（只要 Codex，跑完改回独立 profile）：
+# npm install -g @byteplus/ark-cli
+# arkcli helper
+
+# 不要：
+# base_url = "https://ark.ap-southeast.bytepluses.com/api/v3"
+# base_url = "https://ark.ap-southeast.bytepluses.com/api/coding"
+# [profiles.byteplus]
+# openai_base_url = "https://ark.ap-southeast.bytepluses.com/api/coding/v3"
+# plugin add byteplus@
+# arkcli +connect
+`,
+  },
+  {
+    id: "tokenhub-codex-gateway",
+    title: "通过腾讯云 TokenHub 连接模型服务",
+    filename: "~/.codex/tokenhub.config.toml",
+    summary: "使用独立 profile 连接 TokenHub 的 /v1 入口，通过 HY3_API_KEY 认证。模型使用 hy3，密钥需与服务地域匹配。",
+    code: `[model_providers.hy3-tokenhub]
+name = "Hy3 via tokenhub"
+base_url = "https://tokenhub.tencentmaas.com/v1"
+env_key = "HY3_API_KEY"
+wire_api = "responses"
+
+# ~/.codex/tokenhub.config.toml
+model_provider = "hy3-tokenhub"
+model = "hy3"
+disable_response_storage = true
+
+codex --profile tokenhub
+
+# 国际站补 /v1：
+# base_url = "https://tokenhub-intl.tencentcloudmaas.com/v1"
+
+# 不要：
+# base_url = "https://api.lkeap.cloud.tencent.com/plan/v3"
+# base_url = "https://tokenhub.tencentmaas.com/plan/v3"
+# wire_api = "chat"
+# [profiles.tokenhub]
+# openai_base_url = "https://tokenhub.tencentmaas.com/v1"
+# plugin add tokenhub@
+`,
+  },
+  {
+    id: "knowledge-catalog-codex-plugin",
+    title: "安装 Google Cloud Knowledge Catalog 插件",
+    filename: "terminal",
+    summary: "从 Data Agent Kit 安装 knowledge-catalog@data-agent-kit。配置 DATAPLEX_PROJECT 和 ADC 凭证后，通过本地 dataplex MCP 查询目录。",
+    code: `codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add knowledge-catalog@data-agent-kit
+export DATAPLEX_PROJECT=YOUR_PROJECT_ID
+gcloud auth application-default login
+codex plugin list
+codex mcp list
+
+# 可选升级：
+# codex plugin marketplace upgrade data-agent-kit
+
+# 插件登记的 MCP 表名是 dataplex（stdio / npx Toolbox）
+# 不要 mcp login
+# 不要再 mcp add dataplex
+
+# 不要：
+# codex plugin install dataplex@data-agent-kit
+# /plugin install knowledge-catalog@claude-plugins-official
+# gemini extensions install https://github.com/gemini-cli-extensions/knowledge-catalog
+# npx skills add
+# google-cloud-developer@google-plugins
+`,
+  },
+  {
+    id: "dak-starter-codex-plugin",
+    title: "安装 Data Agent Kit Starter Pack",
+    filename: "terminal",
+    summary: "从 Starter Pack 仓库安装 dak 插件。技能安装后即可使用；MCP 需配置缓存中的 .mcp.json 并重启 Codex。",
+    code: `codex plugin marketplace add https://github.com/gemini-cli-extensions/data-agent-kit-starter-pack
+codex plugin add dak@data-agent-kit-starter-pack-marketplace
+gcloud auth login
+gcloud auth application-default login
+codex plugin list
+codex mcp list
+
+# MCP 改缓存清单后再重启：
+# ls ~/.codex/plugins/cache/data-agent-kit-starter-pack-marketplace/dak
+# ~/.codex/plugins/cache/data-agent-kit-starter-pack-marketplace/dak/VERSION/.mcp.json
+
+# 可选升级：
+# codex plugin marketplace upgrade data-agent-kit-starter-pack-marketplace
+
+# 遥测：
+# export DO_NOT_TRACK=1
+# /hooks 里审查并信任
+
+# 不要：
+# codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+# plugin add dak@data-agent-kit
+# /plugin install data-agent-kit-starter-pack@claude-plugins-official
+# gemini extensions install https://github.com/gemini-cli-extensions/data-agent-kit-starter-pack
+# npx skills add
+# dak@personal
+`,
+  },
+  {
+    id: "looker-codex-plugin",
+    title: "安装 Google Cloud Looker 插件",
+    filename: "terminal",
+    summary: "安装 looker@data-agent-kit，通过 Looker API 客户端凭证连接实例。插件提供 looker 和 looker-dev 两个本地 MCP 服务。",
+    code: `export LOOKER_BASE_URL=YOUR_LOOKER_BASE_URL
+export LOOKER_CLIENT_ID=YOUR_LOOKER_CLIENT_ID
+export LOOKER_CLIENT_SECRET=YOUR_LOOKER_CLIENT_SECRET
+
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add looker@data-agent-kit
+codex mcp list
+
+# 可选：
+# export LOOKER_VERIFY_SSL=true
+# codex plugin marketplace upgrade data-agent-kit
+
+# 不要：
+# /plugin install looker@claude-plugins-official
+# gemini extensions install https://github.com/gemini-cli-extensions/looker
+# plugin add looker@claude-plugins-official
+# plugin add dak@data-agent-kit-starter-pack-marketplace
+# plugin add knowledge-catalog@data-agent-kit
+# codex mcp login looker
+# command = "./PATH/TO/toolbox"
+`,
+  },
+  {
+    id: "alloydb-codex-plugin",
+    title: "安装 Google Cloud AlloyDB 插件",
+    filename: "terminal",
+    summary: "安装 alloydb@data-agent-kit，配置 ADC 凭证和 ALLOYDB_POSTGRES_* 实例信息，通过本地 alloydb-postgres MCP 连接数据库。",
+    code: `gcloud auth application-default login
+export ALLOYDB_POSTGRES_PROJECT=YOUR_ALLOYDB_POSTGRES_PROJECT
+export ALLOYDB_POSTGRES_REGION=YOUR_ALLOYDB_POSTGRES_REGION
+export ALLOYDB_POSTGRES_CLUSTER=YOUR_ALLOYDB_POSTGRES_CLUSTER
+export ALLOYDB_POSTGRES_INSTANCE=YOUR_ALLOYDB_POSTGRES_INSTANCE
+export ALLOYDB_POSTGRES_DATABASE=YOUR_ALLOYDB_POSTGRES_DATABASE
+
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add alloydb@data-agent-kit
+codex mcp list
+
+# 可选：
+# export ALLOYDB_POSTGRES_IP_TYPE=PRIVATE
+# codex plugin marketplace upgrade data-agent-kit
+
+# 不要：
+# /plugin install alloydb@claude-plugins-official
+# gemini extensions install https://github.com/gemini-cli-extensions/alloydb
+# plugin add alloydb@claude-plugins-official
+# plugin add alloydb-omni@data-agent-kit
+# plugin add dak@data-agent-kit-starter-pack-marketplace
+# plugin add looker@data-agent-kit
+# codex mcp login alloydb-postgres
+# command = "./PATH/TO/toolbox"
+`,
   }
 ];
