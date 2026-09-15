@@ -6217,7 +6217,7 @@ export const articles: Article[] = [
     source: 'DeepSeek API Docs',
     lang: '英文',
     kind: '官方',
-    tags: ['Codex', 'DeepSeek', 'model_providers'],
+    tags: ['Codex', 'DeepSeek', 'model_providers', 'DEEPSEEK_API_KEY'],
     summary:
       'DeepSeek 官方 Codex 网关：profile 写 [model_providers.deepseek]，base_url 是 https://api.deepseek.com/，密钥用 env_key 不要 experimental_bearer_token。官方一键脚本会把密钥写进 TOML；改成 env_key 并拆独立 profile。模型目录走 model_catalog_json，不要抄 models.json 里的人设长文。',
   },
@@ -6227,7 +6227,7 @@ export const articles: Article[] = [
     source: 'DeepSeek API Docs',
     lang: '英文',
     kind: '官方',
-    tags: ['Responses', 'DeepSeek', 'Codex'],
+    tags: ['Responses', 'DeepSeek', 'Codex', 'DEEPSEEK_API_KEY'],
     summary:
       'DeepSeek 为 Codex 原生开了 Responses。base_url 是 https://api.deepseek.com。无状态，不要 previous_response_id。模型是 deepseek-flash / deepseek-v4-pro。这不是 Chat Completions 翻译层。',
   },
@@ -6237,7 +6237,7 @@ export const articles: Article[] = [
     source: 'DeepSeek API Docs',
     lang: '英文',
     kind: '官方',
-    tags: ['Responses', 'DeepSeek', '/responses'],
+    tags: ['Responses', 'DeepSeek', '/responses', 'DEEPSEEK_API_KEY'],
     summary:
       '/responses 是 DeepSeek 的 Responses 入口。流式是 SSE 事件，没有 data: [DONE]。多轮要把历史放进 input。不要把这页当 Codex profile 教程。',
   },
@@ -6247,7 +6247,7 @@ export const articles: Article[] = [
     source: 'TrueFoundry Docs',
     lang: '英文',
     kind: '官方',
-    tags: ['Codex', 'TrueFoundry', 'model_providers'],
+    tags: ['Codex', 'TrueFoundry', 'model_providers', 'TFY_API_KEY'],
     summary:
       'TrueFoundry 官方 Codex 网关：profile 写 [model_providers.truefoundry]，base_url 用 gateway.truefoundry.ai，密钥用 env_key 不要 http_headers。文档仍把 Bearer 写进 http_headers，还写了 wire_api = chat 和 codex chat；现行只留 responses 和独立 profile。模型用 Virtual Model slug。',
   },
@@ -6257,7 +6257,7 @@ export const articles: Article[] = [
     source: 'TrueFoundry Docs',
     lang: '英文',
     kind: '官方',
-    tags: ['Virtual Model', 'TrueFoundry', 'responses'],
+    tags: ['Virtual Model', 'TrueFoundry', 'responses', 'TFY_API_KEY'],
     summary:
       'Virtual Model 是 Codex 里写的短 slug，背后才映射 openai-main/ 那种全名。Codex 要勾 responses 类型。不要把全名写进 model。这不是 MCP 网关。',
   },
