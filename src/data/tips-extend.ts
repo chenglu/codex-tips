@@ -15667,5 +15667,98 @@ codex plugin add logfire-exporter@pydantic-skills
         url: "https://pydantic.dev/docs/logfire/guides/skills/",
       },
     ],
+  },
+  {
+    id: "laminar-codex-plugin",
+    no: 457,
+    title:
+      "Laminar 官方 Codex 追踪：marketplace add lmnr-ai/lmnr-codex-plugin，再 plugin add lmnr@lmnr",
+    summary:
+      "清单名是 lmnr。Stop 钩子读 rollout JSONL，不是 MCP。密钥写 ~/.config/lmnr/codex-plugin.json。LMNR_PROJECT_API_KEY 覆盖文件。CODEX_LMNR_MAX_CHARS 默认 20000。查轨迹才另配 laminar MCP。不要抄 Claude 的 plugin install。",
+    body: `Laminar 官方 Codex 追踪：marketplace add lmnr-ai/lmnr-codex-plugin，再 plugin add lmnr@lmnr。这是把 Codex **自己的回合**打进 Laminar，不是去查应用轨迹，也不是 Claude Code 那份插件。官方 Codex 页和源仓 README 都写了 marketplace；清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`lmnr\`，展示名 Laminar，插件 name 是 \`lmnr\`，所以是 \`lmnr@lmnr\`。源是仓根 \`./\`，不是子目录。钩子在 \`.codex-plugin/plugin.json\` 里指向 \`./hooks.json\`：Stop 时跑 \`node "$PLUGIN_ROOT/dist/hook.cjs"\`。
+
+官方安装器会登录、选项目、签发项目 API 密钥、写配置，再替你跑上面两条 \`plugin\` 命令：
+
+\`\`\`bash
+npx lmnr-cli@latest plugin add codex
+\`\`\`
+
+只要 CLI、自己配密钥时走原生路径：
+
+\`\`\`bash
+codex plugin marketplace add lmnr-ai/lmnr-codex-plugin
+codex plugin add lmnr@lmnr
+codex plugin list
+\`\`\`
+
+\`codex plugin list\` 应看到 \`lmnr@lmnr\` 为 installed, enabled。加完先看**当前会话**；当前会话 \`/plugins\` 没有再新开。也可以在插件浏览器的 **Laminar** 栏开 lmnr。IDE 扩展没有 \`/plugins\`，用 CLI 加。网页 Cloud 不读本机 marketplace。\`lmnr-cli setup\` 是给应用 SDK 写 \`.lmnr/project.json\` 和 \`.env\` 的，**不要**当成这份 Codex 插件安装器。
+
+钩子要单独打开并信任。现行键是 \`hooks\`，**不要**手写 \`plugin_hooks\`：
+
+\`\`\`toml
+[features]
+hooks = true
+
+[plugins."lmnr@lmnr"]
+enabled = true
+\`\`\`
+
+新开会话后若出现 Hooks need review，打开 \`/hooks\`，审过 **Stop** 再信任。只开插件不够。Codex 按钩子哈希记信任；插件升级改了命令要再审一次。导出发生在 **Stop**：回合没跑完、被打断没到 Stop，就不会出 span。钩子失败时 fail-open，不会卡住 Codex。
+
+密钥不要写进 \`config.toml\` 的 \`env\` 表。放到：
+
+\`\`\`text
+~/.config/lmnr/codex-plugin.json
+\`\`\`
+
+\`\`\`json
+{ "projectApiKey": "your-project-api-key", "baseUrl": "https://api.lmnr.ai" }
+\`\`\`
+
+自建实例把 \`baseUrl\` 换成 API 主机，例如 \`http://localhost:8000\`。环境变量 \`LMNR_PROJECT_API_KEY\` / \`LMNR_BASE_URL\`（或 \`CODEX_LMNR_*\` 那组同义名）覆盖文件，适合 CI。缺密钥时钩子静默退出。默认 \`CODEX_LMNR_MAX_CHARS=20000\`，过长字段会被截断。排错设 \`CODEX_LMNR_DEBUG=1\`，日志在 \`lmnr_hook.log\`。这台不是 MCP，**不要** \`codex mcp login\`。
+
+查已有轨迹、用 SQL 问失败原因是另一台托管 MCP。官方 Codex 节只给 TOML，等价 CLI 是：
+
+\`\`\`bash
+codex mcp add laminar --url https://api.lmnr.ai/v1/mcp --bearer-token-env-var LMNR_PROJECT_API_KEY
+\`\`\`
+
+不要把追踪插件和这台查询 MCP 搞成一台。也不要把 \`npx skills add\` 当这份插件安装器——那只拷 SKILL.md，不装 Stop 钩子。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`claude plugin install\`，也不要抄 Claude Code 页的 \`claude mcp add --transport http laminar\`。
+- 不要发明 \`lmnr@openai-curated\`。
+- 不要 \`codex mcp add lmnr\` 当追踪安装器，也不要对 Stop 钩子 \`mcp login\`。
+- 不要把项目 API 密钥写进 \`http_headers\` 或 \`config.toml\` 的 \`env\` 表。
+- 不要一上来 \`--yolo\`。
+
+升级用清单名，再重新 \`plugin add\`：
+
+\`\`\`bash
+codex plugin marketplace upgrade lmnr
+codex plugin add lmnr@lmnr
+\`\`\`
+
+网页 Cloud 不读这份插件。改完彻底重启，跑完一轮短任务，到 Laminar 看 Stop 之后的 turn span。`,
+    category: "hooks",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Laminar", "hooks", "observability"],
+    related: ["plugin-session-refresh", "stop-hook-active", "managed-hooks-only"],
+    sources: [
+      {
+        label: "Laminar · Codex Plugin",
+        url: "https://laminar.sh/docs/tracing/integrations/codex",
+      },
+      {
+        label: "lmnr-ai/lmnr-codex-plugin",
+        url: "https://github.com/lmnr-ai/lmnr-codex-plugin",
+      },
+      {
+        label: "Laminar · MCP Server",
+        url: "https://laminar.sh/docs/platform/mcp",
+      },
+    ],
   }
 ];

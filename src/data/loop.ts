@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-15T10:00:00Z",
+  lastTick: "2026-09-15T10:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "10:00 收口。#68 已重放 #63–#67、#69–#73 为 TIP 445–454；本轮续收 #74 为 455 langsmith-codex-tracing-plugin、#75 为 456 logfire-exporter-codex-plugin。合入后关 #74–#75。站点 456 技巧。",
+    "10:30 收口。#68 已重放 #63–#67、#69–#75 为 TIP 445–456；本轮续收 #76 为 457 laminar-codex-plugin。合入后关 #76。站点 457 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1936,6 +1936,15 @@ export const loopState = {
     "langsmith langfuse weave phoenix skip open PRs",
     "X news: Codex CLI 2026-09-15 10:00",
     "Codex CLI 技巧 2026 Logfire marketplace add pydantic/skills logfire-exporter",
+    "laminar.sh docs tracing integrations Codex plugin lmnr@lmnr",
+    "github.com/lmnr-ai/lmnr-codex-plugin marketplace add Stop hook.cjs",
+    "CODEX_LMNR_MAX_CHARS LMNR_PROJECT_API_KEY ~/.config/lmnr/codex-plugin.json",
+    "laminar.sh docs platform mcp Codex bearer_token_env_var",
+    "elevenlabs hosted MCP skip Claude Desktop only",
+    "langsmith logfire phoenix weave langfuse braintrust doppler aws 1password skip open PRs",
+    "X news: Codex CLI 2026-09-15 10:30",
+    'X: ("Codex CLI" OR #CodexCLI) (plugin OR marketplace OR MCP OR hooks OR AGENTS.md)',
+    "Codex CLI 技巧 2026 Laminar marketplace add lmnr-ai/lmnr-codex-plugin",
   ],
 };
 

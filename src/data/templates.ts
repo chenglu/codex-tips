@@ -4660,5 +4660,45 @@ codex plugin list
 # mcp login   # 对导出器
 # logfire-exporter@openai-curated
 `,
+  },
+  {
+    id: "laminar-codex-plugin",
+    title: "Laminar Stop 钩子把 Codex 回合喂给 /v1/traces",
+    filename: "terminal",
+    summary:
+      "Laminar Stop 钩子把 Codex 回合喂给 /v1/traces。主路径是 marketplace add lmnr-ai/lmnr-codex-plugin，再 plugin add lmnr@lmnr。不要抄 Claude 的 plugin install，也不要对追踪钩子 mcp login。",
+    code: `codex plugin marketplace add lmnr-ai/lmnr-codex-plugin
+codex plugin add lmnr@lmnr
+codex plugin list
+
+# 安装器等价：
+# npx lmnr-cli@latest plugin add codex
+
+# ~/.config/lmnr/codex-plugin.json
+# { "projectApiKey": "...", "baseUrl": "https://api.lmnr.ai" }
+# CODEX_LMNR_MAX_CHARS=20000
+# LMNR_PROJECT_API_KEY 覆盖文件
+
+# ~/.codex/config.toml
+# [features]
+# hooks = true
+# [plugins."lmnr@lmnr"]
+# enabled = true
+
+# 查轨迹才另配：
+# codex mcp add laminar --url https://api.lmnr.ai/v1/mcp --bearer-token-env-var LMNR_PROJECT_API_KEY
+
+# 升级：
+# codex plugin marketplace upgrade lmnr
+# codex plugin add lmnr@lmnr
+
+# 不要：
+# claude plugin install
+# claude mcp add --transport http laminar
+# npx skills add
+# mcp login   # 对追踪钩子
+# lmnr@openai-curated
+# lmnr-cli setup   # 那是应用 SDK
+`,
   }
 ];

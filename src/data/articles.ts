@@ -5790,5 +5790,35 @@ export const articles: Article[] = [
     tags: ['Logfire', 'Skills', 'plugins', 'Codex', 'CODEX_LOGFIRE_CONTENT_CAPTURE_MODE'],
     summary:
       'Codex 技能页同时给 logfire@pydantic-skills 和 logfire-exporter@pydantic-skills。导出器要写令牌。CODEX_LOGFIRE_CONTENT_CAPTURE_MODE 在导出器指南。不要抄 Claude 的 logfire@claude-plugins-official。',
+  },
+  {
+    title: 'Codex Plugin',
+    url: 'https://laminar.sh/docs/tracing/integrations/codex',
+    source: 'Laminar Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Laminar', 'plugins', 'hooks', 'Codex', 'CODEX_LMNR_MAX_CHARS'],
+    summary:
+      '官方 Codex：marketplace add lmnr-ai/lmnr-codex-plugin，再 plugin add lmnr@lmnr。密钥写 ~/.config/lmnr/codex-plugin.json。LMNR_PROJECT_API_KEY 覆盖文件。CODEX_LMNR_MAX_CHARS 默认 20000。安装器是 npx lmnr-cli@latest plugin add codex。',
+  },
+  {
+    title: 'lmnr-ai/lmnr-codex-plugin',
+    url: 'https://github.com/lmnr-ai/lmnr-codex-plugin',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Laminar', 'plugins', 'hooks', 'Codex', 'CODEX_LMNR_MAX_CHARS'],
+    summary:
+      'Laminar 官方 Codex 追踪：marketplace add lmnr-ai/lmnr-codex-plugin，再 plugin add lmnr@lmnr。清单 name 是 lmnr。Stop 读 rollout。CODEX_LMNR_MAX_CHARS 默认 20000。密钥走 ~/.config/lmnr/codex-plugin.json。',
+  },
+  {
+    title: 'MCP Server',
+    url: 'https://laminar.sh/docs/platform/mcp',
+    source: 'Laminar Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Laminar', 'MCP', 'Codex', 'CODEX_LMNR_MAX_CHARS'],
+    summary:
+      '查轨迹才配 [mcp_servers.laminar]，url 是 https://api.lmnr.ai/v1/mcp，bearer_token_env_var 读 LMNR_PROJECT_API_KEY。不要和 Stop 追踪插件搞成一台。CODEX_LMNR_MAX_CHARS 只属于导出钩子。不要抄 Claude 的 --transport http。',
   }
 ];
