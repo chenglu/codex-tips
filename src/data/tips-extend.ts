@@ -14761,4 +14761,336 @@ ggshield machine setup --agent codex --no-git-hooks --no-honeytokens
       },
     ],
   },
+  {
+    id: "modeltrace-guard-codex-plugin",
+    no: 445,
+    title: "ModelTrace Guard 用 marketplace 加 xqy2006/ModelTrace，再 plugin add modeltrace-guard@modeltrace",
+    summary:
+      "仓库 README：marketplace add xqy2006/ModelTrace，再 plugin add modeltrace-guard@modeltrace。清单名是 modeltrace。装完新开会话，在 /hooks 只审这份插件。探针走本机 Codex 账户，会花额度。",
+    body: `ModelTrace Guard 用 marketplace 加 xqy2006/ModelTrace，再 plugin add modeltrace-guard@modeltrace。这是仓库里的 **Codex 任务内监测插件**，不是根目录那个 \`python start.py\` 开的 7860 页面。清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`modeltrace\`，展示名 Modeltrace，插件 name 是 \`modeltrace-guard\`，本地路径 \`./codex-plugin/modeltrace-guard\`。官方写出的 id 就是 \`modeltrace-guard@modeltrace\`。
+
+\`\`\`bash
+codex plugin marketplace add xqy2006/ModelTrace
+codex plugin add modeltrace-guard@modeltrace
+\`\`\`
+
+本地改插件时在仓库根：
+
+\`\`\`bash
+codex plugin marketplace add .
+codex plugin add modeltrace-guard@modeltrace
+\`\`\`
+
+升级用清单名，不是仓库路径：
+
+\`\`\`bash
+codex plugin marketplace upgrade modeltrace
+\`\`\`
+
+需要 Node.js 18+，以及能做原生快照 fork、临时任务、任务删除和异步 hooks 的 Codex App Server。多运行时把 \`MODELTRACE_CODEX_PATH\` 指到桌面配套 \`codex\` 的绝对路径。兼容性先跑 \`node scripts/guard.mjs doctor --fork true\`（在插件目录；\`--fork true\` 不发起推理）。
+
+0.154 起先看**当前会话**；当前会话 \`/plugins\` 没有再新开。IDE 扩展没有 \`/plugins\`。装完打开一个**新** Codex 任务加载插件，再在 TUI 输入框敲 \`/hooks\`——这不是 shell 命令。只审 **ModelTrace Guard**：同步 \`PreToolUse\`，以及异步 \`SessionStart\`、\`UserPromptSubmit\`、\`PostToolUse\`。哈希变了要再审。网页 Cloud 不读本机 marketplace。
+
+不要按社交帖字面「信任所有钩子」。Codex 不会因为 \`plugin add\` 就静默授权命令。企业开了 \`allow_managed_hooks_only\` 时，插件钩子整层不跑。
+
+开启监测对目标任务说：使用 \`\$modeltrace-guard\` 为本任务开启监测。默认大约每隔 16–32 次工作工具调用采一次，异常后复测 3 次。也可以在插件目录跑 \`node scripts/guard.mjs start\`，把 \`CODEX_THREAD_ID\` 指到目标任务。仪表盘是 \`node scripts/guard.mjs dashboard\`。数据默认 \`~/.codex/modeltrace-guard\`，可用 \`MODELTRACE_GUARD_DATA\` 覆盖。
+
+探针由 Codex **自己**生成，用已配置的账户、模型和厂商，**会花推理额度**。没有每轮或任务累计上限。正常结果静默保存，主任务不等探针。首次指纹不一致会要求智能体告知并暂停工作；额外复测全不一致时锁定任务，\`PreToolUse\` 拦截后续受支持的工作工具。恢复要用户明确要求后才能 \`resume --halt\`。结果只是参考库内的相似性，不是后端身份认证。仓库声明：未收录模型什么结果都可能出现。
+
+不要做这些：
+
+- 不要把 \`python start.py\` 或 \`http://127.0.0.1:7860/\` 当 Codex 插件安装器。
+- 不要抄 \`codex plugin install modeltrace-guard@modeltrace\`。动词是 \`add\`。
+- 不要发明 \`modeltrace-guard@openai-curated\`。
+- 不要和 Braintrust 的 \`trace-codex@braintrust-codex-plugins\` 搞成同一份。
+- 不要把 README 的 PowerShell 围栏当成唯一 shell。
+- 不要在 Claude Code 里拿这套指纹当主路径；仓库写明那边偏差大。
+- 不要一上来 \`--yolo\` 或 \`--dangerously-bypass-hook-trust\`。
+
+改完用 \`codex plugin list --marketplace modeltrace\` 核对 \`modeltrace-guard\` 已安装。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "hooks", "ModelTrace", "Skills"],
+    related: ["plugin-session-refresh", "plugin-hook-plugin-root", "ecc-codex-native-plugin"],
+    sources: [
+      {
+        label: "xqy2006/ModelTrace",
+        url: "https://github.com/xqy2006/ModelTrace",
+      },
+      {
+        label: "ModelTrace Guard README",
+        url: "https://github.com/xqy2006/ModelTrace/blob/main/codex-plugin/modeltrace-guard/README.md",
+      },
+      {
+        label: "OpenAI · Hooks",
+        url: "https://learn.chatgpt.com/docs/hooks",
+      },
+    ],
+  },
+  {
+    id: "codeguard-codex-plugin",
+    no: 446,
+    title:
+      "CodeGuard 用 marketplace 加 cosai-oasis/project-codeguard，再 plugin add codeguard-security@project-codeguard",
+    summary:
+      "官方 Codex：marketplace add cosai-oasis/project-codeguard，再 plugin add codeguard-security@project-codeguard。要 CLI 0.142.0+。插件只有 skills，会话里用 $codeguard。不要抄 Claude 的 /plugin install，也不要把旧路径 ~/.codex/skills 当发现目录。",
+    body: `CodeGuard 用 marketplace 加 cosai-oasis/project-codeguard，再 plugin add codeguard-security@project-codeguard。官方 Codex 插件页把托管安装写死成这两条 CLI：先加源仓 marketplace，再装 \`codeguard-security@project-codeguard\`。要 Codex CLI **0.142.0 或更新**，因为 0.142.0 才支持 marketplace 插件源是仓库根 \`./\`，而这仓就是这种布局。
+
+在**普通终端**装，不要在 Codex TUI 里跑：
+
+\`\`\`bash
+codex plugin marketplace add cosai-oasis/project-codeguard
+codex plugin add codeguard-security@project-codeguard
+codex plugin list --marketplace project-codeguard
+\`\`\`
+
+清单名是 \`project-codeguard\`，插件 name 是 \`codeguard-security\`，所以是 \`codeguard-security@project-codeguard\`。\`plugin list\` 应看到 installed, enabled。刷新：
+
+\`\`\`bash
+codex plugin marketplace upgrade project-codeguard
+codex plugin list --marketplace project-codeguard
+\`\`\`
+
+装完**新开会话**，技能目录才会进模型。会话里用 \`\$codeguard\`，或让它在写代码、审代码时自己带上。这是技能调用，不是 Claude 的 \`/plugin\` 斜杠，也替不了第一次的 \`plugin add\`。
+
+插件**故意只打** \`./skills/\`（生成技能 \`skills/codeguard\`）。官方写明：**没有** \`sources/skills/\`（\`security-review\`、\`memory-safe-migration\` 那两份工作流）、**没有** \`codeguard-reviewer\` 自定义 agent、**没有** hooks、**没有** MCP。审代码 agent 走发行 ZIP 里的 \`.codex/agents/\`；MCP 是另起的自建服务 \`src/codeguard-mcp\`，README 只给了通用 \`mcpServers\` JSON，**不要**发明 \`codex mcp add codeguard\`，也不要把插件当成会登记 MCP。
+
+入门页给 Codex 的另一条路是下 \`codeguard-codex.zip\`，再 \`cp -r .agents/\` 和 \`.codex/\` 进项目，或会话里跑 \`\$skill-installer\` 指向 \`skills/codeguard\`。那是把技能文件落到仓库里，**不是** marketplace 插件安装器。更早的发行还曾把技能放到 \`.codex/skills/\`，官方说那不是 Codex 文档里的发现路径，会被**静默忽略**；现行文件技能在 \`.agents/skills/codeguard/\`。不要手拷到 \`~/.codex/skills\`。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`/plugin marketplace add cosai-oasis/project-codeguard\`、\`/plugin install codeguard-security@project-codeguard\` 或 \`/reload-plugins\`。Codex 动词是 \`plugin add\`，不是 \`plugin install\`。
+- 不要把 Claude 的 \`extraKnownMarketplaces\` JSON 写进 \`.claude/settings.json\` 当 Codex 安装器。
+- 不要发明 \`codex plugin add codeguard-security@openai-curated\` 或 \`codeguard@project-codeguard\`。
+- 不要把 \`npx skills add\` 当这份插件安装器。
+- 不要和 GitGuardian 的 ggshield 插件、ModelTrace Guard 钩子插件写成同一条路。CodeGuard 这条**没有** \`/hooks\` 要信。
+
+只从你信任的源加 marketplace。0.154 起先看**当前会话**；当前会话没有再新开。桌面改 marketplace 后彻底退出再开。IDE 扩展没有 \`/plugins\`，用 CLI 加完再到 TUI 或桌面去装。网页 Cloud 不读你这台 \`CODEX_HOME\` 插件缓存。不要 \`required = true\`。不要一上来 \`--yolo\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["plugins", "CodeGuard", "Skills", "安全"],
+    related: ["plugin-marketplace-ref-sparse", "amd-skills-plugin", "google-cloud-developer-plugin"],
+    sources: [
+      {
+        label: "Project CodeGuard · Codex Plugin",
+        url: "https://project-codeguard.org/codex-skill-plugin/",
+      },
+      {
+        label: "cosai-oasis/project-codeguard",
+        url: "https://github.com/cosai-oasis/project-codeguard",
+      },
+      {
+        label: "Project CodeGuard · Getting Started",
+        url: "https://project-codeguard.org/getting-started/",
+      },
+    ],
+  },
+  {
+    id: "braintrust-trace-codex-plugin",
+    no: 447,
+    title:
+      "Braintrust 用 bt trace enable codex 装 trace-codex@braintrust-codex-plugins",
+    summary:
+      "官方 Codex：先装并登录 bt，再 bt trace enable codex --project 你们的项目。插件 id 是 trace-codex@braintrust-codex-plugins。新开会话后只在 /hooks 信 Braintrust 那条。MCP 另走 mcp add braintrust，不要装已退役的 braintrust 插件。",
+    body: `Braintrust 用 bt trace enable codex 装 trace-codex@braintrust-codex-plugins。官方 Codex 页把会话追踪和 MCP 拆开：追踪靠 \`bt\` 写 \`~/.codex/braintrust.json\` 并装插件；查实验、日志走远程 MCP。不要把旧文档里的 \`TRACE_TO_BRAINTRUST=true\` 当现行安装器，也不要和 ModelTrace Guard 那条 \`/hooks\` 插件搞成一台。
+
+先在普通终端装 Codex CLI，并装好 \`bt\`（追踪要 **v0.16.0+**）。登录用 \`bt login\`，再设组织/项目上下文。Windows 上追踪钩子仍要 Bash。然后：
+
+\`\`\`bash
+bt trace enable codex --project my-project
+codex plugin list --json
+bt trace doctor codex
+\`\`\`
+
+\`bt trace setup\` 只是 \`enable\` 的旧别名。这条命令会刷新 marketplace \`braintrustdata/braintrust-codex-plugin\`，装上并启用 \`trace-codex@braintrust-codex-plugins\`，再写下追踪文件。文件里是路由和是否开启，**不是**密钥；鉴权归 \`bt\`。清单名是 \`braintrust-codex-plugins\`。只想手装插件、不配追踪时才：
+
+\`\`\`bash
+codex plugin marketplace add braintrustdata/braintrust-codex-plugin
+codex plugin add trace-codex@braintrust-codex-plugins
+\`\`\`
+
+手装**不会**写 \`braintrust.json\`，普通会话仍不会出日志。改项目、profile、组织请再跑 \`bt trace enable\`，\`bt switch\` **不会**改这份追踪文件。只升级插件、不动路由用 \`bt trace update codex\`。关掉追踪用 \`bt trace disable codex\`，凭据还在。
+
+装完**新开会话**。打开 \`/hooks\`，只信 Braintrust 那条稳定钩子定义；不要一键信全部钩子。插件钩子把事件交给 \`bt trace hook --source codex\`，失败是 fail-open，不会打断这一轮。单次覆盖用 \`bt trace run --project my-project -- codex …\`；这条**拒绝** \`--dangerously-bypass-hook-trust\`。无头自动化真要绕过钩子信任时，直接跑已装插件的 \`codex\`，而且你必须信当前启用的**每一条**钩子。
+
+MCP 是另一条路，marketplace **不会**登记它。官方现行是：
+
+\`\`\`bash
+codex mcp add braintrust --url https://api.braintrust.dev/mcp
+codex mcp login braintrust
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.braintrust]
+url = "https://api.braintrust.dev/mcp"
+enabled = true
+\`\`\`
+
+用户层表名官方就是 \`braintrust\`。这是 Streamable HTTP。先走 OAuth（\`mcp login\` 和 \`bt login\` 不是同一套）。以前写过 \`bearer_token_env_var = "BRAINTRUST_API_KEY"\` 就先删掉再切 OAuth，不要叠。EU 换 \`https://api-eu.braintrust.dev/mcp\`，不要加尾斜杠。若 \`codex plugin list --json\` 里还有退役的 \`braintrust@braintrust-codex-plugins\`，先 \`codex plugin remove braintrust@braintrust-codex-plugins\`；留下 marketplace，追踪插件还要用。
+
+不要做这些：
+
+- 不要把 \`TRACE_TO_BRAINTRUST\`、\`BRAINTRUST_PROJECT\` 当成现行普通会话的开关。v1.0.1 起读 \`~/.codex/braintrust.json\`。
+- 不要发明 \`codex plugin add braintrust@openai-curated\`，也不要再装退役 MCP 插件。
+- 不要抄 \`npx mcp-remote https://api.braintrust.dev/mcp\`，也不要抄 Claude 的 \`--transport http\`。
+- 不要把 \`bt setup --global --agent codex\` 或 SDK 的 \`wrapOpenAICodexSDK\` 当这条 CLI 追踪安装器。
+- 即使改了 \`CODEX_HOME\`，追踪文件仍在 \`~/.codex/braintrust.json\`。
+
+0.154 起先看**当前会话**；当前会话没有再新开。网页 Cloud 不读你这台插件缓存。不要 \`required = true\`。不要一上来 \`--yolo\`。写实验、改数据集保持批准。`,
+    category: "hooks",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["Braintrust", "hooks", "plugins", "MCP"],
+    related: ["plugin-marketplace-ref-sparse", "mcp-add-and-login", "ecc-codex-native-plugin"],
+    sources: [
+      {
+        label: "Braintrust · Codex",
+        url: "https://www.braintrust.dev/docs/integrations/developer-tools/codex",
+      },
+      {
+        label: "braintrustdata/braintrust-codex-plugin",
+        url: "https://github.com/braintrustdata/braintrust-codex-plugin",
+      },
+      {
+        label: "Braintrust · bt trace",
+        url: "https://www.braintrust.dev/docs/reference/cli/trace",
+      },
+    ],
+  },
+  {
+    id: "context-mode-codex-plugin",
+    no: 448,
+    title: "context-mode 用 marketplace 加 mksglu/context-mode，再在 /plugins 安装",
+    summary:
+      "仓库 Codex 专节：marketplace add mksglu/context-mode，再在 /plugins 装。打开 [features].hooks 和 plugin_hooks，只信任 context-mode 钩子。不要抄 Claude 的 /plugin install，也不要手写 MCP 表当主路径。",
+    body: `context-mode 用 marketplace 加 mksglu/context-mode，再在 /plugins 安装。这是仓库 README 的 Codex CLI 专节，不是 Claude 的 \`/plugin marketplace add\`，也不是旧文里的 \`codex plugin install context-mode/context-mode\`。
+
+先确认本机有 Node.js 22.5 或更高（或 Bun），并且 **启动 Codex 的那个进程** 能在 PATH 里找到 \`node\`。插件不会自带 Node，也不会自动继承 login shell 的 PATH。
+
+\`\`\`bash
+codex plugin marketplace add mksglu/context-mode
+codex plugin list --json
+\`\`\`
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`context-mode\`，插件 name 也是 \`context-mode\`。README 现行主路径是加完 marketplace 后在 TUI \`/plugins\` 或桌面 Plugins 里安装。CLI 等价（动词是 \`add\` 不是 \`install\`）是：
+
+\`\`\`bash
+codex plugin add context-mode@context-mode
+\`\`\`
+
+不要发明 \`context-mode@openai-curated\`。不要抄 Claude 的 \`/plugin install context-mode@context-mode\`。IDE 扩展没有 \`/plugins\`，装插件用 CLI 或桌面应用。
+
+捆绑插件钩子在现行 Codex 里仍可能被门控。README 要你在 \`~/.codex/config.toml\` 写：
+
+\`\`\`toml
+[features]
+plugin_hooks = true
+hooks = true
+\`\`\`
+
+优先 \`[features].hooks\`（或 \`codex --enable hooks\`）。\`[features].codex_hooks\` 只是现行构建里的遗留别名。\`plugin_hooks\` 是给**插件自带钩子**用的，直到 Codex 默认放行插件钩子；不要把 ECC / Nowledge Mem 那句「不要手写 plugin_hooks」套到这份插件上。
+
+默认存储写失败时，给启动 Codex 的环境设绝对可写根：
+
+\`\`\`bash
+CONTEXT_MODE_DIR="$HOME/.codex-context-mode" codex
+\`\`\`
+
+会话和统计在 \`CONTEXT_MODE_DIR/sessions\`，索引内容在 \`CONTEXT_MODE_DIR/content\`。不要用相对路径。
+
+重启 Codex。用会话里的 \`ctx stats\` 验证 MCP 通了；这句话**不能**证明钩子已信任。打开 \`/hooks\`，只审并信任 context-mode 那组命令，不要「信任全部钩子」。哈希变了要再审一次。
+
+插件清单用 \`.codex-plugin/mcp.json\` 起 stdio MCP（\`CONTEXT_MODE_PLATFORM=codex\`），技能在 \`./skills/\`，钩子在 \`.codex-plugin/hooks.json\`。\`plugin_hooks\` 打开且钩子已信任时，**不要**再手写 \`[mcp_servers.context-mode]\`，也不要再写 \`$CODEX_HOME/hooks.json\`。不要 \`codex mcp login context-mode\`，这台不是 OAuth 远程。
+
+只有构建还没有 \`plugin_hooks\` 时才走后备：\`npm install -g context-mode\`，再手写 \`[mcp_servers.context-mode]\`（\`command = "context-mode"\`，环境 \`CONTEXT_MODE_PLATFORM = "codex"\`）和 \`$CODEX_HOME/hooks.json\`。那是后备，不是现行主路径。可选把 \`configs/codex/AGENTS.md\` 拷到项目 \`AGENTS.md\` 或 \`~/.codex/AGENTS.md\` 给模型看路由说明。
+
+Codex PreToolUse 目前只支持 deny / 拦截，还不能靠 \`updatedInput\` 改写工具入参（跟 openai/codex#18491）。\`additionalContext\` 也不走 PreToolUse，插件改走 PostToolUse / SessionStart。\`PreCompact\` 在 CLI 0.130.0 起有运行时门控；更旧的构建不会在压缩前做快照。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`/plugin marketplace add mksglu/context-mode\` 或 \`/plugin install context-mode@context-mode\`。
+- 不要抄 Cursor 的 extraKnownMarketplaces JSON，也不要把 ZIP 解压进 \`.agents\` 或 \`$skill-installer\` 当这份插件的安装器。
+- 不要和 Braintrust 的 \`trace-codex@braintrust-codex-plugins\`、ModelTrace Guard 搞成同一条路。
+- 不要一上来信任全部钩子，也不要 \`--yolo\`。
+- 不要 \`required = true\` 挂全局。
+
+网页 Cloud 不读本机插件缓存，也不读 \`~/.codex/config.toml\`。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；当前会话没有再新开。用 \`codex plugin list\` 确认 \`context-mode@context-mode\` 已装。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "hooks", "MCP", "context-mode"],
+    related: ["plugin-marketplace-ref-sparse", "ecc-codex-native-plugin", "plugin-session-refresh"],
+    sources: [
+      {
+        label: "mksglu/context-mode",
+        url: "https://github.com/mksglu/context-mode",
+      },
+      {
+        label: "npm · context-mode",
+        url: "https://www.npmjs.com/package/context-mode",
+      },
+      {
+        label: "context-mode · marketplace.json",
+        url: "https://github.com/mksglu/context-mode/blob/main/.agents/plugins/marketplace.json",
+      },
+    ],
+  },
+  {
+    id: "1password-codex-plugin",
+    no: 449,
+    title: "1Password Codex 插件用 marketplace 加 1Password/1password-codex-plugin，再装 1password@1password-plugins",
+    summary:
+      "官方 Codex 插件仓：marketplace add 1Password/1password-codex-plugin，再 plugin add 1password@1password-plugins。桌面 Labs 仍要打开本地 MCP。不要抄 Claude 的 1password-claude-plugin，也不要和手写 1password-mcp 表叠一台。",
+    body: `1Password Codex 插件用 marketplace 加 1Password/1password-codex-plugin，再装 1password@1password-plugins。这是 1Password 官方 Codex 插件仓，不是帮助页里只填 \`1password-mcp\` 的桌面 MCP 表，也不是 Claude 的 \`1Password/1password-claude-plugin\`。
+
+先装 1Password 桌面应用，建好 Developer Environment。Settings → Labs → MCP Server 打开 Enable local MCP server，再到 Settings → Developer 选 Integrate with MCP clients。插件只是登记 \`1password-mcp\` 这个桌面别名，不会替你打开 Labs。
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`1password-plugins\`，插件 name 是 \`1password\`：
+
+\`\`\`bash
+codex plugin marketplace add 1Password/1password-codex-plugin
+codex plugin add 1password@1password-plugins
+codex plugin list --json
+\`\`\`
+
+也可以加完 marketplace 后在 TUI \`/plugins\` 或桌面 Plugins 里装。动词是 \`add\` 不是 \`install\`。不要发明 \`1password@openai-curated\`。不要抄 \`/plugin marketplace add 1Password/1password-claude-plugin\` 或 \`/plugin install 1password@1password\`。IDE 扩展没有 \`/plugins\`。
+
+插件 \`.mcp.json\` 起的是本地 stdio，command 就是 \`1password-mcp\`，没有 args。**不要** \`codex mcp login 1password\`。插件已经带 MCP 时，不要再 \`codex mcp add 1password -- 1password-mcp\` 叠一张用户层表。\`1password-mcp\` 不在 PATH 时，Dock 打开的桌面经常没有 Homebrew PATH；先在终端 \`which 1password-mcp\`，或把桌面应用装上的别名所在目录加进启动 Codex 的 PATH。
+
+仓库 README 写这份插件支持 macOS、Windows 和 Linux。帮助页 Codex 专节仍写「目前 Mac 和 Linux」——那是桌面 MCP 表那条 UI 路径。本地 \`.env\` 挂载工具目前仍只支持 Mac / Linux。
+
+目录里的 **Skills Only** ZIP 会剥掉 \`mcpServers\` / \`.mcp.json\`，只剩技能；那不是这份插件的 MCP 安装器。本地开发仍靠仓库里的 \`.mcp.json\`。
+
+连上后先 \`list_environments\` / \`list_variables\`（只有名字）。改 Environment 或挂本地 .env 保持工具批准。第一次碰某个 Environment，1Password 会弹授权。不要一上来 \`--yolo\`，不要 \`required = true\`。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`1Password/1password-claude-plugin\`。
+- 不要抄 Cursor Plugins 搜 1Password。
+- 不要抄 \`op mcp-server environments\` 或社区包 \`@takescake/1password-mcp\`。
+- 不要和 1Password CLI 的 Codex **shell plugin** 搞混：那是给 \`codex\` 命令注入登录凭证。
+
+网页 Cloud 不读本机插件缓存，也碰不到这台桌面 MCP。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；当前会话没有再新开。用 \`codex plugin list\` 确认 \`1password@1password-plugins\` 已装。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "MCP", "1Password", "Environments"],
+    related: ["1password-mcp-stdio", "plugin-marketplace-ref-sparse", "plugin-session-refresh"],
+    sources: [
+      {
+        label: "1Password/1password-codex-plugin",
+        url: "https://github.com/1Password/1password-codex-plugin",
+      },
+      {
+        label: "1Password · Codex Environments MCP",
+        url: "https://www.1password.dev/environments/mcp-codex-server",
+      },
+      {
+        label: "1password-codex-plugin · marketplace.json",
+        url: "https://github.com/1Password/1password-codex-plugin/blob/main/.agents/plugins/marketplace.json",
+      },
+    ],
+  },
 ];

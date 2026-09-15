@@ -5441,4 +5441,144 @@ export const articles: Article[] = [
     summary:
       '官方介绍技能走 ggshield CLI 做扫描，MCP 负责事故分诊和 honeytoken。不要把 curl agents.gitguardian.com 当成只装 Codex 的命令。',
   },
+  {
+    title: 'xqy2006/ModelTrace',
+    url: 'https://github.com/xqy2006/ModelTrace',
+    source: 'GitHub',
+    lang: '中文',
+    kind: '仓库',
+    tags: ['plugins', 'hooks', 'ModelTrace', 'Codex'],
+    summary:
+      'ModelTrace Guard 用 marketplace 加 xqy2006/ModelTrace，再 plugin add modeltrace-guard@modeltrace。根目录 python start.py 是 7860 页面，不是插件安装器。装完要在 /hooks 审这份插件。',
+  },
+  {
+    title: 'ModelTrace Guard',
+    url: 'https://github.com/xqy2006/ModelTrace/blob/main/codex-plugin/modeltrace-guard/README.md',
+    source: 'GitHub',
+    lang: '中文',
+    kind: '清单',
+    tags: ['plugins', 'hooks', 'ModelTrace', 'Codex'],
+    summary:
+      '清单名 modeltrace，插件 id 是 modeltrace-guard@modeltrace。新开会话后 TUI 敲 /hooks。探针走已配置账户并花额度。doctor --fork true 不发起推理。',
+  },
+  {
+    title: 'Codex Plugin - Project CodeGuard',
+    url: 'https://project-codeguard.org/codex-skill-plugin/',
+    source: 'Project CodeGuard',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'CodeGuard', 'Skills', 'Codex'],
+    summary:
+      'CodeGuard 用 marketplace 加 cosai-oasis/project-codeguard，再 plugin add codeguard-security@project-codeguard。要 Codex CLI 0.142.0+，因为源是仓库根 ./。插件只打 skills，没有 hooks、MCP 和 codeguard-reviewer。',
+  },
+  {
+    title: 'cosai-oasis/project-codeguard',
+    url: 'https://github.com/cosai-oasis/project-codeguard',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['plugins', 'CodeGuard', 'Skills', 'MCP'],
+    summary:
+      'OASIS/CoSAI 的安全规则仓。Codex 清单名是 project-codeguard，插件 name 是 codeguard-security。MCP 在 src/codeguard-mcp，自建 HTTP，README 只有通用 mcpServers JSON，不是 Codex plugin add。',
+  },
+  {
+    title: 'Getting Started - Project CodeGuard',
+    url: 'https://project-codeguard.org/getting-started/',
+    source: 'Project CodeGuard',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'CodeGuard', 'Codex'],
+    summary:
+      'project-codeguard 入门仍写 codeguard-codex.zip 拷 .agents/ 和 $skill-installer。旧路径 .codex/skills 会被静默忽略，现行文件技能在 .agents/skills/codeguard。托管更新请走官方 Codex 插件页，不要抄同页 Claude 的 /plugin install。',
+  },
+  {
+    title: 'Codex',
+    url: 'https://www.braintrust.dev/docs/integrations/developer-tools/codex',
+    source: 'Braintrust',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Braintrust', 'hooks', 'plugins', 'MCP', 'Codex'],
+    summary:
+      'Braintrust 用 bt trace enable codex 装 trace-codex@braintrust-codex-plugins。追踪文件是 ~/.codex/braintrust.json。MCP 另走 mcp add braintrust --url api.braintrust.dev/mcp，再 mcp login。退役插件 braintrust@braintrust-codex-plugins 要先 remove。',
+  },
+  {
+    title: 'braintrustdata/braintrust-codex-plugin',
+    url: 'https://github.com/braintrustdata/braintrust-codex-plugin',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['plugins', 'Braintrust', 'hooks', 'Codex'],
+    summary:
+      '生成仓，清单名 braintrust-codex-plugins。手装是 marketplace add braintrustdata/braintrust-codex-plugin，再 plugin add trace-codex@braintrust-codex-plugins。仓 README 写明 marketplace 不装 MCP。改源请去 braintrust-coding-agent-plugins。',
+  },
+  {
+    title: 'bt trace',
+    url: 'https://www.braintrust.dev/docs/reference/cli/trace',
+    source: 'Braintrust',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Braintrust', 'hooks', 'CLI', 'Codex'],
+    summary:
+      'bt trace setup 是 enable 的别名。Codex 追踪文件固定 ~/.codex/braintrust.json。bt trace run 会拒 --dangerously-bypass-hook-trust。诊断用 bt trace doctor codex。关掉用 disable，不删 bt 凭据。升级插件走 bt trace update，不动 braintrust-codex-plugin 的路由。',
+  },
+  {
+    title: 'mksglu/context-mode',
+    url: 'https://github.com/mksglu/context-mode',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['plugins', 'hooks', 'MCP', 'mksglu/context-mode', 'Codex'],
+    summary:
+      'context-mode 用 marketplace 加 mksglu/context-mode，再在 /plugins 安装。打开 hooks 和 plugin_hooks，用 ctx stats 验 MCP。不要抄 Claude 的 /plugin install。',
+  },
+  {
+    title: 'context-mode npm package',
+    url: 'https://www.npmjs.com/package/context-mode',
+    source: 'npm',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'MCP', 'mksglu/context-mode', 'Codex'],
+    summary:
+      'npm 镜像仓库 Codex 专节：mksglu/context-mode 加进 marketplace 后走插件 UI。Node 要 22.5+。无 plugin_hooks 的旧构建才 npm install -g 手写 MCP。',
+  },
+  {
+    title: 'context-mode Codex marketplace.json',
+    url: 'https://github.com/mksglu/context-mode/blob/main/.agents/plugins/marketplace.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '清单',
+    tags: ['plugins', 'marketplace', 'mksglu/context-mode', 'Codex'],
+    summary:
+      'Codex 读 .agents/plugins/marketplace.json，不读 .codex-plugin/marketplace.json。清单名和插件名都是 context-mode，对应 mksglu/context-mode 这份源。',
+  },
+  {
+    title: '1Password/1password-codex-plugin',
+    url: 'https://github.com/1Password/1password-codex-plugin',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['plugins', 'MCP', '1Password', 'Codex'],
+    summary:
+      '1Password Codex 插件用 marketplace 加 1Password/1password-codex-plugin，再装 1password@1password-plugins。捆绑 1password-mcp。Skills Only ZIP 会剥掉 MCP。不要抄 1password-claude-plugin。',
+  },
+  {
+    title: '1Password Environments MCP for Codex',
+    url: 'https://www.1password.dev/environments/mcp-codex-server',
+    source: '1Password',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', '1Password', '1Password/1password-codex-plugin', 'Codex'],
+    summary:
+      '插件主页指向这份 Codex 文档。桌面 Labs 仍要打开本地 MCP。UI 路径仍是 1password-mcp。和 1Password/1password-codex-plugin 是同一条 Environments 服务器，不要叠两张表。',
+  },
+  {
+    title: '1password-codex-plugin marketplace.json',
+    url: 'https://github.com/1Password/1password-codex-plugin/blob/main/.agents/plugins/marketplace.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '清单',
+    tags: ['plugins', 'marketplace', '1Password/1password-codex-plugin', 'Codex'],
+    summary:
+      '清单名 1password-plugins，插件名 1password，源路径 ./plugins/1password。对应 1Password/1password-codex-plugin，不是 Claude 那份 1password-claude-plugin。',
+  },
 ];

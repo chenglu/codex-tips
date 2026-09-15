@@ -4287,4 +4287,132 @@ codex mcp login GitGuardian
 # npx mcp-remote https://mcp.gitguardian.com/mcp
 `,
   },
+  {
+    id: "modeltrace-guard-codex-plugin",
+    title: "ModelTrace Guard 插件",
+    filename: "terminal",
+    summary:
+      "X 上说的信任所有钩子不是 Codex 安装步骤。主路径是 marketplace add xqy2006/ModelTrace，再 plugin add modeltrace-guard@modeltrace。",
+    code: `codex plugin marketplace add xqy2006/ModelTrace
+codex plugin add modeltrace-guard@modeltrace
+
+# 新开会话，TUI 敲 /hooks，只审 ModelTrace Guard
+# 目标任务里用 $modeltrace-guard 开启监测
+
+# 可选：
+# node scripts/guard.mjs doctor --fork true
+# node scripts/guard.mjs dashboard
+# codex plugin marketplace upgrade modeltrace
+
+# 本地：
+# codex plugin marketplace add .
+# codex plugin add modeltrace-guard@modeltrace
+
+# 不要：
+# python start.py
+# http://127.0.0.1:7860/
+# /hooks 信任全部钩子
+# codex plugin install modeltrace-guard@modeltrace
+# --dangerously-bypass-hook-trust
+`,
+  },
+  {
+    id: "codeguard-codex-plugin",
+    title: "ZIP 解压进 .agents 或 $skill-installer 不是 Codex 插件安装器",
+    filename: "terminal",
+    summary:
+      "ZIP 解压进 .agents 或 $skill-installer 不是 Codex 插件安装器。主路径是 marketplace add cosai-oasis/project-codeguard，再 plugin add codeguard-security@project-codeguard。",
+    code: `codex plugin marketplace add cosai-oasis/project-codeguard
+codex plugin add codeguard-security@project-codeguard
+codex plugin list --marketplace project-codeguard
+
+# 刷新：
+# codex plugin marketplace upgrade project-codeguard
+
+# 会话里用 $codeguard
+# 要 CLI 0.142.0+（源是仓库根 ./）
+
+# 不要：
+# /plugin marketplace add cosai-oasis/project-codeguard
+# /plugin install codeguard-security@project-codeguard
+# /reload-plugins
+# extraKnownMarketplaces
+# cp -r .agents/ 当插件安装器
+# $skill-installer 当 marketplace
+# ~/.codex/skills
+# codex mcp add codeguard
+# plugin add codeguard-security@openai-curated
+`,
+  },
+  {
+    id: "braintrust-trace-codex-plugin",
+    title: "TRACE_TO_BRAINTRUST 环境变量不是现行 Codex 安装器",
+    filename: "terminal",
+    summary:
+      "TRACE_TO_BRAINTRUST 环境变量不是现行 Codex 安装器。主路径是 bt trace enable codex --project my-project，插件是 trace-codex@braintrust-codex-plugins。",
+    code: `bt trace enable codex --project my-project
+codex plugin list --json
+bt trace doctor codex
+
+# 只要手装插件、不写追踪文件：
+# codex plugin marketplace add braintrustdata/braintrust-codex-plugin
+# codex plugin add trace-codex@braintrust-codex-plugins
+
+# MCP 另走：
+# codex mcp add braintrust --url https://api.braintrust.dev/mcp
+# codex mcp login braintrust
+
+# 不要：
+# TRACE_TO_BRAINTRUST=true
+# plugin add braintrust@braintrust-codex-plugins
+# bt trace run -- --dangerously-bypass-hook-trust
+# npx mcp-remote https://api.braintrust.dev/mcp
+# wrapOpenAICodexSDK
+`,
+  },
+  {
+    id: "context-mode-codex-plugin",
+    title: "Claude 的 /plugin install context-mode@context-mode 不是 Codex 安装器",
+    filename: "terminal",
+    summary:
+      "Claude 的 /plugin install context-mode@context-mode 不是 Codex 安装器。主路径是 marketplace add mksglu/context-mode，再 /plugins 或 plugin add context-mode@context-mode。",
+    code: `codex plugin marketplace add mksglu/context-mode
+codex plugin add context-mode@context-mode
+
+# ~/.codex/config.toml
+# [features]
+# plugin_hooks = true
+# hooks = true
+
+# 可选存储根：
+# CONTEXT_MODE_DIR="$HOME/.codex-context-mode" codex
+
+# 不要：
+# /plugin marketplace add mksglu/context-mode
+# /plugin install context-mode@context-mode
+# codex plugin install context-mode/context-mode
+# [mcp_servers.context-mode]
+# ~/.codex/hooks.json
+`,
+  },
+  {
+    id: "1password-codex-plugin",
+    title: "Skills Only ZIP 不是这份 Codex 插件的 MCP 安装器",
+    filename: "terminal",
+    summary:
+      "Skills Only ZIP 不是这份 Codex 插件的 MCP 安装器。主路径是 marketplace add 1Password/1password-codex-plugin，再 plugin add 1password@1password-plugins。",
+    code: `codex plugin marketplace add 1Password/1password-codex-plugin
+codex plugin add 1password@1password-plugins
+
+# 桌面 Labs：Enable local MCP server
+# which 1password-mcp
+
+# 不要：
+# /plugin marketplace add 1Password/1password-claude-plugin
+# /plugin install 1password@1password
+# codex mcp add 1password -- 1password-mcp
+# op mcp-server environments
+# npx -y @takescake/1password-mcp
+`,
+  },
 ];
