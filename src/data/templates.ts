@@ -4700,5 +4700,76 @@ codex plugin list
 # lmnr@openai-curated
 # lmnr-cli setup   # 那是应用 SDK
 `,
+  },
+  {
+    id: "portkey-codex-gateway",
+    title: "Portkey profile 把 Codex 模型流量喂给 api.portkey.ai/v1",
+    filename: "~/.codex/config.toml",
+    summary:
+      "Portkey profile 把 Codex 模型流量喂给 api.portkey.ai/v1。用户层 [model_providers.portkey]，env_key 读 PORTKEY_API_KEY，wire_api = responses。再用 --profile portkey。不是 MCP。",
+    code: `# ~/.codex/config.toml
+[model_providers.portkey]
+name = "Portkey"
+base_url = "https://api.portkey.ai/v1"
+env_key = "PORTKEY_API_KEY"
+wire_api = "responses"
+
+# ~/.codex/portkey.config.toml
+# model_provider = "portkey"
+# model = "@openai-prod/gpt-4o"
+
+# export PORTKEY_API_KEY=pk-...
+# codex --profile portkey
+
+# 只要网关、不要向导改 MCP / 技能：
+# npx portkey setup --yes --portkey-key "$PORTKEY_API_KEY" --skip-mcp --skip-skills --codex-wire-api responses
+
+# 不要：
+# [profiles.portkey]
+# 项目 .codex/config.toml 里写 model_providers
+# ANTHROPIC_BASE_URL
+# codex plugin add portkey@
+# --oss
+`,
+  },
+  {
+    id: "fireworks-fireconnect-codex",
+    title: "FireConnect 把 Codex 模型流量喂给 api.fireworks.ai/inference/v1",
+    filename: "~/.codex/config.toml",
+    summary:
+      "FireConnect 把 Codex 模型流量喂给 api.fireworks.ai/inference/v1。用户层 [model_providers.fireworks-ai]，env_key 读 FIREWORKS_API_KEY，wire_api = responses。官方 CLI 是 fireconnect codex on。不是 MCP。",
+    code: `# 官方 CLI（会改整机默认）：
+# fireconnect login
+# fireconnect codex on
+# fireconnect codex status
+# fireconnect codex off
+
+# ~/.codex/config.toml 手写（推荐 env_key，不要 experimental_bearer_token）
+[model_providers.fireworks-ai]
+name = "Fireworks"
+base_url = "https://api.fireworks.ai/inference/v1"
+env_key = "FIREWORKS_API_KEY"
+wire_api = "responses"
+requires_openai_auth = false
+
+# ~/.codex/fireworks.config.toml
+# model_provider = "fireworks-ai"
+# model = "kimi-fast-latest"
+# export FIREWORKS_API_KEY=fw-...
+# codex --profile fireworks
+
+# 续写旧会话：
+# codex resume -c model_provider="fireworks-ai"
+
+# 不要：
+# [profiles.fireconnect]
+# 项目 .codex/config.toml 里写 model_providers
+# ANTHROPIC_BASE_URL
+# fireconnect claude
+# fpk_ Fire Pass
+# MiniMax
+# codex plugin add fireworks@
+# --oss
+`,
   }
 ];

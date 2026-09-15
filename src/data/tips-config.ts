@@ -3010,4 +3010,157 @@ curl -s \\
       },
     ],
   },
+  {
+    id: "portkey-codex-gateway",
+    no: 458,
+    title: "Portkey 官方 Codex 网关：用户层 [model_providers.portkey]，base_url 是 https://api.portkey.ai/v1，env_key 读 PORTKEY_API_KEY",
+    summary:
+      "用户 config 写 [model_providers.portkey]，base_url 是 https://api.portkey.ai/v1，env_key = PORTKEY_API_KEY，wire_api = responses。再用 ~/.codex/portkey.config.toml 和 --profile portkey。这不是 Portkey MCP，也不是 --oss。",
+    body: `Portkey 官方 Codex 网关：用户层 [model_providers.portkey]，base_url 是 https://api.portkey.ai/v1，env_key 读 PORTKEY_API_KEY。这是换 Codex **背后那颗模型**，不是再加一台 MCP，也不是插件。模型 slug 走 Portkey Model Catalog，形状是 \`@provider-slug/model\`，例如 \`@openai-prod/gpt-4o\`，不是 Vercel 的 \`厂商/型号\`，也不是 Hugging Face router 后缀。
+
+供应商表放**用户** \`~/.codex/config.toml\`。不要一上来把顶层 \`model_provider = "portkey"\` 写成整机默认，除非你就是要把**所有**会话都改走网关：
+
+\`\`\`toml
+# ~/.codex/config.toml
+[model_providers.portkey]
+name = "Portkey"
+base_url = "https://api.portkey.ai/v1"
+env_key = "PORTKEY_API_KEY"
+wire_api = "responses"
+\`\`\`
+
+\`env_key\` 是变量**名**。密钥必须出现在**启动 Codex 的那个进程**里。从已经 \`export PORTKEY_API_KEY\` 的终端启动；Dock 打开的桌面不会读你刚改的 zshrc。不要把 \`pk-\` 字面量写进 TOML，也不要写进 \`http_headers\`。
+
+Portkey 官方页把省略 \`wire_api\` 写成 Chat Completions（\`chat\`）。Codex 自定义供应商要走工具调用和推理时，用 \`responses\`。只在你明确只要 Chat Completions 时才写成 \`chat\`。Wizard 的 \`--codex-wire-api chat|responses\` 也是改这一项。
+
+更稳妥是独立 profile，不要再写 \`[profiles.portkey]\`（0.134 起会被拒绝）：
+
+\`\`\`toml
+# ~/.codex/portkey.config.toml
+model_provider = "portkey"
+model = "@openai-prod/gpt-4o"
+\`\`\`
+
+\`\`\`bash
+codex --profile portkey
+codex --profile portkey -m "@openai-prod/gpt-4o"
+\`\`\`
+
+\`npx portkey\` / \`npx portkey setup\` 是向导，**可以**改 Claude / Cursor，并把 MCP、技能一并写进配置。只要网关时加 \`--skip-mcp --skip-skills\`，Codex 协议用 \`--codex-wire-api responses\`。它可能把 \`model_provider = "portkey"\` 写成默认，也可能写到项目 \`.codex/config.toml\`。项目文件**改不了** \`model_provider\` / \`model_providers\` / \`otel\`；Portkey 文档那句「仓库 \`.codex\` 能覆盖供应商」按 OpenAI 现行规则是错的。手写用户层表 + profile 才是主路径。
+
+向导写的 \`[mcp_servers.*]\`（头里带 Portkey API key）是另一条线，不要和这张网关供应商表搞成一台。也不要抄 Claude Code 的 \`ANTHROPIC_BASE_URL\` / \`settings.json\`。
+
+不要做这些：
+
+- 不要写进项目 \`.codex/config.toml\`。项目文件改不了供应商。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`portkey\` 是新 ID，可以。
+- 不要和 \`--oss\` / \`oss_provider\` 混成一条。
+- 不要发明 \`codex plugin add portkey@\`。
+- 不要把密钥写进 TOML。
+- 不要用 \`openai_base_url\` 顶替这张表；那是改内置 \`openai\` 供应商。
+
+改完新开会话。\`codex --profile portkey\` 起得来，说明供应商和密钥都进了这一进程。401 先看进程里有没有 \`PORTKEY_API_KEY\`；模型 404 再对照 Model Catalog 改 \`model\`。用量看 Portkey Dashboard。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["model_providers", "Portkey", "wire_api", "profile", "PORTKEY_API_KEY"],
+    related: ["profile-files-not-tables", "hf-inference-providers", "vercel-ai-gateway"],
+    sources: [
+      {
+        label: "Portkey · OpenAI Codex",
+        url: "https://portkey.ai/docs/integrations/libraries/codex",
+      },
+      {
+        label: "Portkey-AI/cli",
+        url: "https://github.com/Portkey-AI/cli",
+      },
+      {
+        label: "OpenAI · Advanced configuration",
+        url: "https://learn.chatgpt.com/docs/config-file/config-advanced",
+      },
+    ],
+  },
+  {
+    id: "fireworks-fireconnect-codex",
+    no: 459,
+    title: "Fireworks 官方 Codex 网关：用户层 [model_providers.fireworks-ai]，base_url 是 https://api.fireworks.ai/inference/v1，env_key 读 FIREWORKS_API_KEY",
+    summary:
+      "用户 config 写 [model_providers.fireworks-ai]，base_url 是 https://api.fireworks.ai/inference/v1，env_key = FIREWORKS_API_KEY，wire_api = responses。官方 CLI 是 fireconnect login 再 fireconnect codex on。这不是 MCP，也不是 --oss。",
+    body: `Fireworks 官方 Codex 网关：用户层 [model_providers.fireworks-ai]，base_url 是 https://api.fireworks.ai/inference/v1，env_key 读 FIREWORKS_API_KEY。这是换 Codex **背后那颗模型**，不是再加一台 MCP，也不是插件。官方 Codex 页要求 CLI **0.134+**，密钥必须是标准 \`fw_...\`。Fire Pass \`fpk_...\` **不能**走 Codex 的 Responses 入口。
+
+官方一键（会改**用户** \`~/.codex/config.toml\` 的顶层 \`model_provider\` / \`model\`，并写成整机默认）：
+
+\`\`\`bash
+fireconnect login
+fireconnect codex on
+fireconnect codex status
+\`\`\`
+
+换模型：\`fireconnect codex on --model glm-5p2\`。关掉并还原备份：\`fireconnect codex off\`。快照在 \`~/.fireconnect/codex/\`。\`fireconnect chatgpt\` 是同一份 config，开/关前先退出 ChatGPT 桌面，模型列表才会刷新。
+
+现行 CLI 会把 \`fw_\` 密钥写成 \`experimental_bearer_token\` 字面量（文件模式 0600）。OpenAI 标明这一项**不推荐**，手写时改用 \`env_key\`：
+
+\`\`\`toml
+# ~/.codex/config.toml
+[model_providers.fireworks-ai]
+name = "Fireworks"
+base_url = "https://api.fireworks.ai/inference/v1"
+env_key = "FIREWORKS_API_KEY"
+wire_api = "responses"
+requires_openai_auth = false
+\`\`\`
+
+\`env_key\` 是变量**名**。密钥必须出现在**启动 Codex 的那个进程**里。不要把 \`fw_\` 写进 TOML。从已经 \`export FIREWORKS_API_KEY\` 的终端启动；Dock 打开的桌面不会读你刚改的 zshrc。
+
+不要一上来把顶层 \`model_provider = "fireworks-ai"\` 写成整机默认，除非你就是要把**所有**会话都改走 Fireworks。CLI \`on\` 会写成默认。更稳妥是独立 profile，不要再写 \`[profiles.fireconnect]\`（源码已当旧表剥掉）：
+
+\`\`\`toml
+# ~/.codex/fireworks.config.toml
+model_provider = "fireworks-ai"
+model = "kimi-fast-latest"
+\`\`\`
+
+\`\`\`bash
+codex --profile fireworks
+\`\`\`
+
+\`on\` 还会写 \`~/.codex/fireworks-model-catalog.json\`，并用顶层 \`model_catalog_json\` 指过去。目录键启动时加载，改完必须新开会话。续写旧会话要带着供应商，否则会退回 OpenAI：
+
+\`\`\`bash
+codex resume -c model_provider="fireworks-ai"
+\`\`\`
+
+MiniMax **不能**走 Codex：Responses 可能在 \`tool_calls\` 和 \`tool_results\` 之间插入 assistant 消息，MiniMax 模板会拒。Foundry 是另一张表 \`[model_providers.fireworks-azure]\`，不是这条网关。
+
+不要做这些：
+
+- 不要抄 \`fireconnect claude\` 的 \`ANTHROPIC_BASE_URL\` / \`settings.json\`。
+- 不要写进项目 \`.codex/config.toml\`。项目文件改不了 \`model_provider\` / \`model_providers\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`fireworks-ai\` 是新 ID，可以。
+- 不要和 \`--oss\` / \`oss_provider\` 混成一条。
+- 不要发明 \`codex plugin add fireworks@\`。
+- 不要把安装器 \`curl …/fw-ai/fireconnect/…/install.sh\` 当成 Codex 插件。
+- 不要用 \`fpk_\` Fire Pass。
+
+改完新开会话。\`codex --profile fireworks\` 或 \`fireconnect codex status\` 能对上，说明供应商和密钥都进了这一进程。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["model_providers", "Fireworks", "FireConnect", "wire_api", "FIREWORKS_API_KEY"],
+    related: ["model-catalog-json", "vercel-ai-gateway", "profile-files-not-tables"],
+    sources: [
+      {
+        label: "Fireworks · Codex",
+        url: "https://docs.fireworks.ai/ecosystem/fireconnect/codex",
+      },
+      {
+        label: "fw-ai/fireconnect",
+        url: "https://github.com/fw-ai/fireconnect",
+      },
+      {
+        label: "OpenAI · Advanced configuration",
+        url: "https://learn.chatgpt.com/docs/config-file/config-advanced",
+      },
+    ],
+  }
 ];

@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-15T10:30:00Z",
+  lastTick: "2026-09-15T11:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "10:30 收口。#68 已重放 #63–#67、#69–#75 为 TIP 445–456；本轮续收 #76 为 457 laminar-codex-plugin。合入后关 #76。站点 457 技巧。",
+    "11:30 收口。#68 已重放 #63–#67、#69–#76 为 TIP 445–457；本轮续收 #77 为 458 portkey-codex-gateway、#78 为 459 fireworks-fireconnect-codex。合入后关 #77–#78。站点 459 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1945,6 +1945,23 @@ export const loopState = {
     "X news: Codex CLI 2026-09-15 10:30",
     'X: ("Codex CLI" OR #CodexCLI) (plugin OR marketplace OR MCP OR hooks OR AGENTS.md)',
     "Codex CLI 技巧 2026 Laminar marketplace add lmnr-ai/lmnr-codex-plugin",
+    "portkey.ai docs integrations libraries Codex model_providers.portkey PORTKEY_API_KEY",
+    "github.com/Portkey-AI/cli Setup Codex --codex-wire-api responses",
+    "portkey.ai docs guides coding-agents agent-cli npx portkey --skip-mcp",
+    "site:learn.chatgpt.com config-advanced project cannot override model_providers",
+    "X news: Codex CLI 2026-09-15 11:00",
+    'X: ("OpenAI Codex" CLI plugin OR MCP OR config.toml OR marketplace)',
+    "Codex CLI 技巧 2026 Portkey [model_providers.portkey] api.portkey.ai/v1",
+    "hashicorp vault configcat meilisearch cal.com elevenlabs akeyless 仍无 Codex 专节",
+    "Unity plugin / Motion MCP / Laminar / LangSmith / Logfire skip seen or open PRs",
+    "docs.fireworks.ai ecosystem fireconnect Codex model_providers.fireworks-ai FIREWORKS_API_KEY",
+    "github.com/fw-ai/fireconnect fireconnect codex on api.fireworks.ai/inference/v1",
+    "docs.fireworks.ai ecosystem fireconnect overview install.sh Fire Pass Codex No",
+    "site:learn.chatgpt.com experimental_bearer_token env_key model_providers",
+    "X news: Codex CLI 2026-09-15 11:30",
+    'X: ("Codex CLI" plugin OR MCP OR marketplace OR config.toml)',
+    "Codex CLI 技巧 2026 Fireworks [model_providers.fireworks-ai] fireconnect codex on",
+    "Portkey #77 / Laminar / LangSmith / Logfire / Unity / ModelTrace / SQLcl skip seen or open PRs",
   ],
 };
 

@@ -5820,5 +5820,65 @@ export const articles: Article[] = [
     tags: ['Laminar', 'MCP', 'Codex', 'CODEX_LMNR_MAX_CHARS'],
     summary:
       '查轨迹才配 [mcp_servers.laminar]，url 是 https://api.lmnr.ai/v1/mcp，bearer_token_env_var 读 LMNR_PROJECT_API_KEY。不要和 Stop 追踪插件搞成一台。CODEX_LMNR_MAX_CHARS 只属于导出钩子。不要抄 Claude 的 --transport http。',
+  },
+  {
+    title: 'OpenAI Codex',
+    url: 'https://portkey.ai/docs/integrations/libraries/codex',
+    source: 'Portkey Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Portkey', 'model_providers', 'Codex', 'PORTKEY_API_KEY'],
+    summary:
+      '官方 Codex 节：用户层 [model_providers.portkey]，base_url 是 https://api.portkey.ai/v1，env_key 读 PORTKEY_API_KEY。模型 slug 是 @provider-slug/model。wire_api 可写 chat 或 responses。项目 .codex 改不了供应商，按 OpenAI 现行规则放用户 config。',
+  },
+  {
+    title: 'Portkey-AI/cli',
+    url: 'https://github.com/Portkey-AI/cli',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Portkey', 'CLI', 'Codex', 'PORTKEY_API_KEY'],
+    summary:
+      'Portkey 官方 Codex 网关：用户层 [model_providers.portkey]，base_url 是 https://api.portkey.ai/v1，env_key 读 PORTKEY_API_KEY。npx portkey 选 Setup Codex 会改 .codex/config.toml。只要网关加 --skip-mcp --skip-skills，协议用 --codex-wire-api responses。',
+  },
+  {
+    title: 'Portkey CLI',
+    url: 'https://portkey.ai/docs/guides/coding-agents/agent-cli',
+    source: 'Portkey Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Portkey', 'CLI', 'MCP', 'Skills', 'PORTKEY_API_KEY'],
+    summary:
+      'npx portkey 向导会写 Codex 的 base_url、PORTKEY_API_KEY、wire_api，也可写 [mcp_servers.*] 和 .agents/skills。非交互加 --yes --portkey-key。不要抄 Claude 的 ANTHROPIC_BASE_URL。网关表仍要放用户 ~/.codex/config.toml。',
+  },
+  {
+    title: 'Codex',
+    url: 'https://docs.fireworks.ai/ecosystem/fireconnect/codex',
+    source: 'Fireworks Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Fireworks', 'FireConnect', 'model_providers', 'Codex', 'FIREWORKS_API_KEY'],
+    summary:
+      '官方 Codex：fireconnect login 再 fireconnect codex on。用户层 [model_providers.fireworks-ai]，base_url 是 https://api.fireworks.ai/inference/v1。CLI 可能把 fw_ 写成 experimental_bearer_token；手写改 env_key 读 FIREWORKS_API_KEY。不要用 fpk_ Fire Pass。',
+  },
+  {
+    title: 'fw-ai/fireconnect',
+    url: 'https://github.com/fw-ai/fireconnect',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Fireworks', 'FireConnect', 'Codex', 'FIREWORKS_API_KEY'],
+    summary:
+      'Fireworks 官方 Codex 网关：用户层 [model_providers.fireworks-ai]，base_url 是 https://api.fireworks.ai/inference/v1，env_key 读 FIREWORKS_API_KEY。源码 ID 是 fireworks-ai。fireconnect chatgpt 共用 ~/.codex/config.toml。MiniMax 不能走 Codex。',
+  },
+  {
+    title: 'Overview',
+    url: 'https://docs.fireworks.ai/ecosystem/fireconnect/overview',
+    source: 'Fireworks Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Fireworks', 'FireConnect', 'CLI', 'FIREWORKS_API_KEY'],
+    summary:
+      '安装器是 curl 官方 install.sh，再 fireconnect login。Codex / ChatGPT 这一行 Fire Pass 是 No。密钥也可设 FIREWORKS_API_KEY。不要把 fireconnect claude 的 ANTHROPIC_BASE_URL 抄进 Codex。',
   }
 ];
