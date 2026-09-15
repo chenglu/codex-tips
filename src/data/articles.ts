@@ -4771,4 +4771,674 @@ export const articles: Article[] = [
     summary:
       '介绍通过自有 AI 助手访问 CalendarBridge，使用 OAuth 授权日历操作。',
   },
+  {
+    title: 'Install Vibe Prospecting in Codex',
+    url: 'https://github.com/explorium-ai/vibeprospecting-plugin/blob/main/docs/install-codex.md',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '教程',
+    tags: ['插件', 'Vibe Prospecting', 'Codex'],
+    summary:
+      '介绍 Vibe Prospecting 插件的安装、登录和更新步骤，包含 vpai login 与轮询认证方式。',
+  },
+  {
+    title: 'explorium-ai/vibeprospecting-plugin',
+    url: 'https://github.com/explorium-ai/vibeprospecting-plugin',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['plugins', 'Vibe Prospecting', 'Skills', 'Codex'],
+    summary:
+      'Vibe Prospecting 插件源码，包含 marketplace 清单和 Codex 安装文档。',
+  },
+  {
+    title: 'Vibe Prospecting Codex platform guide',
+    url: 'https://github.com/explorium-ai/vibeprospecting-plugin/blob/main/skills/vibe-prospecting/platforms/codex.md',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '教程',
+    tags: ['vpai', 'CLI', 'OAuth', 'Codex'],
+    summary:
+      '介绍 vpai CLI 的安装、账号验证和工作流，以及默认样本数量设置。',
+  },
+  {
+    title: 'explorium-ai/vibeprospecting-mcp',
+    url: 'https://github.com/explorium-ai/vibeprospecting-mcp',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Vibe Prospecting', 'OAuth', 'Codex'],
+    summary:
+      '独立的 Vibe Prospecting MCP 服务，提供远程连接地址与 OAuth 登录步骤。',
+  },
+  {
+    title: 'Configure OpenAI Codex to Use Vaadin MCP Server',
+    url: 'https://vaadin.com/docs/latest/building-apps/mcp/supported-tools/codex',
+    source: 'Vaadin Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Vaadin', '插件', 'Codex'],
+    summary:
+      '介绍 Vaadin 技能插件的安装，以及无需登录的文档 MCP 连接。',
+  },
+  {
+    title: 'MCP Server for Vaadin',
+    url: 'https://vaadin.com/docs/latest/building-apps/mcp',
+    source: 'Vaadin Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Vaadin', '文档'],
+    summary:
+      '介绍 Vaadin MCP 服务支持的客户端和 Agent Marketplace 安装方式。',
+  },
+  {
+    title: 'vaadin/agent-marketplace',
+    url: 'https://github.com/vaadin/agent-marketplace',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['plugins', 'Vaadin', 'marketplace', 'Codex'],
+    summary:
+      'Vaadin 插件目录，包含技能插件、实验工具及更新说明。',
+  },
+  {
+    title: 'vaadin/agent-skills',
+    url: 'https://github.com/vaadin/agent-skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', 'Vaadin', 'MCP', 'Codex'],
+    summary:
+      'Vaadin 技能源码，说明插件与独立技能安装的区别，以及文档服务的配置。',
+  },
+  {
+    title: 'Set up the Checkly MCP Server',
+    url: 'https://www.checklyhq.com/docs/ai/mcp-server/setup/',
+    source: 'Checkly Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Checkly', 'bearer', 'Codex'],
+    summary:
+      '介绍 Checkly MCP 的连接步骤，使用 CHECKLY_API_KEY 提供用户 API key。',
+  },
+  {
+    title: 'Checkly MCP Server',
+    url: 'https://www.checklyhq.com/docs/ai/mcp-server/',
+    source: 'Checkly Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Checkly', 'Skills'],
+    summary:
+      '介绍 Checkly 远程 MCP 的能力范围，以及配合 CLI 和技能处理本地代码的方式。',
+  },
+  {
+    title: 'Checkly Plugin for AI Coding Agents',
+    url: 'https://www.checklyhq.com/docs/ai/plugin/',
+    source: 'Checkly Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'Checkly', 'Skills', 'Codex'],
+    summary:
+      '介绍 Checkly 插件提供的技能与 MCP 集成。',
+  },
+  {
+    title: 'checkly/checkly-plugin',
+    url: 'https://github.com/checkly/checkly-plugin',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['plugins', 'Checkly', 'marketplace', 'Codex'],
+    summary:
+      'Checkly 插件源码，包含 marketplace 安装说明和 MCP 配置。',
+  },
+  {
+    title: 'Mem0 Codex',
+    url: 'https://docs.mem0.ai/integrations/codex',
+    source: 'Mem0 Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'Mem0', 'MCP', 'Codex'],
+    summary:
+      '介绍 Mem0 Codex 插件的安装，需要 Python 3.10+ 与 MEM0_API_KEY。',
+  },
+  {
+    title: 'Mem0 MCP',
+    url: 'https://docs.mem0.ai/platform/mem0-mcp',
+    source: 'Mem0 Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Mem0', 'HTTP'],
+    summary:
+      '介绍 Mem0 MCP 的传输方式与 Codex 客户端配置。',
+  },
+  {
+    title: 'mem0ai/mem0',
+    url: 'https://github.com/mem0ai/mem0',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['plugins', 'Mem0', 'marketplace'],
+    summary:
+      'Mem0 主仓库，Codex 插件位于 integrations/codex-plugin。',
+  },
+  {
+    title: 'mem0ai/mem0 Codex plugin',
+    url: 'https://github.com/mem0ai/mem0/tree/main/integrations/codex-plugin',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['plugins', 'Mem0', 'stdio', 'Codex'],
+    summary:
+      'Mem0 Codex 插件文档，涵盖记忆保存、搜索、删除及暂停等操作。',
+  },
+  {
+    title: 'Install Cockpit For An AI Host',
+    url: 'https://github.com/cockpit-dev/cockpit/blob/main/skills/cockpit/INSTALL.md',
+    source: 'cockpit-dev/cockpit',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Cockpit', '插件', 'Codex'],
+    summary:
+      '介绍 Cockpit 的安装顺序：先安装 Dart 命令，再安装 Codex 插件。',
+  },
+  {
+    title: 'Cockpit Agent Integrations',
+    url: 'https://github.com/cockpit-dev/cockpit/blob/main/docs/agent-integrations.md',
+    source: 'cockpit-dev/cockpit',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Cockpit', 'Codex', 'Skills'],
+    summary:
+      '介绍 Cockpit 技能和 cockpit_mcp 的集成方式。',
+  },
+  {
+    title: 'cockpit-dev/cockpit',
+    url: 'https://github.com/cockpit-dev/cockpit',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Cockpit', 'Flutter', 'MCP', 'plugins'],
+    summary:
+      'Cockpit 源码，包含 CLI、技能和 Dart、Flutter 版本要求。',
+  },
+  {
+    title: 'cockpit | Dart package',
+    url: 'https://pub.dev/packages/cockpit',
+    source: 'pub.dev',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Cockpit', 'Dart', 'MCP', 'stdio'],
+    summary:
+      'Cockpit 的 Dart 包，包含 CLI、MCP 服务、后台进程与 worker。',
+  },
+  {
+    title: 'Codex: Advanced agentic configuration',
+    url: 'https://support.atlassian.com/bitbucket-cloud/docs/codex-advanced-agentic-configuration/',
+    source: 'Bitbucket Cloud Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Bitbucket', 'Pipelines', 'Codex', 'MCP'],
+    summary:
+      '介绍 Agentic Pipelines 中 Codex 的配置文件、默认镜像和 Jira 连接方式。',
+  },
+  {
+    title: 'Agentic Pipelines now supports OpenAI Codex',
+    url: 'https://www.atlassian.com/blog/bitbucket/agentic-pipelines-now-supports-openai-codex',
+    source: 'Inside Atlassian',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Bitbucket', 'Pipelines', 'Codex'],
+    summary:
+      '介绍 Bitbucket Agentic Pipelines 对 Codex 的支持及 provider 配置。',
+  },
+  {
+    title: 'Agentic Pipelines',
+    url: 'https://support.atlassian.com/bitbucket-cloud/docs/agentic-pipelines/',
+    source: 'Bitbucket Cloud Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Bitbucket', 'Pipelines', 'MCP'],
+    summary:
+      '介绍 Agentic Pipelines 的工作区设置、账号配置和内置 Bitbucket MCP。',
+  },
+  {
+    title: 'Interacting with Bitbucket via MCP',
+    url: 'https://support.atlassian.com/bitbucket-cloud/docs/interacting-with-bitbucket-via-mcp/',
+    source: 'Bitbucket Cloud Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Bitbucket', 'MCP', 'Pipelines'],
+    summary:
+      '介绍通过内置 MCP 操作 Bitbucket，以及仓库和拉取请求的权限设置。',
+  },
+  {
+    title: 'Authentication and security for Agentic Pipelines',
+    url: 'https://support.atlassian.com/bitbucket-cloud/docs/authentication-and-security-for-agentic-pipelines/',
+    source: 'Bitbucket Cloud Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Bitbucket', 'Pipelines', '安全', 'OAuth'],
+    summary:
+      '说明流水线的短期 OAuth 凭据、读写权限、安全变量和工具权限配置。',
+  },
+  {
+    title: 'Build with Codex',
+    url: 'https://developer.paddle.com/get-started/ai/codex/',
+    source: 'Paddle Developer',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Paddle', '插件', 'MCP', 'Codex'],
+    summary:
+      '介绍 Paddle Codex 插件的安装和生产环境 OAuth 登录。',
+  },
+  {
+    title: 'Agent skills and plugins',
+    url: 'https://developer.paddle.com/sdks/ai/agent-skills',
+    source: 'Paddle Developer',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Paddle', 'Skills', '插件'],
+    summary:
+      '介绍 Paddle Billing 技能，涵盖结账、Webhook 和订阅集成。',
+  },
+  {
+    title: 'Paddle MCP server',
+    url: 'https://developer.paddle.com/sdks/ai/paddle-mcp',
+    source: 'Paddle Developer',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Paddle', 'MCP', 'OAuth'],
+    summary:
+      '说明 Paddle MCP 的认证方式：沙箱使用 API key，生产环境使用 OAuth。',
+  },
+  {
+    title: 'Docs MCP server',
+    url: 'https://developer.paddle.com/sdks/ai/docs-mcp',
+    source: 'Paddle Developer',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Paddle', 'MCP', '文档'],
+    summary:
+      '介绍 Paddle 文档 MCP，通过 Google 或 GitHub 账号登录。',
+  },
+  {
+    title: 'PaddleHQ/paddle-agent-skills',
+    url: 'https://github.com/PaddleHQ/paddle-agent-skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Paddle', 'plugins', 'Skills', 'Codex'],
+    summary:
+      'Paddle 插件源码，包含 Codex 插件目录和 marketplace 清单。',
+  },
+  {
+    title: 'Build with AI Coding Agents',
+    url: 'https://docs.dodopayments.com/developer-resources/build-with-ai-coding-agents',
+    source: 'Dodo Payments Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Dodo', '插件', 'Codex'],
+    summary:
+      '介绍 Dodo Payments 在 Codex 等编程助手中的插件安装步骤。',
+  },
+  {
+    title: 'MCP Server',
+    url: 'https://docs.dodopayments.com/developer-resources/mcp-server',
+    source: 'Dodo Payments Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Dodo', 'OAuth', 'HTTP'],
+    summary:
+      '介绍 Dodo Payments 文档和 API MCP：文档无需认证，API 使用 OAuth。',
+  },
+  {
+    title: 'Agent Skills',
+    url: 'https://docs.dodopayments.com/developer-resources/agent-skills',
+    source: 'Dodo Payments Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'Dodo', 'Codex'],
+    summary:
+      '介绍 Dodo Payments 技能，涵盖 API 集成、文档查询和 Webhook 签名验证。',
+  },
+  {
+    title: 'dodopayments/dodo-agent-plugin',
+    url: 'https://github.com/dodopayments/dodo-agent-plugin',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['plugins', 'Dodo', 'MCP', 'Codex'],
+    summary:
+      'Dodo Payments 插件源码，包含 Streamable HTTP 服务和兼容配置。',
+  },
+  {
+    title: 'dodopayments/skills',
+    url: 'https://github.com/dodopayments/skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', 'Dodo'],
+    summary:
+      'Dodo Payments 技能源码，供插件打包使用。',
+  },
+  {
+    title: 'Codex CLI Setup',
+    url: 'https://weppyai.com/en/docs/agents/codex-cli/',
+    source: 'WEPPY Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'WEPPY', 'Roblox', 'Codex', 'plugins'],
+    summary:
+      '介绍 WEPPY Roblox 插件的 Codex CLI 安装步骤。',
+  },
+  {
+    title: 'Getting Started',
+    url: 'https://weppyai.com/en/docs/getting-started/',
+    source: 'WEPPY Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'WEPPY', 'Roblox'],
+    summary:
+      '介绍 Roblox Studio 插件与 MCP 的连接流程。',
+  },
+  {
+    title: 'Install WEPPY',
+    url: 'https://weppyai.com/en/install',
+    source: 'WEPPY Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'WEPPY', 'Roblox'],
+    summary:
+      '介绍 WEPPY Studio 插件安装、端口设置和可选的 Roblox Explorer。',
+  },
+  {
+    title: 'hope1026/weppy-roblox-mcp',
+    url: 'https://github.com/hope1026/weppy-roblox-mcp',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'WEPPY', 'Roblox', 'plugins', 'Codex'],
+    summary:
+      'WEPPY Roblox MCP 源码，包含 marketplace 注册和插件安装说明。',
+  },
+  {
+    title: '@weppy/roblox-mcp',
+    url: 'https://www.npmjs.com/package/@weppy/roblox-mcp',
+    source: 'npm',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'WEPPY', 'Roblox'],
+    summary:
+      'WEPPY Roblox MCP 的 npm 包，通过本地 stdio 运行，无需 OAuth。',
+  },
+  {
+    title: 'Install phxagents for Codex',
+    url: 'https://phxagents.dev/install/codex/',
+    source: 'phxagents',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'Elixir', 'Phoenix', 'Skills', 'Codex'],
+    summary:
+      '介绍 Elixir Phoenix 插件的安装及 Codex 技能调用方式。',
+  },
+  {
+    title: 'Codex Skills Plugin',
+    url: 'https://github.com/oliver-kriska/claude-elixir-phoenix/blob/main/docs/codex.md',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '教程',
+    tags: ['plugins', 'Elixir', 'Phoenix', 'Codex'],
+    summary:
+      '说明 Codex 插件安装、技能名称和钩子信任设置。',
+  },
+  {
+    title: 'oliver-kriska/claude-elixir-phoenix',
+    url: 'https://github.com/oliver-kriska/claude-elixir-phoenix',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['plugins', 'Elixir', 'Phoenix', 'Skills', 'Codex'],
+    summary:
+      'Elixir Phoenix 技能源码，包含 Codex 原生插件；Tidewave MCP 单独配置。',
+  },
+  {
+    title: 'OpenAI Codex',
+    url: 'https://tidewave.hexdocs.pm/mcp_codex.html',
+    source: 'Tidewave Hexdocs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Tidewave', 'Phoenix', 'Codex'],
+    summary:
+      '介绍 Codex 连接本地 Tidewave MCP 的方式，以及连接状态检查。',
+  },
+  {
+    title: 'Tidewave MCP',
+    url: 'https://phxagents.dev/tidewave-mcp/',
+    source: 'phxagents',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Tidewave', 'Phoenix'],
+    summary:
+      '介绍 Tidewave MCP 的启动和 Phoenix 服务端口配置。',
+  },
+  {
+    title: 'Codex',
+    url: 'https://developer.box.com/guides/box-mcp/integrations/codex',
+    source: 'Box Developers',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Box', 'plugins', 'Codex'],
+    summary:
+      '介绍 Box 插件的添加和授权步骤，需要管理员启用 ChatGPT - MCP。',
+  },
+  {
+    title: 'Connect an AI agent to Box',
+    url: 'https://developer.box.com/tutorials/connect-an-agent-to-box',
+    source: 'Box Developers',
+    lang: '英文',
+    kind: '教程',
+    tags: ['MCP', 'Box', 'OAuth', 'Codex'],
+    summary:
+      '介绍 Box 托管服务的账号权限、插件连接验证及独立 CLI 用法。',
+  },
+  {
+    title: 'Self-hosted Box MCP server (legacy)',
+    url: 'https://developer.box.com/guides/box-mcp/self-hosted',
+    source: 'Box Developers',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Box'],
+    summary:
+      '旧版 Box 自托管 MCP 文档，建议迁移到托管服务。',
+  },
+  {
+    title: 'box/box-for-ai',
+    url: 'https://github.com/box/box-for-ai',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Skills', 'Box', 'plugins', 'Codex'],
+    summary:
+      'Box AI 工具仓库，包含技能、插件及安装说明。',
+  },
+  {
+    title: 'Box Agent Skills',
+    url: 'https://developer.box.com/ai/agent-skills',
+    source: 'Box Developers',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'Box', 'Codex'],
+    summary:
+      '介绍 Box Agent Skills 的安装和账号验证方式。',
+  },
+  {
+    title: 'Miro MCP for OpenAI Codex',
+    url: 'https://miro.com/marketplace/miro-mcp-for-openai-codex/',
+    source: 'Miro Marketplace',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Miro', 'plugins', 'Codex'],
+    summary:
+      '介绍 Miro 插件的添加、团队 OAuth 授权及企业管理员设置。',
+  },
+  {
+    title: "Miro's MCP Server",
+    url: 'https://developers.miro.com/docs/miro-mcp',
+    source: 'Miro Developers',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Miro', 'Codex'],
+    summary:
+      'Miro AI 集成仓库，包含 Codex 插件目录的使用说明。',
+  },
+  {
+    title: "Getting started with Miro's MCP Server",
+    url: 'https://developers.miro.com/docs/connecting-to-miro-mcp',
+    source: 'Miro Developers',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Miro', 'OAuth'],
+    summary:
+      '介绍 Miro 插件与独立 MCP 配置，以及按团队授权的画板访问范围。',
+  },
+  {
+    title: "How to enable Miro's MCP Server (user guide)",
+    url: 'https://help.miro.com/hc/en-us/articles/31625301583890-How-to-enable-Miro-s-MCP-Server-user-guide',
+    source: 'Miro Help Center',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', 'Miro', 'OAuth'],
+    summary:
+      '介绍 Miro 企业账号的 MCP 启用和客户端访问设置。',
+  },
+  {
+    title: 'miroapp/miro-ai',
+    url: 'https://github.com/miroapp/miro-ai',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['plugins', 'Miro', 'Skills', 'Codex'],
+    summary:
+      '介绍 Miro 插件与技能安装方式，Codex 用户可从插件目录添加 Miro。',
+  },
+  {
+    title: 'Installing smart-vs-mcp for Codex CLI',
+    url: 'https://github.com/Al3xisDani3l/smart-vs-mcp/blob/main/docs/install-codex.md',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '教程',
+    tags: ['MCP', 'Visual Studio', '插件', 'Codex'],
+    summary:
+      '介绍 smart-vs-mcp 的 marketplace 安装、分支选择和更新方式。',
+  },
+  {
+    title: 'Al3xisDani3l/smart-vs-mcp',
+    url: 'https://github.com/Al3xisDani3l/smart-vs-mcp',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['MCP', 'Visual Studio', 'stdio', 'Codex'],
+    summary:
+      'smart-vs-mcp 源码，通过工作区配置连接 Visual Studio MCP。',
+  },
+  {
+    title: 'smart-vs-mcp skill',
+    url: 'https://github.com/Al3xisDani3l/smart-vs-mcp/blob/main/skills/smart-vs-mcp/SKILL.md',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '清单',
+    tags: ['MCP', 'Visual Studio', 'Skills', 'Codex'],
+    summary:
+      '介绍 smart-vs-mcp 服务检查、端口诊断和 WSL 工作区配置。',
+  },
+  {
+    title: 'EveryInc/compound-engineering-plugin',
+    url: 'https://github.com/EveryInc/compound-engineering-plugin',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['plugins', 'Compound Engineering', 'Skills', 'Codex'],
+    summary:
+      'Compound Engineering 原生插件源码，包含 Codex 安装说明。',
+  },
+  {
+    title: 'Upgrading an existing Compound Engineering install',
+    url: 'https://github.com/EveryInc/compound-engineering-plugin/blob/main/docs/install/upgrading.md',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'Compound Engineering', 'upgrade', 'Codex'],
+    summary:
+      '介绍 Compound Engineering 插件更新，以及旧版安装遗留配置的清理。',
+  },
+  {
+    title: 'Compound engineering: how Every codes with agents',
+    url: 'https://every.to/chain-of-thought/compound-engineering-how-every-codes-with-agents',
+    source: 'Every',
+    lang: '英文',
+    kind: '教程',
+    tags: ['Compound Engineering', 'Skills', 'Codex'],
+    summary:
+      '介绍计划、执行、复盘和记录经验的工作流程，可配合 ce-plan 等技能使用。',
+  },
+  {
+    title: 'getsentry/plugin-codex',
+    url: 'https://github.com/getsentry/plugin-codex',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['plugins', 'Sentry', 'Skills', 'Codex'],
+    summary:
+      'Sentry Codex 插件发行仓库，技能源代码维护在 sentry-for-ai。',
+  },
+  {
+    title: 'Install the Sentry plugin in your coding agent',
+    url: 'https://sentry.io/cookbook/install-sentry-plugin-coding-agent/',
+    source: 'Sentry Cookbook',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'Sentry', 'Codex', 'MCP'],
+    summary:
+      '介绍 Sentry 原生插件安装，以及共享安装器支持的编程助手。',
+  },
+  {
+    title: 'Sentry Agent Plugin',
+    url: 'https://docs.sentry.io/ai/agent-plugin/',
+    source: 'Sentry Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'Sentry', 'Skills'],
+    summary:
+      '介绍 Sentry 技能插件与托管 MCP 的安装和卸载。',
+  },
+  {
+    title: 'GitGuardian/agent-skills',
+    url: 'https://github.com/GitGuardian/agent-skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['plugins', 'GitGuardian', 'Skills', 'Codex', 'MCP'],
+    summary:
+      'GitGuardian 技能仓库，包含 Codex CLI 0.117.0+ 的插件安装步骤。',
+  },
+  {
+    title: 'Plugin distribution & validation',
+    url: 'https://github.com/GitGuardian/agent-skills/blob/main/docs/maintainers/distribution.md',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '清单',
+    tags: ['plugins', 'GitGuardian', 'marketplace', 'Codex'],
+    summary:
+      '说明 GitGuardian marketplace 清单、Git 来源配置和 MCP 服务名称。',
+  },
+  {
+    title: 'GitGuardian Agent Skills: Secret Detection and Remediation For AI-Assisted Development',
+    url: 'https://blog.gitguardian.com/introducing-gitguardian-agent-skills/',
+    source: 'GitGuardian Blog',
+    lang: '英文',
+    kind: '官方',
+    tags: ['GitGuardian', 'Skills', 'ggshield', 'Codex'],
+    summary:
+      '介绍使用 ggshield 扫描密钥，以及通过 MCP 处理事故和 honeytoken。',
+  },
 ];

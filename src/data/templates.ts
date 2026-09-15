@@ -3781,4 +3781,382 @@ codex mcp login calendarbridge
 # bearer_token_env_var
 `,
   },
+  {
+    id: "vpai-codex-plugin",
+    title: "Vibe Prospecting 官方插件",
+    filename: "terminal",
+    summary:
+      "从 explorium-ai/vibeprospecting-plugin 安装 vpai@vibeprospecting。使用 vpai login 和 --poll 完成认证。",
+    code: `codex plugin marketplace add explorium-ai/vibeprospecting-plugin
+codex plugin add vpai@vibeprospecting
+npm install -g @vibeprospecting/vpai@latest
+vpai login
+vpai login --poll
+vpai whoami
+
+# 清单过期：
+# codex plugin marketplace upgrade vibeprospecting
+
+# 只要远程 MCP、不装技能：
+# codex mcp add vibe-prospecting --url https://vibeprospecting.explorium.ai/mcp
+# codex mcp login vibe-prospecting
+
+# [plugins."vpai@vibeprospecting"]
+# enabled = true
+
+# [mcp_servers.vibe-prospecting]
+# url = "https://vibeprospecting.explorium.ai/mcp"
+# enabled = true
+`,
+  },
+  {
+    id: "vaadin-codex-plugin",
+    title: "Vaadin 官方插件",
+    filename: "terminal",
+    summary:
+      "从 vaadin/agent-marketplace 安装 vaadin-skills@vaadin-marketplace。插件自动连接 mcp.vaadin.com/docs，文档查询无需登录。",
+    code: `codex plugin marketplace add vaadin/agent-marketplace --ref main
+codex plugin add vaadin-skills@vaadin-marketplace
+
+# 预览：
+# codex plugin list --marketplace vaadin-marketplace --available --json
+
+# 只要 MCP、不装技能：
+# codex mcp add vaadin --url https://mcp.vaadin.com/docs
+
+# [mcp_servers.vaadin]
+# url = "https://mcp.vaadin.com/docs"
+
+# 实验第二插件：
+# codex plugin add vaadin-agent-tools@vaadin-marketplace
+`,
+  },
+  {
+    id: "checkly-codex-mcp",
+    title: "Checkly 远程 MCP",
+    filename: "terminal",
+    summary:
+      "连接 api.checklyhq.com/mcp，通过 CHECKLY_API_KEY 提供 Bearer 凭据，无需 OAuth 登录。",
+    code: `export CHECKLY_API_KEY=YOUR_CHECKLY_API_KEY
+codex mcp add checkly --url https://api.checklyhq.com/mcp --bearer-token-env-var CHECKLY_API_KEY
+
+# [mcp_servers.checkly]
+# url = "https://api.checklyhq.com/mcp"
+# bearer_token_env_var = "CHECKLY_API_KEY"
+# enabled = true
+
+# 多账号才：
+# [mcp_servers.checkly.env_http_headers]
+# X-Checkly-Account = "CHECKLY_ACCOUNT_ID"
+
+# 写检查代码才：
+# npx checkly skills install --target=codex
+
+# 技能插件（需补充 Bearer 配置）：
+# codex plugin marketplace add checkly/checkly-plugin
+# 然后 TUI /plugins
+`,
+  },
+  {
+    id: "mem0-codex-plugin",
+    title: "Mem0 官方插件",
+    filename: "terminal",
+    summary:
+      "从 mem0ai/mem0 安装 mem0@mem0-plugins。捆绑服务使用本地 Python stdio，需要 Python 3.10+ 和 MEM0_API_KEY。",
+    code: `export MEM0_API_KEY=YOUR_MEM0_API_KEY
+codex plugin marketplace add mem0ai/mem0
+codex plugin add mem0@mem0-plugins
+
+# 只要远程 MCP、不要钩子：
+# codex mcp add mem0 --url https://mcp.mem0.ai/mcp/ --bearer-token-env-var MEM0_API_KEY
+
+# [mcp_servers.mem0]
+# url = "https://mcp.mem0.ai/mcp/"
+# bearer_token_env_var = "MEM0_API_KEY"
+
+# 升级 / 卸载：
+# codex plugin marketplace upgrade
+# codex plugin remove mem0@mem0-plugins
+`,
+  },
+  {
+    id: "cockpit-codex-plugin",
+    title: "Cockpit 原生插件",
+    filename: "terminal",
+    summary:
+      "先用 Dart 安装 Cockpit，再从 cockpit-dev/cockpit 安装 cockpit@cockpit。插件会登记本地 cockpit_mcp 服务。",
+    code: `dart pub global activate cockpit any
+codex plugin marketplace add cockpit-dev/cockpit
+codex plugin add cockpit@cockpit
+
+# 已装过：
+# codex plugin marketplace upgrade cockpit
+# codex plugin add cockpit@cockpit
+
+# 只要 MCP、不装插件：
+# codex mcp add cockpit -- cockpit_mcp
+
+# [mcp_servers.cockpit]
+# command = "cockpit_mcp"
+# args = []
+# enabled = true
+`,
+  },
+  {
+    id: "bitbucket-agentic-codex",
+    title: "Bitbucket Agentic Pipelines Codex",
+    filename: "bitbucket-pipelines.yml",
+    summary:
+      "流水线中设置 provider: codex，并通过 config.path 指定配置。生成的 .codex/config.toml 由 Pipelines 管理。",
+    code: `image: atlassian/default-image:5
+
+definitions:
+  agents:
+    my-agent:
+      prompt: "Explain this repository"
+      provider: codex
+      permissions:
+        on-ask: allow
+      config:
+        path: .codex/atlassian-mcp.toml
+        overrides:
+          sandbox_mode: workspace-write
+pipelines:
+  default:
+    - step:
+        name: Codex agent
+        auth:
+          system:
+            scopes:
+              - read:pullrequest:bitbucket
+        script:
+          - agent: my-agent
+
+# .codex/atlassian-mcp.toml（提交这份，不要提交生成的 .codex/config.toml）
+# [mcp_servers.atlassian-mcp]
+# url = "https://mcp.atlassian.com/v1/native/mcp"
+# [mcp_servers.atlassian-mcp.env_http_headers]
+# Authorization = "ATLASSIAN_MCP_AUTH"
+`,
+  },
+  {
+    id: "paddle-codex-plugin",
+    title: "Paddle 官方插件",
+    filename: "terminal",
+    summary:
+      "安装 paddle@paddle-agent-skills 后，分别配置文档、沙箱和生产连接。沙箱使用 PADDLE_SANDBOX_API_KEY，生产通过 OAuth 登录。",
+    code: `codex plugin marketplace add PaddleHQ/paddle-agent-skills
+codex plugin add paddle@paddle-agent-skills
+export PADDLE_SANDBOX_API_KEY=pdl_sdbx_YOUR_KEY
+codex mcp login paddle-live
+
+# 只要 MCP、不装插件：
+# codex mcp add paddle-sandbox --url https://sandbox-mcp.paddle.com/mcp --bearer-token-env-var PADDLE_SANDBOX_API_KEY
+# codex mcp add paddle-live --url https://mcp.paddle.com/mcp
+# codex mcp login paddle-live
+
+# [mcp_servers.paddle-sandbox]
+# url = "https://sandbox-mcp.paddle.com/mcp"
+# bearer_token_env_var = "PADDLE_SANDBOX_API_KEY"
+# enabled = true
+
+# 刷新：
+# codex plugin marketplace upgrade paddle-agent-skills
+`,
+  },
+  {
+    id: "dodo-payments-codex-plugin",
+    title: "Dodo Payments 官方插件",
+    filename: "terminal",
+    summary:
+      "安装 dodopayments@dodopayments 后，通过 OAuth 登录 API 服务。文档服务 dodo-knowledge 无需认证。",
+    code: `codex plugin marketplace add dodopayments/dodo-agent-plugin
+codex plugin add dodopayments@dodopayments
+codex mcp login dodopayments-api
+
+# 只要 MCP、不装插件：
+# codex mcp add dodo-knowledge --url https://knowledge.dodopayments.com/mcp
+# codex mcp add dodopayments-api --url https://mcp.dodopayments.com/mcp
+# codex mcp login dodopayments-api
+
+# [mcp_servers.dodo-knowledge]
+# url = "https://knowledge.dodopayments.com/mcp"
+# enabled = true
+
+# 刷新：
+# codex plugin marketplace upgrade dodopayments
+`,
+  },
+  {
+    id: "weppy-roblox-codex-plugin",
+    title: "WEPPY Roblox Codex 插件",
+    filename: "terminal",
+    summary:
+      "从 hope1026/weppy-roblox-mcp 安装 weppy-roblox-ai-toolkit@hope1026-roblox-mcp。插件会登记本地 Roblox MCP。",
+    code: `codex plugin marketplace add hope1026/weppy-roblox-mcp
+codex plugin add weppy-roblox-ai-toolkit@hope1026-roblox-mcp
+codex plugin list
+
+# 只要 MCP、不装技能：
+# codex mcp add weppy-roblox-mcp -- npx -y @weppy/roblox-mcp@latest
+
+# [mcp_servers.weppy-roblox-mcp]
+# command = "npx"
+# args = ["-y", "@weppy/roblox-mcp@latest"]
+
+# 刷新目录：
+# codex plugin marketplace upgrade hope1026-roblox-mcp
+`,
+  },
+  {
+    id: "elixir-phoenix-codex-plugin",
+    title: "Elixir Phoenix Codex 插件",
+    filename: "terminal",
+    summary:
+      "安装 elixir-phoenix@oliver-kriska，通过 $elixir-phoenix:phx-review 等名称调用技能。Tidewave MCP 需要单独配置。",
+    code: `codex plugin marketplace add oliver-kriska/claude-elixir-phoenix --ref main
+codex plugin add elixir-phoenix@oliver-kriska
+codex plugin list
+
+# 可选 Tidewave（插件不会登记）：
+# codex mcp add tidewave --url http://localhost:4000/tidewave/mcp
+
+# 刷新：
+# codex plugin marketplace upgrade oliver-kriska
+# codex plugin add elixir-phoenix@oliver-kriska
+`,
+  },
+  {
+    id: "box-codex-plugin",
+    title: "Box Codex 插件",
+    filename: "terminal",
+    summary:
+      "管理员启用 ChatGPT - MCP 后，在插件目录中搜索 Box 并授权。单独连接 MCP 时使用 https://mcp.box.com。",
+    code: `# 官方主路径：TUI /plugins 或桌面 Plugins 搜 Box
+# 管理员先启用 ChatGPT - MCP
+
+codex mcp add box --url https://mcp.box.com
+codex mcp login box
+
+# [mcp_servers.box]
+# url = "https://mcp.box.com"
+# enabled = true
+`,
+  },
+  {
+    id: "miro-codex-plugin",
+    title: "Miro Codex 插件",
+    filename: "terminal",
+    summary:
+      "在插件目录中添加 Miro，选择团队完成 OAuth。也可单独配置 https://mcp.miro.com/，避免与插件重复连接。",
+    code: `# 官方主路径：TUI /plugins 或桌面 Plugins 搜 Miro
+# 点 Add，再选团队做 OAuth
+
+codex mcp add miro --url https://mcp.miro.com/
+codex mcp login miro
+
+# [mcp_servers.miro]
+# url = "https://mcp.miro.com/"
+# enabled = true
+`,
+  },
+  {
+    id: "smart-vs-mcp-codex-plugin",
+    title: "工作区 VS-MCP 包装",
+    filename: "terminal",
+    summary:
+      "从 Al3xisDani3l/smart-vs-mcp 添加插件源，安装后自动登记 vs-mcp-smart stdio 服务。指定分支使用 --ref。",
+    code: `codex plugin marketplace add Al3xisDani3l/smart-vs-mcp
+codex plugin add smart-vs-mcp
+codex plugin list
+
+# 清单快照没刷新：
+# codex plugin marketplace upgrade smart-vs-mcp-dev
+# codex plugin add smart-vs-mcp --marketplace smart-vs-mcp-dev
+
+# 钉分支：
+# codex plugin marketplace add Al3xisDani3l/smart-vs-mcp --ref smart-vs-mcp-dev
+# codex plugin add smart-vs-mcp
+
+# 只要 stdio、不装插件：
+# codex mcp add vs-mcp-smart -- npx -y @al3xisdani3l/smart-vs-mcp
+
+# [mcp_servers.vs-mcp-smart]
+# command = "npx"
+# args = ["-y", "@al3xisdani3l/smart-vs-mcp"]
+`,
+  },
+  {
+    id: "compound-engineering-codex-plugin",
+    title: "Compound Engineering 官方插件",
+    filename: "terminal",
+    summary:
+      "安装 compound-engineering@compound-engineering-plugin，通过 $ce-plan 等技能开展工作。更新时刷新插件源并重新安装。",
+    code: `codex plugin marketplace add EveryInc/compound-engineering-plugin
+codex plugin add compound-engineering@compound-engineering-plugin
+codex plugin list --json
+
+# 同一 profile：
+# CODEX_HOME="$HOME/.codex/profiles/work" codex plugin marketplace add EveryInc/compound-engineering-plugin
+# CODEX_HOME="$HOME/.codex/profiles/work" codex plugin add compound-engineering@compound-engineering-plugin
+
+# 升级（没有 plugin update）：
+# codex plugin marketplace upgrade compound-engineering-plugin
+# codex plugin add compound-engineering@compound-engineering-plugin
+
+# 会话里：$ce-plan  $ce-setup  $lfg
+# /goal 是 Codex 内置，不是 CE 技能
+`,
+  },
+  {
+    id: "sentry-codex-plugin",
+    title: "Sentry 官方插件",
+    filename: "terminal",
+    summary:
+      "从 getsentry/plugin-codex 安装 sentry@sentry-plugin-marketplace。插件自动登记 mcp.sentry.dev/mcp。",
+    code: `codex plugin marketplace add getsentry/plugin-codex
+codex plugin add sentry@sentry-plugin-marketplace
+codex plugin list --json
+
+# 升级（没有 plugin update）：
+# codex plugin marketplace upgrade sentry-plugin-marketplace
+# codex plugin add sentry@sentry-plugin-marketplace
+
+# 只要 MCP、不装插件：
+# codex mcp add sentry --url https://mcp.sentry.dev/mcp
+# codex mcp login sentry
+`,
+  },
+  {
+    id: "gitguardian-codex-plugin",
+    title: "GitGuardian 官方插件",
+    filename: "terminal",
+    summary:
+      "添加 GitGuardian/agent-skills 后，在 /plugins 中安装 gitguardian。扫描使用 ggshield，事故管理通过 GitGuardian MCP 登录。",
+    code: `codex plugin marketplace add GitGuardian/agent-skills
+codex
+/plugins
+
+# TUI 选 GitGuardian Agent Skills，打开 gitguardian，Install plugin
+# 再：
+codex mcp login GitGuardian
+
+# [mcp_servers.GitGuardian]
+# url = "https://mcp.gitguardian.com/mcp"
+# enabled = true
+
+# 欧盟：
+# url = "https://mcp.eu1.gitguardian.com/mcp"
+
+# 本地改技能：
+# codex plugin marketplace add file:///path/to/agent-skills
+
+# 可选升级：
+# codex plugin marketplace upgrade gitguardian-agent-skills
+
+# 可选实时钩子（不是插件安装器）：
+# ggshield auth login
+# ggshield machine setup --agent codex --no-git-hooks --no-honeytokens
+`,
+  },
 ];
