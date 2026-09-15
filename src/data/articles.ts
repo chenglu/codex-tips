@@ -6210,5 +6210,65 @@ export const articles: Article[] = [
     tags: ['GCP', 'Databricks', '/ai-gateway/codex/v1'],
     summary:
       'GCP 页和 AWS 同一套 Codex 表：base_url 仍以 /ai-gateway/codex/v1 结尾。主命令是 ug，ucode 只是别名。OSS 模型用 ug codex --model，不是 --oss。',
+  },
+  {
+    title: 'Integrate with Codex',
+    url: 'https://api-docs.deepseek.com/quick_start/agent_integrations/codex/',
+    source: 'DeepSeek API Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Codex', 'DeepSeek', 'model_providers'],
+    summary:
+      'DeepSeek 官方 Codex 网关：profile 写 [model_providers.deepseek]，base_url 是 https://api.deepseek.com/，密钥用 env_key 不要 experimental_bearer_token。官方一键脚本会把密钥写进 TOML；改成 env_key 并拆独立 profile。模型目录走 model_catalog_json，不要抄 models.json 里的人设长文。',
+  },
+  {
+    title: 'Using the Responses API',
+    url: 'https://api-docs.deepseek.com/guides/responses_api',
+    source: 'DeepSeek API Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Responses', 'DeepSeek', 'Codex'],
+    summary:
+      'DeepSeek 为 Codex 原生开了 Responses。base_url 是 https://api.deepseek.com。无状态，不要 previous_response_id。模型是 deepseek-flash / deepseek-v4-pro。这不是 Chat Completions 翻译层。',
+  },
+  {
+    title: 'Responses API',
+    url: 'https://api-docs.deepseek.com/api/create-response',
+    source: 'DeepSeek API Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Responses', 'DeepSeek', '/responses'],
+    summary:
+      '/responses 是 DeepSeek 的 Responses 入口。流式是 SSE 事件，没有 data: [DONE]。多轮要把历史放进 input。不要把这页当 Codex profile 教程。',
+  },
+  {
+    title: 'OpenAI Codex CLI',
+    url: 'https://www.truefoundry.com/docs/ai-gateway/openai-codex-cli',
+    source: 'TrueFoundry Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Codex', 'TrueFoundry', 'model_providers'],
+    summary:
+      'TrueFoundry 官方 Codex 网关：profile 写 [model_providers.truefoundry]，base_url 用 gateway.truefoundry.ai，密钥用 env_key 不要 http_headers。文档仍把 Bearer 写进 http_headers，还写了 wire_api = chat 和 codex chat；现行只留 responses 和独立 profile。模型用 Virtual Model slug。',
+  },
+  {
+    title: 'Virtual Model',
+    url: 'https://www.truefoundry.com/docs/ai-gateway/virtual-model',
+    source: 'TrueFoundry Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Virtual Model', 'TrueFoundry', 'responses'],
+    summary:
+      'Virtual Model 是 Codex 里写的短 slug，背后才映射 openai-main/ 那种全名。Codex 要勾 responses 类型。不要把全名写进 model。这不是 MCP 网关。',
+  },
+  {
+    title: 'API Keys',
+    url: 'https://www.truefoundry.com/docs/generating-truefoundry-api-keys',
+    source: 'TrueFoundry Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['TFY_API_KEY', 'PAT', 'VAT'],
+    summary:
+      '网关认证用 TrueFoundry PAT/VAT，不是上游 OpenAI 密钥。CLI 环境变量名是 TFY_API_KEY。本地用 PAT，生产用 VAT。不要把 token 写进 TOML 或 http_headers。',
   }
 ];

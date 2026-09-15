@@ -4952,5 +4952,77 @@ args = ["-c", "databricks auth token --host YOUR_WORKSPACE --output json | jq -r
 timeout_ms = 5000
 refresh_interval_ms = 1800000
 `,
+  },
+  {
+    id: "deepseek-codex-gateway",
+    title: "deepseek profile 把 Codex 模型流量喂给 api.deepseek.com/",
+    filename: "~/.codex/deepseek.config.toml",
+    summary:
+      "deepseek profile 把 Codex 模型流量喂给 api.deepseek.com/。供应商表用 env_key，模型目录走绝对路径 models.json。不要 experimental_bearer_token。",
+    code: `export DEEPSEEK_API_KEY=YOUR_DEEPSEEK_API_KEY
+
+# ~/.codex/config.toml
+[model_providers.deepseek]
+name = "deepseek"
+base_url = "https://api.deepseek.com/"
+env_key = "DEEPSEEK_API_KEY"
+wire_api = "responses"
+
+# ~/.codex/deepseek.config.toml
+model_provider = "deepseek"
+model = "deepseek-flash"
+preferred_auth_method = "apikey"
+forced_login_method = "api"
+model_reasoning_effort = "high"
+web_search = "disabled"
+model_catalog_json = "/home/YOU/.codex/models.json"
+
+# 模型目录 JSON 从官方 Codex 页或一键脚本拿，不要抄人设长文
+# bash <(curl -fsSL https://cdn.deepseek.com/api-docs/codex-deepseek-setup-en.sh)
+
+codex --profile deepseek
+
+# 不要：
+# experimental_bearer_token = "sk-..."
+# [profiles.deepseek]
+# openai_base_url = "https://api.deepseek.com/"
+# wire_api = "chat"
+# plugin add deepseek@
+`,
+  },
+  {
+    id: "truefoundry-codex-gateway",
+    title: "truefoundry profile 把 Codex 模型流量喂给 gateway.truefoundry.ai",
+    filename: "~/.codex/truefoundry.config.toml",
+    summary:
+      "truefoundry profile 把 Codex 模型流量喂给 gateway.truefoundry.ai。供应商表用 env_key 读 TFY_API_KEY。模型写 Virtual Model slug。不要 http_headers，也不要 wire_api = chat。",
+    code: `export TFY_API_KEY=YOUR_TFY_API_KEY
+
+# ~/.codex/config.toml
+[model_providers.truefoundry]
+name = "TrueFoundry AI Gateway"
+base_url = "https://gateway.truefoundry.ai"
+env_key = "TFY_API_KEY"
+wire_api = "responses"
+
+# ~/.codex/truefoundry.config.toml
+model_provider = "truefoundry"
+model = "gpt-5.2-codex"
+
+codex --profile truefoundry
+
+# 自建：base_url 写成 Playground 里的字面量，不要在 URL 里写 $GATEWAY_BASE_URL
+# ChatGPT 订阅：不要 env_key；requires_openai_auth = true
+# env_http_headers = { "x-tfy-api-key" = "TFY_API_KEY" }
+
+# 不要：
+# [model_providers.truefoundry.http_headers]
+# Authorization = "Bearer YOUR_TFY_API_KEY"
+# wire_api = "chat"
+# [profiles.truefoundry]
+# openai_base_url = "https://gateway.truefoundry.ai"
+# model = "openai-main/gpt-5.2-codex"
+# plugin add truefoundry@
+`,
   }
 ];

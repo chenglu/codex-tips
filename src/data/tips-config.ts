@@ -4064,5 +4064,159 @@ codex --profile databricks
         url: "https://docs.databricks.com/gcp/en/ai-gateway/coding-agent-integration-model-services",
       },
     ],
+  },
+  {
+    id: "deepseek-codex-gateway",
+    no: 471,
+    title:
+      "DeepSeek 官方 Codex 网关：profile 写 [model_providers.deepseek]，base_url 是 https://api.deepseek.com/，密钥用 env_key 不要 experimental_bearer_token",
+    summary:
+      "用户层 [model_providers.deepseek]，base_url 是 https://api.deepseek.com/，wire_api = responses。env_key 读 DEEPSEEK_API_KEY，不要把 sk- 写进 TOML。再用 ~/.codex/deepseek.config.toml、model_catalog_json 和 --profile deepseek。这不是 MCP，也不是 --oss。",
+    body: `DeepSeek 官方 Codex 网关：profile 写 [model_providers.deepseek]，base_url 是 https://api.deepseek.com/，密钥用 env_key 不要 experimental_bearer_token。
+
+这是换 Codex **背后那颗模型**，流量打到 DeepSeek 原生 Responses 入口 \`https://api.deepseek.com/\`，不是再加一台 MCP，也不是 Chat Completions 翻译层。官方给了一键脚本，会写 \`~/.codex/models.json\` 并改 \`config.toml\`：
+
+\`\`\`bash
+bash <(curl -fsSL https://cdn.deepseek.com/api-docs/codex-deepseek-setup-en.sh)
+\`\`\`
+
+Windows 是 \`irm https://cdn.deepseek.com/api-docs/codex-deepseek-setup-en.ps1 | iex\`。脚本会备份到 \`~/.codex/backup-deepseek/\`。菜单 1 配 \`deepseek-flash\`（带图），菜单 2 配 \`deepseek-v4-pro\`，菜单 9 还原。需要 Codex CLI 0.144+。跑完立刻把密钥从 TOML 挪走：官方示例用 \`experimental_bearer_token\`，那是把 \`sk-\` 写进文件。改成 \`env_key\`（变量**名**），在启动 Codex 的进程里 \`export DEEPSEEK_API_KEY\`。不要和 \`experimental_bearer_token\` / \`requires_openai_auth\` / \`[model_providers.*.auth]\` 叠在同一张供应商表。
+
+不要把顶层 \`model_provider = "deepseek"\` 一上来写进用户 config，除非你就是要把**所有**会话都改走 DeepSeek。官方手册示例就是全局默认。更稳妥是独立 profile（用户层 \`$CODEX_HOME\`，不是项目 \`.codex\`）。0.134 起不要再写 \`[profiles.deepseek]\`。
+
+\`\`\`toml
+# ~/.codex/config.toml
+[model_providers.deepseek]
+name = "deepseek"
+base_url = "https://api.deepseek.com/"
+env_key = "DEEPSEEK_API_KEY"
+wire_api = "responses"
+\`\`\`
+
+\`\`\`toml
+# ~/.codex/deepseek.config.toml
+model_provider = "deepseek"
+model = "deepseek-flash"
+preferred_auth_method = "apikey"
+forced_login_method = "api"
+model_reasoning_effort = "high"
+web_search = "disabled"
+model_catalog_json = "/home/YOU/.codex/models.json"
+\`\`\`
+
+\`\`\`bash
+export DEEPSEEK_API_KEY=YOUR_DEEPSEEK_API_KEY
+codex --profile deepseek
+\`\`\`
+
+\`models.json\` 从官方 Codex 页或脚本拿，**不要**把里面的人设 / \`instructions_template\` 抄进仓库或 TOML。官方手册把路径写成 \`~/.codex/models.json\`；若 \`/model\` 仍显示 Custom，改成绝对路径。目录键启动时加载，改完必须新开会话。自定义供应商必须 \`wire_api = "responses"\`。项目 \`.codex/config.toml\` 改不了 \`model_provider\` / \`model_providers\`。不要写 \`openai_base_url\`。**Codex 不会在 \`base_url\` 里展开环境变量**，主机名要写成字面量。
+
+不要做这些：
+
+- 不要再写 \`[profiles.deepseek]\` 或把 \`experimental_bearer_token\` 留在 TOML。
+- 不要把这张表当成 MCP。DeepSeek 这页没有 \`mcp add\`。
+- 不要抄博客里的 \`wire_api = "chat"\` 或 \`codex-relay\`。DeepSeek 自己说原生 Responses。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`deepseek\` 是新 ID，可以。
+- 不要写进项目 \`.codex/config.toml\`。
+- 不要发明 \`plugin add deepseek@\`。
+- 不要和 \`--oss\` / \`oss_provider\` 混成一条。
+- 不要把 Kong / TrueFoundry / OpenRouter 的 \`base_url\` 抄进这张表。
+
+改完新开会话。启动横幅出现 \`model: deepseek-flash\`，说明供应商、目录和密钥都进了这一进程。401 先看进程里有没有 \`DEEPSEEK_API_KEY\`。切回 ChatGPT 登录后，第三方会话会藏起来，并没有删。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["model_providers", "DeepSeek", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "project-config-cannot-override-auth", "model-catalog-json"],
+    sources: [
+      {
+        label: "DeepSeek · Integrate with Codex",
+        url: "https://api-docs.deepseek.com/quick_start/agent_integrations/codex/",
+      },
+      {
+        label: "DeepSeek · Using the Responses API",
+        url: "https://api-docs.deepseek.com/guides/responses_api",
+      },
+      {
+        label: "DeepSeek · Responses API",
+        url: "https://api-docs.deepseek.com/api/create-response",
+      },
+    ],
+  },
+  {
+    id: "truefoundry-codex-gateway",
+    no: 472,
+    title:
+      "TrueFoundry 官方 Codex 网关：profile 写 [model_providers.truefoundry]，base_url 用 gateway.truefoundry.ai，密钥用 env_key 不要 http_headers",
+    summary:
+      "用户层 [model_providers.truefoundry]，SaaS base_url 是 https://gateway.truefoundry.ai，wire_api = responses。env_key 读 TFY_API_KEY，不要把 Bearer 写进 http_headers。再用 ~/.codex/truefoundry.config.toml 和 --profile truefoundry。模型用 Virtual Model slug。这不是 MCP，也不是 --oss。",
+    body: `TrueFoundry 官方 Codex 网关：profile 写 [model_providers.truefoundry]，base_url 用 gateway.truefoundry.ai，密钥用 env_key 不要 http_headers。
+
+这是换 Codex **背后那颗模型**，流量打到 TrueFoundry AI Gateway，不是再加一台 MCP。官方 Codex 页给了 \`[model_providers.truefoundry]\`，但把 \`Authorization = "Bearer TFY_API_KEY"\` 写进 \`http_headers\`——那是把密钥写进 TOML。改成 \`env_key\`（变量**名**），在启动 Codex 的进程里 \`export TFY_API_KEY\`。不要和 \`experimental_bearer_token\` / \`requires_openai_auth\` / \`[model_providers.*.auth]\` 叠在同一张供应商表。
+
+SaaS 的 \`base_url\` 就是 \`https://gateway.truefoundry.ai\`。自建实例从 Playground 的 Code Snippet 抄，写成字面量。**Codex 不会在 \`base_url\` 里展开环境变量**。不要写 \`openai_base_url\`，也不要抄 OpenAI SDK 页的 \`OPENAI_BASE_URL\`。
+
+先在网关建 **Virtual Model**：slug 用 Codex 认识的短名（例如 \`gpt-5.2-codex\`），目标才是 \`openai-main/gpt-5.2-codex\` 这种全名。Virtual Model 的类型要勾 \`responses\`。Codex 里只写 slug；写全名会把 thinking tokens 搞乱。
+
+不要把顶层 \`model_provider = "truefoundry"\` 一上来写进用户 config，除非你就是要把**所有**会话都改走网关。官方手册示例就是全局默认。更稳妥是独立 profile（用户层 \`$CODEX_HOME\`，不是项目 \`.codex\`）。0.134 起不要再写 \`[profiles.truefoundry]\`。官方还写 \`wire_api = "chat"\` 给「其他模型」——现行 Codex 会硬错误，只留 \`responses\`。
+
+\`\`\`toml
+# ~/.codex/config.toml
+[model_providers.truefoundry]
+name = "TrueFoundry AI Gateway"
+base_url = "https://gateway.truefoundry.ai"
+env_key = "TFY_API_KEY"
+wire_api = "responses"
+\`\`\`
+
+\`\`\`toml
+# ~/.codex/truefoundry.config.toml
+model_provider = "truefoundry"
+model = "gpt-5.2-codex"
+\`\`\`
+
+\`\`\`bash
+export TFY_API_KEY=YOUR_TFY_API_KEY
+codex --profile truefoundry
+codex --profile truefoundry -m gpt-5.2-codex
+\`\`\`
+
+本地开发用 Access → Personal Access Tokens 的 PAT；生产、CI、长跑 agent 用 Virtual Account token（VAT）。密钥只显示一次。不要发明 \`plugin add truefoundry@\`。项目 \`.codex/config.toml\` 改不了 \`model_provider\` / \`model_providers\`。
+
+走 ChatGPT 订阅而不是用量 API key 时：不要写 \`env_key\`。网关里 OpenAI 集成的 Base URL 改成 \`https://chatgpt.com/backend-api/codex\`，API key 留空，让网关转发 Codex 的 OAuth。供应商表加 \`requires_openai_auth = true\`，网关自己的票用 \`env_http_headers = { "x-tfy-api-key" = "TFY_API_KEY" }\`，不要把字面量写进 \`http_headers\`。
+
+官方给的 MCP 搜索是另一张表：\`url\` 形如 \`https://YOUR_GATEWAY/YOUR_TENANT/mcp/YOUR_SERVER/server\`，令牌用 \`bearer_token_env_var = "TFY_API_KEY"\`，不要把 Bearer 写进 \`http_headers\`。那不是这张模型供应商表。
+
+不要做这些：
+
+- 不要再写 \`[profiles.truefoundry]\` 或 \`wire_api = "chat"\`。
+- 不要把 \`openai-main/gpt-5.2-codex\` 写进 Codex 的 \`model\`。
+- 不要把密钥写进 \`http_headers\`。
+- 不要抄 \`codex chat --model\` 当主路径；日常是 \`codex --profile truefoundry\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`truefoundry\` 是新 ID，可以。
+- 不要写进项目 \`.codex/config.toml\`。
+- 不要和 \`--oss\` / \`oss_provider\` 混成一条。
+- 不要把这张表当成 MCP。
+
+改完新开会话。\`codex --profile truefoundry\` 起得来，说明供应商和 \`TFY_API_KEY\` 都进了这一进程。401 先看进程里有没有 PAT/VAT；thinking 异常先看 Virtual Model slug 是不是短名、类型有没有 \`responses\`。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["model_providers", "TrueFoundry", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "project-config-cannot-override-auth", "vercel-ai-gateway"],
+    sources: [
+      {
+        label: "TrueFoundry · OpenAI Codex CLI",
+        url: "https://www.truefoundry.com/docs/ai-gateway/openai-codex-cli",
+      },
+      {
+        label: "TrueFoundry · Virtual Model",
+        url: "https://www.truefoundry.com/docs/ai-gateway/virtual-model",
+      },
+      {
+        label: "TrueFoundry · API Keys",
+        url: "https://www.truefoundry.com/docs/generating-truefoundry-api-keys",
+      },
+    ],
   }
 ];

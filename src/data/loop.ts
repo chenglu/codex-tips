@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-15T17:12:00Z",
+  lastTick: "2026-09-15T18:12:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "17:12 收口。#68 已重放 #63–#67、#69–#87 为 TIP 445–468；本轮续收 #88 为 469 coder-ai-gateway、#89 为 470 databricks-codex-gateway。合入后关 #88–#89。站点 470 技巧。",
+    "18:12 收口。#68 已重放 #63–#67、#69–#89 为 TIP 445–470；本轮续收 #90 为 471 deepseek-codex-gateway、#91 为 472 truefoundry-codex-gateway。合入后关 #90–#91。站点 472 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2057,5 +2057,24 @@ export function seenUrls(): string[] {
     "skip coder #88 bifrost #87 sambanova #86 openaidr #85 Azure #84",
     "X news: Codex CLI 2026-09-15 17:00",
     "Codex CLI 技巧 2026 Databricks --profile databricks /ai-gateway/codex/v1",
+    "api-docs.deepseek.com quick_start agent_integrations codex model_providers.deepseek",
+    "api-docs.deepseek.com guides responses_api api.deepseek.com",
+    "api-docs.deepseek.com api create-response Codex",
+    "developer.konghq.com how-to use-codex-with-ai-gateway 404 skip OPENAI_BASE_URL",
+    "truefoundry.com docs ai-gateway openai-codex-cli skip wire_api chat",
+    "docs.gitlab.com mcp_server already on site skip",
+    "skip leftover 1730-2b7e Expo plugin",
+    "skip databricks #89 coder #88 bifrost #87 sambanova #86 openaidr #85 Azure #84",
+    "X news: Codex CLI 2026-09-15 17:30",
+    "Codex CLI 技巧 2026 DeepSeek --profile deepseek api.deepseek.com env_key",
+    "truefoundry.com docs ai-gateway openai-codex-cli model_providers.truefoundry",
+    "truefoundry.com docs ai-gateway virtual-model responses slug",
+    "truefoundry.com docs generating-truefoundry-api-keys TFY_API_KEY",
+    "developer.konghq.com how-to use-codex-with-ai-gateway still 404 skip OPENAI_BASE_URL",
+    "api-docs.deepseek.com skip open PR 90",
+    "skip leftover 1800-2b7e Glean plugin",
+    "skip databricks #89 coder #88 bifrost #87 deepseek #90",
+    "X news: Codex CLI 2026-09-15 18:00",
+    "Codex CLI 技巧 2026 TrueFoundry --profile truefoundry gateway.truefoundry.ai env_key",
   ];
 }
