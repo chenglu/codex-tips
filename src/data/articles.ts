@@ -6390,5 +6390,125 @@ export const articles: Article[] = [
     tags: ["Responses", "Model Studio", "Qwen", "DASHSCOPE_API_KEY", "token-plan.ap-southeast-1.maas.aliyuncs.com"],
     summary:
       'Model Studio 的 POST /compatible-mode/v1/responses。按量主机带 WorkspaceId。Token Plan 编码流量仍打 token-plan.ap-southeast-1.maas.aliyuncs.com。旧路径 /api/v2/apps/protocols/compatible-mode/v1/responses 将弃用。Codex 走 wire_api = responses。',
+  },
+  {
+    title: 'Codex',
+    url: 'https://docs.byteplus.com/en/docs/ModelArk/2556056',
+    source: 'BytePlus Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Codex", "BytePlus", "ModelArk", "model_providers", "ARK_API_KEY", "ark.ap-southeast.bytepluses.com"],
+    summary:
+      'BytePlus ModelArk 官方 Codex 网关：profile 写 [model_providers.byteplus-coding-plan]，base_url 是 https://ark.ap-southeast.bytepluses.com/api/coding/v3，密钥用 env_key 不要打 api/v3。文档会把 model_provider 写成全局默认；现行用独立 profile。模型可写 ark-code-latest。',
+  },
+  {
+    title: 'Ark CLI guide for Coding Plan',
+    url: 'https://docs.byteplus.com/en/docs/modelark/2656115',
+    source: 'BytePlus Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["BytePlus", "ark-cli", "Codex", "ARK_API_KEY", "ark.ap-southeast.bytepluses.com"],
+    summary:
+      'npm install -g @byteplus/ark-cli，再 arkcli helper。套餐选 coding-plan_ap-southeast-1_personal，智能体只勾 Codex。会改 ~/.codex/config.toml。不要 arkcli +connect 当只装 Codex。Coding Plan 流量仍打 ark.ap-southeast.bytepluses.com。',
+  },
+  {
+    title: 'FAQs',
+    url: 'https://docs.byteplus.com/api/docs/ModelArk/2165245',
+    source: 'BytePlus Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Responses", "BytePlus", "ModelArk", "ARK_API_KEY", "ark.ap-southeast.bytepluses.com"],
+    summary:
+      'FAQ 写明 Codex CLI 走 OpenAI 兼容入口 https://ark.ap-southeast.bytepluses.com/api/coding/v3。Claude Code 才是 /api/coding。不要打 /api/v3 按量主机，那条不走 Coding Plan 配额。Codex 走 wire_api = responses。',
+  },
+  {
+    title: 'Codex',
+    url: 'https://cloud.tencent.com/document/product/1823/133532',
+    source: '腾讯云文档',
+    lang: '中文',
+    kind: '官方',
+    tags: ["Codex", "TokenHub", "腾讯云", "model_providers", "HY3_API_KEY", "tokenhub.tencentmaas.com"],
+    summary:
+      '腾讯云 TokenHub 官方 Codex 网关：profile 写 [model_providers.hy3-tokenhub]，base_url 是 https://tokenhub.tencentmaas.com/v1，密钥用 env_key 不要打 Token Plan 的 plan/v3。文档会把 model_provider 写成全局默认；现行用独立 profile。模型写 hy3。国际站表名不要留空格。',
+  },
+  {
+    title: 'API 使用说明',
+    url: 'https://cloud.tencent.com/document/product/1823/130078',
+    source: '腾讯云文档',
+    lang: '中文',
+    kind: '官方',
+    tags: ["TokenHub", "tencentmaas.com", "Responses", "HY3_API_KEY", "tokenhub.tencentmaas.com"],
+    summary:
+      '广州默认主机是 https://tokenhub.tencentmaas.com，新加坡是 https://tokenhub-intl.tencentmaas.com。OpenAI 兼容路径要加 /v1。列模型走 GET /v1/models，模型 ID 有 hy3。不要把这台主机和 Token Plan 的 plan/v3 混用。',
+  },
+  {
+    title: 'OpenAI Response',
+    url: 'https://cloud.tencent.com/document/product/1823/135873',
+    source: '腾讯云文档',
+    lang: '中文',
+    kind: '官方',
+    tags: ["Responses", "TokenHub", "Codex", "HY3_API_KEY", "tokenhub.tencentmaas.com"],
+    summary:
+      'TokenHub 的 Responses 入口是 POST https://tokenhub.tencentmaas.com/v1/responses。Codex 必须 wire_api = responses。hy3 对部分内置工具有限制。不要打 /v1/chat/completions，也不要打 Anthropic /v1/messages。',
+  },
+  {
+    title: 'Use Knowledge Catalog with MCP, Gemini, and other agents',
+    url: 'https://docs.cloud.google.com/dataplex/docs/pre-built-tools-with-mcp-toolbox',
+    source: 'Google Cloud Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["plugins", "Knowledge Catalog", "Codex", "MCP", "Dataplex", "knowledge-catalog@data-agent-kit", "DATAPLEX_PROJECT"],
+    summary:
+      'Google Cloud Knowledge Catalog 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add knowledge-catalog@data-agent-kit，不要写成 plugin install dataplex@。文档 Codex 节把动词写成 install、把插件名写成 dataplex；以插件仓为准。还要 export DATAPLEX_PROJECT，并开 Dataplex API。',
+  },
+  {
+    title: 'GoogleCloudPlatform/data-agent-kit',
+    url: 'https://github.com/GoogleCloudPlatform/data-agent-kit',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["plugins", "Google Cloud", "marketplace", "Codex", "knowledge-catalog@data-agent-kit", "DATAPLEX_PROJECT"],
+    summary:
+      'Data Agent Kit 的 Codex 安装是 marketplace add GoogleCloudPlatform/data-agent-kit，再 plugin add 插件名@data-agent-kit。清单 name 是 data-agent-kit。Knowledge Catalog 这条要写成 knowledge-catalog@data-agent-kit，不要抄 Claude 的 /plugin install。',
+  },
+  {
+    title: 'gemini-cli-extensions/knowledge-catalog',
+    url: 'https://github.com/gemini-cli-extensions/knowledge-catalog',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["plugins", "Knowledge Catalog", "MCP", "Codex", "Dataplex", "knowledge-catalog@data-agent-kit", "DATAPLEX_PROJECT"],
+    summary:
+      '官方 Codex：marketplace 加完再 plugin add knowledge-catalog@data-agent-kit。要求 CLI 0.117.0+。环境变量 DATAPLEX_PROJECT，ADC 走 gcloud auth application-default login。MCP 表名 dataplex，npx 跑 Toolbox 预置 dataplex，不要 mcp login。发行仍是 Beta。',
+  },
+  {
+    title: 'Install the coding agent plugin',
+    url: 'https://docs.cloud.google.com/data-agent-kit/install-plugin',
+    source: 'Google Cloud Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["plugins", "Data Agent Kit", "Codex", "MCP", "dak@data-agent-kit-starter-pack-marketplace"],
+    summary:
+      'Google Cloud Data Agent Kit Starter Pack 官方 Codex 插件：marketplace 加 gemini-cli-extensions/data-agent-kit-starter-pack，再 plugin add dak@data-agent-kit-starter-pack-marketplace，不要加成 GoogleCloudPlatform/data-agent-kit。文档只点名 Codex CLI，具体命令在 Starter Pack README。',
+  },
+  {
+    title: 'gemini-cli-extensions/data-agent-kit-starter-pack',
+    url: 'https://github.com/gemini-cli-extensions/data-agent-kit-starter-pack',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["plugins", "Google Cloud", "Skills", "Codex", "MCP", "dak@data-agent-kit-starter-pack-marketplace"],
+    summary:
+      '官方 Codex 推荐 marketplace add 本仓 HTTPS URL，再 plugin add dak@data-agent-kit-starter-pack-marketplace。清单名 data-agent-kit-starter-pack-marketplace。技能即用；MCP 改缓存 .mcp.json 后重启。不要把 curl 管道脚本当主路径。',
+  },
+  {
+    title: 'Google Cloud Data Agent Kit documentation',
+    url: 'https://docs.cloud.google.com/data-agent-kit',
+    source: 'Google Cloud Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Data Agent Kit", "Codex", "Google Cloud", "dak@data-agent-kit-starter-pack-marketplace"],
+    summary:
+      '概览写 Codex CLI 能装 Data Agent Kit 插件。真正可执行的 Codex 命令是 plugin add dak@data-agent-kit-starter-pack-marketplace，不要去产品索引仓 GoogleCloudPlatform/data-agent-kit 发明 dak@。',
   }
 ];

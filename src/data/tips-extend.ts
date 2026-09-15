@@ -15760,5 +15760,152 @@ codex plugin add lmnr@lmnr
         url: "https://laminar.sh/docs/platform/mcp",
       },
     ],
+  },
+  {
+    id: "knowledge-catalog-codex-plugin",
+    no: 479,
+    title:
+      "Google Cloud Knowledge Catalog 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add knowledge-catalog@data-agent-kit，不要写成 plugin install dataplex@",
+    summary:
+      "官方 Codex：marketplace add GoogleCloudPlatform/data-agent-kit，再 plugin add knowledge-catalog@data-agent-kit。清单名是 data-agent-kit。GCP Dataplex 文档写成 plugin install dataplex@，动词和插件名都错。MCP 表名 dataplex，stdio，不要 mcp login。",
+    body: `Google Cloud Knowledge Catalog 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add knowledge-catalog@data-agent-kit，不要写成 plugin install dataplex@。插件仓 README 给 Codex 单独一节，要求 CLI **0.117.0** 以上。这是 **Data Agent Kit** marketplace，不是 \`google/skills\` 里那份 Developer Knowledge MCP，也不是 Claude 的 \`/plugin install\`。官方 Codex 主路径：
+
+\`\`\`bash
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add knowledge-catalog@data-agent-kit
+export DATAPLEX_PROJECT=YOUR_PROJECT_ID
+gcloud auth application-default login
+codex plugin list
+codex mcp list
+\`\`\`
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`data-agent-kit\`，展示名 Data Agent Kit。Knowledge Catalog 插件名是 \`knowledge-catalog\`，分类 Data Governance & Management，源仓是 \`gemini-cli-extensions/knowledge-catalog\`。同一份清单里还有 BigQuery、Spanner、AlloyDB 等，**不要**一次全装；这条只装目录插件。
+
+[GCP Dataplex 文档](https://docs.cloud.google.com/dataplex/docs/pre-built-tools-with-mcp-toolbox) Codex 节写成 \`codex plugin install dataplex@data-agent-kit\`：CLI 动词是 \`add\` 不是 \`install\`，插件 id 是 \`knowledge-catalog\` 不是 \`dataplex\`。\`dataplex\` 是插件登记的 **MCP 表名**，不是 marketplace 插件名。以插件仓 README 为准。
+
+先开目标项目的 **Dataplex API**。\`DATAPLEX_PROJECT\` 填 GCP **项目 ID**，不要填项目号。本机要有 Application Default Credentials：
+
+\`\`\`bash
+gcloud auth application-default login
+\`\`\`
+
+文档 IAM 写 Dataplex Catalog Viewer；插件 README 写 Dataplex Data Reader 加 Service Usage Consumer。按你实际要查的资产向管理员要角色，不要把 Owner 写进 AGENTS.md。
+
+插件会登记 stdio MCP。表名官方就是 \`dataplex\`（小写按这份），命令是 \`npx -y @toolbox-sdk/server@1.9.0 --prebuilt dataplex --stdio\`，并转发 \`DATAPLEX_PROJECT\`。本机要有 **Node.js / npx**。这是本地 MCP Toolbox 预置服务，**不要** \`mcp login\`，也不要再 \`mcp add dataplex\` 叠一张。会话里 \`/mcp\` 或 \`codex mcp list\` 应看到 \`dataplex\`。插件已经登记时，不要手写 Cursor 那种 \`./PATH/TO/toolbox --prebuilt dataplex\` JSON，也不要把托管端 \`https://dataplex.googleapis.com/mcp\` 抄成这条主路径。
+
+0.154 起先看**当前会话**；当前会话 \`/plugins\` 或 \`/mcp\` 没有再新开。桌面改 marketplace.json 仍要重启应用。IDE 扩展没有 \`/plugins\`。CLI 装好的插件，Codex 桌面也能用。网页 Cloud 不读本机 marketplace。改完用 \`codex plugin marketplace list\` 核对清单名是 \`data-agent-kit\`。升级用清单名，不是仓库路径：
+
+\`\`\`bash
+codex plugin marketplace upgrade data-agent-kit
+\`\`\`
+
+这份发行还是 Beta（pre-v1.0）：技能名、工具集和目录布局可能改。marketplace 条目可能钉旧 ref，升级后再 \`plugin add\`。不要 \`required = true\`。不要一上来 \`--yolo\`。保持工具批准。
+
+不要做这些：
+
+- 不要抄 GCP 文档的 \`codex plugin install dataplex@data-agent-kit\`。
+- 不要发明 \`dataplex@data-agent-kit\` 或 \`knowledge-catalog@google-plugins\`。
+- 不要抄 Claude 的 \`/plugin install knowledge-catalog@claude-plugins-official\`。
+- 不要用 \`gemini extensions install https://github.com/gemini-cli-extensions/knowledge-catalog\` 当 Codex 安装器。
+- 不要把 \`google/skills\` 的 \`google-cloud-developer@google-plugins\` 当成这份 Data Cloud 插件。
+- 不要抄 Cursor / VS Code 的 \`mcpServers\` JSON 去跑本机 toolbox 二进制，当作 Codex 插件安装。
+- 不要用 \`npx skills add\` 当这份插件安装器。
+
+改完用 \`codex plugin list\` 核对 \`knowledge-catalog@data-agent-kit\`；用户层对照 \`codex mcp get dataplex\` 看传输是 stdio。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Google Cloud", "MCP", "Knowledge Catalog", "Dataplex"],
+    related: ["google-cloud-developer-plugin", "plugin-session-refresh", "plugin-marketplace-ref-sparse"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/knowledge-catalog",
+        url: "https://github.com/gemini-cli-extensions/knowledge-catalog",
+      },
+      {
+        label: "GoogleCloudPlatform/data-agent-kit",
+        url: "https://github.com/GoogleCloudPlatform/data-agent-kit",
+      },
+      {
+        label: "Google Cloud · Use Knowledge Catalog with MCP",
+        url: "https://docs.cloud.google.com/dataplex/docs/pre-built-tools-with-mcp-toolbox",
+      },
+    ],
+  },
+  {
+    id: "dak-starter-codex-plugin",
+    no: 480,
+    title:
+      "Google Cloud Data Agent Kit Starter Pack 官方 Codex 插件：marketplace 加 gemini-cli-extensions/data-agent-kit-starter-pack，再 plugin add dak@data-agent-kit-starter-pack-marketplace，不要加成 GoogleCloudPlatform/data-agent-kit",
+    summary:
+      "官方 Codex：marketplace add starter-pack 仓，再 plugin add dak@data-agent-kit-starter-pack-marketplace。清单名是 data-agent-kit-starter-pack-marketplace。这不是 GoogleCloudPlatform/data-agent-kit 那份产品索引。技能即装即用；MCP 还要改缓存里的 .mcp.json 再重启。",
+    body: `Google Cloud Data Agent Kit Starter Pack 官方 Codex 插件：marketplace 加 gemini-cli-extensions/data-agent-kit-starter-pack，再 plugin add dak@data-agent-kit-starter-pack-marketplace，不要加成 GoogleCloudPlatform/data-agent-kit。插件仓 README 给 Codex 单独一节，推荐 marketplace，不是手拷 SKILL.md，也不是 Claude 的 \`/plugin install\`。官方 Codex 主路径：
+
+\`\`\`bash
+codex plugin marketplace add https://github.com/gemini-cli-extensions/data-agent-kit-starter-pack
+codex plugin add dak@data-agent-kit-starter-pack-marketplace
+gcloud auth login
+gcloud auth application-default login
+codex plugin list
+codex mcp list
+\`\`\`
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`data-agent-kit-starter-pack-marketplace\`，展示名 Data Agent Kit Starter Pack Marketplace。插件名是 \`dak\`，展示名 Data Agent Kit Starter Pack，分类 Productivity。GitHub 简写 \`gemini-cli-extensions/data-agent-kit-starter-pack\` 和上面那条 HTTPS URL 等价。
+
+[GCP「Install the coding agent plugin」](https://docs.cloud.google.com/data-agent-kit/install-plugin) 只说「去 Starter Pack README」，不把命令贴进文档。产品索引仓 \`GoogleCloudPlatform/data-agent-kit\` 是另一份 marketplace，用来按产品装 Knowledge Catalog / BigQuery / Spanner；**不要**写成 \`dak@data-agent-kit\`，也不要和 \`google/skills\` 的 Developer 插件抄成同一个源。
+
+技能装完就能用。MCP 不会凭空连上你的项目。官方要你改缓存里的 Codex 清单（版本目录会变，先 \`ls\` 再改，不要死抄 \`0.11.0\`）：
+
+\`\`\`bash
+ls ~/.codex/plugins/cache/data-agent-kit-starter-pack-marketplace/dak
+\`\`\`
+
+改 \`~/.codex/plugins/cache/data-agent-kit-starter-pack-marketplace/dak/VERSION/.mcp.json\` 里各台 MCP 需要的项目、区域等，然后**重启 Codex**。插件登记的是本机 \`node\` stdio 代理，表名包括 \`notebook\`、\`visualization\`、\`bigquery\`、\`spanner\`、\`alloydb-postgres\`、\`cloud-sql-postgresql\`、\`knowledge_catalog\`、\`dataproc\`、\`bigtable\`、\`cloud-storage\`。本机要有 **Node.js**。这些代理打的是 \`*.googleapis.com/mcp\`，**不要** \`mcp login\`，也不要再 \`mcp add bigquery\` 叠一套。\`dataproc\` 的 URL 带 \`GCP_REGION\`，没配就会连错区。会话里 \`/mcp\` 或 \`codex mcp list\` 核对表名。
+
+0.154 起装插件后先看**当前会话**；当前会话 \`/plugins\` 没有再新开。改完 \`.mcp.json\` 仍按官方要求重启。桌面改 marketplace.json 也要重启应用。IDE 扩展没有 \`/plugins\`。网页 Cloud 不读本机 marketplace。升级用清单名：
+
+\`\`\`bash
+codex plugin marketplace upgrade data-agent-kit-starter-pack-marketplace
+\`\`\`
+
+插件带 PreToolUse 遥测钩子。装完在 TUI 开 \`/hooks\`，审查并信任当前定义，否则 Codex 会跳过。不想上报就：
+
+\`\`\`bash
+export DO_NOT_TRACK=1
+\`\`\`
+
+或写 \`~/.data_agent_kit/config.json\` 的 \`enableTelemetry: false\`。这份发行还是 Beta（pre-v1.0）。不要 \`required = true\`。不要一上来 \`--yolo\`。保持工具批准。
+
+README 还有 Option 2：\`curl\` 管道脚本写进 \`~/.agents/plugins/\`，再 \`/plugins\` 按展示名 **Data Agent Kit Starter Pack** 安装。那条脚本登记的插件名是 \`data-agent-kit-starter-pack\`，**不是** \`dak\`，**不要发明** \`dak@personal\`。只要 Codex 时走上面两条 \`plugin\` 命令，不要把管道脚本当主路径。
+
+不要做这些：
+
+- 不要加成 \`GoogleCloudPlatform/data-agent-kit\` 再发明 \`dak@data-agent-kit\`。
+- 不要抄 Claude 的 \`/plugin install data-agent-kit-starter-pack@claude-plugins-official\`。
+- 不要用 \`gemini extensions install https://github.com/gemini-cli-extensions/data-agent-kit-starter-pack\` 当 Codex 安装器。
+- 不要把 \`google-cloud-developer@google-plugins\` 当成这份 Data Cloud 技能包。
+- 不要抄 Cursor / VS Code 的 \`mcpServers\` JSON 去跑本机 toolbox 二进制，当作这份插件安装。
+- 不要用 \`npx skills add\` 当这份插件安装器。
+
+改完用 \`codex plugin list\` 核对 \`dak@data-agent-kit-starter-pack-marketplace\`；用户层对照 \`codex mcp get bigquery\` 看传输是 stdio。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Google Cloud", "MCP", "Data Agent Kit", "Skills"],
+    related: ["google-cloud-developer-plugin", "plugin-session-refresh", "plugin-marketplace-ref-sparse"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/data-agent-kit-starter-pack",
+        url: "https://github.com/gemini-cli-extensions/data-agent-kit-starter-pack",
+      },
+      {
+        label: "Google Cloud · Install the coding agent plugin",
+        url: "https://docs.cloud.google.com/data-agent-kit/install-plugin",
+      },
+      {
+        label: "Google Cloud · Data Agent Kit",
+        url: "https://docs.cloud.google.com/data-agent-kit",
+      },
+    ],
   }
 ];
