@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-15T11:30:00Z",
+  lastTick: "2026-09-15T13:15:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "11:30 收口。#68 已重放 #63–#67、#69–#76 为 TIP 445–457；本轮续收 #77 为 458 portkey-codex-gateway、#78 为 459 fireworks-fireconnect-codex。合入后关 #77–#78。站点 459 技巧。",
+    "13:15 收口。#68 已重放 #63–#67、#69–#78 为 TIP 445–459；本轮续收 #79 为 460 litellm-codex-gateway、#80 为 461 openrouter-codex-gateway、#81 为 462 cloudflare-aig-codex-gateway。合入后关 #79–#81。站点 462 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1962,6 +1962,25 @@ export const loopState = {
     'X: ("Codex CLI" plugin OR MCP OR marketplace OR config.toml)',
     "Codex CLI 技巧 2026 Fireworks [model_providers.fireworks-ai] fireconnect codex on",
     "Portkey #77 / Laminar / LangSmith / Logfire / Unity / ModelTrace / SQLcl skip seen or open PRs",
+    "docs.litellm.ai tutorials openai_codex model_providers.litellm localhost:4000/v1 LITELLM_API_KEY",
+    "docs.litellm.ai proxy management_cli lite codex OPENAI_BASE_URL HTTP SSE",
+    "github.com/BerriAI/litellm Codex proxy drop_params",
+    "skip Fireworks #78 Portkey #77 Laminar #76 Logfire #75 LangSmith #74 Phoenix #73 Weave #72 Langfuse #71 AWS #70 Doppler #69 1Password #67 Braintrust #65 CodeGuard #64",
+    "skip Vault ConfigCat Meilisearch Cal.com Akeyless ElevenLabs no Codex section",
+    "X news: Codex CLI 2026-09-15 12:00 Unity Claude SQLcl ModelTrace skip",
+    "Codex CLI 技巧 2026 LiteLLM [model_providers.litellm] --profile litellm drop_params",
+    "openrouter.ai docs cookbook coding-agents codex-cli model_providers.openrouter",
+    "openrouter.ai docs cookbook coding-agents codex-desktop launchctl OPENROUTER_API_KEY",
+    "openrouter.ai blog tutorials codex-cli-openrouter wire_api responses",
+    "skip LiteLLM #79 Fireworks #78 Portkey #77 Laminar #76 Logfire #75 LangSmith #74 Phoenix #73 Weave #72 Langfuse #71 AWS #70 Doppler #69 1Password #67 Braintrust #65 CodeGuard #64",
+    "X news: Codex CLI 2026-09-15 12:30 Claude quota Unity SQLcl worktree skip",
+    "Codex CLI 技巧 2026 OpenRouter [model_providers.openrouter] --profile openrouter auth",
+    "developers.cloudflare.com ai-gateway integrations coding-agents openai-codex",
+    "developers.cloudflare.com ai-gateway features unified-billing CLOUDFLARE_API_KEY",
+    "skip OpenRouter #80 LiteLLM #79 Fireworks #78 Portkey #77 Laminar #76 Logfire #75 LangSmith #74 Phoenix #73 Weave #72 Langfuse #71 AWS #70 Doppler #69 1Password #67 Braintrust #65 CodeGuard #64",
+    "skip Vault ConfigCat Meilisearch Cal.com Akeyless ElevenLabs Astah no official Codex section",
+    "X news: Codex CLI 2026-09-15 13:00 Claude quota Unity SQLcl worktree Astah skip",
+    "Codex CLI 技巧 2026 Cloudflare AI Gateway [model_providers.cloudflare-ai-gateway] --profile cloudflare-aig",
   ],
 };
 

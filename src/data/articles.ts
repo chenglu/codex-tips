@@ -5880,5 +5880,95 @@ export const articles: Article[] = [
     tags: ['Fireworks', 'FireConnect', 'CLI', 'FIREWORKS_API_KEY'],
     summary:
       '安装器是 curl 官方 install.sh，再 fireconnect login。Codex / ChatGPT 这一行 Fire Pass 是 No。密钥也可设 FIREWORKS_API_KEY。不要把 fireconnect claude 的 ANTHROPIC_BASE_URL 抄进 Codex。',
+  },
+  {
+    title: 'OpenAI Codex',
+    url: 'https://docs.litellm.ai/docs/tutorials/openai_codex',
+    source: 'LiteLLM Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['model_providers', 'LiteLLM', 'wire_api', 'LITELLM_API_KEY'],
+    summary:
+      '官方教程要求 LiteLLM v1.66.3.dev5+。先起 localhost:4000 的 proxy，yaml 必须 drop_params: true。Codex 表 env_key = LITELLM_API_KEY，wire_api = responses。不要把 openai_base_url 当路径。桌面要从终端拉起，或 launchctl setenv。',
+  },
+  {
+    title: 'BerriAI/litellm',
+    url: 'https://github.com/BerriAI/litellm',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['model_providers', 'LiteLLM', 'Codex', 'LITELLM_API_KEY'],
+    summary:
+      'LiteLLM 官方 Codex 网关：用户层 [model_providers.litellm]，base_url 是 http://localhost:4000/v1，env_key 读 LITELLM_API_KEY。仓库是代理与 lite CLI 源码，不是 Codex 插件。',
+  },
+  {
+    title: 'LiteLLM Proxy CLI',
+    url: 'https://docs.litellm.ai/docs/proxy/management_cli',
+    source: 'LiteLLM Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['model_providers', 'LiteLLM', 'lite', 'LITELLM_API_KEY'],
+    summary:
+      'lite codex 会 export OPENAI_BASE_URL（Codex 忽略）并用 -c 覆盖走 HTTP/SSE。持久路径仍是用户层 env_key = LITELLM_API_KEY。包装器读 LITELLM_PROXY_API_KEY，不要混。不要抄 lite claude 的 ANTHROPIC_BASE_URL。',
+  },
+  {
+    title: 'Codex CLI Integration',
+    url: 'https://openrouter.ai/docs/cookbook/coding-agents/codex-cli',
+    source: 'OpenRouter Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['model_providers', 'OpenRouter', 'wire_api', 'OPENROUTER_API_KEY'],
+    summary:
+      'OpenRouter 官方 Codex 网关：用户层 [model_providers.openrouter]，base_url 是 https://openrouter.ai/api/v1，auth 命令回显 OPENROUTER_API_KEY。Windows 改 powershell。不要和 env_key 叠。',
+  },
+  {
+    title: 'Codex Desktop App Integration',
+    url: 'https://openrouter.ai/docs/cookbook/coding-agents/codex-desktop',
+    source: 'OpenRouter Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['model_providers', 'OpenRouter', 'desktop', 'OPENROUTER_API_KEY'],
+    summary:
+      '桌面和 CLI 读同一份用户 config。Dock 看不到 zshrc。macOS 用 launchctl setenv OPENROUTER_API_KEY，Windows 用 setx。OpenRouter 不讲 Responses WS，supports_websockets 保持 false。env_key 能连但不会拉模型目录。',
+  },
+  {
+    title: 'How to Use OpenAI Codex CLI with OpenRouter',
+    url: 'https://openrouter.ai/blog/tutorials/codex-cli-openrouter/',
+    source: 'OpenRouter Blog',
+    lang: '英文',
+    kind: '教程',
+    tags: ['model_providers', 'OpenRouter', 'wire_api', 'OPENROUTER_API_KEY'],
+    summary:
+      'slug 必须带厂商前缀，例如 openai/gpt-5.6-sol。wire_api 只认 responses，不要写 chat。主路径仍是 auth 回显 OPENROUTER_API_KEY。不要覆盖 openai / ollama / lmstudio。项目层改不了供应商。',
+  },
+  {
+    title: 'OpenAI Codex',
+    url: 'https://developers.cloudflare.com/ai-gateway/integrations/coding-agents/openai-codex/',
+    source: 'Cloudflare Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['model_providers', 'Cloudflare', 'wire_api', 'CLOUDFLARE_API_KEY'],
+    summary:
+      'Cloudflare AI Gateway 官方 Codex 网关：profile 写 [model_providers.cloudflare-ai-gateway]，base_url 是 https://gateway.ai.cloudflare.com/v1/ACCOUNT_ID/GATEWAY_ID/openai，env_key 读 CLOUDFLARE_API_KEY。base_url 不展开环境变量。只用 Responses 模型。Access 才改 cloudflared auth。',
+  },
+  {
+    title: 'Coding agents',
+    url: 'https://developers.cloudflare.com/ai-gateway/integrations/coding-agents/',
+    source: 'Cloudflare Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['model_providers', 'Cloudflare', 'AI Gateway', 'CLOUDFLARE_API_KEY'],
+    summary:
+      'Coding agents 索引把 OpenAI Codex 和 Claude Code / Pi 并列。Codex 专节才是 CLOUDFLARE_API_KEY 加 /openai。不要抄同页 Claude 或 Pi。配完去仪表盘 Logs 核对流量。',
+  },
+  {
+    title: 'Unified Billing',
+    url: 'https://developers.cloudflare.com/ai-gateway/features/unified-billing/',
+    source: 'Cloudflare Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['model_providers', 'Cloudflare', 'Unified Billing', 'CLOUDFLARE_API_KEY'],
+    summary:
+      'Codex 走网关时用 Cloudflare token（env_key = CLOUDFLARE_API_KEY），不是 OpenAI 密钥。先给账号灌额度。请求上若再带上游 Authorization，就不会落到 Unified Billing。',
   }
 ];

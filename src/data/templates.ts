@@ -4771,5 +4771,52 @@ requires_openai_auth = false
 # codex plugin add fireworks@
 # --oss
 `,
+  },
+  {
+    id: "litellm-codex-gateway",
+    title: "LiteLLM 模型供应商",
+    filename: "~/.codex/config.toml",
+    summary:
+      "LiteLLM profile 把 Codex 模型流量喂给 localhost:4000/v1。用户层 [model_providers.litellm]，env_key = LITELLM_API_KEY，wire_api = responses。先起 proxy，yaml 要 drop_params。",
+    code: `[model_providers.litellm]
+name = "litellm"
+base_url = "http://localhost:4000/v1"
+env_key = "LITELLM_API_KEY"
+wire_api = "responses"
+stream_idle_timeout_ms = 7200000
+`,
+  },
+  {
+    id: "openrouter-codex-gateway",
+    title: "OpenRouter 模型供应商",
+    filename: "~/.codex/config.toml",
+    summary:
+      "OpenRouter profile 把 Codex 模型流量喂给 openrouter.ai/api/v1。用户层 [model_providers.openrouter]，auth 回显 OPENROUTER_API_KEY。不要叠 env_key。Windows 改 powershell。",
+    code: `[model_providers.openrouter]
+name = "openrouter"
+base_url = "https://openrouter.ai/api/v1"
+wire_api = "responses"
+
+[model_providers.openrouter.auth]
+command = "sh"
+args = ["-c", "echo $OPENROUTER_API_KEY"]
+`,
+  },
+  {
+    id: "cloudflare-aig-codex-gateway",
+    title: "Cloudflare AI Gateway 模型供应商",
+    filename: "~/.codex/cloudflare-aig.config.toml",
+    summary:
+      "Cloudflare-aig profile 把 Codex 模型流量喂给 gateway.ai.cloudflare.com。env_key = CLOUDFLARE_API_KEY，wire_api = responses。账号 ID 写死，不要在 base_url 里塞环境变量。",
+    code: `model_provider = "cloudflare-ai-gateway"
+model = "gpt-5.5"
+model_reasoning_effort = "medium"
+
+[model_providers.cloudflare-ai-gateway]
+name = "Cloudflare AI Gateway"
+base_url = "https://gateway.ai.cloudflare.com/v1/YOUR_ACCOUNT_ID/default/openai"
+env_key = "CLOUDFLARE_API_KEY"
+wire_api = "responses"
+`,
   }
 ];
