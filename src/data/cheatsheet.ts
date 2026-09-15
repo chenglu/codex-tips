@@ -442,6 +442,8 @@ export const cheatSections: CheatSection[] = [
       { cmd: "lite codex", meaning: "LiteLLM 包装器：export OPENAI_BASE_URL（Codex 忽略）并用 -c 走 HTTP/SSE。持久路径仍是用户 TOML 的 LITELLM_API_KEY，不是 LITELLM_PROXY_API_KEY" },
       { cmd: "codex --profile openrouter", meaning: "[model_providers.openrouter] 走 openrouter.ai/api/v1，wire_api = responses。主路径是 [model_providers.openrouter.auth] 回显 OPENROUTER_API_KEY，不要和 env_key 叠。不是 MCP，也不是 --oss" },
       { cmd: "codex --profile cloudflare-aig", meaning: "[model_providers.cloudflare-ai-gateway] 走 gateway.ai.cloudflare.com/.../openai，wire_api = responses，env_key = CLOUDFLARE_API_KEY。base_url 不展开环境变量。不是 Cloudflare MCP，也不是 --oss" },
+      { cmd: "codex --profile nim", meaning: "[model_providers.nim] 走 localhost:8000/v1，wire_api = responses，env_key = NIM_API_KEY。web_search = disabled 必须写在所有 [section] 之前。不是 NVIDIA skills 插件，也不是 --oss" },
+      { cmd: "codex --profile agentgateway", meaning: "[model_providers.agentgateway] 走 localhost:4000/v1，wire_api = responses，name 必填。虚拟钥才 env_key = AGENTGATEWAY_API_KEY。不是 agentregistry MCP，也不是 --oss" },
       { cmd: "npx skills add ActiveCampaign/postmark-skills", meaning: "博客点名 Codex。官方没钉 --agent codex。示例技能是 postmark-send-email。不要发明 plugin add postmark@。这不是 @activecampaign/postmark-mcp" },
       { cmd: "npx skills add datadog-labs/agent-skills/agent-observability --full-depth -y", meaning: "官方点名 Codex CLI。官方没钉 --agent codex。不要发明 plugin add。不要抄 Restart Claude Code。MCP 仍走 mcp.datadoghq.com/v1/mcp，工具集写 X-Datadog-MCP-Toolsets" },
       { cmd: "npx skills add tavily-ai/skills --all", meaning: "官方点名 Codex。官方没钉 --agent codex。示例技能是 tavily-search。不要发明 plugin add 或 mcp add。不要把 API key 拼进 mcp.tavily.com" },

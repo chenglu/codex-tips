@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-15T13:15:00Z",
+  lastTick: "2026-09-15T14:17:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "13:15 收口。#68 已重放 #63–#67、#69–#78 为 TIP 445–459；本轮续收 #79 为 460 litellm-codex-gateway、#80 为 461 openrouter-codex-gateway、#81 为 462 cloudflare-aig-codex-gateway。合入后关 #79–#81。站点 462 技巧。",
+    "14:17 收口。#68 已重放 #63–#67、#69–#81 为 TIP 445–462；本轮续收 #82 为 463 nim-codex-gateway、#83 为 464 agentgateway-codex-gateway。合入后关 #82–#83。站点 464 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1987,5 +1987,25 @@ export const loopState = {
 export function seenUrls(): string[] {
   const fromArticles = articles.map((item) => item.url);
   const fromCommunity = community.map((item) => item.url);
-  return [...new Set([...fromArticles, ...fromCommunity])];
+  return [...new Set([...fromArticles, ...fromCommunity]),
+    "docs.nvidia.com nim large-language-models Codex CLI model_providers.nim NIM_API_KEY",
+    "docs.nvidia.com nim ai-assistant-integrations codex-cli localhost:8000/v1",
+    "NVIDIA NIM Codex CLI wire_api responses web_search disabled Harmony gpt-oss",
+    "agentgateway.dev integrations llm-clients Codex skip NIM taken this tick",
+    "skip Cloudflare AIG #81 OpenRouter #80 LiteLLM #79 Fireworks #78 Portkey #77 Laminar #76",
+    "skip Logfire #75 LangSmith #74 Phoenix #73 Weave #72 Langfuse #71 AWS #70 Doppler #69",
+    "skip 1Password #67 Braintrust #65 CodeGuard #64 GitGuardian main TIP 444",
+    "skip Groq Together Cerebras Morph Chat Completions Fastmail Vault ConfigCat Meilisearch Cal.com Akeyless ElevenLabs",
+    "X news: Codex CLI 2026-09-15 13:30",
+    'X: ("Codex CLI" OR #CodexCLI) (NIM OR NVIDIA OR gateway OR model_providers OR profile OR MCP)',
+    "Codex CLI 技巧 2026 NVIDIA NIM --profile nim NIM_API_KEY",
+    "agentgateway.dev standalone kubernetes integrations llm clients Codex",
+    "agentgateway.dev model_providers.agentgateway AGENTGATEWAY_API_KEY localhost:4000/v1",
+    "docs.nvidia.com nim Codex CLI skip already open NIM #82",
+    "skip Groq Together Cerebras Morph Chat Completions Fastmail Vault ConfigCat Meilisearch Cal.com",
+    "skip Astah Pro MCP tweet SQLcl VEX Unity worktree marketing",
+    "X news: Codex CLI 2026-09-15 14:00",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR plugin OR skills OR AGENTS.md OR profile OR worktree OR exec)',
+    "Codex CLI 技巧 2026 agentgateway --profile agentgateway AGENTGATEWAY_API_KEY",
+  ];
 }

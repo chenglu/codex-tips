@@ -3429,5 +3429,200 @@ Learn 写明 \`auth\` 不要和 \`env_key\` / \`experimental_bearer_token\` / \`
         url: "https://developers.cloudflare.com/ai-gateway/features/unified-billing/",
       },
     ],
+  },
+  {
+    id: "nim-codex-gateway",
+    no: 463,
+    title:
+      "NVIDIA NIM 官方 Codex 网关：用户层 [model_providers.nim]，base_url 是 http://localhost:8000/v1，env_key 读 NIM_API_KEY",
+    summary:
+      "官方主路径是用户层 [model_providers.nim]，wire_api = responses，env_key = NIM_API_KEY，base_url 是本机 NIM 的 /v1。再用 ~/.codex/nim.config.toml 和 --profile nim。这不是 NVIDIA skills 插件，也不是 --oss。",
+    body: `NVIDIA NIM 官方 Codex 网关：用户层 [model_providers.nim]，base_url 是 http://localhost:8000/v1，env_key 读 NIM_API_KEY。
+
+这是换 Codex **背后那颗模型**，不是再加一台 MCP，也不是 \`npx skills add nvidia/skills\`。Codex 直接打 NIM 的 OpenAI Responses 入口 \`/v1/responses\`，中间不需要翻译代理。自定义供应商必须 \`wire_api = "responses"\`，不要写 \`chat\`。
+
+官方示例把 \`model\` 和 \`model_provider\` 写进用户 \`~/.codex/config.toml\`，会变成**所有**会话的默认后端。更稳妥是独立 profile（用户层 \`$CODEX_HOME\`，不是项目 \`.codex\`）：
+
+\`\`\`toml
+# ~/.codex/nim.config.toml
+model = "nvidia/nemotron-3-super-120b-a12b"
+model_provider = "nim"
+
+[model_providers.nim]
+name = "NVIDIA NIM"
+base_url = "http://localhost:8000/v1"
+env_key = "NIM_API_KEY"
+wire_api = "responses"
+\`\`\`
+
+\`\`\`bash
+export NIM_API_KEY="not-used"
+codex --profile nim
+\`\`\`
+
+\`model\` 必须和 NIM \`/v1/models\` 返回的 \`id\` **一字不差**。带斜杠的名字合法，例如 \`nvidia/nemotron-3-super-120b-a12b\`。换模型前先：
+
+\`\`\`bash
+curl -s http://localhost:8000/v1/models
+curl -s -o /dev/null -w "%{http_code}\\n" http://localhost:8000/v1/health/ready
+\`\`\`
+
+\`base_url\` 必须带 \`/v1\` 后缀。本机默认是 \`http://localhost:8000/v1\`；远程 NIM 换成主机名，端口跟 \`NIM_SERVER_PORT\` 走。\`env_key\` 是变量**名**。NIM **不校验**这把钥匙，但 Codex 要求进程里有非空值，占位字符串即可。必须出现在**启动 Codex 的那个进程**里。从已经 \`export NIM_API_KEY\` 的终端启动；Dock 打开的桌面不会读你刚改的 zshrc。拉镜像用的 \`NGC_API_KEY\` 不是这颗 \`env_key\`。
+
+0.134 起不要再写 \`[profiles.nim]\`。profile 名跟文件名 \`nim.config.toml\` 对齐。供应商表也可以放进用户 \`~/.codex/config.toml\`，但不要写进项目 \`.codex/config.toml\`：项目文件改不了 \`model_provider\` / \`model_providers\`。
+
+NIM 默认**没开** Codex 依赖的 vLLM 参数。起容器时要同时带 \`--enable-auto-tool-choice\`、匹配模型的 \`--tool-call-parser\`，推理模型再加 \`--reasoning-parser\`。官方 Nemotron 3 Super 示例是 \`qwen3_coder\` 和 \`nemotron_v3\`。缺 tool parser 时模型会把工具调用写成散文，Codex 不动作；缺 reasoning parser 时思考文本会当成答案打印出来。用 \`NIM_SERVED_MODEL_NAME\` 钉住对外模型名，和 profile 里的 \`model\` 对齐。
+
+gpt-oss 走 Harmony Responses，只接受 \`function\`、\`web_search_preview\`、\`code_interpreter\`、\`container\`。Codex 默认还会发 \`web_search\` 和 \`namespace\`（Skills / 子代理），会 400。官方要求一次关掉这些，而不是修一个再爆下一个。\`web_search\` 是**裸顶层键**，必须写在**所有** \`[section]\` 之前；写在 \`[model_providers.nim]\` 或 Codex 自动追加的 \`[projects."…"]\` 后面，会静默变成 \`model_providers.nim.web_search\`，\`tool type web_search not supported\` 还在：
+
+\`\`\`toml
+# ~/.codex/nim.config.toml
+web_search = "disabled"
+
+model = "YOUR_GPT_OSS_MODEL_ID"
+model_provider = "nim"
+
+[model_providers.nim]
+name = "NVIDIA NIM"
+base_url = "http://localhost:8000/v1"
+env_key = "NIM_API_KEY"
+wire_api = "responses"
+
+[agents]
+enabled = false
+
+[features]
+multi_agent_v2 = false
+
+[skills.bundled]
+enabled = false
+
+[orchestrator.skills]
+enabled = false
+
+[orchestrator.mcp]
+enabled = false
+\`\`\`
+
+非 gpt-oss 模型走普通 Responses，不必抄这段关闭项。
+
+不要做这些：
+
+- 不要把这张表当成 \`npx skills add nvidia/skills --agent codex\`。那是 cuOpt / Jetson 技能，不是换模型。
+- 不要发明 \`plugin add nim@\`。
+- 不要和 \`--oss\` / \`oss_provider\` 混成一条。\`--oss\` 是本机 Ollama / LM Studio。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`nim\` 是新 ID，可以。
+- 不要写 \`wire_api = "chat"\`，也不要省略 \`base_url\` 的 \`/v1\`。
+- 不要把密钥写进 \`http_headers\`。
+- 不要把 \`OPENAI_BASE_URL\` 当主路径。走 \`[model_providers.nim]\`。
+
+改完新开会话。\`codex --profile nim\` 起得来，说明 profile、供应商和 \`NIM_API_KEY\` 都进了这一进程。404 先对照 \`/v1/models\` 改 \`model\`；连不上先看 \`/v1/health/ready\` 是不是 200。长会话把上下文撑爆时提高 \`NIM_MAX_MODEL_LEN\`，无关任务新开一轮。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["model_providers", "NVIDIA", "NIM", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "nvidia-skills-codex", "vercel-ai-gateway"],
+    sources: [
+      {
+        label: "NVIDIA NIM · Use Codex CLI with NIM",
+        url: "https://docs.nvidia.com/nim/large-language-models/latest/ai-assistant-integrations/codex-cli.html",
+      },
+      {
+        label: "NVIDIA NIM · Tool Calling and MCP Integration",
+        url: "https://docs.nvidia.com/nim/large-language-models/latest/advanced-use-cases/tool-calling-and-mcp.html",
+      },
+      {
+        label: "NVIDIA NIM · API Reference",
+        url: "https://docs.nvidia.com/nim/large-language-models/latest/reference/api-reference.html",
+      },
+    ],
+  },
+  {
+    id: "agentgateway-codex-gateway",
+    no: 464,
+    title:
+      "agentgateway 官方 Codex 网关：profile 写 [model_providers.agentgateway]，base_url 是 http://localhost:4000/v1，env_key 读 AGENTGATEWAY_API_KEY",
+    summary:
+      "官方主路径是 ~/.codex/agentgateway.config.toml 加 [model_providers.agentgateway]，wire_api = responses，name 必填。本机 base_url 是 http://localhost:4000/v1。网关虚拟钥才 env_key = AGENTGATEWAY_API_KEY，不要和 auth 叠。再用 --profile agentgateway。这不是 agentregistry MCP，也不是 --oss。",
+    body: `agentgateway 官方 Codex 网关：profile 写 [model_providers.agentgateway]，base_url 是 http://localhost:4000/v1，env_key 读 AGENTGATEWAY_API_KEY。
+
+这是换 Codex **背后那颗模型**，把 Responses 请求经 agentgateway 转到上游 OpenAI，不是再加一台 MCP。自定义供应商必须 \`wire_api = "responses"\`，\`name\` **必填**。官方测过 \`codex-cli 0.144.4\`。
+
+先起网关。\`config.yaml\` 里的 \`OPENAI_API_KEY\` 是**上游**密钥，不是 Codex 那颗客户端钥匙。通配 \`*\` 接受 Codex 请求里的任意模型名，不必在网关钉死型号：
+
+\`\`\`yaml
+# yaml-language-server: $schema=https://agentgateway.dev/schema/config
+llm:
+  models:
+    - name: "*"
+      provider: openAI
+      params:
+        apiKey: "$OPENAI_API_KEY"
+\`\`\`
+
+\`\`\`bash
+agentgateway -f config.yaml
+\`\`\`
+
+官方把供应商写进 **profile 文件**（用户层 \`$CODEX_HOME\`，不是项目 \`.codex\`）：
+
+\`\`\`toml
+# ~/.codex/agentgateway.config.toml
+model_provider = "agentgateway"
+
+[model_providers.agentgateway]
+name = "OpenAI via agentgateway"
+base_url = "http://localhost:4000/v1"
+wire_api = "responses"
+env_key = "AGENTGATEWAY_API_KEY"
+\`\`\`
+
+\`base_url\` 必须带 \`/v1\`，因为 Codex 打的是 \`/v1/responses\`。本机默认 \`http://localhost:4000/v1\`。Kubernetes Ingress 换成字面量 \`http://YOUR_INGRESS_HOST/v1\`（TLS 用 \`https://\`）。**Codex 不会在 \`base_url\` 里展开环境变量**；无引号 heredoc 是在**写文件时**由 shell 展开。不要把字面量 \`\$AGENTGATEWAY_BASE_URL\` 留在 TOML 里。
+
+\`env_key\` 是变量**名**。值是网关**虚拟钥 / 客户端钥匙**，不是上游 \`OPENAI_API_KEY\`。只有网关要求客户端鉴权时才加这行。必须出现在**启动 Codex 的那个进程**里。从已经 \`export AGENTGATEWAY_API_KEY\` 的终端启动；Dock 打开的桌面不会读你刚改的 zshrc。
+
+鉴权只选一种，**不要叠**：\`env_key\`、\`[model_providers.agentgateway.auth]\`（组织自备命令吐 bearer）、\`requires_openai_auth = true\`（官方本指南不配）。Codex 自定义供应商没有 Claude Desktop 那种任意 OIDC / Entra 字段；要 Entra 令牌得自己写 \`auth\` 命令去拿。
+
+\`\`\`bash
+codex --profile agentgateway
+codex --profile agentgateway "Hello"
+\`\`\`
+
+单次覆盖也可以，但 \`-c\` 里同样要带 \`name\` 和 \`wire_api = "responses"\`。0.134 起不要再写 \`[profiles.agentgateway]\`。不要写进项目 \`.codex/config.toml\`：项目文件改不了 \`model_provider\` / \`model_providers\`。
+
+网关日志应看到 \`POST /v1/responses\` 且 \`http.status=200\`。Codex 还会探 \`/v1/models\`；在 agentgateway issue 1462 落地前可能警告找不到模型 metadata，**不挡** \`/v1/responses\`。
+
+不要做这些：
+
+- 不要把这张表当成 \`codex mcp add agentregistry\`。那是 Solo 注册表 MCP（本机常是 31313），不是换模型。
+- 不要发明 \`plugin add agentgateway@\`。
+- 不要用桌面官方 heredoc **整文件覆盖** \`~/.codex/config.toml\` 当主路径；先走 profile。
+- 不要写 \`wire_api = "chat"\`，也不要省略 \`/v1\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`agentgateway\` 是新 ID，可以。
+- 不要和 \`--oss\` / \`oss_provider\` 混成一条。
+- 不要把 \`OPENAI_BASE_URL\` 当主路径。
+- 不要把 \`env_key\` 和 \`auth\` / \`requires_openai_auth\` 叠在同一张表。
+- 不要把 LiteLLM 默认的 4000 端口和这台网关当成同一进程。表名、配置文件都不是同一套。
+
+改完新开会话。\`codex --profile agentgateway\` 起得来，说明 profile、供应商和（如需要）\`AGENTGATEWAY_API_KEY\` 都进了这一进程。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["model_providers", "agentgateway", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "vercel-ai-gateway", "mcp-solo-agentregistry"],
+    sources: [
+      {
+        label: "agentgateway · Codex (standalone)",
+        url: "https://agentgateway.dev/docs/standalone/latest/integrations/llm/clients/codex/",
+      },
+      {
+        label: "agentgateway · Codex (Kubernetes)",
+        url: "https://agentgateway.dev/docs/kubernetes/latest/integrations/llm/clients/codex/",
+      },
+      {
+        label: "agentgateway · OpenAI provider",
+        url: "https://agentgateway.dev/docs/standalone/latest/llm/providers/openai/",
+      },
+    ],
   }
 ];

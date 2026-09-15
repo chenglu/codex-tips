@@ -5970,5 +5970,65 @@ export const articles: Article[] = [
     tags: ['model_providers', 'Cloudflare', 'Unified Billing', 'CLOUDFLARE_API_KEY'],
     summary:
       'Codex 走网关时用 Cloudflare token（env_key = CLOUDFLARE_API_KEY），不是 OpenAI 密钥。先给账号灌额度。请求上若再带上游 Authorization，就不会落到 Unified Billing。',
+  },
+  {
+    title: 'Use Codex CLI with NIM',
+    url: 'https://docs.nvidia.com/nim/large-language-models/latest/ai-assistant-integrations/codex-cli.html',
+    source: 'NVIDIA NIM Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Codex', 'NIM', 'model_providers', 'NIM_API_KEY'],
+    summary:
+      'NVIDIA NIM 官方 Codex 网关：用户层 [model_providers.nim]，base_url 是 http://localhost:8000/v1，env_key 读 NIM_API_KEY。官方把供应商写进 ~/.codex/config.toml；本站建议独立 nim.config.toml 再 --profile nim。gpt-oss 要把 web_search = disabled 写在所有 [section] 之前。',
+  },
+  {
+    title: 'Tool Calling and MCP Integration',
+    url: 'https://docs.nvidia.com/nim/large-language-models/latest/advanced-use-cases/tool-calling-and-mcp.html',
+    source: 'NVIDIA NIM Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['NIM', 'tool calling', 'MCP', 'NIM_API_KEY'],
+    summary:
+      'Codex 打 NIM 前要同时开 --enable-auto-tool-choice 和匹配模型的 --tool-call-parser。NIM 自己不连 MCP 服务器。配 Codex 供应商时 env_key 仍读 NIM_API_KEY，缺 parser 时工具调用会变成散文。',
+  },
+  {
+    title: 'API Reference',
+    url: 'https://docs.nvidia.com/nim/large-language-models/latest/reference/api-reference.html',
+    source: 'NVIDIA NIM Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['NIM', 'Responses', 'API', 'NIM_API_KEY'],
+    summary:
+      'NIM 给 Codex 用的是 POST /v1/responses，不是 Chat Completions。健康检查走 /v1/health/ready，模型名以 /v1/models 为准。供应商表的 env_key 是 NIM_API_KEY，base_url 必须带 /v1。',
+  },
+  {
+    title: 'Codex (standalone)',
+    url: 'https://agentgateway.dev/docs/standalone/latest/integrations/llm/clients/codex/',
+    source: 'agentgateway Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Codex', 'agentgateway', 'model_providers', 'AGENTGATEWAY_API_KEY'],
+    summary:
+      'agentgateway 官方 Codex 网关：profile 写 [model_providers.agentgateway]，base_url 是 http://localhost:4000/v1，env_key 读 AGENTGATEWAY_API_KEY。官方测过 codex-cli 0.144.4。name 必填，鉴权不要叠。/v1/models 警告不挡 /v1/responses。',
+  },
+  {
+    title: 'Codex (Kubernetes)',
+    url: 'https://agentgateway.dev/docs/kubernetes/latest/integrations/llm/clients/codex/',
+    source: 'agentgateway Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Codex', 'agentgateway', 'Kubernetes', 'AGENTGATEWAY_API_KEY'],
+    summary:
+      'K8s 上 Codex 的 base_url 必须带 /v1。Ingress 地址要写成字面量，不要把未展开的变量留进 TOML。虚拟钥仍读 AGENTGATEWAY_API_KEY，不是上游 OPENAI_API_KEY。用 kubectl logs 核对 POST /v1/responses。',
+  },
+  {
+    title: 'OpenAI provider',
+    url: 'https://agentgateway.dev/docs/standalone/latest/llm/providers/openai/',
+    source: 'agentgateway Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['agentgateway', 'OpenAI', 'config.yaml', 'AGENTGATEWAY_API_KEY'],
+    summary:
+      '网关 config.yaml 的 params.apiKey 是上游 OPENAI_API_KEY，通配 * 接 Codex 请求里的模型名。连 Codex 时客户端钥匙才是 AGENTGATEWAY_API_KEY。这页不是 MCP。',
   }
 ];

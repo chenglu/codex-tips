@@ -4818,5 +4818,37 @@ base_url = "https://gateway.ai.cloudflare.com/v1/YOUR_ACCOUNT_ID/default/openai"
 env_key = "CLOUDFLARE_API_KEY"
 wire_api = "responses"
 `,
+  },
+  {
+    id: "nim-codex-gateway",
+    title: "NIM profile 把 Codex 模型流量喂给 localhost:8000/v1",
+    filename: "~/.codex/nim.config.toml",
+    summary:
+      "NIM profile 把 Codex 模型流量喂给 localhost:8000/v1。用户层 [model_providers.nim]，wire_api = responses，env_key = NIM_API_KEY。不是 NVIDIA skills，也不是 --oss。",
+    code: `# web_search = "disabled"  # gpt-oss Harmony 才需要；必须写在所有 [section] 之前
+model = "nvidia/nemotron-3-super-120b-a12b"
+model_provider = "nim"
+
+[model_providers.nim]
+name = "NVIDIA NIM"
+base_url = "http://localhost:8000/v1"
+env_key = "NIM_API_KEY"
+wire_api = "responses"
+`,
+  },
+  {
+    id: "agentgateway-codex-gateway",
+    title: "agentgateway profile 把 Codex 模型流量喂给 localhost:4000/v1",
+    filename: "~/.codex/agentgateway.config.toml",
+    summary:
+      "agentgateway profile 把 Codex 模型流量喂给 localhost:4000/v1。用户层 [model_providers.agentgateway]，wire_api = responses，name 必填。虚拟钥才 env_key = AGENTGATEWAY_API_KEY。不是 agentregistry MCP。",
+    code: `model_provider = "agentgateway"
+
+[model_providers.agentgateway]
+name = "OpenAI via agentgateway"
+base_url = "http://localhost:4000/v1"
+wire_api = "responses"
+env_key = "AGENTGATEWAY_API_KEY"
+`,
   }
 ];
