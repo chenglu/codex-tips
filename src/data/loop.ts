@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-15T05:00:00Z",
+  lastTick: "2026-09-15T05:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "05:00 收口。#62 合入后把仍开着的收录 PR 按到达顺序改号：445 modeltrace-guard-codex-plugin、446 codeguard-codex-plugin、447 braintrust-trace-codex-plugin、448 context-mode-codex-plugin、449 1password-codex-plugin。合入后关 #63–#67。站点 449 技巧。",
+    "05:30 收口。#68 已重放 #63–#67 为 TIP 445–449；本轮续收 #69 为 450 doppler-codex-run-mcp。合入后关 #69。站点 450 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1888,6 +1888,10 @@ export const loopState = {
     "X news: Codex CLI 2026-09-15 05:00",
     "mksglu/context-mode 已在 #66，本轮不叠",
     "Codex CLI 技巧 2026 1Password Codex plugin 1password@1password-plugins",
+    "X news: Codex CLI 2026-09-15 05:30",
+    "doppler.com/agents-codex doppler run --config dev_agent_codex -- codex",
+    "docs.doppler.com/docs/mcp @dopplerhq/mcp-server --read-only",
+    "Codex CLI 技巧 2026 Doppler MCP env_vars DOPPLER_TOKEN",
   ],
 };
 

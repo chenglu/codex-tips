@@ -5581,4 +5581,34 @@ export const articles: Article[] = [
     summary:
       '清单名 1password-plugins，插件名 1password，源路径 ./plugins/1password。对应 1Password/1password-codex-plugin，不是 Claude 那份 1password-claude-plugin。',
   },
+  {
+    title: 'Run Codex with Doppler',
+    url: 'https://www.doppler.com/agents-codex',
+    source: 'Doppler',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Doppler', 'MCP', 'Codex', 'secrets'],
+    summary:
+      'Doppler 官方 Codex：doppler run --config dev_agent_codex -- codex，MCP 再挂 @dopplerhq/mcp-server --read-only。隔离 config、过期只读 token、--scope .，密钥不进 .env。',
+  },
+  {
+    title: 'Doppler MCP Server',
+    url: 'https://docs.doppler.com/docs/mcp',
+    source: 'Doppler Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Doppler', 'MCP', 'stdio'],
+    summary:
+      '实验性 MCP，Node 20+，包是 @dopplerhq/mcp-server。可 npx login 进钥匙串，或运行时给 DOPPLER_TOKEN。--read-only 才会藏写工具；token 本身推不出只读。官方示例是 mcpServers JSON，Codex 要改成 TOML。',
+  },
+  {
+    title: 'DopplerHQ/mcp-server',
+    url: 'https://github.com/DopplerHQ/mcp-server',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Doppler', 'MCP', 'stdio'],
+    summary:
+      '从 OpenAPI 生成 Doppler API 工具。作用域用 service token 收紧，不要只靠 --project / --config 旗标。README 的 env.DOPPLER_TOKEN 字面量不要抄进 Codex env 表。',
+  },
 ];

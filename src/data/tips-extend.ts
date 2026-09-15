@@ -15093,4 +15093,97 @@ codex plugin list --json
       },
     ],
   },
+  {
+    id: "doppler-codex-run-mcp",
+    no: 450,
+    title:
+      "Doppler 官方 Codex：doppler run --config dev_agent_codex -- codex，MCP 再挂 @dopplerhq/mcp-server --read-only",
+    summary:
+      "隔离 config 名是 dev_agent_codex。令牌用 configs tokens create，再 configure set token --scope .。MCP 是本机 npx stdio，密钥用 env_vars 转发 DOPPLER_TOKEN，不要把 dp.st 写进 env 表。不要发明 plugin add。",
+    body: `Doppler 官方 Codex：doppler run --config dev_agent_codex -- codex，MCP 再挂 @dopplerhq/mcp-server --read-only。这是 [Run Codex with Doppler](https://www.doppler.com/agents-codex) 的专节，不是 Claude 那页，也不是 Infisical Agent Proxy。密钥靠进程环境注入，不要写仓库 \`.env\`。MCP 让代理看项目和 config 布局；注入走 \`doppler run\`，两件事分开。
+
+先装 CLI。macOS：
+
+\`\`\`bash
+brew install dopplerhq/cli/doppler
+\`\`\`
+
+Linux / WSL / CI 用官方 \`install.sh\`。在 Doppler 里从 \`dev\` 分出隔离 config，官方示例名是 \`dev_agent_codex\`（带环境 slug 前缀，继承 \`dev\` 除非你覆盖）。项目 slug 按你的改，不要照抄 \`my-app\`：
+
+\`\`\`bash
+doppler configs create dev_agent_codex --project my-app
+doppler secrets set OPENAI_API_KEY --project my-app --config dev_agent_codex
+\`\`\`
+
+只放代理真正要用的密钥。人来决定写什么；下一步的 service token 默认只读，代理不能改回 Doppler。需要 ChatGPT 登录而不是 API key 时，这条 \`OPENAI_API_KEY\` 可以不加，改成任务要用的其它工作凭证。
+
+铸一把绑在这个 config、带过期的令牌，先放进变量，不要在命令行里反复粘贴明文：
+
+\`\`\`bash
+export DOPPLER_CODEX_TOKEN=$(doppler configs tokens create codex-agent-token \\
+  --project my-app \\
+  --config dev_agent_codex \\
+  --max-age 24h \\
+  --plain)
+\`\`\`
+
+在 Codex 即将工作的目录里，把 CLI 令牌锁到当前目录，避免误用你的个人 CLI token：
+
+\`\`\`bash
+doppler configure set token $DOPPLER_CODEX_TOKEN --scope .
+doppler run --config dev_agent_codex -- codex
+\`\`\`
+
+\`--scope .\` 只覆盖这个文件夹。\`doppler run\` 把该 config 的密钥注入子进程；进程退出后环境里的密钥就没了。沙箱也要限在这个目录。生产 config 不要随手丢给非确定性代理。非交互同样包一层：
+
+\`\`\`bash
+doppler run --config dev_agent_codex -- codex exec "prompt"
+\`\`\`
+
+MCP 是另一半：本机 stdio，包名 \`@dopplerhq/mcp-server\`，Node **20+**。服务端**不能**从 token 推断只读，官方要求加 \`--read-only\`，否则会露出写工具。官方 TOML 把 \`DOPPLER_TOKEN\` 写成 \`env\` 表字面量，还注释说 Codex 会展开 \`\${VAR}\`。\`env\` 表是字面量，占位符不会展开，密钥还会嵌进 \`~/.codex/config.toml\`。正确写法是从**启动 Codex 的那个进程**转发名字：
+
+\`\`\`bash
+export DOPPLER_TOKEN=$DOPPLER_CODEX_TOKEN
+codex mcp add doppler -- npx -y @dopplerhq/mcp-server --read-only
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.doppler]
+command = "npx"
+args = ["-y", "@dopplerhq/mcp-server", "--read-only"]
+env_vars = ["DOPPLER_TOKEN"]
+enabled = true
+\`\`\`
+
+不要 \`codex mcp add --env DOPPLER_TOKEN=\` 把值写进 TOML。这是 stdio，**不要** \`codex mcp login doppler\`。本机已经 \`npx @dopplerhq/mcp-server login\`、凭证在钥匙串里时，可以去掉 \`env_vars\`，仍要保留 \`--read-only\`。改完重启 Codex。会话里 \`/mcp\` 只是核对工具。不要 \`required = true\`。不要一上来 \`--yolo\`。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add doppler@…\`。官方没有 Codex 插件。
+- 不要抄 \`mcpServers\` JSON，或把 \`command = "doppler"\` 的 Claude / Cursor 包装器当 Codex 表。
+- 不要抄 [Run Claude with Doppler](https://www.doppler.com/agents-claude-code) 的 \`DOPPLER_CLAUDE_TOKEN\` JSON。
+- 不要和 Infisical Agent Proxy、1Password 本地 MCP 写成一条。
+- 不要把生产根 config 或个人 CLI token 交给代理。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`，也不吃你这台 \`doppler run\`。从 Dock 打开的桌面常常没有刚才 export 的变量。改完新开会话。用 \`codex mcp get doppler\` 看传输是 stdio，command 是 npx，args 带 \`--read-only\`。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Doppler", "stdio", "secrets", "doppler run"],
+    related: ["mcp-add-and-login", "mcp-stdio-env-vars", "infisical-agent-proxy-codex"],
+    sources: [
+      {
+        label: "Doppler · Run Codex with Doppler",
+        url: "https://www.doppler.com/agents-codex",
+      },
+      {
+        label: "Doppler · MCP Server",
+        url: "https://docs.doppler.com/docs/mcp",
+      },
+      {
+        label: "DopplerHQ/mcp-server",
+        url: "https://github.com/DopplerHQ/mcp-server",
+      },
+    ],
+  },
 ];

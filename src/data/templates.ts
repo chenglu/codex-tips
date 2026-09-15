@@ -4415,4 +4415,40 @@ codex plugin add 1password@1password-plugins
 # npx -y @takescake/1password-mcp
 `,
   },
+  {
+    id: "doppler-codex-run-mcp",
+    title: "Doppler 分支 config 喂给 Codex TUI",
+    filename: "config.toml",
+    summary:
+      "Doppler 分支 config 喂给 Codex TUI。先 configure set token --scope .，再用 doppler run 启动。MCP 表名 doppler，args 带 --read-only，密钥走 env_vars。",
+    code: `doppler configs create dev_agent_codex --project my-app
+doppler secrets set OPENAI_API_KEY --project my-app --config dev_agent_codex
+
+export DOPPLER_CODEX_TOKEN=$(doppler configs tokens create codex-agent-token \\
+  --project my-app \\
+  --config dev_agent_codex \\
+  --max-age 24h \\
+  --plain)
+
+doppler configure set token $DOPPLER_CODEX_TOKEN --scope .
+export DOPPLER_TOKEN=$DOPPLER_CODEX_TOKEN
+doppler run --config dev_agent_codex -- codex
+
+# 另开终端登记 MCP（或写进 ~/.codex/config.toml）：
+# codex mcp add doppler -- npx -y @dopplerhq/mcp-server --read-only
+#
+# [mcp_servers.doppler]
+# command = "npx"
+# args = ["-y", "@dopplerhq/mcp-server", "--read-only"]
+# env_vars = ["DOPPLER_TOKEN"]
+# enabled = true
+#
+# 不要：
+# env = { DOPPLER_TOKEN = "dp.st.…" }
+# command = "doppler"
+# mcpServers JSON
+# plugin add doppler@
+# mcp login doppler
+`,
+  },
 ];
