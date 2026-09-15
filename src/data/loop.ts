@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-15T05:30:00Z",
+  lastTick: "2026-09-15T06:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "05:30 收口。#68 已重放 #63–#67 为 TIP 445–449；本轮续收 #69 为 450 doppler-codex-run-mcp。合入后关 #69。站点 450 技巧。",
+    "06:00 收口。#68 已重放 #63–#67 为 TIP 445–449、#69 为 450；本轮续收 #70 为 451 aws-agent-toolkit-codex-plugin。合入后关 #70。站点 451 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1892,6 +1892,10 @@ export const loopState = {
     "doppler.com/agents-codex doppler run --config dev_agent_codex -- codex",
     "docs.doppler.com/docs/mcp @dopplerhq/mcp-server --read-only",
     "Codex CLI 技巧 2026 Doppler MCP env_vars DOPPLER_TOKEN",
+    "X news: Codex CLI 2026-09-15 06:00",
+    "docs.aws.amazon.com lambda agent-setup-guide Codex plugin marketplace add aws/agent-toolkit-for-aws",
+    "github.com/aws/agent-toolkit-for-aws Codex /plugins aws-core",
+    "Codex CLI 技巧 2026 AWS Agent Toolkit aws-mcp mcp-proxy-for-aws-cli",
   ],
 };
 

@@ -4451,4 +4451,43 @@ doppler run --config dev_agent_codex -- codex
 # mcp login doppler
 `,
   },
+  {
+    id: "aws-agent-toolkit-codex-plugin",
+    title: "AWS aws-core 插件喂给 Codex TUI",
+    filename: "terminal",
+    summary:
+      "AWS aws-core 插件喂给 Codex TUI。主路径是 marketplace add aws/agent-toolkit-for-aws，再 /plugins 装 aws-core。捆绑 MCP 表名 aws-mcp。",
+    code: `codex plugin marketplace add aws/agent-toolkit-for-aws
+codex
+/plugins
+
+# TUI 选 Agent Toolkit for AWS，打开 aws-core，Install plugin
+# 仓库大时：
+# codex plugin marketplace add aws/agent-toolkit-for-aws --sparse .agents/plugins --sparse plugins/aws-core
+
+# 捆绑 MCP（插件会登记，不要再手写一张）：
+# [mcp_servers.aws-mcp]
+# command = "uvx"
+# args = [
+#   "mcp-proxy-for-aws-cli@latest",
+#   "https://aws-mcp.us-east-1.api.aws/mcp",
+#   "--skip-auth",
+#   "--metadata",
+#   "INSTALL_SOURCE=agent-toolkit-core",
+# ]
+
+# 可选升级：
+# codex plugin marketplace upgrade agent-toolkit-for-aws
+
+# 可选 Labs Serverless MCP（不是插件主路径）：
+# codex mcp add awslabs-aws-serverless-mcp -- uvx awslabs.aws-serverless-mcp-server@latest
+
+# 不要：
+# /plugin install aws-core@claude-plugins-official
+# npx skills add aws/agent-toolkit-for-aws
+# aws configure agent-toolkit
+# plugin add aws-core@agent-toolkit-for-aws
+# mcp login aws-mcp
+`,
+  }
 ];

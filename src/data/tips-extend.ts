@@ -15186,4 +15186,88 @@ enabled = true
       },
     ],
   },
+  {
+    id: "aws-agent-toolkit-codex-plugin",
+    no: 451,
+    title:
+      "AWS Agent Toolkit 官方 Codex：marketplace add aws/agent-toolkit-for-aws，再 /plugins 装 aws-core",
+    summary:
+      "清单名是 agent-toolkit-for-aws。插件会登记 aws-mcp，走 uvx mcp-proxy-for-aws-cli 接到托管 AWS MCP。官方没给 plugin add id。不要抄 Claude 的 aws-core@claude-plugins-official。",
+    body: `AWS Agent Toolkit 官方 Codex：marketplace add aws/agent-toolkit-for-aws，再 /plugins 装 aws-core。仓库 README 和 Lambda [Agent setup guide](https://docs.aws.amazon.com/lambda/latest/dg/agent-setup-guide.html) 的 Codex 专节都是这一条，不是 Claude 的 \`/plugin install\`，也不是 \`npx skills add\`。先装 [uv](https://docs.astral.sh/uv/)，插件捆绑的 MCP 靠它起 \`mcp-proxy-for-aws-cli\`。查文档可以没有 AWS 账号；调 API、跑脚本才要本机凭证。
+
+\`\`\`bash
+codex plugin marketplace add aws/agent-toolkit-for-aws
+codex
+/plugins
+\`\`\`
+
+在插件浏览器里打开 **aws-core**，再 Install plugin。清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`agent-toolkit-for-aws\`，展示名 Agent Toolkit for AWS。插件源是 \`local\` 的 \`./plugins/aws-core\`。官方 Codex **没有**写出 \`codex plugin add aws-core@…\`，**不要发明** \`aws-core@agent-toolkit-for-aws\`。Claude 才是 \`/plugin install aws-core@claude-plugins-official\`，不要抄进 Codex TUI。
+
+仓库很大时可以稀疏检出，两条都要，漏了 \`plugins/aws-core\` 会装不上本地源：
+
+\`\`\`bash
+codex plugin marketplace add aws/agent-toolkit-for-aws --sparse .agents/plugins --sparse plugins/aws-core
+\`\`\`
+
+插件会登记 stdio MCP，表名是 \`aws-mcp\`。现行 \`mcp.json\` 是：
+
+\`\`\`toml
+[mcp_servers.aws-mcp]
+command = "uvx"
+args = [
+  "mcp-proxy-for-aws-cli@latest",
+  "https://aws-mcp.us-east-1.api.aws/mcp",
+  "--skip-auth",
+  "--metadata",
+  "INSTALL_SOURCE=agent-toolkit-core",
+]
+\`\`\`
+
+这是托管 [AWS MCP Server](https://docs.aws.amazon.com/agent-toolkit/latest/userguide/understanding-mcp-server-tools.html) 的本机代理，不是 Labs 那台 \`awslabs.aws-serverless-mcp-server\`。\`--skip-auth\` 只放开文档检索；真正打 AWS API 仍读本机凭证。stdio，**不要** \`codex mcp login aws-mcp\`。插件已经登记时，不要再手写一张同 URL 的表。从 Dock 打开的桌面常常没有你在 zshrc 里的 \`AWS_PROFILE\`；需要时用 \`env_vars\` 转发 \`AWS_PROFILE\` / \`AWS_REGION\`，不要把密钥写进 \`env\` 表。
+
+0.154 起先看**当前会话**；当前会话 \`/plugins\` 没有再新开。IDE 扩展没有 \`/plugins\`。网页 Cloud 不读本机 marketplace。改完用 \`codex plugin marketplace list\` 核对清单名是 \`agent-toolkit-for-aws\`。升级用清单名：
+
+\`\`\`bash
+codex plugin marketplace upgrade agent-toolkit-for-aws
+\`\`\`
+
+同一份 marketplace 还有 \`aws-agents\`、\`aws-data-analytics\`、\`aws-agents-for-devsecops\`。先装 \`aws-core\`。\`aws-agents\` 会另起 \`awsknowledge\`，和 \`aws-mcp\` 的文档工具重叠，不要两台一起当主路径。\`aws-agents-for-devsecops\` 的 URL 占位符 Codex 展不开，先别装。
+
+Lambda 文档另外给了一条可选 Serverless MCP（Labs，不是 Agent Toolkit 主路径）：
+
+\`\`\`bash
+codex mcp add awslabs-aws-serverless-mcp -- uvx awslabs.aws-serverless-mcp-server@latest
+\`\`\`
+
+官方示例用 \`--env AWS_PROFILE=\` 写进 TOML。配置名用 \`env_vars\` 转发；不要把 \`AWS_SECRET_ACCESS_KEY\` 写进 \`env\`。不要默认加 \`--allow-write\` / \`--allow-sensitive-data-access\`，那是 Labs README 给 Cursor 的写权限。已经装了 \`aws-core\` 时，不要把 Labs 这台和 \`aws-mcp\` 搞成同一张表。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`/plugin marketplace add aws/agent-toolkit-for-aws\` 或 \`/plugin install aws-core@claude-plugins-official\`。
+- 不要用 \`npx skills add aws/agent-toolkit-for-aws\` 当 Codex 插件安装器。
+- 不要把 \`aws configure agent-toolkit\` 当成 Codex 插件命令。那是 AWS CLI。
+- 不要抄 Kiro / Cursor 的 \`mcpServers\` JSON。
+- 不要 \`required = true\`。不要一上来 \`--yolo\`。
+
+网页 Cloud 不读这份插件。改完用 \`codex plugin list\`；\`codex mcp get aws-mcp\` 看传输是 stdio，command 是 uvx。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "AWS", "MCP", "Skills", "Lambda"],
+    related: ["google-cloud-developer-plugin", "plugin-session-refresh", "mcp-stdio-env-vars"],
+    sources: [
+      {
+        label: "aws/agent-toolkit-for-aws",
+        url: "https://github.com/aws/agent-toolkit-for-aws",
+      },
+      {
+        label: "AWS Lambda · Agent setup guide",
+        url: "https://docs.aws.amazon.com/lambda/latest/dg/agent-setup-guide.html",
+      },
+      {
+        label: "AWS · MCP Server tools",
+        url: "https://docs.aws.amazon.com/agent-toolkit/latest/userguide/understanding-mcp-server-tools.html",
+      },
+    ],
+  }
 ];

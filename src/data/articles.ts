@@ -5611,4 +5611,34 @@ export const articles: Article[] = [
     summary:
       '从 OpenAPI 生成 Doppler API 工具。作用域用 service token 收紧，不要只靠 --project / --config 旗标。README 的 env.DOPPLER_TOKEN 字面量不要抄进 Codex env 表。',
   },
+  {
+    title: 'aws/agent-toolkit-for-aws',
+    url: 'https://github.com/aws/agent-toolkit-for-aws',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['plugins', 'AWS', 'Skills', 'Codex', 'MCP'],
+    summary:
+      'AWS Agent Toolkit 官方 Codex：marketplace add aws/agent-toolkit-for-aws，再 /plugins 装 aws-core。清单名 agent-toolkit-for-aws。插件会登记 aws-mcp。不要抄 Claude 的 claude-plugins-official。',
+  },
+  {
+    title: 'Agent setup guide',
+    url: 'https://docs.aws.amazon.com/lambda/latest/dg/agent-setup-guide.html',
+    source: 'AWS Lambda Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['AWS', 'Lambda', 'plugins', 'MCP', 'Codex'],
+    summary:
+      'Lambda 给 Codex 单独一节：先 marketplace add 再 /plugins 装 aws-core。可选 Serverless MCP 才是 uvx awslabs.aws-serverless-mcp-server。不要把 Claude 的 /plugin install 抄进 Codex。',
+  },
+  {
+    title: 'Understanding the MCP Server tools',
+    url: 'https://docs.aws.amazon.com/agent-toolkit/latest/userguide/understanding-mcp-server-tools.html',
+    source: 'AWS Agent Toolkit Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['AWS', 'MCP'],
+    summary:
+      '托管 AWS MCP Server 覆盖 API、沙箱脚本和文档检索。aws-core 用本机 uvx 代理打 aws-mcp.us-east-1.api.aws/mcp。查文档可以 --skip-auth；写资源仍要 IAM。',
+  }
 ];
