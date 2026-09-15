@@ -15760,5 +15760,281 @@ codex plugin add lmnr@lmnr
         url: "https://laminar.sh/docs/platform/mcp",
       },
     ],
+  },
+  {
+    id: "knowledge-catalog-codex-plugin",
+    no: 479,
+    title:
+      "Google Cloud Knowledge Catalog 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add knowledge-catalog@data-agent-kit，不要写成 plugin install dataplex@",
+    summary:
+      "官方 Codex：marketplace add GoogleCloudPlatform/data-agent-kit，再 plugin add knowledge-catalog@data-agent-kit。清单名是 data-agent-kit。GCP Dataplex 文档写成 plugin install dataplex@，动词和插件名都错。MCP 表名 dataplex，stdio，不要 mcp login。",
+    body: `Google Cloud Knowledge Catalog 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add knowledge-catalog@data-agent-kit，不要写成 plugin install dataplex@。插件仓 README 给 Codex 单独一节，要求 CLI **0.117.0** 以上。这是 **Data Agent Kit** marketplace，不是 \`google/skills\` 里那份 Developer Knowledge MCP，也不是 Claude 的 \`/plugin install\`。官方 Codex 主路径：
+
+\`\`\`bash
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add knowledge-catalog@data-agent-kit
+export DATAPLEX_PROJECT=YOUR_PROJECT_ID
+gcloud auth application-default login
+codex plugin list
+codex mcp list
+\`\`\`
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`data-agent-kit\`，展示名 Data Agent Kit。Knowledge Catalog 插件名是 \`knowledge-catalog\`，分类 Data Governance & Management，源仓是 \`gemini-cli-extensions/knowledge-catalog\`。同一份清单里还有 BigQuery、Spanner、AlloyDB 等，**不要**一次全装；这条只装目录插件。
+
+[GCP Dataplex 文档](https://docs.cloud.google.com/dataplex/docs/pre-built-tools-with-mcp-toolbox) Codex 节写成 \`codex plugin install dataplex@data-agent-kit\`：CLI 动词是 \`add\` 不是 \`install\`，插件 id 是 \`knowledge-catalog\` 不是 \`dataplex\`。\`dataplex\` 是插件登记的 **MCP 表名**，不是 marketplace 插件名。以插件仓 README 为准。
+
+先开目标项目的 **Dataplex API**。\`DATAPLEX_PROJECT\` 填 GCP **项目 ID**，不要填项目号。本机要有 Application Default Credentials：
+
+\`\`\`bash
+gcloud auth application-default login
+\`\`\`
+
+文档 IAM 写 Dataplex Catalog Viewer；插件 README 写 Dataplex Data Reader 加 Service Usage Consumer。按你实际要查的资产向管理员要角色，不要把 Owner 写进 AGENTS.md。
+
+插件会登记 stdio MCP。表名官方就是 \`dataplex\`（小写按这份），命令是 \`npx -y @toolbox-sdk/server@1.9.0 --prebuilt dataplex --stdio\`，并转发 \`DATAPLEX_PROJECT\`。本机要有 **Node.js / npx**。这是本地 MCP Toolbox 预置服务，**不要** \`mcp login\`，也不要再 \`mcp add dataplex\` 叠一张。会话里 \`/mcp\` 或 \`codex mcp list\` 应看到 \`dataplex\`。插件已经登记时，不要手写 Cursor 那种 \`./PATH/TO/toolbox --prebuilt dataplex\` JSON，也不要把托管端 \`https://dataplex.googleapis.com/mcp\` 抄成这条主路径。
+
+0.154 起先看**当前会话**；当前会话 \`/plugins\` 或 \`/mcp\` 没有再新开。桌面改 marketplace.json 仍要重启应用。IDE 扩展没有 \`/plugins\`。CLI 装好的插件，Codex 桌面也能用。网页 Cloud 不读本机 marketplace。改完用 \`codex plugin marketplace list\` 核对清单名是 \`data-agent-kit\`。升级用清单名，不是仓库路径：
+
+\`\`\`bash
+codex plugin marketplace upgrade data-agent-kit
+\`\`\`
+
+这份发行还是 Beta（pre-v1.0）：技能名、工具集和目录布局可能改。marketplace 条目可能钉旧 ref，升级后再 \`plugin add\`。不要 \`required = true\`。不要一上来 \`--yolo\`。保持工具批准。
+
+不要做这些：
+
+- 不要抄 GCP 文档的 \`codex plugin install dataplex@data-agent-kit\`。
+- 不要发明 \`dataplex@data-agent-kit\` 或 \`knowledge-catalog@google-plugins\`。
+- 不要抄 Claude 的 \`/plugin install knowledge-catalog@claude-plugins-official\`。
+- 不要用 \`gemini extensions install https://github.com/gemini-cli-extensions/knowledge-catalog\` 当 Codex 安装器。
+- 不要把 \`google/skills\` 的 \`google-cloud-developer@google-plugins\` 当成这份 Data Cloud 插件。
+- 不要抄 Cursor / VS Code 的 \`mcpServers\` JSON 去跑本机 toolbox 二进制，当作 Codex 插件安装。
+- 不要用 \`npx skills add\` 当这份插件安装器。
+
+改完用 \`codex plugin list\` 核对 \`knowledge-catalog@data-agent-kit\`；用户层对照 \`codex mcp get dataplex\` 看传输是 stdio。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Google Cloud", "MCP", "Knowledge Catalog", "Dataplex"],
+    related: ["google-cloud-developer-plugin", "plugin-session-refresh", "plugin-marketplace-ref-sparse"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/knowledge-catalog",
+        url: "https://github.com/gemini-cli-extensions/knowledge-catalog",
+      },
+      {
+        label: "GoogleCloudPlatform/data-agent-kit",
+        url: "https://github.com/GoogleCloudPlatform/data-agent-kit",
+      },
+      {
+        label: "Google Cloud · Use Knowledge Catalog with MCP",
+        url: "https://docs.cloud.google.com/dataplex/docs/pre-built-tools-with-mcp-toolbox",
+      },
+    ],
+  },
+  {
+    id: "dak-starter-codex-plugin",
+    no: 480,
+    title:
+      "Google Cloud Data Agent Kit Starter Pack 官方 Codex 插件：marketplace 加 gemini-cli-extensions/data-agent-kit-starter-pack，再 plugin add dak@data-agent-kit-starter-pack-marketplace，不要加成 GoogleCloudPlatform/data-agent-kit",
+    summary:
+      "官方 Codex：marketplace add starter-pack 仓，再 plugin add dak@data-agent-kit-starter-pack-marketplace。清单名是 data-agent-kit-starter-pack-marketplace。这不是 GoogleCloudPlatform/data-agent-kit 那份产品索引。技能即装即用；MCP 还要改缓存里的 .mcp.json 再重启。",
+    body: `Google Cloud Data Agent Kit Starter Pack 官方 Codex 插件：marketplace 加 gemini-cli-extensions/data-agent-kit-starter-pack，再 plugin add dak@data-agent-kit-starter-pack-marketplace，不要加成 GoogleCloudPlatform/data-agent-kit。插件仓 README 给 Codex 单独一节，推荐 marketplace，不是手拷 SKILL.md，也不是 Claude 的 \`/plugin install\`。官方 Codex 主路径：
+
+\`\`\`bash
+codex plugin marketplace add https://github.com/gemini-cli-extensions/data-agent-kit-starter-pack
+codex plugin add dak@data-agent-kit-starter-pack-marketplace
+gcloud auth login
+gcloud auth application-default login
+codex plugin list
+codex mcp list
+\`\`\`
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`data-agent-kit-starter-pack-marketplace\`，展示名 Data Agent Kit Starter Pack Marketplace。插件名是 \`dak\`，展示名 Data Agent Kit Starter Pack，分类 Productivity。GitHub 简写 \`gemini-cli-extensions/data-agent-kit-starter-pack\` 和上面那条 HTTPS URL 等价。
+
+[GCP「Install the coding agent plugin」](https://docs.cloud.google.com/data-agent-kit/install-plugin) 只说「去 Starter Pack README」，不把命令贴进文档。产品索引仓 \`GoogleCloudPlatform/data-agent-kit\` 是另一份 marketplace，用来按产品装 Knowledge Catalog / BigQuery / Spanner；**不要**写成 \`dak@data-agent-kit\`，也不要和 \`google/skills\` 的 Developer 插件抄成同一个源。
+
+技能装完就能用。MCP 不会凭空连上你的项目。官方要你改缓存里的 Codex 清单（版本目录会变，先 \`ls\` 再改，不要死抄 \`0.11.0\`）：
+
+\`\`\`bash
+ls ~/.codex/plugins/cache/data-agent-kit-starter-pack-marketplace/dak
+\`\`\`
+
+改 \`~/.codex/plugins/cache/data-agent-kit-starter-pack-marketplace/dak/VERSION/.mcp.json\` 里各台 MCP 需要的项目、区域等，然后**重启 Codex**。插件登记的是本机 \`node\` stdio 代理，表名包括 \`notebook\`、\`visualization\`、\`bigquery\`、\`spanner\`、\`alloydb-postgres\`、\`cloud-sql-postgresql\`、\`knowledge_catalog\`、\`dataproc\`、\`bigtable\`、\`cloud-storage\`。本机要有 **Node.js**。这些代理打的是 \`*.googleapis.com/mcp\`，**不要** \`mcp login\`，也不要再 \`mcp add bigquery\` 叠一套。\`dataproc\` 的 URL 带 \`GCP_REGION\`，没配就会连错区。会话里 \`/mcp\` 或 \`codex mcp list\` 核对表名。
+
+0.154 起装插件后先看**当前会话**；当前会话 \`/plugins\` 没有再新开。改完 \`.mcp.json\` 仍按官方要求重启。桌面改 marketplace.json 也要重启应用。IDE 扩展没有 \`/plugins\`。网页 Cloud 不读本机 marketplace。升级用清单名：
+
+\`\`\`bash
+codex plugin marketplace upgrade data-agent-kit-starter-pack-marketplace
+\`\`\`
+
+插件带 PreToolUse 遥测钩子。装完在 TUI 开 \`/hooks\`，审查并信任当前定义，否则 Codex 会跳过。不想上报就：
+
+\`\`\`bash
+export DO_NOT_TRACK=1
+\`\`\`
+
+或写 \`~/.data_agent_kit/config.json\` 的 \`enableTelemetry: false\`。这份发行还是 Beta（pre-v1.0）。不要 \`required = true\`。不要一上来 \`--yolo\`。保持工具批准。
+
+README 还有 Option 2：\`curl\` 管道脚本写进 \`~/.agents/plugins/\`，再 \`/plugins\` 按展示名 **Data Agent Kit Starter Pack** 安装。那条脚本登记的插件名是 \`data-agent-kit-starter-pack\`，**不是** \`dak\`，**不要发明** \`dak@personal\`。只要 Codex 时走上面两条 \`plugin\` 命令，不要把管道脚本当主路径。
+
+不要做这些：
+
+- 不要加成 \`GoogleCloudPlatform/data-agent-kit\` 再发明 \`dak@data-agent-kit\`。
+- 不要抄 Claude 的 \`/plugin install data-agent-kit-starter-pack@claude-plugins-official\`。
+- 不要用 \`gemini extensions install https://github.com/gemini-cli-extensions/data-agent-kit-starter-pack\` 当 Codex 安装器。
+- 不要把 \`google-cloud-developer@google-plugins\` 当成这份 Data Cloud 技能包。
+- 不要抄 Cursor / VS Code 的 \`mcpServers\` JSON 去跑本机 toolbox 二进制，当作这份插件安装。
+- 不要用 \`npx skills add\` 当这份插件安装器。
+
+改完用 \`codex plugin list\` 核对 \`dak@data-agent-kit-starter-pack-marketplace\`；用户层对照 \`codex mcp get bigquery\` 看传输是 stdio。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Google Cloud", "MCP", "Data Agent Kit", "Skills"],
+    related: ["google-cloud-developer-plugin", "plugin-session-refresh", "plugin-marketplace-ref-sparse"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/data-agent-kit-starter-pack",
+        url: "https://github.com/gemini-cli-extensions/data-agent-kit-starter-pack",
+      },
+      {
+        label: "Google Cloud · Install the coding agent plugin",
+        url: "https://docs.cloud.google.com/data-agent-kit/install-plugin",
+      },
+      {
+        label: "Google Cloud · Data Agent Kit",
+        url: "https://docs.cloud.google.com/data-agent-kit",
+      },
+    ],
+  },
+  {
+    id: "looker-codex-plugin",
+    no: 481,
+    title:
+      "Google Cloud Looker 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add looker@data-agent-kit，密钥用 LOOKER_CLIENT_ID 不要抄 looker@claude-plugins-official",
+    summary:
+      "官方 Codex 专节：先 marketplace add GoogleCloudPlatform/data-agent-kit，再 plugin add looker@data-agent-kit。stdio 表名 looker 和 looker-dev，走 npx @toolbox-sdk/server。密钥用 LOOKER_CLIENT_ID / LOOKER_CLIENT_SECRET。不要 mcp login，也不要抄 Claude 的 looker@claude-plugins-official。",
+    body: `Google Cloud Looker 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add looker@data-agent-kit，密钥用 LOOKER_CLIENT_ID 不要抄 looker@claude-plugins-official。
+
+这是 [gemini-cli-extensions/looker](https://github.com/gemini-cli-extensions/looker) 的 Codex 专节，不是 Claude 的 \`/plugin install looker@claude-plugins-official\`，也不是 GCP 文档里给 Cursor 抄的 \`looker-toolbox\` JSON。插件把 MCP Toolbox 的预置 \`looker\` / \`looker-dev\` 打成 Agent Plugin，用 Looker API 客户端密钥连你的实例，去探数据、管仪表板、改 LookML。
+
+要 Codex **v0.117.0+**，本机有 Node / npx。先准备 Looker 实例和 API 客户端：
+
+\`\`\`bash
+export LOOKER_BASE_URL=YOUR_LOOKER_BASE_URL
+export LOOKER_CLIENT_ID=YOUR_LOOKER_CLIENT_ID
+export LOOKER_CLIENT_SECRET=YOUR_LOOKER_CLIENT_SECRET
+# 可选：LOOKER_VERIFY_SSL、LOOKER_SHOW_HIDDEN_MODELS、LOOKER_SHOW_HIDDEN_EXPLORES、LOOKER_SHOW_HIDDEN_FIELDS
+\`\`\`
+
+\`LOOKER_BASE_URL\` 是实例主机，不是 \`LOOKER_INSTANCE_URL/mcp\` 那条托管 MCP。密钥写进启动 Codex 的进程环境；插件 \`.mcp.json\` 用 \`env_vars\` 转发，不要把 Client Secret 写进 \`http_headers\`。
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`data-agent-kit\`，插件 name 是 \`looker\`：
+
+\`\`\`bash
+codex --version
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add looker@data-agent-kit
+codex plugin list
+codex mcp list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install looker@\` 或 \`plugin add looker@claude-plugins-official\`。不要 \`gemini extensions install https://github.com/gemini-cli-extensions/looker\`。IDE 扩展没有 \`/plugins\`。
+
+插件会登记两台 **stdio** MCP：\`looker\`（查数、看板）和 \`looker-dev\`（LookML 开发）。command 是 \`npx\`，args 钉 \`@toolbox-sdk/server@1.9.0 --prebuilt looker|looker-dev --stdio\`。**不要** \`codex mcp login looker\`。插件已经带 MCP 时，不要再 \`codex mcp add looker -- npx @toolbox-sdk/server\` 叠一张用户层表。
+
+不要抄这些：
+
+- Cursor / VS Code 的 \`mcpServers.looker-toolbox\`，\`command\` 写成 \`./PATH/TO/toolbox --prebuilt looker\`。
+- Looker 托管 MCP：实例路径 \`YOUR_LOOKER_BASE_URL/mcp\` + OAuth。那是另一条预览通道，不是这份插件。
+- Data Agent Kit Starter Pack 的 \`dak@data-agent-kit-starter-pack-marketplace\`，或 Knowledge Catalog 的 \`knowledge-catalog@data-agent-kit\`。同仓 marketplace 里插件 id 不同。
+
+可选：\`codex plugin marketplace upgrade data-agent-kit\` 后再 \`plugin add\` 一次。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex mcp list\` 里应有 \`looker\` 和 \`looker-dev\`。连接失败先看这三个环境变量是不是进了同一进程，以及 npx 能不能拉到 Toolbox。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Looker", "MCP", "Google Cloud", "data-agent-kit"],
+    related: ["google-cloud-developer-plugin", "plugin-session-refresh", "plugin-marketplace-ref-sparse"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/looker",
+        url: "https://github.com/gemini-cli-extensions/looker",
+      },
+      {
+        label: "GoogleCloudPlatform/data-agent-kit",
+        url: "https://github.com/GoogleCloudPlatform/data-agent-kit",
+      },
+      {
+        label: "Google Cloud · Use Looker with MCP",
+        url: "https://docs.cloud.google.com/looker/docs/connect-ide-to-looker-using-mcp-toolbox",
+      },
+    ],
+  },
+  {
+    id: "alloydb-codex-plugin",
+    no: 482,
+    title:
+      "Google Cloud AlloyDB 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add alloydb@data-agent-kit，项目用 ALLOYDB_POSTGRES_PROJECT 不要抄 alloydb@claude-plugins-official",
+    summary:
+      "官方 Codex 专节：先 marketplace add GoogleCloudPlatform/data-agent-kit，再 plugin add alloydb@data-agent-kit。stdio 表名 alloydb-postgres，走 npx @toolbox-sdk/server。项目用 ALLOYDB_POSTGRES_PROJECT。ADC 用 gcloud，不要 mcp login，也不要抄 Claude 的 alloydb@claude-plugins-official。",
+    body: `Google Cloud AlloyDB 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add alloydb@data-agent-kit，项目用 ALLOYDB_POSTGRES_PROJECT 不要抄 alloydb@claude-plugins-official。
+
+这是 [gemini-cli-extensions/alloydb](https://github.com/gemini-cli-extensions/alloydb) 的 Codex 专节，不是 Claude 的 \`/plugin install alloydb@claude-plugins-official\`，也不是 GCP 文档里给 Cursor 抄的 \`./PATH/TO/toolbox --prebuilt alloydb-postgres\`。插件把 MCP Toolbox 的预置 \`alloydb-postgres\` 打成 Agent Plugin，用 ADC 加实例坐标连 AlloyDB for PostgreSQL，去建集群、探 schema、跑 SQL。
+
+要 Codex **v0.117.0+**，本机有 Node / npx。先开 AlloyDB API，IAM 至少 \`roles/alloydb.client\`（管资源再加 \`roles/alloydb.admin\`），再准备 ADC：
+
+\`\`\`bash
+gcloud auth application-default login
+export ALLOYDB_POSTGRES_PROJECT=YOUR_ALLOYDB_POSTGRES_PROJECT
+export ALLOYDB_POSTGRES_REGION=YOUR_ALLOYDB_POSTGRES_REGION
+export ALLOYDB_POSTGRES_CLUSTER=YOUR_ALLOYDB_POSTGRES_CLUSTER
+export ALLOYDB_POSTGRES_INSTANCE=YOUR_ALLOYDB_POSTGRES_INSTANCE
+export ALLOYDB_POSTGRES_DATABASE=YOUR_ALLOYDB_POSTGRES_DATABASE
+# 可选：ALLOYDB_POSTGRES_USER、ALLOYDB_POSTGRES_PASSWORD、ALLOYDB_POSTGRES_IP_TYPE（PUBLIC / PRIVATE / PSC，默认 PUBLIC）
+\`\`\`
+
+用户和密码可留空，默认走 IAM 数据库用户。私钥网必须把 Codex 跑在同一 VPC。不要把密码写进 \`http_headers\`。
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`data-agent-kit\`，插件 name 是 \`alloydb\`：
+
+\`\`\`bash
+codex --version
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add alloydb@data-agent-kit
+codex plugin list
+codex mcp list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install alloydb@\` 或 \`plugin add alloydb@claude-plugins-official\`。不要 \`gemini extensions install https://github.com/gemini-cli-extensions/alloydb\`。IDE 扩展没有 \`/plugins\`。
+
+插件会登记一台 **stdio** MCP，表名是 \`alloydb-postgres\`（不是 \`alloydb\`）。command 是 \`npx\`，args 钉 \`@toolbox-sdk/server@1.9.0 --prebuilt alloydb-postgres --stdio\`。**不要** \`codex mcp login alloydb-postgres\`。插件已经带 MCP 时，不要再 \`codex mcp add alloydb-postgres -- npx @toolbox-sdk/server\` 叠一张用户层表。
+
+不要抄这些：
+
+- Cursor / VS Code 的 \`mcpServers.alloydb\`，\`command\` 写成 \`./PATH/TO/toolbox --prebuilt alloydb-postgres\`。
+- AlloyDB 远程 MCP：\`https://alloydb.YOUR_REGION.rep.googleapis.com/mcp\`。那是另一条托管入口，不是这份插件。
+- \`alloydb-omni@data-agent-kit\`（AlloyDB Omni）、Starter Pack 的 \`dak@data-agent-kit-starter-pack-marketplace\`、Looker 的 \`looker@data-agent-kit\`、Knowledge Catalog 的 \`knowledge-catalog@data-agent-kit\`。同仓 marketplace 里插件 id 不同。
+
+可选：\`codex plugin marketplace upgrade data-agent-kit\` 后再 \`plugin add\` 一次。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex mcp list\` 里应有 \`alloydb-postgres\`。连接失败先看 ADC 和五个必填 \`ALLOYDB_POSTGRES_*\` 是不是进了同一进程，以及 npx 能不能拉到 Toolbox。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "AlloyDB", "MCP", "Google Cloud", "data-agent-kit"],
+    related: ["google-cloud-developer-plugin", "plugin-session-refresh", "plugin-marketplace-ref-sparse"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/alloydb",
+        url: "https://github.com/gemini-cli-extensions/alloydb",
+      },
+      {
+        label: "GoogleCloudPlatform/data-agent-kit",
+        url: "https://github.com/GoogleCloudPlatform/data-agent-kit",
+      },
+      {
+        label: "Google Cloud · Use AlloyDB with MCP",
+        url: "https://docs.cloud.google.com/alloydb/docs/connect-ide-using-mcp-toolbox",
+      },
+    ],
   }
 ];
