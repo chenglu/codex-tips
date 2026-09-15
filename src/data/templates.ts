@@ -5024,5 +5024,72 @@ codex --profile truefoundry
 # model = "openai-main/gpt-5.2-codex"
 # plugin add truefoundry@
 `,
+  },
+  {
+    id: "helicone-codex-gateway",
+    title: "helicone profile 把 Codex 模型流量喂给 ai-gateway.helicone.ai",
+    filename: "~/.codex/helicone.config.toml",
+    summary:
+      "helicone profile 把 Codex 模型流量喂给 ai-gateway.helicone.ai。供应商表用 env_key 读 HELICONE_API_KEY。模型写 gpt-5 这类 Responses 短名。不要 wire_api = chat。",
+    code: `export HELICONE_API_KEY=YOUR_HELICONE_API_KEY
+
+# ~/.codex/config.toml
+[model_providers.helicone]
+name = "Helicone"
+base_url = "https://ai-gateway.helicone.ai/v1"
+env_key = "HELICONE_API_KEY"
+wire_api = "responses"
+
+# ~/.codex/helicone.config.toml
+model_provider = "helicone"
+model = "gpt-5"
+
+codex --profile helicone
+
+# 不要：
+# wire_api = "chat"
+# [profiles.helicone]
+# openai_base_url = "https://ai-gateway.helicone.ai/v1"
+# base_url = "https://gateway.helicone.ai/YOUR_HELICONE_API_KEY/v1/"
+# plugin add helicone@
+# $CODEX_HOME/.codex/config.toml
+`,
+  },
+  {
+    id: "minimax-codex-gateway",
+    title: "minimax profile 把 Codex 模型流量喂给 api.minimax.io",
+    filename: "~/.codex/minimax.config.toml",
+    summary:
+      "minimax profile 把 Codex 模型流量喂给 api.minimax.io。供应商表用 env_key 读 MINIMAX_API_KEY。模型写 MiniMax-M3。不要 experimental_bearer_token。",
+    code: `export MINIMAX_API_KEY=YOUR_MINIMAX_API_KEY
+
+# ~/.codex/config.toml
+[model_providers.minimax]
+name = "MiniMax"
+base_url = "https://api.minimax.io/v1"
+env_key = "MINIMAX_API_KEY"
+wire_api = "responses"
+
+# ~/.codex/minimax.config.toml
+model_provider = "minimax"
+model = "MiniMax-M3"
+model_context_window = 1000000
+
+codex --profile minimax
+
+# 大陆站：
+# base_url = "https://api.minimaxi.com/v1"
+
+# 可选一键（先看会改哪些文件）：
+# npx -y mmx-cli@latest agent setup --agent codex --region global --dry-run
+
+# 不要：
+# experimental_bearer_token = "YOUR_MINIMAX_API_KEY"
+# [profiles.minimax]
+# openai_base_url = "https://api.minimax.io/v1"
+# plugin add minimax@
+# npx skills add MiniMax-AI/cli
+# --all
+`,
   }
 ];

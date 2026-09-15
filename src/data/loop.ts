@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-15T18:12:00Z",
+  lastTick: "2026-09-15T19:15:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "18:12 收口。#68 已重放 #63–#67、#69–#89 为 TIP 445–470；本轮续收 #90 为 471 deepseek-codex-gateway、#91 为 472 truefoundry-codex-gateway。合入后关 #90–#91。站点 472 技巧。",
+    "19:15 收口。#68 已重放 #63–#67、#69–#91 为 TIP 445–472；本轮续收 #92 为 473 helicone-codex-gateway、#93 为 474 minimax-codex-gateway。合入后关 #92–#93。站点 474 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2076,5 +2076,21 @@ export function seenUrls(): string[] {
     "skip databricks #89 coder #88 bifrost #87 deepseek #90",
     "X news: Codex CLI 2026-09-15 18:00",
     "Codex CLI 技巧 2026 TrueFoundry --profile truefoundry gateway.truefoundry.ai env_key",
+    "docs.helicone.ai gateway integrations codex model_providers.helicone",
+    "docs.helicone.ai gateway concepts responses-api ai-gateway.helicone.ai",
+    "docs.helicone.ai helicone-headers helicone-auth pk- sk- eu-",
+    "skip leftover 1830-2b7e CalendarBridge",
+    "skip truefoundry #91 deepseek #90 kong OPENAI_BASE_URL xAI grok Envoy llama.cpp",
+    "X news: Codex CLI 2026-09-15 18:30",
+    'X: ("Codex CLI" OR #CodexCLI) (Helicone OR gateway OR config.toml OR MCP OR profile OR skills)',
+    "Codex CLI 技巧 2026 Helicone --profile helicone ai-gateway.helicone.ai env_key",
+    "platform.minimax.io docs token-plan codex model_providers.minimax",
+    "platform.minimax.io docs token-plan agent-setup mmx-cli --agent codex",
+    "platform.minimax.io docs api-reference responses-create MiniMax-M3",
+    "skip leftover 1900-2b7e Vibe Prospecting",
+    "skip helicone #92 truefoundry #91 deepseek #90 groq OpenCode-only",
+    "X news: Codex CLI 2026-09-15 19:00",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR plugin OR skills OR config.toml OR gateway OR Helicone OR profile)',
+    "Codex CLI 技巧 2026 MiniMax --profile minimax api.minimax.io env_key",
   ];
 }

@@ -452,6 +452,8 @@ export const cheatSections: CheatSection[] = [
       { cmd: "codex --profile databricks", meaning: "[model_providers.Databricks] 走 /ai-gateway/codex/v1，wire_api = responses，令牌走 [model_providers.Databricks.auth]。不要抄 [profiles.default]。不是 ug mcp add，也不是 --oss" },
       { cmd: "codex --profile deepseek", meaning: "[model_providers.deepseek] 走 api.deepseek.com/，wire_api = responses，env_key = DEEPSEEK_API_KEY。不要 experimental_bearer_token。不是 MCP，也不是 --oss" },
       { cmd: "codex --profile truefoundry", meaning: "[model_providers.truefoundry] 走 gateway.truefoundry.ai，wire_api = responses，env_key = TFY_API_KEY。不要 http_headers 或 wire_api = chat。模型用 Virtual Model slug。不是 MCP，也不是 --oss" },
+      { cmd: "codex --profile helicone", meaning: "[model_providers.helicone] 走 ai-gateway.helicone.ai/v1，wire_api = responses，env_key = HELICONE_API_KEY。不要 wire_api = chat。不是 Helicone MCP，也不是 --oss" },
+      { cmd: "codex --profile minimax", meaning: "[model_providers.minimax] 走 api.minimax.io/v1，wire_api = responses，env_key = MINIMAX_API_KEY。不要 experimental_bearer_token。模型写 MiniMax-M3。不是 MCP，也不是 --oss" },
       { cmd: "npx skills add ActiveCampaign/postmark-skills", meaning: "博客点名 Codex。官方没钉 --agent codex。示例技能是 postmark-send-email。不要发明 plugin add postmark@。这不是 @activecampaign/postmark-mcp" },
       { cmd: "npx skills add datadog-labs/agent-skills/agent-observability --full-depth -y", meaning: "官方点名 Codex CLI。官方没钉 --agent codex。不要发明 plugin add。不要抄 Restart Claude Code。MCP 仍走 mcp.datadoghq.com/v1/mcp，工具集写 X-Datadog-MCP-Toolsets" },
       { cmd: "npx skills add tavily-ai/skills --all", meaning: "官方点名 Codex。官方没钉 --agent codex。示例技能是 tavily-search。不要发明 plugin add 或 mcp add。不要把 API key 拼进 mcp.tavily.com" },

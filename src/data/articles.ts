@@ -6270,5 +6270,65 @@ export const articles: Article[] = [
     tags: ['TFY_API_KEY', 'PAT', 'VAT'],
     summary:
       '网关认证用 TrueFoundry PAT/VAT，不是上游 OpenAI 密钥。CLI 环境变量名是 TFY_API_KEY。本地用 PAT，生产用 VAT。不要把 token 写进 TOML 或 http_headers。',
+  },
+  {
+    title: 'OpenAI Codex CLI and SDK',
+    url: 'https://docs.helicone.ai/gateway/integrations/codex',
+    source: 'Helicone Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Codex', 'Helicone', 'model_providers', 'HELICONE_API_KEY', 'ai-gateway.helicone.ai'],
+    summary:
+      'Helicone 官方 Codex 网关：profile 写 [model_providers.helicone]，base_url 是 https://ai-gateway.helicone.ai/v1，密钥用 env_key 不要 wire_api = chat。文档示例仍写 chat；现行只留 responses 和独立 profile。这不是 Helicone MCP。',
+  },
+  {
+    title: 'Responses API',
+    url: 'https://docs.helicone.ai/gateway/concepts/responses-api',
+    source: 'Helicone Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Responses', 'Helicone', 'AI Gateway', 'HELICONE_API_KEY', 'ai-gateway.helicone.ai'],
+    summary:
+      'Helicone AI Gateway 的 https://ai-gateway.helicone.ai/v1/responses。Bearer 读 HELICONE_API_KEY。目前写明 OpenAI 和 Anthropic。Codex CLI 必须 wire_api = responses，不要为了目录里的其它厂商改回 chat。',
+  },
+  {
+    title: 'Helicone Auth',
+    url: 'https://docs.helicone.ai/helicone-headers/helicone-auth',
+    source: 'Helicone Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Helicone', 'API key', 'EU', 'HELICONE_API_KEY', 'ai-gateway.helicone.ai'],
+    summary:
+      '网关 POST 要用写权限密钥；读权限给 MCP 查请求。欧盟密钥带 eu- 前缀，仍打 ai-gateway.helicone.ai。不要把密钥嵌进 gateway.helicone.ai 的 URL 路径。',
+  },
+  {
+    title: 'Codex',
+    url: 'https://platform.minimax.io/docs/token-plan/codex',
+    source: 'MiniMax Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Codex', 'MiniMax', 'model_providers', 'MINIMAX_API_KEY', 'api.minimax.io'],
+    summary:
+      'MiniMax 官方 Codex 网关：profile 写 [model_providers.minimax]，base_url 是 https://api.minimax.io/v1，密钥用 env_key 不要 experimental_bearer_token。文档仍把密钥写进 experimental_bearer_token；现行用独立 profile 和 env_key。模型写 MiniMax-M3。',
+  },
+  {
+    title: 'One-click setup wizard',
+    url: 'https://platform.minimax.io/docs/token-plan/agent-setup',
+    source: 'MiniMax Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MiniMax', 'mmx-cli', 'Codex', 'MINIMAX_API_KEY', 'api.minimax.io'],
+    summary:
+      'npx mmx-cli agent setup。只要 Codex 就 --agent codex，先 --dry-run。会改 ~/.codex/config.toml 和 mmx-model-catalog.json。已有 model_catalog_json 会停手。不要 --all。国际站流量仍打 api.minimax.io。',
+  },
+  {
+    title: 'Create Response',
+    url: 'https://platform.minimax.io/docs/api-reference/responses-create',
+    source: 'MiniMax Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Responses', 'MiniMax', 'MiniMax-M3', 'MINIMAX_API_KEY', 'api.minimax.io'],
+    summary:
+      'MiniMax 的 POST /v1/responses。国际站主机是 api.minimax.io。模型 MiniMax-M3。reasoning.effort 非 none 只开 Adaptive Thinking，不调深度。Codex 走 wire_api = responses。',
   }
 ];

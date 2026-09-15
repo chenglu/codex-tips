@@ -4218,5 +4218,152 @@ codex --profile truefoundry -m gpt-5.2-codex
         url: "https://www.truefoundry.com/docs/generating-truefoundry-api-keys",
       },
     ],
+  },
+  {
+    id: "helicone-codex-gateway",
+    no: 473,
+    title:
+      "Helicone 官方 Codex 网关：profile 写 [model_providers.helicone]，base_url 是 https://ai-gateway.helicone.ai/v1，密钥用 env_key 不要 wire_api = chat",
+    summary:
+      "用户层 [model_providers.helicone]，base_url 是 https://ai-gateway.helicone.ai/v1，wire_api = responses。env_key 读 HELICONE_API_KEY，不要再写 wire_api = chat。再用 ~/.codex/helicone.config.toml 和 --profile helicone。这不是 Helicone MCP，也不是 --oss。",
+    body: `Helicone 官方 Codex 网关：profile 写 [model_providers.helicone]，base_url 是 https://ai-gateway.helicone.ai/v1，密钥用 env_key 不要 wire_api = chat。
+
+这是换 Codex **背后那颗模型**，流量打到 Helicone AI Gateway，不是再加一台 MCP。官方 Codex 页给了 \`[model_providers.helicone]\` 和 \`env_key = "HELICONE_API_KEY"\`，但把 \`wire_api = "chat"\` 写进示例——现行 Codex 会硬错误。只留 \`responses\`。不要和 \`experimental_bearer_token\` / \`requires_openai_auth\` / \`[model_providers.*.auth]\` 叠在同一张供应商表。
+
+\`base_url\` 就是 \`https://ai-gateway.helicone.ai/v1\`。**Codex 不会在 \`base_url\` 里展开环境变量**。不要写 \`openai_base_url\`。不要把密钥嵌进 \`https://gateway.helicone.ai/YOUR_HELICONE_API_KEY/v1/\`——那是经典代理的旁路，不是 AI Gateway。也不要把经典代理的 \`Helicone-Auth\` 头当成这张表的主路径；AI Gateway 用 \`env_key\` 发 Bearer。
+
+官方把路径写成 \`$CODEX_HOME/.codex/config.toml\`。\`$CODEX_HOME\` 默认就是 \`~/.codex\`，文件是 \`$CODEX_HOME/config.toml\`，不要再套一层 \`.codex\`。供应商表放**用户**层。项目 \`.codex/config.toml\` 改不了 \`model_provider\` / \`model_providers\`。
+
+不要把顶层 \`model_provider = "helicone"\` 一上来写进用户 config，除非你就是要把**所有**会话都改走网关。官方手册示例就是全局默认。更稳妥是独立 profile（0.134 起不要再写 \`[profiles.helicone]\`）：
+
+\`\`\`toml
+# ~/.codex/config.toml
+[model_providers.helicone]
+name = "Helicone"
+base_url = "https://ai-gateway.helicone.ai/v1"
+env_key = "HELICONE_API_KEY"
+wire_api = "responses"
+\`\`\`
+
+\`\`\`toml
+# ~/.codex/helicone.config.toml
+model_provider = "helicone"
+model = "gpt-5"
+\`\`\`
+
+\`\`\`bash
+export HELICONE_API_KEY=YOUR_HELICONE_API_KEY
+codex --profile helicone
+codex --profile helicone -m gpt-5
+\`\`\`
+
+\`env_key\` 是变量**名**。密钥必须在**启动 Codex 的那个进程**里。网关 POST 要用带写权限的密钥（文档写写权限以 \`pk-\` 开头）；MCP 查请求那条才是读权限 \`sk-\`。欧盟密钥带 \`eu-\` 前缀，仍打 \`https://ai-gateway.helicone.ai/v1\`，不要改成 \`eu.helicone.ai\`。
+
+官方 SDK 节自己说：Codex SDK 指定不了 wire API，默认就走 Responses，而且网关对 Responses **有限模型**可用。Responses 页写明目前是 OpenAI 和 Anthropic。CLI 不要抄 \`wire_api = "chat"\` 去迁就 Chat Completions 目录里的其它厂商。模型 slug 用网关认识的短名，例如 \`gpt-5\`、\`claude-sonnet-4-20250514\`。官方没写 WebSocket；不要发明 \`supports_websockets = true\`。
+
+这**不是** \`codex mcp add helicone -- npx @helicone/mcp@latest\`。MCP 查账号里的请求；这张表换模型流量。不要发明 \`plugin add helicone@\`。
+
+不要做这些：
+
+- 不要再写 \`[profiles.helicone]\` 或 \`wire_api = "chat"\`。
+- 不要把密钥写进 \`http_headers\` 或 \`base_url\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`helicone\` 是新 ID，可以。
+- 不要写进项目 \`.codex/config.toml\`。
+- 不要和 \`--oss\` / \`oss_provider\` 混成一条。
+- 不要把这张表当成 MCP。
+- 不要把 \`$CODEX_HOME/.codex/config.toml\` 再套一层目录。
+
+改完新开会话。\`codex --profile helicone\` 起得来，说明供应商和 \`HELICONE_API_KEY\` 都进了这一进程。401 先看进程里有没有写权限密钥；连得上但工具/推理失败，先换 Responses 页列出的 OpenAI / Anthropic 模型。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["model_providers", "Helicone", "wire_api", "profile"],
+    related: ["mcp-helicone-stdio", "vercel-ai-gateway", "profile-files-not-tables"],
+    sources: [
+      {
+        label: "Helicone · OpenAI Codex",
+        url: "https://docs.helicone.ai/gateway/integrations/codex",
+      },
+      {
+        label: "Helicone · Responses API",
+        url: "https://docs.helicone.ai/gateway/concepts/responses-api",
+      },
+      {
+        label: "Helicone · Auth",
+        url: "https://docs.helicone.ai/helicone-headers/helicone-auth",
+      },
+    ],
+  },
+  {
+    id: "minimax-codex-gateway",
+    no: 474,
+    title:
+      "MiniMax 官方 Codex 网关：profile 写 [model_providers.minimax]，base_url 是 https://api.minimax.io/v1，密钥用 env_key 不要 experimental_bearer_token",
+    summary:
+      "用户层 [model_providers.minimax]，国际站 base_url 是 https://api.minimax.io/v1，wire_api = responses。env_key 读 MINIMAX_API_KEY，不要把密钥写进 experimental_bearer_token。再用 ~/.codex/minimax.config.toml 和 --profile minimax。模型写 MiniMax-M3。这不是 MCP，也不是 --oss。",
+    body: `MiniMax 官方 Codex 网关：profile 写 [model_providers.minimax]，base_url 是 https://api.minimax.io/v1，密钥用 env_key 不要 experimental_bearer_token。
+
+这是换 Codex **背后那颗模型**，流量打到 MiniMax Responses 入口，不是再加一台 MCP。官方 Codex 页给了 \`[model_providers.minimax]\` 和 \`wire_api = "responses"\`，但把密钥写进 \`experimental_bearer_token\`——那是把密钥写进 TOML。改成 \`env_key\`（变量**名**），在启动 Codex 的进程里 \`export MINIMAX_API_KEY\`。不要和 \`experimental_bearer_token\` / \`requires_openai_auth\` / \`[model_providers.*.auth]\` 叠在同一张供应商表。
+
+国际站 \`base_url\` 是 \`https://api.minimax.io/v1\`。大陆 Token Plan 换成 \`https://api.minimaxi.com/v1\`，密钥从 platform.minimaxi.com 开，不要混站。**Codex 不会在 \`base_url\` 里展开环境变量**。不要写 \`openai_base_url\`，也不要抄 OpenAI SDK 页的 \`OPENAI_BASE_URL\`。
+
+不要把顶层 \`model_provider = "minimax"\` 一上来写进用户 config，除非你就是要把**所有**会话都改走 MiniMax。官方手册和一键向导都会改成默认。更稳妥是独立 profile（0.134 起不要再写 \`[profiles.minimax]\`）：
+
+\`\`\`toml
+# ~/.codex/config.toml
+[model_providers.minimax]
+name = "MiniMax"
+base_url = "https://api.minimax.io/v1"
+env_key = "MINIMAX_API_KEY"
+wire_api = "responses"
+\`\`\`
+
+\`\`\`toml
+# ~/.codex/minimax.config.toml
+model_provider = "minimax"
+model = "MiniMax-M3"
+model_context_window = 1000000
+\`\`\`
+
+\`\`\`bash
+export MINIMAX_API_KEY=YOUR_MINIMAX_API_KEY
+codex --profile minimax
+codex --profile minimax -m MiniMax-M3
+\`\`\`
+
+官方一键向导是 \`npx -y mmx-cli@latest agent setup\`。只要 Codex 时加 \`--agent codex\`，先 \`--dry-run\` 看会改 \`~/.codex/config.toml\` 和 \`~/.codex/mmx-model-catalog.json\`。不要 \`--all\`，那会改 Claude Code / OpenCode / Grok CLI。非交互还要 \`--region global\` 或 \`cn\`。向导会把 MiniMax 写成默认模型，并可能写 \`experimental_bearer_token\`；跑完改回 \`env_key\`。已有 \`model_catalog_json\` 时向导会停手，改走手写。
+
+可选目录：\`model_catalog_json\` 必须是启动时能读到的**绝对路径**，不要写 \`~\`。本地 JSON **覆盖**内置目录，不是追加。官方示例里的 \`base_instructions\` 是人格段，不要整段抄进站点或仓库。需要 \`/model\` 列出 MiniMax-M3 时，只留 slug、reasoning 档（\`none\` 关思考、\`high\` 开 Adaptive Thinking）和 \`shell_command\`。Token Plan 密钥是 \`sk-cp-\`，按量是 \`sk-api-\`，配额不共用。
+
+不要做这些：
+
+- 不要再写 \`[profiles.minimax]\` 或把密钥写进 \`experimental_bearer_token\`。
+- 不要发明 \`plugin add minimax@\`。
+- 不要把 \`npx skills add MiniMax-AI/cli\` 当成 Codex 供应商安装器。那是 mmx CLI 的 SKILL.md。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`minimax\` 是新 ID，可以。
+- 不要写进项目 \`.codex/config.toml\`。项目文件改不了 \`model_provider\` / \`model_providers\`。
+- 不要和 \`--oss\` / \`oss_provider\` 混成一条。
+- 不要把这张表当成 MCP。
+
+改完新开会话。\`codex --profile minimax\` 起得来，说明供应商和 \`MINIMAX_API_KEY\` 都进了这一进程。401 先看国际站 / 大陆站是不是和密钥同一边；\`/model\` 仍显示 Custom 时，先 \`codex debug models\` 再决定要不要绝对路径的目录文件。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["model_providers", "MiniMax", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "model-catalog-json", "vercel-ai-gateway"],
+    sources: [
+      {
+        label: "MiniMax · Codex",
+        url: "https://platform.minimax.io/docs/token-plan/codex",
+      },
+      {
+        label: "MiniMax · One-click setup wizard",
+        url: "https://platform.minimax.io/docs/token-plan/agent-setup",
+      },
+      {
+        label: "MiniMax · Create Response",
+        url: "https://platform.minimax.io/docs/api-reference/responses-create",
+      },
+    ],
   }
 ];
