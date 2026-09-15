@@ -6030,5 +6030,35 @@ export const articles: Article[] = [
     tags: ['agentgateway', 'OpenAI', 'config.yaml', 'AGENTGATEWAY_API_KEY'],
     summary:
       '网关 config.yaml 的 params.apiKey 是上游 OPENAI_API_KEY，通配 * 接 Codex 请求里的模型名。连 Codex 时客户端钥匙才是 AGENTGATEWAY_API_KEY。这页不是 MCP。',
+  },
+  {
+    title: 'Codex with Azure OpenAI in Microsoft Foundry Models',
+    url: 'https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/codex',
+    source: 'Microsoft Learn',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Codex', 'Azure', 'Foundry', 'AZURE_OPENAI_API_KEY'],
+    summary:
+      'Azure OpenAI 官方 Codex 网关：profile 写 [model_providers.azure]，base_url 是 https://YOUR_RESOURCE_NAME.openai.azure.com/openai/v1，env_key 读 AZURE_OPENAI_API_KEY。v1 不要再传 api-version。Entra 目前不可用。CI 示例是 -p azure exec。',
+  },
+  {
+    title: 'Azure OpenAI in Microsoft Foundry Models v1 API',
+    url: 'https://learn.microsoft.com/en-us/azure/foundry/openai/api-version-lifecycle',
+    source: 'Microsoft Learn',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Azure', 'Responses', 'v1', 'AZURE_OPENAI_API_KEY'],
+    summary:
+      'v1 GA 的 Responses 入口要在资源域名后加 /openai/v1，不再强制 api-version。Codex 供应商表的 env_key 仍是 AZURE_OPENAI_API_KEY。也接受 services.ai.azure.com/openai/v1。',
+  },
+  {
+    title: 'Sample Configuration',
+    url: 'https://learn.chatgpt.com/docs/config-file/config-sample',
+    source: 'OpenAI Codex Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['config.toml', 'Azure', 'AZURE_OPENAI_API_KEY'],
+    summary:
+      '样本里的 Azure 表还停在 /openai 加 api-version preview。Foundry Codex 专页改走 /openai/v1。两套不要混。env_key 都是 AZURE_OPENAI_API_KEY。',
   }
 ];

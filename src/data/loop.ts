@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-15T14:17:00Z",
+  lastTick: "2026-09-15T15:14:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "14:17 收口。#68 已重放 #63–#67、#69–#81 为 TIP 445–462；本轮续收 #82 为 463 nim-codex-gateway、#83 为 464 agentgateway-codex-gateway。合入后关 #82–#83。站点 464 技巧。",
+    "15:14 收口。#68 已重放 #63–#67、#69–#83 为 TIP 445–464；本轮续收 #84 为 465 azure-openai-codex-gateway。合入后关 #84。站点 465 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2007,5 +2007,15 @@ export function seenUrls(): string[] {
     "X news: Codex CLI 2026-09-15 14:00",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR plugin OR skills OR AGENTS.md OR profile OR worktree OR exec)',
     "Codex CLI 技巧 2026 agentgateway --profile agentgateway AGENTGATEWAY_API_KEY",
+    "learn.microsoft.com azure foundry openai how-to Codex AZURE_OPENAI_API_KEY",
+    "learn.microsoft.com azure foundry openai api-version-lifecycle openai/v1",
+    "learn.chatgpt.com config-file Azure query_params api-version preview skip mix with v1",
+    "skip agentgateway #83 NIM #82 Cloudflare AIG #81 OpenRouter #80 LiteLLM #79 Fireworks #78",
+    "skip Portkey #77 Laminar #76 Logfire #75 LangSmith #74 Phoenix #73 Weave #72 Langfuse #71",
+    "skip AWS #70 Doppler #69 1Password #67 Braintrust #65 CodeGuard #64 GitGuardian main TIP 444",
+    "skip Groq Together Cerebras Morph Fastmail Vault ConfigCat Meilisearch Cal.com Astah SQLcl",
+    "X news: Codex CLI 2026-09-15 14:30",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR plugin OR skills OR AGENTS.md OR Azure OR profile OR exec)',
+    "Codex CLI 技巧 2026 Azure OpenAI --profile azure AZURE_OPENAI_API_KEY",
   ];
 }

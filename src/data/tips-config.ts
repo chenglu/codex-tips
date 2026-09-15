@@ -3624,5 +3624,78 @@ codex --profile agentgateway "Hello"
         url: "https://agentgateway.dev/docs/standalone/latest/llm/providers/openai/",
       },
     ],
+  },
+  {
+    id: "azure-openai-codex-gateway",
+    no: 465,
+    title:
+      "Azure OpenAI 官方 Codex 网关：profile 写 [model_providers.azure]，base_url 是 https://YOUR_RESOURCE_NAME.openai.azure.com/openai/v1，env_key 读 AZURE_OPENAI_API_KEY",
+    summary:
+      "Foundry Codex 专页走 v1 Responses：用户层 [model_providers.azure]，base_url 必须带 /openai/v1，不要再塞 query_params 的 api-version。env_key = AZURE_OPENAI_API_KEY。再用 ~/.codex/azure.config.toml 和 --profile azure。Entra 目前不可用。这不是 Azure Skills 插件，也不是 --oss。",
+    body: `Azure OpenAI 官方 Codex 网关：profile 写 [model_providers.azure]，base_url 是 https://YOUR_RESOURCE_NAME.openai.azure.com/openai/v1，env_key 读 AZURE_OPENAI_API_KEY。
+
+这是换 Codex **背后那颗模型**，流量留在 Azure Foundry，不是再加一台 MCP。Microsoft Foundry 的 Codex 专页用 **v1 Responses**：\`base_url\` 必须带 \`/openai/v1\`，**不要**再传 \`api-version\`。\`env_key\` 只能写变量**名**，不能把密钥字面量塞进去。\`model\` 是你在 Foundry 里的**部署名**，不是随便抄目录 slug。
+
+官方示例会把 \`model_provider = "azure"\` 写进用户 \`~/.codex/config.toml\`，变成**所有**会话的默认后端。更稳妥是独立 profile（用户层 \`$CODEX_HOME\`，不是项目 \`.codex\`）。GitHub Actions 官方示例也是 \`-p azure\`，跟 profile 名对齐：
+
+\`\`\`toml
+# ~/.codex/azure.config.toml
+model = "YOUR_DEPLOYMENT_NAME"
+model_provider = "azure"
+model_reasoning_effort = "medium"
+
+[model_providers.azure]
+name = "Azure OpenAI"
+base_url = "https://YOUR_RESOURCE_NAME.openai.azure.com/openai/v1"
+env_key = "AZURE_OPENAI_API_KEY"
+wire_api = "responses"
+\`\`\`
+
+把 \`YOUR_RESOURCE_NAME\` 换成资源名，\`YOUR_DEPLOYMENT_NAME\` 换成部署名。**Codex 不会在 \`base_url\` 里展开环境变量**，不要把 \`\$AZURE_OPENAI_ENDPOINT\` 留在 TOML 里。Foundry v1 也接受 \`https://YOUR_RESOURCE_NAME.services.ai.azure.com/openai/v1\`。
+
+\`\`\`bash
+export AZURE_OPENAI_API_KEY="YOUR_AZURE_OPENAI_KEY"
+codex --profile azure
+codex --profile azure "write a unit test for src/utils/date.ts"
+codex -p azure exec --full-auto "update CHANGELOG for next release"
+\`\`\`
+
+密钥必须出现在**启动 Codex 的那个进程**里。从已经 export 的终端启动；Dock / 开始菜单打开的桌面或 VS Code 读不到你刚改的 zshrc。WSL 里用 Codex 扩展时，还要在 **Windows 主机**上设同一颗 \`AZURE_OPENAI_API_KEY\`，再 \`code .\`。不要抄专页 VS Code 节里那行 \`export OPENAI_API_KEY\`——\`env_key\` 读的是 \`AZURE_OPENAI_API_KEY\`。
+
+0.134 起不要再写 \`[profiles.azure]\`。不要写进项目 \`.codex/config.toml\`：项目文件改不了 \`model_provider\` / \`model_providers\`。CI 把仓库密钥存成 \`AZURE_OPENAI_KEY\`，进进程时仍要 export 成 \`AZURE_OPENAI_API_KEY\`。Foundry 写明 \`gpt-6-astra\` 在 Azure 上验证过 Codex CLI \`0.152.1\` 和 \`0.153.0\`（含多代理和 prompt cache），这是验证过的版本，不是最低版本。
+
+不要把它和 Learn 高级配置里那份 **preview** 片段混抄。那边是 \`base_url\` 停在 \`/openai\`（没有 \`/v1\`），再加 \`query_params = { api-version = "2025-04-01-preview" }\`。v1 路径不要再叠 \`api-version\`；preview 路径不要只加 \`/v1\` 却留着旧 query。跟 Foundry Codex 专页走时，用带 \`/v1\`、不带 \`query_params\` 的那张表。
+
+不要做这些：
+
+- 不要把这张表当成 \`plugin marketplace add microsoft/azure-skills\`。那是订阅 / 部署技能和 \`@azure/mcp\`，不是换模型。
+- 不要发明 \`plugin add azure-openai@\`。
+- 不要写 \`wire_api = "chat"\`，也不要省略 \`/openai/v1\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`azure\` 是新 ID，可以。
+- 不要和 \`--oss\` / \`oss_provider\` 混成一条。
+- 不要把 \`OPENAI_BASE_URL\` 当主路径。
+- 不要指望 Entra ID：Foundry 写明 Codex **目前**不支持。
+- 不要把密钥写进 \`http_headers\` 或 TOML 字面量。
+
+改完新开会话。\`codex --profile azure\` 起得来，说明 profile、供应商和 \`AZURE_OPENAI_API_KEY\` 都进了这一进程。401 先看进程里有没有这颗变量；404 / DNS 先对照资源名和 \`/openai/v1\`。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide", "ci"],
+    tags: ["model_providers", "Azure", "Foundry", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "azure-skills-plugin", "vercel-ai-gateway"],
+    sources: [
+      {
+        label: "Microsoft Foundry · Codex with Azure OpenAI",
+        url: "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/codex",
+      },
+      {
+        label: "Microsoft Foundry · v1 API",
+        url: "https://learn.microsoft.com/en-us/azure/foundry/openai/api-version-lifecycle",
+      },
+      {
+        label: "OpenAI · Advanced configuration",
+        url: "https://learn.chatgpt.com/docs/config-file/config-advanced",
+      },
+    ],
   }
 ];

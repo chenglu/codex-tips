@@ -4850,5 +4850,22 @@ base_url = "http://localhost:4000/v1"
 wire_api = "responses"
 env_key = "AGENTGATEWAY_API_KEY"
 `,
+  },
+  {
+    id: "azure-openai-codex-gateway",
+    title: "Azure profile 把 Codex 模型流量喂给 openai.azure.com/openai/v1",
+    filename: "~/.codex/azure.config.toml",
+    summary:
+      "Azure profile 把 Codex 模型流量喂给 openai.azure.com/openai/v1。用户层 [model_providers.azure]，wire_api = responses，env_key = AZURE_OPENAI_API_KEY。不要再叠 api-version。不是 Azure Skills。",
+    code: `model = "YOUR_DEPLOYMENT_NAME"
+model_provider = "azure"
+model_reasoning_effort = "medium"
+
+[model_providers.azure]
+name = "Azure OpenAI"
+base_url = "https://YOUR_RESOURCE_NAME.openai.azure.com/openai/v1"
+env_key = "AZURE_OPENAI_API_KEY"
+wire_api = "responses"
+`,
   }
 ];
