@@ -3697,5 +3697,80 @@ codex -p azure exec --full-auto "update CHANGELOG for next release"
         url: "https://learn.chatgpt.com/docs/config-file/config-advanced",
       },
     ],
+  },
+  {
+    id: "openaidr-codex-gateway",
+    no: 466,
+    title:
+      "OpenAI 数据驻留官方 Codex 网关：profile 写 [model_providers.openaidr]，base_url 是 https://us.api.openai.com/v1，把 us 换成驻留域前缀",
+    summary:
+      "用户层 [model_providers.openaidr]，base_url 用驻留前缀如 https://us.api.openai.com/v1，wire_api = responses。再用 ~/.codex/openaidr.config.toml 和 --profile openaidr。ChatGPT 工作区驻留不必另开表。不要写 [model_providers.openai]。",
+    body: `OpenAI 数据驻留官方 Codex 网关：profile 写 [model_providers.openaidr]，base_url 是 https://us.api.openai.com/v1，把 us 换成驻留域前缀。
+
+这是把 Codex **背后那颗模型**打到 OpenAI 的区域主机名，不是再加一台 MCP。官方给 API 组织两条路：
+
+1. 最简单：用户层写 \`openai_base_url = "https://us.api.openai.com/v1"\`，改的是**内置** \`openai\` 供应商，不要新建 \`[model_providers.openai]\`（内置 ID 改不了）。
+2. 要单独 profile、不动默认 openai 时：新 ID \`openaidr\`，\`name = "OpenAI Data Residency"\`，\`base_url\` 换成项目驻留前缀。
+
+ChatGPT **工作区**开了数据驻留时，自定义供应商**不是**必须的；用 ChatGPT 登录后 Codex 会跟工作区走。\`openaidr\` 表是给**已启用数据驻留的 API 组织 / 项目**用的。
+
+官方示例会把 \`model_provider = "openaidr"\` 写进用户 \`~/.codex/config.toml\`，变成**所有**会话的默认后端。更稳妥是独立 profile（用户层 \`$CODEX_HOME\`，不是项目 \`.codex\`）：
+
+\`\`\`toml
+# ~/.codex/openaidr.config.toml
+model_provider = "openaidr"
+
+[model_providers.openaidr]
+name = "OpenAI Data Residency"
+base_url = "https://us.api.openai.com/v1"
+wire_api = "responses"
+\`\`\`
+
+把 \`us\` 换成项目驻留域前缀，例如 \`eu\`、\`jp\`、\`gb\`。官方样本把 \`wire_api = "responses"\` 标成**唯一**支持值。\`requires_openai_auth = true\` 只在走 OpenAI / ChatGPT 登录时按需打开。**不要**叠 \`env_key\`、\`[model_providers.openaidr.auth]\` 和 \`requires_openai_auth\`。走 API key、又不想另开表时，用上面的 \`openai_base_url\`，内置 \`openai\` 已经会读进程里的 \`OPENAI_API_KEY\`。
+
+**Codex 不会在 \`base_url\` 里展开环境变量**，不要把 \`$OPENAI_BASE_URL\` 留在 TOML 里。
+
+\`\`\`bash
+codex --profile openaidr
+codex --profile openaidr "summarize the last commit"
+codex -p openaidr exec --full-auto "list failing tests"
+\`\`\`
+
+0.134 起不要再写 \`[profiles.openaidr]\`。不要写进项目 \`.codex/config.toml\`：项目文件改不了 \`openai_base_url\` / \`model_provider\` / \`model_providers\`。
+
+平台文档里美国主机名是 \`https://us.api.openai.com/v1\`。EU 是 \`eu.api.openai.com\`，还有 \`au\` / \`ca\` / \`jp\` / \`in\` / \`sg\` / \`kr\` / \`gb\` / \`ae\`。只有部分区域做区域内推理；存储支持和推理支持不是一回事，以 Data controls 表为准。项目没开对应驻留却打区域主机名，常见 \`401 incorrect_hostname\`。
+
+不要把它和企业 \`requirements.toml\` 里的 \`enforce_residency\` 混成一条。后者是 ChatGPT 工作区请求头约束，不是这张 API 供应商表。
+
+不要做这些：
+
+- 不要写 \`[model_providers.openai]\`。
+- 不要发明 \`plugin add openaidr@\`。
+- 不要写 \`wire_api = "chat"\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`openaidr\` 是新 ID，可以。
+- 不要和 \`--oss\` / \`oss_provider\` 混成一条。
+- 不要把 ChatGPT 工作区驻留再抄成必须另开表。
+- 不要把密钥写进 \`http_headers\` 或 TOML 字面量。
+
+改完新开会话。\`codex --profile openaidr\` 起得来，说明 profile 和区域 \`base_url\` 都进了这一进程。401 先对照项目驻留和主机名前缀。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide", "ci"],
+    tags: ["model_providers", "openaidr", "Data Residency", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "project-config-cannot-override-auth", "vercel-ai-gateway"],
+    sources: [
+      {
+        label: "OpenAI · Advanced configuration",
+        url: "https://developers.openai.com/codex/config-file/config-advanced",
+      },
+      {
+        label: "OpenAI · Sample configuration",
+        url: "https://developers.openai.com/codex/config-file/config-sample",
+      },
+      {
+        label: "OpenAI · Data controls",
+        url: "https://developers.openai.com/api/docs/guides/your-data",
+      },
+    ],
   }
 ];

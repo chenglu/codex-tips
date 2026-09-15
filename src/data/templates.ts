@@ -4867,5 +4867,19 @@ base_url = "https://YOUR_RESOURCE_NAME.openai.azure.com/openai/v1"
 env_key = "AZURE_OPENAI_API_KEY"
 wire_api = "responses"
 `,
+  },
+  {
+    id: "openaidr-codex-gateway",
+    title: "openaidr profile 把 Codex 模型流量喂给 us.api.openai.com/v1",
+    filename: "~/.codex/openaidr.config.toml",
+    summary:
+      "openaidr profile 把 Codex 模型流量喂给 us.api.openai.com/v1。用户层 [model_providers.openaidr]，wire_api = responses。ChatGPT 工作区驻留不必另开表。不要写 [model_providers.openai]。",
+    code: `model_provider = "openaidr"
+
+[model_providers.openaidr]
+name = "OpenAI Data Residency"
+base_url = "https://us.api.openai.com/v1"
+wire_api = "responses"
+`,
   }
 ];

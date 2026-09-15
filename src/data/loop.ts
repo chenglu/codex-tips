@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-15T15:14:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "15:14 收口。#68 已重放 #63–#67、#69–#83 为 TIP 445–464；本轮续收 #84 为 465 azure-openai-codex-gateway。合入后关 #84。站点 465 技巧。",
+    "15:14 收口。#68 已重放 #63–#67、#69–#83 为 TIP 445–464；本轮续收 #84 为 465 azure-openai-codex-gateway、#85 为 466 openaidr-codex-gateway。合入后关 #84–#85。站点 466 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2017,5 +2017,13 @@ export function seenUrls(): string[] {
     "X news: Codex CLI 2026-09-15 14:30",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR plugin OR skills OR AGENTS.md OR Azure OR profile OR exec)',
     "Codex CLI 技巧 2026 Azure OpenAI --profile azure AZURE_OPENAI_API_KEY",
+    "developers.openai.com/codex config-advanced openaidr us.api.openai.com data residency",
+    "developers.openai.com/api/docs/guides/your-data us.api.openai.com Codex",
+    "learn.chatgpt.com config-file config-sample [model_providers.openaidr]",
+    "skip Mistral native Codex gateway Chat Completions no wire_api responses",
+    "skip Azure #84 agentgateway #83 NIM #82 Cloudflare AIG #81 OpenRouter #80 LiteLLM #79",
+    "X news: Codex CLI 2026-09-15 15:00",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR plugin OR skills OR AGENTS.md OR profile OR exec OR residency)',
+    "Codex CLI 技巧 2026 OpenAI data residency --profile openaidr us.api.openai.com",
   ];
 }

@@ -6060,5 +6060,35 @@ export const articles: Article[] = [
     tags: ['config.toml', 'Azure', 'AZURE_OPENAI_API_KEY'],
     summary:
       '样本里的 Azure 表还停在 /openai 加 api-version preview。Foundry Codex 专页改走 /openai/v1。两套不要混。env_key 都是 AZURE_OPENAI_API_KEY。',
+  },
+  {
+    title: 'Data controls in the OpenAI platform',
+    url: 'https://developers.openai.com/api/docs/guides/your-data',
+    source: 'OpenAI Platform',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Data residency', 'us.api.openai.com', 'Responses'],
+    summary:
+      'API 数据驻留按项目选区域。请求要打区域主机名，例如 us.api.openai.com。Codex 把该前缀写进 openai_base_url 或 [model_providers.openaidr] 的 base_url。存储和区域内推理不是一回事。',
+  },
+  {
+    title: 'Codex config-file Advanced: OpenAI data residency openaidr',
+    url: 'https://developers.openai.com/codex/config-file/config-advanced',
+    source: 'OpenAI Codex Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['openaidr', 'us.api.openai.com', 'config.toml'],
+    summary:
+      'OpenAI 数据驻留官方 Codex 网关：profile 写 [model_providers.openaidr]，base_url 是 https://us.api.openai.com/v1，把 us 换成驻留域前缀。ChatGPT 工作区驻留不必另开表。不要写 [model_providers.openai]。',
+  },
+  {
+    title: 'Codex config-file Sample: openaidr wire_api responses',
+    url: 'https://developers.openai.com/codex/config-file/config-sample',
+    source: 'OpenAI Codex Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['openaidr', 'us.api.openai.com', 'wire_api'],
+    summary:
+      '样本注释里的 [model_providers.openaidr] 把 base_url 写成 https://us.api.openai.com/v1，并标明 wire_api = responses 是唯一支持值。requires_openai_auth 仅 OpenAI 登录时按需打开，不要和 env_key 叠。',
   }
 ];
