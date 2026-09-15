@@ -5730,5 +5730,65 @@ export const articles: Article[] = [
     tags: ['Phoenix', 'notify', 'README', 'Codex'],
     summary:
       'README 仍写 /hooks 审 arize-hook-codex-*，那是旧布局。现行安装器是 notify-only。PHOENIX_PROJECT 与 ARIZE_TRACE_ENABLED 写在 arize-env.sh。测一条短 exec。',
+  },
+  {
+    title: 'Trace OpenAI Codex sessions',
+    url: 'https://docs.langchain.com/langsmith/trace-with-codex',
+    source: 'LangSmith Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['LangSmith', 'plugins', 'hooks', 'Codex', 'TRACE_TO_LANGSMITH'],
+    summary:
+      '官方把 Codex 回合打进 LangSmith。marketplace add langchain-ai/langsmith-codex-plugins。TRACE_TO_LANGSMITH 开追踪。凭证 LANGSMITH_CODEX_API_KEY。文档仍写 plugin_hooks，现行不要手写。',
+  },
+  {
+    title: 'langchain-ai/langsmith-codex-plugins',
+    url: 'https://github.com/langchain-ai/langsmith-codex-plugins',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['LangSmith', 'plugins', 'hooks', 'Codex', 'TRACE_TO_LANGSMITH'],
+    summary:
+      'LangSmith 官方 Codex 追踪：marketplace add langchain-ai/langsmith-codex-plugins，再 plugin add tracing@langsmith-codex-plugins。TRACE_TO_LANGSMITH 开追踪。要 0.153.4+ 和同步 UserPromptSubmit。',
+  },
+  {
+    title: 'marketplace.json',
+    url: 'https://github.com/langchain-ai/langsmith-codex-plugins/blob/main/.agents/plugins/marketplace.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '清单',
+    tags: ['LangSmith', 'marketplace', 'plugins', 'Codex', 'TRACE_TO_LANGSMITH'],
+    summary:
+      '清单 name 是 langsmith-codex-plugins，插件 name 是 tracing。源是 ./plugins/tracing。TRACE_TO_LANGSMITH 仍要进程环境打开。不要发明 tracing@openai-curated。',
+  },
+  {
+    title: 'Export Codex Activity to Logfire',
+    url: 'https://pydantic.dev/docs/logfire/guides/codex-logfire-exporter/',
+    source: 'Pydantic Logfire Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Logfire', 'plugins', 'hooks', 'Codex', 'CODEX_LOGFIRE_CONTENT_CAPTURE_MODE'],
+    summary:
+      '官方 Codex：marketplace add pydantic/skills --ref main，再 plugin add logfire-exporter@pydantic-skills。Stop 才导出。CODEX_LOGFIRE_CONTENT_CAPTURE_MODE 默认 full。LOGFIRE_TOKEN 写 config.env。',
+  },
+  {
+    title: 'pydantic/skills',
+    url: 'https://github.com/pydantic/skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Logfire', 'plugins', 'hooks', 'Codex', 'CODEX_LOGFIRE_CONTENT_CAPTURE_MODE'],
+    summary:
+      'Logfire 官方 Codex 追踪：marketplace add pydantic/skills，再 plugin add logfire-exporter@pydantic-skills。清单 name 是 pydantic-skills。CODEX_LOGFIRE_CONTENT_CAPTURE_MODE 控制正文。导出器只在 Codex。',
+  },
+  {
+    title: 'Coding Agent Skills',
+    url: 'https://pydantic.dev/docs/logfire/guides/skills/',
+    source: 'Pydantic Logfire Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Logfire', 'Skills', 'plugins', 'Codex', 'CODEX_LOGFIRE_CONTENT_CAPTURE_MODE'],
+    summary:
+      'Codex 技能页同时给 logfire@pydantic-skills 和 logfire-exporter@pydantic-skills。导出器要写令牌。CODEX_LOGFIRE_CONTENT_CAPTURE_MODE 在导出器指南。不要抄 Claude 的 logfire@claude-plugins-official。',
   }
 ];

@@ -15489,5 +15489,183 @@ export ARIZE_LOG_TOOL_CONTENT="false"
         url: "https://github.com/Arize-ai/coding-harness-tracing/blob/main/tracing/codex/README.md",
       },
     ],
+  },
+  {
+    id: "langsmith-codex-tracing-plugin",
+    no: 455,
+    title:
+      "LangSmith 官方 Codex 追踪：marketplace add langchain-ai/langsmith-codex-plugins，再 plugin add tracing@langsmith-codex-plugins",
+    summary:
+      "清单名是 langsmith-codex-plugins。要 Codex 0.153.4+ 和同步 UserPromptSubmit。TRACE_TO_LANGSMITH 开追踪。密钥走 LANGSMITH_CODEX_API_KEY。文档里的 plugin_hooks 已删。钩子要在 /hooks 另信。不要走 Remote MCP。",
+    body: `LangSmith 官方 Codex 追踪：marketplace add langchain-ai/langsmith-codex-plugins，再 plugin add tracing@langsmith-codex-plugins。这是把 Codex **自己的回合**打进 LangSmith，不是去查 LangChain 文档，也不是去改 LangSmith 项目数据。官方集成页和仓库 README 都写了 marketplace；集成页只写 \`enabled = true\`，清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`langsmith-codex-plugins\`，插件 name 是 \`tracing\`，所以现行 CLI 还要 \`plugin add\`。源是 \`./plugins/tracing\`。本机要 Node.js 22+。仓库要求 Codex **0.153.4** 以上，并且同步 \`UserPromptSubmit\` 钩子已启用且信任。
+
+\`\`\`bash
+codex plugin marketplace add langchain-ai/langsmith-codex-plugins
+codex plugin add tracing@langsmith-codex-plugins
+codex plugin list
+\`\`\`
+
+\`codex plugin list\` 应看到 \`tracing@langsmith-codex-plugins\` 为 installed, enabled。加完先看**当前会话**；当前会话 \`/plugins\` 没有再新开。IDE 扩展没有 \`/plugins\`，用 CLI 加。网页 Cloud 不读本机 marketplace。
+
+钩子要单独打开并信任。现行键是 \`hooks\`，**不要**抄集成页仍写着的 \`plugin_hooks\`（这面旗已经从 Codex 删掉）：
+
+\`\`\`toml
+[features]
+hooks = true
+
+[plugins."tracing@langsmith-codex-plugins"]
+enabled = true
+\`\`\`
+
+新开会话后若出现 Hooks need review，打开 \`/hooks\`，审过 LangSmith 的 **UserPromptSubmit**（以及配套 Stop）再信任。只开插件不够。Codex 按钩子哈希记信任；插件升级改了命令要再审一次。旧版只会 Stop 追踪，不够用。
+
+追踪默认关。启动 Codex 的那个进程要看见 \`TRACE_TO_LANGSMITH=true\`（仓库解析还接受 \`1\` / \`yes\` / \`on\`，官方页示例用字符串 \`true\`），以及 \`LANGSMITH_CODEX_API_KEY\`（没有再退到 \`LANGSMITH_API_KEY\`）。可选 \`LANGSMITH_CODEX_PROJECT\`，默认项目名 \`codex\`；自建才设 \`LANGSMITH_CODEX_ENDPOINT\`。变量必须在启动 Codex 的 shell 里；Codex **不**读 \`.env\`。这台插件不是 MCP，**不要** \`codex mcp login\`，也不要把 \`lsv2_pt_…\` 写进 \`config.toml\` 的 \`env\` 表。
+
+也可以写 json。查找顺序（仓库 README，比文档页完整）：环境变量 → 项目 \`.codex/langsmith.json\` → 项目根 \`langsmith-plugins.json\` → 用户 \`~/.codex/langsmith.json\` → 家目录 \`~/.langsmith-plugins.json\`。仓库根一份裸 \`langsmith.json\` **不会**被读。json 里有 api_key，**不要提交**。
+
+会话里静音上传，提交**普通消息**，不要加斜杠：
+
+\`\`\`text
+langsmith-tracing:mute
+\`\`\`
+
+恢复用 \`langsmith-tracing:unmute\`。TUI 会把未知斜杠当命令拦掉，所以 \`/langsmith-tracing:mute\` 无效。默认全量上传；长期只要结构、不要正文，设 \`LANGSMITH_CODEX_DEFAULT_MUTED=true\`。默认会在上传前脱敏；关掉才 \`LANGSMITH_CODEX_REDACT=false\`。含密钥或客户数据的会话不要开全量追踪。
+
+改完彻底重启 Codex，再新开一局。测一条短 \`codex exec\`，到 LangSmith 的 \`codex\` 项目看回合。升级用清单名：
+
+\`\`\`bash
+codex plugin marketplace upgrade langsmith-codex-plugins
+codex plugin add tracing@langsmith-codex-plugins
+\`\`\`
+
+这**不是** \`langchain-ai/langchain-plugins\` 里的 \`langsmith-mcp\`。那台 Remote MCP 的 OAuth 和现行 Codex 不兼容，官方写明不要用。也不要手写 \`https://api.smith.langchain.com/mcp\`。
+
+不要做这些：
+
+- 不要抄集成页的 \`plugin_hooks = true\`。现行是 \`hooks = true\`。
+- 不要发明 \`tracing@langsmith\` 或 \`langsmith@openai-curated\`。
+- 不要用 \`npx skills add langchain-ai/langsmith-codex-plugins\` 当这台追踪插件的安装器。
+- 不要 \`codex mcp add langsmith\`，也不要 \`mcp login\`。
+- 不要把 API key 写进 \`config.toml\` 的 \`env\` 表。
+- 不要一上来 \`--yolo\`。
+
+网页 Cloud 不读这份插件。改完用 \`codex plugin list\` 和 \`codex features list\` 核对 \`hooks\`。`,
+    category: "hooks",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "LangSmith", "hooks", "observability"],
+    related: ["plugin-session-refresh", "managed-hooks-only", "hooks-one-representation"],
+    sources: [
+      {
+        label: "LangSmith · Trace OpenAI Codex sessions",
+        url: "https://docs.langchain.com/langsmith/trace-with-codex",
+      },
+      {
+        label: "langchain-ai/langsmith-codex-plugins",
+        url: "https://github.com/langchain-ai/langsmith-codex-plugins",
+      },
+      {
+        label: "marketplace.json",
+        url: "https://github.com/langchain-ai/langsmith-codex-plugins/blob/main/.agents/plugins/marketplace.json",
+      },
+    ],
+  },
+  {
+    id: "logfire-exporter-codex-plugin",
+    no: 456,
+    title:
+      "Logfire 官方 Codex 追踪：marketplace add pydantic/skills，再 plugin add logfire-exporter@pydantic-skills",
+    summary:
+      "清单名是 pydantic-skills。导出器走 Stop 钩子，不是 MCP。LOGFIRE_TOKEN 写 config.env。默认 CODEX_LOGFIRE_CONTENT_CAPTURE_MODE=full。查遥测才另装 logfire@pydantic-skills。不要抄 Claude 的 plugin install。",
+    body: `Logfire 官方 Codex 追踪：marketplace add pydantic/skills，再 plugin add logfire-exporter@pydantic-skills。这是把 Codex **自己的回合**打进 Logfire，不是去查应用遥测，也不是 Codex 内置那套 OTEL 日志。官方导出器页和技能页都写了 marketplace；清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`pydantic-skills\`，展示名 Pydantic，插件 name 是 \`logfire-exporter\`，所以是 \`logfire-exporter@pydantic-skills\`。源是 \`./plugins/logfire-exporter\`。导出器只在 Codex 上有，Claude 那份 marketplace 没有这台。
+
+官方 Codex 主路径（技能页带 \`--ref main\`）：
+
+\`\`\`bash
+codex plugin marketplace add pydantic/skills --ref main
+codex plugin add logfire-exporter@pydantic-skills
+codex plugin list
+\`\`\`
+
+\`codex plugin list\` 应看到 \`logfire-exporter@pydantic-skills\` 为 installed, enabled。加完先看**当前会话**；当前会话 \`/plugins\` 没有再新开。也可以在插件浏览器的 **Pydantic** 栏开 Logfire Exporter。IDE 扩展没有 \`/plugins\`，用 CLI 加。网页 Cloud 不读本机 marketplace。
+
+钩子要单独打开并信任。现行键是 \`hooks\`，**不要**手写 \`plugin_hooks\`：
+
+\`\`\`toml
+[features]
+hooks = true
+
+[plugins."logfire-exporter@pydantic-skills"]
+enabled = true
+\`\`\`
+
+新开会话后若出现 Hooks need review，打开 \`/hooks\`，审过 **SessionStart / UserPromptSubmit / PostToolUse / Stop** 再信任。只开插件不够。Codex 按钩子哈希记信任；插件升级改了命令要再审一次。导出发生在 **Stop**：回合没跑完、被打断没到 Stop，就不会出 span。没有长生命周期的 session 根 span。
+
+写令牌不要进 \`config.toml\` 的 \`env\` 表。放到启动 Codex 的进程环境，或：
+
+\`\`\`text
+\${XDG_CONFIG_HOME:-~/.config}/logfire-exporter/config.env
+\`\`\`
+
+\`\`\`dotenv
+LOGFIRE_TOKEN=pylf_...
+LOGFIRE_BASE_URL=https://logfire-us.pydantic.dev
+\`\`\`
+
+仓库 README 默认 API 主机是 \`https://logfire-api.pydantic.dev\`；官方导出器示例写 \`logfire-us.pydantic.dev\`。欧盟换成 \`https://logfire-eu.pydantic.dev\`。旧名 \`LOGFIRE_URL\` 还能用，但 \`LOGFIRE_BASE_URL\` 优先。本机实例才 \`http://localhost:3000\`。默认请求头是 \`Authorization\` 加令牌本身，要 \`Bearer\` 才设 \`CODEX_LOGFIRE_AUTH_SCHEME=Bearer\`。这台不是 MCP，**不要** \`codex mcp login\`。
+
+默认 \`CODEX_LOGFIRE_CONTENT_CAPTURE_MODE=full\`，会带脱敏后的 prompt、助手回复、工具入参/出参和工具错误。团队策略收紧时改 \`no_tool_content\` 或 \`metadata_only\`。含密钥或客户数据的会话不要开 \`full\`。POSIX 钩子要能找到 \`python3\`；pyenv 卡住才钉 \`CODEX_LOGFIRE_PYTHON\`。排错看 \`~/.local/state/logfire-exporter/logs/\`，TUI 日志搜 \`logfire-exporter\`。
+
+查应用遥测、打开 Logfire UI 是另一台插件：
+
+\`\`\`bash
+codex plugin add logfire@pydantic-skills
+\`\`\`
+
+它会登记托管 MCP，默认美区。欧盟要先卸再换主机：
+
+\`\`\`bash
+codex mcp remove logfire
+codex mcp add logfire --url https://logfire-eu.pydantic.dev/mcp
+codex mcp login logfire
+\`\`\`
+
+不要把导出器和查询插件搞成一台。也不要把 \`npx skills add pydantic/skills\` 当这台导出器的安装器——那只拷 SKILL.md，不装 Stop 钩子。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`claude plugin install logfire@claude-plugins-official\` 或 \`logfire@pydantic-skills\`。
+- 不要发明 \`logfire-exporter@openai-curated\`。
+- 不要 \`codex mcp add logfire-exporter\`，也不要对导出器 \`mcp login\`。
+- 不要把写令牌写进 \`config.toml\` 的 \`env\` 表，也不要拼进 URL。
+- 不要一上来 \`--yolo\`。
+
+升级用清单名，再重新 \`plugin add\`：
+
+\`\`\`bash
+codex plugin marketplace upgrade pydantic-skills
+codex plugin add logfire-exporter@pydantic-skills
+\`\`\`
+
+网页 Cloud 不读这份插件。改完彻底重启，跑完一轮短任务，到 Logfire 看 Stop 之后的 turn span。`,
+    category: "hooks",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Logfire", "hooks", "observability"],
+    related: ["plugin-session-refresh", "stop-hook-active", "managed-hooks-only"],
+    sources: [
+      {
+        label: "Logfire · Export Codex Activity to Logfire",
+        url: "https://pydantic.dev/docs/logfire/guides/codex-logfire-exporter/",
+      },
+      {
+        label: "pydantic/skills",
+        url: "https://github.com/pydantic/skills",
+      },
+      {
+        label: "Logfire · Coding Agent Skills",
+        url: "https://pydantic.dev/docs/logfire/guides/skills/",
+      },
+    ],
   }
 ];

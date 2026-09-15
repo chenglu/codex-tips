@@ -4585,5 +4585,80 @@ cd coding-harness-tracing
 # marketplace add Arize-ai/coding-harness-tracing
 # mcp login
 `,
+  },
+  {
+    id: "langsmith-codex-tracing-plugin",
+    title: "LangSmith UserPromptSubmit 把 Codex 回合喂给云端追踪",
+    filename: "terminal",
+    summary:
+      "LangSmith UserPromptSubmit 把 Codex 回合喂给云端追踪。主路径是 marketplace add langchain-ai/langsmith-codex-plugins，再 plugin add tracing@langsmith-codex-plugins。不要抄 plugin_hooks，也不要 Remote MCP。",
+    code: `codex plugin marketplace add langchain-ai/langsmith-codex-plugins
+codex plugin add tracing@langsmith-codex-plugins
+codex plugin list
+
+# ~/.codex/config.toml
+# [features]
+# hooks = true
+# [plugins."tracing@langsmith-codex-plugins"]
+# enabled = true
+
+# export TRACE_TO_LANGSMITH="true"
+# export LANGSMITH_CODEX_API_KEY="lsv2_pt_..."
+# export LANGSMITH_CODEX_PROJECT="codex"
+
+# 会话里静音（不要加斜杠）：
+# langsmith-tracing:mute
+
+# 升级：
+# codex plugin marketplace upgrade langsmith-codex-plugins
+# codex plugin add tracing@langsmith-codex-plugins
+
+# 不要：
+# plugin_hooks = true
+# /langsmith-tracing:mute
+# marketplace add langchain-ai/langchain-plugins
+# mcp login
+# tracing@openai-curated
+`,
+  },
+  {
+    id: "logfire-exporter-codex-plugin",
+    title: "Logfire Stop 钩子把 Codex 回合喂给 OTLP",
+    filename: "terminal",
+    summary:
+      "Logfire Stop 钩子把 Codex 回合喂给 OTLP。主路径是 marketplace add pydantic/skills --ref main，再 plugin add logfire-exporter@pydantic-skills。不要抄 Claude 的 plugin install，也不要对导出器 mcp login。",
+    code: `codex plugin marketplace add pydantic/skills --ref main
+codex plugin add logfire-exporter@pydantic-skills
+codex plugin list
+
+# ~/.config/logfire-exporter/config.env
+# LOGFIRE_TOKEN=pylf_...
+# LOGFIRE_BASE_URL=https://logfire-us.pydantic.dev
+# CODEX_LOGFIRE_CONTENT_CAPTURE_MODE=metadata_only
+
+# ~/.codex/config.toml
+# [features]
+# hooks = true
+# [plugins."logfire-exporter@pydantic-skills"]
+# enabled = true
+
+# 查遥测才另装：
+# codex plugin add logfire@pydantic-skills
+
+# 欧盟 MCP：
+# codex mcp remove logfire
+# codex mcp add logfire --url https://logfire-eu.pydantic.dev/mcp
+# codex mcp login logfire
+
+# 升级：
+# codex plugin marketplace upgrade pydantic-skills
+# codex plugin add logfire-exporter@pydantic-skills
+
+# 不要：
+# claude plugin install logfire@claude-plugins-official
+# npx skills add pydantic/skills
+# mcp login   # 对导出器
+# logfire-exporter@openai-curated
+`,
   }
 ];

@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-15T09:00:00Z",
+  lastTick: "2026-09-15T10:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "09:00 收口。#68 已重放 #63–#67 为 445–449、#69–#72 为 450–453；本轮续收 #73 为 454 arize-phoenix-codex-notify。合入后关 #73。站点 454 技巧。",
+    "10:00 收口。#68 已重放 #63–#67、#69–#73 为 TIP 445–454；本轮续收 #74 为 455 langsmith-codex-tracing-plugin、#75 为 456 logfire-exporter-codex-plugin。合入后关 #74–#75。站点 456 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1921,6 +1921,21 @@ export const loopState = {
     "X news: Codex CLI 2026-09-15 09:00",
     "docs.wandb.ai weave-codex skip already in #72",
     "langfuse.com integrations developer-tools Codex skip already in #71",
+    "docs.langchain.com langsmith trace-with-codex plugin marketplace",
+    "github.com/langchain-ai/langsmith-codex-plugins TRACE_TO_LANGSMITH",
+    "Codex CLI plugin_hooks removed hooks = true 2026",
+    "langchain-ai/langchain-plugins langsmith-mcp Codex OAuth skip",
+    "arize phoenix weave langfuse doppler aws skip open PRs",
+    "X news: Codex CLI 2026-09-15 09:30",
+    'X: ("Codex CLI" OR #CodexCLI) (plugin OR marketplace OR MCP OR skills OR AGENTS.md OR worktree OR exec)',
+    "Codex CLI 技巧 2026 LangSmith marketplace add langchain-ai/langsmith-codex-plugins",
+    "pydantic.dev docs logfire guides codex-logfire-exporter",
+    "github.com/pydantic/skills logfire-exporter@pydantic-skills",
+    "CODEX_LOGFIRE_CONTENT_CAPTURE_MODE metadata_only",
+    "braintrust trace-codex skip already in #65",
+    "langsmith langfuse weave phoenix skip open PRs",
+    "X news: Codex CLI 2026-09-15 10:00",
+    "Codex CLI 技巧 2026 Logfire marketplace add pydantic/skills logfire-exporter",
   ],
 };
 
