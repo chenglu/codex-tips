@@ -3772,5 +3772,149 @@ codex -p openaidr exec --full-auto "list failing tests"
         url: "https://developers.openai.com/api/docs/guides/your-data",
       },
     ],
+  },
+  {
+    id: "sambanova-codex-gateway",
+    no: 467,
+    title:
+      "SambaNova 官方 Codex 网关：profile 写 [model_providers.sambanova]，base_url 是 https://api.sambanova.ai/v1，env_key 读 SAMBANOVA_API_KEY",
+    summary:
+      "用户层 [model_providers.sambanova]，base_url 是 https://api.sambanova.ai/v1，env_key = SAMBANOVA_API_KEY，wire_api = responses。再用 ~/.codex/sambanova.config.toml 和 --profile sambanova。不要抄文档里的 [profiles.*] 表。这不是 Context7 MCP，也不是 --oss。",
+    body: `SambaNova 官方 Codex 网关：profile 写 [model_providers.sambanova]，base_url 是 https://api.sambanova.ai/v1，env_key 读 SAMBANOVA_API_KEY。
+
+这是换 Codex **背后那颗模型**，流量打到 SambaCloud 的 \`/v1/responses\`，不是再加一台 MCP。官方 Codex 专页写明 SambaNova 的 Responses 入口匹配 Codex 的 \`wire_api = "responses"\`，**不必**再套 LiteLLM。\`env_key\` 只能写变量**名**。模型 ID 用裸名，例如 \`MiniMax-M2.7\`、\`gpt-oss-120b\`、\`DeepSeek-V3.1\`，不要加 \`sambanova/\` 前缀。
+
+官方示例会把 \`[profiles.execute-sn]\` 写进用户 \`~/.codex/config.toml\`。0.134 起这张表会被拒绝。更稳妥是独立 profile（用户层 \`$CODEX_HOME\`，不是项目 \`.codex\`）：
+
+\`\`\`toml
+# ~/.codex/sambanova.config.toml
+model = "MiniMax-M2.7"
+model_provider = "sambanova"
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+
+[model_providers.sambanova]
+name = "SambaNova"
+base_url = "https://api.sambanova.ai/v1"
+env_key = "SAMBANOVA_API_KEY"
+wire_api = "responses"
+\`\`\`
+
+\`\`\`bash
+export SAMBANOVA_API_KEY="YOUR_SAMBANOVA_KEY"
+codex --profile sambanova
+codex --profile sambanova "write a unit test for src/utils/date.ts"
+codex -p sambanova exec --full-auto "list failing tests"
+\`\`\`
+
+密钥必须出现在**启动 Codex 的那个进程**里。从已经 export 的终端启动；Dock 打开的桌面读不到你刚改的 zshrc。不要把密钥写进 \`.env\` 就指望 Codex 自己加载。
+
+想做官方那种规划 / 执行拆分，再加一份 \`~/.codex/plan-sn.config.toml\`：把 \`model\` 换成 \`gpt-oss-120b\`，仍用同一张 \`sambanova\` 供应商表。规划侧若走内置 \`openai\`，那是另一份 profile，跟 SambaNova 密钥无关。
+
+**Codex 不会在 \`base_url\` 里展开环境变量**。不要写进项目 \`.codex/config.toml\`：项目文件改不了 \`model_provider\` / \`model_providers\`。某个模型对 \`/v1/responses\` 返回 404 时，换官方验证过的 \`MiniMax-M2.7\` 或 \`gpt-oss-120b\`，不要改 \`wire_api\`。
+
+不要把专页 Demo 3 的 Context7 片段当这条的安装器。那是另加 MCP；本站已有 Context7 条目。也不要抄他们 TOML 里的 \`env = { "CONTEXT7_API_KEY" = "\${CONTEXT7_API_KEY}" }\`——Codex 转发密钥走 \`env_vars\`。
+
+不要做这些：
+
+- 不要再写 \`[profiles.sambanova]\` 或 \`[profiles.execute-sn]\`。
+- 不要发明 \`plugin add sambanova@\`。
+- 不要写 \`wire_api = "chat"\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`sambanova\` 是新 ID，可以。
+- 不要和 \`--oss\` / \`oss_provider\` 混成一条。这里的 \`gpt-oss-120b\` 是 SambaNova 托管模型，不是本地 Ollama。
+- 不要用 CLI \`--model\` / \`--provider\` 绕过 profile；官方写明会拆掉 profile 的可复现性。
+- 不要把密钥写进 \`http_headers\` 或 TOML 字面量。
+
+改完新开会话。\`codex --profile sambanova\` 起得来，说明 profile、供应商和 \`SAMBANOVA_API_KEY\` 都进了这一进程。401 先看进程里有没有这颗变量。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide", "ci"],
+    tags: ["model_providers", "SambaNova", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "vercel-ai-gateway", "hf-inference-providers"],
+    sources: [
+      {
+        label: "SambaNova · Codex integration",
+        url: "https://docs.sambanova.ai/docs/en/integrations/codex",
+      },
+      {
+        label: "SambaNova · Responses API",
+        url: "https://docs.sambanova.ai/docs/en/features/responses",
+      },
+      {
+        label: "SambaNova · Responses API blog",
+        url: "https://sambanova.ai/blog/build-faster-coding-agents-with-sambanovas-responses-api",
+      },
+    ],
+  },
+  {
+    id: "bifrost-codex-gateway",
+    no: 468,
+    title:
+      "Bifrost 官方 Codex 网关：profile 写 [model_providers.bifrost]，base_url 是 http://localhost:8080/openai/v1，env_key 读 OPENAI_API_KEY",
+    summary:
+      "用户层 [model_providers.bifrost]，base_url 是 http://localhost:8080/openai/v1，env_key = OPENAI_API_KEY，wire_api = responses，supports_websockets = false。再用 ~/.codex/bifrost.config.toml 和 --profile bifrost。不要写 openai_base_url。这不是 Dagu MCP，也不是 --oss。",
+    body: `Bifrost 官方 Codex 网关：profile 写 [model_providers.bifrost]，base_url 是 http://localhost:8080/openai/v1，env_key 读 OPENAI_API_KEY。
+
+这是换 Codex **背后那颗模型**，流量打到本机 Bifrost 的 OpenAI 形 Responses 入口，不是再加一台 MCP。Codex 会优先走 ChatGPT OAuth，配网关前先在会话里 \`/logout\`。\`env_key\` 只能写变量**名**；进程环境里的 \`OPENAI_API_KEY\` 填 Bifrost 虚拟密钥 \`YOUR_BIFROST_VIRTUAL_KEY\`，不要发明 \`BIFROST_API_KEY\` 给这张本机表。
+
+供应商表放**用户** \`~/.codex/config.toml\`。官方 Codex 页会写项目 \`.codex/config.toml\` 也能改；那是错的。Bedrock runbook 才对：项目文件改不了 \`model_provider\` / \`model_providers\`。不要写 \`openai_base_url\`：内置 \`openai\` 会带上客户端 \`web\` 命名空间，Bedrock 会报 \`User-defined namespace 'web' collides with an existing tool namespace\`。具名供应商才会改走托管 \`web_search\`。
+
+更稳妥是独立 profile（用户层 \`$CODEX_HOME\`，不是项目 \`.codex\`）：
+
+\`\`\`toml
+# ~/.codex/bifrost.config.toml
+model = "openai/gpt-5.4"
+model_provider = "bifrost"
+
+[model_providers.bifrost]
+name = "Bifrost"
+base_url = "http://localhost:8080/openai/v1"
+env_key = "OPENAI_API_KEY"
+wire_api = "responses"
+supports_websockets = false
+\`\`\`
+
+\`\`\`bash
+export OPENAI_API_KEY="YOUR_BIFROST_VIRTUAL_KEY"
+codex --profile bifrost
+codex --profile bifrost -m openai/gpt-5-codex
+\`\`\`
+
+0.134 起不要再写 \`[profiles.bifrost]\`。自定义供应商必须 \`wire_api = "responses"\`。非 OpenAI 模型还要 \`supports_websockets = false\`，否则 WebSocket 路径会去要服务端维持会话。密钥必须出现在**启动 Codex 的那个进程**里。从已经 export 的终端启动；Dock 打开的桌面读不到你刚改的 zshrc。
+
+非 OpenAI 模型 slug 用 \`厂商/型号\`，例如 \`anthropic/claude-sonnet-4-5-20250929\`、\`gemini/gemini-2.5-pro\`、\`bedrock/gpt-5.5\`。\`/model\` 选择器默认看不到这些 slug，会警告 metadata 找不到。把 \`~/.codex/models_cache.json\` 里一条完整条目拷进 \`YOUR_HOME/.codex/bifrost_catalog.json\`，只改 \`slug\` / \`display_name\` / \`context_window\`，再在用户 config 写 \`model_catalog_json = "YOUR_HOME/.codex/bifrost_catalog.json"\`。桌面下拉菜单**不会**合并这份本地目录，会话里用 \`/model bedrock/...\`。不要把整份目录 JSON 贴进手册。
+
+托管 Bedrock 那张表是另一回事：ID 是 \`bifrost_bedrock\`，\`env_key = "BIFROST_API_KEY"\`，\`base_url\` 才换成 \`https://gateway.example.com/openai/v1\`。不要和本机 \`[model_providers.bifrost]\` 混抄。备选 \`[model_providers.openai_http]\` 也要 \`supports_websockets = false\`，同样不要覆盖内置 \`openai\`。
+
+不要做这些：
+
+- 不要写 \`openai_base_url\`，也不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`bifrost\` 是新 ID，可以。
+- 不要写进项目 \`.codex/config.toml\`。
+- 不要把 Bifrost 自己的 \`OPENAI_BASE_URL\` 环境变量当 Codex 主路径。
+- 不要把 \`http://localhost:8080/mcp\` 或 Claude 的 \`claude mcp add\` 抄进这条。那是 Bifrost 的 MCP 网关，跟 Dagu 的 \`localhost:8080/mcp\` 也不是同一台。
+- 不要发明 \`plugin add bifrost@\`。
+- 不要和 \`--oss\` / \`oss_provider\` 混成一条。
+- 不要把密钥写进 \`http_headers\` 或 TOML 字面量。
+
+改完新开会话。\`codex --profile bifrost\` 起得来，说明 profile、供应商和 \`OPENAI_API_KEY\` 都进了这一进程。401 先看进程里有没有这颗变量。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["model_providers", "Bifrost", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "project-config-cannot-override-auth", "model-catalog-json"],
+    sources: [
+      {
+        label: "Bifrost · Codex CLI",
+        url: "https://docs.getbifrost.ai/cli-agents/codex-cli",
+      },
+      {
+        label: "Bifrost · Codex + Amazon Bedrock",
+        url: "https://docs.getbifrost.ai/runbooks/codex-bedrock",
+      },
+      {
+        label: "Bifrost · CLI agents overview",
+        url: "https://docs.getbifrost.ai/cli-agents/overview",
+      },
+    ],
   }
 ];

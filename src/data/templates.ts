@@ -4881,5 +4881,40 @@ name = "OpenAI Data Residency"
 base_url = "https://us.api.openai.com/v1"
 wire_api = "responses"
 `,
+  },
+  {
+    id: "sambanova-codex-gateway",
+    title: "sambanova profile 把 Codex 模型流量喂给 api.sambanova.ai/v1",
+    filename: "~/.codex/sambanova.config.toml",
+    summary:
+      "sambanova profile 把 Codex 模型流量喂给 api.sambanova.ai/v1。用户层 [model_providers.sambanova]，wire_api = responses，env_key = SAMBANOVA_API_KEY。不要抄 [profiles.execute-sn]。",
+    code: `model = "MiniMax-M2.7"
+model_provider = "sambanova"
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+
+[model_providers.sambanova]
+name = "SambaNova"
+base_url = "https://api.sambanova.ai/v1"
+env_key = "SAMBANOVA_API_KEY"
+wire_api = "responses"
+`,
+  },
+  {
+    id: "bifrost-codex-gateway",
+    title: "bifrost profile 把 Codex 模型流量喂给 localhost:8080/openai/v1",
+    filename: "~/.codex/bifrost.config.toml",
+    summary:
+      "bifrost profile 把 Codex 模型流量喂给 localhost:8080/openai/v1。用户层 [model_providers.bifrost]，wire_api = responses，env_key = OPENAI_API_KEY。不要写 openai_base_url。",
+    code: `model = "openai/gpt-5.4"
+model_provider = "bifrost"
+
+[model_providers.bifrost]
+name = "Bifrost"
+base_url = "http://localhost:8080/openai/v1"
+env_key = "OPENAI_API_KEY"
+wire_api = "responses"
+supports_websockets = false
+`,
   }
 ];

@@ -6090,5 +6090,65 @@ export const articles: Article[] = [
     tags: ['openaidr', 'us.api.openai.com', 'wire_api'],
     summary:
       '样本注释里的 [model_providers.openaidr] 把 base_url 写成 https://us.api.openai.com/v1，并标明 wire_api = responses 是唯一支持值。requires_openai_auth 仅 OpenAI 登录时按需打开，不要和 env_key 叠。',
+  },
+  {
+    title: 'Codex integration guide',
+    url: 'https://docs.sambanova.ai/docs/en/integrations/codex',
+    source: 'SambaNova Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Codex', 'SambaNova', 'SAMBANOVA_API_KEY'],
+    summary:
+      'SambaNova 官方 Codex 网关：profile 写 [model_providers.sambanova]，base_url 是 https://api.sambanova.ai/v1，env_key 读 SAMBANOVA_API_KEY。文档仍写 [profiles.execute-sn]，0.134 起要改成独立 profile 文件。不要加 sambanova/ 前缀。',
+  },
+  {
+    title: 'SambaNova Responses API',
+    url: 'https://docs.sambanova.ai/docs/en/features/responses',
+    source: 'SambaNova Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Responses', 'SAMBANOVA_API_KEY', 'gpt-oss-120b'],
+    summary:
+      'POST /v1/responses 对齐 OpenAI Responses。Codex 供应商表的 env_key 仍是 SAMBANOVA_API_KEY，base_url 停在 https://api.sambanova.ai/v1。无状态，不要 previous_response_id。',
+  },
+  {
+    title: "Build Faster Coding Agents with SambaNova's Responses API",
+    url: 'https://sambanova.ai/blog/build-faster-coding-agents-with-sambanovas-responses-api',
+    source: 'SambaNova Blog',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Codex', 'MiniMax-M2.7', 'SAMBANOVA_API_KEY'],
+    summary:
+      '博客给 Codex 的供应商表同样是 api.sambanova.ai/v1 加 SAMBANOVA_API_KEY。执行侧用 MiniMax-M2.7。配置块里的 [profiles.*] 过时，Cline / OpenCode 段落不要抄进 Codex。',
+  },
+  {
+    title: 'Codex CLI',
+    url: 'https://docs.getbifrost.ai/cli-agents/codex-cli',
+    source: 'Bifrost Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Codex', 'Bifrost', 'localhost:8080/openai/v1'],
+    summary:
+      'Bifrost 官方 Codex 网关：profile 写 [model_providers.bifrost]，base_url 是 http://localhost:8080/openai/v1，env_key 读 OPENAI_API_KEY。先 /logout。不要写 openai_base_url。项目 .codex 改不了 model_provider。',
+  },
+  {
+    title: 'Set up Codex CLI with Amazon Bedrock',
+    url: 'https://docs.getbifrost.ai/runbooks/codex-bedrock',
+    source: 'Bifrost Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Bedrock', 'Bifrost', 'localhost:8080/openai/v1'],
+    summary:
+      'Bedrock runbook 的本机对照入口仍带 localhost:8080/openai/v1；托管才换 gateway.example.com/openai/v1，表名改 bifrost_bedrock，env_key 改 BIFROST_API_KEY。项目 .codex 改不了 model_provider。不要和本机 bifrost 表混抄。',
+  },
+  {
+    title: 'Overview',
+    url: 'https://docs.getbifrost.ai/cli-agents/overview',
+    source: 'Bifrost Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['CLI', 'Bifrost', 'localhost:8080/openai/v1'],
+    summary:
+      'Codex CLI 要把 API base 指到带 /v1 的 OpenAI 形，本机是 localhost:8080/openai/v1。不要抄 Claude 的 claude mcp add 或 localhost:8080/mcp。观测在 localhost:8080/logs。',
   }
 ];
