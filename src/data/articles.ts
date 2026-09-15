@@ -6330,5 +6330,65 @@ export const articles: Article[] = [
     tags: ['Responses', 'MiniMax', 'MiniMax-M3', 'MINIMAX_API_KEY', 'api.minimax.io'],
     summary:
       'MiniMax 的 POST /v1/responses。国际站主机是 api.minimax.io。模型 MiniMax-M3。reasoning.effort 非 none 只开 Adaptive Thinking，不调深度。Codex 走 wire_api = responses。',
+  },
+  {
+    title: 'Codex',
+    url: 'https://docs.z.ai/devpack/tool/codex',
+    source: 'Z.AI Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Codex", "Z.AI", "GLM", "model_providers", "ZAI_API_KEY", "api.z.ai/api/v1"],
+    summary:
+      'Z.AI 官方 Codex 网关：profile 写 [model_providers.ZAI]，base_url 是 https://api.z.ai/api/v1，密钥用 env_key 不要 experimental_bearer_token。文档仍把密钥写进 experimental_bearer_token，并把 model_provider 写成全局默认；现行用独立 profile 和 env_key。模型写 glm-5.3。',
+  },
+  {
+    title: 'Coding Tool Helper',
+    url: 'https://docs.z.ai/devpack/extension/coding-tool-helper',
+    source: 'Z.AI Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Z.AI", "coding-helper", "Codex", "ZAI_API_KEY", "api.z.ai/api/v1"],
+    summary:
+      'npx @z_ai/coding-helper。向导支持 Claude Code / Codex / OpenCode 等，只要 Codex 就只勾 Codex。会改 ~/.codex/config.toml，可能写 experimental_bearer_token 和全局默认。跑完改回 env_key 和独立 profile。Codex 流量仍打 api.z.ai/api/v1。',
+  },
+  {
+    title: 'Tool Integration',
+    url: 'https://docs.z.ai/devpack/tool/others',
+    source: 'Z.AI Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Responses", "Z.AI", "GLM", "ZAI_API_KEY", "api.z.ai/api/v1"],
+    summary:
+      'GLM Coding Plan 的 OpenAI Responses 入口是 https://api.z.ai/api/v1。Codex 必须走这条，不要抄同页 Cline 示例的 Chat Completions https://api.z.ai/api/coding/paas/v4，也不要 Anthropic https://api.z.ai/api/anthropic。',
+  },
+  {
+    title: 'Codex',
+    url: 'https://www.alibabacloud.com/help/en/model-studio/codex',
+    source: 'Alibaba Cloud Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Codex", "Model Studio", "Qwen", "model_providers", "DASHSCOPE_API_KEY", "token-plan.ap-southeast-1.maas.aliyuncs.com"],
+    summary:
+      '阿里云 Model Studio 官方 Codex 网关：profile 写 [model_providers.Model_Studio_Token_Plan]，base_url 是 https://token-plan.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1，密钥用 env_key 不要 wire_api = chat。文档仍给 Coding Plan 写 chat 并建议装 0.80.0；现行用独立 profile 和 responses。模型写 qwen3.8-max。',
+  },
+  {
+    title: 'Base URL overview',
+    url: 'https://www.alibabacloud.com/help/en/model-studio/base-url',
+    source: 'Alibaba Cloud Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Model Studio", "Token Plan", "Codex", "DASHSCOPE_API_KEY", "token-plan.ap-southeast-1.maas.aliyuncs.com"],
+    summary:
+      'Token Plan 国际站 OpenAI 兼容入口是 token-plan.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1。Coding Plan 是 coding-intl.dashscope.aliyuncs.com/v1，Codex 不能走 chat。按量才把 WorkspaceId 写进主机。密钥按套餐分开。',
+  },
+  {
+    title: 'OpenAI-compatible - Responses',
+    url: 'https://docs.modelstudio.console.alibabacloud.com/en/model-studio/compatibility-with-openai-responses-api',
+    source: 'Alibaba Cloud Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Responses", "Model Studio", "Qwen", "DASHSCOPE_API_KEY", "token-plan.ap-southeast-1.maas.aliyuncs.com"],
+    summary:
+      'Model Studio 的 POST /compatible-mode/v1/responses。按量主机带 WorkspaceId。Token Plan 编码流量仍打 token-plan.ap-southeast-1.maas.aliyuncs.com。旧路径 /api/v2/apps/protocols/compatible-mode/v1/responses 将弃用。Codex 走 wire_api = responses。',
   }
 ];

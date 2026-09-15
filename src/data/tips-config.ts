@@ -4365,5 +4365,151 @@ codex --profile minimax -m MiniMax-M3
         url: "https://platform.minimax.io/docs/api-reference/responses-create",
       },
     ],
+  },
+  {
+    id: "zai-codex-gateway",
+    no: 475,
+    title:
+      "Z.AI 官方 Codex 网关：profile 写 [model_providers.ZAI]，base_url 是 https://api.z.ai/api/v1，密钥用 env_key 不要 experimental_bearer_token",
+    summary:
+      "用户层 [model_providers.ZAI]，base_url 是 https://api.z.ai/api/v1，wire_api = responses。env_key 读 ZAI_API_KEY，不要把密钥写进 experimental_bearer_token。再用 ~/.codex/zai.config.toml 和 --profile zai。模型写 glm-5.3。这不是 MCP，也不是 --oss。",
+    body: `Z.AI 官方 Codex 网关：profile 写 [model_providers.ZAI]，base_url 是 https://api.z.ai/api/v1，密钥用 env_key 不要 experimental_bearer_token。
+
+这是换 Codex **背后那颗模型**，流量打到 Z.AI GLM Coding Plan 的 Responses 入口，不是再加一台 MCP。官方 Codex 页给了 \`[model_providers.ZAI]\` 和 \`wire_api = "responses"\`，但把密钥写进 \`experimental_bearer_token\`——那是把密钥写进 TOML。改成 \`env_key\`（变量**名**），在启动 Codex 的进程里 \`export ZAI_API_KEY\`。不要和 \`experimental_bearer_token\` / \`requires_openai_auth\` / \`[model_providers.*.auth]\` 叠在同一张供应商表。
+
+\`base_url\` 必须是 \`https://api.z.ai/api/v1\`。不要抄 Chat Completions 的 \`https://api.z.ai/api/coding/paas/v4\`，也不要 Anthropic 的 \`https://api.z.ai/api/anthropic\`——Codex 自定义供应商只认 Responses，\`wire_api = "chat"\` 是硬错误。**Codex 不会在 \`base_url\` 里展开环境变量**。不要写 \`openai_base_url\`，也不要把 \`OPENAI_API_KEY\` 当 Z.AI 密钥。团队套餐密钥不能和其它 Z.AI API Key 互换，要用 Team Plan 那一把。
+
+不要把顶层 \`model_provider = "ZAI"\` 一上来写进用户 config，除非你就是要把**所有**会话都改走 Z.AI。官方手册和 Coding Tool Helper 都会改成默认。更稳妥是独立 profile（0.134 起不要再写 \`[profiles.zai]\`）：
+
+\`\`\`toml
+# ~/.codex/config.toml
+[model_providers.ZAI]
+name = "ZAI"
+base_url = "https://api.z.ai/api/v1"
+env_key = "ZAI_API_KEY"
+wire_api = "responses"
+\`\`\`
+
+\`\`\`toml
+# ~/.codex/zai.config.toml
+model_provider = "ZAI"
+model = "glm-5.3"
+model_reasoning_effort = "max"
+model_context_window = 1048576
+\`\`\`
+
+\`\`\`bash
+export ZAI_API_KEY=YOUR_ZAI_API_KEY
+codex --profile zai
+codex --profile zai -m glm-5.3
+\`\`\`
+
+官方一键向导是 \`npx @z_ai/coding-helper\`。交互里会列出 Claude Code / Codex / OpenCode / Crush / Factory Droid；只要 Codex 就只勾 Codex。向导会改 \`~/.codex/config.toml\`，并可能写 \`experimental_bearer_token\` 和全局 \`model_provider\`；跑完改回 \`env_key\` 和独立 profile。不要把 \`coding-helper auth reload claude\` 当成 Codex 命令。
+
+可选目录：官方写 \`model_catalog_json = "~/.codex/models.json"\`，波浪号**不会**展开。改成启动时能读到的**绝对路径**，例如 \`/home/YOUR_USER/.codex/zai-models.json\`。本地 JSON **覆盖**内置目录，不是追加。官方示例里 glm-5.3 的 \`base_instructions\` 是空字符串，仍不要整段抄人格 blob。需要 \`/model\` 列出 glm-5.3 时，只留 slug、reasoning 档（\`low\` / \`high\` / \`max\`；这颗模型关不掉思考）和 \`shell_command\`。Windows 配置在 \`%USERPROFILE%\\.codex\\config.toml\`，不要抄文档里丢掉用户名的 \`C:\\Users\\.codex\\config.toml\`。
+
+GLM-5.3 页还写：部分曾订过 Coding Plan 的密钥目前只能打 Chat Completions。那把钥匙**不能**拿来配 Codex；换现行 Coding Plan 密钥，或先确认 Responses 入口能通。不要为了迁就旧密钥把 \`wire_api\` 改成 \`chat\`。
+
+不要做这些：
+
+- 不要再写 \`[profiles.zai]\` 或把密钥写进 \`experimental_bearer_token\`。
+- 不要发明 \`plugin add zai@\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`ZAI\` 是新 ID，可以。
+- 不要写进项目 \`.codex/config.toml\`。项目文件改不了 \`model_provider\` / \`model_providers\`。
+- 不要和 \`--oss\` / \`oss_provider\` 混成一条。
+- 不要把这张表当成 MCP。Vision / Web Search / Web Reader / Zread 那些 Z.AI MCP 是另一条。
+
+改完新开会话。\`codex --profile zai\` 起得来，说明供应商和 \`ZAI_API_KEY\` 都进了这一进程。401 先看是不是 Team Plan 密钥拿去打了别的套餐，或旧 Coding Plan 密钥打了 Responses；\`/model\` 仍显示 Custom 时，先 \`codex debug models\` 再决定要不要绝对路径的目录文件。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["model_providers", "Z.AI", "GLM", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "model-catalog-json", "vercel-ai-gateway"],
+    sources: [
+      {
+        label: "Z.AI · Codex",
+        url: "https://docs.z.ai/devpack/tool/codex",
+      },
+      {
+        label: "Z.AI · Coding Tool Helper",
+        url: "https://docs.z.ai/devpack/extension/coding-tool-helper",
+      },
+      {
+        label: "Z.AI · Tool Integration",
+        url: "https://docs.z.ai/devpack/tool/others",
+      },
+    ],
+  },
+  {
+    id: "modelstudio-codex-gateway",
+    no: 476,
+    title:
+      "阿里云 Model Studio 官方 Codex 网关：profile 写 [model_providers.Model_Studio_Token_Plan]，base_url 是 https://token-plan.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1，密钥用 env_key 不要 wire_api = chat",
+    summary:
+      "用户层 [model_providers.Model_Studio_Token_Plan]，国际站 Token Plan base_url 是 https://token-plan.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1，wire_api = responses。env_key 读 DASHSCOPE_API_KEY。再用 ~/.codex/modelstudio.config.toml 和 --profile modelstudio。模型写 qwen3.8-max。Coding Plan 的 wire_api = chat 是硬错误。这不是 MCP，也不是 --oss。",
+    body: `阿里云 Model Studio 官方 Codex 网关：profile 写 [model_providers.Model_Studio_Token_Plan]，base_url 是 https://token-plan.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1，密钥用 env_key 不要 wire_api = chat。
+
+这是换 Codex **背后那颗模型**，流量打到阿里云 Model Studio Token Plan 的 Responses 入口，不是再加一台 MCP。官方 Codex 页给了 \`[model_providers.Model_Studio_Token_Plan]\` 和 \`wire_api = "responses"\`。同页还留着 Coding Plan 和旧模型的 \`wire_api = "chat"\`——现行 Codex 会硬错误，**不要**为了迁就文档去装 \`@openai/codex@0.80.0\`。配置里只要留一张 \`chat\` 表，即使用不到也会让整份 config 起不来。
+
+国际站 Token Plan \`base_url\` 是 \`https://token-plan.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1\`。中国站 Token Plan 换成 \`https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1\`。个人套餐表名是 \`Model_Studio_Token_Plan_Personal\`，团队套餐是 \`Model_Studio_Token_Plan\`，主机一样，密钥不能混。官方示例 \`env_key = "OPENAI_API_KEY"\` 会和 ChatGPT 登录抢变量；改成 \`DASHSCOPE_API_KEY\`（变量**名**），在启动 Codex 的进程里 \`export\`。不要和 \`experimental_bearer_token\` / \`requires_openai_auth\` / \`[model_providers.*.auth]\` 叠在同一张供应商表。
+
+不要抄 Coding Plan 的 \`https://coding-intl.dashscope.aliyuncs.com/v1\`。按量付费才把 WorkspaceId **原样写进** URL，例如 \`https://YOUR_WORKSPACE_ID.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1\`。**Codex 不会在 \`base_url\` 里展开环境变量**。不要写 \`openai_base_url\`。Token Plan / Coding Plan / 按量密钥不能互换。
+
+不要把顶层 \`model_provider = "Model_Studio_Token_Plan"\` 一上来写进用户 config，除非你就是要把**所有**会话都改走 Model Studio。更稳妥是独立 profile（0.134 起不要再写 \`[profiles.modelstudio]\`）：
+
+\`\`\`toml
+# ~/.codex/config.toml
+[model_providers.Model_Studio_Token_Plan]
+name = "Model_Studio_Token_Plan"
+base_url = "https://token-plan.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1"
+env_key = "DASHSCOPE_API_KEY"
+wire_api = "responses"
+\`\`\`
+
+\`\`\`toml
+# ~/.codex/modelstudio.config.toml
+model_provider = "Model_Studio_Token_Plan"
+model = "qwen3.8-max"
+model_reasoning_effort = "xhigh"
+model_context_window = 983616
+\`\`\`
+
+\`\`\`bash
+export DASHSCOPE_API_KEY=YOUR_DASHSCOPE_API_KEY
+codex --profile modelstudio
+codex --profile modelstudio -m qwen3.8-max
+\`\`\`
+
+可选目录：官方写 \`model_catalog_json = "~/.codex/model-catalog.local.json"\`，波浪号**不会**展开。改成启动时能读到的**绝对路径**。本地 JSON **覆盖**内置目录，不是追加。官方示例里 \`base_instructions\` 是空字符串，仍不要整段抄人格 blob。需要 \`/model\` 列出 qwen3.8-max 时，只留 slug、reasoning 档（\`low\` / \`medium\` / \`xhigh\`）和官方给的 \`shell_type\`。
+
+不要做这些：
+
+- 不要再写 \`[profiles.modelstudio]\` 或 \`wire_api = "chat"\`。
+- 不要发明 \`plugin add modelstudio@\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`Model_Studio_Token_Plan\` 是新 ID，可以。
+- 不要写进项目 \`.codex/config.toml\`。项目文件改不了 \`model_provider\` / \`model_providers\`。
+- 不要和 \`--oss\` / \`oss_provider\` 混成一条。
+- 不要把这张表当成 MCP。
+
+改完新开会话。\`codex --profile modelstudio\` 起得来，说明供应商和 \`DASHSCOPE_API_KEY\` 都进了这一进程。401 先看是不是拿 Coding Plan / 按量密钥打了 Token Plan 主机；\`/model\` 仍显示 Custom 时，先 \`codex debug models\` 再决定要不要绝对路径的目录文件。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["model_providers", "Model Studio", "Qwen", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "model-catalog-json", "vercel-ai-gateway"],
+    sources: [
+      {
+        label: "Alibaba Cloud · Codex",
+        url: "https://www.alibabacloud.com/help/en/model-studio/codex",
+      },
+      {
+        label: "Alibaba Cloud · Base URL overview",
+        url: "https://www.alibabacloud.com/help/en/model-studio/base-url",
+      },
+      {
+        label: "Alibaba Cloud · OpenAI-compatible Responses",
+        url: "https://docs.modelstudio.console.alibabacloud.com/en/model-studio/compatibility-with-openai-responses-api",
+      },
+    ],
   }
 ];

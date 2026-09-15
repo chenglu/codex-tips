@@ -5091,5 +5091,78 @@ codex --profile minimax
 # npx skills add MiniMax-AI/cli
 # --all
 `,
+  },
+  {
+    id: "zai-codex-gateway",
+    title: "zai profile 把 Codex 模型流量喂给 api.z.ai/api/v1",
+    filename: "~/.codex/zai.config.toml",
+    summary:
+      "zai profile 把 Codex 模型流量喂给 api.z.ai/api/v1。供应商表用 env_key 读 ZAI_API_KEY。模型写 glm-5.3。不要 experimental_bearer_token。",
+    code: `export ZAI_API_KEY=YOUR_ZAI_API_KEY
+
+# ~/.codex/config.toml
+[model_providers.ZAI]
+name = "ZAI"
+base_url = "https://api.z.ai/api/v1"
+env_key = "ZAI_API_KEY"
+wire_api = "responses"
+
+# ~/.codex/zai.config.toml
+model_provider = "ZAI"
+model = "glm-5.3"
+model_reasoning_effort = "max"
+model_context_window = 1048576
+
+codex --profile zai
+
+# 可选一键（只要 Codex，跑完改回 env_key）：
+# npx @z_ai/coding-helper
+
+# 不要：
+# experimental_bearer_token = "YOUR_ZAI_API_KEY"
+# [profiles.zai]
+# openai_base_url = "https://api.z.ai/api/v1"
+# base_url = "https://api.z.ai/api/coding/paas/v4"
+# plugin add zai@
+# coding-helper auth reload claude
+`,
+  },
+  {
+    id: "modelstudio-codex-gateway",
+    title: "modelstudio profile 把 Codex 模型流量喂给 token-plan.ap-southeast-1.maas.aliyuncs.com",
+    filename: "~/.codex/modelstudio.config.toml",
+    summary:
+      "modelstudio profile 把 Codex 模型流量喂给 token-plan.ap-southeast-1.maas.aliyuncs.com。供应商表用 env_key 读 DASHSCOPE_API_KEY。模型写 qwen3.8-max。不要 wire_api = chat。",
+    code: `export DASHSCOPE_API_KEY=YOUR_DASHSCOPE_API_KEY
+
+# ~/.codex/config.toml
+[model_providers.Model_Studio_Token_Plan]
+name = "Model_Studio_Token_Plan"
+base_url = "https://token-plan.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1"
+env_key = "DASHSCOPE_API_KEY"
+wire_api = "responses"
+
+# ~/.codex/modelstudio.config.toml
+model_provider = "Model_Studio_Token_Plan"
+model = "qwen3.8-max"
+model_reasoning_effort = "xhigh"
+model_context_window = 983616
+
+codex --profile modelstudio
+
+# 中国站 Token Plan：
+# base_url = "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1"
+
+# 按量才把 WorkspaceId 写进主机：
+# base_url = "https://YOUR_WORKSPACE_ID.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1"
+
+# 不要：
+# wire_api = "chat"
+# [profiles.modelstudio]
+# openai_base_url = "https://token-plan.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1"
+# base_url = "https://coding-intl.dashscope.aliyuncs.com/v1"
+# plugin add modelstudio@
+# npm install -g @openai/codex@0.80.0
+`,
   }
 ];

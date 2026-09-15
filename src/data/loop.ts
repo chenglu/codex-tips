@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-15T19:15:00Z",
+  lastTick: "2026-09-15T20:18:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "19:15 收口。#68 已重放 #63–#67、#69–#91 为 TIP 445–472；本轮续收 #92 为 473 helicone-codex-gateway、#93 为 474 minimax-codex-gateway。合入后关 #92–#93。站点 474 技巧。",
+    "20:18 收口。#68 已重放 #63–#67、#69–#93 为 TIP 445–474；本轮续收 #94 为 475 zai-codex-gateway、#95 为 476 modelstudio-codex-gateway。合入后关 #94–#95。站点 476 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1981,13 +1981,6 @@ export const loopState = {
     "skip Vault ConfigCat Meilisearch Cal.com Akeyless ElevenLabs Astah no official Codex section",
     "X news: Codex CLI 2026-09-15 13:00 Claude quota Unity SQLcl worktree Astah skip",
     "Codex CLI 技巧 2026 Cloudflare AI Gateway [model_providers.cloudflare-ai-gateway] --profile cloudflare-aig",
-  ],
-};
-
-export function seenUrls(): string[] {
-  const fromArticles = articles.map((item) => item.url);
-  const fromCommunity = community.map((item) => item.url);
-  return [...new Set([...fromArticles, ...fromCommunity]),
     "docs.nvidia.com nim large-language-models Codex CLI model_providers.nim NIM_API_KEY",
     "docs.nvidia.com nim ai-assistant-integrations codex-cli localhost:8000/v1",
     "NVIDIA NIM Codex CLI wire_api responses web_search disabled Harmony gpt-oss",
@@ -2092,5 +2085,27 @@ export function seenUrls(): string[] {
     "X news: Codex CLI 2026-09-15 19:00",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR plugin OR skills OR config.toml OR gateway OR Helicone OR profile)',
     "Codex CLI 技巧 2026 MiniMax --profile minimax api.minimax.io env_key",
-  ];
+    "docs.z.ai devpack tool codex model_providers.ZAI api.z.ai/api/v1",
+    "docs.z.ai devpack extension coding-tool-helper npx @z_ai/coding-helper",
+    "docs.z.ai devpack tool others OpenAI Responses api.z.ai/api/v1",
+    "skip leftover 1930-2b7e Vaadin",
+    "skip minimax #93 helicone #92 truefoundry #91 deepseek #90 groq OpenCode-only",
+    "X news: Codex CLI 2026-09-15 19:30",
+    'X: ("Codex CLI" OR #CodexCLI) (ZAI OR GLM OR config.toml OR gateway OR profile)',
+    "Codex CLI 技巧 2026 Z.AI --profile zai api.z.ai/api/v1 env_key",
+    "alibabacloud.com help model-studio codex Model_Studio_Token_Plan",
+    "alibabacloud.com help model-studio base-url token-plan.ap-southeast-1.maas.aliyuncs.com",
+    "docs.modelstudio.console.alibabacloud.com compatibility-with-openai-responses-api",
+    "skip leftover 2000-2b7e Checkly",
+    "skip z.ai #94 minimax #93 helicone #92 kimi CC Switch chat-only",
+    "X news: Codex CLI 2026-09-15 20:00",
+    'X: ("Codex CLI" OR #CodexCLI) (Qwen OR GLM OR config.toml OR gateway OR profile)',
+    "Codex CLI 技巧 2026 Model Studio --profile modelstudio token-plan env_key",
+  ],
+};
+
+export function seenUrls(): string[] {
+  const fromArticles = articles.map((item) => item.url);
+  const fromCommunity = community.map((item) => item.url);
+  return [...new Set([...fromArticles, ...fromCommunity])];
 }
