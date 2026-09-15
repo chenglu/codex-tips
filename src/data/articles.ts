@@ -5640,5 +5640,65 @@ export const articles: Article[] = [
     tags: ['AWS', 'MCP'],
     summary:
       '托管 AWS MCP Server 覆盖 API、沙箱脚本和文档检索。aws-core 用本机 uvx 代理打 aws-mcp.us-east-1.api.aws/mcp。查文档可以 --skip-auth；写资源仍要 IAM。',
+  },
+  {
+    title: 'OpenAI Codex tracing with Langfuse',
+    url: 'https://langfuse.com/integrations/developer-tools/codex',
+    source: 'Langfuse Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Langfuse', 'hooks', 'plugins', 'Codex'],
+    summary:
+      '官方 Codex 追踪插件。marketplace add 之后 plugin add tracing@codex-observability-plugin。Stop 钩子读 transcript。TRACE_TO_LANGFUSE 必须是字符串 true。密钥走进程环境。文档仍写 plugin_hooks，现行是 hooks。',
+  },
+  {
+    title: 'langfuse/codex-observability-plugin',
+    url: 'https://github.com/langfuse/codex-observability-plugin',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Langfuse', 'hooks', 'plugins', 'Codex'],
+    summary:
+      'Langfuse 官方 Codex 追踪：marketplace add langfuse/codex-observability-plugin，再 plugin add tracing@codex-observability-plugin。清单名 codex-observability-plugin。npm 源。TRACE_TO_LANGFUSE 默认关。Codex 0.143+，Node 22+。',
+  },
+  {
+    title: 'codex-observability-plugin marketplace.json',
+    url: 'https://github.com/langfuse/codex-observability-plugin/blob/main/.agents/plugins/marketplace.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '清单',
+    tags: ['Langfuse', 'marketplace', 'plugins', 'Codex'],
+    summary:
+      '清单 name 是 codex-observability-plugin，插件 name 是 tracing，所以是 tracing@codex-observability-plugin。源是 npm 包 @langfuse/codex-observability-plugin。TRACE_TO_LANGFUSE 仍要另开。不要发明 tracing@langfuse。',
+  },
+  {
+    title: 'Codex plugin',
+    url: 'https://docs.wandb.ai/weave/guides/integrations/agents/codex-harness',
+    source: 'W&B Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Weave', 'hooks', 'W&B', 'Codex'],
+    summary:
+      '官方 Codex 追踪。npm 装 weave-codex 之后 weave-codex install 写 Stop 钩子。WEAVE_PROJECT 必填。默认采集正文。无头用 weave-codex run 或 collect --all。不要 marketplace add。',
+  },
+  {
+    title: 'weave-codex',
+    url: 'https://www.npmjs.com/package/weave-codex',
+    source: 'npm',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Weave', 'hooks', 'npm', 'Codex'],
+    summary:
+      'W&B Weave 官方 Codex 追踪：npm i -g weave-codex，再 weave-codex install 写 Stop 钩子。WEAVE_PROJECT 必填 entity/project。Node 20+。--ephemeral 没有追踪。',
+  },
+  {
+    title: 'Choose an agent integration',
+    url: 'https://docs.wandb.ai/weave/agent-integration-quickstart',
+    source: 'W&B Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Weave', 'agents', 'W&B', 'Codex'],
+    summary:
+      'Weave 把 Codex 列进 agent harness。CLI 主路径仍是 weave-codex，不是 Python weave.init()。装完 WEAVE_PROJECT 指向团队项目，再到 Agents 视图看回合。',
   }
 ];

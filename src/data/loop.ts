@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-15T06:00:00Z",
+  lastTick: "2026-09-15T08:30:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "06:00 收口。#68 已重放 #63–#67 为 TIP 445–449、#69 为 450；本轮续收 #70 为 451 aws-agent-toolkit-codex-plugin。合入后关 #70。站点 451 技巧。",
+    "08:30 收口。#68 已重放 #63–#67 为 TIP 445–449、#69 为 450、#70 为 451；本轮续收 #71 为 452 langfuse-codex-observability-plugin、#72 为 453 weave-codex-wandb-plugin。合入后关 #71–#72。站点 453 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1896,6 +1896,24 @@ export const loopState = {
     "docs.aws.amazon.com lambda agent-setup-guide Codex plugin marketplace add aws/agent-toolkit-for-aws",
     "github.com/aws/agent-toolkit-for-aws Codex /plugins aws-core",
     "Codex CLI 技巧 2026 AWS Agent Toolkit aws-mcp mcp-proxy-for-aws-cli",
+    "langfuse.com integrations developer-tools Codex tracing plugin TRACE_TO_LANGFUSE",
+    "github.com/langfuse/codex-observability-plugin marketplace add tracing@",
+    "Codex CLI 技巧 2026 Langfuse Stop 钩子 tracing@codex-observability-plugin",
+    "X news: Codex CLI 2026-09-15 06:30",
+    'X: ("Codex CLI" OR #CodexCLI) (plugin OR marketplace OR MCP OR skills OR AGENTS.md OR worktree OR hooks OR exec)',
+    "docs.aws.amazon.com lambda agent-setup-guide skip already in #70",
+    "www.revenuecat.com docs tools mcp setup skip already on site",
+    "akeyless-community/codex-akeyless-mcp skip official MCP has no Codex section",
+    "polar.sh docs integrate mcp skip already on site",
+    "auth0.com docs mcp skip already on site",
+    "docs.wandb.ai weave Codex plugin weave-codex install Stop hook",
+    "npmjs.com package weave-codex WEAVE_PROJECT WANDB_API_KEY",
+    "docs.wandb.ai weave agent-integration-quickstart Codex plugin",
+    "Codex CLI 技巧 2026 W&B Weave weave-codex install Stop 钩子",
+    "X news: Codex CLI 2026-09-15 08:30",
+    "github.com/langfuse/codex-observability-plugin skip already in #71",
+    "xqy2006/ModelTrace skip already in #63",
+    "akeyless official MCP still no Codex section",
   ],
 };
 

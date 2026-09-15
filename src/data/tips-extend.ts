@@ -15269,5 +15269,149 @@ codex mcp add awslabs-aws-serverless-mcp -- uvx awslabs.aws-serverless-mcp-serve
         url: "https://docs.aws.amazon.com/agent-toolkit/latest/userguide/understanding-mcp-server-tools.html",
       },
     ],
+  },
+  {
+    id: "langfuse-codex-observability-plugin",
+    no: 452,
+    title:
+      "Langfuse 官方 Codex 追踪：marketplace add langfuse/codex-observability-plugin，再 plugin add tracing@codex-observability-plugin",
+    summary:
+      "清单名是 codex-observability-plugin。插件从 npm 包 @langfuse/codex-observability-plugin 装。Stop 钩子读 transcript。TRACE_TO_LANGFUSE 必须是字符串 true。密钥走进程环境，不要写进 env 表。不要和文档 MCP 搞成一台。",
+    body: `Langfuse 官方 Codex 追踪：marketplace add langfuse/codex-observability-plugin，再 plugin add tracing@codex-observability-plugin。这是把 Codex **自己的回合**打进 Langfuse，不是去查文档、也不是去改 Langfuse 项目数据。官方集成页和仓库 README 都写了 marketplace；集成页把 \`plugin add\` 也写出来了，跟 \`.agents/plugins/marketplace.json\` 对得上。清单 name 是 \`codex-observability-plugin\`，展示名 Langfuse，插件 name 是 \`tracing\`，所以是 \`tracing@codex-observability-plugin\`。源是 npm 包 \`@langfuse/codex-observability-plugin\`，本机要 Node.js 22+ 且 \`npm\` 在 PATH 里。仓库 README 要求 Codex **0.143** 以上。
+
+\`\`\`bash
+codex plugin marketplace add langfuse/codex-observability-plugin
+codex plugin add tracing@codex-observability-plugin
+codex plugin list
+\`\`\`
+
+\`codex plugin list\` 应看到 \`tracing@codex-observability-plugin\` 为 installed, enabled。加完先看**当前会话**；当前会话 \`/plugins\` 没有再新开。IDE 扩展没有 \`/plugins\`，用 CLI 加。网页 Cloud 不读本机 marketplace。
+
+钩子要单独打开并信任。现行键是 \`hooks\`，**不要**抄集成页仍写着的 \`plugin_hooks\`：
+
+\`\`\`toml
+[features]
+hooks = true
+
+[plugins."tracing@codex-observability-plugin"]
+enabled = true
+\`\`\`
+
+新开会话后若出现 Hooks need review，打开 \`/hooks\`，审过 Langfuse 的 **Stop** 钩子再信任。Codex 按钩子哈希记信任；插件升级改了命令要再审一次。\`plugin list\` 显示已装不等于钩子已跑。成功时应能看到 \`hook: Stop\` 随后 \`hook: Stop Completed\`。
+
+追踪默认关。必须让启动 Codex 的那个进程看见 \`TRACE_TO_LANGFUSE=true\`（就是这四个字母，不是 \`1\` / \`yes\`），以及 \`LANGFUSE_PUBLIC_KEY\` / \`LANGFUSE_SECRET_KEY\`。可选 \`LANGFUSE_BASE_URL\`：欧盟默认 \`https://cloud.langfuse.com\`，美区 \`https://us.cloud.langfuse.com\`，日本 \`jp\`，HIPAA \`hipaa\`。同一组名也可加 \`LANGFUSE_CODEX_\` 前缀，只给 Codex 用。变量必须在启动 Codex 的 shell 里；Codex **不**读 \`.env\`。**不要**把 \`sk-lf-…\` 写进 \`[mcp_servers]\` 的 \`env\` 表，这台插件也不是 MCP，**不要** \`codex mcp login\`。
+
+也可以写 \`~/.codex/langfuse.json\`（项目层是仓库 \`.codex/langfuse.json\`）。解析顺序是默认值 → 全局 json → 项目 json → 环境变量，环境变量赢。json 里有 secret_key，**不要提交**。
+
+改完彻底重启 Codex，再新开一局。测的时候连发两条短消息：Stop 钩子上传已完成的回合，最新那一回合要等下一次钩子才收口。Langfuse 里搜 \`Codex Turn\`。不要给含密钥、客户数据的会话打开追踪。可用 \`LANGFUSE_CODEX_MAX_CHARS\` 截断超长输入输出。默认失败敞开，上传出错不会卡住 Codex；排错才设 \`LANGFUSE_CODEX_DEBUG=true\`。
+
+无头 \`codex exec\` 若要事先知道 trace id，才设 \`LANGFUSE_CODEX_TRACE_SEED\`（每趟唯一）。不要复用种子。升级：
+
+\`\`\`bash
+codex plugin marketplace upgrade codex-observability-plugin
+\`\`\`
+
+这**不是** \`https://langfuse.com/api/mcp\` 那台无鉴权文档 MCP，也不是 \`cloud.langfuse.com/api/public/mcp\` 那台产品 MCP。不要和那两张表写成一台。
+
+不要做这些：
+
+- 不要抄集成页的 \`plugin_hooks = true\`。现行是 \`hooks = true\`。
+- 不要发明 \`tracing@langfuse\` 或 \`langfuse@openai-curated\`。
+- 不要用 \`npx skills add langfuse/skills\` 当这台追踪插件的安装器。
+- 不要 \`codex mcp add langfuse-tracing\`，也不要 \`mcp login\`。
+- 不要把 \`sk-lf-…\` 写进 \`config.toml\` 的 \`env\` 表。
+- 不要一上来 \`--yolo\`。
+
+网页 Cloud 不读这份插件。改完用 \`codex plugin list\` 和 \`codex features list\` 核对 \`hooks\`。`,
+    category: "hooks",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Langfuse", "hooks", "observability"],
+    related: ["mcp-langfuse-docs", "mcp-langfuse-cloud", "plugin-session-refresh"],
+    sources: [
+      {
+        label: "Langfuse · OpenAI Codex tracing",
+        url: "https://langfuse.com/integrations/developer-tools/codex",
+      },
+      {
+        label: "langfuse/codex-observability-plugin",
+        url: "https://github.com/langfuse/codex-observability-plugin",
+      },
+      {
+        label: "marketplace.json",
+        url: "https://github.com/langfuse/codex-observability-plugin/blob/main/.agents/plugins/marketplace.json",
+      },
+    ],
+  },
+  {
+    id: "weave-codex-wandb-plugin",
+    no: 453,
+    title:
+      "W&B Weave 官方 Codex 追踪：npm i -g weave-codex，再 weave-codex install 写 Stop 钩子",
+    summary:
+      "这不是 marketplace 插件。weave-codex install 合并进 ~/.codex/hooks.json。WEAVE_PROJECT 必填 entity/project。默认会把 prompt 和命令输出送进 Weave。无头用 weave-codex run 包一层 exec。不要 mcp login。",
+    body: `W&B Weave 官方 Codex 追踪：npm i -g weave-codex，再 weave-codex install 写 Stop 钩子。这是把 Codex **自己的回合**打进 W&B Weave，不是去给 Python 脚本做 \`weave.init()\`，也不是 \`codex plugin marketplace add\`。官方集成页和 npm 包 \`weave-codex\` 都写了这条。本机要 Node.js 20+，并且 Codex 会写默认的 rollout（\`~/.codex/sessions/**/rollout-*.jsonl\`）。\`--ephemeral\` 关掉会话落盘，追踪也会没了。
+
+\`\`\`bash
+npm install -g weave-codex
+wandb login
+export WEAVE_PROJECT="YOUR-TEAM/YOUR-PROJECT"
+weave-codex install
+weave-codex status
+\`\`\`
+
+也可以 \`export WANDB_API_KEY\`，不必 \`wandb login\`。解析顺序是环境变量 → \`~/.weave-codex/settings.json\` → \`~/.netrc\`。\`WEAVE_PROJECT\` 必须是 \`entity/project\`，没有默认值。密钥必须在**启动 Codex 的那个进程**里；Codex **不**读 \`.env\`。**不要**把 \`WANDB_API_KEY\` 写进 \`config.toml\` 的 \`env\` 表。这台也不是 MCP，**不要** \`codex mcp login\`。
+
+\`weave-codex install\` 把 Stop 钩子合并进 \`~/.codex/hooks.json\`。回合结束时钩子在后台读新增的 rollout 行，再导出到 Weave，不挡 Codex 主路径。新开会话后若出现 Hooks need review，打开 \`/hooks\`，审过 **weave-codex** 再信任。Codex 按钩子哈希记信任；升级改了命令要再审一次。\`weave-codex status\` 显示已装不等于钩子已跑。
+
+默认会采集 span 正文：prompt、模型回复和推理、工具参数、以及含 shell 命令、输出、文件内容的工具结果，并送到你的 Weave 实例。官方写明**没有** PII 清洗。只想要结构、token、模型和耗时时，设 \`WEAVE_CODEX_CAPTURE_CONTENT=0\`。含密钥或客户数据的会话不要开正文采集。
+
+改完彻底重启 Codex，再新开一局。测的时候连发两条短消息：Stop 钩子上传已完成的回合，最新那一回合要等下一次钩子才收口。Weave 里打开项目的 Agents 视图（按 Codex session id 合成一轮对话），或看 Traces 里的 span 树。根 span 是 \`invoke_agent codex\`。
+
+交互 TUI 和 \`codex exec\` 官方都支持，但部分无头 / CI 环境 Stop 钩子根本不跑。这时不要干等钩子，扫 rollout：
+
+\`\`\`bash
+weave-codex collect --all
+weave-codex run -- codex exec "fix the failing test"
+\`\`\`
+
+\`collect\` 按会话游标幂等，已经导出的回合会跳过。\`weave-codex run\` 会继承 stdio、用子进程退出码，报告打到 stderr，好让 \`codex exec --json\` 的 stdout 干净。\`codex mcp\` 和 \`app-server\` 官方写明不覆盖。子代理目前只看得到 \`spawn_agent\` 那次工具调用。打断或失败的回合 Stop 不跑，也就没有追踪。排错看 \`~/.weave-codex/logs/collector.log\`，或 \`weave-codex status --json\`（不含密钥，只报 \`apiKeyResolved\`）。
+
+企业开了 \`allow_managed_hooks_only\`、本机 \`hooks.json\` 加不进去时，官方回退是 \`notify\` 调 \`~/.weave-codex/stop-hook.sh\`，不是再抄一份用户钩子。自建 / Dedicated Cloud 才设 \`WANDB_BASE_URL\`。卸装只删自己的钩子条目：
+
+\`\`\`bash
+weave-codex uninstall
+\`\`\`
+
+不要做这些：
+
+- 不要发明 \`codex plugin marketplace add wandb/weave-codex\` 或 \`plugin add weave@openai-curated\`。
+- 不要 \`codex mcp add weave\`，也不要 \`mcp login\`。
+- 不要把 Python 的 \`weave.init()\` / \`weave.patch_openai()\` 当成 Codex CLI 安装器。
+- 不要一上来 \`bypass_hook_trust = true\`。先走 \`/hooks\` 审查。
+- 不要把 \`WANDB_API_KEY\` 写进仓库或 \`config.toml\`。
+- 不要一上来 \`--yolo\`。
+- 不要用 \`--ephemeral\` 还指望出追踪。
+
+网页 Cloud 不读这份本机 \`hooks.json\`。改完用 \`weave-codex status\` 核对项目名和钩子状态。`,
+    category: "hooks",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["hooks", "Weave", "W&B", "observability"],
+    related: ["stop-hook-active", "managed-hooks-only", "hooks-one-representation"],
+    sources: [
+      {
+        label: "W&B Weave · Codex plugin",
+        url: "https://docs.wandb.ai/weave/guides/integrations/agents/codex-harness",
+      },
+      {
+        label: "npm · weave-codex",
+        url: "https://www.npmjs.com/package/weave-codex",
+      },
+      {
+        label: "W&B Weave · Choose an agent integration",
+        url: "https://docs.wandb.ai/weave/agent-integration-quickstart",
+      },
+    ],
   }
 ];

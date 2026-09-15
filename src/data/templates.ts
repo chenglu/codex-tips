@@ -4489,5 +4489,72 @@ codex
 # plugin add aws-core@agent-toolkit-for-aws
 # mcp login aws-mcp
 `,
+  },
+  {
+    id: "langfuse-codex-observability-plugin",
+    title: "Langfuse Stop 钩子把 Codex 回合喂给云端追踪",
+    filename: "terminal",
+    summary:
+      "Langfuse Stop 钩子把 Codex 回合喂给云端追踪。主路径是 marketplace add langfuse/codex-observability-plugin，再 plugin add tracing@codex-observability-plugin。hooks = true，不要抄 plugin_hooks。",
+    code: `codex plugin marketplace add langfuse/codex-observability-plugin
+codex plugin add tracing@codex-observability-plugin
+codex plugin list
+
+# ~/.codex/config.toml
+# [features]
+# hooks = true
+# [plugins."tracing@codex-observability-plugin"]
+# enabled = true
+
+# 启动 Codex 的 shell：
+# export TRACE_TO_LANGFUSE="true"
+# export LANGFUSE_PUBLIC_KEY="pk-lf-..."
+# export LANGFUSE_SECRET_KEY="sk-lf-..."
+# export LANGFUSE_BASE_URL="https://cloud.langfuse.com"
+
+# 会话里：/hooks 审过 Stop 钩子再信任
+
+# 升级：
+# codex plugin marketplace upgrade codex-observability-plugin
+
+# 不要：
+# plugin_hooks = true
+# npx skills add langfuse/skills
+# tracing@langfuse
+# mcp login
+# [mcp_servers.langfuse.env] LANGFUSE_SECRET_KEY = "sk-lf-..."
+`,
+  },
+  {
+    id: "weave-codex-wandb-plugin",
+    title: "Weave Stop 钩子把 Codex 回合喂给 W&B",
+    filename: "terminal",
+    summary:
+      "Weave Stop 钩子把 Codex 回合喂给 W&B。主路径是 npm i -g weave-codex，再 weave-codex install。WEAVE_PROJECT 必填。不要 marketplace add，也不要 mcp login。",
+    code: `npm install -g weave-codex
+wandb login
+export WEAVE_PROJECT="YOUR-TEAM/YOUR-PROJECT"
+weave-codex install
+weave-codex status
+
+# 会话里：/hooks 审过 weave-codex 再信任
+
+# 无头：
+# weave-codex run -- codex exec "fix the failing test"
+# weave-codex collect --all
+
+# 只要结构、不要正文：
+# export WEAVE_CODEX_CAPTURE_CONTENT=0
+
+# 卸装：
+# weave-codex uninstall
+
+# 不要：
+# codex plugin marketplace add wandb/weave-codex
+# bypass_hook_trust = true
+# mcp login
+# weave.init()
+# --ephemeral
+`,
   }
 ];
