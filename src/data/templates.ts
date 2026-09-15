@@ -4556,5 +4556,34 @@ weave-codex status
 # weave.init()
 # --ephemeral
 `,
+  },
+  {
+    id: "arize-phoenix-codex-notify",
+    title: "Phoenix notify 把 Codex 回合喂给 OpenInference",
+    filename: "terminal",
+    summary:
+      "Phoenix notify 把 Codex 回合喂给 OpenInference。主路径是 clone 后 ./install.sh codex。向导选 Phoenix。不要抄 README 的 /hooks，也不要 marketplace add。",
+    code: `git clone https://github.com/Arize-ai/coding-harness-tracing.git
+cd coding-harness-tracing
+./install.sh codex
+
+# ~/.codex/arize-env.sh
+# export PHOENIX_ENDPOINT="http://localhost:6006"
+# export PHOENIX_PROJECT="codex"
+# export ARIZE_TRACE_ENABLED="true"
+
+# 已有 notify = ["python3", "notify.py"] 时先备份 ~/.codex/config.toml
+
+# 测：
+# codex exec "explain what this file does" README.md
+
+# 卸装：
+# ./install.sh uninstall codex
+
+# 不要：
+# /hooks 审 arize-hook-codex-*
+# marketplace add Arize-ai/coding-harness-tracing
+# mcp login
+`,
   }
 ];

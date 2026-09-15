@@ -5700,5 +5700,35 @@ export const articles: Article[] = [
     tags: ['Weave', 'agents', 'W&B', 'Codex'],
     summary:
       'Weave 把 Codex 列进 agent harness。CLI 主路径仍是 weave-codex，不是 Python weave.init()。装完 WEAVE_PROJECT 指向团队项目，再到 Agents 视图看回合。',
+  },
+  {
+    title: 'Codex',
+    url: 'https://arize.com/docs/phoenix/integrations/coding-agents/codex',
+    source: 'Arize Phoenix Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Phoenix', 'notify', 'Arize', 'Codex'],
+    summary:
+      '官方走 Codex notify，不是 marketplace。clone 后 ./install.sh codex，向导选 Phoenix。PHOENIX_PROJECT 填项目名。凭证在 ~/.arize/harness/config.json。不要抄 README 的 /hooks。',
+  },
+  {
+    title: 'Arize-ai/coding-harness-tracing',
+    url: 'https://github.com/Arize-ai/coding-harness-tracing',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Phoenix', 'notify', 'Arize', 'Codex'],
+    summary:
+      'Arize Phoenix 官方 Codex 追踪：clone 后 ./install.sh codex，走顶层 notify 不是 /hooks。现行 install.py 只追加 notify 二进制。PHOENIX_PROJECT 给 Phoenix 用。',
+  },
+  {
+    title: 'tracing/codex/README.md',
+    url: 'https://github.com/Arize-ai/coding-harness-tracing/blob/main/tracing/codex/README.md',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '清单',
+    tags: ['Phoenix', 'notify', 'README', 'Codex'],
+    summary:
+      'README 仍写 /hooks 审 arize-hook-codex-*，那是旧布局。现行安装器是 notify-only。PHOENIX_PROJECT 与 ARIZE_TRACE_ENABLED 写在 arize-env.sh。测一条短 exec。',
   }
 ];

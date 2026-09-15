@@ -15413,5 +15413,81 @@ weave-codex uninstall
         url: "https://docs.wandb.ai/weave/agent-integration-quickstart",
       },
     ],
+  },
+  {
+    id: "arize-phoenix-codex-notify",
+    no: 454,
+    title:
+      "Arize Phoenix 官方 Codex 追踪：clone 后 ./install.sh codex，走顶层 notify 不是 /hooks",
+    summary:
+      "向导选 Phoenix。凭证在 ~/.arize/harness/config.json。现行安装器只往 notify 数组追加二进制，不再写生命周期钩子。仓库 README 仍提 /hooks，以安装器为准。已有 notify 脚本时先备份 config.toml。",
+    body: `Arize Phoenix 官方 Codex 追踪：clone 后 ./install.sh codex，走顶层 notify 不是 /hooks。这是把 Codex **自己的回合**打进 Phoenix（或 Arize AX），不是 marketplace 插件，也不是 MCP。官方 Phoenix 集成页写明走 Codex 的 \`notify\` 事件（\`agent-turn-complete\`），从 rollout 重建 OpenInference span。仓库 \`tracing/codex/README.md\` 仍写 \`/hooks\` 审 \`arize-hook-codex-*\`，那是旧布局；现行 \`install.py\` 的 \`_codex_toml_apply\` 只保证 notify 二进制出现一次，**不会**改你现有的 \`[[hooks.]]\`。以前留下的 \`arize-hook-codex-*\` 要卸装才会清。
+
+更稳是 clone 再跑安装器（官方也给了 curl 管道，不是唯一路径）：
+
+\`\`\`bash
+git clone https://github.com/Arize-ai/coding-harness-tracing.git
+cd coding-harness-tracing
+./install.sh codex
+\`\`\`
+
+Windows 才 \`install.bat codex\`。向导里选 **Phoenix**，填 endpoint（自建默认 \`http://localhost:6006\`）和可选 API key，再填项目名。装完开**新 shell**。凭证在 \`~/.arize/harness/config.json\`。按类覆盖写 \`~/.codex/arize-env.sh\`（notify 进程会 source），环境变量赢过 json：
+
+\`\`\`bash
+export PHOENIX_ENDPOINT="http://localhost:6006"
+export PHOENIX_API_KEY="..."
+export PHOENIX_PROJECT="codex"
+export ARIZE_TRACE_ENABLED="true"
+\`\`\`
+
+Phoenix 项目名用 \`PHOENIX_PROJECT\` 或 \`PHOENIX_PROJECT_NAME\`。\`ARIZE_PROJECT_NAME\` 只给 Arize AX，在 Phoenix 上会被忽略。\`ARIZE_TRACE_ENABLED\` 不论后端都保留 \`ARIZE_\` 前缀。密钥不要写进 \`config.toml\` 的 \`env\` 表。这台不是 MCP，**不要** \`codex mcp login\`。
+
+\`notify\` 是用户层**一组命令 argv**，必须写在任何 \`[table]\` 之前，项目 \`.codex/config.toml\` 里的 \`notify\` 会被忽略。安装器若发现数组里还没有自己的二进制，就 **append**。你已经有 \`notify = ["python3", "/home/you/.codex/notify.py"]\` 时，再塞进 Arize 路径会变成三个参数，桌面提醒和追踪都会坏。先备份 \`~/.codex/config.toml\`。冲突时先卸装或自己做 fanout，不要当多条钩子叠。
+
+默认会记 prompt、工具名/参数和工具输出。要脱敏才把对应旗标设成字符串 \`false\`：
+
+\`\`\`bash
+export ARIZE_LOG_PROMPTS="false"
+export ARIZE_LOG_TOOL_DETAILS="false"
+export ARIZE_LOG_TOOL_CONTENT="false"
+\`\`\`
+
+含密钥或客户数据的会话不要开正文采集。临时关掉：\`ARIZE_TRACE_ENABLED=false\` 后重启 Codex。测的时候跑一条短 \`codex exec\`，再看 Phoenix 里按 \`session.id\` 分组的回合，以及 \`~/.arize/harness/logs/codex.log\`。网页 Cloud 不跑这份本机 notify。
+
+不要做这些：
+
+- 不要把仓库 README 的 \`/hooks\` 审 \`arize-hook-codex-*\` 当成现行主路径。
+- 不要发明 \`codex plugin marketplace add Arize-ai/coding-harness-tracing\`。
+- 不要 \`codex mcp add phoenix\`，也不要 \`mcp login\`。
+- 不要把 Python \`phoenix\` SDK 或 \`weave.init()\` 当成这台安装器。
+- 不要一上来把 curl 管道当唯一路径，也不要 \`--yolo\`。
+- 不要覆盖别人已经在用的 \`notify\` argv。
+
+卸装：
+
+\`\`\`bash
+./install.sh uninstall codex
+\`\`\`
+
+改完用新 shell 跑一轮短任务，核对 Phoenix 出现 span，\`config.toml\` 顶层 \`notify\` 里有 Arize 二进制。`,
+    category: "config",
+    level: "starter",
+    surfaces: ["cli"],
+    tags: ["notify", "Phoenix", "Arize", "observability"],
+    related: ["notify-external-command", "hooks-one-representation", "managed-hooks-only"],
+    sources: [
+      {
+        label: "Arize Phoenix · Codex",
+        url: "https://arize.com/docs/phoenix/integrations/coding-agents/codex",
+      },
+      {
+        label: "Arize-ai/coding-harness-tracing",
+        url: "https://github.com/Arize-ai/coding-harness-tracing",
+      },
+      {
+        label: "tracing/codex/README.md",
+        url: "https://github.com/Arize-ai/coding-harness-tracing/blob/main/tracing/codex/README.md",
+      },
+    ],
   }
 ];

@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-15T08:30:00Z",
+  lastTick: "2026-09-15T09:00:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "08:30 收口。#68 已重放 #63–#67 为 TIP 445–449、#69 为 450、#70 为 451；本轮续收 #71 为 452 langfuse-codex-observability-plugin、#72 为 453 weave-codex-wandb-plugin。合入后关 #71–#72。站点 453 技巧。",
+    "09:00 收口。#68 已重放 #63–#67 为 445–449、#69–#72 为 450–453；本轮续收 #73 为 454 arize-phoenix-codex-notify。合入后关 #73。站点 454 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -1914,6 +1914,13 @@ export const loopState = {
     "github.com/langfuse/codex-observability-plugin skip already in #71",
     "xqy2006/ModelTrace skip already in #63",
     "akeyless official MCP still no Codex section",
+    "arize.com docs phoenix integrations coding-agents Codex notify",
+    "github.com/Arize-ai/coding-harness-tracing install.sh codex",
+    "Arize-ai coding-harness-tracing tracing/codex README notify vs hooks",
+    "Codex CLI 技巧 2026 Arize Phoenix ./install.sh codex notify",
+    "X news: Codex CLI 2026-09-15 09:00",
+    "docs.wandb.ai weave-codex skip already in #72",
+    "langfuse.com integrations developer-tools Codex skip already in #71",
   ],
 };
 
