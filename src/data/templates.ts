@@ -4916,5 +4916,41 @@ env_key = "OPENAI_API_KEY"
 wire_api = "responses"
 supports_websockets = false
 `,
+  },
+  {
+    id: "coder-ai-gateway",
+    title: "ai_gateway profile 把 Codex 模型流量喂给 /api/v2/ai-gateway/openai/v1",
+    filename: "~/.codex/ai_gateway.config.toml",
+    summary:
+      "ai_gateway profile 把 Codex 模型流量喂给 /api/v2/ai-gateway/openai/v1。用户层 [model_providers.ai_gateway]，wire_api = responses，env_key = OPENAI_API_KEY。必须 supports_websockets = false。",
+    code: `model_provider = "ai_gateway"
+
+[model_providers.ai_gateway]
+name = "AI Gateway"
+base_url = "https://YOUR_DEPLOYMENT/api/v2/ai-gateway/openai/v1"
+env_key = "OPENAI_API_KEY"
+wire_api = "responses"
+supports_websockets = false
+`,
+  },
+  {
+    id: "databricks-codex-gateway",
+    title: "Databricks profile 把 Codex 模型流量喂给 /ai-gateway/codex/v1",
+    filename: "~/.codex/databricks.config.toml",
+    summary:
+      "Databricks profile 把 Codex 模型流量喂给 /ai-gateway/codex/v1。用户层 [model_providers.Databricks]，wire_api = responses，令牌走 [model_providers.Databricks.auth]。不要抄 [profiles.default]。",
+    code: `model_provider = "Databricks"
+
+[model_providers.Databricks]
+name = "Databricks AI Gateway"
+base_url = "https://YOUR_WORKSPACE/ai-gateway/codex/v1"
+wire_api = "responses"
+
+[model_providers.Databricks.auth]
+command = "sh"
+args = ["-c", "databricks auth token --host YOUR_WORKSPACE --output json | jq -r '.access_token'"]
+timeout_ms = 5000
+refresh_interval_ms = 1800000
+`,
   }
 ];

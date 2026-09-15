@@ -6150,5 +6150,65 @@ export const articles: Article[] = [
     tags: ['CLI', 'Bifrost', 'localhost:8080/openai/v1'],
     summary:
       'Codex CLI 要把 API base 指到带 /v1 的 OpenAI 形，本机是 localhost:8080/openai/v1。不要抄 Claude 的 claude mcp add 或 localhost:8080/mcp。观测在 localhost:8080/logs。',
+  },
+  {
+    title: 'Codex CLI',
+    url: 'https://coder.com/docs/ai-coder/ai-gateway/clients/codex',
+    source: 'Coder Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Codex', 'Coder', '/api/v2/ai-gateway/openai/v1'],
+    summary:
+      'Coder 官方 Codex 网关：profile 写 [model_providers.ai_gateway]，base_url 以 /api/v2/ai-gateway/openai/v1 结尾，env_key 读 OPENAI_API_KEY。集中密钥那条 OPENAI_API_KEY 填 Coder 令牌。必须 supports_websockets = false。',
+  },
+  {
+    title: 'Client Configuration',
+    url: 'https://coder.com/docs/ai-coder/ai-gateway/clients',
+    source: 'Coder Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['AI Gateway', 'Coder', '/api/v2/ai-gateway/openai/v1'],
+    summary:
+      '总览把 OpenAI 形入口写成 https://coder.example.com/api/v2/ai-gateway/openai/v1。Codex CLI 不要抄 OPENAI_BASE_URL，走具名 ai_gateway 表。Claude 的 ANTHROPIC_BASE_URL 不要抄进 Codex。',
+  },
+  {
+    title: 'AI Gateway reference',
+    url: 'https://coder.com/docs/ai-coder/ai-gateway/reference',
+    source: 'Coder Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Responses', 'Coder', '/api/v2/ai-gateway/openai/v1'],
+    summary:
+      '嵌入式网关拦截 /v1/responses。进程内客户端仍打 /api/v2/ai-gateway/openai/v1。独立网关才丢掉 /api/v2/ai-gateway 前缀。Codex 必须 wire_api = responses。',
+  },
+  {
+    title: 'Integrate with coding agents',
+    url: 'https://docs.databricks.com/aws/en/ai-gateway/coding-agent-integration-model-services',
+    source: 'Databricks Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Codex', 'Databricks', '/ai-gateway/codex/v1'],
+    summary:
+      'Databricks 官方 Codex 网关：profile 写 [model_providers.Databricks]，base_url 以 /ai-gateway/codex/v1 结尾，令牌走 [model_providers.Databricks.auth]。文档仍写 [profiles.default]，0.134 起要改成独立 profile 文件。不要叠 env_key。',
+  },
+  {
+    title: 'Integrate coding agents with model provider services',
+    url: 'https://docs.databricks.com/aws/en/ai-gateway/coding-agent-integration-model-provider-services',
+    source: 'Databricks Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Unity Gateway', 'Databricks', '/ai-gateway/codex/v1'],
+    summary:
+      '外部供应商走 ug codex --provider。Codex 仍打 /ai-gateway/codex/v1，wire_api = responses，头是 Databricks-Model-Provider-Service。不要把上游密钥写进 Codex。Claude 的 /ai-gateway/anthropic 不要抄。',
+  },
+  {
+    title: 'Integrate with coding agents',
+    url: 'https://docs.databricks.com/gcp/en/ai-gateway/coding-agent-integration-model-services',
+    source: 'Databricks Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['GCP', 'Databricks', '/ai-gateway/codex/v1'],
+    summary:
+      'GCP 页和 AWS 同一套 Codex 表：base_url 仍以 /ai-gateway/codex/v1 结尾。主命令是 ug，ucode 只是别名。OSS 模型用 ug codex --model，不是 --oss。',
   }
 ];

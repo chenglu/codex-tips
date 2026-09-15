@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-15T16:12:00Z",
+  lastTick: "2026-09-15T17:12:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "16:12 收口。#68 已重放 #63–#67、#69–#85 为 TIP 445–466；本轮续收 #86 为 467 sambanova-codex-gateway、#87 为 468 bifrost-codex-gateway。合入后关 #86–#87。站点 468 技巧。",
+    "17:12 收口。#68 已重放 #63–#67、#69–#87 为 TIP 445–468；本轮续收 #88 为 469 coder-ai-gateway、#89 为 470 databricks-codex-gateway。合入后关 #88–#89。站点 470 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2041,5 +2041,21 @@ export function seenUrls(): string[] {
     "X news: Codex CLI 2026-09-15 16:00",
     'X: ("Codex CLI" OR #CodexCLI) (MCP OR plugin OR skills OR AGENTS.md OR profile OR exec OR bifrost)',
     "Codex CLI 技巧 2026 Bifrost --profile bifrost localhost:8080/openai/v1",
+    "coder.com docs ai-coder ai-gateway clients/codex model_providers.ai_gateway",
+    "coder.com docs ai-coder ai-gateway clients Codex CLI OPENAI_BASE_URL skip",
+    "coder.com docs ai-coder ai-gateway reference /v1/responses",
+    "registry.coder.com modules coder-labs/codex aigateway aibridge skip mix",
+    "skip leftover 1630-2b7e Databricks Unity Gateway",
+    "skip bifrost #87 sambanova #86 openaidr #85 Azure #84 Cloudflare AIG #81",
+    "X news: Codex CLI 2026-09-15 16:30",
+    'X: ("Codex CLI" OR #CodexCLI) (MCP OR plugin OR skills OR AGENTS.md OR profile OR exec OR gateway)',
+    "Codex CLI 技巧 2026 Coder --profile ai_gateway /api/v2/ai-gateway/openai/v1",
+    "docs.databricks.com aws ai-gateway coding-agent-integration-model-services Codex /ai-gateway/codex/v1",
+    "docs.databricks.com aws ai-gateway coding-agent-integration-model-provider-services ug codex --provider",
+    "docs.databricks.com gcp ai-gateway coding-agent-integration-model-services ug codex",
+    "skip leftover 1700-2b7e Salesforce B2C marketplace",
+    "skip coder #88 bifrost #87 sambanova #86 openaidr #85 Azure #84",
+    "X news: Codex CLI 2026-09-15 17:00",
+    "Codex CLI 技巧 2026 Databricks --profile databricks /ai-gateway/codex/v1",
   ];
 }

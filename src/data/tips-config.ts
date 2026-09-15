@@ -3916,5 +3916,153 @@ codex --profile bifrost -m openai/gpt-5-codex
         url: "https://docs.getbifrost.ai/cli-agents/overview",
       },
     ],
+  },
+  {
+    id: "coder-ai-gateway",
+    no: 469,
+    title:
+      "Coder 官方 Codex 网关：profile 写 [model_providers.ai_gateway]，base_url 以 /api/v2/ai-gateway/openai/v1 结尾，env_key 读 OPENAI_API_KEY",
+    summary:
+      "用户层 [model_providers.ai_gateway]，base_url 以 /api/v2/ai-gateway/openai/v1 结尾，env_key = OPENAI_API_KEY，wire_api = responses，supports_websockets = false。再用 ~/.codex/ai_gateway.config.toml 和 --profile ai_gateway。OPENAI_API_KEY 填 Coder 令牌。这不是 Cloudflare / Vercel 网关，也不是 --oss。",
+    body: `Coder 官方 Codex 网关：profile 写 [model_providers.ai_gateway]，base_url 以 /api/v2/ai-gateway/openai/v1 结尾，env_key 读 OPENAI_API_KEY。
+
+这是换 Codex **背后那颗模型**，流量打到 Coder 部署上的 AI Gateway，不是再加一台 MCP。功能在 Premium 的 AI Governance 里。集中密钥那条：\`env_key\` 只能写变量**名** \`OPENAI_API_KEY\`，进程里填的是 Coder API 令牌 \`YOUR_CODER_API_TOKEN\`，不是 OpenAI 平台密钥。**Codex 不会在 \`base_url\` 里展开环境变量**，主机名要写成字面量。
+
+供应商表放**用户** \`~/.codex/config.toml\`。项目 \`.codex/config.toml\` 改不了 \`model_provider\` / \`model_providers\`。不要写 \`openai_base_url\`，也不要把总览页给通用客户端的 \`OPENAI_BASE_URL\` 当 Codex 主路径：内置 \`openai\` 会带客户端 \`web\` 命名空间。具名 \`ai_gateway\` 才是 Codex 专节。
+
+网关不支持 Responses WebSocket。不写 \`supports_websockets = false\` 时，每一轮会先试 WebSocket、重试约 5 次再回落 HTTPS，日志是 \`Falling back from WebSockets to HTTPS transport.\`。把这项写进供应商表。
+
+更稳妥是独立 profile（用户层 \`$CODEX_HOME\`，不是项目 \`.codex\`）：
+
+\`\`\`toml
+# ~/.codex/ai_gateway.config.toml
+model_provider = "ai_gateway"
+
+[model_providers.ai_gateway]
+name = "AI Gateway"
+base_url = "https://YOUR_DEPLOYMENT/api/v2/ai-gateway/openai/v1"
+env_key = "OPENAI_API_KEY"
+wire_api = "responses"
+supports_websockets = false
+\`\`\`
+
+\`\`\`bash
+export OPENAI_API_KEY="YOUR_CODER_API_TOKEN"
+codex --profile ai_gateway
+\`\`\`
+
+0.134 起不要再写 \`[profiles.ai_gateway]\`。自定义供应商必须 \`wire_api = "responses"\`。密钥必须出现在**启动 Codex 的那个进程**里。从已经 export 的终端启动；Dock 打开的桌面读不到你刚改的 zshrc。
+
+个人 OpenAI 密钥那条（BYOK）才加 \`requires_openai_auth = true\`，并用 \`env_http_headers\` 把头 \`X-Coder-AI-Governance-Token\` 指到变量名 \`CODER_API_TOKEN\`。这时 \`OPENAI_API_KEY\` 才是你的 OpenAI 密钥。ChatGPT 订阅那条把 \`base_url\` 换成 \`https://YOUR_DEPLOYMENT/api/v2/ai-gateway/chatgpt/v1\`，并 \`unset OPENAI_API_KEY\`；部署上必须有名为 \`chatgpt\` 的供应商，否则 \`404 route not supported: POST /chatgpt/v1/responses\`。
+
+Coder Registry 模块 \`enable_ai_gateway = true\` 写的是另一张表：\`[model_providers.aigateway]\`（没有下划线），\`base_url\` 走 \`/api/v2/aibridge/openai/v1\`，\`env_key = "OPENAI_CODER_AIGATEWAY_SESSION_TOKEN"\`。不要和文档专节的 \`ai_gateway\` 表混抄。
+
+不要做这些：
+
+- 不要写 \`openai_base_url\`，也不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`ai_gateway\` 是新 ID，可以。
+- 不要写进项目 \`.codex/config.toml\`。
+- 不要和 Cloudflare AI Gateway、Vercel AI Gateway 搞成一台。
+- 不要把 Claude 的 \`ANTHROPIC_BASE_URL\` / \`ANTHROPIC_AUTH_TOKEN\` 抄进这条。
+- 不要发明 \`plugin add coder@\`。
+- 不要和 \`--oss\` / \`oss_provider\` 混成一条。
+- 不要把密钥写进 \`http_headers\` 或 TOML 字面量。
+
+改完新开会话。\`codex --profile ai_gateway\` 起得来，说明 profile、供应商和 \`OPENAI_API_KEY\` 都进了这一进程。401 先看进程里有没有这颗变量。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["model_providers", "Coder", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "project-config-cannot-override-auth", "vercel-ai-gateway"],
+    sources: [
+      {
+        label: "Coder · Codex CLI",
+        url: "https://coder.com/docs/ai-coder/ai-gateway/clients/codex",
+      },
+      {
+        label: "Coder · AI Gateway clients",
+        url: "https://coder.com/docs/ai-coder/ai-gateway/clients",
+      },
+      {
+        label: "Coder · AI Gateway reference",
+        url: "https://coder.com/docs/ai-coder/ai-gateway/reference",
+      },
+    ],
+  },
+  {
+    id: "databricks-codex-gateway",
+    no: 470,
+    title:
+      "Databricks 官方 Codex 网关：profile 写 [model_providers.Databricks]，base_url 以 /ai-gateway/codex/v1 结尾，令牌走 [model_providers.Databricks.auth]",
+    summary:
+      "用户层 [model_providers.Databricks]，base_url 以 /ai-gateway/codex/v1 结尾，wire_api = responses。短时令牌走 [model_providers.Databricks.auth]，不要叠 env_key。再用 ~/.codex/databricks.config.toml 和 --profile databricks。这不是 ug mcp add，也不是 --oss。",
+    body: `Databricks 官方 Codex 网关：profile 写 [model_providers.Databricks]，base_url 以 /ai-gateway/codex/v1 结尾，令牌走 [model_providers.Databricks.auth]。
+
+这是换 Codex **背后那颗模型**，流量打到 workspace 的 Unity Gateway \`/ai-gateway/codex/v1\`，不是再加一台 MCP。MCP 仍走已有的 \`ug mcp add --agents codex\`。推荐入口是 Unity Gateway CLI（主命令 \`ug\`，\`ucode\` 只是别名）帮你写配置：
+
+\`\`\`bash
+uv tool install git+https://github.com/databricks/unity-gateway
+databricks auth login --host YOUR_WORKSPACE
+ug codex
+\`\`\`
+
+需要 Codex CLI 0.118+、Python 3.12+ 和 \`uv\`。\`ug\` 会写 agent 配置；日常用 \`ug codex\` 启动。OSS 模型例如 \`ug codex --model system.ai.glm-5-2\`，这是网关托管的 Responses 模型，**不是** \`--oss\`。
+
+手写时供应商表放**用户** \`~/.codex/config.toml\`。官方示例还在写 \`[profiles.default]\`；0.134 起这张表会被拒绝。更稳妥是独立 profile（用户层 \`$CODEX_HOME\`，不是项目 \`.codex\`）。**不要**同时写 \`env_key\`：\`[model_providers.*.auth]\` 和 \`env_key\` / \`experimental_bearer_token\` / \`requires_openai_auth\` 互斥。**Codex 不会在 \`base_url\` 里展开环境变量**，主机名要写成字面量。
+
+\`\`\`toml
+# ~/.codex/databricks.config.toml
+model_provider = "Databricks"
+
+[model_providers.Databricks]
+name = "Databricks AI Gateway"
+base_url = "https://YOUR_WORKSPACE/ai-gateway/codex/v1"
+wire_api = "responses"
+
+[model_providers.Databricks.auth]
+command = "sh"
+args = ["-c", "databricks auth token --host YOUR_WORKSPACE --output json | jq -r '.access_token'"]
+timeout_ms = 5000
+refresh_interval_ms = 1800000
+\`\`\`
+
+\`\`\`bash
+codex --profile databricks
+\`\`\`
+
+自定义供应商必须 \`wire_api = "responses"\`。项目 \`.codex/config.toml\` 改不了 \`model_provider\` / \`model_providers\`。不要写 \`openai_base_url\`。先 \`databricks auth login --host YOUR_WORKSPACE\`；令牌短时有效，\`refresh_interval_ms = 1800000\` 让长会话到期前重跑命令。
+
+把流量打到你在 Unity Catalog 登记的外部供应商时，用 \`ug codex --provider CATALOG.SCHEMA.SERVICE\`。CLI 会在供应商表加头 \`Databricks-Model-Provider-Service\`。不要把 OpenAI / Anthropic 密钥写进 Codex。
+
+不要做这些：
+
+- 不要再写 \`[profiles.default]\` 或 \`[profiles.databricks]\`。
+- 不要把这张表当成 MCP。MCP 是 \`ug mcp add --agents codex\`。
+- 不要抄 Claude 的 \`ANTHROPIC_BASE_URL\` / \`~/.claude/settings.json\`，也不要抄 Cursor 的 \`/ai-gateway/cursor/v1\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`Databricks\` 是新 ID，可以。
+- 不要写进项目 \`.codex/config.toml\`。
+- 不要给 \`auth\` 表再叠 \`env_key\` 或把 PAT 写进 TOML。
+- 不要发明 \`plugin add databricks@\`。
+- 不要和 \`--oss\` / \`oss_provider\` 混成一条。
+
+改完新开会话。\`codex --profile databricks\` 或 \`ug codex\` 起得来，说明供应商和令牌命令都进了这一进程。401 先看 \`databricks auth login\` 是否还有效。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["model_providers", "Databricks", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "project-config-cannot-override-auth", "ug-mcp-add-codex"],
+    sources: [
+      {
+        label: "Databricks · Integrate with coding agents",
+        url: "https://docs.databricks.com/aws/en/ai-gateway/coding-agent-integration-model-services",
+      },
+      {
+        label: "Databricks · Model provider services",
+        url: "https://docs.databricks.com/aws/en/ai-gateway/coding-agent-integration-model-provider-services",
+      },
+      {
+        label: "Databricks GCP · Integrate with coding agents",
+        url: "https://docs.databricks.com/gcp/en/ai-gateway/coding-agent-integration-model-services",
+      },
+    ],
   }
 ];
