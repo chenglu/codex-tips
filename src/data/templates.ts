@@ -4159,4 +4159,851 @@ codex mcp login GitGuardian
 # ggshield machine setup --agent codex --no-git-hooks --no-honeytokens
 `,
   },
+  {
+    id: "modeltrace-guard-codex-plugin",
+    title: "安装 ModelTrace Guard 插件",
+    filename: "terminal",
+    summary: "安装 modeltrace-guard@modeltrace 后，在 /hooks 审查插件钩子。探针使用已配置的 Codex 账户，会消耗额度。",
+    code: `codex plugin marketplace add xqy2006/ModelTrace
+codex plugin add modeltrace-guard@modeltrace
+
+# 新开会话，TUI 敲 /hooks，只审 ModelTrace Guard
+# 目标任务里用 $modeltrace-guard 开启监测
+
+# 可选：
+# node scripts/guard.mjs doctor --fork true
+# node scripts/guard.mjs dashboard
+# codex plugin marketplace upgrade modeltrace
+
+# 本地：
+# codex plugin marketplace add .
+# codex plugin add modeltrace-guard@modeltrace
+
+# 不要：
+# python start.py
+# http://127.0.0.1:7860/
+# /hooks 信任全部钩子
+# codex plugin install modeltrace-guard@modeltrace
+# --dangerously-bypass-hook-trust
+`,
+  },
+  {
+    id: "codeguard-codex-plugin",
+    title: "安装 CodeGuard 安全规则插件",
+    filename: "terminal",
+    summary: "安装 codeguard-security@project-codeguard，在会话中使用 $codeguard。需要 Codex CLI 0.142.0+，插件提供安全规则技能。",
+    code: `codex plugin marketplace add cosai-oasis/project-codeguard
+codex plugin add codeguard-security@project-codeguard
+codex plugin list --marketplace project-codeguard
+
+# 刷新：
+# codex plugin marketplace upgrade project-codeguard
+
+# 会话里用 $codeguard
+# 要 CLI 0.142.0+（源是仓库根 ./）
+
+# 不要：
+# /plugin marketplace add cosai-oasis/project-codeguard
+# /plugin install codeguard-security@project-codeguard
+# /reload-plugins
+# extraKnownMarketplaces
+# cp -r .agents/ 当插件安装器
+# $skill-installer 当 marketplace
+# ~/.codex/skills
+# codex mcp add codeguard
+# plugin add codeguard-security@openai-curated
+`,
+  },
+  {
+    id: "braintrust-trace-codex-plugin",
+    title: "使用 Braintrust 追踪 Codex 会话",
+    filename: "terminal",
+    summary: "通过 bt trace enable codex 安装追踪插件并指定项目。新会话中确认 Braintrust 钩子权限，MCP 查询服务单独配置。",
+    code: `bt trace enable codex --project my-project
+codex plugin list --json
+bt trace doctor codex
+
+# 只要手装插件、不写追踪文件：
+# codex plugin marketplace add braintrustdata/braintrust-codex-plugin
+# codex plugin add trace-codex@braintrust-codex-plugins
+
+# MCP 另走：
+# codex mcp add braintrust --url https://api.braintrust.dev/mcp
+# codex mcp login braintrust
+
+# 不要：
+# TRACE_TO_BRAINTRUST=true
+# plugin add braintrust@braintrust-codex-plugins
+# bt trace run -- --dangerously-bypass-hook-trust
+# npx mcp-remote https://api.braintrust.dev/mcp
+# wrapOpenAICodexSDK
+`,
+  },
+  {
+    id: "context-mode-codex-plugin",
+    title: "安装 context-mode 插件",
+    filename: "terminal",
+    summary: "从 mksglu/context-mode 安装插件，开启 hooks 和 plugin_hooks，并审查插件钩子权限。",
+    code: `codex plugin marketplace add mksglu/context-mode
+codex plugin add context-mode@context-mode
+
+# ~/.codex/config.toml
+# [features]
+# plugin_hooks = true
+# hooks = true
+
+# 可选存储根：
+# CONTEXT_MODE_DIR="$HOME/.codex-context-mode" codex
+
+# 不要：
+# /plugin marketplace add mksglu/context-mode
+# /plugin install context-mode@context-mode
+# codex plugin install context-mode/context-mode
+# [mcp_servers.context-mode]
+# ~/.codex/hooks.json
+`,
+  },
+  {
+    id: "1password-codex-plugin",
+    title: "安装 1Password 插件",
+    filename: "terminal",
+    summary: "安装 1password@1password-plugins，并在 1Password 桌面 Labs 中开启本地 MCP。",
+    code: `codex plugin marketplace add 1Password/1password-codex-plugin
+codex plugin add 1password@1password-plugins
+
+# 桌面 Labs：Enable local MCP server
+# which 1password-mcp
+
+# 不要：
+# /plugin marketplace add 1Password/1password-claude-plugin
+# /plugin install 1password@1password
+# codex mcp add 1password -- 1password-mcp
+# op mcp-server environments
+# npx -y @takescake/1password-mcp
+`,
+  },
+  {
+    id: "doppler-codex-run-mcp",
+    title: "通过 Doppler 注入密钥并连接 MCP",
+    filename: "config.toml",
+    summary: "使用独立 Doppler config 注入任务所需密钥。MCP 通过本地 stdio 运行，以 env_vars 传入 DOPPLER_TOKEN，并启用 --read-only。",
+    code: `doppler configs create dev_agent_codex --project my-app
+doppler secrets set OPENAI_API_KEY --project my-app --config dev_agent_codex
+
+export DOPPLER_CODEX_TOKEN=$(doppler configs tokens create codex-agent-token \\
+  --project my-app \\
+  --config dev_agent_codex \\
+  --max-age 24h \\
+  --plain)
+
+doppler configure set token $DOPPLER_CODEX_TOKEN --scope .
+export DOPPLER_TOKEN=$DOPPLER_CODEX_TOKEN
+doppler run --config dev_agent_codex -- codex
+
+# 另开终端登记 MCP（或写进 ~/.codex/config.toml）：
+# codex mcp add doppler -- npx -y @dopplerhq/mcp-server --read-only
+#
+# [mcp_servers.doppler]
+# command = "npx"
+# args = ["-y", "@dopplerhq/mcp-server", "--read-only"]
+# env_vars = ["DOPPLER_TOKEN"]
+# enabled = true
+#
+# 不要：
+# env = { DOPPLER_TOKEN = "dp.st.…" }
+# command = "doppler"
+# mcpServers JSON
+# plugin add doppler@
+# mcp login doppler
+`,
+  },
+  {
+    id: "aws-agent-toolkit-codex-plugin",
+    title: "安装 AWS Agent Toolkit 插件",
+    filename: "terminal",
+    summary: "添加 aws/agent-toolkit-for-aws 后，在 /plugins 安装 aws-core。插件通过本地 uvx 代理连接托管 AWS MCP。",
+    code: `codex plugin marketplace add aws/agent-toolkit-for-aws
+codex
+/plugins
+
+# TUI 选 Agent Toolkit for AWS，打开 aws-core，Install plugin
+# 仓库大时：
+# codex plugin marketplace add aws/agent-toolkit-for-aws --sparse .agents/plugins --sparse plugins/aws-core
+
+# 捆绑 MCP（插件会登记，不要再手写一张）：
+# [mcp_servers.aws-mcp]
+# command = "uvx"
+# args = [
+#   "mcp-proxy-for-aws-cli@latest",
+#   "https://aws-mcp.us-east-1.api.aws/mcp",
+#   "--skip-auth",
+#   "--metadata",
+#   "INSTALL_SOURCE=agent-toolkit-core",
+# ]
+
+# 可选升级：
+# codex plugin marketplace upgrade agent-toolkit-for-aws
+
+# 可选 Labs Serverless MCP（不是插件主路径）：
+# codex mcp add awslabs-aws-serverless-mcp -- uvx awslabs.aws-serverless-mcp-server@latest
+
+# 不要：
+# /plugin install aws-core@claude-plugins-official
+# npx skills add aws/agent-toolkit-for-aws
+# aws configure agent-toolkit
+# plugin add aws-core@agent-toolkit-for-aws
+# mcp login aws-mcp
+`,
+  },
+  {
+    id: "langfuse-codex-observability-plugin",
+    title: "使用 Langfuse 追踪 Codex 会话",
+    filename: "terminal",
+    summary: "安装 tracing@codex-observability-plugin，通过 Stop 钩子采集会话。设置 TRACE_TO_LANGFUSE=true，凭证通过进程环境传入。",
+    code: `codex plugin marketplace add langfuse/codex-observability-plugin
+codex plugin add tracing@codex-observability-plugin
+codex plugin list
+
+# ~/.codex/config.toml
+# [features]
+# hooks = true
+# [plugins."tracing@codex-observability-plugin"]
+# enabled = true
+
+# 启动 Codex 的 shell：
+# export TRACE_TO_LANGFUSE="true"
+# export LANGFUSE_PUBLIC_KEY="pk-lf-..."
+# export LANGFUSE_SECRET_KEY="sk-lf-..."
+# export LANGFUSE_BASE_URL="https://cloud.langfuse.com"
+
+# 会话里：/hooks 审过 Stop 钩子再信任
+
+# 升级：
+# codex plugin marketplace upgrade codex-observability-plugin
+
+# 不要：
+# plugin_hooks = true
+# npx skills add langfuse/skills
+# tracing@langfuse
+# mcp login
+# [mcp_servers.langfuse.env] LANGFUSE_SECRET_KEY = "sk-lf-..."
+`,
+  },
+  {
+    id: "weave-codex-wandb-plugin",
+    title: "使用 W&B Weave 追踪 Codex 会话",
+    filename: "terminal",
+    summary: "使用 weave-codex install 配置 Stop 钩子，WEAVE_PROJECT 指定 entity/project。默认采集提示词和命令输出，无头任务使用 weave-codex run。",
+    code: `npm install -g weave-codex
+wandb login
+export WEAVE_PROJECT="YOUR-TEAM/YOUR-PROJECT"
+weave-codex install
+weave-codex status
+
+# 会话里：/hooks 审过 weave-codex 再信任
+
+# 无头：
+# weave-codex run -- codex exec "fix the failing test"
+# weave-codex collect --all
+
+# 只要结构、不要正文：
+# export WEAVE_CODEX_CAPTURE_CONTENT=0
+
+# 卸装：
+# weave-codex uninstall
+
+# 不要：
+# codex plugin marketplace add wandb/weave-codex
+# bypass_hook_trust = true
+# mcp login
+# weave.init()
+# --ephemeral
+`,
+  },
+  {
+    id: "arize-phoenix-codex-notify",
+    title: "配置 Arize Phoenix 会话追踪",
+    filename: "terminal",
+    summary: "运行安装向导并选择 Phoenix，通过 notify 发送会话追踪。凭证存于 ~/.arize/harness/config.json，已有 notify 配置时先备份。",
+    code: `git clone https://github.com/Arize-ai/coding-harness-tracing.git
+cd coding-harness-tracing
+./install.sh codex
+
+# ~/.codex/arize-env.sh
+# export PHOENIX_ENDPOINT="http://localhost:6006"
+# export PHOENIX_PROJECT="codex"
+# export ARIZE_TRACE_ENABLED="true"
+
+# 已有 notify = ["python3", "notify.py"] 时先备份 ~/.codex/config.toml
+
+# 测：
+# codex exec "explain what this file does" README.md
+
+# 卸装：
+# ./install.sh uninstall codex
+
+# 不要：
+# /hooks 审 arize-hook-codex-*
+# marketplace add Arize-ai/coding-harness-tracing
+# mcp login
+`,
+  },
+  {
+    id: "langsmith-codex-tracing-plugin",
+    title: "安装 LangSmith 追踪插件",
+    filename: "terminal",
+    summary: "安装 tracing@langsmith-codex-plugins，使用 TRACE_TO_LANGSMITH 开启追踪。需要 Codex 0.153.4+，凭证使用 LANGSMITH_CODEX_API_KEY。",
+    code: `codex plugin marketplace add langchain-ai/langsmith-codex-plugins
+codex plugin add tracing@langsmith-codex-plugins
+codex plugin list
+
+# ~/.codex/config.toml
+# [features]
+# hooks = true
+# [plugins."tracing@langsmith-codex-plugins"]
+# enabled = true
+
+# export TRACE_TO_LANGSMITH="true"
+# export LANGSMITH_CODEX_API_KEY="lsv2_pt_..."
+# export LANGSMITH_CODEX_PROJECT="codex"
+
+# 会话里静音（不要加斜杠）：
+# langsmith-tracing:mute
+
+# 升级：
+# codex plugin marketplace upgrade langsmith-codex-plugins
+# codex plugin add tracing@langsmith-codex-plugins
+
+# 不要：
+# plugin_hooks = true
+# /langsmith-tracing:mute
+# marketplace add langchain-ai/langchain-plugins
+# mcp login
+# tracing@openai-curated
+`,
+  },
+  {
+    id: "logfire-exporter-codex-plugin",
+    title: "通过 Logfire 导出会话遥测",
+    filename: "terminal",
+    summary: "安装 logfire-exporter@pydantic-skills，通过 Stop 钩子导出遥测。LOGFIRE_TOKEN 写入 config.env，正文采集模式默认 full。",
+    code: `codex plugin marketplace add pydantic/skills --ref main
+codex plugin add logfire-exporter@pydantic-skills
+codex plugin list
+
+# ~/.config/logfire-exporter/config.env
+# LOGFIRE_TOKEN=pylf_...
+# LOGFIRE_BASE_URL=https://logfire-us.pydantic.dev
+# CODEX_LOGFIRE_CONTENT_CAPTURE_MODE=metadata_only
+
+# ~/.codex/config.toml
+# [features]
+# hooks = true
+# [plugins."logfire-exporter@pydantic-skills"]
+# enabled = true
+
+# 查遥测才另装：
+# codex plugin add logfire@pydantic-skills
+
+# 欧盟 MCP：
+# codex mcp remove logfire
+# codex mcp add logfire --url https://logfire-eu.pydantic.dev/mcp
+# codex mcp login logfire
+
+# 升级：
+# codex plugin marketplace upgrade pydantic-skills
+# codex plugin add logfire-exporter@pydantic-skills
+
+# 不要：
+# claude plugin install logfire@claude-plugins-official
+# npx skills add pydantic/skills
+# mcp login   # 对导出器
+# logfire-exporter@openai-curated
+`,
+  },
+  {
+    id: "laminar-codex-plugin",
+    title: "使用 Laminar 追踪 Codex 会话",
+    filename: "terminal",
+    summary: "安装 lmnr@lmnr，通过 Stop 钩子采集 rollout。密钥存于 ~/.config/lmnr/codex-plugin.json，也可用 LMNR_PROJECT_API_KEY 覆盖。",
+    code: `codex plugin marketplace add lmnr-ai/lmnr-codex-plugin
+codex plugin add lmnr@lmnr
+codex plugin list
+
+# 安装器等价：
+# npx lmnr-cli@latest plugin add codex
+
+# ~/.config/lmnr/codex-plugin.json
+# { "projectApiKey": "...", "baseUrl": "https://api.lmnr.ai" }
+# CODEX_LMNR_MAX_CHARS=20000
+# LMNR_PROJECT_API_KEY 覆盖文件
+
+# ~/.codex/config.toml
+# [features]
+# hooks = true
+# [plugins."lmnr@lmnr"]
+# enabled = true
+
+# 查轨迹才另配：
+# codex mcp add laminar --url https://api.lmnr.ai/v1/mcp --bearer-token-env-var LMNR_PROJECT_API_KEY
+
+# 升级：
+# codex plugin marketplace upgrade lmnr
+# codex plugin add lmnr@lmnr
+
+# 不要：
+# claude plugin install
+# claude mcp add --transport http laminar
+# npx skills add
+# mcp login   # 对追踪钩子
+# lmnr@openai-curated
+# lmnr-cli setup   # 那是应用 SDK
+`,
+  },
+  {
+    id: "portkey-codex-gateway",
+    title: "通过 Portkey 连接模型服务",
+    filename: "~/.codex/config.toml",
+    summary: "用户 config 写 [model_providers.portkey]，base_url 是 https://api.portkey.ai/v1，env_key = PORTKEY_API_KEY，wire_api = responses。再用 ~/.codex/portkey.config.toml 和 --profile portkey。",
+    code: `# ~/.codex/config.toml
+[model_providers.portkey]
+name = "Portkey"
+base_url = "https://api.portkey.ai/v1"
+env_key = "PORTKEY_API_KEY"
+wire_api = "responses"
+
+# ~/.codex/portkey.config.toml
+# model_provider = "portkey"
+# model = "@openai-prod/gpt-4o"
+
+# export PORTKEY_API_KEY=pk-...
+# codex --profile portkey
+
+# 只要网关、不要向导改 MCP / 技能：
+# npx portkey setup --yes --portkey-key "$PORTKEY_API_KEY" --skip-mcp --skip-skills --codex-wire-api responses
+
+# 不要：
+# [profiles.portkey]
+# 项目 .codex/config.toml 里写 model_providers
+# ANTHROPIC_BASE_URL
+# codex plugin add portkey@
+# --oss
+`,
+  },
+  {
+    id: "fireworks-fireconnect-codex",
+    title: "通过 Fireworks FireConnect 连接模型服务",
+    filename: "~/.codex/config.toml",
+    summary: "用户 config 写 [model_providers.fireworks-ai]，base_url 是 https://api.fireworks.ai/inference/v1，env_key = FIREWORKS_API_KEY，wire_api = responses。官方 CLI 是 fireconnect login 再 fireconnect codex on。",
+    code: `# 官方 CLI（会改整机默认）：
+# fireconnect login
+# fireconnect codex on
+# fireconnect codex status
+# fireconnect codex off
+
+# ~/.codex/config.toml 手写（推荐 env_key，不要 experimental_bearer_token）
+[model_providers.fireworks-ai]
+name = "Fireworks"
+base_url = "https://api.fireworks.ai/inference/v1"
+env_key = "FIREWORKS_API_KEY"
+wire_api = "responses"
+requires_openai_auth = false
+
+# ~/.codex/fireworks.config.toml
+# model_provider = "fireworks-ai"
+# model = "kimi-fast-latest"
+# export FIREWORKS_API_KEY=fw-...
+# codex --profile fireworks
+
+# 续写旧会话：
+# codex resume -c model_provider="fireworks-ai"
+
+# 不要：
+# [profiles.fireconnect]
+# 项目 .codex/config.toml 里写 model_providers
+# ANTHROPIC_BASE_URL
+# fireconnect claude
+# fpk_ Fire Pass
+# MiniMax
+# codex plugin add fireworks@
+# --oss
+`,
+  },
+  {
+    id: "litellm-codex-gateway",
+    title: "通过 LiteLLM 连接模型服务",
+    filename: "~/.codex/config.toml",
+    summary: "用户 config 写 [model_providers.litellm]，base_url 是 http://localhost:4000/v1，env_key = LITELLM_API_KEY，wire_api = responses。再用 ~/.codex/litellm.config.toml 和 --profile litellm。",
+    code: `[model_providers.litellm]
+name = "litellm"
+base_url = "http://localhost:4000/v1"
+env_key = "LITELLM_API_KEY"
+wire_api = "responses"
+stream_idle_timeout_ms = 7200000
+`,
+  },
+  {
+    id: "openrouter-codex-gateway",
+    title: "通过 OpenRouter 连接模型服务",
+    filename: "~/.codex/config.toml",
+    summary: "用户 config 写 [model_providers.openrouter]，base_url 是 https://openrouter.ai/api/v1，wire_api = responses。主路径是 [model_providers.openrouter.auth] 用 sh 回显 OPENROUTER_API_KEY，与 env_key 二选一。",
+    code: `[model_providers.openrouter]
+name = "openrouter"
+base_url = "https://openrouter.ai/api/v1"
+wire_api = "responses"
+
+[model_providers.openrouter.auth]
+command = "sh"
+args = ["-c", "echo $OPENROUTER_API_KEY"]
+`,
+  },
+  {
+    id: "cloudflare-aig-codex-gateway",
+    title: "通过 Cloudflare AI Gateway 连接模型服务",
+    filename: "~/.codex/cloudflare-aig.config.toml",
+    summary: "官方主路径是 ~/.codex/cloudflare-aig.config.toml 加 [model_providers.cloudflare-ai-gateway]，wire_api = responses，env_key = CLOUDFLARE_API_KEY。base_url 不展开环境变量，账号 ID 和网关 slug 要写死。",
+    code: `model_provider = "cloudflare-ai-gateway"
+model = "gpt-5.5"
+model_reasoning_effort = "medium"
+
+[model_providers.cloudflare-ai-gateway]
+name = "Cloudflare AI Gateway"
+base_url = "https://gateway.ai.cloudflare.com/v1/YOUR_ACCOUNT_ID/default/openai"
+env_key = "CLOUDFLARE_API_KEY"
+wire_api = "responses"
+`,
+  },
+  {
+    id: "nim-codex-gateway",
+    title: "通过 NVIDIA NIM 连接模型服务",
+    filename: "~/.codex/nim.config.toml",
+    summary: "官方主路径是用户层 [model_providers.nim]，wire_api = responses，env_key = NIM_API_KEY，base_url 是本机 NIM 的 /v1。再用 ~/.codex/nim.config.toml 和 --profile nim。",
+    code: `# web_search = "disabled"  # gpt-oss Harmony 才需要；必须写在所有 [section] 之前
+model = "nvidia/nemotron-3-super-120b-a12b"
+model_provider = "nim"
+
+[model_providers.nim]
+name = "NVIDIA NIM"
+base_url = "http://localhost:8000/v1"
+env_key = "NIM_API_KEY"
+wire_api = "responses"
+`,
+  },
+  {
+    id: "agentgateway-codex-gateway",
+    title: "通过 agentgateway 连接模型服务",
+    filename: "~/.codex/agentgateway.config.toml",
+    summary: "官方主路径是 ~/.codex/agentgateway.config.toml 加 [model_providers.agentgateway]，wire_api = responses，name 必填。本机 base_url 是 http://localhost:4000/v1。",
+    code: `model_provider = "agentgateway"
+
+[model_providers.agentgateway]
+name = "OpenAI via agentgateway"
+base_url = "http://localhost:4000/v1"
+wire_api = "responses"
+env_key = "AGENTGATEWAY_API_KEY"
+`,
+  },
+  {
+    id: "azure-openai-codex-gateway",
+    title: "通过 Azure OpenAI 连接模型服务",
+    filename: "~/.codex/azure.config.toml",
+    summary: "Foundry Codex 专页走 v1 Responses：用户层 [model_providers.azure]，base_url 必须带 /openai/v1，不要再塞 query_params 的 api-version。env_key = AZURE_OPENAI_API_KEY。",
+    code: `model = "YOUR_DEPLOYMENT_NAME"
+model_provider = "azure"
+model_reasoning_effort = "medium"
+
+[model_providers.azure]
+name = "Azure OpenAI"
+base_url = "https://YOUR_RESOURCE_NAME.openai.azure.com/openai/v1"
+env_key = "AZURE_OPENAI_API_KEY"
+wire_api = "responses"
+`,
+  },
+  {
+    id: "openaidr-codex-gateway",
+    title: "通过 OpenAI 数据驻留端点 连接模型服务",
+    filename: "~/.codex/openaidr.config.toml",
+    summary: "用户层 [model_providers.openaidr]，base_url 用驻留前缀如 https://us.api.openai.com/v1，wire_api = responses。再用 ~/.codex/openaidr.config.toml 和 --profile openaidr。",
+    code: `model_provider = "openaidr"
+
+[model_providers.openaidr]
+name = "OpenAI Data Residency"
+base_url = "https://us.api.openai.com/v1"
+wire_api = "responses"
+`,
+  },
+  {
+    id: "sambanova-codex-gateway",
+    title: "通过 SambaNova 连接模型服务",
+    filename: "~/.codex/sambanova.config.toml",
+    summary: "用户层 [model_providers.sambanova]，base_url 是 https://api.sambanova.ai/v1，env_key = SAMBANOVA_API_KEY，wire_api = responses。再用 ~/.codex/sambanova.config.toml 和 --profile sambanova。",
+    code: `model = "MiniMax-M2.7"
+model_provider = "sambanova"
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+
+[model_providers.sambanova]
+name = "SambaNova"
+base_url = "https://api.sambanova.ai/v1"
+env_key = "SAMBANOVA_API_KEY"
+wire_api = "responses"
+`,
+  },
+  {
+    id: "bifrost-codex-gateway",
+    title: "通过 Bifrost 连接模型服务",
+    filename: "~/.codex/bifrost.config.toml",
+    summary: "用户层 [model_providers.bifrost]，base_url 是 http://localhost:8080/openai/v1，env_key = OPENAI_API_KEY，wire_api = responses，supports_websockets = false。再用 ~/.codex/bifrost.config.toml 和 --profile bifrost。",
+    code: `model = "openai/gpt-5.4"
+model_provider = "bifrost"
+
+[model_providers.bifrost]
+name = "Bifrost"
+base_url = "http://localhost:8080/openai/v1"
+env_key = "OPENAI_API_KEY"
+wire_api = "responses"
+supports_websockets = false
+`,
+  },
+  {
+    id: "coder-ai-gateway",
+    title: "通过 Coder AI Gateway 连接模型服务",
+    filename: "~/.codex/ai_gateway.config.toml",
+    summary: "用户层 [model_providers.ai_gateway]，base_url 以 /api/v2/ai-gateway/openai/v1 结尾，env_key = OPENAI_API_KEY，wire_api = responses，supports_websockets = false。再用 ~/.codex/ai_gateway.config.toml 和 --profile ai_gateway。",
+    code: `model_provider = "ai_gateway"
+
+[model_providers.ai_gateway]
+name = "AI Gateway"
+base_url = "https://YOUR_DEPLOYMENT/api/v2/ai-gateway/openai/v1"
+env_key = "OPENAI_API_KEY"
+wire_api = "responses"
+supports_websockets = false
+`,
+  },
+  {
+    id: "databricks-codex-gateway",
+    title: "通过 Databricks 连接模型服务",
+    filename: "~/.codex/databricks.config.toml",
+    summary: "用户层 [model_providers.Databricks]，base_url 以 /ai-gateway/codex/v1 结尾，wire_api = responses。短时令牌走 [model_providers.Databricks.auth]，避免重复配置 env_key。",
+    code: `model_provider = "Databricks"
+
+[model_providers.Databricks]
+name = "Databricks AI Gateway"
+base_url = "https://YOUR_WORKSPACE/ai-gateway/codex/v1"
+wire_api = "responses"
+
+[model_providers.Databricks.auth]
+command = "sh"
+args = ["-c", "databricks auth token --host YOUR_WORKSPACE --output json | jq -r '.access_token'"]
+timeout_ms = 5000
+refresh_interval_ms = 1800000
+`,
+  },
+  {
+    id: "deepseek-codex-gateway",
+    title: "通过 DeepSeek 连接模型服务",
+    filename: "~/.codex/deepseek.config.toml",
+    summary: "用户层 [model_providers.deepseek]，base_url 是 https://api.deepseek.com/，wire_api = responses。env_key 读 DEEPSEEK_API_KEY，不要把 sk- 写进 TOML。",
+    code: `export DEEPSEEK_API_KEY=YOUR_DEEPSEEK_API_KEY
+
+# ~/.codex/config.toml
+[model_providers.deepseek]
+name = "deepseek"
+base_url = "https://api.deepseek.com/"
+env_key = "DEEPSEEK_API_KEY"
+wire_api = "responses"
+
+# ~/.codex/deepseek.config.toml
+model_provider = "deepseek"
+model = "deepseek-flash"
+preferred_auth_method = "apikey"
+forced_login_method = "api"
+model_reasoning_effort = "high"
+web_search = "disabled"
+model_catalog_json = "/home/YOU/.codex/models.json"
+
+# 模型目录 JSON 从官方 Codex 页或一键脚本拿，不要抄人设长文
+# bash <(curl -fsSL https://cdn.deepseek.com/api-docs/codex-deepseek-setup-en.sh)
+
+codex --profile deepseek
+
+# 不要：
+# experimental_bearer_token = "sk-..."
+# [profiles.deepseek]
+# openai_base_url = "https://api.deepseek.com/"
+# wire_api = "chat"
+# plugin add deepseek@
+`,
+  },
+  {
+    id: "truefoundry-codex-gateway",
+    title: "通过 TrueFoundry 连接模型服务",
+    filename: "~/.codex/truefoundry.config.toml",
+    summary: "用户层 [model_providers.truefoundry]，SaaS base_url 是 https://gateway.truefoundry.ai，wire_api = responses。env_key 读 TFY_API_KEY，不要把 Bearer 写进 http_headers。",
+    code: `export TFY_API_KEY=YOUR_TFY_API_KEY
+
+# ~/.codex/config.toml
+[model_providers.truefoundry]
+name = "TrueFoundry AI Gateway"
+base_url = "https://gateway.truefoundry.ai"
+env_key = "TFY_API_KEY"
+wire_api = "responses"
+
+# ~/.codex/truefoundry.config.toml
+model_provider = "truefoundry"
+model = "gpt-5.2-codex"
+
+codex --profile truefoundry
+
+# 自建：base_url 写成 Playground 里的字面量，不要在 URL 里写 $GATEWAY_BASE_URL
+# ChatGPT 订阅：不要 env_key；requires_openai_auth = true
+# env_http_headers = { "x-tfy-api-key" = "TFY_API_KEY" }
+
+# 不要：
+# [model_providers.truefoundry.http_headers]
+# Authorization = "Bearer YOUR_TFY_API_KEY"
+# wire_api = "chat"
+# [profiles.truefoundry]
+# openai_base_url = "https://gateway.truefoundry.ai"
+# model = "openai-main/gpt-5.2-codex"
+# plugin add truefoundry@
+`,
+  },
+  {
+    id: "helicone-codex-gateway",
+    title: "通过 Helicone 连接模型服务",
+    filename: "~/.codex/helicone.config.toml",
+    summary: "用户层 [model_providers.helicone]，base_url 是 https://ai-gateway.helicone.ai/v1，wire_api = responses。env_key 读 HELICONE_API_KEY，不要再写 wire_api = chat。",
+    code: `export HELICONE_API_KEY=YOUR_HELICONE_API_KEY
+
+# ~/.codex/config.toml
+[model_providers.helicone]
+name = "Helicone"
+base_url = "https://ai-gateway.helicone.ai/v1"
+env_key = "HELICONE_API_KEY"
+wire_api = "responses"
+
+# ~/.codex/helicone.config.toml
+model_provider = "helicone"
+model = "gpt-5"
+
+codex --profile helicone
+
+# 不要：
+# wire_api = "chat"
+# [profiles.helicone]
+# openai_base_url = "https://ai-gateway.helicone.ai/v1"
+# base_url = "https://gateway.helicone.ai/YOUR_HELICONE_API_KEY/v1/"
+# plugin add helicone@
+# $CODEX_HOME/.codex/config.toml
+`,
+  },
+  {
+    id: "minimax-codex-gateway",
+    title: "通过 MiniMax 连接模型服务",
+    filename: "~/.codex/minimax.config.toml",
+    summary: "用户层 [model_providers.minimax]，国际站 base_url 是 https://api.minimax.io/v1，wire_api = responses。env_key 读 MINIMAX_API_KEY，不要把密钥写进 experimental_bearer_token。",
+    code: `export MINIMAX_API_KEY=YOUR_MINIMAX_API_KEY
+
+# ~/.codex/config.toml
+[model_providers.minimax]
+name = "MiniMax"
+base_url = "https://api.minimax.io/v1"
+env_key = "MINIMAX_API_KEY"
+wire_api = "responses"
+
+# ~/.codex/minimax.config.toml
+model_provider = "minimax"
+model = "MiniMax-M3"
+model_context_window = 1000000
+
+codex --profile minimax
+
+# 大陆站：
+# base_url = "https://api.minimaxi.com/v1"
+
+# 可选一键（先看会改哪些文件）：
+# npx -y mmx-cli@latest agent setup --agent codex --region global --dry-run
+
+# 不要：
+# experimental_bearer_token = "YOUR_MINIMAX_API_KEY"
+# [profiles.minimax]
+# openai_base_url = "https://api.minimax.io/v1"
+# plugin add minimax@
+# npx skills add MiniMax-AI/cli
+# --all
+`,
+  },
+  {
+    id: "zai-codex-gateway",
+    title: "通过 Z.AI 连接模型服务",
+    filename: "~/.codex/zai.config.toml",
+    summary: "用户层 [model_providers.ZAI]，base_url 是 https://api.z.ai/api/v1，wire_api = responses。env_key 读 ZAI_API_KEY，不要把密钥写进 experimental_bearer_token。",
+    code: `export ZAI_API_KEY=YOUR_ZAI_API_KEY
+
+# ~/.codex/config.toml
+[model_providers.ZAI]
+name = "ZAI"
+base_url = "https://api.z.ai/api/v1"
+env_key = "ZAI_API_KEY"
+wire_api = "responses"
+
+# ~/.codex/zai.config.toml
+model_provider = "ZAI"
+model = "glm-5.3"
+model_reasoning_effort = "max"
+model_context_window = 1048576
+
+codex --profile zai
+
+# 可选一键（只要 Codex，跑完改回 env_key）：
+# npx @z_ai/coding-helper
+
+# 不要：
+# experimental_bearer_token = "YOUR_ZAI_API_KEY"
+# [profiles.zai]
+# openai_base_url = "https://api.z.ai/api/v1"
+# base_url = "https://api.z.ai/api/coding/paas/v4"
+# plugin add zai@
+# coding-helper auth reload claude
+`,
+  },
+  {
+    id: "modelstudio-codex-gateway",
+    title: "modelstudio profile 把 Codex 模型流量发送到 token-plan.ap-southeast-1.maas.aliyuncs.com",
+    filename: "~/.codex/modelstudio.config.toml",
+    summary:
+      "modelstudio profile 把 Codex 模型流量发送到 token-plan.ap-southeast-1.maas.aliyuncs.com。供应商表用 env_key 读 DASHSCOPE_API_KEY。模型写 qwen3.8-max。不要 wire_api = chat。",
+    code: `export DASHSCOPE_API_KEY=YOUR_DASHSCOPE_API_KEY
+
+# ~/.codex/config.toml
+[model_providers.Model_Studio_Token_Plan]
+name = "Model_Studio_Token_Plan"
+base_url = "https://token-plan.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1"
+env_key = "DASHSCOPE_API_KEY"
+wire_api = "responses"
+
+# ~/.codex/modelstudio.config.toml
+model_provider = "Model_Studio_Token_Plan"
+model = "qwen3.8-max"
+model_reasoning_effort = "xhigh"
+model_context_window = 983616
+
+codex --profile modelstudio
+
+# 中国站 Token Plan：
+# base_url = "https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1"
+
+# 按量才把 WorkspaceId 写进主机：
+# base_url = "https://YOUR_WORKSPACE_ID.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1"
+
+# 不要：
+# wire_api = "chat"
+# [profiles.modelstudio]
+# openai_base_url = "https://token-plan.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1"
+# base_url = "https://coding-intl.dashscope.aliyuncs.com/v1"
+# plugin add modelstudio@
+# npm install -g @openai/codex@0.80.0
+`,
+  }
 ];

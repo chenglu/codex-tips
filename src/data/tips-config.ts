@@ -3010,4 +3010,1431 @@ curl -s \\
       },
     ],
   },
+  {
+    id: "portkey-codex-gateway",
+    no: 458,
+    title: "通过 Portkey 连接模型服务",
+    summary: "用户 config 写 [model_providers.portkey]，base_url 是 https://api.portkey.ai/v1，env_key = PORTKEY_API_KEY，wire_api = responses。再用 ~/.codex/portkey.config.toml 和 --profile portkey。",
+    body: `Portkey 官方 Codex 网关：用户层 [model_providers.portkey]，base_url 是 https://api.portkey.ai/v1，env_key 读 PORTKEY_API_KEY。这是换 Codex **使用的模型**，不是添加 MCP 服务，也不是插件。模型 slug 走 Portkey Model Catalog，形状是 \`@provider-slug/model\`，例如 \`@openai-prod/gpt-4o\`，不是 Vercel 的 \`厂商/型号\`，也不是 Hugging Face router 后缀。
+
+供应商表放**用户** \`~/.codex/config.toml\`。不要一上来把顶层 \`model_provider = "portkey"\` 写成整机默认，除非你就是要把**所有**会话都改走网关：
+
+\`\`\`toml
+# ~/.codex/config.toml
+[model_providers.portkey]
+name = "Portkey"
+base_url = "https://api.portkey.ai/v1"
+env_key = "PORTKEY_API_KEY"
+wire_api = "responses"
+\`\`\`
+
+\`env_key\` 是变量**名**。密钥必须出现在**启动 Codex 的那个进程**里。从已经 \`export PORTKEY_API_KEY\` 的终端启动；Dock 打开的桌面不会读你刚改的 zshrc。不要把 \`pk-\` 字面量写进 TOML，也不要写进 \`http_headers\`。
+
+Portkey 官方页把省略 \`wire_api\` 写成 Chat Completions（\`chat\`）。Codex 自定义供应商要走工具调用和推理时，用 \`responses\`。只在你明确只要 Chat Completions 时才写成 \`chat\`。Wizard 的 \`--codex-wire-api chat|responses\` 也是改这一项。
+
+更稳妥是独立 profile，不要再写 \`[profiles.portkey]\`（0.134 起会被拒绝）：
+
+\`\`\`toml
+# ~/.codex/portkey.config.toml
+model_provider = "portkey"
+model = "@openai-prod/gpt-4o"
+\`\`\`
+
+\`\`\`bash
+codex --profile portkey
+codex --profile portkey -m "@openai-prod/gpt-4o"
+\`\`\`
+
+\`npx portkey\` / \`npx portkey setup\` 是向导，**可以**改 Claude / Cursor，并把 MCP、技能一并写进配置。只要网关时加 \`--skip-mcp --skip-skills\`，Codex 协议用 \`--codex-wire-api responses\`。它可能把 \`model_provider = "portkey"\` 写成默认，也可能写到项目 \`.codex/config.toml\`。项目文件**无法修改** \`model_provider\` / \`model_providers\` / \`otel\`；Portkey 文档那句「仓库 \`.codex\` 能覆盖供应商」按 OpenAI 现行规则是错的。手写用户层表 + profile 才是主路径。
+
+向导写的 \`[mcp_servers.*]\`（头里带 Portkey API key）是另一条线，不要和这张网关供应商表混用。
+
+配置说明：
+
+- 不要写进项目 \`.codex/config.toml\`。项目文件无法修改供应商。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`portkey\` 是新 ID，可以。
+- 不要把密钥写进 TOML。
+- 不要用 \`openai_base_url\` 顶替这张表；那是改内置 \`openai\` 供应商。
+
+改完新开会话。\`codex --profile portkey\` 启动后，发送一条简短请求验证连接。401 先看进程里有没有 \`PORTKEY_API_KEY\`；模型 404 再对照 Model Catalog 改 \`model\`。用量看 Portkey Dashboard。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["model_providers", "Portkey", "wire_api", "profile", "PORTKEY_API_KEY"],
+    related: ["profile-files-not-tables", "hf-inference-providers", "vercel-ai-gateway"],
+    sources: [
+      {
+        label: "Portkey · OpenAI Codex",
+        url: "https://portkey.ai/docs/integrations/libraries/codex",
+      },
+      {
+        label: "Portkey-AI/cli",
+        url: "https://github.com/Portkey-AI/cli",
+      },
+      {
+        label: "OpenAI · Advanced configuration",
+        url: "https://learn.chatgpt.com/docs/config-file/config-advanced",
+      },
+    ],
+  },
+  {
+    id: "fireworks-fireconnect-codex",
+    no: 459,
+    title: "通过 Fireworks FireConnect 连接模型服务",
+    summary: "用户 config 写 [model_providers.fireworks-ai]，base_url 是 https://api.fireworks.ai/inference/v1，env_key = FIREWORKS_API_KEY，wire_api = responses。官方 CLI 是 fireconnect login 再 fireconnect codex on。",
+    body: `Fireworks 官方 Codex 网关：用户层 [model_providers.fireworks-ai]，base_url 是 https://api.fireworks.ai/inference/v1，env_key 读 FIREWORKS_API_KEY。这是换 Codex **使用的模型**，不是添加 MCP 服务，也不是插件。官方 Codex 页要求 CLI **0.134+**，密钥必须是标准 \`fw_...\`。Fire Pass \`fpk_...\` **不能**走 Codex 的 Responses 入口。
+
+官方一键（会改**用户** \`~/.codex/config.toml\` 的顶层 \`model_provider\` / \`model\`，并写成整机默认）：
+
+\`\`\`bash
+fireconnect login
+fireconnect codex on
+fireconnect codex status
+\`\`\`
+
+换模型：\`fireconnect codex on --model glm-5p2\`。关掉并还原备份：\`fireconnect codex off\`。快照在 \`~/.fireconnect/codex/\`。\`fireconnect chatgpt\` 是同一份 config，开/关前先退出 ChatGPT 桌面，模型列表才会刷新。
+
+现行 CLI 会把 \`fw_\` 密钥写成 \`experimental_bearer_token\` 字面量（文件模式 0600）。OpenAI 标明这一项**不推荐**，手写时改用 \`env_key\`：
+
+\`\`\`toml
+# ~/.codex/config.toml
+[model_providers.fireworks-ai]
+name = "Fireworks"
+base_url = "https://api.fireworks.ai/inference/v1"
+env_key = "FIREWORKS_API_KEY"
+wire_api = "responses"
+requires_openai_auth = false
+\`\`\`
+
+\`env_key\` 是变量**名**。密钥必须出现在**启动 Codex 的那个进程**里。不要把 \`fw_\` 写进 TOML。从已经 \`export FIREWORKS_API_KEY\` 的终端启动；Dock 打开的桌面不会读你刚改的 zshrc。
+
+不要一上来把顶层 \`model_provider = "fireworks-ai"\` 写成整机默认，除非你就是要把**所有**会话都改走 Fireworks。CLI \`on\` 会写成默认。更稳妥是独立 profile，不要再写 \`[profiles.fireconnect]\`（源码已当旧表剥掉）：
+
+\`\`\`toml
+# ~/.codex/fireworks.config.toml
+model_provider = "fireworks-ai"
+model = "kimi-fast-latest"
+\`\`\`
+
+\`\`\`bash
+codex --profile fireworks
+\`\`\`
+
+\`on\` 还会写 \`~/.codex/fireworks-model-catalog.json\`，并用顶层 \`model_catalog_json\` 指过去。目录键启动时加载，改完必须新开会话。续写旧会话要带着供应商，否则会退回 OpenAI：
+
+\`\`\`bash
+codex resume -c model_provider="fireworks-ai"
+\`\`\`
+
+MiniMax **不能**走 Codex：Responses 可能在 \`tool_calls\` 和 \`tool_results\` 之间插入 assistant 消息，MiniMax 模板会拒。Foundry 是另一张表 \`[model_providers.fireworks-azure]\`，不是这条网关。
+
+配置说明：
+
+- 不要抄 \`fireconnect claude\` 的 \`ANTHROPIC_BASE_URL\` / \`settings.json\`。
+- 不要写进项目 \`.codex/config.toml\`。项目文件无法修改 \`model_provider\` / \`model_providers\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`fireworks-ai\` 是新 ID，可以。
+- 不要把安装器 \`curl …/fw-ai/fireconnect/…/install.sh\` 当成 Codex 插件。
+- 不要用 \`fpk_\` Fire Pass。
+
+改完新开会话。\`codex --profile fireworks\` 或 \`fireconnect codex status\` 能对上，说明供应商和密钥都进了这一进程。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["model_providers", "Fireworks", "FireConnect", "wire_api", "FIREWORKS_API_KEY"],
+    related: ["model-catalog-json", "vercel-ai-gateway", "profile-files-not-tables"],
+    sources: [
+      {
+        label: "Fireworks · Codex",
+        url: "https://docs.fireworks.ai/ecosystem/fireconnect/codex",
+      },
+      {
+        label: "fw-ai/fireconnect",
+        url: "https://github.com/fw-ai/fireconnect",
+      },
+      {
+        label: "OpenAI · Advanced configuration",
+        url: "https://learn.chatgpt.com/docs/config-file/config-advanced",
+      },
+    ],
+  },
+  {
+    id: "litellm-codex-gateway",
+    no: 460,
+    title: "通过 LiteLLM 连接模型服务",
+    summary: "用户 config 写 [model_providers.litellm]，base_url 是 http://localhost:4000/v1，env_key = LITELLM_API_KEY，wire_api = responses。再用 ~/.codex/litellm.config.toml 和 --profile litellm。",
+    body: `LiteLLM 官方 Codex 网关：用户层 [model_providers.litellm]，base_url 是 http://localhost:4000/v1，env_key 读 LITELLM_API_KEY。
+
+这是换 Codex **使用的模型**，不是添加 MCP 服务。需要 LiteLLM v1.66.3.dev5 以上。先把 proxy 起在 4000 端口；yaml 必须有 \`litellm_settings.drop_params: true\`，否则多余参数会导致上游请求失败。
+
+起代理（本机或 Docker 二选一）：
+
+\`\`\`bash
+litellm --config /path/to/litellm_config.yaml
+\`\`\`
+
+\`\`\`bash
+docker run \\
+  -v "$(pwd)/litellm_config.yaml:/app/config.yaml" \\
+  -p 4000:4000 \\
+  docker.litellm.ai/berriai/litellm:latest \\
+  --config /app/config.yaml
+\`\`\`
+
+yaml 骨架（模型名按你的 proxy 目录改，不要把示例密钥写进文件）：
+
+\`\`\`yaml
+model_list:
+  - model_name: gpt-5.6-terra
+    litellm_params:
+      model: openai/gpt-5.6-terra
+      api_key: os.environ/OPENAI_API_KEY
+litellm_settings:
+  drop_params: true
+\`\`\`
+
+供应商表放**用户** \`~/.codex/config.toml\`。官方教程会把顶层 \`model\` / \`model_provider\` 写成全局默认，不要一上来覆盖所有会话：
+
+\`\`\`toml
+# ~/.codex/config.toml
+[model_providers.litellm]
+name = "litellm"
+base_url = "http://localhost:4000/v1"
+env_key = "LITELLM_API_KEY"
+wire_api = "responses"
+stream_idle_timeout_ms = 7200000
+\`\`\`
+
+\`env_key\` 是变量**名**。密钥必须出现在**启动 Codex 的那个进程**里。不要把 \`sk-1234\` 写进 TOML。从已经 \`export LITELLM_API_KEY\` 的终端启动；Dock / Finder 打开的桌面不会读你刚改的 zshrc。官方 macOS 补救是 \`launchctl setenv LITELLM_API_KEY …\` 后重启应用，或从终端拉起桌面。
+
+更稳妥是独立 profile，不要改成全局默认：
+
+\`\`\`toml
+# ~/.codex/litellm.config.toml
+model_provider = "litellm"
+model = "gpt-5.6-terra"
+\`\`\`
+
+\`\`\`bash
+codex --profile litellm
+codex --profile litellm -m claude-sonnet-5
+\`\`\`
+
+0.134 起不要再写 \`[profiles.litellm]\`。自定义供应商必须 \`wire_api = "responses"\`。模型名以 LiteLLM \`/v1/models\` 为准，例如官方示例 \`gpt-5.6-terra\`、\`claude-sonnet-5\`。
+
+\`lite codex\` 是包装器，不是持久配置。它会 export \`OPENAI_BASE_URL\`（Codex **忽略** 这个变量）再用 \`-c\` 覆盖走 HTTP/SSE Responses，因为代理不支持 Responses WebSocket。包装器读 \`LITELLM_PROXY_API_KEY\` / \`LITELLM_PROXY_URL\`；Codex 表读的是 \`LITELLM_API_KEY\`。两种配置应分别使用。不要抄 \`lite claude\` 的 \`ANTHROPIC_BASE_URL\`。
+
+配置说明：
+
+- 不要把 \`openai_base_url\` / \`OPENAI_BASE_URL\` 当成 Codex 路径。Codex 不读 \`OPENAI_BASE_URL\`；抄完会去 GET \`/responses\` 拿到 405。
+- 不要写进项目 \`.codex/config.toml\`。项目文件无法修改 \`model_provider\` / \`model_providers\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`litellm\` 是新 ID，可以。
+- 不要开 \`supports_websockets = true\`，除非代理真的讲 Responses WS。
+- 不要把官方示例里的 \`approvals_reviewer\`、\`[tui.model_availability_nux]\`、项目 \`trust_level\` 当成这张网关表的必填项。
+- 不要把密钥写进 \`http_headers\`。
+
+桌面读同一份 \`~/.codex/config.toml\`。自定义供应商没有应用内模型选择器（openai/codex#15364）；改 \`model\` 后必须**新开会话**。改完用 \`codex --profile litellm\` 启动后，发送一条简短请求验证连接。连不上先看 4000 端口；401 先看进程里有没有密钥。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["model_providers", "LiteLLM", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "vercel-ai-gateway", "hf-inference-providers"],
+    sources: [
+      {
+        label: "LiteLLM · OpenAI Codex",
+        url: "https://docs.litellm.ai/docs/tutorials/openai_codex",
+      },
+      {
+        label: "LiteLLM · Proxy CLI",
+        url: "https://docs.litellm.ai/docs/proxy/management_cli",
+      },
+      {
+        label: "BerriAI/litellm",
+        url: "https://github.com/BerriAI/litellm",
+      },
+    ],
+  },
+  {
+    id: "openrouter-codex-gateway",
+    no: 461,
+    title: "通过 OpenRouter 连接模型服务",
+    summary: "用户 config 写 [model_providers.openrouter]，base_url 是 https://openrouter.ai/api/v1，wire_api = responses。主路径是 [model_providers.openrouter.auth] 用 sh 回显 OPENROUTER_API_KEY，与 env_key 二选一。",
+    body: `OpenRouter 官方 Codex 网关：用户层 [model_providers.openrouter]，base_url 是 https://openrouter.ai/api/v1，auth 命令回显 OPENROUTER_API_KEY。
+
+这是换 Codex **使用的模型**，不是添加 MCP 服务。官方 CLI 教程的主路径是命令式 \`auth\`：Codex 跑一条命令拿到密钥，才会去拉 OpenRouter 的模型目录。只写 \`env_key = "OPENROUTER_API_KEY"\` 也能连上，但不会拉目录，非 OpenAI 模型会警告 Unknown model，用内置回退 metadata。Learn 写明 \`auth\` 不要和 \`env_key\` / \`experimental_bearer_token\` / \`requires_openai_auth\` 叠。
+
+供应商表放**用户** \`~/.codex/config.toml\`：
+
+\`\`\`toml
+# ~/.codex/config.toml
+[model_providers.openrouter]
+name = "openrouter"
+base_url = "https://openrouter.ai/api/v1"
+wire_api = "responses"
+
+[model_providers.openrouter.auth]
+command = "sh"
+args = ["-c", "echo $OPENROUTER_API_KEY"]
+\`\`\`
+
+Windows 没有 \`sh\`，改 PowerShell：
+
+\`\`\`toml
+[model_providers.openrouter.auth]
+command = "powershell"
+args = ["-NoProfile", "-Command", "Write-Output $env:OPENROUTER_API_KEY"]
+\`\`\`
+
+\`auth\` 读的是进程环境里的 \`OPENROUTER_API_KEY\`（密钥以 \`sk-or-\` 开头）。不要把 \`sk-or-\` 写进 TOML。从已经 \`export OPENROUTER_API_KEY\` 的终端启动。Dock / Start 打开的桌面不会读你刚改的 zshrc。官方桌面页：macOS 用 \`launchctl setenv OPENROUTER_API_KEY …\`，Windows 用 \`setx OPENROUTER_API_KEY …\`，然后完全退出再开。桌面页示例写了 \`env_key\` 和 \`supports_websockets = false\`；命令式 \`auth\` 在桌面同样可用，只要 GUI 进程看得到那条环境变量。OpenRouter 不支持 Responses WebSocket，不要开 \`supports_websockets = true\`。
+
+不要把顶层 \`model_provider = "openrouter"\` 一上来写进用户 config，除非你就是要把**所有**会话都改走网关。更稳妥是独立 profile：
+
+\`\`\`toml
+# ~/.codex/openrouter.config.toml
+model_provider = "openrouter"
+model = "openai/gpt-5.6-sol"
+\`\`\`
+
+\`\`\`bash
+codex --profile openrouter
+codex --profile openrouter -m openai/gpt-5.6-luna
+\`\`\`
+
+0.134 起不要再写 \`[profiles.openrouter]\`。模型 slug 必须带厂商前缀，从 openrouter.ai/models 原样复制，例如 \`openai/gpt-5.6-sol\`。不要写成不带厂商前缀的 \`gpt-5.6-sol\`。波浪号别名 \`~openai/gpt-sol-latest\`、\`~openai/gpt-latest\` 会随目录更新，要固定版本就写死 slug。
+
+配置说明：
+
+- Codex 入口是 \`https://openrouter.ai/api/v1\`。
+- 不要写 \`wire_api = "chat"\`。现行只认 \`responses\`。
+- 不要写进项目 \`.codex/config.toml\`。项目文件无法修改 \`model_provider\` / \`model_providers\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`openrouter\` 是新 ID，可以。
+- 不要把官方示例里的项目 \`trust_level\` 当成这张网关表的必填项。
+- 不要把密钥写进 \`http_headers\`。
+
+自定义供应商没有应用内模型选择器。改 \`model\` 后必须**新开会话**。\`codex --profile openrouter\` 启动后，发送一条简短请求验证连接。401 / Missing Authentication header 先看 \`auth\` 命令有没有跑起来、进程里有没有密钥；Unknown model 先看是不是误用了 \`env_key\`；\`model_not_found\` 先对照目录改 slug。用量看 OpenRouter Activity。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["model_providers", "OpenRouter", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "vercel-ai-gateway", "hf-inference-providers"],
+    sources: [
+      {
+        label: "OpenRouter · Codex CLI",
+        url: "https://openrouter.ai/docs/cookbook/coding-agents/codex-cli",
+      },
+      {
+        label: "OpenRouter · Codex Desktop App",
+        url: "https://openrouter.ai/docs/cookbook/coding-agents/codex-desktop",
+      },
+      {
+        label: "OpenRouter Blog · Codex CLI with OpenRouter",
+        url: "https://openrouter.ai/blog/tutorials/codex-cli-openrouter/",
+      },
+    ],
+  },
+  {
+    id: "cloudflare-aig-codex-gateway",
+    no: 462,
+    title: "通过 Cloudflare AI Gateway 连接模型服务",
+    summary: "官方主路径是 ~/.codex/cloudflare-aig.config.toml 加 [model_providers.cloudflare-ai-gateway]，wire_api = responses，env_key = CLOUDFLARE_API_KEY。base_url 不展开环境变量，账号 ID 和网关 slug 要写死。",
+    body: `Cloudflare AI Gateway 官方 Codex 网关：profile 写 [model_providers.cloudflare-ai-gateway]，base_url 是 https://gateway.ai.cloudflare.com/v1/ACCOUNT_ID/GATEWAY_ID/openai，env_key 读 CLOUDFLARE_API_KEY。
+
+这是换 Codex **使用的模型**，不是添加 MCP 服务。请求打到 AI Gateway 的 OpenAI 入口，用 Cloudflare API token 走 Unified Billing，不要塞 OpenAI 密钥。自定义供应商只讲 Responses：只能用支持 Responses 的 OpenAI 模型（官方示例 \`gpt-5.5\`）。Anthropic / Google 不会走这套请求格式，配了也不通。
+
+官方把供应商表写进 **profile 文件**（用户层 \`$CODEX_HOME\`，不是项目 \`.codex\`）：
+
+\`\`\`toml
+# ~/.codex/cloudflare-aig.config.toml
+model_provider = "cloudflare-ai-gateway"
+model = "gpt-5.5"
+model_reasoning_effort = "medium"
+
+[model_providers.cloudflare-ai-gateway]
+name = "Cloudflare AI Gateway"
+base_url = "https://gateway.ai.cloudflare.com/v1/YOUR_ACCOUNT_ID/default/openai"
+env_key = "CLOUDFLARE_API_KEY"
+wire_api = "responses"
+\`\`\`
+
+\`YOUR_ACCOUNT_ID\` 用 \`wrangler whoami\` 的账号 ID 替换。网关 slug 可以是 \`default\`，或你仪表盘里的另一个 slug。**Codex 不会在 \`base_url\` 里展开环境变量**，不要抄 Pi 那种把 \`CLOUDFLARE_ACCOUNT_ID\` 塞进 URL 的写法。只有 \`CLOUDFLARE_API_KEY\` 从环境读。
+
+\`env_key\` 是变量**名**。值是带 \`AI Gateway\` 权限的 Cloudflare API token（\`wrangler auth token\`），不是 OpenAI key。必须出现在**启动 Codex 的那个进程**里。从已经 \`export CLOUDFLARE_API_KEY\` 的终端启动；Dock 打开的桌面不会读你刚改的 zshrc。先为账号充值 Unified Billing 额度。
+
+\`\`\`bash
+codex --profile cloudflare-aig
+\`\`\`
+
+0.134 起不要再写 \`[profiles.cloudflare-aig]\`。profile 名跟文件名 \`cloudflare-aig.config.toml\` 对齐。供应商表也可以放进用户 \`~/.codex/config.toml\`，但不要写进项目 \`.codex/config.toml\`：项目文件无法修改 \`model_provider\` / \`model_providers\`。
+
+网关若开了 Cloudflare Access，官方改走自定义域名和 \`auth\` 命令，**替换** \`env_key\`，避免重复配置：
+
+\`\`\`toml
+[model_providers.cloudflare-ai-gateway]
+name = "Cloudflare AI Gateway"
+base_url = "https://ai-gateway.example.com/openai"
+wire_api = "responses"
+
+[model_providers.cloudflare-ai-gateway.auth]
+command = "cloudflared"
+args = ["access", "login", "--no-verbose", "https://ai-gateway.example.com"]
+timeout_ms = 30000
+refresh_interval_ms = 0
+\`\`\`
+
+Learn 写明 \`auth\` 不要和 \`env_key\` / \`experimental_bearer_token\` / \`requires_openai_auth\` 叠。第一次请求会弹身份登录。把 \`ai-gateway.example.com\` 换成你的自定义域。
+
+配置说明：
+
+- 不要把这张表当成 \`plugin marketplace add cloudflare/skills\` 或 \`mcp add cloudflare --url https://mcp.cloudflare.com/mcp\`。那是管 Workers / 平台 MCP，不是换模型。
+- Pi 会自己拼账号 ID；Claude 走另一套 base URL。
+- 不要写 \`base_url\` 到 \`/compat\`。Codex 要 \`/openai\` 加 \`wire_api = "responses"\`。
+- 不要写 \`wire_api = "chat"\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`cloudflare-ai-gateway\` 是新 ID，可以。
+- 不要把密钥写进 \`http_headers\`。
+
+改完新开会话。\`codex --profile cloudflare-aig\` 启动后，发送一条简短请求验证连接。用量看 Cloudflare 仪表盘 AI Gateway → Logs。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["model_providers", "Cloudflare", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "vercel-ai-gateway", "cloudflare-skills-plugin"],
+    sources: [
+      {
+        label: "Cloudflare · OpenAI Codex",
+        url: "https://developers.cloudflare.com/ai-gateway/integrations/coding-agents/openai-codex/",
+      },
+      {
+        label: "Cloudflare · Coding agents",
+        url: "https://developers.cloudflare.com/ai-gateway/integrations/coding-agents/",
+      },
+      {
+        label: "Cloudflare · Unified Billing",
+        url: "https://developers.cloudflare.com/ai-gateway/features/unified-billing/",
+      },
+    ],
+  },
+  {
+    id: "nim-codex-gateway",
+    no: 463,
+    title: "通过 NVIDIA NIM 连接模型服务",
+    summary: "官方主路径是用户层 [model_providers.nim]，wire_api = responses，env_key = NIM_API_KEY，base_url 是本机 NIM 的 /v1。再用 ~/.codex/nim.config.toml 和 --profile nim。",
+    body: `NVIDIA NIM 官方 Codex 网关：用户层 [model_providers.nim]，base_url 是 http://localhost:8000/v1，env_key 读 NIM_API_KEY。
+
+这是换 Codex **使用的模型**，不是添加 MCP 服务，也不是 \`npx skills add nvidia/skills\`。Codex 直接打 NIM 的 OpenAI Responses 入口 \`/v1/responses\`，中间不需要翻译代理。自定义供应商必须 \`wire_api = "responses"\`，不要写 \`chat\`。
+
+官方示例把 \`model\` 和 \`model_provider\` 写进用户 \`~/.codex/config.toml\`，会变成**所有**会话的默认后端。更稳妥是独立 profile（用户层 \`$CODEX_HOME\`，不是项目 \`.codex\`）：
+
+\`\`\`toml
+# ~/.codex/nim.config.toml
+model = "nvidia/nemotron-3-super-120b-a12b"
+model_provider = "nim"
+
+[model_providers.nim]
+name = "NVIDIA NIM"
+base_url = "http://localhost:8000/v1"
+env_key = "NIM_API_KEY"
+wire_api = "responses"
+\`\`\`
+
+\`\`\`bash
+export NIM_API_KEY="not-used"
+codex --profile nim
+\`\`\`
+
+\`model\` 必须和 NIM \`/v1/models\` 返回的 \`id\` **一字不差**。带斜杠的名字合法，例如 \`nvidia/nemotron-3-super-120b-a12b\`。换模型前先：
+
+\`\`\`bash
+curl -s http://localhost:8000/v1/models
+curl -s -o /dev/null -w "%{http_code}\\n" http://localhost:8000/v1/health/ready
+\`\`\`
+
+\`base_url\` 必须带 \`/v1\` 后缀。本机默认是 \`http://localhost:8000/v1\`；远程 NIM 换成主机名，端口跟 \`NIM_SERVER_PORT\` 走。\`env_key\` 是变量**名**。NIM **不校验**这把钥匙，但 Codex 要求进程里有非空值，占位字符串即可。必须出现在**启动 Codex 的那个进程**里。从已经 \`export NIM_API_KEY\` 的终端启动；Dock 打开的桌面不会读你刚改的 zshrc。拉镜像用的 \`NGC_API_KEY\` 不是这颗 \`env_key\`。
+
+0.134 起不要再写 \`[profiles.nim]\`。profile 名跟文件名 \`nim.config.toml\` 对齐。供应商表也可以放进用户 \`~/.codex/config.toml\`，但不要写进项目 \`.codex/config.toml\`：项目文件无法修改 \`model_provider\` / \`model_providers\`。
+
+NIM 默认**没开** Codex 依赖的 vLLM 参数。起容器时要同时带 \`--enable-auto-tool-choice\`、匹配模型的 \`--tool-call-parser\`，推理模型再加 \`--reasoning-parser\`。官方 Nemotron 3 Super 示例是 \`qwen3_coder\` 和 \`nemotron_v3\`。缺 tool parser 时模型会把工具调用写成散文，Codex 不动作；缺 reasoning parser 时思考文本会当成答案打印出来。用 \`NIM_SERVED_MODEL_NAME\` 钉住对外模型名，和 profile 里的 \`model\` 对齐。
+
+gpt-oss 走 Harmony Responses，只接受 \`function\`、\`web_search_preview\`、\`code_interpreter\`、\`container\`。Codex 默认还会发 \`web_search\` 和 \`namespace\`（Skills / 子代理），会 400。官方要求一次关掉这些，而不是修一个再爆下一个。\`web_search\` 是**裸顶层键**，必须写在**所有** \`[section]\` 之前；写在 \`[model_providers.nim]\` 或 Codex 自动追加的 \`[projects."…"]\` 后面，会静默变成 \`model_providers.nim.web_search\`，\`tool type web_search not supported\` 还在：
+
+\`\`\`toml
+# ~/.codex/nim.config.toml
+web_search = "disabled"
+
+model = "YOUR_GPT_OSS_MODEL_ID"
+model_provider = "nim"
+
+[model_providers.nim]
+name = "NVIDIA NIM"
+base_url = "http://localhost:8000/v1"
+env_key = "NIM_API_KEY"
+wire_api = "responses"
+
+[agents]
+enabled = false
+
+[features]
+multi_agent_v2 = false
+
+[skills.bundled]
+enabled = false
+
+[orchestrator.skills]
+enabled = false
+
+[orchestrator.mcp]
+enabled = false
+\`\`\`
+
+非 gpt-oss 模型走普通 Responses，不必抄这段关闭项。
+
+配置说明：
+
+- 不要把这张表当成 \`npx skills add nvidia/skills --agent codex\`。那是 cuOpt / Jetson 技能，不是换模型。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`nim\` 是新 ID，可以。
+- 不要写 \`wire_api = "chat"\`，也不要省略 \`base_url\` 的 \`/v1\`。
+- 不要把密钥写进 \`http_headers\`。
+- 不要把 \`OPENAI_BASE_URL\` 当主路径。走 \`[model_providers.nim]\`。
+
+改完新开会话。\`codex --profile nim\` 启动后，发送一条简短请求验证连接。404 先对照 \`/v1/models\` 改 \`model\`；连不上先看 \`/v1/health/ready\` 是不是 200。长会话把上下文超出限制时提高 \`NIM_MAX_MODEL_LEN\`，无关任务新开一轮。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["model_providers", "NVIDIA", "NIM", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "nvidia-skills-codex", "vercel-ai-gateway"],
+    sources: [
+      {
+        label: "NVIDIA NIM · Use Codex CLI with NIM",
+        url: "https://docs.nvidia.com/nim/large-language-models/latest/ai-assistant-integrations/codex-cli.html",
+      },
+      {
+        label: "NVIDIA NIM · Tool Calling and MCP Integration",
+        url: "https://docs.nvidia.com/nim/large-language-models/latest/advanced-use-cases/tool-calling-and-mcp.html",
+      },
+      {
+        label: "NVIDIA NIM · API Reference",
+        url: "https://docs.nvidia.com/nim/large-language-models/latest/reference/api-reference.html",
+      },
+    ],
+  },
+  {
+    id: "agentgateway-codex-gateway",
+    no: 464,
+    title: "通过 agentgateway 连接模型服务",
+    summary: "官方主路径是 ~/.codex/agentgateway.config.toml 加 [model_providers.agentgateway]，wire_api = responses，name 必填。本机 base_url 是 http://localhost:4000/v1。",
+    body: `agentgateway 官方 Codex 网关：profile 写 [model_providers.agentgateway]，base_url 是 http://localhost:4000/v1，env_key 读 AGENTGATEWAY_API_KEY。
+
+这是换 Codex **使用的模型**，把 Responses 请求经 agentgateway 转到上游 OpenAI，不是添加 MCP 服务。自定义供应商必须 \`wire_api = "responses"\`，\`name\` **必填**。官方测过 \`codex-cli 0.144.4\`。
+
+先起网关。\`config.yaml\` 里的 \`OPENAI_API_KEY\` 是**上游**密钥，不是 Codex 那颗客户端钥匙。通配 \`*\` 接受 Codex 请求里的任意模型名，不必在网关钉死型号：
+
+\`\`\`yaml
+# yaml-language-server: $schema=https://agentgateway.dev/schema/config
+llm:
+  models:
+    - name: "*"
+      provider: openAI
+      params:
+        apiKey: "$OPENAI_API_KEY"
+\`\`\`
+
+\`\`\`bash
+agentgateway -f config.yaml
+\`\`\`
+
+官方把供应商写进 **profile 文件**（用户层 \`$CODEX_HOME\`，不是项目 \`.codex\`）：
+
+\`\`\`toml
+# ~/.codex/agentgateway.config.toml
+model_provider = "agentgateway"
+
+[model_providers.agentgateway]
+name = "OpenAI via agentgateway"
+base_url = "http://localhost:4000/v1"
+wire_api = "responses"
+env_key = "AGENTGATEWAY_API_KEY"
+\`\`\`
+
+\`base_url\` 必须带 \`/v1\`，因为 Codex 打的是 \`/v1/responses\`。本机默认 \`http://localhost:4000/v1\`。Kubernetes Ingress 换成字面量 \`http://YOUR_INGRESS_HOST/v1\`（TLS 用 \`https://\`）。**Codex 不会在 \`base_url\` 里展开环境变量**；无引号 heredoc 是在**写文件时**由 shell 展开。不要把字面量 \`\$AGENTGATEWAY_BASE_URL\` 留在 TOML 里。
+
+\`env_key\` 是变量**名**。值是网关**虚拟钥 / 客户端钥匙**，不是上游 \`OPENAI_API_KEY\`。只有网关要求客户端鉴权时才加这行。必须出现在**启动 Codex 的那个进程**里。从已经 \`export AGENTGATEWAY_API_KEY\` 的终端启动；Dock 打开的桌面不会读你刚改的 zshrc。
+
+鉴权只选一种，**避免重复配置**：\`env_key\`、\`[model_providers.agentgateway.auth]\`（组织自备命令返回 bearer token）、\`requires_openai_auth = true\`（官方本指南不配）。Codex 自定义供应商没有 Claude Desktop 那种任意 OIDC / Entra 字段；要 Entra 令牌得自己写 \`auth\` 命令去拿。
+
+\`\`\`bash
+codex --profile agentgateway
+codex --profile agentgateway "Hello"
+\`\`\`
+
+单次覆盖也可以，但 \`-c\` 里同样要带 \`name\` 和 \`wire_api = "responses"\`。0.134 起不要再写 \`[profiles.agentgateway]\`。不要写进项目 \`.codex/config.toml\`：项目文件无法修改 \`model_provider\` / \`model_providers\`。
+
+网关日志应看到 \`POST /v1/responses\` 且 \`http.status=200\`。Codex 还会探 \`/v1/models\`；在 agentgateway issue 1462 落地前可能警告找不到模型 metadata，**不挡** \`/v1/responses\`。
+
+配置说明：
+
+- 不要把这张表当成 \`codex mcp add agentregistry\`。那是 Solo 注册表 MCP（本机常是 31313），不是换模型。
+- 不要用桌面官方 heredoc **整文件覆盖** \`~/.codex/config.toml\` 当主路径；先走 profile。
+- 不要写 \`wire_api = "chat"\`，也不要省略 \`/v1\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`agentgateway\` 是新 ID，可以。
+- 不要把 \`OPENAI_BASE_URL\` 当主路径。
+- 不要把 \`env_key\` 和 \`auth\` / \`requires_openai_auth\` 叠在同一张表。
+- 不要把 LiteLLM 默认的 4000 端口和该服务网关当成同一进程。表名、配置文件都不是同一套。
+
+改完新开会话。\`codex --profile agentgateway\` 启动后，发送一条简短请求验证连接。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["model_providers", "agentgateway", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "vercel-ai-gateway", "mcp-solo-agentregistry"],
+    sources: [
+      {
+        label: "agentgateway · Codex (standalone)",
+        url: "https://agentgateway.dev/docs/standalone/latest/integrations/llm/clients/codex/",
+      },
+      {
+        label: "agentgateway · Codex (Kubernetes)",
+        url: "https://agentgateway.dev/docs/kubernetes/latest/integrations/llm/clients/codex/",
+      },
+      {
+        label: "agentgateway · OpenAI provider",
+        url: "https://agentgateway.dev/docs/standalone/latest/llm/providers/openai/",
+      },
+    ],
+  },
+  {
+    id: "azure-openai-codex-gateway",
+    no: 465,
+    title: "通过 Azure OpenAI 连接模型服务",
+    summary: "Foundry Codex 专页走 v1 Responses：用户层 [model_providers.azure]，base_url 必须带 /openai/v1，不要再塞 query_params 的 api-version。env_key = AZURE_OPENAI_API_KEY。",
+    body: `Azure OpenAI 官方 Codex 网关：profile 写 [model_providers.azure]，base_url 是 https://YOUR_RESOURCE_NAME.openai.azure.com/openai/v1，env_key 读 AZURE_OPENAI_API_KEY。
+
+这是换 Codex **使用的模型**，流量留在 Azure Foundry，不是添加 MCP 服务。Microsoft Foundry 的 Codex 专页用 **v1 Responses**：\`base_url\` 必须带 \`/openai/v1\`，**不要**再传 \`api-version\`。\`env_key\` 只能写变量**名**，不能把密钥字面量塞进去。\`model\` 是你在 Foundry 里的**部署名**，不是随便抄目录 slug。
+
+官方示例会把 \`model_provider = "azure"\` 写进用户 \`~/.codex/config.toml\`，变成**所有**会话的默认后端。更稳妥是独立 profile（用户层 \`$CODEX_HOME\`，不是项目 \`.codex\`）。GitHub Actions 官方示例也是 \`-p azure\`，跟 profile 名对齐：
+
+\`\`\`toml
+# ~/.codex/azure.config.toml
+model = "YOUR_DEPLOYMENT_NAME"
+model_provider = "azure"
+model_reasoning_effort = "medium"
+
+[model_providers.azure]
+name = "Azure OpenAI"
+base_url = "https://YOUR_RESOURCE_NAME.openai.azure.com/openai/v1"
+env_key = "AZURE_OPENAI_API_KEY"
+wire_api = "responses"
+\`\`\`
+
+把 \`YOUR_RESOURCE_NAME\` 换成资源名，\`YOUR_DEPLOYMENT_NAME\` 换成部署名。**Codex 不会在 \`base_url\` 里展开环境变量**，不要把 \`\$AZURE_OPENAI_ENDPOINT\` 留在 TOML 里。Foundry v1 也接受 \`https://YOUR_RESOURCE_NAME.services.ai.azure.com/openai/v1\`。
+
+\`\`\`bash
+export AZURE_OPENAI_API_KEY="YOUR_AZURE_OPENAI_KEY"
+codex --profile azure
+codex --profile azure "write a unit test for src/utils/date.ts"
+codex -p azure exec --full-auto "update CHANGELOG for next release"
+\`\`\`
+
+密钥必须出现在**启动 Codex 的那个进程**里。从已经 export 的终端启动；Dock / 开始菜单打开的桌面或 VS Code 读不到你刚改的 zshrc。WSL 里用 Codex 扩展时，还要在 **Windows 主机**上设同一个 \`AZURE_OPENAI_API_KEY\`，再 \`code .\`。不要抄专页 VS Code 节里那行 \`export OPENAI_API_KEY\`——\`env_key\` 读的是 \`AZURE_OPENAI_API_KEY\`。
+
+0.134 起不要再写 \`[profiles.azure]\`。不要写进项目 \`.codex/config.toml\`：项目文件无法修改 \`model_provider\` / \`model_providers\`。CI 把仓库密钥存成 \`AZURE_OPENAI_KEY\`，进进程时仍要 export 成 \`AZURE_OPENAI_API_KEY\`。Foundry 写明 \`gpt-6-astra\` 在 Azure 上验证过 Codex CLI \`0.152.1\` 和 \`0.153.0\`（含多代理和 prompt cache），这是验证过的版本，不是最低版本。
+
+不要把它和 Learn 高级配置里那份 **preview** 片段混抄。那边是 \`base_url\` 停在 \`/openai\`（没有 \`/v1\`），再加 \`query_params = { api-version = "2025-04-01-preview" }\`。v1 路径不要再叠 \`api-version\`；preview 路径不要只加 \`/v1\` 却留着旧 query。跟 Foundry Codex 专页走时，用带 \`/v1\`、不带 \`query_params\` 的那张表。
+
+配置说明：
+
+- 不要把这张表当成 \`plugin marketplace add microsoft/azure-skills\`。那是订阅 / 部署技能和 \`@azure/mcp\`，不是换模型。
+- 不要写 \`wire_api = "chat"\`，也不要省略 \`/openai/v1\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`azure\` 是新 ID，可以。
+- 不要把 \`OPENAI_BASE_URL\` 当主路径。
+- 不要指望 Entra ID：Foundry 写明 Codex **目前**不支持。
+- 不要把密钥写进 \`http_headers\` 或 TOML 字面量。
+
+改完新开会话。\`codex --profile azure\` 启动后，发送一条简短请求验证连接。401 先看进程里有没有该变量；404 / DNS 先对照资源名和 \`/openai/v1\`。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide", "ci"],
+    tags: ["model_providers", "Azure", "Foundry", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "azure-skills-plugin", "vercel-ai-gateway"],
+    sources: [
+      {
+        label: "Microsoft Foundry · Codex with Azure OpenAI",
+        url: "https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/codex",
+      },
+      {
+        label: "Microsoft Foundry · v1 API",
+        url: "https://learn.microsoft.com/en-us/azure/foundry/openai/api-version-lifecycle",
+      },
+      {
+        label: "OpenAI · Advanced configuration",
+        url: "https://learn.chatgpt.com/docs/config-file/config-advanced",
+      },
+    ],
+  },
+  {
+    id: "openaidr-codex-gateway",
+    no: 466,
+    title: "通过 OpenAI 数据驻留端点 连接模型服务",
+    summary: "用户层 [model_providers.openaidr]，base_url 用驻留前缀如 https://us.api.openai.com/v1，wire_api = responses。再用 ~/.codex/openaidr.config.toml 和 --profile openaidr。",
+    body: `OpenAI 数据驻留官方 Codex 网关：profile 写 [model_providers.openaidr]，base_url 是 https://us.api.openai.com/v1，把 us 换成驻留域前缀。
+
+这是把 Codex **使用的模型**打到 OpenAI 的区域主机名，不是添加 MCP 服务。官方给 API 组织两条路：
+
+1. 最简单：用户层写 \`openai_base_url = "https://us.api.openai.com/v1"\`，改的是**内置** \`openai\` 供应商，不要新建 \`[model_providers.openai]\`（内置 ID 无法修改）。
+2. 要单独 profile、不动默认 openai 时：新 ID \`openaidr\`，\`name = "OpenAI Data Residency"\`，\`base_url\` 换成项目驻留前缀。
+
+ChatGPT **工作区**开了数据驻留时，自定义供应商**不是**必须的；用 ChatGPT 登录后 Codex 会跟工作区走。\`openaidr\` 表是给**已启用数据驻留的 API 组织 / 项目**用的。
+
+官方示例会把 \`model_provider = "openaidr"\` 写进用户 \`~/.codex/config.toml\`，变成**所有**会话的默认后端。更稳妥是独立 profile（用户层 \`$CODEX_HOME\`，不是项目 \`.codex\`）：
+
+\`\`\`toml
+# ~/.codex/openaidr.config.toml
+model_provider = "openaidr"
+
+[model_providers.openaidr]
+name = "OpenAI Data Residency"
+base_url = "https://us.api.openai.com/v1"
+wire_api = "responses"
+\`\`\`
+
+把 \`us\` 换成项目驻留域前缀，例如 \`eu\`、\`jp\`、\`gb\`。官方样本把 \`wire_api = "responses"\` 标成**唯一**支持值。\`requires_openai_auth = true\` 只在走 OpenAI / ChatGPT 登录时按需打开。**不要**叠 \`env_key\`、\`[model_providers.openaidr.auth]\` 和 \`requires_openai_auth\`。走 API key、又不想另开表时，用上面的 \`openai_base_url\`，内置 \`openai\` 已经会读进程里的 \`OPENAI_API_KEY\`。
+
+**Codex 不会在 \`base_url\` 里展开环境变量**，不要把 \`$OPENAI_BASE_URL\` 留在 TOML 里。
+
+\`\`\`bash
+codex --profile openaidr
+codex --profile openaidr "summarize the last commit"
+codex -p openaidr exec --full-auto "list failing tests"
+\`\`\`
+
+0.134 起不要再写 \`[profiles.openaidr]\`。不要写进项目 \`.codex/config.toml\`：项目文件无法修改 \`openai_base_url\` / \`model_provider\` / \`model_providers\`。
+
+平台文档里美国主机名是 \`https://us.api.openai.com/v1\`。EU 是 \`eu.api.openai.com\`，还有 \`au\` / \`ca\` / \`jp\` / \`in\` / \`sg\` / \`kr\` / \`gb\` / \`ae\`。只有部分区域做区域内推理；存储支持和推理支持不是一回事，以 Data controls 表为准。项目没开对应驻留却打区域主机名，常见 \`401 incorrect_hostname\`。
+
+不要把它和企业 \`requirements.toml\` 里的 \`enforce_residency\` 混成一条。后者是 ChatGPT 工作区请求头约束，不是这张 API 供应商表。
+
+配置说明：
+
+- 不要写 \`[model_providers.openai]\`。
+- 不要写 \`wire_api = "chat"\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`openaidr\` 是新 ID，可以。
+- 不要把 ChatGPT 工作区驻留再抄成必须另开表。
+- 不要把密钥写进 \`http_headers\` 或 TOML 字面量。
+
+改完新开会话。\`codex --profile openaidr\` 启动后，发送一条简短请求验证连接。401 先对照项目驻留和主机名前缀。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide", "ci"],
+    tags: ["model_providers", "openaidr", "Data Residency", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "project-config-cannot-override-auth", "vercel-ai-gateway"],
+    sources: [
+      {
+        label: "OpenAI · Advanced configuration",
+        url: "https://developers.openai.com/codex/config-file/config-advanced",
+      },
+      {
+        label: "OpenAI · Sample configuration",
+        url: "https://developers.openai.com/codex/config-file/config-sample",
+      },
+      {
+        label: "OpenAI · Data controls",
+        url: "https://developers.openai.com/api/docs/guides/your-data",
+      },
+    ],
+  },
+  {
+    id: "sambanova-codex-gateway",
+    no: 467,
+    title: "通过 SambaNova 连接模型服务",
+    summary: "用户层 [model_providers.sambanova]，base_url 是 https://api.sambanova.ai/v1，env_key = SAMBANOVA_API_KEY，wire_api = responses。再用 ~/.codex/sambanova.config.toml 和 --profile sambanova。",
+    body: `SambaNova 官方 Codex 网关：profile 写 [model_providers.sambanova]，base_url 是 https://api.sambanova.ai/v1，env_key 读 SAMBANOVA_API_KEY。
+
+这是换 Codex **使用的模型**，流量打到 SambaCloud 的 \`/v1/responses\`，不是添加 MCP 服务。官方 Codex 专页写明 SambaNova 的 Responses 入口匹配 Codex 的 \`wire_api = "responses"\`，**不必**再套 LiteLLM。\`env_key\` 只能写变量**名**。模型 ID 用裸名，例如 \`MiniMax-M2.7\`、\`gpt-oss-120b\`、\`DeepSeek-V3.1\`，不要加 \`sambanova/\` 前缀。
+
+官方示例会把 \`[profiles.execute-sn]\` 写进用户 \`~/.codex/config.toml\`。0.134 起这张表会被拒绝。更稳妥是独立 profile（用户层 \`$CODEX_HOME\`，不是项目 \`.codex\`）：
+
+\`\`\`toml
+# ~/.codex/sambanova.config.toml
+model = "MiniMax-M2.7"
+model_provider = "sambanova"
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+
+[model_providers.sambanova]
+name = "SambaNova"
+base_url = "https://api.sambanova.ai/v1"
+env_key = "SAMBANOVA_API_KEY"
+wire_api = "responses"
+\`\`\`
+
+\`\`\`bash
+export SAMBANOVA_API_KEY="YOUR_SAMBANOVA_KEY"
+codex --profile sambanova
+codex --profile sambanova "write a unit test for src/utils/date.ts"
+codex -p sambanova exec --full-auto "list failing tests"
+\`\`\`
+
+密钥必须出现在**启动 Codex 的那个进程**里。从已经 export 的终端启动；Dock 打开的桌面读不到你刚改的 zshrc。不要把密钥写进 \`.env\` 就指望 Codex 自己加载。
+
+想做官方那种规划 / 执行拆分，再加一份 \`~/.codex/plan-sn.config.toml\`：把 \`model\` 换成 \`gpt-oss-120b\`，仍用同一张 \`sambanova\` 供应商表。规划侧若走内置 \`openai\`，那是另一份 profile，跟 SambaNova 密钥无关。
+
+**Codex 不会在 \`base_url\` 里展开环境变量**。不要写进项目 \`.codex/config.toml\`：项目文件无法修改 \`model_provider\` / \`model_providers\`。某个模型对 \`/v1/responses\` 返回 404 时，换官方验证过的 \`MiniMax-M2.7\` 或 \`gpt-oss-120b\`，不要改 \`wire_api\`。
+
+不要把专页 Demo 3 的 Context7 片段当这条的安装器。那是另加 MCP；本站已有 Context7 条目。也不要抄他们 TOML 里的 \`env = { "CONTEXT7_API_KEY" = "\${CONTEXT7_API_KEY}" }\`——Codex 转发密钥走 \`env_vars\`。
+
+配置说明：
+
+- 不要再写 \`[profiles.sambanova]\` 或 \`[profiles.execute-sn]\`。
+- 不要写 \`wire_api = "chat"\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`sambanova\` 是新 ID，可以。
+- 不要用 CLI \`--model\` / \`--provider\` 绕过 profile；官方写明会拆掉 profile 的可复现性。
+- 不要把密钥写进 \`http_headers\` 或 TOML 字面量。
+
+改完新开会话。\`codex --profile sambanova\` 启动后，发送一条简短请求验证连接。401 先看进程里有没有该变量。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide", "ci"],
+    tags: ["model_providers", "SambaNova", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "vercel-ai-gateway", "hf-inference-providers"],
+    sources: [
+      {
+        label: "SambaNova · Codex integration",
+        url: "https://docs.sambanova.ai/docs/en/integrations/codex",
+      },
+      {
+        label: "SambaNova · Responses API",
+        url: "https://docs.sambanova.ai/docs/en/features/responses",
+      },
+      {
+        label: "SambaNova · Responses API blog",
+        url: "https://sambanova.ai/blog/build-faster-coding-agents-with-sambanovas-responses-api",
+      },
+    ],
+  },
+  {
+    id: "bifrost-codex-gateway",
+    no: 468,
+    title: "通过 Bifrost 连接模型服务",
+    summary: "用户层 [model_providers.bifrost]，base_url 是 http://localhost:8080/openai/v1，env_key = OPENAI_API_KEY，wire_api = responses，supports_websockets = false。再用 ~/.codex/bifrost.config.toml 和 --profile bifrost。",
+    body: `Bifrost 官方 Codex 网关：profile 写 [model_providers.bifrost]，base_url 是 http://localhost:8080/openai/v1，env_key 读 OPENAI_API_KEY。
+
+这是换 Codex **使用的模型**，流量打到本机 Bifrost 的 OpenAI 形 Responses 入口，不是添加 MCP 服务。Codex 会优先走 ChatGPT OAuth，配网关前先在会话里 \`/logout\`。\`env_key\` 只能写变量**名**；进程环境里的 \`OPENAI_API_KEY\` 填 Bifrost 虚拟密钥 \`YOUR_BIFROST_VIRTUAL_KEY\`，
+
+供应商表放**用户** \`~/.codex/config.toml\`。官方 Codex 页会写项目 \`.codex/config.toml\` 也能改；那是错的。Bedrock runbook 才对：项目文件无法修改 \`model_provider\` / \`model_providers\`。不要写 \`openai_base_url\`：内置 \`openai\` 会带上客户端 \`web\` 命名空间，Bedrock 会报 \`User-defined namespace 'web' collides with an existing tool namespace\`。具名供应商才会改走托管 \`web_search\`。
+
+更稳妥是独立 profile（用户层 \`$CODEX_HOME\`，不是项目 \`.codex\`）：
+
+\`\`\`toml
+# ~/.codex/bifrost.config.toml
+model = "openai/gpt-5.4"
+model_provider = "bifrost"
+
+[model_providers.bifrost]
+name = "Bifrost"
+base_url = "http://localhost:8080/openai/v1"
+env_key = "OPENAI_API_KEY"
+wire_api = "responses"
+supports_websockets = false
+\`\`\`
+
+\`\`\`bash
+export OPENAI_API_KEY="YOUR_BIFROST_VIRTUAL_KEY"
+codex --profile bifrost
+codex --profile bifrost -m openai/gpt-5-codex
+\`\`\`
+
+0.134 起不要再写 \`[profiles.bifrost]\`。自定义供应商必须 \`wire_api = "responses"\`。非 OpenAI 模型还要 \`supports_websockets = false\`，否则 WebSocket 路径会去要服务端维持会话。密钥必须出现在**启动 Codex 的那个进程**里。从已经 export 的终端启动；Dock 打开的桌面读不到你刚改的 zshrc。
+
+非 OpenAI 模型 slug 用 \`厂商/型号\`，例如 \`anthropic/claude-sonnet-4-5-20250929\`、\`gemini/gemini-2.5-pro\`、\`bedrock/gpt-5.5\`。\`/model\` 选择器默认看不到这些 slug，会警告 metadata 找不到。把 \`~/.codex/models_cache.json\` 里一条完整条目拷进 \`YOUR_HOME/.codex/bifrost_catalog.json\`，只改 \`slug\` / \`display_name\` / \`context_window\`，再在用户 config 写 \`model_catalog_json = "YOUR_HOME/.codex/bifrost_catalog.json"\`。桌面下拉菜单**不会**合并这份本地目录，会话里用 \`/model bedrock/...\`。不要把整份目录 JSON 贴进手册。
+
+托管 Bedrock 那张表是另一回事：ID 是 \`bifrost_bedrock\`，\`env_key = "BIFROST_API_KEY"\`，\`base_url\` 才换成 \`https://gateway.example.com/openai/v1\`。不要和本机 \`[model_providers.bifrost]\` 混抄。备选 \`[model_providers.openai_http]\` 也要 \`supports_websockets = false\`，同样不要覆盖内置 \`openai\`。
+
+配置说明：
+
+- 不要写 \`openai_base_url\`，也不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`bifrost\` 是新 ID，可以。
+- 不要写进项目 \`.codex/config.toml\`。
+- 不要把 Bifrost 自己的 \`OPENAI_BASE_URL\` 环境变量当 Codex 主路径。
+- 不要把密钥写进 \`http_headers\` 或 TOML 字面量。
+
+改完新开会话。\`codex --profile bifrost\` 启动后，发送一条简短请求验证连接。401 先看进程里有没有该变量。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["model_providers", "Bifrost", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "project-config-cannot-override-auth", "model-catalog-json"],
+    sources: [
+      {
+        label: "Bifrost · Codex CLI",
+        url: "https://docs.getbifrost.ai/cli-agents/codex-cli",
+      },
+      {
+        label: "Bifrost · Codex + Amazon Bedrock",
+        url: "https://docs.getbifrost.ai/runbooks/codex-bedrock",
+      },
+      {
+        label: "Bifrost · CLI agents overview",
+        url: "https://docs.getbifrost.ai/cli-agents/overview",
+      },
+    ],
+  },
+  {
+    id: "coder-ai-gateway",
+    no: 469,
+    title: "通过 Coder AI Gateway 连接模型服务",
+    summary: "用户层 [model_providers.ai_gateway]，base_url 以 /api/v2/ai-gateway/openai/v1 结尾，env_key = OPENAI_API_KEY，wire_api = responses，supports_websockets = false。再用 ~/.codex/ai_gateway.config.toml 和 --profile ai_gateway。",
+    body: `Coder 官方 Codex 网关：profile 写 [model_providers.ai_gateway]，base_url 以 /api/v2/ai-gateway/openai/v1 结尾，env_key 读 OPENAI_API_KEY。
+
+这是换 Codex **使用的模型**，流量打到 Coder 部署上的 AI Gateway，不是添加 MCP 服务。功能在 Premium 的 AI Governance 里。集中密钥那条：\`env_key\` 只能写变量**名** \`OPENAI_API_KEY\`，进程里填的是 Coder API 令牌 \`YOUR_CODER_API_TOKEN\`，不是 OpenAI 平台密钥。**Codex 不会在 \`base_url\` 里展开环境变量**，主机名要写成字面量。
+
+供应商表放**用户** \`~/.codex/config.toml\`。项目 \`.codex/config.toml\` 无法修改 \`model_provider\` / \`model_providers\`。不要写 \`openai_base_url\`，也不要把总览页给通用客户端的 \`OPENAI_BASE_URL\` 当 Codex 主路径：内置 \`openai\` 会带客户端 \`web\` 命名空间。具名 \`ai_gateway\` 才是 Codex 专节。
+
+网关不支持 Responses WebSocket。不写 \`supports_websockets = false\` 时，每一轮会先试 WebSocket、重试约 5 次再回落 HTTPS，日志是 \`Falling back from WebSockets to HTTPS transport.\`。把这项写进供应商表。
+
+更稳妥是独立 profile（用户层 \`$CODEX_HOME\`，不是项目 \`.codex\`）：
+
+\`\`\`toml
+# ~/.codex/ai_gateway.config.toml
+model_provider = "ai_gateway"
+
+[model_providers.ai_gateway]
+name = "AI Gateway"
+base_url = "https://YOUR_DEPLOYMENT/api/v2/ai-gateway/openai/v1"
+env_key = "OPENAI_API_KEY"
+wire_api = "responses"
+supports_websockets = false
+\`\`\`
+
+\`\`\`bash
+export OPENAI_API_KEY="YOUR_CODER_API_TOKEN"
+codex --profile ai_gateway
+\`\`\`
+
+0.134 起不要再写 \`[profiles.ai_gateway]\`。自定义供应商必须 \`wire_api = "responses"\`。密钥必须出现在**启动 Codex 的那个进程**里。从已经 export 的终端启动；Dock 打开的桌面读不到你刚改的 zshrc。
+
+个人 OpenAI 密钥那条（BYOK）才加 \`requires_openai_auth = true\`，并用 \`env_http_headers\` 把头 \`X-Coder-AI-Governance-Token\` 指到变量名 \`CODER_API_TOKEN\`。这时 \`OPENAI_API_KEY\` 才是你的 OpenAI 密钥。ChatGPT 订阅那条把 \`base_url\` 换成 \`https://YOUR_DEPLOYMENT/api/v2/ai-gateway/chatgpt/v1\`，并 \`unset OPENAI_API_KEY\`；部署上必须有名为 \`chatgpt\` 的供应商，否则 \`404 route not supported: POST /chatgpt/v1/responses\`。
+
+Coder Registry 模块 \`enable_ai_gateway = true\` 写的是另一张表：\`[model_providers.aigateway]\`（没有下划线），\`base_url\` 走 \`/api/v2/aibridge/openai/v1\`，\`env_key = "OPENAI_CODER_AIGATEWAY_SESSION_TOKEN"\`。不要和文档专节的 \`ai_gateway\` 表混抄。
+
+配置说明：
+
+- 不要写 \`openai_base_url\`，也不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`ai_gateway\` 是新 ID，可以。
+- 不要写进项目 \`.codex/config.toml\`。
+- 不要把密钥写进 \`http_headers\` 或 TOML 字面量。
+
+改完新开会话。\`codex --profile ai_gateway\` 启动后，发送一条简短请求验证连接。401 先看进程里有没有该变量。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["model_providers", "Coder", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "project-config-cannot-override-auth", "vercel-ai-gateway"],
+    sources: [
+      {
+        label: "Coder · Codex CLI",
+        url: "https://coder.com/docs/ai-coder/ai-gateway/clients/codex",
+      },
+      {
+        label: "Coder · AI Gateway clients",
+        url: "https://coder.com/docs/ai-coder/ai-gateway/clients",
+      },
+      {
+        label: "Coder · AI Gateway reference",
+        url: "https://coder.com/docs/ai-coder/ai-gateway/reference",
+      },
+    ],
+  },
+  {
+    id: "databricks-codex-gateway",
+    no: 470,
+    title: "通过 Databricks 连接模型服务",
+    summary: "用户层 [model_providers.Databricks]，base_url 以 /ai-gateway/codex/v1 结尾，wire_api = responses。短时令牌走 [model_providers.Databricks.auth]，避免重复配置 env_key。",
+    body: `Databricks 官方 Codex 网关：profile 写 [model_providers.Databricks]，base_url 以 /ai-gateway/codex/v1 结尾，令牌走 [model_providers.Databricks.auth]。
+
+这是换 Codex **使用的模型**，流量打到 workspace 的 Unity Gateway \`/ai-gateway/codex/v1\`，不是添加 MCP 服务。MCP 仍走已有的 \`ug mcp add --agents codex\`。推荐入口是 Unity Gateway CLI（主命令 \`ug\`，\`ucode\` 只是别名）帮你写配置：
+
+\`\`\`bash
+uv tool install git+https://github.com/databricks/unity-gateway
+databricks auth login --host YOUR_WORKSPACE
+ug codex
+\`\`\`
+
+需要 Codex CLI 0.118+、Python 3.12+ 和 \`uv\`。\`ug\` 会写 agent 配置；日常用 \`ug codex\` 启动。OSS 模型例如 \`ug codex --model system.ai.glm-5-2\`，这是网关托管的 Responses 模型，**不是** \`--oss\`。
+
+手写时供应商表放**用户** \`~/.codex/config.toml\`。官方示例还在写 \`[profiles.default]\`；0.134 起这张表会被拒绝。更稳妥是独立 profile（用户层 \`$CODEX_HOME\`，不是项目 \`.codex\`）。**不要**同时写 \`env_key\`：\`[model_providers.*.auth]\` 和 \`env_key\` / \`experimental_bearer_token\` / \`requires_openai_auth\` 互斥。**Codex 不会在 \`base_url\` 里展开环境变量**，主机名要写成字面量。
+
+\`\`\`toml
+# ~/.codex/databricks.config.toml
+model_provider = "Databricks"
+
+[model_providers.Databricks]
+name = "Databricks AI Gateway"
+base_url = "https://YOUR_WORKSPACE/ai-gateway/codex/v1"
+wire_api = "responses"
+
+[model_providers.Databricks.auth]
+command = "sh"
+args = ["-c", "databricks auth token --host YOUR_WORKSPACE --output json | jq -r '.access_token'"]
+timeout_ms = 5000
+refresh_interval_ms = 1800000
+\`\`\`
+
+\`\`\`bash
+codex --profile databricks
+\`\`\`
+
+自定义供应商必须 \`wire_api = "responses"\`。项目 \`.codex/config.toml\` 无法修改 \`model_provider\` / \`model_providers\`。不要写 \`openai_base_url\`。先 \`databricks auth login --host YOUR_WORKSPACE\`；令牌短时有效，\`refresh_interval_ms = 1800000\` 让长会话到期前重跑命令。
+
+把流量打到你在 Unity Catalog 登记的外部供应商时，用 \`ug codex --provider CATALOG.SCHEMA.SERVICE\`。CLI 会在供应商表加头 \`Databricks-Model-Provider-Service\`。不要把 OpenAI / Anthropic 密钥写进 Codex。
+
+配置说明：
+
+- 不要再写 \`[profiles.default]\` 或 \`[profiles.databricks]\`。
+- 不要把这张表当成 MCP。MCP 是 \`ug mcp add --agents codex\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`Databricks\` 是新 ID，可以。
+- 不要写进项目 \`.codex/config.toml\`。
+- 不要给 \`auth\` 表再叠 \`env_key\` 或把 PAT 写进 TOML。
+
+改完新开会话。\`codex --profile databricks\` 或 \`ug codex\` 启动后，发送一条简短请求验证连接。401 先看 \`databricks auth login\` 是否还有效。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["model_providers", "Databricks", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "project-config-cannot-override-auth", "ug-mcp-add-codex"],
+    sources: [
+      {
+        label: "Databricks · Integrate with coding agents",
+        url: "https://docs.databricks.com/aws/en/ai-gateway/coding-agent-integration-model-services",
+      },
+      {
+        label: "Databricks · Model provider services",
+        url: "https://docs.databricks.com/aws/en/ai-gateway/coding-agent-integration-model-provider-services",
+      },
+      {
+        label: "Databricks GCP · Integrate with coding agents",
+        url: "https://docs.databricks.com/gcp/en/ai-gateway/coding-agent-integration-model-services",
+      },
+    ],
+  },
+  {
+    id: "deepseek-codex-gateway",
+    no: 471,
+    title: "通过 DeepSeek 连接模型服务",
+    summary: "用户层 [model_providers.deepseek]，base_url 是 https://api.deepseek.com/，wire_api = responses。env_key 读 DEEPSEEK_API_KEY，不要把 sk- 写进 TOML。",
+    body: `DeepSeek 官方 Codex 网关：profile 写 [model_providers.deepseek]，base_url 是 https://api.deepseek.com/，密钥用 env_key 不要 experimental_bearer_token。
+
+这是换 Codex **使用的模型**，流量打到 DeepSeek 原生 Responses 入口 \`https://api.deepseek.com/\`，不是添加 MCP 服务，也不是 Chat Completions 翻译层。官方给了一键脚本，会写 \`~/.codex/models.json\` 并改 \`config.toml\`：
+
+\`\`\`bash
+bash <(curl -fsSL https://cdn.deepseek.com/api-docs/codex-deepseek-setup-en.sh)
+\`\`\`
+
+Windows 是 \`irm https://cdn.deepseek.com/api-docs/codex-deepseek-setup-en.ps1 | iex\`。脚本会备份到 \`~/.codex/backup-deepseek/\`。菜单 1 配 \`deepseek-flash\`（带图），菜单 2 配 \`deepseek-v4-pro\`，菜单 9 还原。需要 Codex CLI 0.144+。跑完立刻把密钥从 TOML 挪走：官方示例用 \`experimental_bearer_token\`，那是把 \`sk-\` 写进文件。改成 \`env_key\`（变量**名**），在启动 Codex 的进程里 \`export DEEPSEEK_API_KEY\`。不要和 \`experimental_bearer_token\` / \`requires_openai_auth\` / \`[model_providers.*.auth]\` 叠在同一张供应商表。
+
+不要把顶层 \`model_provider = "deepseek"\` 一上来写进用户 config，除非你就是要把**所有**会话都改走 DeepSeek。官方手册示例就是全局默认。更稳妥是独立 profile（用户层 \`$CODEX_HOME\`，不是项目 \`.codex\`）。0.134 起不要再写 \`[profiles.deepseek]\`。
+
+\`\`\`toml
+# ~/.codex/config.toml
+[model_providers.deepseek]
+name = "deepseek"
+base_url = "https://api.deepseek.com/"
+env_key = "DEEPSEEK_API_KEY"
+wire_api = "responses"
+\`\`\`
+
+\`\`\`toml
+# ~/.codex/deepseek.config.toml
+model_provider = "deepseek"
+model = "deepseek-flash"
+preferred_auth_method = "apikey"
+forced_login_method = "api"
+model_reasoning_effort = "high"
+web_search = "disabled"
+model_catalog_json = "/home/YOU/.codex/models.json"
+\`\`\`
+
+\`\`\`bash
+export DEEPSEEK_API_KEY=YOUR_DEEPSEEK_API_KEY
+codex --profile deepseek
+\`\`\`
+
+\`models.json\` 从官方 Codex 页或脚本拿，**不要**把里面的人设 / \`instructions_template\` 抄进仓库或 TOML。官方手册把路径写成 \`~/.codex/models.json\`；若 \`/model\` 仍显示 Custom，改成绝对路径。目录键启动时加载，改完必须新开会话。自定义供应商必须 \`wire_api = "responses"\`。项目 \`.codex/config.toml\` 无法修改 \`model_provider\` / \`model_providers\`。不要写 \`openai_base_url\`。**Codex 不会在 \`base_url\` 里展开环境变量**，主机名要写成字面量。
+
+配置说明：
+
+- 不要再写 \`[profiles.deepseek]\` 或把 \`experimental_bearer_token\` 留在 TOML。
+- 不要把这张表当成 MCP。DeepSeek 这页没有 \`mcp add\`。
+- 不要抄博客里的 \`wire_api = "chat"\` 或 \`codex-relay\`。DeepSeek 自己说原生 Responses。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`deepseek\` 是新 ID，可以。
+- 不要写进项目 \`.codex/config.toml\`。
+- 不要把 Kong / TrueFoundry / OpenRouter 的 \`base_url\` 抄进这张表。
+
+改完新开会话。启动横幅出现 \`model: deepseek-flash\`，说明供应商、目录和密钥都进了这一进程。401 先看进程里有没有 \`DEEPSEEK_API_KEY\`。切回 ChatGPT 登录后，第三方会话会藏起来，并没有删。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["model_providers", "DeepSeek", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "project-config-cannot-override-auth", "model-catalog-json"],
+    sources: [
+      {
+        label: "DeepSeek · Integrate with Codex",
+        url: "https://api-docs.deepseek.com/quick_start/agent_integrations/codex/",
+      },
+      {
+        label: "DeepSeek · Using the Responses API",
+        url: "https://api-docs.deepseek.com/guides/responses_api",
+      },
+      {
+        label: "DeepSeek · Responses API",
+        url: "https://api-docs.deepseek.com/api/create-response",
+      },
+    ],
+  },
+  {
+    id: "truefoundry-codex-gateway",
+    no: 472,
+    title: "通过 TrueFoundry 连接模型服务",
+    summary: "用户层 [model_providers.truefoundry]，SaaS base_url 是 https://gateway.truefoundry.ai，wire_api = responses。env_key 读 TFY_API_KEY，不要把 Bearer 写进 http_headers。",
+    body: `TrueFoundry 官方 Codex 网关：profile 写 [model_providers.truefoundry]，base_url 用 gateway.truefoundry.ai，密钥用 env_key 不要 http_headers。
+
+这是换 Codex **使用的模型**，流量打到 TrueFoundry AI Gateway，不是添加 MCP 服务。官方 Codex 页给了 \`[model_providers.truefoundry]\`，但把 \`Authorization = "Bearer TFY_API_KEY"\` 写进 \`http_headers\`——那是把密钥写进 TOML。改成 \`env_key\`（变量**名**），在启动 Codex 的进程里 \`export TFY_API_KEY\`。不要和 \`experimental_bearer_token\` / \`requires_openai_auth\` / \`[model_providers.*.auth]\` 叠在同一张供应商表。
+
+SaaS 的 \`base_url\` 就是 \`https://gateway.truefoundry.ai\`。自建实例从 Playground 的 Code Snippet 抄，写成字面量。**Codex 不会在 \`base_url\` 里展开环境变量**。不要写 \`openai_base_url\`，也不要抄 OpenAI SDK 页的 \`OPENAI_BASE_URL\`。
+
+先在网关建 **Virtual Model**：slug 用 Codex 认识的短名（例如 \`gpt-5.2-codex\`），目标才是 \`openai-main/gpt-5.2-codex\` 这种全名。Virtual Model 的类型要勾 \`responses\`。Codex 里只写 slug；写全名会把 thinking tokens 搞乱。
+
+不要把顶层 \`model_provider = "truefoundry"\` 一上来写进用户 config，除非你就是要把**所有**会话都改走网关。官方手册示例就是全局默认。更稳妥是独立 profile（用户层 \`$CODEX_HOME\`，不是项目 \`.codex\`）。0.134 起不要再写 \`[profiles.truefoundry]\`。官方还写 \`wire_api = "chat"\` 给「其他模型」——现行 Codex 会不受支持的配置，只留 \`responses\`。
+
+\`\`\`toml
+# ~/.codex/config.toml
+[model_providers.truefoundry]
+name = "TrueFoundry AI Gateway"
+base_url = "https://gateway.truefoundry.ai"
+env_key = "TFY_API_KEY"
+wire_api = "responses"
+\`\`\`
+
+\`\`\`toml
+# ~/.codex/truefoundry.config.toml
+model_provider = "truefoundry"
+model = "gpt-5.2-codex"
+\`\`\`
+
+\`\`\`bash
+export TFY_API_KEY=YOUR_TFY_API_KEY
+codex --profile truefoundry
+codex --profile truefoundry -m gpt-5.2-codex
+\`\`\`
+
+本地开发用 Access → Personal Access Tokens 的 PAT；生产、CI、长跑 agent 用 Virtual Account token（VAT）。密钥只显示一次。项目 \`.codex/config.toml\` 无法修改 \`model_provider\` / \`model_providers\`。
+
+走 ChatGPT 订阅而不是用量 API key 时：不要写 \`env_key\`。网关里 OpenAI 集成的 Base URL 改成 \`https://chatgpt.com/backend-api/codex\`，API key 留空，让网关转发 Codex 的 OAuth。供应商表加 \`requires_openai_auth = true\`，网关自己的票用 \`env_http_headers = { "x-tfy-api-key" = "TFY_API_KEY" }\`，不要把字面量写进 \`http_headers\`。
+
+官方给的 MCP 搜索是另一张表：\`url\` 形如 \`https://YOUR_GATEWAY/YOUR_TENANT/mcp/YOUR_SERVER/server\`，令牌用 \`bearer_token_env_var = "TFY_API_KEY"\`，不要把 Bearer 写进 \`http_headers\`。那不是这张模型供应商表。
+
+配置说明：
+
+- 不要再写 \`[profiles.truefoundry]\` 或 \`wire_api = "chat"\`。
+- 不要把 \`openai-main/gpt-5.2-codex\` 写进 Codex 的 \`model\`。
+- 不要把密钥写进 \`http_headers\`。
+- 不要抄 \`codex chat --model\` 当主路径；日常是 \`codex --profile truefoundry\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`truefoundry\` 是新 ID，可以。
+- 不要写进项目 \`.codex/config.toml\`。
+- 不要把这张表当成 MCP。
+
+改完新开会话。\`codex --profile truefoundry\` 启动后，发送一条简短请求验证连接。401 先看进程里有没有 PAT/VAT；thinking 异常先看 Virtual Model slug 是不是短名、类型有没有 \`responses\`。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["model_providers", "TrueFoundry", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "project-config-cannot-override-auth", "vercel-ai-gateway"],
+    sources: [
+      {
+        label: "TrueFoundry · OpenAI Codex CLI",
+        url: "https://www.truefoundry.com/docs/ai-gateway/openai-codex-cli",
+      },
+      {
+        label: "TrueFoundry · Virtual Model",
+        url: "https://www.truefoundry.com/docs/ai-gateway/virtual-model",
+      },
+      {
+        label: "TrueFoundry · API Keys",
+        url: "https://www.truefoundry.com/docs/generating-truefoundry-api-keys",
+      },
+    ],
+  },
+  {
+    id: "helicone-codex-gateway",
+    no: 473,
+    title: "通过 Helicone 连接模型服务",
+    summary: "用户层 [model_providers.helicone]，base_url 是 https://ai-gateway.helicone.ai/v1，wire_api = responses。env_key 读 HELICONE_API_KEY，不要再写 wire_api = chat。",
+    body: `Helicone 官方 Codex 网关：profile 写 [model_providers.helicone]，base_url 是 https://ai-gateway.helicone.ai/v1，密钥用 env_key 不要 wire_api = chat。
+
+这是换 Codex **使用的模型**，流量打到 Helicone AI Gateway，不是添加 MCP 服务。官方 Codex 页给了 \`[model_providers.helicone]\` 和 \`env_key = "HELICONE_API_KEY"\`，但把 \`wire_api = "chat"\` 写进示例——现行 Codex 会不受支持的配置。只留 \`responses\`。不要和 \`experimental_bearer_token\` / \`requires_openai_auth\` / \`[model_providers.*.auth]\` 叠在同一张供应商表。
+
+\`base_url\` 就是 \`https://ai-gateway.helicone.ai/v1\`。**Codex 不会在 \`base_url\` 里展开环境变量**。不要写 \`openai_base_url\`。不要把密钥嵌进 \`https://gateway.helicone.ai/YOUR_HELICONE_API_KEY/v1/\`——那是经典代理的旁路，不是 AI Gateway。也不要把经典代理的 \`Helicone-Auth\` 头当成这张表的主路径；AI Gateway 用 \`env_key\` 发 Bearer。
+
+官方把路径写成 \`$CODEX_HOME/.codex/config.toml\`。\`$CODEX_HOME\` 默认就是 \`~/.codex\`，文件是 \`$CODEX_HOME/config.toml\`，不要再套一层 \`.codex\`。供应商表放**用户**层。项目 \`.codex/config.toml\` 无法修改 \`model_provider\` / \`model_providers\`。
+
+不要把顶层 \`model_provider = "helicone"\` 一上来写进用户 config，除非你就是要把**所有**会话都改走网关。官方手册示例就是全局默认。更稳妥是独立 profile（0.134 起不要再写 \`[profiles.helicone]\`）：
+
+\`\`\`toml
+# ~/.codex/config.toml
+[model_providers.helicone]
+name = "Helicone"
+base_url = "https://ai-gateway.helicone.ai/v1"
+env_key = "HELICONE_API_KEY"
+wire_api = "responses"
+\`\`\`
+
+\`\`\`toml
+# ~/.codex/helicone.config.toml
+model_provider = "helicone"
+model = "gpt-5"
+\`\`\`
+
+\`\`\`bash
+export HELICONE_API_KEY=YOUR_HELICONE_API_KEY
+codex --profile helicone
+codex --profile helicone -m gpt-5
+\`\`\`
+
+\`env_key\` 是变量**名**。密钥必须在**启动 Codex 的那个进程**里。网关 POST 要用带写权限的密钥（文档写写权限以 \`pk-\` 开头）；MCP 查请求那条才是读权限 \`sk-\`。欧盟密钥带 \`eu-\` 前缀，仍打 \`https://ai-gateway.helicone.ai/v1\`，不要改成 \`eu.helicone.ai\`。
+
+官方 SDK 节自己说：Codex SDK 指定不了 wire API，默认就走 Responses，而且网关对 Responses **有限模型**可用。Responses 页写明目前是 OpenAI 和 Anthropic。CLI 不要抄 \`wire_api = "chat"\` 去迁就 Chat Completions 目录里的其它厂商。模型 slug 用网关认识的短名，例如 \`gpt-5\`、\`claude-sonnet-4-20250514\`。文档未说明 WebSocket 支持。
+
+这**不是** \`codex mcp add helicone -- npx @helicone/mcp@latest\`。MCP 查账号里的请求；这张表换模型流量。
+
+配置说明：
+
+- 不要再写 \`[profiles.helicone]\` 或 \`wire_api = "chat"\`。
+- 不要把密钥写进 \`http_headers\` 或 \`base_url\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`helicone\` 是新 ID，可以。
+- 不要写进项目 \`.codex/config.toml\`。
+- 不要把这张表当成 MCP。
+- 不要把 \`$CODEX_HOME/.codex/config.toml\` 再套一层目录。
+
+改完新开会话。\`codex --profile helicone\` 启动后，发送一条简短请求验证连接。401 先看进程里有没有写权限密钥；连得上但工具/推理失败，先换 Responses 页列出的 OpenAI / Anthropic 模型。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["model_providers", "Helicone", "wire_api", "profile"],
+    related: ["mcp-helicone-stdio", "vercel-ai-gateway", "profile-files-not-tables"],
+    sources: [
+      {
+        label: "Helicone · OpenAI Codex",
+        url: "https://docs.helicone.ai/gateway/integrations/codex",
+      },
+      {
+        label: "Helicone · Responses API",
+        url: "https://docs.helicone.ai/gateway/concepts/responses-api",
+      },
+      {
+        label: "Helicone · Auth",
+        url: "https://docs.helicone.ai/helicone-headers/helicone-auth",
+      },
+    ],
+  },
+  {
+    id: "minimax-codex-gateway",
+    no: 474,
+    title: "通过 MiniMax 连接模型服务",
+    summary: "用户层 [model_providers.minimax]，国际站 base_url 是 https://api.minimax.io/v1，wire_api = responses。env_key 读 MINIMAX_API_KEY，不要把密钥写进 experimental_bearer_token。",
+    body: `MiniMax 官方 Codex 网关：profile 写 [model_providers.minimax]，base_url 是 https://api.minimax.io/v1，密钥用 env_key 不要 experimental_bearer_token。
+
+这是换 Codex **使用的模型**，流量打到 MiniMax Responses 入口，不是添加 MCP 服务。官方 Codex 页给了 \`[model_providers.minimax]\` 和 \`wire_api = "responses"\`，但把密钥写进 \`experimental_bearer_token\`——那是把密钥写进 TOML。改成 \`env_key\`（变量**名**），在启动 Codex 的进程里 \`export MINIMAX_API_KEY\`。不要和 \`experimental_bearer_token\` / \`requires_openai_auth\` / \`[model_providers.*.auth]\` 叠在同一张供应商表。
+
+国际站 \`base_url\` 是 \`https://api.minimax.io/v1\`。大陆 Token Plan 换成 \`https://api.minimaxi.com/v1\`，密钥从 platform.minimaxi.com 开，不要混站。**Codex 不会在 \`base_url\` 里展开环境变量**。不要写 \`openai_base_url\`，也不要抄 OpenAI SDK 页的 \`OPENAI_BASE_URL\`。
+
+不要把顶层 \`model_provider = "minimax"\` 一上来写进用户 config，除非你就是要把**所有**会话都改走 MiniMax。官方手册和一键向导都会改成默认。更稳妥是独立 profile（0.134 起不要再写 \`[profiles.minimax]\`）：
+
+\`\`\`toml
+# ~/.codex/config.toml
+[model_providers.minimax]
+name = "MiniMax"
+base_url = "https://api.minimax.io/v1"
+env_key = "MINIMAX_API_KEY"
+wire_api = "responses"
+\`\`\`
+
+\`\`\`toml
+# ~/.codex/minimax.config.toml
+model_provider = "minimax"
+model = "MiniMax-M3"
+model_context_window = 1000000
+\`\`\`
+
+\`\`\`bash
+export MINIMAX_API_KEY=YOUR_MINIMAX_API_KEY
+codex --profile minimax
+codex --profile minimax -m MiniMax-M3
+\`\`\`
+
+官方一键向导是 \`npx -y mmx-cli@latest agent setup\`。只要 Codex 时加 \`--agent codex\`，先 \`--dry-run\` 看会改 \`~/.codex/config.toml\` 和 \`~/.codex/mmx-model-catalog.json\`。不要 \`--all\`，那会改 Claude Code / OpenCode / Grok CLI。非交互还要 \`--region global\` 或 \`cn\`。向导会把 MiniMax 写成默认模型，并可能写 \`experimental_bearer_token\`；跑完改回 \`env_key\`。已有 \`model_catalog_json\` 时向导会停手，改走手写。
+
+可选目录：\`model_catalog_json\` 必须是启动时能读到的**绝对路径**，不要写 \`~\`。本地 JSON **覆盖**内置目录，不是追加。官方示例里的 \`base_instructions\` 是人格段，不要整段抄进站点或仓库。需要 \`/model\` 列出 MiniMax-M3 时，只留 slug、reasoning 档（\`none\` 关思考、\`high\` 开 Adaptive Thinking）和 \`shell_command\`。Token Plan 密钥是 \`sk-cp-\`，按量是 \`sk-api-\`，配额不共用。
+
+配置说明：
+
+- 不要再写 \`[profiles.minimax]\` 或把密钥写进 \`experimental_bearer_token\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`minimax\` 是新 ID，可以。
+- 不要写进项目 \`.codex/config.toml\`。项目文件无法修改 \`model_provider\` / \`model_providers\`。
+- 不要把这张表当成 MCP。
+
+改完新开会话。\`codex --profile minimax\` 启动后，发送一条简短请求验证连接。401 先看国际站 / 大陆站是不是和密钥同一边；\`/model\` 仍显示 Custom 时，先 \`codex debug models\` 再决定要不要绝对路径的目录文件。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["model_providers", "MiniMax", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "model-catalog-json", "vercel-ai-gateway"],
+    sources: [
+      {
+        label: "MiniMax · Codex",
+        url: "https://platform.minimax.io/docs/token-plan/codex",
+      },
+      {
+        label: "MiniMax · One-click setup wizard",
+        url: "https://platform.minimax.io/docs/token-plan/agent-setup",
+      },
+      {
+        label: "MiniMax · Create Response",
+        url: "https://platform.minimax.io/docs/api-reference/responses-create",
+      },
+    ],
+  },
+  {
+    id: "zai-codex-gateway",
+    no: 475,
+    title: "通过 Z.AI 连接模型服务",
+    summary: "用户层 [model_providers.ZAI]，base_url 是 https://api.z.ai/api/v1，wire_api = responses。env_key 读 ZAI_API_KEY，不要把密钥写进 experimental_bearer_token。",
+    body: `Z.AI 官方 Codex 网关：profile 写 [model_providers.ZAI]，base_url 是 https://api.z.ai/api/v1，密钥用 env_key 不要 experimental_bearer_token。
+
+这是换 Codex **使用的模型**，流量打到 Z.AI GLM Coding Plan 的 Responses 入口，不是添加 MCP 服务。官方 Codex 页给了 \`[model_providers.ZAI]\` 和 \`wire_api = "responses"\`，但把密钥写进 \`experimental_bearer_token\`——那是把密钥写进 TOML。改成 \`env_key\`（变量**名**），在启动 Codex 的进程里 \`export ZAI_API_KEY\`。不要和 \`experimental_bearer_token\` / \`requires_openai_auth\` / \`[model_providers.*.auth]\` 叠在同一张供应商表。
+
+\`base_url\` 必须是 \`https://api.z.ai/api/v1\`。不要抄 Chat Completions 的 \`https://api.z.ai/api/coding/paas/v4\`，也不要 Anthropic 的 \`https://api.z.ai/api/anthropic\`——Codex 自定义供应商只认 Responses，\`wire_api = "chat"\` 是不受支持的配置。**Codex 不会在 \`base_url\` 里展开环境变量**。不要写 \`openai_base_url\`，也不要把 \`OPENAI_API_KEY\` 当 Z.AI 密钥。团队套餐密钥不能和其它 Z.AI API Key 互换，要用 Team Plan 那一把。
+
+不要把顶层 \`model_provider = "ZAI"\` 一上来写进用户 config，除非你就是要把**所有**会话都改走 Z.AI。官方手册和 Coding Tool Helper 都会改成默认。更稳妥是独立 profile（0.134 起不要再写 \`[profiles.zai]\`）：
+
+\`\`\`toml
+# ~/.codex/config.toml
+[model_providers.ZAI]
+name = "ZAI"
+base_url = "https://api.z.ai/api/v1"
+env_key = "ZAI_API_KEY"
+wire_api = "responses"
+\`\`\`
+
+\`\`\`toml
+# ~/.codex/zai.config.toml
+model_provider = "ZAI"
+model = "glm-5.3"
+model_reasoning_effort = "max"
+model_context_window = 1048576
+\`\`\`
+
+\`\`\`bash
+export ZAI_API_KEY=YOUR_ZAI_API_KEY
+codex --profile zai
+codex --profile zai -m glm-5.3
+\`\`\`
+
+官方一键向导是 \`npx @z_ai/coding-helper\`。交互里会列出 Claude Code / Codex / OpenCode / Crush / Factory Droid；只要 Codex 就只勾 Codex。向导会改 \`~/.codex/config.toml\`，并可能写 \`experimental_bearer_token\` 和全局 \`model_provider\`；跑完改回 \`env_key\` 和独立 profile。不要把 \`coding-helper auth reload claude\` 当成 Codex 命令。
+
+可选目录：官方写 \`model_catalog_json = "~/.codex/models.json"\`，波浪号**不会**展开。改成启动时能读到的**绝对路径**，例如 \`/home/YOUR_USER/.codex/zai-models.json\`。本地 JSON **覆盖**内置目录，不是追加。官方示例里 glm-5.3 的 \`base_instructions\` 是空字符串，仍不要整段抄人格 blob。需要 \`/model\` 列出 glm-5.3 时，只留 slug、reasoning 档（\`low\` / \`high\` / \`max\`；这颗模型关不掉思考）和 \`shell_command\`。Windows 配置在 \`%USERPROFILE%\\.codex\\config.toml\`，不要抄文档里丢掉用户名的 \`C:\\Users\\.codex\\config.toml\`。
+
+GLM-5.3 页还写：部分曾订过 Coding Plan 的密钥目前只能打 Chat Completions。那把钥匙**不能**拿来配 Codex；换现行 Coding Plan 密钥，或先确认 Responses 入口能通。不要为了迁就旧密钥把 \`wire_api\` 改成 \`chat\`。
+
+配置说明：
+
+- 不要再写 \`[profiles.zai]\` 或把密钥写进 \`experimental_bearer_token\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`ZAI\` 是新 ID，可以。
+- 不要写进项目 \`.codex/config.toml\`。项目文件无法修改 \`model_provider\` / \`model_providers\`。
+- 不要把这张表当成 MCP。Vision / Web Search / Web Reader / Zread 那些 Z.AI MCP 是另一条。
+
+改完新开会话。\`codex --profile zai\` 启动后，发送一条简短请求验证连接。401 先看是不是 Team Plan 密钥拿去打了别的套餐，或旧 Coding Plan 密钥打了 Responses；\`/model\` 仍显示 Custom 时，先 \`codex debug models\` 再决定要不要绝对路径的目录文件。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["model_providers", "Z.AI", "GLM", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "model-catalog-json", "vercel-ai-gateway"],
+    sources: [
+      {
+        label: "Z.AI · Codex",
+        url: "https://docs.z.ai/devpack/tool/codex",
+      },
+      {
+        label: "Z.AI · Coding Tool Helper",
+        url: "https://docs.z.ai/devpack/extension/coding-tool-helper",
+      },
+      {
+        label: "Z.AI · Tool Integration",
+        url: "https://docs.z.ai/devpack/tool/others",
+      },
+    ],
+  },
+  {
+    id: "modelstudio-codex-gateway",
+    no: 476,
+    title:
+      "阿里云 Model Studio 官方 Codex 网关：profile 写 [model_providers.Model_Studio_Token_Plan]，base_url 是 https://token-plan.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1，密钥用 env_key 不要 wire_api = chat",
+    summary:
+      "用户层 [model_providers.Model_Studio_Token_Plan]，国际站 Token Plan base_url 是 https://token-plan.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1，wire_api = responses。env_key 读 DASHSCOPE_API_KEY。再用 ~/.codex/modelstudio.config.toml 和 --profile modelstudio。模型写 qwen3.8-max。Coding Plan 的 wire_api = chat 是不受支持的配置。",
+    body: `阿里云 Model Studio 官方 Codex 网关：profile 写 [model_providers.Model_Studio_Token_Plan]，base_url 是 https://token-plan.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1，密钥用 env_key 不要 wire_api = chat。
+
+这是换 Codex **使用的模型**，流量打到阿里云 Model Studio Token Plan 的 Responses 入口，不是添加 MCP 服务。官方 Codex 页给了 \`[model_providers.Model_Studio_Token_Plan]\` 和 \`wire_api = "responses"\`。同页还留着 Coding Plan 和旧模型的 \`wire_api = "chat"\`——现行 Codex 会不受支持的配置，**不要**为了迁就文档去装 \`@openai/codex@0.80.0\`。配置里只要留一张 \`chat\` 表，即使用不到也会让整份 config 起不来。
+
+国际站 Token Plan \`base_url\` 是 \`https://token-plan.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1\`。中国站 Token Plan 换成 \`https://token-plan.cn-beijing.maas.aliyuncs.com/compatible-mode/v1\`。个人套餐表名是 \`Model_Studio_Token_Plan_Personal\`，团队套餐是 \`Model_Studio_Token_Plan\`，主机一样，密钥不能混。官方示例 \`env_key = "OPENAI_API_KEY"\` 会和 ChatGPT 登录抢变量；改成 \`DASHSCOPE_API_KEY\`（变量**名**），在启动 Codex 的进程里 \`export\`。不要和 \`experimental_bearer_token\` / \`requires_openai_auth\` / \`[model_providers.*.auth]\` 叠在同一张供应商表。
+
+不要抄 Coding Plan 的 \`https://coding-intl.dashscope.aliyuncs.com/v1\`。按量付费才把 WorkspaceId **原样写进** URL，例如 \`https://YOUR_WORKSPACE_ID.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1\`。**Codex 不会在 \`base_url\` 里展开环境变量**。不要写 \`openai_base_url\`。Token Plan / Coding Plan / 按量密钥不能互换。
+
+不要把顶层 \`model_provider = "Model_Studio_Token_Plan"\` 一上来写进用户 config，除非你就是要把**所有**会话都改走 Model Studio。更稳妥是独立 profile（0.134 起不要再写 \`[profiles.modelstudio]\`）：
+
+\`\`\`toml
+# ~/.codex/config.toml
+[model_providers.Model_Studio_Token_Plan]
+name = "Model_Studio_Token_Plan"
+base_url = "https://token-plan.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1"
+env_key = "DASHSCOPE_API_KEY"
+wire_api = "responses"
+\`\`\`
+
+\`\`\`toml
+# ~/.codex/modelstudio.config.toml
+model_provider = "Model_Studio_Token_Plan"
+model = "qwen3.8-max"
+model_reasoning_effort = "xhigh"
+model_context_window = 983616
+\`\`\`
+
+\`\`\`bash
+export DASHSCOPE_API_KEY=YOUR_DASHSCOPE_API_KEY
+codex --profile modelstudio
+codex --profile modelstudio -m qwen3.8-max
+\`\`\`
+
+可选目录：官方写 \`model_catalog_json = "~/.codex/model-catalog.local.json"\`，波浪号**不会**展开。改成启动时能读到的**绝对路径**。本地 JSON **覆盖**内置目录，不是追加。官方示例里 \`base_instructions\` 是空字符串，仍不要整段抄人格 blob。需要 \`/model\` 列出 qwen3.8-max 时，只留 slug、reasoning 档（\`low\` / \`medium\` / \`xhigh\`）和官方给的 \`shell_type\`。
+
+配置说明：
+
+- 不要再写 \`[profiles.modelstudio]\` 或 \`wire_api = "chat"\`。
+- 不要覆盖内置 ID \`openai\`、\`ollama\`、\`lmstudio\`。\`Model_Studio_Token_Plan\` 是新 ID，可以。
+- 不要写进项目 \`.codex/config.toml\`。项目文件无法修改 \`model_provider\` / \`model_providers\`。
+- 不要把这张表当成 MCP。
+
+改完新开会话。\`codex --profile modelstudio\` 起得来，说明供应商和 \`DASHSCOPE_API_KEY\` 都进了这一进程。401 先看是不是拿 Coding Plan / 按量密钥打了 Token Plan 主机；\`/model\` 仍显示 Custom 时，先 \`codex debug models\` 再决定要不要绝对路径的目录文件。`,
+    category: "config",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["model_providers", "Model Studio", "Qwen", "wire_api", "profile"],
+    related: ["profile-files-not-tables", "model-catalog-json", "vercel-ai-gateway"],
+    sources: [
+      {
+        label: "Alibaba Cloud · Codex",
+        url: "https://www.alibabacloud.com/help/en/model-studio/codex",
+      },
+      {
+        label: "Alibaba Cloud · Base URL overview",
+        url: "https://www.alibabacloud.com/help/en/model-studio/base-url",
+      },
+      {
+        label: "Alibaba Cloud · OpenAI-compatible Responses",
+        url: "https://docs.modelstudio.console.alibabacloud.com/en/model-studio/compatibility-with-openai-responses-api",
+      },
+    ],
+  }
 ];

@@ -891,4 +891,14 @@ export const community: CommunityItem[] = [
     summary:
       '维护者确认 tools.view_image 早就失效，PR 把它从配置里拿掉。官方配置参考和 sample 有时还写着这个布尔键。要给模型看图，用 CLI 的 -i / --image 或 IDE 拖图，不要再往 config.toml 写这行。',
   },
+  {
+    title: 'X：有人贴出 ModelTrace Guard 的 Codex 安装命令',
+    url: 'https://x.com/leo114119/status/2099690720408002560',
+    source: 'X · @leo114119',
+    kind: 'X',
+    date: '2026-09-15',
+    tags: ['plugins', 'hooks', 'ModelTrace'],
+    summary:
+      '帖子写出 marketplace add 和 plugin add modeltrace-guard@modeltrace。装完要在 /hooks 审这份插件，不要按帖子字面信任全部钩子。探针会花 Codex 额度。',
+  },
 ];

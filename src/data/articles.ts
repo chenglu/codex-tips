@@ -5441,4 +5441,954 @@ export const articles: Article[] = [
     summary:
       '介绍使用 ggshield 扫描密钥，以及通过 MCP 处理事故和 honeytoken。',
   },
+  {
+    title: 'xqy2006/ModelTrace',
+    url: 'https://github.com/xqy2006/ModelTrace',
+    source: 'GitHub',
+    lang: '中文',
+    kind: '仓库',
+    tags: ['plugins', 'hooks', 'ModelTrace', 'Codex'],
+    summary:
+      'ModelTrace Guard 用 marketplace 加 xqy2006/ModelTrace，再 plugin add modeltrace-guard@modeltrace。根目录 python start.py 是 7860 页面，不是插件安装器。装完要在 /hooks 审这份插件。',
+  },
+  {
+    title: 'ModelTrace Guard',
+    url: 'https://github.com/xqy2006/ModelTrace/blob/main/codex-plugin/modeltrace-guard/README.md',
+    source: 'GitHub',
+    lang: '中文',
+    kind: '清单',
+    tags: ['plugins', 'hooks', 'ModelTrace', 'Codex'],
+    summary:
+      '清单名 modeltrace，插件 id 是 modeltrace-guard@modeltrace。新开会话后 TUI 敲 /hooks。探针走已配置账户并花额度。doctor --fork true 不发起推理。',
+  },
+  {
+    title: 'Codex Plugin - Project CodeGuard',
+    url: 'https://project-codeguard.org/codex-skill-plugin/',
+    source: 'Project CodeGuard',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'CodeGuard', 'Skills', 'Codex'],
+    summary:
+      'CodeGuard 用 marketplace 加 cosai-oasis/project-codeguard，再 plugin add codeguard-security@project-codeguard。要 Codex CLI 0.142.0+，因为源是仓库根 ./。插件只打 skills，没有 hooks、MCP 和 codeguard-reviewer。',
+  },
+  {
+    title: 'cosai-oasis/project-codeguard',
+    url: 'https://github.com/cosai-oasis/project-codeguard',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['plugins', 'CodeGuard', 'Skills', 'MCP'],
+    summary:
+      'OASIS/CoSAI 的安全规则仓。Codex 清单名是 project-codeguard，插件 name 是 codeguard-security。MCP 在 src/codeguard-mcp，自建 HTTP，README 只有通用 mcpServers JSON，不是 Codex plugin add。',
+  },
+  {
+    title: 'Getting Started - Project CodeGuard',
+    url: 'https://project-codeguard.org/getting-started/',
+    source: 'Project CodeGuard',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Skills', 'CodeGuard', 'Codex'],
+    summary:
+      'project-codeguard 入门仍写 codeguard-codex.zip 拷 .agents/ 和 $skill-installer。旧路径 .codex/skills 会被静默忽略，现行文件技能在 .agents/skills/codeguard。托管更新请走官方 Codex 插件页，不要抄同页 Claude 的 /plugin install。',
+  },
+  {
+    title: 'Codex',
+    url: 'https://www.braintrust.dev/docs/integrations/developer-tools/codex',
+    source: 'Braintrust',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Braintrust', 'hooks', 'plugins', 'MCP', 'Codex'],
+    summary:
+      'Braintrust 用 bt trace enable codex 装 trace-codex@braintrust-codex-plugins。追踪文件是 ~/.codex/braintrust.json。MCP 另走 mcp add braintrust --url api.braintrust.dev/mcp，再 mcp login。退役插件 braintrust@braintrust-codex-plugins 要先 remove。',
+  },
+  {
+    title: 'braintrustdata/braintrust-codex-plugin',
+    url: 'https://github.com/braintrustdata/braintrust-codex-plugin',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['plugins', 'Braintrust', 'hooks', 'Codex'],
+    summary:
+      '生成仓，清单名 braintrust-codex-plugins。手装是 marketplace add braintrustdata/braintrust-codex-plugin，再 plugin add trace-codex@braintrust-codex-plugins。仓 README 写明 marketplace 不装 MCP。改源请去 braintrust-coding-agent-plugins。',
+  },
+  {
+    title: 'bt trace',
+    url: 'https://www.braintrust.dev/docs/reference/cli/trace',
+    source: 'Braintrust',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Braintrust', 'hooks', 'CLI', 'Codex'],
+    summary:
+      'bt trace setup 是 enable 的别名。Codex 追踪文件固定 ~/.codex/braintrust.json。bt trace run 会拒 --dangerously-bypass-hook-trust。诊断用 bt trace doctor codex。关掉用 disable，不删 bt 凭据。升级插件走 bt trace update，不动 braintrust-codex-plugin 的路由。',
+  },
+  {
+    title: 'mksglu/context-mode',
+    url: 'https://github.com/mksglu/context-mode',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['plugins', 'hooks', 'MCP', 'mksglu/context-mode', 'Codex'],
+    summary:
+      'context-mode 用 marketplace 加 mksglu/context-mode，再在 /plugins 安装。打开 hooks 和 plugin_hooks，用 ctx stats 验 MCP。',
+  },
+  {
+    title: 'context-mode npm package',
+    url: 'https://www.npmjs.com/package/context-mode',
+    source: 'npm',
+    lang: '英文',
+    kind: '官方',
+    tags: ['plugins', 'MCP', 'mksglu/context-mode', 'Codex'],
+    summary:
+      'npm 镜像仓库 Codex 专节：mksglu/context-mode 加进 marketplace 后走插件 UI。Node 要 22.5+。无 plugin_hooks 的旧构建才 npm install -g 手写 MCP。',
+  },
+  {
+    title: 'context-mode Codex marketplace.json',
+    url: 'https://github.com/mksglu/context-mode/blob/main/.agents/plugins/marketplace.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '清单',
+    tags: ['plugins', 'marketplace', 'mksglu/context-mode', 'Codex'],
+    summary:
+      'Codex 读 .agents/plugins/marketplace.json，不读 .codex-plugin/marketplace.json。清单名和插件名都是 context-mode，对应 mksglu/context-mode 这份源。',
+  },
+  {
+    title: '1Password/1password-codex-plugin',
+    url: 'https://github.com/1Password/1password-codex-plugin',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['plugins', 'MCP', '1Password', 'Codex'],
+    summary:
+      '1Password Codex 插件用 marketplace 加 1Password/1password-codex-plugin，再装 1password@1password-plugins。捆绑 1password-mcp。Skills Only ZIP 会剥掉 MCP。不要抄 1password-claude-plugin。',
+  },
+  {
+    title: '1Password Environments MCP for Codex',
+    url: 'https://www.1password.dev/environments/mcp-codex-server',
+    source: '1Password',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MCP', '1Password', '1Password/1password-codex-plugin', 'Codex'],
+    summary:
+      '插件主页指向这份 Codex 文档。桌面 Labs 仍要打开本地 MCP。UI 路径仍是 1password-mcp。和 1Password/1password-codex-plugin 是同一条 Environments 服务器，避免重复配置两张表。',
+  },
+  {
+    title: '1password-codex-plugin marketplace.json',
+    url: 'https://github.com/1Password/1password-codex-plugin/blob/main/.agents/plugins/marketplace.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '清单',
+    tags: ['plugins', 'marketplace', '1Password/1password-codex-plugin', 'Codex'],
+    summary:
+      '清单名 1password-plugins，插件名 1password，源路径 ./plugins/1password。对应 1Password/1password-codex-plugin，不是 Claude 那份 1password-claude-plugin。',
+  },
+  {
+    title: 'Run Codex with Doppler',
+    url: 'https://www.doppler.com/agents-codex',
+    source: 'Doppler',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Doppler', 'MCP', 'Codex', 'secrets'],
+    summary:
+      'Doppler 官方 Codex：doppler run --config dev_agent_codex -- codex，MCP 再挂 @dopplerhq/mcp-server --read-only。隔离 config、过期只读 token、--scope .，密钥不进 .env。',
+  },
+  {
+    title: 'Doppler MCP Server',
+    url: 'https://docs.doppler.com/docs/mcp',
+    source: 'Doppler Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Doppler', 'MCP', 'stdio'],
+    summary:
+      '实验性 MCP，Node 20+，包是 @dopplerhq/mcp-server。可 npx login 进钥匙串，或运行时给 DOPPLER_TOKEN。--read-only 才会藏写工具；token 本身推不出只读。官方示例是 mcpServers JSON，Codex 要改成 TOML。',
+  },
+  {
+    title: 'DopplerHQ/mcp-server',
+    url: 'https://github.com/DopplerHQ/mcp-server',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Doppler', 'MCP', 'stdio'],
+    summary:
+      '从 OpenAPI 生成 Doppler API 工具。作用域用 service token 收紧，不要只靠 --project / --config 旗标。README 的 env.DOPPLER_TOKEN 字面量不要抄进 Codex env 表。',
+  },
+  {
+    title: 'aws/agent-toolkit-for-aws',
+    url: 'https://github.com/aws/agent-toolkit-for-aws',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['plugins', 'AWS', 'Skills', 'Codex', 'MCP'],
+    summary:
+      'AWS Agent Toolkit 官方 Codex：marketplace add aws/agent-toolkit-for-aws，再 /plugins 装 aws-core。清单名 agent-toolkit-for-aws。插件会登记 aws-mcp。',
+  },
+  {
+    title: 'Agent setup guide',
+    url: 'https://docs.aws.amazon.com/lambda/latest/dg/agent-setup-guide.html',
+    source: 'AWS Lambda Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['AWS', 'Lambda', 'plugins', 'MCP', 'Codex'],
+    summary:
+      'Lambda 给 Codex 单独一节：先 marketplace add 再 /plugins 装 aws-core。可选 Serverless MCP 才是 uvx awslabs.aws-serverless-mcp-server。不要把 Claude 的 /plugin install 抄进 Codex。',
+  },
+  {
+    title: 'Understanding the MCP Server tools',
+    url: 'https://docs.aws.amazon.com/agent-toolkit/latest/userguide/understanding-mcp-server-tools.html',
+    source: 'AWS Agent Toolkit Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['AWS', 'MCP'],
+    summary:
+      '托管 AWS MCP Server 覆盖 API、沙箱脚本和文档检索。aws-core 用本机 uvx 代理打 aws-mcp.us-east-1.api.aws/mcp。查文档可以 --skip-auth；写资源仍要 IAM。',
+  },
+  {
+    title: 'OpenAI Codex tracing with Langfuse',
+    url: 'https://langfuse.com/integrations/developer-tools/codex',
+    source: 'Langfuse Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Langfuse', 'hooks', 'plugins', 'Codex'],
+    summary:
+      '官方 Codex 追踪插件。marketplace add 之后 plugin add tracing@codex-observability-plugin。Stop 钩子读 transcript。TRACE_TO_LANGFUSE 必须是字符串 true。密钥走进程环境。文档仍写 plugin_hooks，现行是 hooks。',
+  },
+  {
+    title: 'langfuse/codex-observability-plugin',
+    url: 'https://github.com/langfuse/codex-observability-plugin',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Langfuse', 'hooks', 'plugins', 'Codex'],
+    summary:
+      'Langfuse 官方 Codex 追踪：marketplace add langfuse/codex-observability-plugin，再 plugin add tracing@codex-observability-plugin。清单名 codex-observability-plugin。npm 源。TRACE_TO_LANGFUSE 默认关。Codex 0.143+，Node 22+。',
+  },
+  {
+    title: 'codex-observability-plugin marketplace.json',
+    url: 'https://github.com/langfuse/codex-observability-plugin/blob/main/.agents/plugins/marketplace.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '清单',
+    tags: ['Langfuse', 'marketplace', 'plugins', 'Codex'],
+    summary:
+      '清单 name 是 codex-observability-plugin，插件 name 是 tracing，所以是 tracing@codex-observability-plugin。源是 npm 包 @langfuse/codex-observability-plugin。TRACE_TO_LANGFUSE 仍要另开。',
+  },
+  {
+    title: 'Codex plugin',
+    url: 'https://docs.wandb.ai/weave/guides/integrations/agents/codex-harness',
+    source: 'W&B Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Weave', 'hooks', 'W&B', 'Codex'],
+    summary:
+      '官方 Codex 追踪。npm 装 weave-codex 之后 weave-codex install 写 Stop 钩子。WEAVE_PROJECT 必填。默认采集正文。无头用 weave-codex run 或 collect --all。不要 marketplace add。',
+  },
+  {
+    title: 'weave-codex',
+    url: 'https://www.npmjs.com/package/weave-codex',
+    source: 'npm',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Weave', 'hooks', 'npm', 'Codex'],
+    summary:
+      'W&B Weave 官方 Codex 追踪：npm i -g weave-codex，再 weave-codex install 写 Stop 钩子。WEAVE_PROJECT 必填 entity/project。Node 20+。--ephemeral 没有追踪。',
+  },
+  {
+    title: 'Choose an agent integration',
+    url: 'https://docs.wandb.ai/weave/agent-integration-quickstart',
+    source: 'W&B Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Weave', 'agents', 'W&B', 'Codex'],
+    summary:
+      'Weave 把 Codex 列进 agent harness。CLI 主路径仍是 weave-codex，不是 Python weave.init()。装完 WEAVE_PROJECT 指向团队项目，再到 Agents 视图看回合。',
+  },
+  {
+    title: 'Codex',
+    url: 'https://arize.com/docs/phoenix/integrations/coding-agents/codex',
+    source: 'Arize Phoenix Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Phoenix', 'notify', 'Arize', 'Codex'],
+    summary:
+      '官方走 Codex notify，不是 marketplace。clone 后 ./install.sh codex，向导选 Phoenix。PHOENIX_PROJECT 填项目名。凭证在 ~/.arize/harness/config.json。不要抄 README 的 /hooks。',
+  },
+  {
+    title: 'Arize-ai/coding-harness-tracing',
+    url: 'https://github.com/Arize-ai/coding-harness-tracing',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Phoenix', 'notify', 'Arize', 'Codex'],
+    summary:
+      'Arize Phoenix 官方 Codex 追踪：clone 后 ./install.sh codex，走顶层 notify 不是 /hooks。现行 install.py 只追加 notify 二进制。PHOENIX_PROJECT 给 Phoenix 用。',
+  },
+  {
+    title: 'tracing/codex/README.md',
+    url: 'https://github.com/Arize-ai/coding-harness-tracing/blob/main/tracing/codex/README.md',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '清单',
+    tags: ['Phoenix', 'notify', 'README', 'Codex'],
+    summary:
+      'README 仍写 /hooks 审 arize-hook-codex-*，那是旧布局。现行安装器是 notify-only。PHOENIX_PROJECT 与 ARIZE_TRACE_ENABLED 写在 arize-env.sh。测一条短 exec。',
+  },
+  {
+    title: 'Trace OpenAI Codex sessions',
+    url: 'https://docs.langchain.com/langsmith/trace-with-codex',
+    source: 'LangSmith Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['LangSmith', 'plugins', 'hooks', 'Codex', 'TRACE_TO_LANGSMITH'],
+    summary:
+      '官方把 Codex 回合打进 LangSmith。marketplace add langchain-ai/langsmith-codex-plugins。TRACE_TO_LANGSMITH 开追踪。凭证 LANGSMITH_CODEX_API_KEY。文档仍写 plugin_hooks，现行不要手写。',
+  },
+  {
+    title: 'langchain-ai/langsmith-codex-plugins',
+    url: 'https://github.com/langchain-ai/langsmith-codex-plugins',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['LangSmith', 'plugins', 'hooks', 'Codex', 'TRACE_TO_LANGSMITH'],
+    summary:
+      'LangSmith 官方 Codex 追踪：marketplace add langchain-ai/langsmith-codex-plugins，再 plugin add tracing@langsmith-codex-plugins。TRACE_TO_LANGSMITH 开追踪。要 0.153.4+ 和同步 UserPromptSubmit。',
+  },
+  {
+    title: 'marketplace.json',
+    url: 'https://github.com/langchain-ai/langsmith-codex-plugins/blob/main/.agents/plugins/marketplace.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '清单',
+    tags: ['LangSmith', 'marketplace', 'plugins', 'Codex', 'TRACE_TO_LANGSMITH'],
+    summary:
+      '清单 name 是 langsmith-codex-plugins，插件 name 是 tracing。源是 ./plugins/tracing。TRACE_TO_LANGSMITH 仍要进程环境打开。',
+  },
+  {
+    title: 'Export Codex Activity to Logfire',
+    url: 'https://pydantic.dev/docs/logfire/guides/codex-logfire-exporter/',
+    source: 'Pydantic Logfire Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Logfire', 'plugins', 'hooks', 'Codex', 'CODEX_LOGFIRE_CONTENT_CAPTURE_MODE'],
+    summary:
+      '官方 Codex：marketplace add pydantic/skills --ref main，再 plugin add logfire-exporter@pydantic-skills。Stop 才导出。CODEX_LOGFIRE_CONTENT_CAPTURE_MODE 默认 full。LOGFIRE_TOKEN 写 config.env。',
+  },
+  {
+    title: 'pydantic/skills',
+    url: 'https://github.com/pydantic/skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Logfire', 'plugins', 'hooks', 'Codex', 'CODEX_LOGFIRE_CONTENT_CAPTURE_MODE'],
+    summary:
+      'Logfire 官方 Codex 追踪：marketplace add pydantic/skills，再 plugin add logfire-exporter@pydantic-skills。清单 name 是 pydantic-skills。CODEX_LOGFIRE_CONTENT_CAPTURE_MODE 控制正文。导出器只在 Codex。',
+  },
+  {
+    title: 'Coding Agent Skills',
+    url: 'https://pydantic.dev/docs/logfire/guides/skills/',
+    source: 'Pydantic Logfire Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Logfire', 'Skills', 'plugins', 'Codex', 'CODEX_LOGFIRE_CONTENT_CAPTURE_MODE'],
+    summary:
+      'Codex 技能页同时给 logfire@pydantic-skills 和 logfire-exporter@pydantic-skills。导出器要写令牌。CODEX_LOGFIRE_CONTENT_CAPTURE_MODE 在导出器指南。',
+  },
+  {
+    title: 'Codex Plugin',
+    url: 'https://laminar.sh/docs/tracing/integrations/codex',
+    source: 'Laminar Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Laminar', 'plugins', 'hooks', 'Codex', 'CODEX_LMNR_MAX_CHARS'],
+    summary:
+      '官方 Codex：marketplace add lmnr-ai/lmnr-codex-plugin，再 plugin add lmnr@lmnr。密钥写 ~/.config/lmnr/codex-plugin.json。LMNR_PROJECT_API_KEY 覆盖文件。CODEX_LMNR_MAX_CHARS 默认 20000。安装器是 npx lmnr-cli@latest plugin add codex。',
+  },
+  {
+    title: 'lmnr-ai/lmnr-codex-plugin',
+    url: 'https://github.com/lmnr-ai/lmnr-codex-plugin',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Laminar', 'plugins', 'hooks', 'Codex', 'CODEX_LMNR_MAX_CHARS'],
+    summary:
+      'Laminar 官方 Codex 追踪：marketplace add lmnr-ai/lmnr-codex-plugin，再 plugin add lmnr@lmnr。清单 name 是 lmnr。Stop 读 rollout。CODEX_LMNR_MAX_CHARS 默认 20000。密钥走 ~/.config/lmnr/codex-plugin.json。',
+  },
+  {
+    title: 'MCP Server',
+    url: 'https://laminar.sh/docs/platform/mcp',
+    source: 'Laminar Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Laminar', 'MCP', 'Codex', 'CODEX_LMNR_MAX_CHARS'],
+    summary:
+      '查轨迹才配 [mcp_servers.laminar]，url 是 https://api.lmnr.ai/v1/mcp，bearer_token_env_var 读 LMNR_PROJECT_API_KEY。不要和 Stop 追踪插件混用。CODEX_LMNR_MAX_CHARS 只属于导出钩子。',
+  },
+  {
+    title: 'OpenAI Codex',
+    url: 'https://portkey.ai/docs/integrations/libraries/codex',
+    source: 'Portkey Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Portkey', 'model_providers', 'Codex', 'PORTKEY_API_KEY'],
+    summary:
+      '官方 Codex 节：用户层 [model_providers.portkey]，base_url 是 https://api.portkey.ai/v1，env_key 读 PORTKEY_API_KEY。模型 slug 是 @provider-slug/model。wire_api 可写 chat 或 responses。项目 .codex 无法修改供应商，按 OpenAI 现行规则放用户 config。',
+  },
+  {
+    title: 'Portkey-AI/cli',
+    url: 'https://github.com/Portkey-AI/cli',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Portkey', 'CLI', 'Codex', 'PORTKEY_API_KEY'],
+    summary:
+      'Portkey 官方 Codex 网关：用户层 [model_providers.portkey]，base_url 是 https://api.portkey.ai/v1，env_key 读 PORTKEY_API_KEY。npx portkey 选 Setup Codex 会改 .codex/config.toml。只要网关加 --skip-mcp --skip-skills，协议用 --codex-wire-api responses。',
+  },
+  {
+    title: 'Portkey CLI',
+    url: 'https://portkey.ai/docs/guides/coding-agents/agent-cli',
+    source: 'Portkey Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Portkey', 'CLI', 'MCP', 'Skills', 'PORTKEY_API_KEY'],
+    summary:
+      'npx portkey 向导会写 Codex 的 base_url、PORTKEY_API_KEY、wire_api，也可写 [mcp_servers.*] 和 .agents/skills。非交互加 --yes --portkey-key。网关表仍要放用户 ~/.codex/config.toml。',
+  },
+  {
+    title: 'Codex',
+    url: 'https://docs.fireworks.ai/ecosystem/fireconnect/codex',
+    source: 'Fireworks Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Fireworks', 'FireConnect', 'model_providers', 'Codex', 'FIREWORKS_API_KEY'],
+    summary:
+      '官方 Codex：fireconnect login 再 fireconnect codex on。用户层 [model_providers.fireworks-ai]，base_url 是 https://api.fireworks.ai/inference/v1。CLI 可能把 fw_ 写成 experimental_bearer_token；手写改 env_key 读 FIREWORKS_API_KEY。不要用 fpk_ Fire Pass。',
+  },
+  {
+    title: 'fw-ai/fireconnect',
+    url: 'https://github.com/fw-ai/fireconnect',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['Fireworks', 'FireConnect', 'Codex', 'FIREWORKS_API_KEY'],
+    summary:
+      'Fireworks 官方 Codex 网关：用户层 [model_providers.fireworks-ai]，base_url 是 https://api.fireworks.ai/inference/v1，env_key 读 FIREWORKS_API_KEY。源码 ID 是 fireworks-ai。fireconnect chatgpt 共用 ~/.codex/config.toml。MiniMax 不能走 Codex。',
+  },
+  {
+    title: 'Overview',
+    url: 'https://docs.fireworks.ai/ecosystem/fireconnect/overview',
+    source: 'Fireworks Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Fireworks', 'FireConnect', 'CLI', 'FIREWORKS_API_KEY'],
+    summary:
+      '安装器是 curl 官方 install.sh，再 fireconnect login。Codex / ChatGPT 这一行 Fire Pass 是 No。密钥也可设 FIREWORKS_API_KEY。不要把 fireconnect claude 的 ANTHROPIC_BASE_URL 抄进 Codex。',
+  },
+  {
+    title: 'OpenAI Codex',
+    url: 'https://docs.litellm.ai/docs/tutorials/openai_codex',
+    source: 'LiteLLM Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['model_providers', 'LiteLLM', 'wire_api', 'LITELLM_API_KEY'],
+    summary:
+      '官方教程要求 LiteLLM v1.66.3.dev5+。先起 localhost:4000 的 proxy，yaml 必须 drop_params: true。Codex 表 env_key = LITELLM_API_KEY，wire_api = responses。不要把 openai_base_url 当路径。桌面要从终端拉起，或 launchctl setenv。',
+  },
+  {
+    title: 'BerriAI/litellm',
+    url: 'https://github.com/BerriAI/litellm',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ['model_providers', 'LiteLLM', 'Codex', 'LITELLM_API_KEY'],
+    summary:
+      'LiteLLM 官方 Codex 网关：用户层 [model_providers.litellm]，base_url 是 http://localhost:4000/v1，env_key 读 LITELLM_API_KEY。仓库是代理与 lite CLI 源码，不是 Codex 插件。',
+  },
+  {
+    title: 'LiteLLM Proxy CLI',
+    url: 'https://docs.litellm.ai/docs/proxy/management_cli',
+    source: 'LiteLLM Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['model_providers', 'LiteLLM', 'lite', 'LITELLM_API_KEY'],
+    summary:
+      'lite codex 会 export OPENAI_BASE_URL（Codex 忽略）并用 -c 覆盖走 HTTP/SSE。持久路径仍是用户层 env_key = LITELLM_API_KEY。包装器读 LITELLM_PROXY_API_KEY，不要混。不要抄 lite claude 的 ANTHROPIC_BASE_URL。',
+  },
+  {
+    title: 'Codex CLI Integration',
+    url: 'https://openrouter.ai/docs/cookbook/coding-agents/codex-cli',
+    source: 'OpenRouter Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['model_providers', 'OpenRouter', 'wire_api', 'OPENROUTER_API_KEY'],
+    summary:
+      'OpenRouter 官方 Codex 网关：用户层 [model_providers.openrouter]，base_url 是 https://openrouter.ai/api/v1，auth 命令回显 OPENROUTER_API_KEY。Windows 改 powershell。与 env_key 二选一。',
+  },
+  {
+    title: 'Codex Desktop App Integration',
+    url: 'https://openrouter.ai/docs/cookbook/coding-agents/codex-desktop',
+    source: 'OpenRouter Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['model_providers', 'OpenRouter', 'desktop', 'OPENROUTER_API_KEY'],
+    summary:
+      '桌面和 CLI 读同一份用户 config。Dock 看不到 zshrc。macOS 用 launchctl setenv OPENROUTER_API_KEY，Windows 用 setx。OpenRouter 不支持 Responses WS，supports_websockets 保持 false。env_key 能连但不会拉模型目录。',
+  },
+  {
+    title: 'How to Use OpenAI Codex CLI with OpenRouter',
+    url: 'https://openrouter.ai/blog/tutorials/codex-cli-openrouter/',
+    source: 'OpenRouter Blog',
+    lang: '英文',
+    kind: '教程',
+    tags: ['model_providers', 'OpenRouter', 'wire_api', 'OPENROUTER_API_KEY'],
+    summary:
+      'slug 必须带厂商前缀，例如 openai/gpt-5.6-sol。wire_api 只认 responses，不要写 chat。主路径仍是 auth 回显 OPENROUTER_API_KEY。不要覆盖 openai / ollama / lmstudio。项目层无法修改供应商。',
+  },
+  {
+    title: 'OpenAI Codex',
+    url: 'https://developers.cloudflare.com/ai-gateway/integrations/coding-agents/openai-codex/',
+    source: 'Cloudflare Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['model_providers', 'Cloudflare', 'wire_api', 'CLOUDFLARE_API_KEY'],
+    summary:
+      'Cloudflare AI Gateway 官方 Codex 网关：profile 写 [model_providers.cloudflare-ai-gateway]，base_url 是 https://gateway.ai.cloudflare.com/v1/ACCOUNT_ID/GATEWAY_ID/openai，env_key 读 CLOUDFLARE_API_KEY。base_url 不展开环境变量。只用 Responses 模型。Access 才改 cloudflared auth。',
+  },
+  {
+    title: 'Coding agents',
+    url: 'https://developers.cloudflare.com/ai-gateway/integrations/coding-agents/',
+    source: 'Cloudflare Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['model_providers', 'Cloudflare', 'AI Gateway', 'CLOUDFLARE_API_KEY'],
+    summary:
+      'Coding agents 索引把 OpenAI Codex 和 Claude Code / Pi 并列。Codex 专节才是 CLOUDFLARE_API_KEY 加 /openai。不要抄同页 Claude 或 Pi。配完去仪表盘 Logs 核对流量。',
+  },
+  {
+    title: 'Unified Billing',
+    url: 'https://developers.cloudflare.com/ai-gateway/features/unified-billing/',
+    source: 'Cloudflare Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['model_providers', 'Cloudflare', 'Unified Billing', 'CLOUDFLARE_API_KEY'],
+    summary:
+      'Codex 走网关时用 Cloudflare token（env_key = CLOUDFLARE_API_KEY），不是 OpenAI 密钥。先为账号充值额度。请求上若再带上游 Authorization，就不会落到 Unified Billing。',
+  },
+  {
+    title: 'Use Codex CLI with NIM',
+    url: 'https://docs.nvidia.com/nim/large-language-models/latest/ai-assistant-integrations/codex-cli.html',
+    source: 'NVIDIA NIM Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Codex', 'NIM', 'model_providers', 'NIM_API_KEY'],
+    summary:
+      'NVIDIA NIM 官方 Codex 网关：用户层 [model_providers.nim]，base_url 是 http://localhost:8000/v1，env_key 读 NIM_API_KEY。官方把供应商写进 ~/.codex/config.toml；本站建议独立 nim.config.toml 再 --profile nim。gpt-oss 要把 web_search = disabled 写在所有 [section] 之前。',
+  },
+  {
+    title: 'Tool Calling and MCP Integration',
+    url: 'https://docs.nvidia.com/nim/large-language-models/latest/advanced-use-cases/tool-calling-and-mcp.html',
+    source: 'NVIDIA NIM Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['NIM', 'tool calling', 'MCP', 'NIM_API_KEY'],
+    summary:
+      'Codex 打 NIM 前要同时开 --enable-auto-tool-choice 和匹配模型的 --tool-call-parser。NIM 自己不连 MCP 服务器。配 Codex 供应商时 env_key 仍读 NIM_API_KEY，缺 parser 时工具调用会变成散文。',
+  },
+  {
+    title: 'API Reference',
+    url: 'https://docs.nvidia.com/nim/large-language-models/latest/reference/api-reference.html',
+    source: 'NVIDIA NIM Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['NIM', 'Responses', 'API', 'NIM_API_KEY'],
+    summary:
+      'NIM 给 Codex 用的是 POST /v1/responses，不是 Chat Completions。健康检查走 /v1/health/ready，模型名以 /v1/models 为准。供应商表的 env_key 是 NIM_API_KEY，base_url 必须带 /v1。',
+  },
+  {
+    title: 'Codex (standalone)',
+    url: 'https://agentgateway.dev/docs/standalone/latest/integrations/llm/clients/codex/',
+    source: 'agentgateway Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Codex', 'agentgateway', 'model_providers', 'AGENTGATEWAY_API_KEY'],
+    summary:
+      'agentgateway 官方 Codex 网关：profile 写 [model_providers.agentgateway]，base_url 是 http://localhost:4000/v1，env_key 读 AGENTGATEWAY_API_KEY。官方测过 codex-cli 0.144.4。name 必填，鉴权避免重复配置。/v1/models 警告不挡 /v1/responses。',
+  },
+  {
+    title: 'Codex (Kubernetes)',
+    url: 'https://agentgateway.dev/docs/kubernetes/latest/integrations/llm/clients/codex/',
+    source: 'agentgateway Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Codex', 'agentgateway', 'Kubernetes', 'AGENTGATEWAY_API_KEY'],
+    summary:
+      'K8s 上 Codex 的 base_url 必须带 /v1。Ingress 地址要写成字面量，不要把未展开的变量留进 TOML。虚拟钥仍读 AGENTGATEWAY_API_KEY，不是上游 OPENAI_API_KEY。用 kubectl logs 核对 POST /v1/responses。',
+  },
+  {
+    title: 'OpenAI provider',
+    url: 'https://agentgateway.dev/docs/standalone/latest/llm/providers/openai/',
+    source: 'agentgateway Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['agentgateway', 'OpenAI', 'config.yaml', 'AGENTGATEWAY_API_KEY'],
+    summary:
+      '网关 config.yaml 的 params.apiKey 是上游 OPENAI_API_KEY，通配 * 接 Codex 请求里的模型名。连 Codex 时客户端钥匙才是 AGENTGATEWAY_API_KEY。这页不是 MCP。',
+  },
+  {
+    title: 'Codex with Azure OpenAI in Microsoft Foundry Models',
+    url: 'https://learn.microsoft.com/en-us/azure/foundry/openai/how-to/codex',
+    source: 'Microsoft Learn',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Codex', 'Azure', 'Foundry', 'AZURE_OPENAI_API_KEY'],
+    summary:
+      'Azure OpenAI 官方 Codex 网关：profile 写 [model_providers.azure]，base_url 是 https://YOUR_RESOURCE_NAME.openai.azure.com/openai/v1，env_key 读 AZURE_OPENAI_API_KEY。v1 不要再传 api-version。Entra 目前不可用。CI 示例是 -p azure exec。',
+  },
+  {
+    title: 'Azure OpenAI in Microsoft Foundry Models v1 API',
+    url: 'https://learn.microsoft.com/en-us/azure/foundry/openai/api-version-lifecycle',
+    source: 'Microsoft Learn',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Azure', 'Responses', 'v1', 'AZURE_OPENAI_API_KEY'],
+    summary:
+      'v1 GA 的 Responses 入口要在资源域名后加 /openai/v1，不再强制 api-version。Codex 供应商表的 env_key 仍是 AZURE_OPENAI_API_KEY。也接受 services.ai.azure.com/openai/v1。',
+  },
+  {
+    title: 'Sample Configuration',
+    url: 'https://learn.chatgpt.com/docs/config-file/config-sample',
+    source: 'OpenAI Codex Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['config.toml', 'Azure', 'AZURE_OPENAI_API_KEY'],
+    summary:
+      '样本里的 Azure 表还停在 /openai 加 api-version preview。Foundry Codex 专页改走 /openai/v1。两种配置应分别使用。env_key 都是 AZURE_OPENAI_API_KEY。',
+  },
+  {
+    title: 'Data controls in the OpenAI platform',
+    url: 'https://developers.openai.com/api/docs/guides/your-data',
+    source: 'OpenAI Platform',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Data residency', 'us.api.openai.com', 'Responses'],
+    summary:
+      'API 数据驻留按项目选区域。请求要打区域主机名，例如 us.api.openai.com。Codex 把该前缀写进 openai_base_url 或 [model_providers.openaidr] 的 base_url。存储和区域内推理不是一回事。',
+  },
+  {
+    title: 'Codex config-file Advanced: OpenAI data residency openaidr',
+    url: 'https://developers.openai.com/codex/config-file/config-advanced',
+    source: 'OpenAI Codex Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['openaidr', 'us.api.openai.com', 'config.toml'],
+    summary:
+      'OpenAI 数据驻留官方 Codex 网关：profile 写 [model_providers.openaidr]，base_url 是 https://us.api.openai.com/v1，把 us 换成驻留域前缀。ChatGPT 工作区驻留不必另开表。不要写 [model_providers.openai]。',
+  },
+  {
+    title: 'Codex config-file Sample: openaidr wire_api responses',
+    url: 'https://developers.openai.com/codex/config-file/config-sample',
+    source: 'OpenAI Codex Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['openaidr', 'us.api.openai.com', 'wire_api'],
+    summary:
+      '样本注释里的 [model_providers.openaidr] 把 base_url 写成 https://us.api.openai.com/v1，并标明 wire_api = responses 是唯一支持值。requires_openai_auth 仅 OpenAI 登录时按需打开，与 env_key 二选一。',
+  },
+  {
+    title: 'Codex integration guide',
+    url: 'https://docs.sambanova.ai/docs/en/integrations/codex',
+    source: 'SambaNova Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Codex', 'SambaNova', 'SAMBANOVA_API_KEY'],
+    summary:
+      'SambaNova 官方 Codex 网关：profile 写 [model_providers.sambanova]，base_url 是 https://api.sambanova.ai/v1，env_key 读 SAMBANOVA_API_KEY。文档仍写 [profiles.execute-sn]，0.134 起要改成独立 profile 文件。不要加 sambanova/ 前缀。',
+  },
+  {
+    title: 'SambaNova Responses API',
+    url: 'https://docs.sambanova.ai/docs/en/features/responses',
+    source: 'SambaNova Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Responses', 'SAMBANOVA_API_KEY', 'gpt-oss-120b'],
+    summary:
+      'POST /v1/responses 对齐 OpenAI Responses。Codex 供应商表的 env_key 仍是 SAMBANOVA_API_KEY，base_url 停在 https://api.sambanova.ai/v1。无状态，不要 previous_response_id。',
+  },
+  {
+    title: "Build Faster Coding Agents with SambaNova's Responses API",
+    url: 'https://sambanova.ai/blog/build-faster-coding-agents-with-sambanovas-responses-api',
+    source: 'SambaNova Blog',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Codex', 'MiniMax-M2.7', 'SAMBANOVA_API_KEY'],
+    summary:
+      '博客给 Codex 的供应商表同样是 api.sambanova.ai/v1 加 SAMBANOVA_API_KEY。执行侧用 MiniMax-M2.7。配置块里的 [profiles.*] 过时，Cline / OpenCode 段落不要抄进 Codex。',
+  },
+  {
+    title: 'Codex CLI',
+    url: 'https://docs.getbifrost.ai/cli-agents/codex-cli',
+    source: 'Bifrost Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Codex', 'Bifrost', 'localhost:8080/openai/v1'],
+    summary:
+      'Bifrost 官方 Codex 网关：profile 写 [model_providers.bifrost]，base_url 是 http://localhost:8080/openai/v1，env_key 读 OPENAI_API_KEY。先 /logout。不要写 openai_base_url。项目 .codex 无法修改 model_provider。',
+  },
+  {
+    title: 'Set up Codex CLI with Amazon Bedrock',
+    url: 'https://docs.getbifrost.ai/runbooks/codex-bedrock',
+    source: 'Bifrost Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Bedrock', 'Bifrost', 'localhost:8080/openai/v1'],
+    summary:
+      'Bedrock runbook 的本机对照入口仍带 localhost:8080/openai/v1；托管才换 gateway.example.com/openai/v1，表名改 bifrost_bedrock，env_key 改 BIFROST_API_KEY。项目 .codex 无法修改 model_provider。不要和本机 bifrost 表混抄。',
+  },
+  {
+    title: 'Overview',
+    url: 'https://docs.getbifrost.ai/cli-agents/overview',
+    source: 'Bifrost Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['CLI', 'Bifrost', 'localhost:8080/openai/v1'],
+    summary:
+      'Codex CLI 要把 API base 指到带 /v1 的 OpenAI 形，本机是 localhost:8080/openai/v1。观测在 localhost:8080/logs。',
+  },
+  {
+    title: 'Codex CLI',
+    url: 'https://coder.com/docs/ai-coder/ai-gateway/clients/codex',
+    source: 'Coder Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Codex', 'Coder', '/api/v2/ai-gateway/openai/v1'],
+    summary:
+      'Coder 官方 Codex 网关：profile 写 [model_providers.ai_gateway]，base_url 以 /api/v2/ai-gateway/openai/v1 结尾，env_key 读 OPENAI_API_KEY。集中密钥那条 OPENAI_API_KEY 填 Coder 令牌。必须 supports_websockets = false。',
+  },
+  {
+    title: 'Client Configuration',
+    url: 'https://coder.com/docs/ai-coder/ai-gateway/clients',
+    source: 'Coder Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['AI Gateway', 'Coder', '/api/v2/ai-gateway/openai/v1'],
+    summary:
+      '总览把 OpenAI 形入口写成 https://coder.example.com/api/v2/ai-gateway/openai/v1。Codex CLI 不要抄 OPENAI_BASE_URL，走具名 ai_gateway 表。Claude 的 ANTHROPIC_BASE_URL 不要抄进 Codex。',
+  },
+  {
+    title: 'AI Gateway reference',
+    url: 'https://coder.com/docs/ai-coder/ai-gateway/reference',
+    source: 'Coder Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Responses', 'Coder', '/api/v2/ai-gateway/openai/v1'],
+    summary:
+      '嵌入式网关拦截 /v1/responses。进程内客户端仍打 /api/v2/ai-gateway/openai/v1。独立网关才丢掉 /api/v2/ai-gateway 前缀。Codex 必须 wire_api = responses。',
+  },
+  {
+    title: 'Integrate with coding agents',
+    url: 'https://docs.databricks.com/aws/en/ai-gateway/coding-agent-integration-model-services',
+    source: 'Databricks Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Codex', 'Databricks', '/ai-gateway/codex/v1'],
+    summary:
+      'Databricks 官方 Codex 网关：profile 写 [model_providers.Databricks]，base_url 以 /ai-gateway/codex/v1 结尾，令牌走 [model_providers.Databricks.auth]。文档仍写 [profiles.default]，0.134 起要改成独立 profile 文件。避免重复配置 env_key。',
+  },
+  {
+    title: 'Integrate coding agents with model provider services',
+    url: 'https://docs.databricks.com/aws/en/ai-gateway/coding-agent-integration-model-provider-services',
+    source: 'Databricks Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Unity Gateway', 'Databricks', '/ai-gateway/codex/v1'],
+    summary:
+      '外部供应商走 ug codex --provider。Codex 仍打 /ai-gateway/codex/v1，wire_api = responses，头是 Databricks-Model-Provider-Service。不要把上游密钥写进 Codex。Claude 的 /ai-gateway/anthropic 不要抄。',
+  },
+  {
+    title: 'Integrate with coding agents',
+    url: 'https://docs.databricks.com/gcp/en/ai-gateway/coding-agent-integration-model-services',
+    source: 'Databricks Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['GCP', 'Databricks', '/ai-gateway/codex/v1'],
+    summary:
+      'GCP 页和 AWS 同一套 Codex 表：base_url 仍以 /ai-gateway/codex/v1 结尾。主命令是 ug，ucode 只是别名。OSS 模型用 ug codex --model，不是 --oss。',
+  },
+  {
+    title: 'Integrate with Codex',
+    url: 'https://api-docs.deepseek.com/quick_start/agent_integrations/codex/',
+    source: 'DeepSeek API Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Codex', 'DeepSeek', 'model_providers', 'DEEPSEEK_API_KEY'],
+    summary:
+      'DeepSeek 官方 Codex 网关：profile 写 [model_providers.deepseek]，base_url 是 https://api.deepseek.com/，密钥用 env_key 不要 experimental_bearer_token。官方一键脚本会把密钥写进 TOML；改成 env_key 并拆独立 profile。模型目录走 model_catalog_json，不要抄 models.json 里的人设长文。',
+  },
+  {
+    title: 'Using the Responses API',
+    url: 'https://api-docs.deepseek.com/guides/responses_api',
+    source: 'DeepSeek API Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Responses', 'DeepSeek', 'Codex', 'DEEPSEEK_API_KEY'],
+    summary:
+      'DeepSeek 为 Codex 原生开了 Responses。base_url 是 https://api.deepseek.com。无状态，不要 previous_response_id。模型是 deepseek-flash / deepseek-v4-pro。这不是 Chat Completions 翻译层。',
+  },
+  {
+    title: 'Responses API',
+    url: 'https://api-docs.deepseek.com/api/create-response',
+    source: 'DeepSeek API Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Responses', 'DeepSeek', '/responses', 'DEEPSEEK_API_KEY'],
+    summary:
+      '/responses 是 DeepSeek 的 Responses 入口。流式是 SSE 事件，没有 data: [DONE]。多轮要把历史放进 input。不要把这页当 Codex profile 教程。',
+  },
+  {
+    title: 'OpenAI Codex CLI',
+    url: 'https://www.truefoundry.com/docs/ai-gateway/openai-codex-cli',
+    source: 'TrueFoundry Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Codex', 'TrueFoundry', 'model_providers', 'TFY_API_KEY'],
+    summary:
+      'TrueFoundry 官方 Codex 网关：profile 写 [model_providers.truefoundry]，base_url 用 gateway.truefoundry.ai，密钥用 env_key 不要 http_headers。文档仍把 Bearer 写进 http_headers，还写了 wire_api = chat 和 codex chat；现行只留 responses 和独立 profile。模型用 Virtual Model slug。',
+  },
+  {
+    title: 'Virtual Model',
+    url: 'https://www.truefoundry.com/docs/ai-gateway/virtual-model',
+    source: 'TrueFoundry Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Virtual Model', 'TrueFoundry', 'responses', 'TFY_API_KEY'],
+    summary:
+      'Virtual Model 是 Codex 里写的短 slug，背后才映射 openai-main/ 那种全名。Codex 要勾 responses 类型。不要把全名写进 model。这不是 MCP 网关。',
+  },
+  {
+    title: 'API Keys',
+    url: 'https://www.truefoundry.com/docs/generating-truefoundry-api-keys',
+    source: 'TrueFoundry Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['TFY_API_KEY', 'PAT', 'VAT'],
+    summary:
+      '网关认证用 TrueFoundry PAT/VAT，不是上游 OpenAI 密钥。CLI 环境变量名是 TFY_API_KEY。本地用 PAT，生产用 VAT。不要把 token 写进 TOML 或 http_headers。',
+  },
+  {
+    title: 'OpenAI Codex CLI and SDK',
+    url: 'https://docs.helicone.ai/gateway/integrations/codex',
+    source: 'Helicone Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Codex', 'Helicone', 'model_providers', 'HELICONE_API_KEY', 'ai-gateway.helicone.ai'],
+    summary:
+      'Helicone 官方 Codex 网关：profile 写 [model_providers.helicone]，base_url 是 https://ai-gateway.helicone.ai/v1，密钥用 env_key 不要 wire_api = chat。文档示例仍写 chat；现行只留 responses 和独立 profile。这不是 Helicone MCP。',
+  },
+  {
+    title: 'Responses API',
+    url: 'https://docs.helicone.ai/gateway/concepts/responses-api',
+    source: 'Helicone Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Responses', 'Helicone', 'AI Gateway', 'HELICONE_API_KEY', 'ai-gateway.helicone.ai'],
+    summary:
+      'Helicone AI Gateway 的 https://ai-gateway.helicone.ai/v1/responses。Bearer 读 HELICONE_API_KEY。目前写明 OpenAI 和 Anthropic。Codex CLI 必须 wire_api = responses，不要为了目录里的其它厂商改回 chat。',
+  },
+  {
+    title: 'Helicone Auth',
+    url: 'https://docs.helicone.ai/helicone-headers/helicone-auth',
+    source: 'Helicone Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Helicone', 'API key', 'EU', 'HELICONE_API_KEY', 'ai-gateway.helicone.ai'],
+    summary:
+      '网关 POST 要用写权限密钥；读权限给 MCP 查请求。欧盟密钥带 eu- 前缀，仍打 ai-gateway.helicone.ai。不要把密钥嵌进 gateway.helicone.ai 的 URL 路径。',
+  },
+  {
+    title: 'Codex',
+    url: 'https://platform.minimax.io/docs/token-plan/codex',
+    source: 'MiniMax Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Codex', 'MiniMax', 'model_providers', 'MINIMAX_API_KEY', 'api.minimax.io'],
+    summary:
+      'MiniMax 官方 Codex 网关：profile 写 [model_providers.minimax]，base_url 是 https://api.minimax.io/v1，密钥用 env_key 不要 experimental_bearer_token。文档仍把密钥写进 experimental_bearer_token；现行用独立 profile 和 env_key。模型写 MiniMax-M3。',
+  },
+  {
+    title: 'One-click setup wizard',
+    url: 'https://platform.minimax.io/docs/token-plan/agent-setup',
+    source: 'MiniMax Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['MiniMax', 'mmx-cli', 'Codex', 'MINIMAX_API_KEY', 'api.minimax.io'],
+    summary:
+      'npx mmx-cli agent setup。只要 Codex 就 --agent codex，先 --dry-run。会改 ~/.codex/config.toml 和 mmx-model-catalog.json。已有 model_catalog_json 会停手。不要 --all。国际站流量仍打 api.minimax.io。',
+  },
+  {
+    title: 'Create Response',
+    url: 'https://platform.minimax.io/docs/api-reference/responses-create',
+    source: 'MiniMax Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ['Responses', 'MiniMax', 'MiniMax-M3', 'MINIMAX_API_KEY', 'api.minimax.io'],
+    summary:
+      'MiniMax 的 POST /v1/responses。国际站主机是 api.minimax.io。模型 MiniMax-M3。reasoning.effort 非 none 只开 Adaptive Thinking，不调深度。Codex 走 wire_api = responses。',
+  },
+  {
+    title: 'Codex',
+    url: 'https://docs.z.ai/devpack/tool/codex',
+    source: 'Z.AI Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Codex", "Z.AI", "GLM", "model_providers", "ZAI_API_KEY", "api.z.ai/api/v1"],
+    summary:
+      'Z.AI 官方 Codex 网关：profile 写 [model_providers.ZAI]，base_url 是 https://api.z.ai/api/v1，密钥用 env_key 不要 experimental_bearer_token。文档仍把密钥写进 experimental_bearer_token，并把 model_provider 写成全局默认；现行用独立 profile 和 env_key。模型写 glm-5.3。',
+  },
+  {
+    title: 'Coding Tool Helper',
+    url: 'https://docs.z.ai/devpack/extension/coding-tool-helper',
+    source: 'Z.AI Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Z.AI", "coding-helper", "Codex", "ZAI_API_KEY", "api.z.ai/api/v1"],
+    summary:
+      'npx @z_ai/coding-helper。向导支持 Claude Code / Codex / OpenCode 等，只要 Codex 就只勾 Codex。会改 ~/.codex/config.toml，可能写 experimental_bearer_token 和全局默认。跑完改回 env_key 和独立 profile。Codex 流量仍打 api.z.ai/api/v1。',
+  },
+  {
+    title: 'Tool Integration',
+    url: 'https://docs.z.ai/devpack/tool/others',
+    source: 'Z.AI Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Responses", "Z.AI", "GLM", "ZAI_API_KEY", "api.z.ai/api/v1"],
+    summary:
+      'GLM Coding Plan 的 OpenAI Responses 入口是 https://api.z.ai/api/v1。Codex 必须走这条，不要抄同页 Cline 示例的 Chat Completions https://api.z.ai/api/coding/paas/v4，也不要 Anthropic https://api.z.ai/api/anthropic。',
+  },
+  {
+    title: 'Codex',
+    url: 'https://www.alibabacloud.com/help/en/model-studio/codex',
+    source: 'Alibaba Cloud Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Codex", "Model Studio", "Qwen", "model_providers", "DASHSCOPE_API_KEY", "token-plan.ap-southeast-1.maas.aliyuncs.com"],
+    summary:
+      '阿里云 Model Studio 官方 Codex 网关：profile 写 [model_providers.Model_Studio_Token_Plan]，base_url 是 https://token-plan.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1，密钥用 env_key 不要 wire_api = chat。文档仍给 Coding Plan 写 chat 并建议装 0.80.0；现行用独立 profile 和 responses。模型写 qwen3.8-max。',
+  },
+  {
+    title: 'Base URL overview',
+    url: 'https://www.alibabacloud.com/help/en/model-studio/base-url',
+    source: 'Alibaba Cloud Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Model Studio", "Token Plan", "Codex", "DASHSCOPE_API_KEY", "token-plan.ap-southeast-1.maas.aliyuncs.com"],
+    summary:
+      'Token Plan 国际站 OpenAI 兼容入口是 token-plan.ap-southeast-1.maas.aliyuncs.com/compatible-mode/v1。Coding Plan 是 coding-intl.dashscope.aliyuncs.com/v1，Codex 不能走 chat。按量才把 WorkspaceId 写进主机。密钥按套餐分开。',
+  },
+  {
+    title: 'OpenAI-compatible - Responses',
+    url: 'https://docs.modelstudio.console.alibabacloud.com/en/model-studio/compatibility-with-openai-responses-api',
+    source: 'Alibaba Cloud Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Responses", "Model Studio", "Qwen", "DASHSCOPE_API_KEY", "token-plan.ap-southeast-1.maas.aliyuncs.com"],
+    summary:
+      'Model Studio 的 POST /compatible-mode/v1/responses。按量主机带 WorkspaceId。Token Plan 编码流量仍打 token-plan.ap-southeast-1.maas.aliyuncs.com。旧路径 /api/v2/apps/protocols/compatible-mode/v1/responses 将弃用。Codex 走 wire_api = responses。',
+  }
 ];

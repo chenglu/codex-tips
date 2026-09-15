@@ -14350,4 +14350,951 @@ ggshield machine setup --agent codex --no-git-hooks --no-honeytokens
       },
     ],
   },
+  {
+    id: "modeltrace-guard-codex-plugin",
+    no: 445,
+    title: "安装 ModelTrace Guard 插件",
+    summary: "安装 modeltrace-guard@modeltrace 后，在 /hooks 审查插件钩子。探针使用已配置的 Codex 账户，会消耗额度。",
+    body: `ModelTrace Guard 用 marketplace 加 xqy2006/ModelTrace，再 plugin add modeltrace-guard@modeltrace。这是仓库里的 **Codex 任务内监测插件**，不是根目录那个 \`python start.py\` 开的 7860 页面。清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`modeltrace\`，展示名 Modeltrace，插件 name 是 \`modeltrace-guard\`，本地路径 \`./codex-plugin/modeltrace-guard\`。官方写出的 id 就是 \`modeltrace-guard@modeltrace\`。
+
+\`\`\`bash
+codex plugin marketplace add xqy2006/ModelTrace
+codex plugin add modeltrace-guard@modeltrace
+\`\`\`
+
+本地改插件时在仓库根：
+
+\`\`\`bash
+codex plugin marketplace add .
+codex plugin add modeltrace-guard@modeltrace
+\`\`\`
+
+升级用清单名，不是仓库路径：
+
+\`\`\`bash
+codex plugin marketplace upgrade modeltrace
+\`\`\`
+
+需要 Node.js 18+，以及能做原生快照 fork、临时任务、任务删除和异步 hooks 的 Codex App Server。多运行时把 \`MODELTRACE_CODEX_PATH\` 指到桌面配套 \`codex\` 的绝对路径。兼容性先跑 \`node scripts/guard.mjs doctor --fork true\`（在插件目录；\`--fork true\` 不发起推理）。
+
+0.154 起先看**当前会话**；当前会话 \`/plugins\` 没有再新开。IDE 扩展没有 \`/plugins\`。装完打开一个**新** Codex 任务加载插件，再在 TUI 输入框敲 \`/hooks\`——这不是 shell 命令。只审 **ModelTrace Guard**：同步 \`PreToolUse\`，以及异步 \`SessionStart\`、\`UserPromptSubmit\`、\`PostToolUse\`。哈希变了要再审。网页 Cloud 不读本机 marketplace。
+
+不要按社交帖字面「信任所有钩子」。Codex 不会因为 \`plugin add\` 就静默授权命令。企业开了 \`allow_managed_hooks_only\` 时，插件钩子整层不跑。
+
+开启监测对目标任务说：使用 \`\$modeltrace-guard\` 为本任务开启监测。默认大约每隔 16–32 次工作工具调用采一次，异常后复测 3 次。也可以在插件目录跑 \`node scripts/guard.mjs start\`，把 \`CODEX_THREAD_ID\` 指到目标任务。仪表盘是 \`node scripts/guard.mjs dashboard\`。数据默认 \`~/.codex/modeltrace-guard\`，可用 \`MODELTRACE_GUARD_DATA\` 覆盖。
+
+探针由 Codex **自己**生成，用已配置的账户、模型和厂商，**会花推理额度**。没有每轮或任务累计上限。正常结果静默保存，主任务不等探针。首次指纹不一致会要求智能体告知并暂停工作；额外复测全不一致时锁定任务，\`PreToolUse\` 拦截后续受支持的工作工具。恢复要用户明确要求后才能 \`resume --halt\`。结果只是参考库内的相似性，不是后端身份认证。仓库声明：未收录模型什么结果都可能出现。
+
+配置说明：
+
+- 不要抄 \`codex plugin install modeltrace-guard@modeltrace\`。动词是 \`add\`。
+- 不要和 Braintrust 的 \`trace-codex@braintrust-codex-plugins\` 搞成同一份。
+- 不要把 README 的 PowerShell 围栏当成唯一 shell。
+- 不要一上来 \`--yolo\` 或 \`--dangerously-bypass-hook-trust\`。
+
+改完用 \`codex plugin list --marketplace modeltrace\` 核对 \`modeltrace-guard\` 已安装。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "hooks", "ModelTrace", "Skills"],
+    related: ["plugin-session-refresh", "plugin-hook-plugin-root", "ecc-codex-native-plugin"],
+    sources: [
+      {
+        label: "xqy2006/ModelTrace",
+        url: "https://github.com/xqy2006/ModelTrace",
+      },
+      {
+        label: "ModelTrace Guard README",
+        url: "https://github.com/xqy2006/ModelTrace/blob/main/codex-plugin/modeltrace-guard/README.md",
+      },
+      {
+        label: "OpenAI · Hooks",
+        url: "https://learn.chatgpt.com/docs/hooks",
+      },
+    ],
+  },
+  {
+    id: "codeguard-codex-plugin",
+    no: 446,
+    title: "安装 CodeGuard 安全规则插件",
+    summary: "安装 codeguard-security@project-codeguard，在会话中使用 $codeguard。需要 Codex CLI 0.142.0+，插件提供安全规则技能。",
+    body: `CodeGuard 用 marketplace 加 cosai-oasis/project-codeguard，再 plugin add codeguard-security@project-codeguard。官方 Codex 插件页把托管安装写死成这两条 CLI：先加源仓 marketplace，再装 \`codeguard-security@project-codeguard\`。要 Codex CLI **0.142.0 或更新**，因为 0.142.0 才支持 marketplace 插件源是仓库根 \`./\`，而这仓就是这种布局。
+
+在**普通终端**装，不要在 Codex TUI 里跑：
+
+\`\`\`bash
+codex plugin marketplace add cosai-oasis/project-codeguard
+codex plugin add codeguard-security@project-codeguard
+codex plugin list --marketplace project-codeguard
+\`\`\`
+
+清单名是 \`project-codeguard\`，插件 name 是 \`codeguard-security\`，所以是 \`codeguard-security@project-codeguard\`。\`plugin list\` 应看到 installed, enabled。刷新：
+
+\`\`\`bash
+codex plugin marketplace upgrade project-codeguard
+codex plugin list --marketplace project-codeguard
+\`\`\`
+
+装完**新开会话**，技能目录才会进模型。会话里用 \`\$codeguard\`，或让它在写代码、审代码时自己带上。这是技能调用，不是 Claude 的 \`/plugin\` 斜杠，也替不了第一次的 \`plugin add\`。
+
+插件**故意只打** \`./skills/\`（生成技能 \`skills/codeguard\`）。官方写明：**没有** \`sources/skills/\`（\`security-review\`、\`memory-safe-migration\` 那两份工作流）、**没有** \`codeguard-reviewer\` 自定义 agent、**没有** hooks、**没有** MCP。审代码 agent 走发行 ZIP 里的 \`.codex/agents/\`；MCP 是另起的自建服务 \`src/codeguard-mcp\`，README 只给了通用 \`mcpServers\` JSON，**不要**发明 \`codex mcp add codeguard\`，也不要把插件当成会登记 MCP。
+
+入门页给 Codex 的另一条路是下 \`codeguard-codex.zip\`，再 \`cp -r .agents/\` 和 \`.codex/\` 进项目，或会话里跑 \`\$skill-installer\` 指向 \`skills/codeguard\`。那是把技能文件落到仓库里，**不是** marketplace 插件安装器。更早的发行还曾把技能放到 \`.codex/skills/\`，官方说那不是 Codex 文档里的发现路径，会被**静默忽略**；现行文件技能在 \`.agents/skills/codeguard/\`。不要手拷到 \`~/.codex/skills\`。
+
+配置说明：
+
+- Codex 动词是 \`plugin add\`，不是 \`plugin install\`。
+
+只从你信任的源加 marketplace。0.154 起先看**当前会话**；当前会话没有再新开。桌面改 marketplace 后彻底退出再开。IDE 扩展没有 \`/plugins\`，用 CLI 加完再到 TUI 或桌面去装。网页 Cloud 不读你该服务 \`CODEX_HOME\` 插件缓存。不要 \`required = true\`。不要一上来 \`--yolo\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["plugins", "CodeGuard", "Skills", "安全"],
+    related: ["plugin-marketplace-ref-sparse", "amd-skills-plugin", "google-cloud-developer-plugin"],
+    sources: [
+      {
+        label: "Project CodeGuard · Codex Plugin",
+        url: "https://project-codeguard.org/codex-skill-plugin/",
+      },
+      {
+        label: "cosai-oasis/project-codeguard",
+        url: "https://github.com/cosai-oasis/project-codeguard",
+      },
+      {
+        label: "Project CodeGuard · Getting Started",
+        url: "https://project-codeguard.org/getting-started/",
+      },
+    ],
+  },
+  {
+    id: "braintrust-trace-codex-plugin",
+    no: 447,
+    title: "使用 Braintrust 追踪 Codex 会话",
+    summary: "通过 bt trace enable codex 安装追踪插件并指定项目。新会话中确认 Braintrust 钩子权限，MCP 查询服务单独配置。",
+    body: `Braintrust 用 bt trace enable codex 装 trace-codex@braintrust-codex-plugins。官方 Codex 页把会话追踪和 MCP 拆开：追踪靠 \`bt\` 写 \`~/.codex/braintrust.json\` 并装插件；查实验、日志走远程 MCP。不要把旧文档里的 \`TRACE_TO_BRAINTRUST=true\` 当现行安装器，也不要和 ModelTrace Guard 那条 \`/hooks\` 插件混用。
+
+先在普通终端装 Codex CLI，并装好 \`bt\`（追踪要 **v0.16.0+**）。登录用 \`bt login\`，再设组织/项目上下文。Windows 上追踪钩子仍要 Bash。然后：
+
+\`\`\`bash
+bt trace enable codex --project my-project
+codex plugin list --json
+bt trace doctor codex
+\`\`\`
+
+\`bt trace setup\` 只是 \`enable\` 的旧别名。这条命令会刷新 marketplace \`braintrustdata/braintrust-codex-plugin\`，装上并启用 \`trace-codex@braintrust-codex-plugins\`，再写下追踪文件。文件里是路由和是否开启，**不是**密钥；鉴权归 \`bt\`。清单名是 \`braintrust-codex-plugins\`。只想手装插件、不配追踪时才：
+
+\`\`\`bash
+codex plugin marketplace add braintrustdata/braintrust-codex-plugin
+codex plugin add trace-codex@braintrust-codex-plugins
+\`\`\`
+
+手装**不会**写 \`braintrust.json\`，普通会话仍不会出日志。改项目、profile、组织请再跑 \`bt trace enable\`，\`bt switch\` **不会**改这份追踪文件。只升级插件、不动路由用 \`bt trace update codex\`。关掉追踪用 \`bt trace disable codex\`，凭据还在。
+
+装完**新开会话**。打开 \`/hooks\`，审查并确认 Braintrust 的钩子定义；不要一键信全部钩子。插件钩子把事件交给 \`bt trace hook --source codex\`，失败是 fail-open，不会打断这一轮。单次覆盖用 \`bt trace run --project my-project -- codex …\`；这条**拒绝** \`--dangerously-bypass-hook-trust\`。无头自动化真要绕过钩子信任时，直接跑已装插件的 \`codex\`，而且你必须信当前启用的**每一条**钩子。
+
+MCP 是另一条路，marketplace **不会**登记它。官方现行是：
+
+\`\`\`bash
+codex mcp add braintrust --url https://api.braintrust.dev/mcp
+codex mcp login braintrust
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.braintrust]
+url = "https://api.braintrust.dev/mcp"
+enabled = true
+\`\`\`
+
+用户层表名官方就是 \`braintrust\`。这是 Streamable HTTP。先走 OAuth（\`mcp login\` 和 \`bt login\` 不是同一套）。以前写过 \`bearer_token_env_var = "BRAINTRUST_API_KEY"\` 就先删掉再切 OAuth，避免重复配置。EU 换 \`https://api-eu.braintrust.dev/mcp\`，不要加尾斜杠。若 \`codex plugin list --json\` 里还有退役的 \`braintrust@braintrust-codex-plugins\`，先 \`codex plugin remove braintrust@braintrust-codex-plugins\`；留下 marketplace，追踪插件还要用。
+
+配置说明：
+
+- 不要把 \`TRACE_TO_BRAINTRUST\`、\`BRAINTRUST_PROJECT\` 当成现行普通会话的开关。v1.0.1 起读 \`~/.codex/braintrust.json\`。
+- 即使改了 \`CODEX_HOME\`，追踪文件仍在 \`~/.codex/braintrust.json\`。
+
+0.154 起先看**当前会话**；当前会话没有再新开。网页 Cloud 不读你该服务插件缓存。不要 \`required = true\`。不要一上来 \`--yolo\`。写实验、改数据集保持批准。`,
+    category: "hooks",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["Braintrust", "hooks", "plugins", "MCP"],
+    related: ["plugin-marketplace-ref-sparse", "mcp-add-and-login", "ecc-codex-native-plugin"],
+    sources: [
+      {
+        label: "Braintrust · Codex",
+        url: "https://www.braintrust.dev/docs/integrations/developer-tools/codex",
+      },
+      {
+        label: "braintrustdata/braintrust-codex-plugin",
+        url: "https://github.com/braintrustdata/braintrust-codex-plugin",
+      },
+      {
+        label: "Braintrust · bt trace",
+        url: "https://www.braintrust.dev/docs/reference/cli/trace",
+      },
+    ],
+  },
+  {
+    id: "context-mode-codex-plugin",
+    no: 448,
+    title: "安装 context-mode 插件",
+    summary: "从 mksglu/context-mode 安装插件，开启 hooks 和 plugin_hooks，并审查插件钩子权限。",
+    body: `context-mode 用 marketplace 加 mksglu/context-mode，再在 /plugins 安装。这是仓库 README 的 Codex CLI 专节，不是 Claude 的 \`/plugin marketplace add\`，也不是旧文里的 \`codex plugin install context-mode/context-mode\`。
+
+先确认本机有 Node.js 22.5 或更高（或 Bun），并且 **启动 Codex 的那个进程** 能在 PATH 里找到 \`node\`。插件不会自带 Node，也不会自动继承 login shell 的 PATH。
+
+\`\`\`bash
+codex plugin marketplace add mksglu/context-mode
+codex plugin list --json
+\`\`\`
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`context-mode\`，插件 name 也是 \`context-mode\`。README 现行主路径是加完 marketplace 后在 TUI \`/plugins\` 或桌面 Plugins 里安装。CLI 等价（动词是 \`add\` 不是 \`install\`）是：
+
+\`\`\`bash
+codex plugin add context-mode@context-mode
+\`\`\`
+
+IDE 扩展没有 \`/plugins\`，装插件用 CLI 或桌面应用。
+
+捆绑插件钩子在现行 Codex 里仍可能被门控。README 要你在 \`~/.codex/config.toml\` 写：
+
+\`\`\`toml
+[features]
+plugin_hooks = true
+hooks = true
+\`\`\`
+
+优先 \`[features].hooks\`（或 \`codex --enable hooks\`）。\`[features].codex_hooks\` 只是现行构建里的遗留别名。\`plugin_hooks\` 是给**插件自带钩子**用的，直到 Codex 默认放行插件钩子；不要把 ECC / Nowledge Mem 那句「不要手写 plugin_hooks」套到这份插件上。
+
+默认存储写失败时，给启动 Codex 的环境设绝对可写根：
+
+\`\`\`bash
+CONTEXT_MODE_DIR="$HOME/.codex-context-mode" codex
+\`\`\`
+
+会话和统计在 \`CONTEXT_MODE_DIR/sessions\`，索引内容在 \`CONTEXT_MODE_DIR/content\`。不要用相对路径。
+
+重启 Codex。用会话里的 \`ctx stats\` 验证 MCP 通了；这句话**不能**证明钩子已信任。打开 \`/hooks\`，只审并信任 context-mode 那组命令，不要「信任全部钩子」。哈希变了要再审一次。
+
+插件清单用 \`.codex-plugin/mcp.json\` 起 stdio MCP（\`CONTEXT_MODE_PLATFORM=codex\`），技能在 \`./skills/\`，钩子在 \`.codex-plugin/hooks.json\`。\`plugin_hooks\` 打开且钩子已信任时，**不要**再手写 \`[mcp_servers.context-mode]\`，也不要再写 \`$CODEX_HOME/hooks.json\`。不要 \`codex mcp login context-mode\`，该服务不是 OAuth 远程。
+
+只有构建还没有 \`plugin_hooks\` 时才走后备：\`npm install -g context-mode\`，再手写 \`[mcp_servers.context-mode]\`（\`command = "context-mode"\`，环境 \`CONTEXT_MODE_PLATFORM = "codex"\`）和 \`$CODEX_HOME/hooks.json\`。那是后备，不是现行主路径。可选把 \`configs/codex/AGENTS.md\` 拷到项目 \`AGENTS.md\` 或 \`~/.codex/AGENTS.md\` 给模型看路由说明。
+
+Codex PreToolUse 目前只支持 deny / 拦截，还不能靠 \`updatedInput\` 改写工具入参（跟 openai/codex#18491）。\`additionalContext\` 也不走 PreToolUse，插件改走 PostToolUse / SessionStart。\`PreCompact\` 在 CLI 0.130.0 起有运行时门控；更旧的构建不会在压缩前做快照。
+
+配置说明：
+
+- 不要一上来信任全部钩子，也不要 \`--yolo\`。
+- 不要 \`required = true\` 挂全局。
+
+网页 Cloud 不读本机插件缓存，也不读 \`~/.codex/config.toml\`。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；当前会话没有再新开。用 \`codex plugin list\` 确认 \`context-mode@context-mode\` 已装。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "hooks", "MCP", "context-mode"],
+    related: ["plugin-marketplace-ref-sparse", "ecc-codex-native-plugin", "plugin-session-refresh"],
+    sources: [
+      {
+        label: "mksglu/context-mode",
+        url: "https://github.com/mksglu/context-mode",
+      },
+      {
+        label: "npm · context-mode",
+        url: "https://www.npmjs.com/package/context-mode",
+      },
+      {
+        label: "context-mode · marketplace.json",
+        url: "https://github.com/mksglu/context-mode/blob/main/.agents/plugins/marketplace.json",
+      },
+    ],
+  },
+  {
+    id: "1password-codex-plugin",
+    no: 449,
+    title: "安装 1Password 插件",
+    summary: "安装 1password@1password-plugins，并在 1Password 桌面 Labs 中开启本地 MCP。",
+    body: `1Password Codex 插件用 marketplace 加 1Password/1password-codex-plugin，再装 1password@1password-plugins。这是 1Password 官方 Codex 插件仓，不是帮助页里只填 \`1password-mcp\` 的桌面 MCP 表，也不是 Claude 的 \`1Password/1password-claude-plugin\`。
+
+先装 1Password 桌面应用，建好 Developer Environment。Settings → Labs → MCP Server 打开 Enable local MCP server，再到 Settings → Developer 选 Integrate with MCP clients。插件只是登记 \`1password-mcp\` 这个桌面别名，不会替你打开 Labs。
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`1password-plugins\`，插件 name 是 \`1password\`：
+
+\`\`\`bash
+codex plugin marketplace add 1Password/1password-codex-plugin
+codex plugin add 1password@1password-plugins
+codex plugin list --json
+\`\`\`
+
+也可以加完 marketplace 后在 TUI \`/plugins\` 或桌面 Plugins 里装。动词是 \`add\` 不是 \`install\`。不要抄 \`/plugin marketplace add 1Password/1password-claude-plugin\` 或 \`/plugin install 1password@1password\`。IDE 扩展没有 \`/plugins\`。
+
+插件 \`.mcp.json\` 起的是本地 stdio，command 就是 \`1password-mcp\`，没有 args。**不要** \`codex mcp login 1password\`。插件已经带 MCP 时，不要再 \`codex mcp add 1password -- 1password-mcp\` 叠一张用户层表。\`1password-mcp\` 不在 PATH 时，Dock 打开的桌面经常没有 Homebrew PATH；先在终端 \`which 1password-mcp\`，或把桌面应用装上的别名所在目录加进启动 Codex 的 PATH。
+
+仓库 README 写这份插件支持 macOS、Windows 和 Linux。帮助页 Codex 专节仍写「目前 Mac 和 Linux」——那是桌面 MCP 表那条 UI 路径。本地 \`.env\` 挂载工具目前仍只支持 Mac / Linux。
+
+目录里的 **Skills Only** ZIP 会剥掉 \`mcpServers\` / \`.mcp.json\`，只剩技能；那不是这份插件的 MCP 安装器。本地开发仍靠仓库里的 \`.mcp.json\`。
+
+连上后先 \`list_environments\` / \`list_variables\`（只有名字）。改 Environment 或挂本地 .env 保持工具批准。第一次碰某个 Environment，1Password 会弹授权。不要一上来 \`--yolo\`，不要 \`required = true\`。
+
+配置说明：
+
+- 不要抄 \`op mcp-server environments\` 或社区包 \`@takescake/1password-mcp\`。
+- 不要和 1Password CLI 的 Codex **shell plugin** 搞混：那是给 \`codex\` 命令注入登录凭证。
+
+网页 Cloud 不读本机插件缓存，也碰不到该服务桌面 MCP。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；当前会话没有再新开。用 \`codex plugin list\` 确认 \`1password@1password-plugins\` 已装。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "MCP", "1Password", "Environments"],
+    related: ["1password-mcp-stdio", "plugin-marketplace-ref-sparse", "plugin-session-refresh"],
+    sources: [
+      {
+        label: "1Password/1password-codex-plugin",
+        url: "https://github.com/1Password/1password-codex-plugin",
+      },
+      {
+        label: "1Password · Codex Environments MCP",
+        url: "https://www.1password.dev/environments/mcp-codex-server",
+      },
+      {
+        label: "1password-codex-plugin · marketplace.json",
+        url: "https://github.com/1Password/1password-codex-plugin/blob/main/.agents/plugins/marketplace.json",
+      },
+    ],
+  },
+  {
+    id: "doppler-codex-run-mcp",
+    no: 450,
+    title: "通过 Doppler 注入密钥并连接 MCP",
+    summary: "使用独立 Doppler config 注入任务所需密钥。MCP 通过本地 stdio 运行，以 env_vars 传入 DOPPLER_TOKEN，并启用 --read-only。",
+    body: `Doppler 官方 Codex：doppler run --config dev_agent_codex -- codex，MCP 再挂 @dopplerhq/mcp-server --read-only。这是 [Run Codex with Doppler](https://www.doppler.com/agents-codex) 的专节，不是 Claude 那页，也不是 Infisical Agent Proxy。密钥靠进程环境注入，不要写仓库 \`.env\`。MCP 让代理看项目和 config 布局；注入走 \`doppler run\`，两件事分开。
+
+先装 CLI。macOS：
+
+\`\`\`bash
+brew install dopplerhq/cli/doppler
+\`\`\`
+
+Linux / WSL / CI 用官方 \`install.sh\`。在 Doppler 里从 \`dev\` 分出隔离 config，官方示例名是 \`dev_agent_codex\`（带环境 slug 前缀，继承 \`dev\` 除非你覆盖）。项目 slug 按你的改，不要照抄 \`my-app\`：
+
+\`\`\`bash
+doppler configs create dev_agent_codex --project my-app
+doppler secrets set OPENAI_API_KEY --project my-app --config dev_agent_codex
+\`\`\`
+
+只放代理真正要用的密钥。人来决定写什么；下一步的 service token 默认只读，代理不能改回 Doppler。需要 ChatGPT 登录而不是 API key 时，这条 \`OPENAI_API_KEY\` 可以不加，改成任务要用的其它工作凭证。
+
+铸一把绑在这个 config、带过期的令牌，先放进变量，不要在命令行里反复粘贴明文：
+
+\`\`\`bash
+export DOPPLER_CODEX_TOKEN=$(doppler configs tokens create codex-agent-token \\
+  --project my-app \\
+  --config dev_agent_codex \\
+  --max-age 24h \\
+  --plain)
+\`\`\`
+
+在 Codex 即将工作的目录里，把 CLI 令牌锁到当前目录，避免误用你的个人 CLI token：
+
+\`\`\`bash
+doppler configure set token $DOPPLER_CODEX_TOKEN --scope .
+doppler run --config dev_agent_codex -- codex
+\`\`\`
+
+\`--scope .\` 只覆盖这个文件夹。\`doppler run\` 把该 config 的密钥注入子进程；进程退出后环境里的密钥就没了。沙箱也要限在这个目录。生产 config 不要随手丢给非确定性代理。非交互同样包一层：
+
+\`\`\`bash
+doppler run --config dev_agent_codex -- codex exec "prompt"
+\`\`\`
+
+MCP 是另一半：本机 stdio，包名 \`@dopplerhq/mcp-server\`，Node **20+**。服务端**不能**从 token 推断只读，官方要求加 \`--read-only\`，否则会露出写工具。官方 TOML 把 \`DOPPLER_TOKEN\` 写成 \`env\` 表字面量，还注释说 Codex 会展开 \`\${VAR}\`。\`env\` 表是字面量，占位符不会展开，密钥还会嵌进 \`~/.codex/config.toml\`。正确写法是从**启动 Codex 的那个进程**转发名字：
+
+\`\`\`bash
+export DOPPLER_TOKEN=$DOPPLER_CODEX_TOKEN
+codex mcp add doppler -- npx -y @dopplerhq/mcp-server --read-only
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.doppler]
+command = "npx"
+args = ["-y", "@dopplerhq/mcp-server", "--read-only"]
+env_vars = ["DOPPLER_TOKEN"]
+enabled = true
+\`\`\`
+
+不要 \`codex mcp add --env DOPPLER_TOKEN=\` 把值写进 TOML。这是 stdio，**不要** \`codex mcp login doppler\`。本机已经 \`npx @dopplerhq/mcp-server login\`、凭证在钥匙串里时，可以去掉 \`env_vars\`，仍要保留 \`--read-only\`。改完重启 Codex。会话里 \`/mcp\` 只是核对工具。不要 \`required = true\`。不要一上来 \`--yolo\`。
+
+配置说明：
+
+- 官方没有 Codex 插件。
+- 不要和 Infisical Agent Proxy、1Password 本地 MCP 写成一条。
+- 不要把生产根 config 或个人 CLI token 交给代理。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`，也不吃你该服务 \`doppler run\`。从 Dock 打开的桌面常常没有刚才 export 的变量。改完新开会话。用 \`codex mcp get doppler\` 看传输是 stdio，command 是 npx，args 带 \`--read-only\`。`,
+    category: "mcp",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Doppler", "stdio", "secrets", "doppler run"],
+    related: ["mcp-add-and-login", "mcp-stdio-env-vars", "infisical-agent-proxy-codex"],
+    sources: [
+      {
+        label: "Doppler · Run Codex with Doppler",
+        url: "https://www.doppler.com/agents-codex",
+      },
+      {
+        label: "Doppler · MCP Server",
+        url: "https://docs.doppler.com/docs/mcp",
+      },
+      {
+        label: "DopplerHQ/mcp-server",
+        url: "https://github.com/DopplerHQ/mcp-server",
+      },
+    ],
+  },
+  {
+    id: "aws-agent-toolkit-codex-plugin",
+    no: 451,
+    title: "安装 AWS Agent Toolkit 插件",
+    summary: "添加 aws/agent-toolkit-for-aws 后，在 /plugins 安装 aws-core。插件通过本地 uvx 代理连接托管 AWS MCP。",
+    body: `AWS Agent Toolkit 官方 Codex：marketplace add aws/agent-toolkit-for-aws，再 /plugins 装 aws-core。仓库 README 和 Lambda [Agent setup guide](https://docs.aws.amazon.com/lambda/latest/dg/agent-setup-guide.html) 的 Codex 专节都是这一条，不是 Claude 的 \`/plugin install\`，也不是 \`npx skills add\`。先装 [uv](https://docs.astral.sh/uv/)，插件捆绑的 MCP 靠它起 \`mcp-proxy-for-aws-cli\`。查文档可以没有 AWS 账号；调 API、跑脚本才要本机凭证。
+
+\`\`\`bash
+codex plugin marketplace add aws/agent-toolkit-for-aws
+codex
+/plugins
+\`\`\`
+
+在插件浏览器里打开 **aws-core**，再 Install plugin。清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`agent-toolkit-for-aws\`，展示名 Agent Toolkit for AWS。插件源是 \`local\` 的 \`./plugins/aws-core\`。官方 Codex **没有**写出 \`codex plugin add aws-core@…\`，**Claude 才是 \`/plugin install aws-core@claude-plugins-official\`，不要抄进 Codex TUI。
+
+仓库很大时可以稀疏检出，两条都要，漏了 \`plugins/aws-core\` 会装不上本地源：
+
+\`\`\`bash
+codex plugin marketplace add aws/agent-toolkit-for-aws --sparse .agents/plugins --sparse plugins/aws-core
+\`\`\`
+
+插件会登记 stdio MCP，表名是 \`aws-mcp\`。现行 \`mcp.json\` 是：
+
+\`\`\`toml
+[mcp_servers.aws-mcp]
+command = "uvx"
+args = [
+  "mcp-proxy-for-aws-cli@latest",
+  "https://aws-mcp.us-east-1.api.aws/mcp",
+  "--skip-auth",
+  "--metadata",
+  "INSTALL_SOURCE=agent-toolkit-core",
+]
+\`\`\`
+
+这是托管 [AWS MCP Server](https://docs.aws.amazon.com/agent-toolkit/latest/userguide/understanding-mcp-server-tools.html) 的本机代理，不是 Labs 对应的 \`awslabs.aws-serverless-mcp-server\`。\`--skip-auth\` 只放开文档检索；真正打 AWS API 仍读本机凭证。stdio，**不要** \`codex mcp login aws-mcp\`。插件已经登记时，不要再手写一张同 URL 的表。从 Dock 打开的桌面常常没有你在 zshrc 里的 \`AWS_PROFILE\`；需要时用 \`env_vars\` 转发 \`AWS_PROFILE\` / \`AWS_REGION\`，不要把密钥写进 \`env\` 表。
+
+0.154 起先看**当前会话**；当前会话 \`/plugins\` 没有再新开。IDE 扩展没有 \`/plugins\`。网页 Cloud 不读本机 marketplace。改完用 \`codex plugin marketplace list\` 核对清单名是 \`agent-toolkit-for-aws\`。升级用清单名：
+
+\`\`\`bash
+codex plugin marketplace upgrade agent-toolkit-for-aws
+\`\`\`
+
+同一份 marketplace 还有 \`aws-agents\`、\`aws-data-analytics\`、\`aws-agents-for-devsecops\`。先装 \`aws-core\`。\`aws-agents\` 会另起 \`awsknowledge\`，和 \`aws-mcp\` 的文档工具重叠，不要两台一起当主路径。\`aws-agents-for-devsecops\` 的 URL 占位符 Codex 展不开，先别装。
+
+Lambda 文档另外给了一条可选 Serverless MCP（Labs，不是 Agent Toolkit 主路径）：
+
+\`\`\`bash
+codex mcp add awslabs-aws-serverless-mcp -- uvx awslabs.aws-serverless-mcp-server@latest
+\`\`\`
+
+官方示例用 \`--env AWS_PROFILE=\` 写进 TOML。配置名用 \`env_vars\` 转发；不要把 \`AWS_SECRET_ACCESS_KEY\` 写进 \`env\`。不要默认加 \`--allow-write\` / \`--allow-sensitive-data-access\`，那是 Labs README 给 Cursor 的写权限。已经装了 \`aws-core\` 时，不要把 Labs 该服务和 \`aws-mcp\` 搞成同一张表。
+
+配置说明：
+
+- 不要把 \`aws configure agent-toolkit\` 当成 Codex 插件命令。那是 AWS CLI。
+- 不要 \`required = true\`。不要一上来 \`--yolo\`。
+
+网页 Cloud 不读这份插件。改完用 \`codex plugin list\`；\`codex mcp get aws-mcp\` 看传输是 stdio，command 是 uvx。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "AWS", "MCP", "Skills", "Lambda"],
+    related: ["google-cloud-developer-plugin", "plugin-session-refresh", "mcp-stdio-env-vars"],
+    sources: [
+      {
+        label: "aws/agent-toolkit-for-aws",
+        url: "https://github.com/aws/agent-toolkit-for-aws",
+      },
+      {
+        label: "AWS Lambda · Agent setup guide",
+        url: "https://docs.aws.amazon.com/lambda/latest/dg/agent-setup-guide.html",
+      },
+      {
+        label: "AWS · MCP Server tools",
+        url: "https://docs.aws.amazon.com/agent-toolkit/latest/userguide/understanding-mcp-server-tools.html",
+      },
+    ],
+  },
+  {
+    id: "langfuse-codex-observability-plugin",
+    no: 452,
+    title: "使用 Langfuse 追踪 Codex 会话",
+    summary: "安装 tracing@codex-observability-plugin，通过 Stop 钩子采集会话。设置 TRACE_TO_LANGFUSE=true，凭证通过进程环境传入。",
+    body: `Langfuse 官方 Codex 追踪：marketplace add langfuse/codex-observability-plugin，再 plugin add tracing@codex-observability-plugin。这是把 Codex 会话追踪发送到 Langfuse，不是去查文档、也不是去改 Langfuse 项目数据。官方集成页和仓库 README 都写了 marketplace；集成页把 \`plugin add\` 也写出来了，跟 \`.agents/plugins/marketplace.json\` 对得上。清单 name 是 \`codex-observability-plugin\`，展示名 Langfuse，插件 name 是 \`tracing\`，所以是 \`tracing@codex-observability-plugin\`。源是 npm 包 \`@langfuse/codex-observability-plugin\`，本机要 Node.js 22+ 且 \`npm\` 在 PATH 里。仓库 README 要求 Codex **0.143** 以上。
+
+\`\`\`bash
+codex plugin marketplace add langfuse/codex-observability-plugin
+codex plugin add tracing@codex-observability-plugin
+codex plugin list
+\`\`\`
+
+\`codex plugin list\` 应看到 \`tracing@codex-observability-plugin\` 为 installed, enabled。加完先看**当前会话**；当前会话 \`/plugins\` 没有再新开。IDE 扩展没有 \`/plugins\`，用 CLI 加。网页 Cloud 不读本机 marketplace。
+
+钩子要单独打开并信任。现行键是 \`hooks\`，**不要**抄集成页仍写着的 \`plugin_hooks\`：
+
+\`\`\`toml
+[features]
+hooks = true
+
+[plugins."tracing@codex-observability-plugin"]
+enabled = true
+\`\`\`
+
+新开会话后若出现 Hooks need review，打开 \`/hooks\`，审过 Langfuse 的 **Stop** 钩子再信任。Codex 按钩子哈希记信任；插件升级改了命令要再审一次。\`plugin list\` 显示已装不等于钩子已跑。成功时应能看到 \`hook: Stop\` 随后 \`hook: Stop Completed\`。
+
+追踪默认关。必须让启动 Codex 的那个进程看见 \`TRACE_TO_LANGFUSE=true\`（就是这四个字母，不是 \`1\` / \`yes\`），以及 \`LANGFUSE_PUBLIC_KEY\` / \`LANGFUSE_SECRET_KEY\`。可选 \`LANGFUSE_BASE_URL\`：欧盟默认 \`https://cloud.langfuse.com\`，美区 \`https://us.cloud.langfuse.com\`，日本 \`jp\`，HIPAA \`hipaa\`。同一组名也可加 \`LANGFUSE_CODEX_\` 前缀，只给 Codex 用。变量必须在启动 Codex 的 shell 里；Codex **不**读 \`.env\`。**不要**把 \`sk-lf-…\` 写进 \`[mcp_servers]\` 的 \`env\` 表，该服务插件也不是 MCP，**不要** \`codex mcp login\`。
+
+也可以写 \`~/.codex/langfuse.json\`（项目层是仓库 \`.codex/langfuse.json\`）。解析顺序是默认值 → 全局 json → 项目 json → 环境变量，环境变量赢。json 里有 secret_key，**不要提交**。
+
+改完彻底重启 Codex，再新开一局。测的时候连发两条短消息：Stop 钩子上传已完成的回合，最新那一回合要等下一次钩子才收口。Langfuse 里搜 \`Codex Turn\`。不要给含密钥、客户数据的会话打开追踪。可用 \`LANGFUSE_CODEX_MAX_CHARS\` 截断超长输入输出。默认失败敞开，上传出错不会卡住 Codex；排错才设 \`LANGFUSE_CODEX_DEBUG=true\`。
+
+无头 \`codex exec\` 若要事先知道 trace id，才设 \`LANGFUSE_CODEX_TRACE_SEED\`（每趟唯一）。不要复用种子。升级：
+
+\`\`\`bash
+codex plugin marketplace upgrade codex-observability-plugin
+\`\`\`
+
+这**不是** \`https://langfuse.com/api/mcp\` 对应的无鉴权文档 MCP，也不是 \`cloud.langfuse.com/api/public/mcp\` 对应的产品 MCP。不要和那两张表写成一台。
+
+配置说明：
+
+- 不要抄集成页的 \`plugin_hooks = true\`。现行是 \`hooks = true\`。
+- 不要 \`codex mcp add langfuse-tracing\`，也不要 \`mcp login\`。
+- 不要把 \`sk-lf-…\` 写进 \`config.toml\` 的 \`env\` 表。
+- 不要一上来 \`--yolo\`。
+
+网页 Cloud 不读这份插件。改完用 \`codex plugin list\` 和 \`codex features list\` 核对 \`hooks\`。`,
+    category: "hooks",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Langfuse", "hooks", "observability"],
+    related: ["mcp-langfuse-docs", "mcp-langfuse-cloud", "plugin-session-refresh"],
+    sources: [
+      {
+        label: "Langfuse · OpenAI Codex tracing",
+        url: "https://langfuse.com/integrations/developer-tools/codex",
+      },
+      {
+        label: "langfuse/codex-observability-plugin",
+        url: "https://github.com/langfuse/codex-observability-plugin",
+      },
+      {
+        label: "marketplace.json",
+        url: "https://github.com/langfuse/codex-observability-plugin/blob/main/.agents/plugins/marketplace.json",
+      },
+    ],
+  },
+  {
+    id: "weave-codex-wandb-plugin",
+    no: 453,
+    title: "使用 W&B Weave 追踪 Codex 会话",
+    summary: "使用 weave-codex install 配置 Stop 钩子，WEAVE_PROJECT 指定 entity/project。默认采集提示词和命令输出，无头任务使用 weave-codex run。",
+    body: `W&B Weave 官方 Codex 追踪：npm i -g weave-codex，再 weave-codex install 写 Stop 钩子。这是把 Codex 会话追踪发送到 W&B Weave，不是去给 Python 脚本做 \`weave.init()\`，也不是 \`codex plugin marketplace add\`。官方集成页和 npm 包 \`weave-codex\` 都写了这条。本机要 Node.js 20+，并且 Codex 会写默认的 rollout（\`~/.codex/sessions/**/rollout-*.jsonl\`）。\`--ephemeral\` 关掉会话落盘，追踪也会没了。
+
+\`\`\`bash
+npm install -g weave-codex
+wandb login
+export WEAVE_PROJECT="YOUR-TEAM/YOUR-PROJECT"
+weave-codex install
+weave-codex status
+\`\`\`
+
+也可以 \`export WANDB_API_KEY\`，不必 \`wandb login\`。解析顺序是环境变量 → \`~/.weave-codex/settings.json\` → \`~/.netrc\`。\`WEAVE_PROJECT\` 必须是 \`entity/project\`，没有默认值。密钥必须在**启动 Codex 的那个进程**里；Codex **不**读 \`.env\`。**不要**把 \`WANDB_API_KEY\` 写进 \`config.toml\` 的 \`env\` 表。该服务也不是 MCP，**不要** \`codex mcp login\`。
+
+\`weave-codex install\` 把 Stop 钩子合并进 \`~/.codex/hooks.json\`。回合结束时钩子在后台读新增的 rollout 行，再导出到 Weave，不挡 Codex 主路径。新开会话后若出现 Hooks need review，打开 \`/hooks\`，审过 **weave-codex** 再信任。Codex 按钩子哈希记信任；升级改了命令要再审一次。\`weave-codex status\` 显示已装不等于钩子已跑。
+
+默认会采集 span 正文：prompt、模型回复和推理、工具参数、以及含 shell 命令、输出、文件内容的工具结果，并送到你的 Weave 实例。官方写明**没有** PII 清洗。只想要结构、token、模型和耗时时，设 \`WEAVE_CODEX_CAPTURE_CONTENT=0\`。含密钥或客户数据的会话不要开正文采集。
+
+改完彻底重启 Codex，再新开一局。测的时候连发两条短消息：Stop 钩子上传已完成的回合，最新那一回合要等下一次钩子才收口。Weave 里打开项目的 Agents 视图（按 Codex session id 合成一轮对话），或看 Traces 里的 span 树。根 span 是 \`invoke_agent codex\`。
+
+交互 TUI 和 \`codex exec\` 官方都支持，但部分无头 / CI 环境 Stop 钩子根本不跑。这时不要干等钩子，扫 rollout：
+
+\`\`\`bash
+weave-codex collect --all
+weave-codex run -- codex exec "fix the failing test"
+\`\`\`
+
+\`collect\` 按会话游标幂等，已经导出的回合会跳过。\`weave-codex run\` 会继承 stdio、用子进程退出码，报告打到 stderr，好让 \`codex exec --json\` 的 stdout 干净。\`codex mcp\` 和 \`app-server\` 官方写明不覆盖。子代理目前只看得到 \`spawn_agent\` 那次工具调用。打断或失败的回合 Stop 不跑，也就没有追踪。排错看 \`~/.weave-codex/logs/collector.log\`，或 \`weave-codex status --json\`（不含密钥，只报 \`apiKeyResolved\`）。
+
+企业开了 \`allow_managed_hooks_only\`、本机 \`hooks.json\` 加不进去时，官方回退是 \`notify\` 调 \`~/.weave-codex/stop-hook.sh\`，不是再抄一份用户钩子。自建 / Dedicated Cloud 才设 \`WANDB_BASE_URL\`。卸装只删自己的钩子条目：
+
+\`\`\`bash
+weave-codex uninstall
+\`\`\`
+
+配置说明：
+
+- 不要 \`codex mcp add weave\`，也不要 \`mcp login\`。
+- 不要一上来 \`bypass_hook_trust = true\`。先走 \`/hooks\` 审查。
+- 不要把 \`WANDB_API_KEY\` 写进仓库或 \`config.toml\`。
+- 不要一上来 \`--yolo\`。
+- 不要用 \`--ephemeral\` 还指望出追踪。
+
+网页 Cloud 不读这份本机 \`hooks.json\`。改完用 \`weave-codex status\` 核对项目名和钩子状态。`,
+    category: "hooks",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["hooks", "Weave", "W&B", "observability"],
+    related: ["stop-hook-active", "managed-hooks-only", "hooks-one-representation"],
+    sources: [
+      {
+        label: "W&B Weave · Codex plugin",
+        url: "https://docs.wandb.ai/weave/guides/integrations/agents/codex-harness",
+      },
+      {
+        label: "npm · weave-codex",
+        url: "https://www.npmjs.com/package/weave-codex",
+      },
+      {
+        label: "W&B Weave · Choose an agent integration",
+        url: "https://docs.wandb.ai/weave/agent-integration-quickstart",
+      },
+    ],
+  },
+  {
+    id: "arize-phoenix-codex-notify",
+    no: 454,
+    title: "配置 Arize Phoenix 会话追踪",
+    summary: "运行安装向导并选择 Phoenix，通过 notify 发送会话追踪。凭证存于 ~/.arize/harness/config.json，已有 notify 配置时先备份。",
+    body: `Arize Phoenix 官方 Codex 追踪：clone 后 ./install.sh codex，走顶层 notify 不是 /hooks。这是把 Codex 会话追踪发送到 Phoenix（或 Arize AX），不是 marketplace 插件，也不是 MCP。官方 Phoenix 集成页写明走 Codex 的 \`notify\` 事件（\`agent-turn-complete\`），从 rollout 重建 OpenInference span。仓库 \`tracing/codex/README.md\` 仍写 \`/hooks\` 审 \`arize-hook-codex-*\`，那是旧布局；现行 \`install.py\` 的 \`_codex_toml_apply\` 只保证 notify 二进制出现一次，**不会**改你现有的 \`[[hooks.]]\`。以前留下的 \`arize-hook-codex-*\` 要卸装才会清。
+
+更稳是 clone 再跑安装器（官方也给了 curl 管道，不是唯一路径）：
+
+\`\`\`bash
+git clone https://github.com/Arize-ai/coding-harness-tracing.git
+cd coding-harness-tracing
+./install.sh codex
+\`\`\`
+
+Windows 才 \`install.bat codex\`。向导里选 **Phoenix**，填 endpoint（自建默认 \`http://localhost:6006\`）和可选 API key，再填项目名。装完开**新 shell**。凭证在 \`~/.arize/harness/config.json\`。按类覆盖写 \`~/.codex/arize-env.sh\`（notify 进程会 source），环境变量赢过 json：
+
+\`\`\`bash
+export PHOENIX_ENDPOINT="http://localhost:6006"
+export PHOENIX_API_KEY="..."
+export PHOENIX_PROJECT="codex"
+export ARIZE_TRACE_ENABLED="true"
+\`\`\`
+
+Phoenix 项目名用 \`PHOENIX_PROJECT\` 或 \`PHOENIX_PROJECT_NAME\`。\`ARIZE_PROJECT_NAME\` 只给 Arize AX，在 Phoenix 上会被忽略。\`ARIZE_TRACE_ENABLED\` 不论后端都保留 \`ARIZE_\` 前缀。密钥不要写进 \`config.toml\` 的 \`env\` 表。该服务不是 MCP，**不要** \`codex mcp login\`。
+
+\`notify\` 是用户层**一组命令 argv**，必须写在任何 \`[table]\` 之前，项目 \`.codex/config.toml\` 里的 \`notify\` 会被忽略。安装器若发现数组里还没有自己的二进制，就 **append**。你已经有 \`notify = ["python3", "/home/you/.codex/notify.py"]\` 时，再塞进 Arize 路径会变成三个参数，桌面提醒和追踪都会坏。先备份 \`~/.codex/config.toml\`。冲突时先卸装或自己做 fanout，不要当多条钩子叠。
+
+默认会记 prompt、工具名/参数和工具输出。要脱敏才把对应旗标设成字符串 \`false\`：
+
+\`\`\`bash
+export ARIZE_LOG_PROMPTS="false"
+export ARIZE_LOG_TOOL_DETAILS="false"
+export ARIZE_LOG_TOOL_CONTENT="false"
+\`\`\`
+
+含密钥或客户数据的会话不要开正文采集。临时关掉：\`ARIZE_TRACE_ENABLED=false\` 后重启 Codex。测的时候跑一条短 \`codex exec\`，再看 Phoenix 里按 \`session.id\` 分组的回合，以及 \`~/.arize/harness/logs/codex.log\`。网页 Cloud 不跑这份本机 notify。
+
+配置说明：
+
+- 不要把仓库 README 的 \`/hooks\` 审 \`arize-hook-codex-*\` 当成现行主路径。
+- 不要 \`codex mcp add phoenix\`，也不要 \`mcp login\`。
+- 不要一上来把 curl 管道当唯一路径，也不要 \`--yolo\`。
+- 不要覆盖别人已经在用的 \`notify\` argv。
+
+卸装：
+
+\`\`\`bash
+./install.sh uninstall codex
+\`\`\`
+
+改完用新 shell 跑一轮短任务，核对 Phoenix 出现 span，\`config.toml\` 顶层 \`notify\` 里有 Arize 二进制。`,
+    category: "config",
+    level: "starter",
+    surfaces: ["cli"],
+    tags: ["notify", "Phoenix", "Arize", "observability"],
+    related: ["notify-external-command", "hooks-one-representation", "managed-hooks-only"],
+    sources: [
+      {
+        label: "Arize Phoenix · Codex",
+        url: "https://arize.com/docs/phoenix/integrations/coding-agents/codex",
+      },
+      {
+        label: "Arize-ai/coding-harness-tracing",
+        url: "https://github.com/Arize-ai/coding-harness-tracing",
+      },
+      {
+        label: "tracing/codex/README.md",
+        url: "https://github.com/Arize-ai/coding-harness-tracing/blob/main/tracing/codex/README.md",
+      },
+    ],
+  },
+  {
+    id: "langsmith-codex-tracing-plugin",
+    no: 455,
+    title: "安装 LangSmith 追踪插件",
+    summary: "安装 tracing@langsmith-codex-plugins，使用 TRACE_TO_LANGSMITH 开启追踪。需要 Codex 0.153.4+，凭证使用 LANGSMITH_CODEX_API_KEY。",
+    body: `LangSmith 官方 Codex 追踪：marketplace add langchain-ai/langsmith-codex-plugins，再 plugin add tracing@langsmith-codex-plugins。这是把 Codex 会话追踪发送到 LangSmith，不是去查 LangChain 文档，也不是去改 LangSmith 项目数据。官方集成页和仓库 README 都写了 marketplace；集成页只写 \`enabled = true\`，清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`langsmith-codex-plugins\`，插件 name 是 \`tracing\`，所以现行 CLI 还要 \`plugin add\`。源是 \`./plugins/tracing\`。本机要 Node.js 22+。仓库要求 Codex **0.153.4** 以上，并且同步 \`UserPromptSubmit\` 钩子已启用且信任。
+
+\`\`\`bash
+codex plugin marketplace add langchain-ai/langsmith-codex-plugins
+codex plugin add tracing@langsmith-codex-plugins
+codex plugin list
+\`\`\`
+
+\`codex plugin list\` 应看到 \`tracing@langsmith-codex-plugins\` 为 installed, enabled。加完先看**当前会话**；当前会话 \`/plugins\` 没有再新开。IDE 扩展没有 \`/plugins\`，用 CLI 加。网页 Cloud 不读本机 marketplace。
+
+钩子要单独打开并信任。现行键是 \`hooks\`，**不要**抄集成页仍写着的 \`plugin_hooks\`（这面旗已经从 Codex 删掉）：
+
+\`\`\`toml
+[features]
+hooks = true
+
+[plugins."tracing@langsmith-codex-plugins"]
+enabled = true
+\`\`\`
+
+新开会话后若出现 Hooks need review，打开 \`/hooks\`，审过 LangSmith 的 **UserPromptSubmit**（以及配套 Stop）再信任。只开插件不够。Codex 按钩子哈希记信任；插件升级改了命令要再审一次。旧版只会 Stop 追踪，不够用。
+
+追踪默认关。启动 Codex 的那个进程要看见 \`TRACE_TO_LANGSMITH=true\`（仓库解析还接受 \`1\` / \`yes\` / \`on\`，官方页示例用字符串 \`true\`），以及 \`LANGSMITH_CODEX_API_KEY\`（没有再退到 \`LANGSMITH_API_KEY\`）。可选 \`LANGSMITH_CODEX_PROJECT\`，默认项目名 \`codex\`；自建才设 \`LANGSMITH_CODEX_ENDPOINT\`。变量必须在启动 Codex 的 shell 里；Codex **不**读 \`.env\`。该服务插件不是 MCP，**不要** \`codex mcp login\`，也不要把 \`lsv2_pt_…\` 写进 \`config.toml\` 的 \`env\` 表。
+
+也可以写 json。查找顺序（仓库 README，比文档页完整）：环境变量 → 项目 \`.codex/langsmith.json\` → 项目根 \`langsmith-plugins.json\` → 用户 \`~/.codex/langsmith.json\` → 家目录 \`~/.langsmith-plugins.json\`。仓库根一份裸 \`langsmith.json\` **不会**被读。json 里有 api_key，**不要提交**。
+
+会话里静音上传，提交**普通消息**，不要加斜杠：
+
+\`\`\`text
+langsmith-tracing:mute
+\`\`\`
+
+恢复用 \`langsmith-tracing:unmute\`。TUI 会把未知斜杠当命令拦掉，所以 \`/langsmith-tracing:mute\` 无效。默认全量上传；长期只要结构、不要正文，设 \`LANGSMITH_CODEX_DEFAULT_MUTED=true\`。默认会在上传前脱敏；关掉才 \`LANGSMITH_CODEX_REDACT=false\`。含密钥或客户数据的会话不要开全量追踪。
+
+改完彻底重启 Codex，再新开一局。测一条短 \`codex exec\`，到 LangSmith 的 \`codex\` 项目看回合。升级用清单名：
+
+\`\`\`bash
+codex plugin marketplace upgrade langsmith-codex-plugins
+codex plugin add tracing@langsmith-codex-plugins
+\`\`\`
+
+这**不是** \`langchain-ai/langchain-plugins\` 里的 \`langsmith-mcp\`。对应的 Remote MCP 的 OAuth 和现行 Codex 不兼容，官方写明不要用。也不要手写 \`https://api.smith.langchain.com/mcp\`。
+
+配置说明：
+
+- 不要抄集成页的 \`plugin_hooks = true\`。现行是 \`hooks = true\`。
+- 不要 \`codex mcp add langsmith\`，也不要 \`mcp login\`。
+- 不要把 API key 写进 \`config.toml\` 的 \`env\` 表。
+- 不要一上来 \`--yolo\`。
+
+网页 Cloud 不读这份插件。改完用 \`codex plugin list\` 和 \`codex features list\` 核对 \`hooks\`。`,
+    category: "hooks",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "LangSmith", "hooks", "observability"],
+    related: ["plugin-session-refresh", "managed-hooks-only", "hooks-one-representation"],
+    sources: [
+      {
+        label: "LangSmith · Trace OpenAI Codex sessions",
+        url: "https://docs.langchain.com/langsmith/trace-with-codex",
+      },
+      {
+        label: "langchain-ai/langsmith-codex-plugins",
+        url: "https://github.com/langchain-ai/langsmith-codex-plugins",
+      },
+      {
+        label: "marketplace.json",
+        url: "https://github.com/langchain-ai/langsmith-codex-plugins/blob/main/.agents/plugins/marketplace.json",
+      },
+    ],
+  },
+  {
+    id: "logfire-exporter-codex-plugin",
+    no: 456,
+    title: "通过 Logfire 导出会话遥测",
+    summary: "安装 logfire-exporter@pydantic-skills，通过 Stop 钩子导出遥测。LOGFIRE_TOKEN 写入 config.env，正文采集模式默认 full。",
+    body: `Logfire 官方 Codex 追踪：marketplace add pydantic/skills，再 plugin add logfire-exporter@pydantic-skills。这是把 Codex 会话追踪发送到 Logfire，不是去查应用遥测，也不是 Codex 内置那套 OTEL 日志。官方导出器页和技能页都写了 marketplace；清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`pydantic-skills\`，展示名 Pydantic，插件 name 是 \`logfire-exporter\`，所以是 \`logfire-exporter@pydantic-skills\`。源是 \`./plugins/logfire-exporter\`。导出器只在 Codex 上有，Claude 那份 marketplace 没有该服务。
+
+官方 Codex 主路径（技能页带 \`--ref main\`）：
+
+\`\`\`bash
+codex plugin marketplace add pydantic/skills --ref main
+codex plugin add logfire-exporter@pydantic-skills
+codex plugin list
+\`\`\`
+
+\`codex plugin list\` 应看到 \`logfire-exporter@pydantic-skills\` 为 installed, enabled。加完先看**当前会话**；当前会话 \`/plugins\` 没有再新开。也可以在插件浏览器的 **Pydantic** 栏开 Logfire Exporter。IDE 扩展没有 \`/plugins\`，用 CLI 加。网页 Cloud 不读本机 marketplace。
+
+钩子要单独打开并信任。现行键是 \`hooks\`，**不要**手写 \`plugin_hooks\`：
+
+\`\`\`toml
+[features]
+hooks = true
+
+[plugins."logfire-exporter@pydantic-skills"]
+enabled = true
+\`\`\`
+
+新开会话后若出现 Hooks need review，打开 \`/hooks\`，审过 **SessionStart / UserPromptSubmit / PostToolUse / Stop** 再信任。只开插件不够。Codex 按钩子哈希记信任；插件升级改了命令要再审一次。导出发生在 **Stop**：回合没跑完、被打断没到 Stop，就不会出 span。没有长生命周期的 session 根 span。
+
+写令牌不要进 \`config.toml\` 的 \`env\` 表。放到启动 Codex 的进程环境，或：
+
+\`\`\`text
+\${XDG_CONFIG_HOME:-~/.config}/logfire-exporter/config.env
+\`\`\`
+
+\`\`\`dotenv
+LOGFIRE_TOKEN=pylf_...
+LOGFIRE_BASE_URL=https://logfire-us.pydantic.dev
+\`\`\`
+
+仓库 README 默认 API 主机是 \`https://logfire-api.pydantic.dev\`；官方导出器示例写 \`logfire-us.pydantic.dev\`。欧盟换成 \`https://logfire-eu.pydantic.dev\`。旧名 \`LOGFIRE_URL\` 还能用，但 \`LOGFIRE_BASE_URL\` 优先。本机实例才 \`http://localhost:3000\`。默认请求头是 \`Authorization\` 加令牌本身，要 \`Bearer\` 才设 \`CODEX_LOGFIRE_AUTH_SCHEME=Bearer\`。该服务不是 MCP，**不要** \`codex mcp login\`。
+
+默认 \`CODEX_LOGFIRE_CONTENT_CAPTURE_MODE=full\`，会带脱敏后的 prompt、助手回复、工具入参/出参和工具错误。团队策略收紧时改 \`no_tool_content\` 或 \`metadata_only\`。含密钥或客户数据的会话不要开 \`full\`。POSIX 钩子要能找到 \`python3\`；pyenv 卡住才钉 \`CODEX_LOGFIRE_PYTHON\`。排错看 \`~/.local/state/logfire-exporter/logs/\`，TUI 日志搜 \`logfire-exporter\`。
+
+查应用遥测、打开 Logfire UI 是另一台插件：
+
+\`\`\`bash
+codex plugin add logfire@pydantic-skills
+\`\`\`
+
+它会登记托管 MCP，默认美区。欧盟要先卸再换主机：
+
+\`\`\`bash
+codex mcp remove logfire
+codex mcp add logfire --url https://logfire-eu.pydantic.dev/mcp
+codex mcp login logfire
+\`\`\`
+
+不要把导出器和查询插件混用。也不要把 \`npx skills add pydantic/skills\` 当该导出器的安装器——那只拷 SKILL.md，不装 Stop 钩子。
+
+配置说明：
+
+- 不要 \`codex mcp add logfire-exporter\`，也不要对导出器 \`mcp login\`。
+- 不要把写令牌写进 \`config.toml\` 的 \`env\` 表，也不要拼进 URL。
+- 不要一上来 \`--yolo\`。
+
+升级用清单名，再重新 \`plugin add\`：
+
+\`\`\`bash
+codex plugin marketplace upgrade pydantic-skills
+codex plugin add logfire-exporter@pydantic-skills
+\`\`\`
+
+网页 Cloud 不读这份插件。改完彻底重启，跑完一轮短任务，到 Logfire 看 Stop 之后的 turn span。`,
+    category: "hooks",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Logfire", "hooks", "observability"],
+    related: ["plugin-session-refresh", "stop-hook-active", "managed-hooks-only"],
+    sources: [
+      {
+        label: "Logfire · Export Codex Activity to Logfire",
+        url: "https://pydantic.dev/docs/logfire/guides/codex-logfire-exporter/",
+      },
+      {
+        label: "pydantic/skills",
+        url: "https://github.com/pydantic/skills",
+      },
+      {
+        label: "Logfire · Coding Agent Skills",
+        url: "https://pydantic.dev/docs/logfire/guides/skills/",
+      },
+    ],
+  },
+  {
+    id: "laminar-codex-plugin",
+    no: 457,
+    title:
+      "Laminar 官方 Codex 追踪：marketplace add lmnr-ai/lmnr-codex-plugin，再 plugin add lmnr@lmnr",
+    summary:
+      "清单名是 lmnr。Stop 钩子读 rollout JSONL，不是 MCP。密钥写 ~/.config/lmnr/codex-plugin.json。LMNR_PROJECT_API_KEY 覆盖文件。CODEX_LMNR_MAX_CHARS 默认 20000。查轨迹才另配 laminar MCP。",
+    body: `Laminar 官方 Codex 追踪：marketplace add lmnr-ai/lmnr-codex-plugin，再 plugin add lmnr@lmnr。这是把 Codex **自己的回合**打进 Laminar，不是去查应用轨迹，也不是 Claude Code 那份插件。官方 Codex 页和源仓 README 都写了 marketplace；清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`lmnr\`，展示名 Laminar，插件 name 是 \`lmnr\`，所以是 \`lmnr@lmnr\`。源是仓根 \`./\`，不是子目录。钩子在 \`.codex-plugin/plugin.json\` 里指向 \`./hooks.json\`：Stop 时跑 \`node "$PLUGIN_ROOT/dist/hook.cjs"\`。
+
+官方安装器会登录、选项目、签发项目 API 密钥、写配置，再替你跑上面两条 \`plugin\` 命令：
+
+\`\`\`bash
+npx lmnr-cli@latest plugin add codex
+\`\`\`
+
+只要 CLI、自己配密钥时走原生路径：
+
+\`\`\`bash
+codex plugin marketplace add lmnr-ai/lmnr-codex-plugin
+codex plugin add lmnr@lmnr
+codex plugin list
+\`\`\`
+
+\`codex plugin list\` 应看到 \`lmnr@lmnr\` 为 installed, enabled。加完先看**当前会话**；当前会话 \`/plugins\` 没有再新开。也可以在插件浏览器的 **Laminar** 栏开 lmnr。IDE 扩展没有 \`/plugins\`，用 CLI 加。网页 Cloud 不读本机 marketplace。\`lmnr-cli setup\` 是给应用 SDK 写 \`.lmnr/project.json\` 和 \`.env\` 的，**不要**当成这份 Codex 插件安装器。
+
+钩子要单独打开并信任。现行键是 \`hooks\`，**不要**手写 \`plugin_hooks\`：
+
+\`\`\`toml
+[features]
+hooks = true
+
+[plugins."lmnr@lmnr"]
+enabled = true
+\`\`\`
+
+新开会话后若出现 Hooks need review，打开 \`/hooks\`，审过 **Stop** 再信任。只开插件不够。Codex 按钩子哈希记信任；插件升级改了命令要再审一次。导出发生在 **Stop**：回合没跑完、被打断没到 Stop，就不会出 span。钩子失败时 fail-open，不会卡住 Codex。
+
+密钥不要写进 \`config.toml\` 的 \`env\` 表。放到：
+
+\`\`\`text
+~/.config/lmnr/codex-plugin.json
+\`\`\`
+
+\`\`\`json
+{ "projectApiKey": "your-project-api-key", "baseUrl": "https://api.lmnr.ai" }
+\`\`\`
+
+自建实例把 \`baseUrl\` 换成 API 主机，例如 \`http://localhost:8000\`。环境变量 \`LMNR_PROJECT_API_KEY\` / \`LMNR_BASE_URL\`（或 \`CODEX_LMNR_*\` 那组同义名）覆盖文件，适合 CI。缺密钥时钩子静默退出。默认 \`CODEX_LMNR_MAX_CHARS=20000\`，过长字段会被截断。排错设 \`CODEX_LMNR_DEBUG=1\`，日志在 \`lmnr_hook.log\`。该服务不是 MCP，**不要** \`codex mcp login\`。
+
+查已有轨迹、用 SQL 问失败原因是另一台托管 MCP。官方 Codex 节只给 TOML，等价 CLI 是：
+
+\`\`\`bash
+codex mcp add laminar --url https://api.lmnr.ai/v1/mcp --bearer-token-env-var LMNR_PROJECT_API_KEY
+\`\`\`
+
+不要把追踪插件和该服务查询 MCP 混用。也不要把 \`npx skills add\` 当这份插件安装器——那只拷 SKILL.md，不装 Stop 钩子。
+
+配置说明：
+
+- 不要 \`codex mcp add lmnr\` 当追踪安装器，也不要对 Stop 钩子 \`mcp login\`。
+- 不要把项目 API 密钥写进 \`http_headers\` 或 \`config.toml\` 的 \`env\` 表。
+- 不要一上来 \`--yolo\`。
+
+升级用清单名，再重新 \`plugin add\`：
+
+\`\`\`bash
+codex plugin marketplace upgrade lmnr
+codex plugin add lmnr@lmnr
+\`\`\`
+
+网页 Cloud 不读这份插件。改完彻底重启，跑完一轮短任务，到 Laminar 看 Stop 之后的 turn span。`,
+    category: "hooks",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Laminar", "hooks", "observability"],
+    related: ["plugin-session-refresh", "stop-hook-active", "managed-hooks-only"],
+    sources: [
+      {
+        label: "Laminar · Codex Plugin",
+        url: "https://laminar.sh/docs/tracing/integrations/codex",
+      },
+      {
+        label: "lmnr-ai/lmnr-codex-plugin",
+        url: "https://github.com/lmnr-ai/lmnr-codex-plugin",
+      },
+      {
+        label: "Laminar · MCP Server",
+        url: "https://laminar.sh/docs/platform/mcp",
+      },
+    ],
+  }
 ];
