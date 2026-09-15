@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-15T22:16:00Z",
+  lastTick: "2026-09-15T23:12:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "22:16 收口。#68 已合入 main（TIP 445–476）。本轮从最新 main 重放 #96 为 477 byteplus-codex-gateway、#97 为 478 tokenhub-codex-gateway、#98 为 479 knowledge-catalog-codex-plugin、#99 为 480 dak-starter-codex-plugin。合入后关 #96–#99。站点 480 技巧。",
+    "23:12 收口。#100 已重放 #96–#99 为 TIP 477–480；本轮续收 #101 为 481 looker-codex-plugin、#102 为 482 alloydb-codex-plugin。合入后关 #101–#102。站点 482 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2131,6 +2131,16 @@ export const loopState = {
     "X news: Codex CLI 2026-09-15 22:00",
     'X: ("Codex CLI" OR #CodexCLI) (plugin OR marketplace OR data-agent-kit OR Starter Pack)',
     "Codex CLI 技巧 2026 Data Agent Kit Starter Pack dak@data-agent-kit-starter-pack-marketplace",
+    "codex plugin add looker@data-agent-kit GoogleCloudPlatform/data-agent-kit",
+    "site:github.com/gemini-cli-extensions/looker Codex plugin marketplace",
+    "site:docs.cloud.google.com/looker MCP Toolbox Codex",
+    'X: ("Codex CLI" OR #CodexCLI) (plugin OR Looker OR marketplace OR MCP)',
+    "Codex CLI 技巧 2026 Looker LOOKER_CLIENT_ID plugin add",
+    "codex plugin add alloydb@data-agent-kit GoogleCloudPlatform/data-agent-kit",
+    "site:github.com/gemini-cli-extensions/alloydb Codex plugin marketplace",
+    "site:docs.cloud.google.com/alloydb MCP Toolbox Codex",
+    'X: ("Codex CLI" OR #CodexCLI) (plugin OR BigQuery OR marketplace OR MCP)',
+    "Codex CLI 技巧 2026 AlloyDB ALLOYDB_POSTGRES_PROJECT plugin add",
   ],
 };
 

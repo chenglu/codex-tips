@@ -5292,5 +5292,65 @@ codex mcp list
 # npx skills add
 # dak@personal
 `,
+  },
+  {
+    id: "looker-codex-plugin",
+    title: "looker marketplace 把 Looker 插件喂给 data-agent-kit",
+    filename: "terminal",
+    summary:
+      "looker marketplace 把 Looker 插件喂给 data-agent-kit。主路径是 marketplace add GoogleCloudPlatform/data-agent-kit，再 plugin add looker@data-agent-kit。",
+    code: `export LOOKER_BASE_URL=YOUR_LOOKER_BASE_URL
+export LOOKER_CLIENT_ID=YOUR_LOOKER_CLIENT_ID
+export LOOKER_CLIENT_SECRET=YOUR_LOOKER_CLIENT_SECRET
+
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add looker@data-agent-kit
+codex mcp list
+
+# 可选：
+# export LOOKER_VERIFY_SSL=true
+# codex plugin marketplace upgrade data-agent-kit
+
+# 不要：
+# /plugin install looker@claude-plugins-official
+# gemini extensions install https://github.com/gemini-cli-extensions/looker
+# plugin add looker@claude-plugins-official
+# plugin add dak@data-agent-kit-starter-pack-marketplace
+# plugin add knowledge-catalog@data-agent-kit
+# codex mcp login looker
+# command = "./PATH/TO/toolbox"
+`,
+  },
+  {
+    id: "alloydb-codex-plugin",
+    title: "alloydb marketplace 把 AlloyDB 插件喂给 data-agent-kit",
+    filename: "terminal",
+    summary:
+      "alloydb marketplace 把 AlloyDB 插件喂给 data-agent-kit。主路径是 marketplace add GoogleCloudPlatform/data-agent-kit，再 plugin add alloydb@data-agent-kit。",
+    code: `gcloud auth application-default login
+export ALLOYDB_POSTGRES_PROJECT=YOUR_ALLOYDB_POSTGRES_PROJECT
+export ALLOYDB_POSTGRES_REGION=YOUR_ALLOYDB_POSTGRES_REGION
+export ALLOYDB_POSTGRES_CLUSTER=YOUR_ALLOYDB_POSTGRES_CLUSTER
+export ALLOYDB_POSTGRES_INSTANCE=YOUR_ALLOYDB_POSTGRES_INSTANCE
+export ALLOYDB_POSTGRES_DATABASE=YOUR_ALLOYDB_POSTGRES_DATABASE
+
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add alloydb@data-agent-kit
+codex mcp list
+
+# 可选：
+# export ALLOYDB_POSTGRES_IP_TYPE=PRIVATE
+# codex plugin marketplace upgrade data-agent-kit
+
+# 不要：
+# /plugin install alloydb@claude-plugins-official
+# gemini extensions install https://github.com/gemini-cli-extensions/alloydb
+# plugin add alloydb@claude-plugins-official
+# plugin add alloydb-omni@data-agent-kit
+# plugin add dak@data-agent-kit-starter-pack-marketplace
+# plugin add looker@data-agent-kit
+# codex mcp login alloydb-postgres
+# command = "./PATH/TO/toolbox"
+`,
   }
 ];

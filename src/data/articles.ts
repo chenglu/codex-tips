@@ -6510,5 +6510,65 @@ export const articles: Article[] = [
     tags: ["Data Agent Kit", "Codex", "Google Cloud", "dak@data-agent-kit-starter-pack-marketplace"],
     summary:
       '概览写 Codex CLI 能装 Data Agent Kit 插件。真正可执行的 Codex 命令是 plugin add dak@data-agent-kit-starter-pack-marketplace，不要去产品索引仓 GoogleCloudPlatform/data-agent-kit 发明 dak@。',
+  },
+  {
+    title: 'Looker',
+    url: 'https://github.com/gemini-cli-extensions/looker',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "Looker", "plugins", "looker@data-agent-kit", "LOOKER_CLIENT_ID"],
+    summary:
+      'Google Cloud Looker 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add looker@data-agent-kit，密钥用 LOOKER_CLIENT_ID 不要抄 looker@claude-plugins-official。Codex 要 v0.117.0+。MCP 是 npx stdio 的 looker 与 looker-dev，不要 mcp login。',
+  },
+  {
+    title: 'Use Looker with MCP, Gemini CLI and other Agents',
+    url: 'https://docs.cloud.google.com/looker/docs/connect-ide-to-looker-using-mcp-toolbox',
+    source: 'Google Cloud Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Looker", "MCP Toolbox", "LOOKER_BASE_URL", "Cursor", "looker@data-agent-kit", "LOOKER_CLIENT_ID"],
+    summary:
+      'GCP 这篇讲用 MCP Toolbox 连 Looker。主推 Gemini CLI 的 gemini extensions install，Cursor 示例是 mcpServers.looker-toolbox 加本机 toolbox 二进制。没有 Codex 的 plugin add。密钥仍是 LOOKER_BASE_URL / LOOKER_CLIENT_ID / LOOKER_CLIENT_SECRET。',
+  },
+  {
+    title: 'Looker-managed MCP server',
+    url: 'https://docs.cloud.google.com/looker/docs/mcp',
+    source: 'Google Cloud Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Looker", "MCP", "OAuth", "hosted", "looker@data-agent-kit", "LOOKER_CLIENT_ID"],
+    summary:
+      'Looker 托管 MCP 是实例上的 /mcp + OAuth 2.1，管理员先开工具再注册客户端。这不是 Codex 插件那条本机 toolbox stdio。客户自建实例预览期不可用；自建请走 MCP Toolbox。不要和 looker@data-agent-kit 抄成一条。',
+  },
+  {
+    title: 'AlloyDB for PostgreSQL',
+    url: 'https://github.com/gemini-cli-extensions/alloydb',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "AlloyDB", "plugins", "alloydb@data-agent-kit", "ALLOYDB_POSTGRES_PROJECT"],
+    summary:
+      'Google Cloud AlloyDB 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add alloydb@data-agent-kit，项目用 ALLOYDB_POSTGRES_PROJECT 不要抄 alloydb@claude-plugins-official。Codex 要 v0.117.0+。MCP 表名是 alloydb-postgres，不要 mcp login。',
+  },
+  {
+    title: 'Use AlloyDB for PostgreSQL with MCP, Gemini CLI, and other agents',
+    url: 'https://docs.cloud.google.com/alloydb/docs/connect-ide-using-mcp-toolbox',
+    source: 'Google Cloud Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["AlloyDB", "MCP Toolbox", "ALLOYDB_POSTGRES_PROJECT", "Cursor", "alloydb@data-agent-kit"],
+    summary:
+      'GCP 这篇讲用 MCP Toolbox 连 AlloyDB。主推 Gemini CLI 扩展，Cursor 示例是 mcpServers.alloydb 加本机 toolbox 二进制和 --prebuilt alloydb-postgres。没有 Codex 的 plugin add。坐标仍是 ALLOYDB_POSTGRES_PROJECT / REGION / CLUSTER / INSTANCE / DATABASE。',
+  },
+  {
+    title: 'Use the AlloyDB remote MCP server',
+    url: 'https://docs.cloud.google.com/alloydb/docs/ai/use-alloydb-mcp',
+    source: 'Google Cloud Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["AlloyDB", "MCP", "remote", "ADC", "alloydb@data-agent-kit", "ALLOYDB_POSTGRES_PROJECT"],
+    summary:
+      'AlloyDB 远程 MCP 是 alloydb.REGION.rep.googleapis.com/mcp，开 API 即启用。这不是 Codex 插件那条本机 toolbox stdio。客户端用 Google 凭证，不是 mcp login 插件表。不要和 alloydb@data-agent-kit 抄成一条。',
   }
 ];
