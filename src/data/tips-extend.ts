@@ -17654,5 +17654,129 @@ VS Code 里的 OpenAI Codex 扩展：启动时选 **Sign in with Copilot**。官
         url: "https://docs.github.com/en/copilot/how-tos/manage-your-account/manage-policies",
       },
     ],
+  },
+  {
+    id: "outlook-email-codex-plugin",
+    no: 508,
+    title:
+      "Outlook Email 官方 Codex 插件：桌面 Plugins 搜 Outlook Email，CLI 用 plugin add outlook-email@openai-curated，不要当成 Outlook Calendar",
+    summary:
+      "官方 Codex：codex plugin add outlook-email@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Outlook Email，再 Connect Microsoft 账号。这是邮箱插件，不是 Outlook Calendar，也不是 Gmail。不要抄第三方 Outlook MCP，也不要 plugin install。",
+    body: `Outlook Email 官方 Codex 插件：桌面 Plugins 搜 Outlook Email，CLI 用 plugin add outlook-email@openai-curated，不要当成 Outlook Calendar。
+
+这是 OpenAI 做的 Outlook Email 插件，用来搜、引用、整理已连接的 Outlook 邮箱，并在你明确要求时起草回复。产品页是 [Outlook Email](https://openai.com/business/plugins/microsoft-outlook-email/)，能力边界看 [Outlook Email and Calendar apps in ChatGPT](https://help.openai.com/en/articles/12512241-outlook-email-and-calendar-apps-in-chatgpt)。收件箱工作流示例在 [Get your email to inbox zero](https://learn.chatgpt.com/use-cases/manage-your-inbox)，那页同时列了 Gmail 和 Outlook Email，这里只装 Outlook 这条。
+
+CLI：
+
+\`\`\`bash
+codex plugin add outlook-email@openai-curated
+codex plugin list
+\`\`\`
+
+id 来自 Codex 源码里的精选发现白名单，就是 \`outlook-email@openai-curated\`。动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install outlook-email@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Outlook Email 再装，效果一样。装完按提示 Connect Microsoft 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+不要和旁边那几个搞混：
+
+- Outlook Calendar 是另一条，白名单 id 是 \`outlook-calendar@openai-curated\`，管日程不是收件箱。
+- Gmail 是 \`gmail@openai-curated\`，不是 Outlook。
+- 已收录的 Nylas MCP 走 \`mcp.us.nylas.com\`，那是邮箱聚合 MCP，不是这条官方插件。
+
+帮助中心写明：搜邮件支持 \`from:\`、\`subject:\` 和日期过滤。共享或委派邮箱要给出**完整邮箱地址**；附件目前只能从登录者自己的邮箱取。组织账号往往要 Microsoft Entra 管理员同意 Graph 权限，工作区管理员还要在 Actions 里打开对应读写动作，光点 Connect 不够。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 Outlook Email。ChatGPT 里可以用 \`@Outlook Email\`。未批准前不要让它发送、归档或进 Trash。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`outlook-email@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Outlook Email。
+
+不要做这些：
+
+- 不要当成 Outlook Calendar 或 Teams / SharePoint 插件。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`outlook-email@claude-plugins-official\`。
+- 不要把第三方 Outlook MCP / inbox 包装器抄进 Codex。
+- 不要和手写 Gmail 插件或 Nylas MCP 叠成同一条。
+- 不要一上来 \`--yolo\`：发信、移动、Trash 会改邮箱。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Outlook Email", "outlook-email@openai-curated", "Microsoft"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "nylas-codex-mcp"],
+    sources: [
+      {
+        label: "OpenAI · Outlook Email",
+        url: "https://openai.com/business/plugins/microsoft-outlook-email/",
+      },
+      {
+        label: "OpenAI Help · Outlook Email and Calendar apps",
+        url: "https://help.openai.com/en/articles/12512241-outlook-email-and-calendar-apps-in-chatgpt",
+      },
+      {
+        label: "ChatGPT Learn · Get your email to inbox zero",
+        url: "https://learn.chatgpt.com/use-cases/manage-your-inbox",
+      },
+    ],
+  },
+  {
+    id: "outlook-calendar-codex-plugin",
+    no: 509,
+    title:
+      "Outlook Calendar 官方 Codex 插件：桌面 Plugins 搜 Outlook Calendar，CLI 用 plugin add outlook-calendar@openai-curated，不要当成 Outlook Email",
+    summary:
+      "官方 Codex：codex plugin add outlook-calendar@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Outlook Calendar，再 Connect Microsoft 账号。这是日程插件，不是 Outlook Email，也不是 CalendarBridge MCP。改会议先确认。",
+    body: `Outlook Calendar 官方 Codex 插件：桌面 Plugins 搜 Outlook Calendar，CLI 用 plugin add outlook-calendar@openai-curated，不要当成 Outlook Email。
+
+这是 OpenAI 做的 Outlook Calendar 插件，用来看日程、比空闲、准备会议，并在你明确要求时改、改期或取消事件。产品页是 [Outlook Calendar](https://openai.com/business/plugins/microsoft-outlook-calendar/)。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/outlook-calendar/.codex-plugin/plugin.json) 的 name 是 \`outlook-calendar\`，所以精选 id 是 \`outlook-calendar@openai-curated\`。描述写明 daily briefs、event prep 和 safe meeting changes。
+
+CLI：
+
+\`\`\`bash
+codex plugin add outlook-calendar@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install outlook-calendar@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Outlook Calendar 再装，效果一样。装完按提示 Connect Microsoft 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+[\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/outlook-calendar/.app.json) 把 app 键 \`outlook-calendar\` 绑到 Outlook Calendar 连接器，**不是**远程 MCP URL。不要再手写 \`mcp add outlook-calendar\`。也不要和已收录的 CalendarBridge MCP 抄成一条。
+
+不要和旁边那几个搞混：
+
+- Outlook Email 是另一条，白名单 id 是 \`outlook-email@openai-curated\`，管收件箱不是日程。
+- Google Calendar 是 \`google-calendar@openai-curated\`，不是 Outlook。
+- Teams / SharePoint 也是独立插件，不要指望日历插件去搜频道消息。
+
+共享或委派日历要指出目标日历；写操作往往还要工作区打开对应 Actions，以及 Microsoft Entra 同意 Graph 权限。未批准前不要创建、移动或取消会议。Outlook 状态 \`Busy\` / \`Tentative\` / \`Free\` / \`Out of Office\` / \`Working Elsewhere\` 不是同一回事，不要把 Free 当成空档硬插会。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 Outlook Calendar。ChatGPT 里可以用 \`@Outlook Calendar\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`outlook-calendar@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Outlook Calendar。
+
+不要做这些：
+
+- 不要当成 Outlook Email 或 Google Calendar。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`outlook-calendar@claude-plugins-official\`。
+- 不要把第三方 Outlook MCP / inbox 包装器抄进 Codex。
+- 不要和 CalendarBridge 那条 \`mcp add calendarbridge\` 叠成同一条。
+- 不要一上来 \`--yolo\`：改期、取消、写共享日历会改别人的会。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Outlook Calendar", "outlook-calendar@openai-curated", "Microsoft"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "calendarbridge-codex-mcp"],
+    sources: [
+      {
+        label: "OpenAI · Outlook Calendar",
+        url: "https://openai.com/business/plugins/microsoft-outlook-calendar/",
+      },
+      {
+        label: "openai/plugins · outlook-calendar plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/outlook-calendar/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · outlook-calendar .app.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/outlook-calendar/.app.json",
+      },
+    ],
   }
 ];

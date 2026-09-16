@@ -6038,5 +6038,25 @@ codex
 # VS Code OpenAI Codex extension → Sign in with Copilot
 # Pro+ / Copilot Max only
 `,
+  },
+  {
+    id: "outlook-email-codex-plugin",
+    title: "outlook-email@openai-curated 把 Outlook 收件箱打给 Codex",
+    filename: "terminal",
+    summary:
+      "outlook-email@openai-curated 把 Outlook 收件箱打给 Codex。桌面 Plugins 搜 Outlook Email，再 Connect Microsoft。",
+    code: `codex plugin add outlook-email@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "outlook-calendar-codex-plugin",
+    title: "outlook-calendar@openai-curated 把 Outlook 日程打给 Codex",
+    filename: "terminal",
+    summary:
+      "outlook-calendar@openai-curated 把 Outlook 日程打给 Codex。桌面 Plugins 搜 Outlook Calendar，再 Connect Microsoft。",
+    code: `codex plugin add outlook-calendar@openai-curated
+codex plugin list
+`,
   }
 ];

@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-16T12:21:00Z",
+  lastTick: "2026-09-16T13:11:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "12:21 收口。#125 已合入 main（TIP 497–505）。从最新 main 重放 #133 为 506 remotion-codex-plugin、#134 为 507 github-copilot-codex。合入后关 #133–#134。站点 507 技巧。",
+    "13:11 收口。#125 已合入 main（TIP 497–505）。#135 续接：#133–#134 已为 506–507。本轮重放 #136 为 508 outlook-email-codex-plugin、#137 为 509 outlook-calendar-codex-plugin。合入后关 #136–#137。站点 509 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2366,6 +2366,23 @@ export const loopState = {
     "X news: Codex CLI 2026-09-16 12:00",
     'X: ("Codex CLI" OR Codex) (plugin OR Outlook OR Copilot OR marketplace)',
     "Codex CLI 技巧 2026 GitHub Copilot Sign in with Copilot Partner agents",
+    "skip leftover 1230-2b7e 1230-openrouter-2b7e already on main",
+    "skip open #133 remotion-codex-plugin #134 github-copilot-codex",
+    "codex plugin add outlook-email@openai-curated Plugins Outlook Email",
+    "site:openai.com/business/plugins/microsoft-outlook-email Outlook Email plugin",
+    "site:help.openai.com/en/articles/12512241-outlook-email-and-calendar-apps-in-chatgpt",
+    "site:learn.chatgpt.com/use-cases/manage-your-inbox Outlook Email Gmail",
+    "X news: Codex CLI 2026-09-16 12:30",
+    'X: ("Codex CLI" OR Codex) (plugin OR marketplace OR Outlook OR Copilot)',
+    "Codex CLI 技巧 2026 Outlook Email outlook-email@openai-curated plugin add",
+    "skip leftover 1300-2b7e 1300-cloudflare-aig-2b7e already on main",
+    "skip open #133 remotion #134 copilot #136 outlook-email",
+    "codex plugin add outlook-calendar@openai-curated Plugins Outlook Calendar",
+    "site:openai.com/business/plugins/microsoft-outlook-calendar Outlook Calendar plugin",
+    "site:github.com/openai/plugins outlook-calendar plugin.json .app.json",
+    "X news: Codex CLI 2026-09-16 13:00",
+    'X: ("Codex CLI" OR Codex) (plugin OR marketplace OR Outlook OR Calendar OR Teams)',
+    "Codex CLI 技巧 2026 Outlook Calendar outlook-calendar@openai-curated plugin add",
   ],
 };
 

@@ -7320,5 +7320,65 @@ export const articles: Article[] = [
     tags: ["GitHub Copilot", "Partner agents", "Cloud agent", "Codex", "Sign in with Copilot", "openai code agent"],
     summary:
       '个人路径是 Copilot settings → Cloud agent → Partner agents 打开 OpenAI Codex。仓库范围跟 Copilot cloud agent 的 Repository access 一致。这些开关不管 VS Code 本地 agent。组织仓走组织策略。',
+  },
+  {
+    title: 'Outlook Email',
+    url: 'https://openai.com/business/plugins/microsoft-outlook-email/',
+    source: 'OpenAI',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Codex", "Outlook Email", "plugins", "outlook-email@openai-curated", "Microsoft", "microsoft-outlook-email"],
+    summary:
+      'Outlook Email 官方 Codex 插件：桌面 Plugins 搜 Outlook Email，CLI 用 plugin add outlook-email@openai-curated，不要当成 Outlook Calendar。产品页只给 @Outlook Email 示例，没有 marketplace add。不要和 Outlook Calendar 产品页抄成一条。',
+  },
+  {
+    title: 'Outlook Email and Calendar apps in ChatGPT',
+    url: 'https://help.openai.com/en/articles/12512241-outlook-email-and-calendar-apps-in-chatgpt',
+    source: 'OpenAI Help Center',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Outlook Email", "Outlook Calendar", "plugins", "Microsoft Entra", "outlook-email@openai-curated", "microsoft-outlook-email"],
+    summary:
+      '帮助中心把 Outlook Email 和 Outlook Calendar 分成两个 app。邮箱支持 from: / subject: 搜索；共享邮箱要写完整地址。Entra 同意不等于工作区已打开写动作。不要把日历权限抄进邮箱插件。',
+  },
+  {
+    title: 'Get your email to inbox zero',
+    url: 'https://learn.chatgpt.com/use-cases/manage-your-inbox',
+    source: 'ChatGPT Learn',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Outlook Email", "Gmail", "plugins", "inbox", "outlook-email@openai-curated", "microsoft-outlook-email"],
+    summary:
+      '收件箱用例同时列 Gmail 和 Outlook Email，从 Plugins 连接。未批准不要发送、归档或进 Trash。Codex 侧仍走 Plugins 搜 Outlook Email，不要把 ChatGPT Work 的 Plugins 页当成 CLI 安装器。',
+  },
+  {
+    title: 'Outlook Calendar',
+    url: 'https://openai.com/business/plugins/microsoft-outlook-calendar/',
+    source: 'OpenAI',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Codex", "Outlook Calendar", "plugins", "outlook-calendar@openai-curated", "Microsoft", "microsoft-outlook-calendar"],
+    summary:
+      'Outlook Calendar 官方 Codex 插件：桌面 Plugins 搜 Outlook Calendar，CLI 用 plugin add outlook-calendar@openai-curated，不要当成 Outlook Email。产品页只给 @Outlook Calendar 示例，没有 marketplace add。不要和 Outlook Email 产品页抄成一条。',
+  },
+  {
+    title: 'outlook-calendar plugin.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/outlook-calendar/.codex-plugin/plugin.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "Outlook Calendar", "plugins", "outlook-calendar@openai-curated", "openai/plugins", "microsoft-outlook-calendar"],
+    summary:
+      '清单 name 是 outlook-calendar，所以 CLI id 是 outlook-calendar@openai-curated。displayName 是 Outlook Calendar。能力含 Interactive 和 Write。没有给出 MCP URL。不要写成 plugin install。',
+  },
+  {
+    title: 'outlook-calendar .app.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/outlook-calendar/.app.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Outlook Calendar", "plugins", "connector", "outlook-calendar@openai-curated", "microsoft-outlook-calendar"],
+    summary:
+      '插件 app 键是 outlook-calendar，绑的是 Outlook Calendar 连接器，不是远程 MCP。不要再 mcp add 叠一张。不要和 CalendarBridge 或 Google Calendar 插件抄成一条。',
   }
 ];
