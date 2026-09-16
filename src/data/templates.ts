@@ -5352,5 +5352,35 @@ codex mcp list
 # codex mcp login alloydb-postgres
 # command = "./PATH/TO/toolbox"
 `,
+  },
+  {
+    id: "spanner-codex-plugin",
+    title: "spanner marketplace 把 Spanner 插件喂给 data-agent-kit",
+    filename: "terminal",
+    summary:
+      "spanner marketplace 把 Spanner 插件喂给 data-agent-kit。主路径是 marketplace add GoogleCloudPlatform/data-agent-kit，再 plugin add spanner@data-agent-kit。",
+    code: `gcloud auth application-default login
+export SPANNER_PROJECT=YOUR_SPANNER_PROJECT
+export SPANNER_INSTANCE=YOUR_SPANNER_INSTANCE
+export SPANNER_DATABASE=YOUR_SPANNER_DATABASE
+
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add spanner@data-agent-kit
+codex mcp list
+
+# 可选：
+# export SPANNER_DIALECT=postgresql
+# codex plugin marketplace upgrade data-agent-kit
+
+# 不要：
+# /plugin install spanner@claude-plugins-official
+# gemini extensions install https://github.com/gemini-cli-extensions/spanner
+# plugin add spanner@claude-plugins-official
+# plugin add alloydb@data-agent-kit
+# plugin add dak@data-agent-kit-starter-pack-marketplace
+# plugin add looker@data-agent-kit
+# codex mcp login spanner
+# command = "./PATH/TO/toolbox"
+`,
   }
 ];

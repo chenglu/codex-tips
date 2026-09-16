@@ -16036,5 +16036,69 @@ codex mcp list
         url: "https://docs.cloud.google.com/alloydb/docs/connect-ide-using-mcp-toolbox",
       },
     ],
+  },
+  {
+    id: "spanner-codex-plugin",
+    no: 483,
+    title:
+      "Google Cloud Spanner 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add spanner@data-agent-kit，项目用 SPANNER_PROJECT 不要抄 spanner@claude-plugins-official",
+    summary:
+      "官方 Codex 专节：先 marketplace add GoogleCloudPlatform/data-agent-kit，再 plugin add spanner@data-agent-kit。stdio 表名 spanner，走 npx @toolbox-sdk/server。项目用 SPANNER_PROJECT。ADC 用 gcloud，不要 mcp login，也不要抄 Claude 的 spanner@claude-plugins-official。",
+    body: `Google Cloud Spanner 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add spanner@data-agent-kit，项目用 SPANNER_PROJECT 不要抄 spanner@claude-plugins-official。
+
+这是 [gemini-cli-extensions/spanner](https://github.com/gemini-cli-extensions/spanner) 的 Codex 专节，不是 Claude 的 \`/plugin install spanner@claude-plugins-official\`，也不是 GCP 文档里给 Cursor 抄的 \`./PATH/TO/toolbox --prebuilt spanner\`。插件把 MCP Toolbox 的预置 \`spanner\` 打成 Agent Plugin，用 ADC 加实例坐标连 Cloud Spanner，去探 schema、跑 SQL。
+
+要 Codex **v0.117.0+**，本机有 Node / npx。先开 Spanner API，IAM 至少 \`roles/spanner.databaseReader\`（写库再加 \`roles/spanner.databaseUser\`），再准备 ADC：
+
+\`\`\`bash
+gcloud auth application-default login
+export SPANNER_PROJECT=YOUR_SPANNER_PROJECT
+export SPANNER_INSTANCE=YOUR_SPANNER_INSTANCE
+export SPANNER_DATABASE=YOUR_SPANNER_DATABASE
+# 可选：SPANNER_DIALECT=googlesql 或 postgresql，默认 googlesql
+\`\`\`
+
+不要把项目号写进 \`http_headers\` 当密钥。方言不要抄成 AlloyDB 那套 \`ALLOYDB_POSTGRES_*\`。
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`data-agent-kit\`，插件 name 是 \`spanner\`：
+
+\`\`\`bash
+codex --version
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add spanner@data-agent-kit
+codex plugin list
+codex mcp list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install spanner@\` 或 \`plugin add spanner@claude-plugins-official\`。不要 \`gemini extensions install https://github.com/gemini-cli-extensions/spanner\`。IDE 扩展没有 \`/plugins\`。
+
+插件会登记一台 **stdio** MCP，表名就是 \`spanner\`。command 是 \`npx\`，args 钉 \`@toolbox-sdk/server@1.9.0 --prebuilt spanner --stdio\`。**不要** \`codex mcp login spanner\`。插件已经带 MCP 时，不要再 \`codex mcp add spanner -- npx @toolbox-sdk/server\` 叠一张用户层表。
+
+不要抄这些：
+
+- Cursor / VS Code 的 \`mcpServers.spanner\`，\`command\` 写成 \`./PATH/TO/toolbox --prebuilt spanner\`。
+- Spanner 远程 MCP：\`https://spanner.googleapis.com/mcp\`。那是另一条托管入口，Gemini CLI 还要 \`x-goog-user-project\`，不是这份插件。
+- AlloyDB 的 \`alloydb@data-agent-kit\`、Looker 的 \`looker@data-agent-kit\`、Starter Pack 的 \`dak@data-agent-kit-starter-pack-marketplace\`、Knowledge Catalog 的 \`knowledge-catalog@data-agent-kit\`。同仓 marketplace 里插件 id 不同。
+
+可选：\`codex plugin marketplace upgrade data-agent-kit\` 后再 \`plugin add\` 一次。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex mcp list\` 里应有 \`spanner\`。连接失败先看 ADC 和三个必填 \`SPANNER_*\` 是不是进了同一进程，以及 npx 能不能拉到 Toolbox。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Spanner", "MCP", "Google Cloud", "data-agent-kit"],
+    related: ["google-cloud-developer-plugin", "plugin-session-refresh", "plugin-marketplace-ref-sparse"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/spanner",
+        url: "https://github.com/gemini-cli-extensions/spanner",
+      },
+      {
+        label: "GoogleCloudPlatform/data-agent-kit",
+        url: "https://github.com/GoogleCloudPlatform/data-agent-kit",
+      },
+      {
+        label: "Google Cloud · Use Spanner with MCP Toolbox",
+        url: "https://docs.cloud.google.com/spanner/docs/pre-built-tools-with-mcp-toolbox",
+      },
+    ],
   }
 ];
