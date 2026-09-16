@@ -7200,5 +7200,35 @@ export const articles: Article[] = [
     tags: ["PostHog", "Skills", "LLM", "MCP", "posthog@posthog", "PostHog/ai-plugin"],
     summary:
       'AI Observability 技能走 PostHog MCP 查 traces / 成本。第 3 步装 AI plugin，README 覆盖 Codex。skills.zip 是给 .claude/skills 的，不是 Codex 插件安装器。不要发明 posthog@openai-curated。',
+  },
+  {
+    title: 'Vercel Plugin for AI Coding Agents',
+    url: 'https://vercel.com/docs/agent-resources/vercel-plugin',
+    source: 'Vercel',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Codex", "Vercel", "plugins", "Skills", "/vercel-plugin:deploy prod", "vercel@openai-curated"],
+    summary:
+      'Vercel 官方 Codex 插件：桌面 Plugins 或 TUI /plugins 搜 Vercel，不要发明 plugin add vercel@openai-curated。页面默认安装器是 npx plugins add vercel/vercel-plugin，那是 Claude 路径。Codex 以 changelog 的 /plugins 为准。插件不带账号 MCP。',
+  },
+  {
+    title: 'Vercel plugin now supported on OpenAI Codex and Codex CLI',
+    url: 'https://vercel.com/changelog/vercel-plugin-openai-codex-and-codex-cli-support',
+    source: 'Vercel',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Codex", "Vercel", "plugins", "/plugins", "/vercel-plugin:deploy prod", "vercel@openai-curated"],
+    summary:
+      'Changelog 给 Codex 的安装是开 codex 再 /plugins。没有 plugin add 的精选 id。技能、专家代理和校验跟插件走；管项目、部署仍是 mcp.vercel.com。不要把 npx plugins add 抄进 Codex。',
+  },
+  {
+    title: 'How the Vercel Plugin works across Claude Code, Cursor, and Codex',
+    url: 'https://vercel.com/i/vercel-plugin-coding-agents',
+    source: 'Vercel',
+    lang: '英文',
+    kind: '教程',
+    tags: ["Codex", "Vercel", "plugins", "Skills", "MCP", "/vercel-plugin:deploy prod", "vercel@openai-curated"],
+    summary:
+      '编码代理说明把安装器拆开：Claude 用 npx plugins add，Cursor 用 /add-plugin vercel，Codex 进 /plugins 选 Vercel。插件注入 vercel.md，不给账号工具。MCP 另开。不要发明 vercel@openai-curated。',
   }
 ];

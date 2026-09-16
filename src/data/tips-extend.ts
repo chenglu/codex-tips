@@ -17425,5 +17425,68 @@ codex mcp login posthog
         url: "https://posthog.com/docs/ai-observability/skills",
       },
     ],
+  },
+  {
+    id: "vercel-codex-plugin",
+    no: 504,
+    title:
+      "Vercel 官方 Codex 插件：桌面 Plugins 或 TUI /plugins 搜 Vercel，不要发明 plugin add vercel@openai-curated",
+    summary:
+      "官方 Codex：TUI /plugins 或桌面 Plugins 搜 Vercel。不要把 npx plugins add vercel/vercel-plugin 当 Codex 安装器。插件给技能和斜杠，不管账号；部署 MCP 仍是 mcp.vercel.com。不要抄 Cursor 的 /add-plugin vercel。",
+    body: `Vercel 官方 Codex 插件：桌面 Plugins 或 TUI /plugins 搜 Vercel，不要发明 plugin add vercel@openai-curated。
+
+这是 [Vercel plugin for AI coding agents](https://vercel.com/docs/agent-resources/vercel-plugin) 给 Codex 的路径，不是已经收录的 \`mcp add vercel --url https://mcp.vercel.com\`。Changelog 写明：在 Codex 应用或 CLI 里开 \`codex\`，再 \`/plugins\`。桌面 Plugins 搜 Vercel 再装，效果一样。官方**没有**给出 \`codex plugin add vercel@openai-curated\` 这种精选 id，不要自己编。
+
+\`\`\`bash
+codex
+/plugins
+\`\`\`
+
+编码代理说明把三条安装器分开写：Claude 才是 \`npx plugins add vercel/vercel-plugin\`；Cursor 才是 \`/add-plugin vercel\`；OpenAI Codex 是进 \`/plugins\` 选 Vercel。通用文档把 \`npx plugins add\` 写成默认安装器，那条会改所有检测到的客户端，**不是** Codex 专节。不要手拷到 \`~/.codex/skills\`。IDE 扩展没有 \`/plugins\`。
+
+插件给的是平台知识（\`vercel.md\`）、技能和斜杠，**不是** Vercel 账号操作。列项目、触发部署、看日志仍走远程 MCP \`https://mcp.vercel.com\`（没有 \`/mcp\` 后缀）。两套可以同时开，但职责不同：插件塑造怎么写 Vercel 代码，MCP 才动账号。插件已经装上时，不要以为它会自动登记 \`mcp_servers.vercel\`。
+
+会话开始只会在空目录、或检测到 Vercel / Next.js / eve 项目时注入薄上下文。技能默认不在每次提示或每次工具调用里自动塞进去。要对准部署、环境变量、脚手架时，显式调斜杠：
+
+\`\`\`text
+/vercel-plugin:bootstrap
+/vercel-plugin:deploy prod
+/vercel-plugin:env
+/vercel-plugin:status
+/vercel-plugin:marketplace
+\`\`\`
+
+0.154 起先看**当前会话**的 \`/plugins\`；当前会话没有再新开。桌面改 marketplace 文件仍要重启应用。需要 Node.js 18+。关掉日活遥测：启动 Codex 的进程里 \`export VERCEL_PLUGIN_TELEMETRY=off\`。排错才 \`export VERCEL_PLUGIN_LOG_LEVEL=debug\`，或 \`npx vercel-plugin doctor\`。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add vercel@openai-curated\`，也不要发明 \`vercel@vercel-plugin\`。
+- 不要把 \`npx plugins add vercel/vercel-plugin\` 当 Codex 安装器。
+- 不要抄 Cursor 的 \`/add-plugin vercel\`，也不要抄 Claude 的 plugin install。
+- 不要和手写 \`mcp add vercel\` 叠成「插件已经带了 MCP」。插件文档写明它不给账号访问。
+- 不要和 AI Gateway 的 \`[model_providers.vercel]\` 搞混。那是模型供应商，\`wire_api = responses\`。
+- 不要一上来 \`--yolo\`。斜杠 \`deploy prod\` 会打生产。
+- 不要 \`required = true\`。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Vercel。改完用 \`codex plugin list\` 看是否已装；账号操作仍用 \`codex mcp get vercel\` 看传输是 streamable_http。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["plugins", "Vercel", "Skills", "/plugins"],
+    related: ["mcp-vercel-remote", "plugins-vs-skills", "plugin-session-refresh"],
+    sources: [
+      {
+        label: "Vercel · Plugin for AI coding agents",
+        url: "https://vercel.com/docs/agent-resources/vercel-plugin",
+      },
+      {
+        label: "Vercel · Codex and Codex CLI support",
+        url: "https://vercel.com/changelog/vercel-plugin-openai-codex-and-codex-cli-support",
+      },
+      {
+        label: "Vercel · Plugin across coding agents",
+        url: "https://vercel.com/i/vercel-plugin-coding-agents",
+      },
+    ],
   }
 ];

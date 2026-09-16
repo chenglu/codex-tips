@@ -5988,5 +5988,15 @@ codex plugin list
 # npx @posthog/wizard mcp add
 # POSTHOG_LLMA_CC_ENABLED=true
 `,
+  },
+  {
+    id: "vercel-codex-plugin",
+    title: "/vercel-plugin:deploy prod 把 Vercel 技能打给 Codex",
+    filename: "terminal",
+    summary:
+      "/vercel-plugin:deploy prod 把 Vercel 技能打给 Codex。官方 Codex 走 /plugins 搜 Vercel，不是 npx plugins add。",
+    code: `codex
+/plugins
+`,
   }
 ];

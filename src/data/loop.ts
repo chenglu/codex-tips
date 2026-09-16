@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-16T10:13:00Z",
+  lastTick: "2026-09-16T11:16:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "10:13 收口。#122 已合入 main（TIP 495–496）。#125 续接：#123–#129 已为 497–502。本轮重放 #130 为 503 posthog-codex-plugin。合入后关 #130。站点 503 技巧。",
+    "11:16 收口。#122 已合入 main（TIP 495–496）。#125 续接：#123–#130 已为 497–503。本轮重放 #131 为 504 vercel-codex-plugin。合入后关 #131。站点 504 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2332,6 +2332,15 @@ export const loopState = {
     "X news: Codex CLI 2026-09-16 09:30",
     'X: ("Codex CLI" OR Codex) (plugin OR marketplace OR PostHog)',
     "Codex CLI 技巧 2026 PostHog posthog@posthog plugin marketplace add",
+    "skip leftover 1000-2b7e 1000-logfire-2b7e 1030-2b7e 1030-laminar-2b7e",
+    "skip leftover 0900-neon 0930-posthog",
+    "skip open #125 landing 497-503 bigtable flutter kapso stripe security neon posthog",
+    "site:vercel.com/docs/agent-resources/vercel-plugin Codex /plugins",
+    "site:vercel.com/changelog vercel-plugin-openai-codex-and-codex-cli-support",
+    "site:vercel.com/i/vercel-plugin-coding-agents Codex /plugins",
+    "X news: Codex CLI 2026-09-16 10:30",
+    'X: ("Codex CLI" OR Codex) (plugin OR marketplace OR Vercel)',
+    "Codex CLI 技巧 2026 Vercel /plugins vercel-plugin:deploy prod",
   ],
 };
 
