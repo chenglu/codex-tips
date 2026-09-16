@@ -5187,5 +5187,424 @@ codex mcp list
 # codex mcp login alloydb-postgres
 # command = "./PATH/TO/toolbox"
 `,
+  },
+  {
+    id: "spanner-codex-plugin",
+    title: "安装 Spanner 插件",
+    filename: "terminal",
+    summary: "从 Data Agent Kit 安装 spanner@data-agent-kit，配置 ADC 和 SPANNER_PROJECT 等实例信息，通过本地 spanner MCP 查询数据库。",
+    code: `gcloud auth application-default login
+export SPANNER_PROJECT=YOUR_SPANNER_PROJECT
+export SPANNER_INSTANCE=YOUR_SPANNER_INSTANCE
+export SPANNER_DATABASE=YOUR_SPANNER_DATABASE
+
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add spanner@data-agent-kit
+codex mcp list
+
+# 可选：
+# export SPANNER_DIALECT=postgresql
+# codex plugin marketplace upgrade data-agent-kit
+
+# 不要：
+# /plugin install spanner@claude-plugins-official
+# gemini extensions install https://github.com/gemini-cli-extensions/spanner
+# plugin add spanner@claude-plugins-official
+# plugin add alloydb@data-agent-kit
+# plugin add dak@data-agent-kit-starter-pack-marketplace
+# plugin add looker@data-agent-kit
+# codex mcp login spanner
+# command = "./PATH/TO/toolbox"
+`,
+  },
+  {
+    id: "bigquery-codex-plugin",
+    title: "安装 BigQuery 插件",
+    filename: "terminal",
+    summary: "安装 bigquery-data-analytics@data-agent-kit，配置 ADC 和 BIGQUERY_PROJECT。插件通过 Toolbox 1.10.0 提供本地 bigquery MCP。",
+    code: `gcloud auth application-default login
+export BIGQUERY_PROJECT=YOUR_BIGQUERY_PROJECT
+# 可选：export BIGQUERY_LOCATION=YOUR_BIGQUERY_LOCATION
+
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add bigquery-data-analytics@data-agent-kit
+codex mcp list
+
+# 可选：
+# codex plugin marketplace upgrade data-agent-kit
+
+# 不要：
+# plugin add bigquery@data-agent-kit
+# /plugin install bigquery-data-analytics@claude-plugins-official
+# gemini extensions install https://github.com/gemini-cli-extensions/bigquery-data-analytics
+# plugin add dak@data-agent-kit-starter-pack-marketplace
+# plugin add looker@data-agent-kit
+# plugin add alloydb@data-agent-kit
+# plugin add knowledge-catalog@data-agent-kit
+# codex mcp login bigquery
+# command = "./PATH/TO/toolbox"
+`,
+  },
+  {
+    id: "cloudsql-postgres-codex-plugin",
+    title: "安装 Cloud SQL for PostgreSQL 插件",
+    filename: "terminal",
+    summary: "安装 cloud-sql-postgresql@data-agent-kit，配置 ADC 和 CLOUD_SQL_POSTGRES_* 实例参数。本地 MCP 服务名为 cloud-sql-postgres。",
+    code: `gcloud auth application-default login
+export CLOUD_SQL_POSTGRES_PROJECT=YOUR_CLOUD_SQL_POSTGRES_PROJECT
+export CLOUD_SQL_POSTGRES_REGION=YOUR_CLOUD_SQL_POSTGRES_REGION
+export CLOUD_SQL_POSTGRES_INSTANCE=YOUR_CLOUD_SQL_POSTGRES_INSTANCE
+export CLOUD_SQL_POSTGRES_DATABASE=YOUR_CLOUD_SQL_POSTGRES_DATABASE
+
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add cloud-sql-postgresql@data-agent-kit
+codex mcp list
+
+# 可选：
+# export CLOUD_SQL_POSTGRES_IP_TYPE=PRIVATE
+# codex plugin marketplace upgrade data-agent-kit
+
+# 不要：
+# plugin install cloud-sql-postgresql@data-agent-kit
+# /plugin install cloud-sql-postgresql@claude-plugins-official
+# gemini extensions install https://github.com/gemini-cli-extensions/cloud-sql-postgresql
+# plugin add cloud-sql-mysql@data-agent-kit
+# plugin add alloydb@data-agent-kit
+# plugin add dak@data-agent-kit-starter-pack-marketplace
+# plugin add bigquery-data-analytics@data-agent-kit
+# codex mcp login cloud-sql-postgres
+# command = "./PATH/TO/toolbox"
+`,
+  },
+  {
+    id: "cloudsql-mysql-codex-plugin",
+    title: "安装 Cloud SQL for MySQL 插件",
+    filename: "terminal",
+    summary: "安装 cloud-sql-mysql@data-agent-kit，配置 ADC 和 CLOUD_SQL_MYSQL_* 实例参数，通过本地 MCP 连接 Cloud SQL。",
+    code: `gcloud auth application-default login
+export CLOUD_SQL_MYSQL_PROJECT=YOUR_CLOUD_SQL_MYSQL_PROJECT
+export CLOUD_SQL_MYSQL_REGION=YOUR_CLOUD_SQL_MYSQL_REGION
+export CLOUD_SQL_MYSQL_INSTANCE=YOUR_CLOUD_SQL_MYSQL_INSTANCE
+export CLOUD_SQL_MYSQL_DATABASE=YOUR_CLOUD_SQL_MYSQL_DATABASE
+
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add cloud-sql-mysql@data-agent-kit
+codex mcp list
+
+# 可选：
+# export CLOUD_SQL_MYSQL_IP_TYPE=PRIVATE
+# codex plugin marketplace upgrade data-agent-kit
+
+# 不要：
+# plugin install cloud-sql-mysql@data-agent-kit
+# /plugin install cloud-sql-mysql@claude-plugins-official
+# gemini extensions install https://github.com/gemini-cli-extensions/cloud-sql-mysql
+# plugin add cloud-sql-postgresql@data-agent-kit
+# plugin add alloydb@data-agent-kit
+# plugin add dak@data-agent-kit-starter-pack-marketplace
+# plugin add bigquery-data-analytics@data-agent-kit
+# codex mcp login cloud-sql-mysql
+# command = "./PATH/TO/toolbox"
+`,
+  },
+  {
+    id: "cloudsql-sqlserver-codex-plugin",
+    title: "安装 Cloud SQL for SQL Server 插件",
+    filename: "terminal",
+    summary: "安装 cloud-sql-sqlserver@data-agent-kit，配置 ADC、CLOUD_SQL_MSSQL_* 参数及必填的数据库用户名和密码。MCP 服务名为 cloud-sql-mssql。",
+    code: `gcloud auth application-default login
+export CLOUD_SQL_MSSQL_PROJECT=YOUR_CLOUD_SQL_MSSQL_PROJECT
+export CLOUD_SQL_MSSQL_REGION=YOUR_CLOUD_SQL_MSSQL_REGION
+export CLOUD_SQL_MSSQL_INSTANCE=YOUR_CLOUD_SQL_MSSQL_INSTANCE
+export CLOUD_SQL_MSSQL_DATABASE=YOUR_CLOUD_SQL_MSSQL_DATABASE
+export CLOUD_SQL_MSSQL_USER=YOUR_CLOUD_SQL_MSSQL_USER
+export CLOUD_SQL_MSSQL_PASSWORD=YOUR_CLOUD_SQL_MSSQL_PASSWORD
+
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add cloud-sql-sqlserver@data-agent-kit
+codex mcp list
+
+# 可选：
+# export CLOUD_SQL_MSSQL_IP_TYPE=PRIVATE
+# codex plugin marketplace upgrade data-agent-kit
+
+# 不要：
+# plugin install cloud-sql-sqlserver@data-agent-kit
+# /plugin install cloud-sql-sqlserver@claude-plugins-official
+# gemini extensions install https://github.com/gemini-cli-extensions/cloud-sql-sqlserver
+# plugin add cloud-sql-postgresql@data-agent-kit
+# plugin add cloud-sql-mysql@data-agent-kit
+# plugin add alloydb@data-agent-kit
+# export CLOUD_SQL_SQLSERVER_PROJECT
+# export CLOUD_SQL_MSSQL_IP_ADDRESS
+# codex mcp login cloud-sql-mssql
+# command = "./PATH/TO/toolbox"
+`,
+  },
+  {
+    id: "firestore-native-codex-plugin",
+    title: "安装 Firestore Native 插件",
+    filename: "terminal",
+    summary: "安装 firestore-native@data-agent-kit，配置 ADC 和 FIRESTORE_PROJECT。插件通过本地 firestore MCP 连接 Native 模式数据库。",
+    code: `gcloud auth application-default login
+export FIRESTORE_PROJECT=YOUR_FIRESTORE_PROJECT
+
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add firestore-native@data-agent-kit
+codex mcp list
+
+# 可选：
+# export FIRESTORE_DATABASE='(default)'
+# codex plugin marketplace upgrade data-agent-kit
+
+# 不要：
+# plugin install firestore-native@data-agent-kit
+# plugin add firestore@data-agent-kit
+# /plugin install firestore-native@claude-plugins-official
+# gemini extensions install https://github.com/gemini-cli-extensions/firestore-native
+# plugin add dak@data-agent-kit-starter-pack-marketplace
+# plugin add cloud-sql-mysql@data-agent-kit
+# export FIRESTORE_PROJECT_ID
+# codex mcp login firestore
+# command = "./PATH/TO/toolbox"
+`,
+  },
+  {
+    id: "alloydb-omni-codex-plugin",
+    title: "安装 AlloyDB Omni 插件",
+    filename: "terminal",
+    summary: "安装 alloydb-omni@data-agent-kit，使用 ALLOYDB_OMNI_* 参数连接实例。数据库名和用户名必填，密码要求取决于实例配置。",
+    code: `export ALLOYDB_OMNI_DATABASE=YOUR_ALLOYDB_OMNI_DATABASE
+export ALLOYDB_OMNI_USER=YOUR_ALLOYDB_OMNI_USER
+export ALLOYDB_OMNI_PASSWORD=YOUR_ALLOYDB_OMNI_PASSWORD
+
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add alloydb-omni@data-agent-kit
+codex mcp list
+
+# 可选：
+# export ALLOYDB_OMNI_HOST=127.0.0.1
+# export ALLOYDB_OMNI_PORT=5432
+# codex plugin marketplace upgrade data-agent-kit
+
+# 不要：
+# plugin install alloydb-omni@data-agent-kit
+# plugin add alloydb@data-agent-kit
+# /plugin install alloydb-omni@claude-plugins-official
+# gemini extensions install https://github.com/gemini-cli-extensions/postgres
+# export ALLOYDB_OMNI_PROJECT
+# export POSTGRES_HOST
+# export ALLOYDB_POSTGRES_PROJECT
+# --prebuilt postgres
+# mcpServers.alloydbomni
+# codex mcp login alloydb-omni
+# command = "PATH_TO_TOOLBOX"
+`,
+  },
+  {
+    id: "dataproc-codex-plugin",
+    title: "安装 Dataproc 插件",
+    filename: "terminal",
+    summary: "安装 dataproc@data-agent-kit，配置 ADC、DATAPROC_PROJECT 和 DATAPROC_REGION，用于查询集群及作业状态。",
+    code: `gcloud auth application-default login
+export DATAPROC_PROJECT=YOUR_DATAPROC_PROJECT
+export DATAPROC_REGION=YOUR_DATAPROC_REGION
+
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add dataproc@data-agent-kit
+codex mcp list
+
+# 可选：
+# codex plugin marketplace upgrade data-agent-kit
+
+# 不要：
+# plugin install dataproc@data-agent-kit
+# /plugin install dataproc@claude-plugins-official
+# gemini extensions install https://github.com/gemini-cli-extensions/dataproc
+# plugin add dak@data-agent-kit-starter-pack-marketplace
+# plugin add firestore-native@data-agent-kit
+# export DATAPROC_PROJECT_ID
+# codex mcp login dataproc
+# command = "./PATH/TO/toolbox"
+`,
+  },
+  {
+    id: "oracledb-codex-plugin",
+    title: "安装 Oracle Database 插件",
+    filename: "terminal",
+    summary: "安装 oracledb@data-agent-kit，通过 ORACLE_CONNECTION_STRING、用户名和密码连接 Oracle。默认使用薄客户端，钱包模式需要额外配置。",
+    code: `export ORACLE_CONNECTION_STRING=YOUR_ORACLE_CONNECTION_STRING
+export ORACLE_USERNAME=YOUR_ORACLE_USERNAME
+export ORACLE_PASSWORD=YOUR_ORACLE_PASSWORD
+
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add oracledb@data-agent-kit
+codex mcp list
+
+# 可选：
+# export ORACLE_WALLET=YOUR_ORACLE_WALLET
+# export ORACLE_USE_OCI=true
+# codex plugin marketplace upgrade data-agent-kit
+
+# 不要：
+# plugin install oracledb@data-agent-kit
+# /plugin install oracledb@claude-plugins-official
+# gemini extensions install https://github.com/gemini-cli-extensions/oracledb
+# plugin add alloydb@data-agent-kit
+# export ORACLE_DSN
+# codex mcp add sqlcl -- /opt/oracle/sqlcl/bin/sql -mcp
+# codex mcp login oracledb
+# command = "./PATH/TO/toolbox"
+`,
+  },
+  {
+    id: "gcs-codex-plugin",
+    title: "安装 Google Cloud Storage 插件",
+    filename: "terminal",
+    summary: "从 gemini-cli-extensions/google-cloud-storage 安装 google-cloud-storage@google-cloud-storage，配置 ADC 和 CLOUD_STORAGE_PROJECT，访问存储桶与对象。",
+    code: `gcloud auth application-default login
+export CLOUD_STORAGE_PROJECT=YOUR_CLOUD_STORAGE_PROJECT
+
+codex plugin marketplace add gemini-cli-extensions/google-cloud-storage
+codex plugin add google-cloud-storage@google-cloud-storage
+codex mcp list
+
+# 可选：
+# gcloud auth login
+# codex plugin marketplace upgrade google-cloud-storage
+
+# 不要：
+# plugin install google-cloud-storage@google-cloud-storage
+# plugin add google-cloud-storage@data-agent-kit
+# /plugin install google-cloud-storage@claude-plugins-official
+# gemini extensions install https://github.com/gemini-cli-extensions/google-cloud-storage
+# npx skills add gemini-cli-extensions/google-cloud-storage
+# plugin add dak@data-agent-kit-starter-pack-marketplace
+# export CLOUD_STORAGE_PROJECT_ID
+# codex mcp login cloud-storage
+# command = "./PATH/TO/toolbox"
+`,
+  },
+  {
+    id: "postgres-codex-plugin",
+    title: "安装 PostgreSQL 插件",
+    filename: "terminal",
+    summary: "从 gemini-cli-extensions/postgres 安装 postgres@postgres，通过 POSTGRES_* 参数连接数据库。本地 MCP 服务名为 postgresql。",
+    code: `export POSTGRES_DATABASE=YOUR_POSTGRES_DATABASE
+export POSTGRES_USER=YOUR_POSTGRES_USER
+export POSTGRES_PASSWORD=YOUR_POSTGRES_PASSWORD
+
+codex plugin marketplace add gemini-cli-extensions/postgres
+codex plugin add postgres@postgres
+codex mcp list
+
+# 可选：
+# export POSTGRES_HOST=YOUR_POSTGRES_HOST
+# export POSTGRES_PORT=YOUR_POSTGRES_PORT
+# export POSTGRES_QUERY_PARAMS=YOUR_POSTGRES_QUERY_PARAMS
+# codex plugin marketplace upgrade postgres
+
+# 不要：
+# plugin install postgres@postgres
+# plugin add postgres@data-agent-kit
+# /plugin install postgres@postgres
+# gemini extensions install https://github.com/gemini-cli-extensions/postgres
+# plugin add cloud-sql-postgresql@data-agent-kit
+# plugin add alloydb@data-agent-kit
+# export POSTGRES_PROJECT
+# export CLOUD_SQL_POSTGRES_PROJECT
+# codex mcp login postgresql
+# command = "./PATH/TO/toolbox"
+`,
+  },
+  {
+    id: "mysql-codex-plugin",
+    title: "安装 MySQL 插件",
+    filename: "terminal",
+    summary: "从 gemini-cli-extensions/mysql 安装 mysql@mysql，通过 MYSQL_DATABASE、MYSQL_USER 等参数连接 MySQL 实例。",
+    code: `export MYSQL_DATABASE=YOUR_MYSQL_DATABASE
+export MYSQL_USER=YOUR_MYSQL_USER
+export MYSQL_PASSWORD=YOUR_MYSQL_PASSWORD
+
+codex plugin marketplace add gemini-cli-extensions/mysql
+codex plugin add mysql@mysql
+codex mcp list
+
+# 可选：
+# export MYSQL_HOST=YOUR_MYSQL_HOST
+# export MYSQL_PORT=YOUR_MYSQL_PORT
+# codex plugin marketplace upgrade mysql
+
+# 不要：
+# plugin install mysql@mysql
+# plugin add mysql@data-agent-kit
+# /plugin install mysql@mysql
+# gemini extensions install https://github.com/gemini-cli-extensions/mysql
+# plugin add cloud-sql-mysql@data-agent-kit
+# export MYSQL_PROJECT
+# export CLOUD_SQL_MYSQL_PROJECT
+# codex mcp login mysql
+# command = "./PATH/TO/toolbox"
+`,
+  },
+  {
+    id: "sqlserver-codex-plugin",
+    title: "安装 SQL Server 插件",
+    filename: "terminal",
+    summary: "从 gemini-cli-extensions/sql-server 安装 sql-server@sql-server，通过 MSSQL_* 参数连接数据库。本地 MCP 服务名为 sql_server。",
+    code: `export MSSQL_DATABASE=YOUR_MSSQL_DATABASE
+export MSSQL_USER=YOUR_MSSQL_USER
+export MSSQL_PASSWORD=YOUR_MSSQL_PASSWORD
+
+codex plugin marketplace add gemini-cli-extensions/sql-server
+codex plugin add sql-server@sql-server
+codex mcp list
+
+# 可选：
+# export MSSQL_HOST=YOUR_MSSQL_HOST
+# export MSSQL_PORT=YOUR_MSSQL_PORT
+# codex plugin marketplace upgrade sql-server
+
+# 不要：
+# plugin install sql-server@sql-server
+# plugin add sql-server@data-agent-kit
+# /plugin install sql-server@sql-server
+# gemini extensions install https://github.com/gemini-cli-extensions/sql-server
+# plugin add cloud-sql-sqlserver@data-agent-kit
+# export MSSQL_PROJECT
+# export CLOUD_SQL_MSSQL_PROJECT
+# codex mcp login sql_server
+# command = "./PATH/TO/toolbox"
+`,
+  },
+  {
+    id: "looker-ca-codex-plugin",
+    title: "安装 Looker Conversational Analytics 插件",
+    filename: "terminal",
+    summary: "安装 looker-conversational-analytics@looker-conversational-analytics，配置 Looker 客户端凭证、ADC、LOOKER_PROJECT 和 LOOKER_LOCATION，使用自然语言分析数据。",
+    code: `gcloud auth application-default login
+export LOOKER_BASE_URL=YOUR_LOOKER_BASE_URL
+export LOOKER_CLIENT_ID=YOUR_LOOKER_CLIENT_ID
+export LOOKER_CLIENT_SECRET=YOUR_LOOKER_CLIENT_SECRET
+export LOOKER_PROJECT=YOUR_LOOKER_PROJECT
+export LOOKER_LOCATION=YOUR_LOOKER_LOCATION
+
+codex plugin marketplace add gemini-cli-extensions/looker-conversational-analytics
+codex plugin add looker-conversational-analytics@looker-conversational-analytics
+codex mcp list
+
+# 可选：
+# export LOOKER_VERIFY_SSL=true
+# codex plugin marketplace upgrade looker-conversational-analytics
+
+# 不要：
+# plugin install looker-conversational-analytics@looker-conversational-analytics
+# plugin add looker@data-agent-kit
+# /plugin install looker-conversational-analytics@looker-conversational-analytics
+# gemini extensions install https://github.com/gemini-cli-extensions/looker-conversational-analytics
+# export LOOKER_PROJECT_ID
+# codex mcp login looker
+# command = "./PATH/TO/toolbox"
+`,
   }
 ];

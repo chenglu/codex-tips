@@ -15537,5 +15537,798 @@ IDE 扩展没有 \`/plugins\`。
         url: "https://docs.cloud.google.com/alloydb/docs/connect-ide-using-mcp-toolbox",
       },
     ],
+  },
+  {
+    id: "spanner-codex-plugin",
+    no: 483,
+    title: "安装 Spanner 插件",
+    summary: "从 Data Agent Kit 安装 spanner@data-agent-kit，配置 ADC 和 SPANNER_PROJECT 等实例信息，通过本地 spanner MCP 查询数据库。",
+    body: `从 Data Agent Kit 安装 spanner@data-agent-kit，配置 ADC 和 SPANNER_PROJECT 等实例信息，通过本地 spanner MCP 查询数据库。
+
+这是 [gemini-cli-extensions/spanner](https://github.com/gemini-cli-extensions/spanner) 的 Codex 专节。插件把 MCP Toolbox 的预置 \`spanner\` 封装为插件，用 ADC 加实例连接参数连 Cloud Spanner，用于查看 schema 和执行 SQL。
+
+要 Codex **v0.117.0+**，本机有 Node / npx。先开 Spanner API，IAM 至少 \`roles/spanner.databaseReader\`（写库再加 \`roles/spanner.databaseUser\`），再准备 ADC：
+
+\`\`\`bash
+gcloud auth application-default login
+export SPANNER_PROJECT=YOUR_SPANNER_PROJECT
+export SPANNER_INSTANCE=YOUR_SPANNER_INSTANCE
+export SPANNER_DATABASE=YOUR_SPANNER_DATABASE
+# 可选：SPANNER_DIALECT=googlesql 或 postgresql，默认 googlesql
+\`\`\`
+
+不要把项目号写进 \`http_headers\` 当密钥。方言不要抄成 AlloyDB 那套 \`ALLOYDB_POSTGRES_*\`。
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`data-agent-kit\`，插件 name 是 \`spanner\`：
+
+\`\`\`bash
+codex --version
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add spanner@data-agent-kit
+codex plugin list
+codex mcp list
+\`\`\`
+
+IDE 扩展没有 \`/plugins\`。
+
+插件会登记一台 **stdio** MCP，表名就是 \`spanner\`。command 是 \`npx\`，args 指定 \`@toolbox-sdk/server@1.9.0 --prebuilt spanner --stdio\`。**不要** \`codex mcp login spanner\`。插件已经带 MCP 时，不要再 \`codex mcp add spanner -- npx @toolbox-sdk/server\` 叠一张用户层表。
+
+
+可选：\`codex plugin marketplace upgrade data-agent-kit\` 后再 \`plugin add\` 一次。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex mcp list\` 里应有 \`spanner\`。连接失败先看 ADC 和三个必填 \`SPANNER_*\` 是不是进了同一进程，以及 npx 能不能拉到 Toolbox。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Spanner", "MCP", "Google Cloud", "data-agent-kit"],
+    related: ["google-cloud-developer-plugin", "plugin-session-refresh", "plugin-marketplace-ref-sparse"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/spanner",
+        url: "https://github.com/gemini-cli-extensions/spanner",
+      },
+      {
+        label: "GoogleCloudPlatform/data-agent-kit",
+        url: "https://github.com/GoogleCloudPlatform/data-agent-kit",
+      },
+      {
+        label: "Google Cloud · Use Spanner with MCP Toolbox",
+        url: "https://docs.cloud.google.com/spanner/docs/pre-built-tools-with-mcp-toolbox",
+      },
+    ],
+  },
+  {
+    id: "bigquery-codex-plugin",
+    no: 484,
+    title: "安装 BigQuery 插件",
+    summary: "安装 bigquery-data-analytics@data-agent-kit，配置 ADC 和 BIGQUERY_PROJECT。插件通过 Toolbox 1.10.0 提供本地 bigquery MCP。",
+    body: `安装 bigquery-data-analytics@data-agent-kit，配置 ADC 和 BIGQUERY_PROJECT。插件通过 Toolbox 1.10.0 提供本地 bigquery MCP。
+
+这是 [gemini-cli-extensions/bigquery-data-analytics](https://github.com/gemini-cli-extensions/bigquery-data-analytics) 的 Codex 专节。插件把 MCP Toolbox 的预置 \`bigquery\` 封装为插件，用 ADC 连项目，去搜表、跑 SQL、做贡献分析和预测。
+
+要 Codex **v0.117.0+**，本机有 Node / npx。先开 BigQuery API，IAM 至少 \`roles/bigquery.user\`。要用内置 AI/ML 技能再开 Vertex AI API，并加 \`roles/bigquery.connectionUser\`、\`roles/aiplatform.user\`。然后准备 ADC：
+
+\`\`\`bash
+gcloud auth application-default login
+export BIGQUERY_PROJECT=YOUR_BIGQUERY_PROJECT
+# 可选：BIGQUERY_LOCATION
+\`\`\`
+
+\`BIGQUERY_PROJECT\` 填 GCP **项目 ID**，不要填项目号。位置可留空。密钥不要写进 \`http_headers\`。
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`data-agent-kit\`。目录条目的 name 写成 \`bigquery\`，指向 \`gemini-cli-extensions/bigquery-data-analytics\`；插件仓 \`plugin.json\` 的 name 才是 \`bigquery-data-analytics\`。Codex 命令跟插件仓 README，**不要**按目录短名写成 \`plugin add bigquery@data-agent-kit\`：
+
+\`\`\`bash
+codex --version
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add bigquery-data-analytics@data-agent-kit
+codex plugin list
+codex mcp list
+\`\`\`
+
+IDE 扩展没有 \`/plugins\`。
+
+插件会登记一台 **stdio** MCP，表名是 \`bigquery\`。command 是 \`npx\`，args 指定 \`@toolbox-sdk/server@1.10.0 --prebuilt bigquery --stdio\`（这份比 Looker / AlloyDB 的 1.9.0 新一档）。**不要** \`codex mcp login bigquery\`。插件已经带 MCP 时，不要再 \`codex mcp add bigquery -- npx @toolbox-sdk/server\` 叠一张用户层表。
+
+
+可选：\`codex plugin marketplace upgrade data-agent-kit\` 后再 \`plugin add\` 一次。目录条目可能钉旧 ref（当前常见是 0.2.1），插件仓 \`plugin.json\` 可能已经 0.2.5；升级后重新安装。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex mcp list\` 里应有 \`bigquery\`。连接失败先看 ADC 和 \`BIGQUERY_PROJECT\` 是不是进了同一进程，以及 npx 能不能拉到 Toolbox 1.10.0。发行仍是 Beta（pre-v1.0）。保持工具调用审批。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "BigQuery", "MCP", "Google Cloud", "data-agent-kit"],
+    related: ["alloydb-codex-plugin", "looker-codex-plugin", "knowledge-catalog-codex-plugin"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/bigquery-data-analytics",
+        url: "https://github.com/gemini-cli-extensions/bigquery-data-analytics",
+      },
+      {
+        label: "GoogleCloudPlatform/data-agent-kit",
+        url: "https://github.com/GoogleCloudPlatform/data-agent-kit",
+      },
+      {
+        label: "Google Cloud · Connect LLMs to BigQuery with MCP",
+        url: "https://docs.cloud.google.com/bigquery/docs/pre-built-tools-with-mcp-toolbox",
+      },
+    ],
+  },
+  {
+    id: "cloudsql-postgres-codex-plugin",
+    no: 485,
+    title: "安装 Cloud SQL for PostgreSQL 插件",
+    summary: "安装 cloud-sql-postgresql@data-agent-kit，配置 ADC 和 CLOUD_SQL_POSTGRES_* 实例参数。本地 MCP 服务名为 cloud-sql-postgres。",
+    body: `安装 cloud-sql-postgresql@data-agent-kit，配置 ADC 和 CLOUD_SQL_POSTGRES_* 实例参数。本地 MCP 服务名为 cloud-sql-postgres。
+
+这是 [gemini-cli-extensions/cloud-sql-postgresql](https://github.com/gemini-cli-extensions/cloud-sql-postgresql) 的 Codex 专节。插件把 MCP Toolbox 的预置 \`cloud-sql-postgres\` 封装为插件，用 ADC 加实例连接参数连 Cloud SQL for PostgreSQL，用于管理实例、查看 schema 和执行 SQL。
+
+要 Codex **v0.117.0+**，本机有 Node / npx。先开 Cloud SQL Admin API，IAM 至少 \`roles/cloudsql.client\`（管资源再加 \`roles/cloudsql.admin\`），再准备 ADC：
+
+\`\`\`bash
+gcloud auth application-default login
+export CLOUD_SQL_POSTGRES_PROJECT=YOUR_CLOUD_SQL_POSTGRES_PROJECT
+export CLOUD_SQL_POSTGRES_REGION=YOUR_CLOUD_SQL_POSTGRES_REGION
+export CLOUD_SQL_POSTGRES_INSTANCE=YOUR_CLOUD_SQL_POSTGRES_INSTANCE
+export CLOUD_SQL_POSTGRES_DATABASE=YOUR_CLOUD_SQL_POSTGRES_DATABASE
+# 可选：CLOUD_SQL_POSTGRES_USER、CLOUD_SQL_POSTGRES_PASSWORD、CLOUD_SQL_POSTGRES_IP_TYPE（PUBLIC / PRIVATE / PSC，默认 PUBLIC）
+\`\`\`
+
+用户和密码可留空，默认走本机 IAM 数据库用户，实例里也要加这个 IAM 用户。私有网络必须把 Codex 跑在同一 VPC。不要把密码写进 \`http_headers\`。
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`data-agent-kit\`，插件 name 是 \`cloud-sql-postgresql\`（带 sql）。MCP 表名才是 \`cloud-sql-postgres\`（不带 sql）：
+
+\`\`\`bash
+codex --version
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add cloud-sql-postgresql@data-agent-kit
+codex plugin list
+codex mcp list
+\`\`\`
+
+IDE 扩展没有 \`/plugins\`。
+
+插件会登记一台 **stdio** MCP，表名是 \`cloud-sql-postgres\`。command 是 \`npx\`，args 指定 \`@toolbox-sdk/server@1.9.0 --prebuilt cloud-sql-postgres --stdio\`。**不要** \`codex mcp login cloud-sql-postgres\`。插件已经带 MCP 时，不要再 \`codex mcp add cloud-sql-postgres -- npx @toolbox-sdk/server\` 叠一张用户层表。
+
+
+可选：\`codex plugin marketplace upgrade data-agent-kit\` 后再 \`plugin add\` 一次。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex mcp list\` 里应有 \`cloud-sql-postgres\`。连接失败先看 ADC 和四个必填 \`CLOUD_SQL_POSTGRES_*\` 是不是进了同一进程，以及 npx 能不能拉到 Toolbox 1.9.0。发行仍是 Beta（pre-v1.0）。保持工具调用审批。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Cloud SQL", "PostgreSQL", "MCP", "Google Cloud", "data-agent-kit"],
+    related: ["alloydb-codex-plugin", "spanner-codex-plugin", "bigquery-codex-plugin"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/cloud-sql-postgresql",
+        url: "https://github.com/gemini-cli-extensions/cloud-sql-postgresql",
+      },
+      {
+        label: "GoogleCloudPlatform/data-agent-kit",
+        url: "https://github.com/GoogleCloudPlatform/data-agent-kit",
+      },
+      {
+        label: "Google Cloud · Use Cloud SQL for PostgreSQL with MCP",
+        url: "https://docs.cloud.google.com/sql/docs/postgres/pre-built-tools-with-mcp-toolbox",
+      },
+    ],
+  },
+  {
+    id: "cloudsql-mysql-codex-plugin",
+    no: 486,
+    title: "安装 Cloud SQL for MySQL 插件",
+    summary: "安装 cloud-sql-mysql@data-agent-kit，配置 ADC 和 CLOUD_SQL_MYSQL_* 实例参数，通过本地 MCP 连接 Cloud SQL。",
+    body: `安装 cloud-sql-mysql@data-agent-kit，配置 ADC 和 CLOUD_SQL_MYSQL_* 实例参数，通过本地 MCP 连接 Cloud SQL。
+
+这是 [gemini-cli-extensions/cloud-sql-mysql](https://github.com/gemini-cli-extensions/cloud-sql-mysql) 的 Codex 专节。插件把 MCP Toolbox 的预置 \`cloud-sql-mysql\` 封装为插件，用 ADC 加实例连接参数连 Cloud SQL for MySQL，用于管理实例、查看 schema 和执行 SQL。
+
+要 Codex **v0.117.0+**，本机有 Node / npx。先开 Cloud SQL Admin API，IAM 至少 \`roles/cloudsql.client\`（管资源再加 \`roles/cloudsql.admin\`），再准备 ADC：
+
+\`\`\`bash
+gcloud auth application-default login
+export CLOUD_SQL_MYSQL_PROJECT=YOUR_CLOUD_SQL_MYSQL_PROJECT
+export CLOUD_SQL_MYSQL_REGION=YOUR_CLOUD_SQL_MYSQL_REGION
+export CLOUD_SQL_MYSQL_INSTANCE=YOUR_CLOUD_SQL_MYSQL_INSTANCE
+export CLOUD_SQL_MYSQL_DATABASE=YOUR_CLOUD_SQL_MYSQL_DATABASE
+# 可选：CLOUD_SQL_MYSQL_USER、CLOUD_SQL_MYSQL_PASSWORD、CLOUD_SQL_MYSQL_IP_TYPE（PUBLIC / PRIVATE / PSC，默认 PUBLIC）
+\`\`\`
+
+用户和密码可留空，默认走本机 IAM 数据库用户，实例里也要加这个 IAM 用户。私有网络必须把 Codex 跑在同一 VPC。不要把密码写进 \`http_headers\`。
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`data-agent-kit\`，插件 name 和 MCP 表名都是 \`cloud-sql-mysql\`：
+
+\`\`\`bash
+codex --version
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add cloud-sql-mysql@data-agent-kit
+codex plugin list
+codex mcp list
+\`\`\`
+
+IDE 扩展没有 \`/plugins\`。
+
+插件会登记一台 **stdio** MCP，表名是 \`cloud-sql-mysql\`。command 是 \`npx\`，args 指定 \`@toolbox-sdk/server@1.9.0 --prebuilt cloud-sql-mysql --stdio\`。**不要** \`codex mcp login cloud-sql-mysql\`。插件已经带 MCP 时，不要再 \`codex mcp add cloud-sql-mysql -- npx @toolbox-sdk/server\` 叠一张用户层表。
+
+
+可选：\`codex plugin marketplace upgrade data-agent-kit\` 后再 \`plugin add\` 一次。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex mcp list\` 里应有 \`cloud-sql-mysql\`。连接失败先看 ADC 和四个必填 \`CLOUD_SQL_MYSQL_*\` 是不是进了同一进程，以及 npx 能不能拉到 Toolbox 1.9.0。发行仍是 Beta（pre-v1.0）。保持工具调用审批。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Cloud SQL", "MySQL", "MCP", "Google Cloud", "data-agent-kit"],
+    related: ["alloydb-codex-plugin", "spanner-codex-plugin", "bigquery-codex-plugin"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/cloud-sql-mysql",
+        url: "https://github.com/gemini-cli-extensions/cloud-sql-mysql",
+      },
+      {
+        label: "GoogleCloudPlatform/data-agent-kit",
+        url: "https://github.com/GoogleCloudPlatform/data-agent-kit",
+      },
+      {
+        label: "Google Cloud · Use Cloud SQL for MySQL with MCP",
+        url: "https://docs.cloud.google.com/sql/docs/mysql/pre-built-tools-with-mcp-toolbox",
+      },
+    ],
+  },
+  {
+    id: "cloudsql-sqlserver-codex-plugin",
+    no: 487,
+    title: "安装 Cloud SQL for SQL Server 插件",
+    summary: "安装 cloud-sql-sqlserver@data-agent-kit，配置 ADC、CLOUD_SQL_MSSQL_* 参数及必填的数据库用户名和密码。MCP 服务名为 cloud-sql-mssql。",
+    body: `安装 cloud-sql-sqlserver@data-agent-kit，配置 ADC、CLOUD_SQL_MSSQL_* 参数及必填的数据库用户名和密码。MCP 服务名为 cloud-sql-mssql。
+
+这是 [gemini-cli-extensions/cloud-sql-sqlserver](https://github.com/gemini-cli-extensions/cloud-sql-sqlserver) 的 Codex 专节。插件把 MCP Toolbox 的预置 \`cloud-sql-mssql\` 封装为插件，用 ADC 加 SQL 用户连 Cloud SQL for SQL Server，用于管理实例、查看 schema 和执行 SQL。
+
+要 Codex **v0.117.0+**，本机有 Node / npx。先开 Cloud SQL Admin API，IAM 至少 \`roles/cloudsql.client\`（管资源再加 \`roles/cloudsql.admin\`），再准备 ADC：
+
+\`\`\`bash
+gcloud auth application-default login
+export CLOUD_SQL_MSSQL_PROJECT=YOUR_CLOUD_SQL_MSSQL_PROJECT
+export CLOUD_SQL_MSSQL_REGION=YOUR_CLOUD_SQL_MSSQL_REGION
+export CLOUD_SQL_MSSQL_INSTANCE=YOUR_CLOUD_SQL_MSSQL_INSTANCE
+export CLOUD_SQL_MSSQL_DATABASE=YOUR_CLOUD_SQL_MSSQL_DATABASE
+export CLOUD_SQL_MSSQL_USER=YOUR_CLOUD_SQL_MSSQL_USER
+export CLOUD_SQL_MSSQL_PASSWORD=YOUR_CLOUD_SQL_MSSQL_PASSWORD
+# 可选：CLOUD_SQL_MSSQL_IP_TYPE（PUBLIC / PRIVATE / PSC，默认 PUBLIC）
+\`\`\`
+
+插件仓 \`plugin.json\` 把用户和密码标成必填，不要按 Postgres / MySQL 那套省略成 IAM 数据库用户。私有网络必须把 Codex 跑在同一 VPC。不要把密码写进 \`http_headers\`。
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`data-agent-kit\`，插件 name 是 \`cloud-sql-sqlserver\`。MCP 表名和 Toolbox 预置都是 \`cloud-sql-mssql\`：
+
+\`\`\`bash
+codex --version
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add cloud-sql-sqlserver@data-agent-kit
+codex plugin list
+codex mcp list
+\`\`\`
+
+IDE 扩展没有 \`/plugins\`。
+
+插件会登记一台 **stdio** MCP，表名是 \`cloud-sql-mssql\`。command 是 \`npx\`，args 指定 \`@toolbox-sdk/server@1.9.0 --prebuilt cloud-sql-mssql --stdio\`。**不要** \`codex mcp login cloud-sql-mssql\`。插件已经带 MCP 时，不要再 \`codex mcp add cloud-sql-mssql -- npx @toolbox-sdk/server\` 叠一张用户层表。
+
+
+可选：\`codex plugin marketplace upgrade data-agent-kit\` 后再 \`plugin add\` 一次。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex mcp list\` 里应有 \`cloud-sql-mssql\`。连接失败先看 ADC、六个必填 \`CLOUD_SQL_MSSQL_*\` 是不是进了同一进程，以及 npx 能不能拉到 Toolbox 1.9.0。发行仍是 Beta（pre-v1.0）。保持工具调用审批。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Cloud SQL", "SQL Server", "MCP", "Google Cloud", "data-agent-kit"],
+    related: ["cloudsql-postgres-codex-plugin", "cloudsql-mysql-codex-plugin", "alloydb-codex-plugin"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/cloud-sql-sqlserver",
+        url: "https://github.com/gemini-cli-extensions/cloud-sql-sqlserver",
+      },
+      {
+        label: "GoogleCloudPlatform/data-agent-kit",
+        url: "https://github.com/GoogleCloudPlatform/data-agent-kit",
+      },
+      {
+        label: "Google Cloud · Use Cloud SQL for SQL Server with MCP",
+        url: "https://docs.cloud.google.com/sql/docs/sqlserver/pre-built-tools-with-mcp-toolbox",
+      },
+    ],
+  },
+  {
+    id: "firestore-native-codex-plugin",
+    no: 488,
+    title: "安装 Firestore Native 插件",
+    summary: "安装 firestore-native@data-agent-kit，配置 ADC 和 FIRESTORE_PROJECT。插件通过本地 firestore MCP 连接 Native 模式数据库。",
+    body: `安装 firestore-native@data-agent-kit，配置 ADC 和 FIRESTORE_PROJECT。插件通过本地 firestore MCP 连接 Native 模式数据库。
+
+这是 [gemini-cli-extensions/firestore-native](https://github.com/gemini-cli-extensions/firestore-native) 的 Codex 专节。插件把 MCP Toolbox 的预置 \`firestore\` 封装为插件，用 ADC 连 Firestore Native 库，去列集合、读写文档、查规则。
+
+要 Codex **v0.117.0+**，本机有 Node / npx。先开 Firestore API，库必须是 **Native 模式**（不是 Datastore 模式），IAM 至少 \`roles/datastore.user\`（看规则再加 \`roles/firebaserules.viewer\`），再准备 ADC：
+
+\`\`\`bash
+gcloud auth application-default login
+export FIRESTORE_PROJECT=YOUR_FIRESTORE_PROJECT
+# 可选：FIRESTORE_DATABASE（默认 (default)）
+\`\`\`
+
+多库才设 \`FIRESTORE_DATABASE\`，值带括号时加引号。不要把密钥写进 \`http_headers\`。
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`data-agent-kit\`，插件 name 是 \`firestore-native\`。MCP 表名和 Toolbox 预置都是 \`firestore\`：
+
+\`\`\`bash
+codex --version
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add firestore-native@data-agent-kit
+codex plugin list
+codex mcp list
+\`\`\`
+
+IDE 扩展没有 \`/plugins\`。
+
+插件会登记一台 **stdio** MCP，表名是 \`firestore\`。command 是 \`npx\`，args 指定 \`@toolbox-sdk/server@1.9.0 --prebuilt firestore --stdio\`。**不要** \`codex mcp login firestore\`。插件已经带 MCP 时，不要再 \`codex mcp add firestore -- npx @toolbox-sdk/server\` 叠一张用户层表。
+
+
+可选：\`codex plugin marketplace upgrade data-agent-kit\` 后再 \`plugin add\` 一次。清单目前钉的是 \`0.3.1\`，插件仓 \`plugin.json\` 已是 \`0.3.4\`。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex mcp list\` 里应有 \`firestore\`。连接失败先看 ADC、\`FIRESTORE_PROJECT\` 是不是进了同一进程，以及 npx 能不能拉到 Toolbox 1.9.0。发行仍是 Beta（pre-v1.0）。保持工具调用审批。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Firestore", "MCP", "Google Cloud", "data-agent-kit"],
+    related: ["cloudsql-mysql-codex-plugin", "cloudsql-postgres-codex-plugin", "dak-starter-codex-plugin"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/firestore-native",
+        url: "https://github.com/gemini-cli-extensions/firestore-native",
+      },
+      {
+        label: "GoogleCloudPlatform/data-agent-kit",
+        url: "https://github.com/GoogleCloudPlatform/data-agent-kit",
+      },
+      {
+        label: "Google Cloud · Use Firestore with MCP",
+        url: "https://docs.cloud.google.com/firestore/native/docs/connect-ide-using-mcp-toolbox",
+      },
+    ],
+  },
+  {
+    id: "alloydb-omni-codex-plugin",
+    no: 489,
+    title: "安装 AlloyDB Omni 插件",
+    summary: "安装 alloydb-omni@data-agent-kit，使用 ALLOYDB_OMNI_* 参数连接实例。数据库名和用户名必填，密码要求取决于实例配置。",
+    body: `安装 alloydb-omni@data-agent-kit，使用 ALLOYDB_OMNI_* 参数连接实例。数据库名和用户名必填，密码要求取决于实例配置。
+
+这是 [gemini-cli-extensions/alloydb-omni](https://github.com/gemini-cli-extensions/alloydb-omni) 的 Codex 专节。插件把 MCP Toolbox 的预置 \`alloydb-omni\` 封装为插件，用数据库用户连本机 / 容器 / RPM 上的 AlloyDB Omni，用于查看 schema 和执行 SQL、看复制和列存。
+
+要 Codex **v0.117.0+**，本机有 Node / npx，并且已经有一台在跑的 Omni 实例。这不是 Cloud AlloyDB，**不要** \`gcloud auth application-default login\`，也**不要**发明 \`ALLOYDB_OMNI_PROJECT\`：
+
+\`\`\`bash
+export ALLOYDB_OMNI_DATABASE=YOUR_ALLOYDB_OMNI_DATABASE
+export ALLOYDB_OMNI_USER=YOUR_ALLOYDB_OMNI_USER
+export ALLOYDB_OMNI_PASSWORD=YOUR_ALLOYDB_OMNI_PASSWORD
+# 可选：ALLOYDB_OMNI_HOST（默认 localhost）、ALLOYDB_OMNI_PORT（默认 5432）、ALLOYDB_OMNI_QUERY_PARAMS
+\`\`\`
+
+\`DATABASE\` 和 \`USER\` 必填。\`PASSWORD\` 看实例（Toolbox 文档标可选）。不要把密码写进 \`http_headers\`。不要抄 \`POSTGRES_HOST\` / \`POSTGRES_DATABASE\`。
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`data-agent-kit\`，插件 name 和 MCP 表名都是 \`alloydb-omni\`：
+
+\`\`\`bash
+codex --version
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add alloydb-omni@data-agent-kit
+codex plugin list
+codex mcp list
+\`\`\`
+
+IDE 扩展没有 \`/plugins\`。
+
+插件会登记一台 **stdio** MCP，表名是 \`alloydb-omni\`。command 是 \`npx\`，args 指定 \`@toolbox-sdk/server@1.9.0 --prebuilt alloydb-omni --stdio\`。**不要** \`codex mcp login alloydb-omni\`。插件已经带 MCP 时，不要再 \`codex mcp add alloydb-omni -- npx @toolbox-sdk/server\` 叠一张用户层表。
+
+
+可选：\`codex plugin marketplace upgrade data-agent-kit\` 后再 \`plugin add\` 一次。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex mcp list\` 里应有 \`alloydb-omni\`。连接失败先看 Omni 实例是不是在听、三个必填 \`ALLOYDB_OMNI_*\` 是不是进了同一进程，以及 npx 能不能拉到 Toolbox 1.9.0。发行仍是 Beta（pre-v1.0）。保持工具调用审批。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "AlloyDB Omni", "MCP", "Google Cloud", "data-agent-kit"],
+    related: ["alloydb-codex-plugin", "firestore-native-codex-plugin", "cloudsql-postgres-codex-plugin"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/alloydb-omni",
+        url: "https://github.com/gemini-cli-extensions/alloydb-omni",
+      },
+      {
+        label: "GoogleCloudPlatform/data-agent-kit",
+        url: "https://github.com/GoogleCloudPlatform/data-agent-kit",
+      },
+      {
+        label: "Google Cloud · Use AlloyDB Omni with MCP",
+        url: "https://docs.cloud.google.com/alloydb/omni/linux/current/docs/connect-ide-using-mcp-toolbox",
+      },
+    ],
+  },
+  {
+    id: "dataproc-codex-plugin",
+    no: 490,
+    title: "安装 Dataproc 插件",
+    summary: "安装 dataproc@data-agent-kit，配置 ADC、DATAPROC_PROJECT 和 DATAPROC_REGION，用于查询集群及作业状态。",
+    body: `安装 dataproc@data-agent-kit，配置 ADC、DATAPROC_PROJECT 和 DATAPROC_REGION，用于查询集群及作业状态。
+
+这是 [gemini-cli-extensions/dataproc](https://github.com/gemini-cli-extensions/dataproc) 的 Codex 专节。插件把 MCP Toolbox 的预置 \`dataproc\` 封装为插件，用 ADC 连 Dataproc，去列集群、看作业、排查失败任务。
+
+要 Codex **v0.117.0+**，本机有 Node / npx。先开 Dataproc API，IAM 至少 \`roles/dataproc.viewer\`（改集群再加 \`roles/dataproc.editor\`），再准备 ADC：
+
+\`\`\`bash
+gcloud auth application-default login
+export DATAPROC_PROJECT=YOUR_DATAPROC_PROJECT
+export DATAPROC_REGION=YOUR_DATAPROC_REGION
+\`\`\`
+
+区域必填，不要指望默认 \`us-central1\`。不要把密钥写进 \`http_headers\`。README 配置节还残留一句 Cloud SQL 私网 VPC 说明，那是拷贝痕迹，**不是** Dataproc 安装条件。
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`data-agent-kit\`，插件 name 是 \`dataproc\`（\`plugin.json\` 0.1.0）。MCP 表名和 Toolbox 预置都是 \`dataproc\`：
+
+\`\`\`bash
+codex --version
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add dataproc@data-agent-kit
+codex plugin list
+codex mcp list
+\`\`\`
+
+IDE 扩展没有 \`/plugins\`。
+
+插件会登记一台 **stdio** MCP，表名是 \`dataproc\`。command 是 \`npx\`，args 指定 \`@toolbox-sdk/server@1.9.0 --prebuilt dataproc --stdio\`。**不要** \`codex mcp login dataproc\`。插件已经带 MCP 时，不要再 \`codex mcp add dataproc -- npx @toolbox-sdk/server\` 叠一张用户层表。
+
+
+可选：\`codex plugin marketplace upgrade data-agent-kit\` 后再 \`plugin add\` 一次。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex mcp list\` 里应有 \`dataproc\`。连接失败先看 ADC、\`DATAPROC_PROJECT\` 和 \`DATAPROC_REGION\` 是不是进了同一进程，以及 npx 能不能拉到 Toolbox 1.9.0。发行仍是 Beta（pre-v1.0）。保持工具调用审批。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Dataproc", "MCP", "Google Cloud", "data-agent-kit"],
+    related: ["dak-starter-codex-plugin", "firestore-native-codex-plugin", "bigquery-codex-plugin"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/dataproc",
+        url: "https://github.com/gemini-cli-extensions/dataproc",
+      },
+      {
+        label: "GoogleCloudPlatform/data-agent-kit",
+        url: "https://github.com/GoogleCloudPlatform/data-agent-kit",
+      },
+      {
+        label: "MCP Toolbox · Dataproc prebuilt",
+        url: "https://mcp-toolbox.dev/integrations/dataproc/prebuilt-configs/dataproc/",
+      },
+    ],
+  },
+  {
+    id: "oracledb-codex-plugin",
+    no: 491,
+    title: "安装 Oracle Database 插件",
+    summary: "安装 oracledb@data-agent-kit，通过 ORACLE_CONNECTION_STRING、用户名和密码连接 Oracle。默认使用薄客户端，钱包模式需要额外配置。",
+    body: `安装 oracledb@data-agent-kit，通过 ORACLE_CONNECTION_STRING、用户名和密码连接 Oracle。默认使用薄客户端，钱包模式需要额外配置。
+
+这是 [gemini-cli-extensions/oracledb](https://github.com/gemini-cli-extensions/oracledb) 的 Codex 专节。插件把 MCP Toolbox 的预置 \`oracledb\` 封装为插件，用连接串加用户密码连 Oracle，去跑 SQL、列会话、看执行计划和表空间。
+
+要 Codex **v0.117.0+**，本机有 Node / npx。库权限至少 \`CREATE SESSION\`（看 \`V$\` / \`DBA_\` 再加 \`SELECT\`）。认证是数据库用户，**不是** GCP ADC：
+
+\`\`\`bash
+export ORACLE_CONNECTION_STRING=YOUR_ORACLE_CONNECTION_STRING
+export ORACLE_USERNAME=YOUR_ORACLE_USERNAME
+export ORACLE_PASSWORD=YOUR_ORACLE_PASSWORD
+# 可选：ORACLE_WALLET（钱包目录）
+# 可选：ORACLE_USE_OCI=true（厚客户端；钱包要 Instant Client）
+\`\`\`
+
+连接串填 \`host:port/service_name\` 或 TNS 别名，不要把密码写进 \`http_headers\`。开钱包时才设 \`ORACLE_USE_OCI=true\`，并装 Instant Client；默认走薄客户端。
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`data-agent-kit\`，插件 name 是 \`oracledb\`（\`plugin.json\` 0.2.7）。MCP 表名和 Toolbox 预置都是 \`oracledb\`，不要按 IDE 文档写成表名 \`oracle\`：
+
+\`\`\`bash
+codex --version
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add oracledb@data-agent-kit
+codex plugin list
+codex mcp list
+\`\`\`
+
+IDE 扩展没有 \`/plugins\`。
+
+插件会登记一台 **stdio** MCP，表名是 \`oracledb\`。command 是 \`npx\`，args 指定 \`@toolbox-sdk/server@1.9.0 --prebuilt oracledb --stdio\`。**不要** \`codex mcp login oracledb\`。插件已经带 MCP 时，不要再 \`codex mcp add oracledb -- npx @toolbox-sdk/server\` 叠一张用户层表。
+
+
+可选：\`codex plugin marketplace upgrade data-agent-kit\` 后再 \`plugin add\` 一次。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex mcp list\` 里应有 \`oracledb\`。连接失败先看三个必填 \`ORACLE_*\` 是不是进了同一进程，以及 npx 能不能拉到 Toolbox 1.9.0。发行仍是 Beta（pre-v1.0）。保持工具调用审批。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Oracle", "MCP", "data-agent-kit"],
+    related: ["sqlcl-oracle-mcp", "alloydb-codex-plugin", "dataproc-codex-plugin"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/oracledb",
+        url: "https://github.com/gemini-cli-extensions/oracledb",
+      },
+      {
+        label: "GoogleCloudPlatform/data-agent-kit",
+        url: "https://github.com/GoogleCloudPlatform/data-agent-kit",
+      },
+      {
+        label: "MCP Toolbox · Oracle prebuilt",
+        url: "https://mcp-toolbox.dev/integrations/oracle/prebuilt-configs/oracle/",
+      },
+    ],
+  },
+  {
+    id: "gcs-codex-plugin",
+    no: 492,
+    title: "安装 Google Cloud Storage 插件",
+    summary: "从 gemini-cli-extensions/google-cloud-storage 安装 google-cloud-storage@google-cloud-storage，配置 ADC 和 CLOUD_STORAGE_PROJECT，访问存储桶与对象。",
+    body: `从 gemini-cli-extensions/google-cloud-storage 安装 google-cloud-storage@google-cloud-storage，配置 ADC 和 CLOUD_STORAGE_PROJECT，访问存储桶与对象。
+
+这是 [gemini-cli-extensions/google-cloud-storage](https://github.com/gemini-cli-extensions/google-cloud-storage) 的 Codex 专节。插件把 MCP Toolbox 的预置 \`cloud-storage\` 封装为插件，并带一套 GCS 技能，用 ADC 连项目里的桶和对象。
+
+本机要有 Node / npx，现行 Codex 能跑 \`plugin marketplace add\`。先开 Cloud Storage API，IAM 至少 \`roles/storage.objectViewer\`（改对象再加 \`roles/storage.objectAdmin\`，管桶再加 \`roles/storage.admin\`），再准备 ADC：
+
+\`\`\`bash
+gcloud auth application-default login
+# 可选：gcloud auth login（只给本机 gcloud CLI 用）
+export CLOUD_STORAGE_PROJECT=YOUR_CLOUD_STORAGE_PROJECT
+\`\`\`
+
+不要把密钥写进 \`http_headers\`。ADC 是这条本机 stdio 的认证，**不要** \`mcp login\`。
+
+清单名是 \`google-cloud-storage\`，插件 name 是 \`google-cloud-storage\`（\`plugin.json\` 1.1.0）。MCP 表名和 Toolbox 预置都是 \`cloud-storage\`：
+
+\`\`\`bash
+codex plugin marketplace add gemini-cli-extensions/google-cloud-storage
+codex plugin add google-cloud-storage@google-cloud-storage
+codex plugin list
+codex mcp list
+\`\`\`
+
+IDE 扩展没有 \`/plugins\`。
+
+插件会登记一台 **stdio** MCP，表名是 \`cloud-storage\`。command 是 \`npx\`，args 指定 \`@toolbox-sdk/server@1.9.0 --prebuilt cloud-storage --stdio\`。**不要** \`codex mcp login cloud-storage\`。插件已经带 MCP 时，不要再 \`codex mcp add cloud-storage -- npx @toolbox-sdk/server\` 叠一张用户层表。
+
+
+可选：\`codex plugin marketplace upgrade google-cloud-storage\` 后再 \`plugin add\` 一次。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex mcp list\` 里应有 \`cloud-storage\`。连接失败先看 ADC、\`CLOUD_STORAGE_PROJECT\` 是不是进了同一进程，以及 npx 能不能拉到 Toolbox 1.9.0。\`delete_bucket\` / \`delete_object\` / \`move_object\` / \`write_object\` / \`upload_object\` 会改数据，保持工具调用审批。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Cloud Storage", "GCS", "MCP", "Google Cloud"],
+    related: ["dak-starter-codex-plugin", "dataproc-codex-plugin", "firestore-native-codex-plugin"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/google-cloud-storage",
+        url: "https://github.com/gemini-cli-extensions/google-cloud-storage",
+      },
+      {
+        label: "MCP Toolbox · Cloud Storage prebuilt",
+        url: "https://mcp-toolbox.dev/integrations/cloud-storage/prebuilt-configs/cloud-storage/",
+      },
+      {
+        label: "Google Cloud · Use the Cloud Storage MCP server",
+        url: "https://docs.cloud.google.com/storage/docs/use-cloud-storage-mcp",
+      },
+    ],
+  },
+  {
+    id: "postgres-codex-plugin",
+    no: 493,
+    title: "安装 PostgreSQL 插件",
+    summary: "从 gemini-cli-extensions/postgres 安装 postgres@postgres，通过 POSTGRES_* 参数连接数据库。本地 MCP 服务名为 postgresql。",
+    body: `从 gemini-cli-extensions/postgres 安装 postgres@postgres，通过 POSTGRES_* 参数连接数据库。本地 MCP 服务名为 postgresql。
+
+这是 [gemini-cli-extensions/postgres](https://github.com/gemini-cli-extensions/postgres) 的 Codex 专节。插件把 MCP Toolbox 的预置 \`postgres\` 封装为插件，用数据库用户连任意 PostgreSQL 实例，用于查看 schema 和执行 SQL。认证是库用户，**不是** GCP ADC。
+
+要 Codex **v0.150.0+**，本机有 Node / npx。先有一台能连的 PostgreSQL，再在启动 Codex 的同一 shell 里导出：
+
+\`\`\`bash
+export POSTGRES_DATABASE=YOUR_POSTGRES_DATABASE
+export POSTGRES_USER=YOUR_POSTGRES_USER
+export POSTGRES_PASSWORD=YOUR_POSTGRES_PASSWORD
+# 可选：POSTGRES_HOST（默认 localhost）、POSTGRES_PORT（默认 5432）、POSTGRES_QUERY_PARAMS
+\`\`\`
+
+不要把密码写进 \`http_headers\`。该 stdio 服务 **不要** \`mcp login\`。
+
+清单 \`.claude-plugin/marketplace.json\` 的 name 是 \`postgres\`，插件 name 也是 \`postgres\`（\`plugin.json\` 0.2.3）。Toolbox 预置是 \`postgres\`，MCP 表名却是 \`postgresql\`：
+
+\`\`\`bash
+codex --version
+codex plugin marketplace add gemini-cli-extensions/postgres
+codex plugin add postgres@postgres
+codex plugin list
+codex mcp list
+\`\`\`
+
+IDE 扩展没有 \`/plugins\`。
+
+插件会登记一台 **stdio** MCP，表名是 \`postgresql\`。command 是 \`npx\`，args 指定 \`@toolbox-sdk/server@1.10.0 --prebuilt postgres --stdio\`。**不要** \`codex mcp login postgresql\`。插件已经带 MCP 时，不要再 \`codex mcp add postgresql -- npx @toolbox-sdk/server\` 叠一张用户层表。
+
+
+可选：\`codex plugin marketplace upgrade postgres\` 后再 \`plugin add\` 一次。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex mcp list\` 里应有 \`postgresql\`。连接失败先看 \`POSTGRES_DATABASE\` / \`POSTGRES_USER\` / \`POSTGRES_PASSWORD\` 是不是进了同一进程，以及 npx 能不能拉到 Toolbox 1.10.0。发行仍是 Beta（pre-v1.0）。\`execute_sql\` 能改数据，保持工具调用审批。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "PostgreSQL", "MCP", "postgres@postgres"],
+    related: ["cloudsql-postgres-codex-plugin", "alloydb-codex-plugin", "alloydb-omni-codex-plugin"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/postgres",
+        url: "https://github.com/gemini-cli-extensions/postgres",
+      },
+      {
+        label: "MCP Toolbox · PostgreSQL prebuilt",
+        url: "https://mcp-toolbox.dev/integrations/postgres/prebuilt-configs/postgresql/",
+      },
+      {
+        label: "MCP Toolbox · PostgreSQL using MCP",
+        url: "https://mcp-toolbox.dev/documentation/connect-to/ides/postgres_mcp/",
+      },
+    ],
+  },
+  {
+    id: "mysql-codex-plugin",
+    no: 494,
+    title: "安装 MySQL 插件",
+    summary: "从 gemini-cli-extensions/mysql 安装 mysql@mysql，通过 MYSQL_DATABASE、MYSQL_USER 等参数连接 MySQL 实例。",
+    body: `从 gemini-cli-extensions/mysql 安装 mysql@mysql，通过 MYSQL_DATABASE、MYSQL_USER 等参数连接 MySQL 实例。
+
+这是 [gemini-cli-extensions/mysql](https://github.com/gemini-cli-extensions/mysql) 的 Codex 专节。插件把 MCP Toolbox 的预置 \`mysql\` 封装为插件，用数据库用户连任意 MySQL 实例，用于查看 schema 和执行 SQL。认证是库用户，**不是** GCP ADC。
+
+要 Codex **v0.150.0+**，本机有 Node / npx。先有一台能连的 MySQL，再在启动 Codex 的同一 shell 里导出：
+
+\`\`\`bash
+export MYSQL_DATABASE=YOUR_MYSQL_DATABASE
+export MYSQL_USER=YOUR_MYSQL_USER
+export MYSQL_PASSWORD=YOUR_MYSQL_PASSWORD
+# 可选：MYSQL_HOST（默认 localhost）、MYSQL_PORT（默认 3306）
+\`\`\`
+
+不要把密码写进 \`http_headers\`。该 stdio 服务 **不要** \`mcp login\`。
+
+清单 \`.claude-plugin/marketplace.json\` 的 name 是 \`mysql\`，插件 name 也是 \`mysql\`（\`plugin.json\` 0.1.6）。Toolbox 预置和 MCP 表名都是 \`mysql\`：
+
+\`\`\`bash
+codex --version
+codex plugin marketplace add gemini-cli-extensions/mysql
+codex plugin add mysql@mysql
+codex plugin list
+codex mcp list
+\`\`\`
+
+IDE 扩展没有 \`/plugins\`。
+
+插件会登记一台 **stdio** MCP，表名是 \`mysql\`。command 是 \`npx\`，args 指定 \`@toolbox-sdk/server@1.9.0 --prebuilt mysql --stdio\`。**不要** \`codex mcp login mysql\`。插件已经带 MCP 时，不要再 \`codex mcp add mysql -- npx @toolbox-sdk/server\` 叠一张用户层表。
+
+
+可选：\`codex plugin marketplace upgrade mysql\` 后再 \`plugin add\` 一次。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex mcp list\` 里应有 \`mysql\`。连接失败先看 \`MYSQL_DATABASE\` / \`MYSQL_USER\` / \`MYSQL_PASSWORD\` 是不是进了同一进程，以及 npx 能不能拉到 Toolbox 1.9.0。发行仍是 Beta（pre-v1.0）。\`execute_sql\` 能改数据，保持工具调用审批。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "MySQL", "MCP", "mysql@mysql"],
+    related: ["cloudsql-mysql-codex-plugin", "cloudsql-postgres-codex-plugin", "alloydb-codex-plugin"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/mysql",
+        url: "https://github.com/gemini-cli-extensions/mysql",
+      },
+      {
+        label: "MCP Toolbox · MySQL prebuilt",
+        url: "https://mcp-toolbox.dev/integrations/mysql/prebuilt-configs/mysql/",
+      },
+      {
+        label: "MCP Toolbox · MySQL using MCP",
+        url: "https://mcp-toolbox.dev/documentation/connect-to/ides/mysql_mcp/",
+      },
+    ],
+  },
+  {
+    id: "sqlserver-codex-plugin",
+    no: 495,
+    title: "安装 SQL Server 插件",
+    summary: "从 gemini-cli-extensions/sql-server 安装 sql-server@sql-server，通过 MSSQL_* 参数连接数据库。本地 MCP 服务名为 sql_server。",
+    body: `从 gemini-cli-extensions/sql-server 安装 sql-server@sql-server，通过 MSSQL_* 参数连接数据库。本地 MCP 服务名为 sql_server。
+
+这是 [gemini-cli-extensions/sql-server](https://github.com/gemini-cli-extensions/sql-server) 的 Codex 专节。插件把 MCP Toolbox 的预置 \`mssql\` 封装为插件，用数据库用户连任意 SQL Server 实例，用于查看 schema 和执行 SQL。认证是库用户，**不是** GCP ADC。
+
+要 Codex **v0.150.0+**，本机有 Node / npx。先有一台能连的 SQL Server，再在启动 Codex 的同一 shell 里导出：
+
+\`\`\`bash
+export MSSQL_DATABASE=YOUR_MSSQL_DATABASE
+export MSSQL_USER=YOUR_MSSQL_USER
+export MSSQL_PASSWORD=YOUR_MSSQL_PASSWORD
+# 可选：MSSQL_HOST（默认 localhost）、MSSQL_PORT（默认 1433）
+\`\`\`
+
+不要把密码写进 \`http_headers\`。该 stdio 服务 **不要** \`mcp login\`。不要把 \`CLOUD_SQL_MSSQL_*\` 抄过来。
+
+清单 \`.claude-plugin/marketplace.json\` 的 name 是 \`sql-server\`，插件 name 也是 \`sql-server\`（\`plugin.json\` 0.1.6）。Toolbox 预置是 \`mssql\`，MCP 表名却是 \`sql_server\`：
+
+\`\`\`bash
+codex --version
+codex plugin marketplace add gemini-cli-extensions/sql-server
+codex plugin add sql-server@sql-server
+codex plugin list
+codex mcp list
+\`\`\`
+
+IDE 扩展没有 \`/plugins\`。
+
+插件会登记一台 **stdio** MCP，表名是 \`sql_server\`。command 是 \`npx\`，args 指定 \`@toolbox-sdk/server@1.9.0 --prebuilt mssql --stdio\`。**不要** \`codex mcp login sql_server\`。插件已经带 MCP 时，不要再 \`codex mcp add sql_server -- npx @toolbox-sdk/server\` 叠一张用户层表。
+
+
+可选：\`codex plugin marketplace upgrade sql-server\` 后再 \`plugin add\` 一次。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex mcp list\` 里应有 \`sql_server\`。连接失败先看 \`MSSQL_DATABASE\` / \`MSSQL_USER\` / \`MSSQL_PASSWORD\` 是不是进了同一进程，以及 npx 能不能拉到 Toolbox 1.9.0。发行仍是 Beta（pre-v1.0）。\`execute_sql\` 能改数据，保持工具调用审批。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "SQL Server", "MCP", "sql-server@sql-server"],
+    related: ["cloudsql-sqlserver-codex-plugin", "cloudsql-mysql-codex-plugin", "cloudsql-postgres-codex-plugin"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/sql-server",
+        url: "https://github.com/gemini-cli-extensions/sql-server",
+      },
+      {
+        label: "MCP Toolbox · Microsoft SQL Server prebuilt",
+        url: "https://mcp-toolbox.dev/integrations/mssql/prebuilt-configs/microsoft-sql-server/",
+      },
+      {
+        label: "MCP Toolbox · SQL Server using MCP",
+        url: "https://mcp-toolbox.dev/documentation/connect-to/ides/mssql_mcp/",
+      },
+    ],
+  },
+  {
+    id: "looker-ca-codex-plugin",
+    no: 496,
+    title: "安装 Looker Conversational Analytics 插件",
+    summary: "安装 looker-conversational-analytics@looker-conversational-analytics，配置 Looker 客户端凭证、ADC、LOOKER_PROJECT 和 LOOKER_LOCATION，使用自然语言分析数据。",
+    body: `安装 looker-conversational-analytics@looker-conversational-analytics，配置 Looker 客户端凭证、ADC、LOOKER_PROJECT 和 LOOKER_LOCATION，使用自然语言分析数据。
+
+这是 [gemini-cli-extensions/looker-conversational-analytics](https://github.com/gemini-cli-extensions/looker-conversational-analytics) 的 Codex 专节。插件把 MCP Toolbox 的预置 \`looker-conversational-analytics\` 封装为插件，用 Looker API 客户端密钥加上 GCP Conversational Analytics API，去列 LookML 模型 / Explore，再用 \`ask_data_insights\` 问数。认证是 Looker 客户端密钥 **加上** ADC，不是只靠库用户。
+
+要 Codex **v0.150.0+**，本机有 Node / npx。先开 Conversational Analytics 相关 API，IAM 至少 \`roles/looker.instanceUser\`、\`roles/cloudaicompanion.user\`、\`roles/geminidataanalytics.dataAgentStatelessUser\`，再准备 ADC 和 Looker 客户端：
+
+\`\`\`bash
+gcloud auth application-default login
+gcloud services enable geminidataanalytics.googleapis.com cloudaicompanion.googleapis.com --project=YOUR_LOOKER_PROJECT
+export LOOKER_BASE_URL=YOUR_LOOKER_BASE_URL
+export LOOKER_CLIENT_ID=YOUR_LOOKER_CLIENT_ID
+export LOOKER_CLIENT_SECRET=YOUR_LOOKER_CLIENT_SECRET
+export LOOKER_PROJECT=YOUR_LOOKER_PROJECT
+export LOOKER_LOCATION=YOUR_LOOKER_LOCATION
+# 可选：LOOKER_VERIFY_SSL（默认 true）、LOOKER_SHOW_HIDDEN_MODELS / EXPLORES / FIELDS
+\`\`\`
+
+不要把 Client Secret 写进 \`http_headers\`。该 stdio 服务 **不要** \`mcp login\`。\`LOOKER_LOCATION\` 在 Toolbox 源里默认是 \`us\`，仍应显式导出，插件不会自动填写。
+
+清单 \`.claude-plugin/marketplace.json\` 的 name 是 \`looker-conversational-analytics\`，插件 name 也是 \`looker-conversational-analytics\`（\`plugin.json\` 0.3.8）。Toolbox 预置是 \`looker-conversational-analytics\`，MCP 表名却是 \`looker\`：
+
+\`\`\`bash
+codex --version
+codex plugin marketplace add gemini-cli-extensions/looker-conversational-analytics
+codex plugin add looker-conversational-analytics@looker-conversational-analytics
+codex plugin list
+codex mcp list
+\`\`\`
+
+IDE 扩展没有 \`/plugins\`。
+
+插件会登记一台 **stdio** MCP，表名是 \`looker\`。command 是 \`npx\`，args 指定 \`@toolbox-sdk/server@1.9.0 --prebuilt looker-conversational-analytics --stdio\`。**不要** \`codex mcp login looker\`。插件已经带 MCP 时，不要再 \`codex mcp add looker -- npx @toolbox-sdk/server\` 叠一张用户层表。已经装了 \`looker@data-agent-kit\` 时，那份插件也占用表名 \`looker\`（外加 \`looker-dev\`），不要两台叠一张。
+
+
+可选：\`codex plugin marketplace upgrade looker-conversational-analytics\` 后再 \`plugin add\` 一次。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex mcp list\` 里应有 \`looker\`。连接失败先看 \`LOOKER_PROJECT\` / \`LOOKER_LOCATION\` / \`LOOKER_CLIENT_ID\` 是不是进了同一进程，ADC 是否有效，以及 npx 能不能拉到 Toolbox 1.9.0。发行仍是 Beta（pre-v1.0）。\`ask_data_insights\` 会打 Conversational Analytics API，保持工具调用审批。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Looker", "MCP", "LOOKER_LOCATION", "looker-conversational-analytics@looker-conversational-analytics"],
+    related: ["looker-codex-plugin", "bigquery-codex-plugin", "dak-starter-codex-plugin"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/looker-conversational-analytics",
+        url: "https://github.com/gemini-cli-extensions/looker-conversational-analytics",
+      },
+      {
+        label: "MCP Toolbox · Looker Conversational Analytics prebuilt",
+        url: "https://mcp-toolbox.dev/integrations/looker/prebuilt-configs/looker-conversational-analytics/",
+      },
+      {
+        label: "MCP Toolbox · looker-conversational-analytics tool",
+        url: "https://mcp-toolbox.dev/integrations/looker/tools/looker-conversational-analytics/",
+      },
+    ],
   }
 ];
