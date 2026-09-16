@@ -5475,5 +5475,40 @@ codex mcp list
 # codex mcp login cloud-sql-mysql
 # command = "./PATH/TO/toolbox"
 `,
+  },
+  {
+    id: "cloudsql-sqlserver-codex-plugin",
+    title: "cloudsql marketplace 把 Cloud SQL SQL Server 插件喂给 data-agent-kit",
+    filename: "terminal",
+    summary:
+      "cloudsql marketplace 把 Cloud SQL SQL Server 插件喂给 data-agent-kit。主路径是 marketplace add GoogleCloudPlatform/data-agent-kit，再 plugin add cloud-sql-sqlserver@data-agent-kit。",
+    code: `gcloud auth application-default login
+export CLOUD_SQL_MSSQL_PROJECT=YOUR_CLOUD_SQL_MSSQL_PROJECT
+export CLOUD_SQL_MSSQL_REGION=YOUR_CLOUD_SQL_MSSQL_REGION
+export CLOUD_SQL_MSSQL_INSTANCE=YOUR_CLOUD_SQL_MSSQL_INSTANCE
+export CLOUD_SQL_MSSQL_DATABASE=YOUR_CLOUD_SQL_MSSQL_DATABASE
+export CLOUD_SQL_MSSQL_USER=YOUR_CLOUD_SQL_MSSQL_USER
+export CLOUD_SQL_MSSQL_PASSWORD=YOUR_CLOUD_SQL_MSSQL_PASSWORD
+
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add cloud-sql-sqlserver@data-agent-kit
+codex mcp list
+
+# 可选：
+# export CLOUD_SQL_MSSQL_IP_TYPE=PRIVATE
+# codex plugin marketplace upgrade data-agent-kit
+
+# 不要：
+# plugin install cloud-sql-sqlserver@data-agent-kit
+# /plugin install cloud-sql-sqlserver@claude-plugins-official
+# gemini extensions install https://github.com/gemini-cli-extensions/cloud-sql-sqlserver
+# plugin add cloud-sql-postgresql@data-agent-kit
+# plugin add cloud-sql-mysql@data-agent-kit
+# plugin add alloydb@data-agent-kit
+# export CLOUD_SQL_SQLSERVER_PROJECT
+# export CLOUD_SQL_MSSQL_IP_ADDRESS
+# codex mcp login cloud-sql-mssql
+# command = "./PATH/TO/toolbox"
+`,
   }
 ];

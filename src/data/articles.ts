@@ -6690,5 +6690,35 @@ export const articles: Article[] = [
     tags: ["Cloud SQL", "MySQL", "MCP", "remote", "ADC", "cloud-sql-mysql@data-agent-kit", "CLOUD_SQL_MYSQL_PROJECT"],
     summary:
       'Cloud SQL 远程 MCP 是 https://sqladmin.googleapis.com/mcp，开 API 即启用。这不是 Codex 插件那条本机 toolbox stdio。客户端用 Google 凭证，不是 mcp login 插件表。不要和 cloud-sql-mysql@data-agent-kit 抄成一条。',
+  },
+  {
+    title: 'Cloud SQL for SQL Server',
+    url: 'https://github.com/gemini-cli-extensions/cloud-sql-sqlserver',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "Cloud SQL", "SQL Server", "plugins", "cloud-sql-sqlserver@data-agent-kit", "CLOUD_SQL_MSSQL_PROJECT"],
+    summary:
+      'Google Cloud Cloud SQL for SQL Server 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add cloud-sql-sqlserver@data-agent-kit，项目用 CLOUD_SQL_MSSQL_PROJECT 不要写成 plugin install。Codex 要 v0.117.0+。MCP 表名是 cloud-sql-mssql，用户密码必填，不要 mcp login。',
+  },
+  {
+    title: 'Use Cloud SQL for SQL Server with MCP, Gemini CLI, and other agents',
+    url: 'https://docs.cloud.google.com/sql/docs/sqlserver/pre-built-tools-with-mcp-toolbox',
+    source: 'Google Cloud Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Cloud SQL", "SQL Server", "MCP Toolbox", "CLOUD_SQL_MSSQL_PROJECT", "Cursor", "cloud-sql-sqlserver@data-agent-kit"],
+    summary:
+      'GCP 这篇讲用 MCP Toolbox 连 Cloud SQL for SQL Server。Codex 节把动词写成 plugin install；插件仓 README 是 plugin add。Cursor 示例是 mcpServers.cloud-sql-sqlserver 加本机 toolbox 二进制和 --prebuilt cloud-sql-mssql。坐标是 CLOUD_SQL_MSSQL_*，不是 CLOUD_SQL_SQLSERVER_*。',
+  },
+  {
+    title: 'Use the Cloud SQL remote MCP server for SQL Server',
+    url: 'https://docs.cloud.google.com/sql/docs/sqlserver/use-cloudsql-mcp',
+    source: 'Google Cloud Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Cloud SQL", "SQL Server", "MCP", "remote", "ADC", "cloud-sql-sqlserver@data-agent-kit", "CLOUD_SQL_MSSQL_PROJECT"],
+    summary:
+      'Cloud SQL 远程 MCP 是 https://sqladmin.googleapis.com/mcp，开 API 即启用。这不是 Codex 插件那条本机 toolbox stdio。客户端用 Google 凭证，不是 mcp login 插件表。不要和 cloud-sql-sqlserver@data-agent-kit 抄成一条。',
   }
 ];

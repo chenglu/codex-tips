@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-16T01:14:00Z",
+  lastTick: "2026-09-16T02:05:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "01:14 收口。#105 已合入 main（TIP 483–484）。本轮从最新 main 重放 #106 为 485 cloudsql-postgres-codex-plugin、#107 为 486 cloudsql-mysql-codex-plugin。合入后关 #106–#107。站点 486 技巧。",
+    "02:05 收口。#108 已合入 main（TIP 485–486）。本轮从最新 main 重放 #109 为 487 cloudsql-sqlserver-codex-plugin。合入后关 #109。站点 487 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2169,6 +2169,14 @@ export const loopState = {
     "Codex CLI 技巧 2026 Cloud SQL MySQL CLOUD_SQL_MYSQL_PROJECT plugin add",
     "skip leftover 0100-2b7e smart-vs-mcp",
     "skip open #106 cloud-sql-postgresql",
+    "codex plugin add cloud-sql-sqlserver@data-agent-kit GoogleCloudPlatform/data-agent-kit",
+    "site:github.com/gemini-cli-extensions/cloud-sql-sqlserver Codex plugin marketplace",
+    "site:docs.cloud.google.com/sql/docs/sqlserver MCP Toolbox Codex plugin install vs add",
+    "X news: Codex CLI 2026-09-16 01:30",
+    'X: ("Codex CLI" OR #CodexCLI) (plugin OR marketplace OR SQL Server OR MCP)',
+    "Codex CLI 技巧 2026 Cloud SQL SQL Server CLOUD_SQL_MSSQL_PROJECT plugin add",
+    "skip leftover 0130-2b7e Compound Engineering",
+    "skip firestore-native bigtable dataproc for next ticks",
   ],
 };
 
