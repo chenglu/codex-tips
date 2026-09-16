@@ -7230,5 +7230,35 @@ export const articles: Article[] = [
     tags: ["Codex", "Vercel", "plugins", "Skills", "MCP", "/vercel-plugin:deploy prod", "vercel@openai-curated"],
     summary:
       '编码代理说明把安装器拆开：Claude 用 npx plugins add，Cursor 用 /add-plugin vercel，Codex 进 /plugins 选 Vercel。插件注入 vercel.md，不给账号工具。MCP 另开。不要发明 vercel@openai-curated。',
+  },
+  {
+    title: 'canva-sdks/canva-skills',
+    url: 'https://github.com/canva-sdks/canva-skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "Canva", "plugins", "canva@canva-skills", "MCP", "canva-sdks/canva-skills"],
+    summary:
+      'Canva 官方 Codex 插件：marketplace 加 canva-sdks/canva-skills，再 plugin add canva@canva-skills，不要发明 canva@openai-curated。README Codex 节是 marketplace add、plugin add、mcp login canva。清单 name 是 canva-skills。不要抄 Claude 的 /plugin install。',
+  },
+  {
+    title: 'Codex marketplace entrypoint',
+    url: 'https://github.com/canva-sdks/canva-skills/blob/main/.agents/plugins/README.md',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Codex", "Canva", "plugins", "canva-skills", "MCP", "canva@canva-skills", "canva-sdks/canva-skills"],
+    summary:
+      'Codex 入口是 .agents/plugins/marketplace.json，包在 ./plugins/canva。安装三连是 marketplace add canva-sdks/canva-skills、plugin add canva@canva-skills、mcp login canva。已加过用 upgrade canva-skills。不要发明 canva@openai-curated。',
+  },
+  {
+    title: 'Canva plugin .mcp.json',
+    url: 'https://github.com/canva-sdks/canva-skills/blob/main/plugins/canva/.mcp.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Canva", "MCP", "mcp.canva.com", "canva@canva-skills", "canva-sdks/canva-skills"],
+    summary:
+      '插件 MCP 表名 canva，type 是 http，URL 是 https://mcp.canva.com/mcp，必须带 /mcp。插件已登记就不要再 mcp add 叠一张。OAuth 走 mcp login canva。不要抄 Cursor 的 .cursor/mcp.json。',
   }
 ];

@@ -17488,5 +17488,62 @@ codex
         url: "https://vercel.com/i/vercel-plugin-coding-agents",
       },
     ],
+  },
+  {
+    id: "canva-codex-plugin",
+    no: 505,
+    title:
+      "Canva 官方 Codex 插件：marketplace 加 canva-sdks/canva-skills，再 plugin add canva@canva-skills，不要发明 canva@openai-curated",
+    summary:
+      "官方 Codex：先 marketplace add canva-sdks/canva-skills，再 plugin add canva@canva-skills，再 mcp login canva。插件 MCP 是 mcp.canva.com/mcp。不要抄 Claude 的 /plugin install，也不要把 Cursor marketplace 当 Codex 安装器。",
+    body: `Canva 官方 Codex 插件：marketplace 加 canva-sdks/canva-skills，再 plugin add canva@canva-skills，不要发明 canva@openai-curated。
+
+这是 [canva-sdks/canva-skills](https://github.com/canva-sdks/canva-skills) 的 Codex 专节，不是 Claude 的 \`/plugin marketplace add canva-sdks/canva-skills\` 再 \`/plugin install canva@canva-skills\`，也不是 Cursor 的 \`.cursor-plugin/marketplace.json\`。清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`canva-skills\`，插件 name 是 \`canva\`，所以 CLI id 是 \`canva@canva-skills\`。
+
+\`\`\`bash
+codex --version
+codex plugin marketplace add canva-sdks/canva-skills
+codex plugin add canva@canva-skills
+codex plugin list
+codex mcp login canva
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install canva@canva-skills\`。不要发明 \`canva@openai-curated\`。已经加过这份 marketplace 时，用 \`codex plugin marketplace upgrade canva-skills\`，再视需要 \`plugin add\` 一次。桌面 Plugins 或 TUI \`/plugins\` 搜 Canva 再装，效果一样。IDE 扩展没有 \`/plugins\`。
+
+装上策略是 \`ON_INSTALL\`，应弹出 Canva OAuth。没弹再跑上面的 \`mcp login canva\`。插件 \`.mcp.json\` 表名是 \`canva\`，URL 是 \`https://mcp.canva.com/mcp\`（**有** \`/mcp\` 后缀）。插件已经登记 MCP 时，不要再手写 \`mcp add canva --url https://mcp.canva.com/mcp\` 叠一张。只要 MCP、不要技能包时，才手写那张用户层表，再 \`mcp login canva\`。
+
+技能随插件走：\`resize-for-social-media\`、\`bulk-create\`、\`implement-feedback\`、\`edit-design\`、\`get-design-feedback\`、\`brand-check\`。仓库里 \`inactive-skills/\` 不会被 Codex 注册。\`bulk-create\` 的 autofill 要 Canva Enterprise。改设计要人确认。不要 \`npx skills add\` 当 Codex 安装器，也不要手拷到 \`~/.codex/skills\`。
+
+0.154 起先看**当前会话**的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex plugin list\` 里应看到 \`canva@canva-skills\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Canva。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add canva@openai-curated\`。
+- 不要抄 Claude 的 \`/plugin install canva@canva-skills\` 或 \`canva@claude-plugins-official\`。
+- 不要把 Cursor Marketplace / \`.cursor/mcp.json\` 抄进 Codex。
+- 不要 \`gemini extensions install\`，也不要 \`npx skills add canva-sdks/canva-skills\`。
+- 不要一上来 \`--yolo\`。写设计、回评论、批量出图会改 Canva 账号内容。
+- 不要 \`required = true\`。
+
+改完用 \`codex mcp get canva\` 看传输是 streamable_http。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Canva", "MCP", "canva@canva-skills"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "canva-sdks/canva-skills",
+        url: "https://github.com/canva-sdks/canva-skills",
+      },
+      {
+        label: "Codex marketplace README",
+        url: "https://github.com/canva-sdks/canva-skills/blob/main/.agents/plugins/README.md",
+      },
+      {
+        label: "Canva plugin MCP 表",
+        url: "https://github.com/canva-sdks/canva-skills/blob/main/plugins/canva/.mcp.json",
+      },
+    ],
   }
 ];

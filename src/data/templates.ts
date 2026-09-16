@@ -5998,5 +5998,16 @@ codex plugin list
     code: `codex
 /plugins
 `,
+  },
+  {
+    id: "canva-codex-plugin",
+    title: "canva@canva-skills 把 Canva 技能和 MCP 打给 Codex",
+    filename: "terminal",
+    summary:
+      "canva@canva-skills 把 Canva 技能和 MCP 打给 Codex。先 marketplace add canva-sdks/canva-skills，再 mcp login canva。",
+    code: `codex plugin marketplace add canva-sdks/canva-skills
+codex plugin add canva@canva-skills
+codex mcp login canva
+`,
   }
 ];

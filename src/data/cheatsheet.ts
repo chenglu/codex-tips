@@ -484,6 +484,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: "Plugins 搜 Neon", meaning: "Neon 官方 Codex 插件。装 neon-postgres 包，捆绑技能和 MCP。CLI 才 npx neon@latest plugins --agent codex。不要发明 plugin add neon@openai-curated。只要 MCP 仍走 mcp add neon" },
       { cmd: "codex plugin add posthog@posthog", meaning: "PostHog 官方 Codex。先 marketplace add PostHog/ai-plugin。插件 MCP 表名 posthog。不要发明 posthog@openai-curated。不要叠手写 mcp add posthog。不要抄 Claude 的 plugin install" },
       { cmd: "/vercel-plugin:deploy prod", meaning: "Vercel 官方 Codex 插件斜杠。先 Plugins 搜 Vercel。不要发明 vercel@openai-curated。不要把 npx plugins add 当 Codex 安装器。不要叠手写 mcp add vercel。不要抄 Cursor 的 /add-plugin vercel" },
+      { cmd: "codex plugin add canva@canva-skills", meaning: "Canva 官方 Codex。先 marketplace add canva-sdks/canva-skills。插件 MCP 表名 canva，URL 带 /mcp。不要发明 canva@openai-curated。不要叠手写 mcp add canva。不要抄 Claude 的 /plugin install" },
       { cmd: "npx skills add ActiveCampaign/postmark-skills", meaning: "博客点名 Codex。官方没钉 --agent codex。示例技能是 postmark-send-email。不要发明 plugin add postmark@。这不是 @activecampaign/postmark-mcp" },
       { cmd: "npx skills add datadog-labs/agent-skills/agent-observability --full-depth -y", meaning: "官方点名 Codex CLI。官方没钉 --agent codex。不要发明 plugin add。不要抄 Restart Claude Code。MCP 仍走 mcp.datadoghq.com/v1/mcp，工具集写 X-Datadog-MCP-Toolsets" },
       { cmd: "npx skills add tavily-ai/skills --all", meaning: "官方点名 Codex。官方没钉 --agent codex。示例技能是 tavily-search。不要发明 plugin add 或 mcp add。不要把 API key 拼进 mcp.tavily.com" },

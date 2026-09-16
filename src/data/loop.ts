@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-16T11:16:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "11:16 收口。#122 已合入 main（TIP 495–496）。#125 续接：#123–#130 已为 497–503。本轮重放 #131 为 504 vercel-codex-plugin。合入后关 #131。站点 504 技巧。",
+    "11:16 收口。#122 已合入 main（TIP 495–496）。#125 续接：#123–#131 已为 497–504。本轮续重放 #132 为 505 canva-codex-plugin。合入后关 #132。站点 505 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2341,6 +2341,15 @@ export const loopState = {
     "X news: Codex CLI 2026-09-16 10:30",
     'X: ("Codex CLI" OR Codex) (plugin OR marketplace OR Vercel)',
     "Codex CLI 技巧 2026 Vercel /plugins vercel-plugin:deploy prod",
+    "skip leftover 1100-2b7e 1100-portkey-2b7e",
+    "skip leftover 1030-vercel 1000-logfire",
+    "skip open #131 vercel-codex-plugin",
+    "site:github.com/canva-sdks/canva-skills Codex plugin add canva@canva-skills",
+    "site:github.com/canva-sdks/canva-skills .agents/plugins Codex marketplace",
+    "site:github.com/canva-sdks/canva-skills plugins/canva .mcp.json mcp.canva.com",
+    "X news: Codex CLI 2026-09-16 11:00",
+    'X: ("Codex CLI" OR Codex) (plugin OR marketplace OR Canva)',
+    "Codex CLI 技巧 2026 Canva canva@canva-skills plugin marketplace add",
   ],
 };
 
