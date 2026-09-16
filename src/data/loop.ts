@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-16T03:14:00Z",
+  lastTick: "2026-09-16T04:06:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "03:14 收口。#111 已合入 main（TIP 487–488）。本轮从最新 main 重放 #112 为 489 alloydb-omni-codex-plugin、#113 为 490 dataproc-codex-plugin。合入后关 #112–#113。站点 490 技巧。",
+    "04:06 收口。#114 已合入 main（TIP 489–490）。本轮从最新 main 重放 #115 为 491 oracledb-codex-plugin、#116 为 492 gcs-codex-plugin。合入后关 #115–#116。站点 492 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2204,6 +2204,24 @@ export const loopState = {
     'X: ("Codex CLI" OR #CodexCLI) (plugin OR marketplace OR Dataproc OR MCP)',
     "Codex CLI 技巧 2026 Dataproc DATAPROC_PROJECT plugin add",
     "skip bigtable gcs oracledb serverless-spark for next ticks",
+    "skip leftover 0330-2b7e Project CodeGuard",
+    "codex plugin add oracledb@data-agent-kit GoogleCloudPlatform/data-agent-kit",
+    "site:github.com/gemini-cli-extensions/oracledb Codex plugin marketplace",
+    "site:mcp-toolbox.dev/integrations/oracle prebuilt ORACLE_CONNECTION_STRING",
+    "X news: Codex CLI 2026-09-16 03:30",
+    'X: ("Codex CLI" OR #CodexCLI) (plugin OR marketplace OR Oracle OR MCP)',
+    "Codex CLI 技巧 2026 Oracle Database ORACLE_CONNECTION_STRING plugin add",
+    "skip bigtable gcs serverless-spark for next ticks",
+    "skip leftover 0400-2b7e Braintrust",
+    "skip open #115 oracledb-codex-plugin",
+    "codex plugin add google-cloud-storage@google-cloud-storage gemini-cli-extensions/google-cloud-storage",
+    "site:github.com/gemini-cli-extensions/google-cloud-storage Codex plugin marketplace",
+    "site:mcp-toolbox.dev/integrations/cloud-storage prebuilt CLOUD_STORAGE_PROJECT",
+    "site:docs.cloud.google.com/storage/docs/use-cloud-storage-mcp remote MCP",
+    "X news: Codex CLI 2026-09-16 04:00",
+    'X: ("Codex CLI" OR #CodexCLI) (plugin OR marketplace OR storage OR MCP)',
+    "Codex CLI 技巧 2026 Cloud Storage CLOUD_STORAGE_PROJECT plugin add",
+    "skip bigtable serverless-spark for next ticks",
   ],
 };
 

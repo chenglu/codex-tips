@@ -6810,5 +6810,65 @@ export const articles: Article[] = [
     tags: ["Dataproc", "MCP", "remote", "ADC", "dataproc@data-agent-kit", "DATAPROC_PROJECT"],
     summary:
       'Dataproc 远程 MCP 示例是 https://dataproc-us-central1.googleapis.com/mcp，开 Managed Service for Apache Spark API 即启用。这不是 Codex 插件那条本机 toolbox stdio。客户端用 Google 凭证，不是 mcp login 插件表。不要和 dataproc@data-agent-kit 抄成一条。',
+  },
+  {
+    title: 'Oracle Database',
+    url: 'https://github.com/gemini-cli-extensions/oracledb',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "Oracle", "plugins", "oracledb@data-agent-kit", "ORACLE_CONNECTION_STRING"],
+    summary:
+      'Oracle Database 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add oracledb@data-agent-kit，连接串用 ORACLE_CONNECTION_STRING 不要写成 plugin install。Codex 要 v0.117.0+。MCP 表名是 oracledb，用户密码必填，不要和 SQLcl MCP 抄成一条。',
+  },
+  {
+    title: 'Oracle prebuilt configuration',
+    url: 'https://mcp-toolbox.dev/integrations/oracle/prebuilt-configs/oracle/',
+    source: 'MCP Toolbox',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Oracle", "MCP Toolbox", "ORACLE_CONNECTION_STRING", "oracledb@data-agent-kit"],
+    summary:
+      'MCP Toolbox 预置 oracledb：--prebuilt oracledb，连接串是 ORACLE_CONNECTION_STRING，再加 ORACLE_USERNAME / ORACLE_PASSWORD。钱包才 ORACLE_WALLET，并要把 ORACLE_USE_OCI 设 true。工具含 execute_sql、list_tables、list_active_sessions。这是本机 stdio，不是 SQLcl。',
+  },
+  {
+    title: 'Oracle using MCP',
+    url: 'https://mcp-toolbox.dev/documentation/connect-to/ides/oracle_mcp/',
+    source: 'MCP Toolbox',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Oracle", "MCP", "Cursor", "oracledb@data-agent-kit", "ORACLE_CONNECTION_STRING"],
+    summary:
+      'Toolbox 这篇给 Cursor / VS Code 抄 mcpServers.oracle，command 是本机 toolbox 二进制加 --prebuilt oracledb。表名写成 oracle，不是 Codex 插件那张 oracledb。不要 mcp login，也不要和 oracledb@data-agent-kit 抄成一条。',
+  },
+  {
+    title: 'Google Cloud Storage Plugin',
+    url: 'https://github.com/gemini-cli-extensions/google-cloud-storage',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "Cloud Storage", "plugins", "google-cloud-storage@google-cloud-storage", "CLOUD_STORAGE_PROJECT"],
+    summary:
+      'Google Cloud Storage 官方 Codex 插件：marketplace 加 gemini-cli-extensions/google-cloud-storage，再 plugin add google-cloud-storage@google-cloud-storage，项目用 CLOUD_STORAGE_PROJECT 不要加成 data-agent-kit。MCP 表名是 cloud-storage，不要 mcp login，也不要写成 plugin add google-cloud-storage@data-agent-kit。',
+  },
+  {
+    title: 'Cloud Storage prebuilt configuration',
+    url: 'https://mcp-toolbox.dev/integrations/cloud-storage/prebuilt-configs/cloud-storage/',
+    source: 'MCP Toolbox',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Cloud Storage", "MCP Toolbox", "CLOUD_STORAGE_PROJECT", "google-cloud-storage@google-cloud-storage"],
+    summary:
+      'MCP Toolbox 预置 cloud-storage：--prebuilt cloud-storage，环境变量是 CLOUD_STORAGE_PROJECT。对象读写用 roles/storage.objectUser，管桶用 roles/storage.admin。这是本机 stdio，不是远程 https://storage.googleapis.com/storage/mcp。',
+  },
+  {
+    title: 'Use the Cloud Storage MCP server',
+    url: 'https://docs.cloud.google.com/storage/docs/use-cloud-storage-mcp',
+    source: 'Google Cloud Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Cloud Storage", "MCP", "remote", "ADC", "google-cloud-storage@google-cloud-storage", "CLOUD_STORAGE_PROJECT"],
+    summary:
+      'GCS 远程 MCP 是 https://storage.googleapis.com/storage/mcp，开 Cloud Storage API 即启用。这不是 Codex 插件那条本机 toolbox stdio。客户端用 Google 凭证，不是 mcp login 插件表。不要和 google-cloud-storage@google-cloud-storage 抄成一条。',
   }
 ];

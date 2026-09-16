@@ -5600,5 +5600,64 @@ codex mcp list
 # codex mcp login dataproc
 # command = "./PATH/TO/toolbox"
 `,
+  },
+  {
+    id: "oracledb-codex-plugin",
+    title: "dak marketplace 把 Oracle Database 插件喂给 data-agent-kit",
+    filename: "terminal",
+    summary:
+      "dak marketplace 把 Oracle Database 插件喂给 data-agent-kit。主路径是 marketplace add GoogleCloudPlatform/data-agent-kit，再 plugin add oracledb@data-agent-kit。",
+    code: `export ORACLE_CONNECTION_STRING=YOUR_ORACLE_CONNECTION_STRING
+export ORACLE_USERNAME=YOUR_ORACLE_USERNAME
+export ORACLE_PASSWORD=YOUR_ORACLE_PASSWORD
+
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add oracledb@data-agent-kit
+codex mcp list
+
+# 可选：
+# export ORACLE_WALLET=YOUR_ORACLE_WALLET
+# export ORACLE_USE_OCI=true
+# codex plugin marketplace upgrade data-agent-kit
+
+# 不要：
+# plugin install oracledb@data-agent-kit
+# /plugin install oracledb@claude-plugins-official
+# gemini extensions install https://github.com/gemini-cli-extensions/oracledb
+# plugin add alloydb@data-agent-kit
+# export ORACLE_DSN
+# codex mcp add sqlcl -- /opt/oracle/sqlcl/bin/sql -mcp
+# codex mcp login oracledb
+# command = "./PATH/TO/toolbox"
+`,
+  },
+  {
+    id: "gcs-codex-plugin",
+    title: "gcs marketplace 把 Cloud Storage 插件喂给 google-cloud-storage",
+    filename: "terminal",
+    summary:
+      "gcs marketplace 把 Cloud Storage 插件喂给 google-cloud-storage。主路径是 marketplace add gemini-cli-extensions/google-cloud-storage，再 plugin add google-cloud-storage@google-cloud-storage。",
+    code: `gcloud auth application-default login
+export CLOUD_STORAGE_PROJECT=YOUR_CLOUD_STORAGE_PROJECT
+
+codex plugin marketplace add gemini-cli-extensions/google-cloud-storage
+codex plugin add google-cloud-storage@google-cloud-storage
+codex mcp list
+
+# 可选：
+# gcloud auth login
+# codex plugin marketplace upgrade google-cloud-storage
+
+# 不要：
+# plugin install google-cloud-storage@google-cloud-storage
+# plugin add google-cloud-storage@data-agent-kit
+# /plugin install google-cloud-storage@claude-plugins-official
+# gemini extensions install https://github.com/gemini-cli-extensions/google-cloud-storage
+# npx skills add gemini-cli-extensions/google-cloud-storage
+# plugin add dak@data-agent-kit-starter-pack-marketplace
+# export CLOUD_STORAGE_PROJECT_ID
+# codex mcp login cloud-storage
+# command = "./PATH/TO/toolbox"
+`,
   }
 ];

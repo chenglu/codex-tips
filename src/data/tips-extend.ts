@@ -16553,5 +16553,133 @@ codex mcp list
         url: "https://mcp-toolbox.dev/integrations/dataproc/prebuilt-configs/dataproc/",
       },
     ],
+  },
+  {
+    id: "oracledb-codex-plugin",
+    no: 491,
+    title:
+      "Oracle Database 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add oracledb@data-agent-kit，连接串用 ORACLE_CONNECTION_STRING 不要写成 plugin install",
+    summary:
+      "官方 Codex 专节：先 marketplace add GoogleCloudPlatform/data-agent-kit，再 plugin add oracledb@data-agent-kit。stdio 表名是 oracledb，走 npx @toolbox-sdk/server@1.9.0。连接串用 ORACLE_CONNECTION_STRING，用户密码必填。不要写成 plugin install，也不要和 SQLcl MCP 抄成一条。",
+    body: `Oracle Database 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add oracledb@data-agent-kit，连接串用 ORACLE_CONNECTION_STRING 不要写成 plugin install。
+
+这是 [gemini-cli-extensions/oracledb](https://github.com/gemini-cli-extensions/oracledb) 的 Codex 专节，不是 Claude 的 \`/plugin install oracledb@claude-plugins-official\`，也不是 Toolbox IDE 页给 Cursor 抄的 \`mcpServers.oracle\` 加 \`./PATH/TO/toolbox --prebuilt oracledb\`。插件把 MCP Toolbox 的预置 \`oracledb\` 打成 Agent Plugin，用连接串加用户密码连 Oracle，去跑 SQL、列会话、看执行计划和表空间。
+
+要 Codex **v0.117.0+**，本机有 Node / npx。库权限至少 \`CREATE SESSION\`（看 \`V$\` / \`DBA_\` 再加 \`SELECT\`）。认证是数据库用户，**不是** GCP ADC：
+
+\`\`\`bash
+export ORACLE_CONNECTION_STRING=YOUR_ORACLE_CONNECTION_STRING
+export ORACLE_USERNAME=YOUR_ORACLE_USERNAME
+export ORACLE_PASSWORD=YOUR_ORACLE_PASSWORD
+# 可选：ORACLE_WALLET（钱包目录）
+# 可选：ORACLE_USE_OCI=true（厚客户端；钱包要 Instant Client）
+\`\`\`
+
+连接串填 \`host:port/service_name\` 或 TNS 别名，不要发明 \`ORACLE_DSN\`、\`ORACLE_HOST\`、\`ORACLE_SID\`。不要把密码写进 \`http_headers\`。开钱包时才设 \`ORACLE_USE_OCI=true\`，并装 Instant Client；默认走薄客户端。
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`data-agent-kit\`，插件 name 是 \`oracledb\`（\`plugin.json\` 0.2.7）。MCP 表名和 Toolbox 预置都是 \`oracledb\`，不要按 IDE 文档写成表名 \`oracle\`：
+
+\`\`\`bash
+codex --version
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add oracledb@data-agent-kit
+codex plugin list
+codex mcp list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install oracledb@data-agent-kit\`。不要 \`gemini extensions install https://github.com/gemini-cli-extensions/oracledb\`。不要 \`agy plugin install\`。IDE 扩展没有 \`/plugins\`。
+
+插件会登记一台 **stdio** MCP，表名是 \`oracledb\`。command 是 \`npx\`，args 钉 \`@toolbox-sdk/server@1.9.0 --prebuilt oracledb --stdio\`。**不要** \`codex mcp login oracledb\`。插件已经带 MCP 时，不要再 \`codex mcp add oracledb -- npx @toolbox-sdk/server\` 叠一张用户层表。
+
+不要抄这些：
+
+- Cursor / VS Code 的 \`mcpServers.oracle\`，\`command\` 写成 \`./PATH/TO/toolbox --prebuilt oracledb\`。那条表名是 \`oracle\`，不是这份插件的 \`oracledb\`。
+- 本站已有的 SQLcl MCP：\`codex mcp add sqlcl -- /opt/oracle/sqlcl/bin/sql -mcp\`。那条密码进 \`~/.dbtools\`，不要让 Codex 拼连接串。
+- AlloyDB 的 \`alloydb@data-agent-kit\`、\`alloydb-omni@data-agent-kit\`、Cloud SQL 那几条。同仓 marketplace 里插件 id 不同。
+- GCS 插件走另一份 marketplace \`gemini-cli-extensions/google-cloud-storage\`，不要当成这条安装器。
+
+可选：\`codex plugin marketplace upgrade data-agent-kit\` 后再 \`plugin add\` 一次。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex mcp list\` 里应有 \`oracledb\`。连接失败先看三个必填 \`ORACLE_*\` 是不是进了同一进程，以及 npx 能不能拉到 Toolbox 1.9.0。发行仍是 Beta（pre-v1.0）。不要 \`required = true\`。不要一上来 \`--yolo\`。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Oracle", "MCP", "data-agent-kit"],
+    related: ["sqlcl-oracle-mcp", "alloydb-codex-plugin", "dataproc-codex-plugin"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/oracledb",
+        url: "https://github.com/gemini-cli-extensions/oracledb",
+      },
+      {
+        label: "GoogleCloudPlatform/data-agent-kit",
+        url: "https://github.com/GoogleCloudPlatform/data-agent-kit",
+      },
+      {
+        label: "MCP Toolbox · Oracle prebuilt",
+        url: "https://mcp-toolbox.dev/integrations/oracle/prebuilt-configs/oracle/",
+      },
+    ],
+  },
+  {
+    id: "gcs-codex-plugin",
+    no: 492,
+    title:
+      "Google Cloud Storage 官方 Codex 插件：marketplace 加 gemini-cli-extensions/google-cloud-storage，再 plugin add google-cloud-storage@google-cloud-storage，项目用 CLOUD_STORAGE_PROJECT 不要加成 data-agent-kit",
+    summary:
+      "官方 Codex 专节：先 marketplace add gemini-cli-extensions/google-cloud-storage，再 plugin add google-cloud-storage@google-cloud-storage。stdio 表名是 cloud-storage，走 npx @toolbox-sdk/server@1.9.0。项目用 CLOUD_STORAGE_PROJECT。不要加成 GoogleCloudPlatform/data-agent-kit，也不要 mcp login。",
+    body: `Google Cloud Storage 官方 Codex 插件：marketplace 加 gemini-cli-extensions/google-cloud-storage，再 plugin add google-cloud-storage@google-cloud-storage，项目用 CLOUD_STORAGE_PROJECT 不要加成 data-agent-kit。
+
+这是 [gemini-cli-extensions/google-cloud-storage](https://github.com/gemini-cli-extensions/google-cloud-storage) 的 Codex 专节，不是 Claude 的 \`claude plugin install google-cloud-storage@claude-plugins-official\`，也不是 \`npx skills add gemini-cli-extensions/google-cloud-storage\`。插件把 MCP Toolbox 的预置 \`cloud-storage\` 打成 Agent Plugin，并带一套 GCS 技能，用 ADC 连项目里的桶和对象。
+
+本机要有 Node / npx，现行 Codex 能跑 \`plugin marketplace add\`。先开 Cloud Storage API，IAM 至少 \`roles/storage.objectViewer\`（改对象再加 \`roles/storage.objectAdmin\`，管桶再加 \`roles/storage.admin\`），再准备 ADC：
+
+\`\`\`bash
+gcloud auth application-default login
+# 可选：gcloud auth login（只给本机 gcloud CLI 用）
+export CLOUD_STORAGE_PROJECT=YOUR_CLOUD_STORAGE_PROJECT
+\`\`\`
+
+不要发明 \`CLOUD_STORAGE_PROJECT_ID\`。不要把密钥写进 \`http_headers\`。ADC 是这条本机 stdio 的认证，**不要** \`mcp login\`。
+
+清单名是 \`google-cloud-storage\`，插件 name 是 \`google-cloud-storage\`（\`plugin.json\` 1.1.0）。MCP 表名和 Toolbox 预置都是 \`cloud-storage\`：
+
+\`\`\`bash
+codex plugin marketplace add gemini-cli-extensions/google-cloud-storage
+codex plugin add google-cloud-storage@google-cloud-storage
+codex plugin list
+codex mcp list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install google-cloud-storage@google-cloud-storage\`。不要写成 \`plugin add google-cloud-storage@data-agent-kit\`。不要 \`gemini extensions install https://github.com/gemini-cli-extensions/google-cloud-storage\`。不要 \`agy plugin install\`。IDE 扩展没有 \`/plugins\`。
+
+插件会登记一台 **stdio** MCP，表名是 \`cloud-storage\`。command 是 \`npx\`，args 钉 \`@toolbox-sdk/server@1.9.0 --prebuilt cloud-storage --stdio\`。**不要** \`codex mcp login cloud-storage\`。插件已经带 MCP 时，不要再 \`codex mcp add cloud-storage -- npx @toolbox-sdk/server\` 叠一张用户层表。
+
+不要抄这些：
+
+- Cursor / VS Code 的 \`mcpServers\` 写 \`./PATH/TO/toolbox --prebuilt cloud-storage\`。
+- GCS 远程 MCP：\`https://storage.googleapis.com/storage/mcp\`。那是托管入口，不是这份本机 toolbox stdio。
+- Starter Pack 的 \`dak@data-agent-kit-starter-pack-marketplace\` 里那张远程 \`cloud-storage\` 表。那条打 \`*.googleapis.com/mcp\`，要改缓存 \`.mcp.json\`。
+- Data Agent Kit 产品索引 \`GoogleCloudPlatform/data-agent-kit\`。官方 Codex 主路径是这份独立 marketplace，不要加成 \`data-agent-kit\`。
+- \`dataproc@data-agent-kit\`、\`firestore-native@data-agent-kit\`。同组织另一份 marketplace，插件 id 不同。
+
+可选：\`codex plugin marketplace upgrade google-cloud-storage\` 后再 \`plugin add\` 一次。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex mcp list\` 里应有 \`cloud-storage\`。连接失败先看 ADC、\`CLOUD_STORAGE_PROJECT\` 是不是进了同一进程，以及 npx 能不能拉到 Toolbox 1.9.0。\`delete_bucket\` / \`delete_object\` / \`move_object\` / \`write_object\` / \`upload_object\` 会改数据，不要一上来 \`--yolo\`。不要 \`required = true\`。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Cloud Storage", "GCS", "MCP", "Google Cloud"],
+    related: ["dak-starter-codex-plugin", "dataproc-codex-plugin", "firestore-native-codex-plugin"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/google-cloud-storage",
+        url: "https://github.com/gemini-cli-extensions/google-cloud-storage",
+      },
+      {
+        label: "MCP Toolbox · Cloud Storage prebuilt",
+        url: "https://mcp-toolbox.dev/integrations/cloud-storage/prebuilt-configs/cloud-storage/",
+      },
+      {
+        label: "Google Cloud · Use the Cloud Storage MCP server",
+        url: "https://docs.cloud.google.com/storage/docs/use-cloud-storage-mcp",
+      },
+    ],
   }
 ];
