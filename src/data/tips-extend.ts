@@ -17841,5 +17841,196 @@ codex plugin list
         url: "https://github.com/openai/plugins/blob/main/plugins/teams/.codex-plugin/plugin.json",
       },
     ],
+  },
+  {
+    id: "sharepoint-codex-plugin",
+    no: 511,
+    title:
+      "SharePoint 官方 Codex 插件：桌面 Plugins 搜 SharePoint，CLI 用 plugin add sharepoint@openai-curated，不要当成 Microsoft Teams",
+    summary:
+      "官方 Codex：codex plugin add sharepoint@openai-curated。桌面 Plugins 或 TUI /plugins 搜 SharePoint，再 Connect Microsoft 工作或学校账号。这是 SharePoint 插件，不是 Teams，也不是个人 OneDrive。写动作先确认。",
+    body: `SharePoint 官方 Codex 插件：桌面 Plugins 搜 SharePoint，CLI 用 plugin add sharepoint@openai-curated，不要当成 Microsoft Teams。
+
+这是 OpenAI 做的 SharePoint 插件，用来搜已有权限的站点、页面和文件，并在工作区打开写动作时建文件夹、更新文件、管共享链接。产品页是 [SharePoint](https://openai.com/business/plugins/microsoft-sharepoint/)。能力边界看 [SharePoint app and setup in ChatGPT](https://help.openai.com/en/articles/12143177-sharepoint-synced-connectors-setup)。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/sharepoint/.codex-plugin/plugin.json) 的 name 是 \`sharepoint\`，所以精选 id 是 \`sharepoint@openai-curated\`。
+
+CLI：
+
+\`\`\`bash
+codex plugin add sharepoint@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install sharepoint@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 SharePoint 再装，效果一样。装完按提示 Connect Microsoft 工作或学校账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+\`plugin.json\` 把 app 绑到 Microsoft SharePoint 连接器，**不是**远程 MCP URL。不要再手写 \`mcp add sharepoint\`。仓库根目录 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/sharepoint/.app.json) 的 app 键是 \`sharepoint\`。
+
+不要和旁边那几个搞混：
+
+- Microsoft Teams 是独立插件，搜聊天和频道，不拉站点文件。
+- Outlook Email / Outlook Calendar 管收件箱和日程，不搜 SharePoint 库。
+- Google Drive 是另一条精选插件，不要把个人 Drive 和 SharePoint 抄成一条。
+- 个人 OneDrive 账号不被支持；工作/学校 OneDrive 只有管理员在同步索引里勾选全部受支持内容时才会纳入。
+
+帮助中心写明：只能读你 Microsoft 账号已经能打开的站点文件。建文件夹、上传或改文件、管共享链接、改列表和页面，要工作区打开对应 Actions，以及 Microsoft Entra 管理员同意 Graph 权限。企业/Edu 的管理员同步索引是只读的，**不能**当个人自助 sync，也没有成员自己建索引。\`Sites.FullControl.All\` 用来评估权限层级，不代表成员能看到自己本来打不开的文件。未批准前不要改库里的文件。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 SharePoint。ChatGPT 里可以用 \`@SharePoint\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`sharepoint@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 SharePoint。
+
+不要做这些：
+
+- 不要当成 Microsoft Teams、Slack 或 Google Drive。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`sharepoint@claude-plugins-official\`。
+- 不要把第三方 SharePoint MCP 包装器抄进 Codex。
+- 不要和手写 Slack MCP 叠成同一条。
+- 不要一上来 \`--yolo\`：建文件夹、改文件、管共享链接会改别人的站点。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "SharePoint", "sharepoint@openai-curated", "Microsoft"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-slack-remote"],
+    sources: [
+      {
+        label: "OpenAI · SharePoint",
+        url: "https://openai.com/business/plugins/microsoft-sharepoint/",
+      },
+      {
+        label: "OpenAI Help · SharePoint app",
+        url: "https://help.openai.com/en/articles/12143177-sharepoint-synced-connectors-setup",
+      },
+      {
+        label: "openai/plugins · sharepoint plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/sharepoint/.codex-plugin/plugin.json",
+      },
+    ],
+  },
+  {
+    id: "gmail-codex-plugin",
+    no: 512,
+    title:
+      "Gmail 官方 Codex 插件：桌面 Plugins 搜 Gmail，CLI 用 plugin add gmail@openai-curated，不要当成 Outlook Email",
+    summary:
+      "官方 Codex：codex plugin add gmail@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Gmail，再 Connect Google。这是 Gmail 插件，不是 Outlook Email，也不是 Google Drive。发信先确认。",
+    body: `Gmail 官方 Codex 插件：桌面 Plugins 搜 Gmail，CLI 用 plugin add gmail@openai-curated，不要当成 Outlook Email。
+
+这是 OpenAI 做的 Gmail 插件，用来搜已连接收件箱里的邮件和会话，并在工作区打开写动作时起草回复、整理线程。产品页是 [Gmail](https://openai.com/business/plugins/gmail/)。Google 权限边界看 [Google app data controls FAQ](https://help.openai.com/en/articles/10408842-google-app-data-controls-faq)。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/gmail/.codex-plugin/plugin.json) 的 name 是 \`gmail\`，所以精选 id 是 \`gmail@openai-curated\`。仓库 README 写明本包没有随附技能。
+
+CLI：
+
+\`\`\`bash
+codex plugin add gmail@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install gmail@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Gmail 再装，效果一样。装完按提示 Connect Google 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+插件 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/gmail/.mcp.json) 表名是 \`gmail\`，type 是 http，URL 是 \`https://gmailmcp.googleapis.com/mcp/v1\`（带 \`/mcp/v1\`）。插件已经登记 MCP 时，不要再手写 \`mcp add gmail --url https://gmailmcp.googleapis.com/mcp/v1\` 叠一张。OAuth 字段由插件带，不要手抄 client_id，也不要发明 \`mcp login gmail\`。
+
+不要和旁边那几个搞混：
+
+- Outlook Email 是独立插件，管 Outlook 邮箱，不读 Gmail。
+- Google Calendar / Google Drive 是另两条精选插件，不要把日程和网盘抄进收件箱这条。
+- Nylas 远程 MCP 可以挂多种邮箱 grant，不是这条精选 Gmail 插件。
+
+帮助中心写明：只能读你授权的那个 Google 账号已经能打开的邮件。Gmail 动作对应的管理端 scope 是 \`gmail.modify\`。工作区没打开写动作、或 Google Workspace 没批准对应 scope 时，连接或发信会失败。ChatGPT Work 里「新邮件触发任务」是网页事件触发，不能拿来代替这条 Codex 插件安装。未确认前不要发送。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 Gmail。ChatGPT 里可以用 \`@Gmail\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`gmail@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Gmail。
+
+不要做这些：
+
+- 不要当成 Outlook Email、Google Drive 或第三方收件箱包装器。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`gmail@claude-plugins-official\`。
+- 不要把 usecarly 或 Composio 的安装句抄进 Codex。
+- 不要和手写 Nylas MCP 叠成同一条。
+- 不要一上来 \`--yolo\`：起草回复、改标签、归档会动真实邮箱。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Gmail", "gmail@openai-curated", "Google"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "OpenAI · Gmail",
+        url: "https://openai.com/business/plugins/gmail/",
+      },
+      {
+        label: "openai/plugins · gmail plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/gmail/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · gmail .mcp.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/gmail/.mcp.json",
+      },
+    ],
+  },
+  {
+    id: "google-calendar-codex-plugin",
+    no: 513,
+    title:
+      "Google Calendar 官方 Codex 插件：桌面 Plugins 搜 Google Calendar，CLI 用 plugin add google-calendar@openai-curated，不要当成 Outlook Calendar",
+    summary:
+      "官方 Codex：codex plugin add google-calendar@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Google Calendar，再 Connect Google。这是 Google Calendar 插件，不是 Outlook Calendar，也不是 Gmail。改日程先确认。",
+    body: `Google Calendar 官方 Codex 插件：桌面 Plugins 搜 Google Calendar，CLI 用 plugin add google-calendar@openai-curated，不要当成 Outlook Calendar。
+
+这是 OpenAI 做的 Google Calendar 插件，用来看已连接日历里的日程和空闲，并在工作区打开写动作时起草或改事件。产品页是 [Google Calendar](https://openai.com/business/plugins/google-calendar/)。Google 权限边界看 [Google app data controls FAQ](https://help.openai.com/en/articles/10408842-google-app-data-controls-faq)。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/google-calendar/.codex-plugin/plugin.json) 的 name 是 \`google-calendar\`，所以精选 id 是 \`google-calendar@openai-curated\`。
+
+CLI：
+
+\`\`\`bash
+codex plugin add google-calendar@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install google-calendar@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Google Calendar 再装，效果一样。装完按提示 Connect Google 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+插件 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/google-calendar/.mcp.json) 表名是 \`google-calendar\`，type 是 http，URL 是 \`https://calendarmcp.googleapis.com/mcp/v1\`（带 \`/mcp/v1\`）。插件已经登记 MCP 时，不要再手写 \`mcp add google-calendar --url https://calendarmcp.googleapis.com/mcp/v1\` 叠一张。OAuth 字段由插件带，不要手抄 client_id，也不要发明 \`mcp login google-calendar\`。
+
+不要和旁边那几个搞混：
+
+- Outlook Calendar 是独立插件，管 Outlook 日程，不读 Google 日历。
+- Gmail 管收件箱，不负责空闲和事件。
+- Google Drive 是另一条精选插件，不要把网盘文件抄进日程这条。
+- Google Meet 的部分动作挂在 Calendar 这条下，对应 FAQ 里的 \`calendar.events\` 和 \`meetings.space.readonly\`，不是单独再装一条 Meet 插件。
+
+帮助中心写明：只能读你授权的那个 Google 账号已经能打开的日历。工作区没打开写动作、或 Google Workspace 没批准对应 scope 时，连接或改事件会失败。未确认前不要创建、改期或删除会议。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 Google Calendar。ChatGPT 里可以用 \`@Google Calendar\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`google-calendar@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Google Calendar。
+
+不要做这些：
+
+- 不要当成 Outlook Calendar、Gmail 或第三方日历包装器。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`google-calendar@claude-plugins-official\`。
+- 不要把第三方 Google Calendar MCP 包装器抄进 Codex。
+- 不要和手写 Gmail MCP 叠成同一条。
+- 不要一上来 \`--yolo\`：创建、改期、删除事件会动真实日历。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Google Calendar", "google-calendar@openai-curated", "Google"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "OpenAI · Google Calendar",
+        url: "https://openai.com/business/plugins/google-calendar/",
+      },
+      {
+        label: "openai/plugins · google-calendar plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/google-calendar/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · google-calendar .mcp.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/google-calendar/.mcp.json",
+      },
+    ],
   }
 ];

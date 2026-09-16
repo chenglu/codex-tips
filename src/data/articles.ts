@@ -7410,5 +7410,95 @@ export const articles: Article[] = [
     tags: ["Codex", "Microsoft Teams", "plugins", "teams@openai-curated", "openai/plugins", "microsoft-teams"],
     summary:
       '清单 name 是 teams，所以 CLI id 是 teams@openai-curated。displayName 是 Teams。能力含 Interactive 和 Write。没有给出 MCP URL。不要写成 plugin install。',
+  },
+  {
+    title: 'SharePoint',
+    url: 'https://openai.com/business/plugins/microsoft-sharepoint/',
+    source: 'OpenAI',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Codex", "SharePoint", "plugins", "sharepoint@openai-curated", "microsoft-sharepoint"],
+    summary:
+      'SharePoint 官方 Codex 插件：桌面 Plugins 搜 SharePoint，CLI 用 plugin add sharepoint@openai-curated，不要当成 Microsoft Teams。产品页只给 @SharePoint 示例，没有 marketplace add。不要和 Teams 产品页抄成一条。',
+  },
+  {
+    title: 'SharePoint app and setup in ChatGPT',
+    url: 'https://help.openai.com/en/articles/12143177-sharepoint-synced-connectors-setup',
+    source: 'OpenAI Help Center',
+    lang: '英文',
+    kind: '官方',
+    tags: ["SharePoint", "plugins", "Entra", "OneDrive", "sharepoint@openai-curated", "microsoft-sharepoint"],
+    summary:
+      '帮助中心把实时 SharePoint app 和管理员同步索引分开。实时连接可搜已有权限的站点和文件；写动作要打开 Actions。个人 OneDrive 不支持。管理员同步只读，没有个人自助 sync。Sites.FullControl.All 只用来评估权限。',
+  },
+  {
+    title: 'sharepoint plugin.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/sharepoint/.codex-plugin/plugin.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "SharePoint", "plugins", "sharepoint@openai-curated", "openai/plugins", "microsoft-sharepoint"],
+    summary:
+      '清单 name 是 sharepoint，version 是 0.1.7，所以 CLI id 是 sharepoint@openai-curated。displayName 是 SharePoint。能力含 Interactive 和 Write。没有给出 MCP URL。不要写成 plugin install。',
+  },
+  {
+    title: 'Gmail',
+    url: 'https://openai.com/business/plugins/gmail/',
+    source: 'OpenAI',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Codex", "Gmail", "plugins", "gmail@openai-curated", "gmailmcp.googleapis.com"],
+    summary:
+      'Gmail 官方 Codex 插件：桌面 Plugins 搜 Gmail，CLI 用 plugin add gmail@openai-curated，不要当成 Outlook Email。产品页只给 @Gmail 示例，没有 marketplace add。不要和 Outlook Email 产品页抄成一条。',
+  },
+  {
+    title: 'gmail plugin.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/gmail/.codex-plugin/plugin.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "Gmail", "plugins", "gmail@openai-curated", "openai/plugins", "gmailmcp.googleapis.com"],
+    summary:
+      '清单 name 是 gmail，version 是 0.1.9，所以 CLI id 是 gmail@openai-curated。displayName 是 Gmail。能力含 Interactive 和 Write。仓库 README 写明没有随附技能。不要写成 plugin install。',
+  },
+  {
+    title: 'gmail .mcp.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/gmail/.mcp.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Gmail", "MCP", "gmailmcp.googleapis.com", "gmail@openai-curated"],
+    summary:
+      '插件 MCP 表名 gmail，type 是 http，URL 是 https://gmailmcp.googleapis.com/mcp/v1，必须带 /mcp/v1。插件已登记就不要再 mcp add 叠一张。OAuth 字段由插件带，不要手抄 client_id，也不要发明 mcp login gmail。',
+  },
+  {
+    title: 'Google Calendar',
+    url: 'https://openai.com/business/plugins/google-calendar/',
+    source: 'OpenAI',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Codex", "Google Calendar", "plugins", "google-calendar@openai-curated", "calendarmcp.googleapis.com"],
+    summary:
+      'Google Calendar 官方 Codex 插件：桌面 Plugins 搜 Google Calendar，CLI 用 plugin add google-calendar@openai-curated，不要当成 Outlook Calendar。产品页只给 @Google Calendar 示例，没有 marketplace add。不要和 Outlook Calendar 产品页抄成一条。',
+  },
+  {
+    title: 'google-calendar plugin.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/google-calendar/.codex-plugin/plugin.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "Google Calendar", "plugins", "google-calendar@openai-curated", "openai/plugins", "calendarmcp.googleapis.com"],
+    summary:
+      '清单 name 是 google-calendar，version 是 1.2.6，所以 CLI id 是 google-calendar@openai-curated。displayName 是 Google Calendar。能力含 Interactive 和 Write。不要写成 plugin install。',
+  },
+  {
+    title: 'google-calendar .mcp.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/google-calendar/.mcp.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Google Calendar", "MCP", "calendarmcp.googleapis.com", "google-calendar@openai-curated"],
+    summary:
+      '插件 MCP 表名 google-calendar，type 是 http，URL 是 https://calendarmcp.googleapis.com/mcp/v1，必须带 /mcp/v1。插件已登记就不要再 mcp add 叠一张。OAuth 字段由插件带，不要手抄 client_id，也不要发明 mcp login google-calendar。',
   }
 ];

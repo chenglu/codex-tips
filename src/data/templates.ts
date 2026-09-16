@@ -6068,5 +6068,35 @@ codex plugin list
     code: `codex plugin add teams@openai-curated
 codex plugin list
 `,
+  },
+  {
+    id: "sharepoint-codex-plugin",
+    title: "sharepoint@openai-curated 把 SharePoint 站点打给 Codex",
+    filename: "terminal",
+    summary:
+      "sharepoint@openai-curated 把 SharePoint 站点打给 Codex。桌面 Plugins 搜 SharePoint，再 Connect Microsoft 工作或学校账号。",
+    code: `codex plugin add sharepoint@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "gmail-codex-plugin",
+    title: "gmail@openai-curated 把 Gmail 收件箱打给 Codex",
+    filename: "terminal",
+    summary:
+      "gmail@openai-curated 把 Gmail 收件箱打给 Codex。桌面 Plugins 搜 Gmail，再 Connect Google。",
+    code: `codex plugin add gmail@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "google-calendar-codex-plugin",
+    title: "google-calendar@openai-curated 把 Google 日程打给 Codex",
+    filename: "terminal",
+    summary:
+      "google-calendar@openai-curated 把 Google 日程打给 Codex。桌面 Plugins 搜 Google Calendar，再 Connect Google。",
+    code: `codex plugin add google-calendar@openai-curated
+codex plugin list
+`,
   }
 ];

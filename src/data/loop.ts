@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-16T14:08:00Z",
+  lastTick: "2026-09-16T15:12:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "14:08 收口。#125 已合入 main（TIP 497–505）。#135 续接：#133–#134、#136–#137 已为 506–509。本轮重放 #138 为 510 teams-codex-plugin。合入后关 #138。站点 510 技巧。",
+    "15:12 收口。#125 已合入 main（TIP 497–505）。#135 续接：#133–#138 已为 506–510。本轮重放 #139 为 511 sharepoint-codex-plugin、#140 为 512 gmail-codex-plugin、#141 为 513 google-calendar-codex-plugin。合入后关 #139–#141。站点 513 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2392,6 +2392,34 @@ export const loopState = {
     "X news: Codex CLI 2026-09-16 13:30",
     'X: ("Codex CLI" OR Codex) (plugin OR marketplace OR Teams OR SharePoint OR Gmail)',
     "Codex CLI 技巧 2026 Microsoft Teams teams@openai-curated plugin add",
+    "skip leftover 1400-2b7e 1400-agentgateway-2b7e already on main",
+    "skip open #133 remotion #134 copilot #136 outlook-email #137 outlook-calendar #138 teams",
+    "codex plugin add sharepoint@openai-curated Plugins SharePoint",
+    "site:openai.com/business/plugins/microsoft-sharepoint SharePoint plugin",
+    "site:help.openai.com/en/articles/12143177-sharepoint-synced-connectors-setup",
+    "site:github.com/openai/plugins sharepoint plugin.json",
+    "X news: Codex CLI 2026-09-16 14:00",
+    'X: ("Codex CLI" OR Codex) (plugin OR marketplace OR SharePoint OR Gmail OR Drive)',
+    "Codex CLI 技巧 2026 SharePoint sharepoint@openai-curated plugin add",
+    "skip leftover 1430-2b7e AMD 1430-azure-2b7e already on main",
+    "skip leftover 1400-2b7e 1400-agentgateway 1400-sharepoint open #139",
+    "codex plugin add gmail@openai-curated Plugins Gmail",
+    "site:openai.com/business/plugins/gmail Gmail plugin",
+    "site:github.com/openai/plugins gmail plugin.json .mcp.json",
+    "site:help.openai.com/en/articles/10408842-google-app-data-controls-faq Gmail scope",
+    "X news: Codex CLI 2026-09-16 14:30",
+    'X: ("Codex CLI" OR Codex) (plugin OR marketplace OR Gmail OR Drive OR Linear)',
+    "Codex CLI 技巧 2026 Gmail gmail@openai-curated plugin add",
+    "skip leftover 1500-2b7e Danube 1500-openaidr-2b7e already on main",
+    "skip leftover 1430-2b7e AMD 1430-azure 1430-gmail open #140",
+    "skip open #133 remotion #134 copilot #136 outlook-email #137 outlook-calendar #138 teams #139 sharepoint",
+    "codex plugin add google-calendar@openai-curated Plugins Google Calendar",
+    "site:openai.com/business/plugins/google-calendar Google Calendar plugin",
+    "site:github.com/openai/plugins google-calendar plugin.json .mcp.json",
+    "site:help.openai.com/en/articles/10408842-google-app-data-controls-faq calendar.events",
+    "X news: Codex CLI 2026-09-16 15:00",
+    'X: ("Codex CLI" OR Codex) (plugin OR marketplace OR Calendar OR Drive OR Linear)',
+    "Codex CLI 技巧 2026 Google Calendar google-calendar@openai-curated plugin add",
   ],
 };
 
