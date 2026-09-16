@@ -502,6 +502,8 @@ export const cheatSections: CheatSection[] = [
       { cmd: "codex plugin add github@openai-curated", meaning: "GitHub 官方 Codex 插件。桌面 Plugins 搜 GitHub。不要当成手写 Copilot MCP，也不要当成 @codex review。清单只有 apps，没有 mcpServers。不要写成 plugin install" },
       { cmd: "codex plugin add dropbox@openai-curated", meaning: "Dropbox 官方 Codex 插件。桌面 Plugins 搜 Dropbox。不要当成 Google Drive。清单有 skills 和 apps，没有 mcpServers。不要写成 plugin install" },
       { cmd: "codex plugin add monday-com@openai-curated", meaning: "monday.com 官方 Codex 插件。桌面 Plugins 搜 monday.com。不要当成 ClickUp。清单只有 apps，没有 mcpServers。不要写成 monday@openai-curated 或 plugin install" },
+      { cmd: "codex plugin add zoom@openai-curated", meaning: "Zoom 官方 Codex 插件。桌面 Plugins 搜 Zoom。不要当成 Slack。清单有 apps 和 skills，没有 mcpServers。不要发明 mcp login zoom 当安装步骤，也不要抄 OAuth 占位符" },
+      { cmd: "codex plugin add atlassian-rovo@openai-curated", meaning: "Atlassian Rovo 官方 Codex 插件。桌面 Plugins 搜 Atlassian Rovo。不要当成 Linear。清单只有 apps，没有 mcpServers。不要写成 atlassian@openai-curated，也不要把 authv2 当现行 MCP 安装步骤" },
       { cmd: "npx skills add ActiveCampaign/postmark-skills", meaning: "博客点名 Codex。官方没钉 --agent codex。示例技能是 postmark-send-email。不要发明 plugin add postmark@。这不是 @activecampaign/postmark-mcp" },
       { cmd: "npx skills add datadog-labs/agent-skills/agent-observability --full-depth -y", meaning: "官方点名 Codex CLI。官方没钉 --agent codex。不要发明 plugin add。不要抄 Restart Claude Code。MCP 仍走 mcp.datadoghq.com/v1/mcp，工具集写 X-Datadog-MCP-Toolsets" },
       { cmd: "npx skills add tavily-ai/skills --all", meaning: "官方点名 Codex。官方没钉 --agent codex。示例技能是 tavily-search。不要发明 plugin add 或 mcp add。不要把 API key 拼进 mcp.tavily.com" },

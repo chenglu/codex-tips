@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-16T19:12:00Z",
+  lastTick: "2026-09-16T20:21:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "19:12 收口。#125 已合入 main（TIP 497–505）。#135 续接：#133–#148 已为 506–520。本轮重放 #149 为 521 dropbox-codex-plugin、#150 为 522 monday-com-codex-plugin。合入后关 #149–#150。站点 522 技巧。",
+    "20:21 收口。#125 已合入 main（TIP 497–505）。#135 续接：#133–#150 已为 506–522。本轮重放 #151 为 523 zoom-codex-plugin、#152 为 524 atlassian-rovo-codex-plugin。合入后关 #151–#152。站点 524 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2501,6 +2501,22 @@ export const loopState = {
     "X news: Codex CLI 2026-09-16 19:00",
     'X: ("Codex CLI" OR #CodexCLI) (monday OR plugin OR MCP)',
     "Codex CLI 技巧 2026 monday.com monday-com@openai-curated plugin add",
+    "skip leftover 1930-2b7e 1930-zai already stale",
+    "skip leftover 1900-monday open #150 1830-dropbox open #149 1800-github open #148",
+    "skip open #133 remotion #134 copilot #136-#150 monday clickup notion figma slack github dropbox",
+    "codex plugin add zoom@openai-curated Plugins Zoom",
+    "site:github.com/openai/plugins zoom plugin.json README .mcp.json",
+    "X news: Codex CLI 2026-09-16 19:30",
+    'X: ("Codex CLI" OR Codex) (Zoom OR plugin OR MCP)',
+    "Codex CLI 技巧 2026 Zoom zoom@openai-curated plugin add",
+    "skip leftover 2000-2b7e 2000-modelstudio already stale",
+    "skip leftover 1930-zoom open #151 1900-monday open #150 1830-dropbox open #149",
+    "skip open #133 remotion #134 copilot #136-#151 zoom monday clickup notion figma slack github dropbox",
+    "codex plugin add atlassian-rovo@openai-curated Plugins Atlassian Rovo",
+    "site:github.com/openai/plugins atlassian-rovo plugin.json .mcp.json .app.json",
+    "X news: Codex CLI 2026-09-16 20:00",
+    'X: ("Codex CLI" OR Codex) (Atlassian OR Rovo OR plugin OR MCP)',
+    "Codex CLI 技巧 2026 Atlassian Rovo atlassian-rovo@openai-curated plugin add",
   ],
 };
 

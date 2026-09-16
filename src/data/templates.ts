@@ -6188,5 +6188,25 @@ codex plugin list
     code: `codex plugin add monday-com@openai-curated
 codex plugin list
 `,
+  },
+  {
+    id: "zoom-codex-plugin",
+    title: "zoom@openai-curated 把 Zoom 会议打给 Codex",
+    filename: "terminal",
+    summary:
+      "zoom@openai-curated 把 Zoom 会议打给 Codex。桌面 Plugins 搜 Zoom，再 Connect Zoom。",
+    code: `codex plugin add zoom@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "atlassian-rovo-codex-plugin",
+    title: "atlassian-rovo@openai-curated 把 Jira 和 Confluence 打给 Codex",
+    filename: "terminal",
+    summary:
+      "atlassian-rovo@openai-curated 把 Jira 和 Confluence 打给 Codex。桌面 Plugins 搜 Atlassian Rovo，再 Connect。",
+    code: `codex plugin add atlassian-rovo@openai-curated
+codex plugin list
+`,
   }
 ];

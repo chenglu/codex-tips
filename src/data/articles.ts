@@ -7770,5 +7770,65 @@ export const articles: Article[] = [
     tags: ["monday.com", "plugins", "monday-com@openai-curated", "openai/plugins", "mcp.monday.com"],
     summary:
       '插件 App 连接器 id 写在 .app.json 的 apps.monday-com。这是 Connect monday.com 那条路径，不是 ClickUp，也不是手写 mcp add monday-com。',
+  },
+  {
+    title: 'zoom plugin.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/zoom/.codex-plugin/plugin.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "Zoom", "plugins", "zoom@openai-curated", "openai/plugins", "mcp.zoom.us"],
+    summary:
+      'Zoom 官方 Codex 插件：桌面 Plugins 搜 Zoom，CLI 用 plugin add zoom@openai-curated，不要当成 Slack。清单 name 是 zoom，version 是 1.0.0。现行清单挂 apps 和 skills，没有 mcpServers。不要写成 plugin install。',
+  },
+  {
+    title: 'zoom plugin README',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/zoom/README.md',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Zoom", "plugins", "zoom@openai-curated", "$start", "openai/plugins", "mcp.zoom.us"],
+    summary:
+      'README 写从 /plugins 安装，再 Connect Zoom。ChatGPT 用 @Zoom。确定性流程走 /setup-zoom-oauth、/plan-zoom-product。开发技能 explicit-only，要 $start 或 $setup-zoom-oauth，不要发明 $zoom。',
+  },
+  {
+    title: 'zoom plugin .mcp.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/zoom/.mcp.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Zoom", "MCP", "mcp.zoom.us", "zoom@openai-curated", "openai/plugins"],
+    summary:
+      '仓库 MCP 表名 zoom，type 是 http，URL 是 https://mcp.zoom.us/mcp/meeting/streamable。plugin.json 没有挂 mcpServers，不要假设 plugin add 会自动叠表。不要发明 mcp login 当插件安装步骤，也不要抄 OAuth client_id 占位符。',
+  },
+  {
+    title: 'atlassian-rovo plugin.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/atlassian-rovo/.codex-plugin/plugin.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "Atlassian Rovo", "plugins", "atlassian-rovo@openai-curated", "openai/plugins", "plugin add atlassian-rovo@openai-curated"],
+    summary:
+      'Atlassian Rovo 官方 Codex 插件：桌面 Plugins 搜 Atlassian Rovo，CLI 用 plugin add atlassian-rovo@openai-curated，不要当成 Linear。清单 name 是 atlassian-rovo，version 是 1.0.6。现行清单只挂 apps，没有 skills 也没有 mcpServers。不要写成 atlassian@openai-curated。',
+  },
+  {
+    title: 'atlassian-rovo plugin .mcp.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/atlassian-rovo/.mcp.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Atlassian Rovo", "MCP", "mcp.atlassian.com", "atlassian-rovo@openai-curated", "openai/plugins", "plugin add atlassian-rovo@openai-curated"],
+    summary:
+      '仓库 MCP 表名 atlassian-rovo，URL 是 https://mcp.atlassian.com/v1/mcp/authv2。plugin.json 没有挂 mcpServers，不要假设 plugin add 会自动叠表。现行只要 MCP 仍走 v2/mcp 再 mcp login atlassian，不要把 authv2 当安装步骤。',
+  },
+  {
+    title: 'OpenAI Atlassian Rovo plugin',
+    url: 'https://openai.com/business/plugins/atlassian-rovo/',
+    source: 'OpenAI',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Atlassian Rovo", "plugins", "atlassian-rovo@openai-curated", "Jira", "Confluence", "plugin add atlassian-rovo@openai-curated"],
+    summary:
+      '产品页是 Jira 和 Confluence 连接器。ChatGPT 用 @Atlassian Rovo。这是 Connect Atlassian 那条路径，不是 Linear，也不是手写 mcp add atlassian。',
   }
 ];

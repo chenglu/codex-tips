@@ -18595,5 +18595,131 @@ codex plugin list
         url: "https://github.com/openai/plugins/blob/main/plugins/monday-com/.app.json",
       },
     ],
+  },
+  {
+    id: "zoom-codex-plugin",
+    no: 523,
+    title:
+      "Zoom 官方 Codex 插件：桌面 Plugins 搜 Zoom，CLI 用 plugin add zoom@openai-curated，不要当成 Slack",
+    summary:
+      "官方 Codex：codex plugin add zoom@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Zoom，再 Connect Zoom。这是会议和应用连接器插件，不是 Slack，也不要当成会自动叠 MCP 表。",
+    body: `Zoom 官方 Codex 插件：桌面 Plugins 搜 Zoom，CLI 用 plugin add zoom@openai-curated，不要当成 Slack。
+
+这是把 Zoom 会议接到 Codex，用来搜会议、拉纪要、转写和录像，并走 REST / SDK / webhook 开发工作流。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/zoom/.codex-plugin/plugin.json) 的 name 是 \`zoom\`、version 是 \`1.0.0\`，所以精选 id 是 \`zoom@openai-curated\`。现行清单声明 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/zoom/.app.json) 和 \`skills\`，没有 \`mcpServers\` 字段。不要发明 \`$zoom\`。
+
+CLI：
+
+\`\`\`bash
+codex plugin add zoom@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install zoom@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Zoom 再装，效果一样。装完按提示 Connect Zoom 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+README 写明：装完可用 \`@Zoom\`，确定性流程走 \`/setup-zoom-oauth\`、\`/plan-zoom-product\`、\`/debug-zoom-webhook\` 这类斜杠。开发技能是 explicit-only，要显式调用 \`$start\` 或 \`$setup-zoom-oauth\`，不要指望普通任务措辞会自动选中。
+
+仓库另有 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/zoom/.mcp.json)，表名是 \`zoom\`，type 是 http，URL 是 \`https://mcp.zoom.us/mcp/meeting/streamable\`。因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，不要假设 \`plugin add\` 会自动叠这张 MCP 表。只要 MCP、不要 App 时，才手写 \`mcp add zoom --url https://mcp.zoom.us/mcp/meeting/streamable\`。插件已经登记 MCP 时，不要再 \`mcp add\` 叠一张。不要发明 \`mcp login zoom\` 当插件安装步骤。不要抄 \`.mcp.json\` 里的 OAuth client_id 占位符。
+
+不要和旁边那几条搞混：
+
+- Slack 是独立聊天插件，不管 Zoom 会议纪要和 SDK。
+- Microsoft Teams 是独立会议插件，不管 Zoom。
+- Granola 是另一份会议笔记插件，不是这条 CLI id。
+- 手写 MCP 只登记远程表，不会装 Plugins 目录里的 Zoom App、技能和斜杠。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 Zoom。ChatGPT 里可以用 \`@Zoom\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`zoom@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Zoom。
+
+不要做这些：
+
+- 不要当成 Slack、Teams 或 Granola。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`zoom@claude-plugins-official\`。
+- 不要抄 \`/sse\`。
+- 不要发明 \`$zoom\` 斜杠。
+- 不要一上来 \`--yolo\`：搜会议、改 Docs、建集成会动真实 Zoom 工作区。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Zoom", "zoom@openai-curated"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "openai/plugins · zoom plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/zoom/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · zoom README",
+        url: "https://github.com/openai/plugins/blob/main/plugins/zoom/README.md",
+      },
+      {
+        label: "openai/plugins · zoom .mcp.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/zoom/.mcp.json",
+      },
+    ],
+  },
+  {
+    id: "atlassian-rovo-codex-plugin",
+    no: 524,
+    title:
+      "Atlassian Rovo 官方 Codex 插件：桌面 Plugins 搜 Atlassian Rovo，CLI 用 plugin add atlassian-rovo@openai-curated，不要当成 Linear",
+    summary:
+      "官方 Codex：codex plugin add atlassian-rovo@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Atlassian Rovo，再 Connect。这是 Jira 和 Confluence 插件，不是 Linear，也不要把仓库里的 authv2 表当成现行 MCP 安装步骤。",
+    body: `Atlassian Rovo 官方 Codex 插件：桌面 Plugins 搜 Atlassian Rovo，CLI 用 plugin add atlassian-rovo@openai-curated，不要当成 Linear。
+
+这是把 Jira 和 Confluence 接到 Codex，用来搜 issue、建任务、拉 Confluence 决策。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/atlassian-rovo/.codex-plugin/plugin.json) 的 name 是 \`atlassian-rovo\`、version 是 \`1.0.6\`，所以精选 id 是 \`atlassian-rovo@openai-curated\`。现行清单只声明 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/atlassian-rovo/.app.json)，没有 \`skills\` 字段，也没有 \`mcpServers\` 字段。不要发明捆绑技能名。不要写成 \`atlassian@openai-curated\` 或 \`rovo@openai-curated\`。
+
+CLI：
+
+\`\`\`bash
+codex plugin add atlassian-rovo@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install atlassian-rovo@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Atlassian Rovo 再装，效果一样。装完按提示 Connect Atlassian 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。官方入门页给桌面的也是 Plugins / Connectors 里找 Atlassian Rovo。
+
+仓库另有 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/atlassian-rovo/.mcp.json)，表名是 \`atlassian-rovo\`，type 是 http，URL 是 \`https://mcp.atlassian.com/v1/mcp/authv2\`。因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，不要假设 \`plugin add\` 会自动叠这张 MCP 表。这条 authv2 是 2026-05 切 DCR 时的过渡地址，**不要**把它当成现行 MCP 安装步骤。只要 MCP、不要 App 时，仍走已有的 \`mcp add atlassian --url https://mcp.atlassian.com/v2/mcp\`，再 \`mcp login atlassian\`。插件已经登记 MCP 时，不要再 \`mcp add\` 叠一张。不要发明 \`mcp login atlassian-rovo\` 当插件安装步骤。
+
+不要和旁边那几条搞混：
+
+- Linear 是独立工单插件，不管 Jira 和 Confluence。
+- ClickUp / monday.com 是独立任务看板，不是 Atlassian。
+- 手写 MCP 表名是 \`atlassian\`，不是 \`atlassian-rovo\`。
+- Bitbucket Agentic Pipelines 那条流水线 MCP 是另一条路，不要叠进来。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 Atlassian Rovo。ChatGPT 里可以用 \`@Atlassian Rovo\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`atlassian-rovo@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Atlassian Rovo。
+
+不要做这些：
+
+- 不要当成 Linear、ClickUp 或 monday.com。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`atlassian-rovo@claude-plugins-official\`。
+- 不要抄 \`/sse\`，也不要把 authv2 写成现行唯一 MCP 地址。
+- 不要发明 \`$rovo\` 或 \`$atlassian\` 斜杠。
+- 不要一上来 \`--yolo\`：建 Jira 任务、改 Confluence 会动真实云站点。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Atlassian Rovo", "atlassian-rovo@openai-curated"],
+    related: ["mcp-atlassian-remote", "plugins-vs-skills", "plugin-session-refresh"],
+    sources: [
+      {
+        label: "openai/plugins · atlassian-rovo plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/atlassian-rovo/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · atlassian-rovo .mcp.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/atlassian-rovo/.mcp.json",
+      },
+      {
+        label: "OpenAI · Atlassian Rovo plugin",
+        url: "https://openai.com/business/plugins/atlassian-rovo/",
+      },
+    ],
   }
 ];
