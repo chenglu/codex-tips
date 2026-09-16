@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-16T02:05:00Z",
+  lastTick: "2026-09-16T03:14:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "02:05 收口。#108 已合入 main（TIP 485–486）。本轮从最新 main 重放 #109 为 487 cloudsql-sqlserver-codex-plugin、#110 为 488 firestore-native-codex-plugin。已关 #109，合入后关 #110。站点 488 技巧。",
+    "03:14 收口。#111 已合入 main（TIP 487–488）。本轮从最新 main 重放 #112 为 489 alloydb-omni-codex-plugin、#113 为 490 dataproc-codex-plugin。合入后关 #112–#113。站点 490 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2186,6 +2186,24 @@ export const loopState = {
     "skip leftover 0200-2b7e Sentry",
     "skip open #109 cloud-sql-sqlserver",
     "skip bigtable dataproc alloydb-omni gcs oracledb for next ticks",
+    "codex plugin add alloydb-omni@data-agent-kit GoogleCloudPlatform/data-agent-kit",
+    "site:github.com/gemini-cli-extensions/alloydb-omni Codex plugin marketplace",
+    "site:docs.cloud.google.com/alloydb/omni MCP Toolbox POSTGRES vs ALLOYDB_OMNI plugin add",
+    "X news: Codex CLI 2026-09-16 02:30",
+    'X: ("Codex CLI" OR #CodexCLI) (plugin OR marketplace OR AlloyDB OR MCP)',
+    "Codex CLI 技巧 2026 AlloyDB Omni ALLOYDB_OMNI_DATABASE plugin add",
+    "skip leftover 0230-2b7e GitGuardian",
+    "skip bigtable dataproc gcs oracledb for next ticks",
+    "skip leftover 0300-2b7e ModelTrace Guard",
+    "skip open #112 alloydb-omni-codex-plugin",
+    "codex plugin add dataproc@data-agent-kit GoogleCloudPlatform/data-agent-kit",
+    "site:github.com/gemini-cli-extensions/dataproc Codex plugin marketplace",
+    "site:docs.cloud.google.com/dataproc MCP Toolbox Codex plugin add",
+    "site:mcp-toolbox.dev/integrations/dataproc prebuilt DATAPROC_PROJECT",
+    "X news: Codex CLI 2026-09-16 03:00",
+    'X: ("Codex CLI" OR #CodexCLI) (plugin OR marketplace OR Dataproc OR MCP)',
+    "Codex CLI 技巧 2026 Dataproc DATAPROC_PROJECT plugin add",
+    "skip bigtable gcs oracledb serverless-spark for next ticks",
   ],
 };
 

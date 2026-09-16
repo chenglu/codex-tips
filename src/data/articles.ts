@@ -6750,5 +6750,65 @@ export const articles: Article[] = [
     tags: ["Firestore", "MCP", "remote", "ADC", "firestore-native@data-agent-kit", "FIRESTORE_PROJECT"],
     summary:
       'Firestore 远程 MCP 是 https://firestore.googleapis.com/mcp，开 API 即启用。只要 Native 的 Enterprise / Standard 版。这不是 Codex 插件那条本机 toolbox stdio。客户端用 Google 凭证，不是 mcp login 插件表。不要和 firestore-native@data-agent-kit 抄成一条。',
+  },
+  {
+    title: 'AlloyDB Omni',
+    url: 'https://github.com/gemini-cli-extensions/alloydb-omni',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "AlloyDB Omni", "plugins", "alloydb-omni@data-agent-kit", "ALLOYDB_OMNI_DATABASE"],
+    summary:
+      'Google Cloud AlloyDB Omni 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add alloydb-omni@data-agent-kit，库用 ALLOYDB_OMNI_DATABASE 不要写成 plugin install。Codex 要 v0.117.0+。MCP 表名是 alloydb-omni，不要写成 plugin add alloydb@，也不要抄 POSTGRES_HOST。',
+  },
+  {
+    title: 'Use AlloyDB Omni with MCP, Gemini CLI, and other agents',
+    url: 'https://docs.cloud.google.com/alloydb/omni/linux/current/docs/connect-ide-using-mcp-toolbox',
+    source: 'Google Cloud Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["AlloyDB Omni", "MCP Toolbox", "ALLOYDB_OMNI_DATABASE", "Cursor", "alloydb-omni@data-agent-kit"],
+    summary:
+      'GCP 这篇讲用 MCP Toolbox 连 AlloyDB Omni。页面没有 Codex 专节，还把 Cursor 写成 mcpServers.alloydbomni 加 --prebuilt postgres 和 POSTGRES_*。插件仓 README 是 plugin add alloydb-omni@data-agent-kit，坐标是 ALLOYDB_OMNI_*。',
+  },
+  {
+    title: 'AlloyDB Omni MCP Toolbox prebuilt',
+    url: 'https://github.com/googleapis/mcp-toolbox/blob/main/docs/en/integrations/postgres/prebuilt-configs/alloydb-omni.md',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '官方',
+    tags: ["AlloyDB Omni", "MCP Toolbox", "ALLOYDB_OMNI_DATABASE", "alloydb-omni@data-agent-kit"],
+    summary:
+      'Toolbox 预置名是 alloydb-omni，不是 postgres。环境变量是 ALLOYDB_OMNI_HOST / PORT / DATABASE / USER / PASSWORD。这才是 Codex 插件 npx @toolbox-sdk/server@1.9.0 --prebuilt alloydb-omni 那条。不要和 GCP Omni 页的 POSTGRES_* 抄成一条。',
+  },
+  {
+    title: 'Dataproc',
+    url: 'https://github.com/gemini-cli-extensions/dataproc',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "Dataproc", "plugins", "dataproc@data-agent-kit", "DATAPROC_PROJECT"],
+    summary:
+      'Google Cloud Dataproc 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add dataproc@data-agent-kit，项目用 DATAPROC_PROJECT 不要写成 plugin install。Codex 要 v0.117.0+。MCP 表名是 dataproc，区域还要 DATAPROC_REGION，不要 mcp login。',
+  },
+  {
+    title: 'Dataproc prebuilt configuration',
+    url: 'https://mcp-toolbox.dev/integrations/dataproc/prebuilt-configs/dataproc/',
+    source: 'MCP Toolbox',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Dataproc", "MCP Toolbox", "DATAPROC_PROJECT", "DATAPROC_REGION", "dataproc@data-agent-kit"],
+    summary:
+      'MCP Toolbox 预置 dataproc：--prebuilt dataproc，环境变量是 DATAPROC_PROJECT 和 DATAPROC_REGION。工具是 list_clusters / get_cluster / list_jobs / get_job。看集群用 roles/dataproc.viewer。这是本机 stdio 预置，不是远程 https://dataproc-us-central1.googleapis.com/mcp。',
+  },
+  {
+    title: 'Use the Managed Service for Apache Spark MCP server',
+    url: 'https://docs.cloud.google.com/dataproc/docs/guides/use-dataproc-mcp',
+    source: 'Google Cloud Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Dataproc", "MCP", "remote", "ADC", "dataproc@data-agent-kit", "DATAPROC_PROJECT"],
+    summary:
+      'Dataproc 远程 MCP 示例是 https://dataproc-us-central1.googleapis.com/mcp，开 Managed Service for Apache Spark API 即启用。这不是 Codex 插件那条本机 toolbox stdio。客户端用 Google 凭证，不是 mcp login 插件表。不要和 dataproc@data-agent-kit 抄成一条。',
   }
 ];

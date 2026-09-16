@@ -5539,5 +5539,66 @@ codex mcp list
 # codex mcp login firestore
 # command = "./PATH/TO/toolbox"
 `,
+  },
+  {
+    id: "alloydb-omni-codex-plugin",
+    title: "dak marketplace 把 AlloyDB Omni 插件喂给 data-agent-kit",
+    filename: "terminal",
+    summary:
+      "dak marketplace 把 AlloyDB Omni 插件喂给 data-agent-kit。主路径是 marketplace add GoogleCloudPlatform/data-agent-kit，再 plugin add alloydb-omni@data-agent-kit。",
+    code: `export ALLOYDB_OMNI_DATABASE=YOUR_ALLOYDB_OMNI_DATABASE
+export ALLOYDB_OMNI_USER=YOUR_ALLOYDB_OMNI_USER
+export ALLOYDB_OMNI_PASSWORD=YOUR_ALLOYDB_OMNI_PASSWORD
+
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add alloydb-omni@data-agent-kit
+codex mcp list
+
+# 可选：
+# export ALLOYDB_OMNI_HOST=127.0.0.1
+# export ALLOYDB_OMNI_PORT=5432
+# codex plugin marketplace upgrade data-agent-kit
+
+# 不要：
+# plugin install alloydb-omni@data-agent-kit
+# plugin add alloydb@data-agent-kit
+# /plugin install alloydb-omni@claude-plugins-official
+# gemini extensions install https://github.com/gemini-cli-extensions/postgres
+# export ALLOYDB_OMNI_PROJECT
+# export POSTGRES_HOST
+# export ALLOYDB_POSTGRES_PROJECT
+# --prebuilt postgres
+# mcpServers.alloydbomni
+# codex mcp login alloydb-omni
+# command = "PATH_TO_TOOLBOX"
+`,
+  },
+  {
+    id: "dataproc-codex-plugin",
+    title: "dak marketplace 把 Dataproc 插件喂给 data-agent-kit",
+    filename: "terminal",
+    summary:
+      "dak marketplace 把 Dataproc 插件喂给 data-agent-kit。主路径是 marketplace add GoogleCloudPlatform/data-agent-kit，再 plugin add dataproc@data-agent-kit。",
+    code: `gcloud auth application-default login
+export DATAPROC_PROJECT=YOUR_DATAPROC_PROJECT
+export DATAPROC_REGION=YOUR_DATAPROC_REGION
+
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add dataproc@data-agent-kit
+codex mcp list
+
+# 可选：
+# codex plugin marketplace upgrade data-agent-kit
+
+# 不要：
+# plugin install dataproc@data-agent-kit
+# /plugin install dataproc@claude-plugins-official
+# gemini extensions install https://github.com/gemini-cli-extensions/dataproc
+# plugin add dak@data-agent-kit-starter-pack-marketplace
+# plugin add firestore-native@data-agent-kit
+# export DATAPROC_PROJECT_ID
+# codex mcp login dataproc
+# command = "./PATH/TO/toolbox"
+`,
   }
 ];

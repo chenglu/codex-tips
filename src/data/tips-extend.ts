@@ -16425,5 +16425,133 @@ codex mcp list
         url: "https://docs.cloud.google.com/firestore/native/docs/connect-ide-using-mcp-toolbox",
       },
     ],
+  },
+  {
+    id: "alloydb-omni-codex-plugin",
+    no: 489,
+    title:
+      "Google Cloud AlloyDB Omni 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add alloydb-omni@data-agent-kit，库用 ALLOYDB_OMNI_DATABASE 不要写成 plugin install",
+    summary:
+      "官方 Codex 专节：先 marketplace add GoogleCloudPlatform/data-agent-kit，再 plugin add alloydb-omni@data-agent-kit。stdio 表名是 alloydb-omni，走 npx @toolbox-sdk/server@1.9.0。库用 ALLOYDB_OMNI_DATABASE。不要写成 plugin add alloydb@，也不要抄 POSTGRES_HOST。",
+    body: `Google Cloud AlloyDB Omni 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add alloydb-omni@data-agent-kit，库用 ALLOYDB_OMNI_DATABASE 不要写成 plugin install。
+
+这是 [gemini-cli-extensions/alloydb-omni](https://github.com/gemini-cli-extensions/alloydb-omni) 的 Codex 专节，不是 Claude 的 \`/plugin install alloydb-omni@claude-plugins-official\`，也不是云上 AlloyDB 的 \`alloydb@data-agent-kit\`。[GCP 这篇 Omni MCP 页](https://docs.cloud.google.com/alloydb/omni/linux/current/docs/connect-ide-using-mcp-toolbox) **没有 Codex 专节**，还把 Cursor 写成 \`./PATH/TO/toolbox --prebuilt postgres\` 加 \`POSTGRES_*\` 和表名 \`alloydbomni\`。插件把 MCP Toolbox 的预置 \`alloydb-omni\` 打成 Agent Plugin，用数据库用户连本机 / 容器 / RPM 上的 AlloyDB Omni，去探 schema、跑 SQL、看复制和列存。
+
+要 Codex **v0.117.0+**，本机有 Node / npx，并且已经有一台在跑的 Omni 实例。这不是 Cloud AlloyDB，**不要** \`gcloud auth application-default login\`，也**不要**发明 \`ALLOYDB_OMNI_PROJECT\`：
+
+\`\`\`bash
+export ALLOYDB_OMNI_DATABASE=YOUR_ALLOYDB_OMNI_DATABASE
+export ALLOYDB_OMNI_USER=YOUR_ALLOYDB_OMNI_USER
+export ALLOYDB_OMNI_PASSWORD=YOUR_ALLOYDB_OMNI_PASSWORD
+# 可选：ALLOYDB_OMNI_HOST（默认 localhost）、ALLOYDB_OMNI_PORT（默认 5432）、ALLOYDB_OMNI_QUERY_PARAMS
+\`\`\`
+
+\`DATABASE\` 和 \`USER\` 必填。\`PASSWORD\` 看实例（Toolbox 文档标可选）。不要把密码写进 \`http_headers\`。不要抄 \`POSTGRES_HOST\` / \`POSTGRES_DATABASE\`。
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`data-agent-kit\`，插件 name 和 MCP 表名都是 \`alloydb-omni\`：
+
+\`\`\`bash
+codex --version
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add alloydb-omni@data-agent-kit
+codex plugin list
+codex mcp list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install alloydb-omni@data-agent-kit\`。不要写成 \`plugin add alloydb@data-agent-kit\`。不要 \`gemini extensions install https://github.com/gemini-cli-extensions/postgres\`。IDE 扩展没有 \`/plugins\`。
+
+插件会登记一台 **stdio** MCP，表名是 \`alloydb-omni\`。command 是 \`npx\`，args 钉 \`@toolbox-sdk/server@1.9.0 --prebuilt alloydb-omni --stdio\`。**不要** \`codex mcp login alloydb-omni\`。插件已经带 MCP 时，不要再 \`codex mcp add alloydb-omni -- npx @toolbox-sdk/server\` 叠一张用户层表。
+
+不要抄这些：
+
+- Cursor / VS Code 的 \`mcpServers.alloydbomni\`，\`command\` 写成 \`PATH_TO_TOOLBOX --prebuilt postgres\`。
+- 云上 AlloyDB 的 \`alloydb@data-agent-kit\`（stdio 表 \`alloydb-postgres\`，项目 \`ALLOYDB_POSTGRES_PROJECT\`）。同仓 marketplace 里插件 id 不同。
+- \`cloud-sql-postgresql@data-agent-kit\`、Firestore 的 \`firestore-native@data-agent-kit\`、Starter Pack 的 \`dak@data-agent-kit-starter-pack-marketplace\`。
+- 清单里别的 id：\`bigtable@data-agent-kit\`、\`dataproc@data-agent-kit\`、\`google-cloud-storage@data-agent-kit\`、\`oracledb@data-agent-kit\`。
+
+可选：\`codex plugin marketplace upgrade data-agent-kit\` 后再 \`plugin add\` 一次。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex mcp list\` 里应有 \`alloydb-omni\`。连接失败先看 Omni 实例是不是在听、三个必填 \`ALLOYDB_OMNI_*\` 是不是进了同一进程，以及 npx 能不能拉到 Toolbox 1.9.0。发行仍是 Beta（pre-v1.0）。不要 \`required = true\`。不要一上来 \`--yolo\`。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "AlloyDB Omni", "MCP", "Google Cloud", "data-agent-kit"],
+    related: ["alloydb-codex-plugin", "firestore-native-codex-plugin", "cloudsql-postgres-codex-plugin"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/alloydb-omni",
+        url: "https://github.com/gemini-cli-extensions/alloydb-omni",
+      },
+      {
+        label: "GoogleCloudPlatform/data-agent-kit",
+        url: "https://github.com/GoogleCloudPlatform/data-agent-kit",
+      },
+      {
+        label: "Google Cloud · Use AlloyDB Omni with MCP",
+        url: "https://docs.cloud.google.com/alloydb/omni/linux/current/docs/connect-ide-using-mcp-toolbox",
+      },
+    ],
+  },
+  {
+    id: "dataproc-codex-plugin",
+    no: 490,
+    title:
+      "Google Cloud Dataproc 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add dataproc@data-agent-kit，项目用 DATAPROC_PROJECT 不要写成 plugin install",
+    summary:
+      "官方 Codex 专节：先 marketplace add GoogleCloudPlatform/data-agent-kit，再 plugin add dataproc@data-agent-kit。stdio 表名是 dataproc，走 npx @toolbox-sdk/server@1.9.0。项目用 DATAPROC_PROJECT，区域用 DATAPROC_REGION。不要写成 plugin install，也不要 mcp login。",
+    body: `Google Cloud Dataproc 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add dataproc@data-agent-kit，项目用 DATAPROC_PROJECT 不要写成 plugin install。
+
+这是 [gemini-cli-extensions/dataproc](https://github.com/gemini-cli-extensions/dataproc) 的 Codex 专节，不是 Claude 的 \`/plugin install dataproc@claude-plugins-official\`，也不是 Cursor 里抄的 \`./PATH/TO/toolbox --prebuilt dataproc\`。插件把 MCP Toolbox 的预置 \`dataproc\` 打成 Agent Plugin，用 ADC 连 Dataproc，去列集群、看作业、排查失败任务。
+
+要 Codex **v0.117.0+**，本机有 Node / npx。先开 Dataproc API，IAM 至少 \`roles/dataproc.viewer\`（改集群再加 \`roles/dataproc.editor\`），再准备 ADC：
+
+\`\`\`bash
+gcloud auth application-default login
+export DATAPROC_PROJECT=YOUR_DATAPROC_PROJECT
+export DATAPROC_REGION=YOUR_DATAPROC_REGION
+\`\`\`
+
+不要发明 \`DATAPROC_PROJECT_ID\`。区域必填，不要指望默认 \`us-central1\`。不要把密钥写进 \`http_headers\`。README 配置节还残留一句 Cloud SQL 私网 VPC 说明，那是拷贝痕迹，**不是** Dataproc 安装条件。
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`data-agent-kit\`，插件 name 是 \`dataproc\`（\`plugin.json\` 0.1.0）。MCP 表名和 Toolbox 预置都是 \`dataproc\`：
+
+\`\`\`bash
+codex --version
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add dataproc@data-agent-kit
+codex plugin list
+codex mcp list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install dataproc@data-agent-kit\`。不要 \`gemini extensions install https://github.com/gemini-cli-extensions/dataproc\`。不要 \`agy plugin install\`。IDE 扩展没有 \`/plugins\`。
+
+插件会登记一台 **stdio** MCP，表名是 \`dataproc\`。command 是 \`npx\`，args 钉 \`@toolbox-sdk/server@1.9.0 --prebuilt dataproc --stdio\`。**不要** \`codex mcp login dataproc\`。插件已经带 MCP 时，不要再 \`codex mcp add dataproc -- npx @toolbox-sdk/server\` 叠一张用户层表。
+
+不要抄这些：
+
+- Cursor / VS Code 的 \`mcpServers.dataproc\`，\`command\` 写成 \`./PATH/TO/toolbox --prebuilt dataproc\`。
+- Dataproc 远程 MCP：\`https://dataproc-us-central1.googleapis.com/mcp\`。那是托管入口，不是这份本机 toolbox stdio。
+- Starter Pack 的 \`dak@data-agent-kit-starter-pack-marketplace\` 里那张远程 \`dataproc\` 表（\`https://dataproc-\${REGION}.googleapis.com/mcp\`）。那条要配 \`GCP_REGION\`，不是 \`DATAPROC_PROJECT\`。
+- \`firestore-native@data-agent-kit\`、\`bigquery-data-analytics@data-agent-kit\`、AlloyDB 的 \`alloydb@data-agent-kit\`。同仓 marketplace 里插件 id 不同。
+- 同组织的 serverless-spark 扩展（\`SERVERLESS_SPARK_*\`）和 GCS 插件（另一份 marketplace），不要当成这条安装器。
+
+可选：\`codex plugin marketplace upgrade data-agent-kit\` 后再 \`plugin add\` 一次。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex mcp list\` 里应有 \`dataproc\`。连接失败先看 ADC、\`DATAPROC_PROJECT\` 和 \`DATAPROC_REGION\` 是不是进了同一进程，以及 npx 能不能拉到 Toolbox 1.9.0。发行仍是 Beta（pre-v1.0）。不要 \`required = true\`。不要一上来 \`--yolo\`。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Dataproc", "MCP", "Google Cloud", "data-agent-kit"],
+    related: ["dak-starter-codex-plugin", "firestore-native-codex-plugin", "bigquery-codex-plugin"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/dataproc",
+        url: "https://github.com/gemini-cli-extensions/dataproc",
+      },
+      {
+        label: "GoogleCloudPlatform/data-agent-kit",
+        url: "https://github.com/GoogleCloudPlatform/data-agent-kit",
+      },
+      {
+        label: "MCP Toolbox · Dataproc prebuilt",
+        url: "https://mcp-toolbox.dev/integrations/dataproc/prebuilt-configs/dataproc/",
+      },
+    ],
   }
 ];
