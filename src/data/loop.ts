@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-16T09:09:00Z",
+  lastTick: "2026-09-16T10:13:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "09:09 收口。#122 已合入 main（TIP 495–496）。#125 续接：#123–#128 已为 497–501。本轮续重放 #129 为 502 neon-codex-plugin。合入后关 #129。站点 502 技巧。",
+    "10:13 收口。#122 已合入 main（TIP 495–496）。#125 续接：#123–#129 已为 497–502。本轮重放 #130 为 503 posthog-codex-plugin。合入后关 #130。站点 503 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2324,6 +2324,14 @@ export const loopState = {
     "X news: Codex CLI 2026-09-16 09:00",
     'X: ("Codex CLI" OR Codex) (plugin OR Neon OR marketplace)',
     "Codex CLI 技巧 2026 Neon neon-postgres plugin Plugins 搜 Neon",
+    "skip leftover 0930-2b7e SurrealDB 0930-langsmith",
+    "skip open #125 landing 497-502 bigtable flutter kapso stripe security neon",
+    "site:github.com/PostHog/ai-plugin Codex plugin marketplace posthog@posthog",
+    "site:posthog.com/docs/ai-engineering/skills-store Codex plugin",
+    "site:posthog.com/docs/ai-observability/skills AI plugin Codex",
+    "X news: Codex CLI 2026-09-16 09:30",
+    'X: ("Codex CLI" OR Codex) (plugin OR marketplace OR PostHog)',
+    "Codex CLI 技巧 2026 PostHog posthog@posthog plugin marketplace add",
   ],
 };
 

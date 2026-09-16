@@ -482,6 +482,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: "codex plugin add stripe@openai-curated", meaning: "Stripe 官方 Codex 插件。CLI 一键 stripe agent setup --client codex。插件带 MCP 和技能。不要抄 Claude 的 stripe@claude-plugins-official，也不要和手写 mcp add stripe 叠表" },
       { cmd: "codex plugin add codex-security@openai-curated", meaning: "Codex Security 官方插件。桌面 Plugins 搜 Codex Security。CI 隔离 CODEX_HOME，把 CODEX_SECURITY_API_KEY 映射成 CODEX_API_KEY，再 exec 调 $codex-security:security-diff-scan。不要当成 npx @openai/codex-security 扫描 CLI" },
       { cmd: "Plugins 搜 Neon", meaning: "Neon 官方 Codex 插件。装 neon-postgres 包，捆绑技能和 MCP。CLI 才 npx neon@latest plugins --agent codex。不要发明 plugin add neon@openai-curated。只要 MCP 仍走 mcp add neon" },
+      { cmd: "codex plugin add posthog@posthog", meaning: "PostHog 官方 Codex。先 marketplace add PostHog/ai-plugin。插件 MCP 表名 posthog。不要发明 posthog@openai-curated。不要叠手写 mcp add posthog。不要抄 Claude 的 plugin install" },
       { cmd: "npx skills add ActiveCampaign/postmark-skills", meaning: "博客点名 Codex。官方没钉 --agent codex。示例技能是 postmark-send-email。不要发明 plugin add postmark@。这不是 @activecampaign/postmark-mcp" },
       { cmd: "npx skills add datadog-labs/agent-skills/agent-observability --full-depth -y", meaning: "官方点名 Codex CLI。官方没钉 --agent codex。不要发明 plugin add。不要抄 Restart Claude Code。MCP 仍走 mcp.datadoghq.com/v1/mcp，工具集写 X-Datadog-MCP-Toolsets" },
       { cmd: "npx skills add tavily-ai/skills --all", meaning: "官方点名 Codex。官方没钉 --agent codex。示例技能是 tavily-search。不要发明 plugin add 或 mcp add。不要把 API key 拼进 mcp.tavily.com" },

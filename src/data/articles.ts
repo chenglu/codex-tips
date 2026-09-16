@@ -7170,5 +7170,35 @@ export const articles: Article[] = [
     tags: ["Neon", "Codex", "plugins", "MCP", "Plugins 搜 Neon", "neon-postgres", "npx neon@latest plugins"],
     summary:
       '2026-04-16 产品博文：Codex marketplace 上有官方 Neon 插件。桌面 Plugins 搜 Neon 再装。捆绑 Neon App、Neon 技能和 Egress Optimizer。没有给出 plugin add 的精选 id。建库、开分支、跑迁移都可以在会话里做，生产写权限仍要人批。',
+  },
+  {
+    title: 'PostHog/ai-plugin',
+    url: 'https://github.com/PostHog/ai-plugin',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "PostHog", "plugins", "posthog@posthog", "MCP", "PostHog/ai-plugin"],
+    summary:
+      'PostHog 官方 Codex 插件：marketplace 加 PostHog/ai-plugin，再 plugin add posthog@posthog，不要发明 posthog@openai-curated。README Codex 节只写 marketplace add 再 /plugins 选 PostHog。清单 name 是 posthog。不要抄 Claude 的 plugin install，也不要把 wizard 当插件安装器。',
+  },
+  {
+    title: 'Using the PostHog skills store',
+    url: 'https://posthog.com/docs/ai-engineering/skills-store',
+    source: 'PostHog',
+    lang: '英文',
+    kind: '官方',
+    tags: ["PostHog", "Skills", "MCP", "Codex", "posthog@posthog", "PostHog/ai-plugin"],
+    summary:
+      '技能店在 PostHog 里集中管 SKILL。快捷方式是装 PostHog AI plugin，自带 skills-store。页面点名 Codex。没有给出 plugin add 的精选 id。只要 MCP 仍走 mcp.posthog.com/mcp。不要把 .claude/skills 桥接文件当 Codex 安装器。',
+  },
+  {
+    title: 'Agent skills for AI Observability',
+    url: 'https://posthog.com/docs/ai-observability/skills',
+    source: 'PostHog',
+    lang: '英文',
+    kind: '官方',
+    tags: ["PostHog", "Skills", "LLM", "MCP", "posthog@posthog", "PostHog/ai-plugin"],
+    summary:
+      'AI Observability 技能走 PostHog MCP 查 traces / 成本。第 3 步装 AI plugin，README 覆盖 Codex。skills.zip 是给 .claude/skills 的，不是 Codex 插件安装器。不要发明 posthog@openai-curated。',
   }
 ];

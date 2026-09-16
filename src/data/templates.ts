@@ -5959,5 +5959,34 @@ codex plugin list
 # npx add-mcp https://mcp.neon.tech/mcp
 # npx skills add neondatabase/agent-skills
 `,
+  },
+  {
+    id: "posthog-codex-plugin",
+    title: "posthog@posthog 把 PostHog 技能和 MCP 打给 Codex",
+    filename: "terminal",
+    summary:
+      "posthog@posthog 把 PostHog 技能和 MCP 打给 Codex。先 marketplace add PostHog/ai-plugin，再 plugin add posthog@posthog。",
+    code: `codex plugin marketplace add PostHog/ai-plugin
+codex plugin add posthog@posthog
+codex plugin list
+
+# 可选：
+# /plugins 选 PostHog
+# codex mcp login posthog
+# export POSTHOG_MCP_URL=https://mcp.YOUR_POSTHOG_HOST/mcp
+
+# 只要 MCP、不要整包插件：
+# codex mcp add posthog --url https://mcp.posthog.com/mcp
+# codex mcp login posthog
+
+# 不要：
+# plugin add posthog@openai-curated
+# plugin install posthog@posthog
+# claude plugin install posthog
+# gemini extensions install https://github.com/PostHog/ai-plugin
+# grok plugin install PostHog/ai-plugin --trust
+# npx @posthog/wizard mcp add
+# POSTHOG_LLMA_CC_ENABLED=true
+`,
   }
 ];

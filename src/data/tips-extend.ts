@@ -17363,5 +17363,67 @@ codex mcp login neon
         url: "https://neon.com/blog/neon-codex-plugin",
       },
     ],
+  },
+  {
+    id: "posthog-codex-plugin",
+    no: 503,
+    title:
+      "PostHog 官方 Codex 插件：marketplace 加 PostHog/ai-plugin，再 plugin add posthog@posthog，不要发明 posthog@openai-curated",
+    summary:
+      "官方 Codex：先 marketplace add PostHog/ai-plugin，再 plugin add posthog@posthog。README 只写了 /plugins 选 PostHog。清单 name 和插件 name 都是 posthog。不要发明 posthog@openai-curated。只要 MCP 仍走 mcp add posthog。",
+    body: `PostHog 官方 Codex 插件：marketplace 加 PostHog/ai-plugin，再 plugin add posthog@posthog，不要发明 posthog@openai-curated。
+
+这是 [PostHog/ai-plugin](https://github.com/PostHog/ai-plugin) 的 Codex 专节，不是已经收录的远程 MCP 专节。插件把托管 MCP 和 30+ 技能打成一包。官方 README 只写了 \`marketplace add\`，然后 TUI \`/plugins\` 选 PostHog。清单 \`.agents/plugins/marketplace.json\` 的 name 是 posthog，\`plugin.json\` 的 name 也是 posthog，所以 CLI 按清单是 \`posthog@posthog\`。
+
+\`\`\`bash
+codex plugin marketplace add PostHog/ai-plugin
+codex plugin add posthog@posthog
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install posthog@posthog\`。不要发明 \`posthog@openai-curated\`。不要抄 Claude 的 \`claude plugin install posthog\` 或 \`claude plugin install posthog@posthog\`。不要 \`gemini extensions install https://github.com/PostHog/ai-plugin\`。不要 \`grok plugin install PostHog/ai-plugin --trust\`。不要把 \`npx @posthog/wizard mcp add\` 当插件安装器。IDE 扩展没有 \`/plugins\`。
+
+装上策略是 \`ON_INSTALL\`，应弹出 PostHog OAuth。没弹再：
+
+\`\`\`bash
+codex mcp login posthog
+\`\`\`
+
+插件 \`.mcp.json\` 表名是小写 \`posthog\`，URL 仍是 \`https://mcp.posthog.com/mcp\`，还带静态头 \`x-posthog-mcp-consumer: plugin\`。不要把这颗头手抄进用户层当主路径。已经手写过 \`mcp add posthog\` 时，不要再叠一张插件表指同一 URL。只要 MCP、不要技能包时，继续走已收录的 \`mcp add posthog --url https://mcp.posthog.com/mcp\`。
+
+自托管才 \`export POSTHOG_MCP_URL=https://mcp.YOUR_POSTHOG_HOST/mcp\`。不要把 \`phc_\` 或 PAT 写进 \`http_headers\`。日常用 OAuth，CI 才 \`bearer_token_env_var\`。不要叠 OAuth 和 bearer。
+
+桌面先在终端跑完 \`marketplace add\` 和 \`plugin add\`，**彻底重启** Codex 应用。0.154 起先看**当前会话**的 \`/plugins\`，应能看到 \`posthog@posthog\`。没有再新开。Claude 节的 \`POSTHOG_LLMA_CC_ENABLED\` 是 Claude Code 会话上报，不是 Codex 安装器。清单挂了 hooks 文件，当前是空对象；真有钩子再在 \`/hooks\` 另信，不要一上来信任全部。
+
+技能随插件走，含官方 \`skills-store\`。不要用 \`npx skills add\` 当 Codex 插件安装器。部分 MCP 工具会走 PostHog AI 用量，组织还要打开 AI data processing。写开关、改工单要人确认。不要 \`required = true\`。不要一上来 \`--yolo\`。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add posthog@openai-curated\`。官方 id 就是 \`posthog@posthog\`。
+- 不要把远程 MCP 专节里的 \`mcp add posthog\` 当成已经装了技能包。
+- 不要抄 Cursor JSON 或 \`npx add-mcp\`。
+- 不要抄 Claude 的 \`--transport http\` 或 \`mcp-remote\`。
+- 不要把手写 posthog 表和插件那张叠成两台。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex plugin list\` 核对 \`posthog@posthog\`；\`codex mcp get posthog\` 看 url 是 \`https://mcp.posthog.com/mcp\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "PostHog", "MCP", "posthog@posthog"],
+    related: ["mcp-posthog-remote", "plugins-vs-skills", "plugin-session-refresh"],
+    sources: [
+      {
+        label: "PostHog/ai-plugin",
+        url: "https://github.com/PostHog/ai-plugin",
+      },
+      {
+        label: "PostHog · Skills store",
+        url: "https://posthog.com/docs/ai-engineering/skills-store",
+      },
+      {
+        label: "PostHog · AI Observability skills",
+        url: "https://posthog.com/docs/ai-observability/skills",
+      },
+    ],
   }
 ];
