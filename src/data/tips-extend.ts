@@ -17545,5 +17545,114 @@ codex mcp login canva
         url: "https://github.com/canva-sdks/canva-skills/blob/main/plugins/canva/.mcp.json",
       },
     ],
+  },
+  {
+    id: "remotion-codex-plugin",
+    no: 506,
+    title:
+      "Remotion 官方 Codex 插件：桌面 Plugins 搜 Remotion，新建项目提示写 $remotion，不要发明 remotion@openai-curated",
+    summary:
+      "官方 Codex：ChatGPT 桌面 Plugins 搜 Remotion。新建项目提示写 $remotion 再接受插件。CLI 仓库里用 npx remotion skills add。不要抄 Claude 的 plugin install remotion@remotion，也不要发明 remotion@openai-curated。",
+    body: `Remotion 官方 Codex 插件：桌面 Plugins 搜 Remotion，新建项目提示写 $remotion，不要发明 remotion@openai-curated。
+
+这是 [Remotion Codex plugin](https://www.remotion.dev/docs/ai/codex-plugin) 的桌面专节，不是 Claude 的 \`claude plugin marketplace add remotion-dev/claude-code-plugin\` 再 \`claude plugin install remotion@remotion\`，也不是 Cursor Marketplace 或 \`git clone\` 进 \`~/.cursor/plugins/local/remotion\`。官方没给出 \`codex plugin add remotion@…\` 那种 marketplace id，不要自己编 \`remotion@openai-curated\` 或把 Claude 的 \`remotion@remotion\` 抄进 Codex。
+
+桌面：打开 ChatGPT 桌面，切到 Codex，Plugins 搜 Remotion，安装或打开。新建项目，提示里写 \`$remotion\`，弹出建议时接受 Remotion 插件。之后可以继续用其他 Agent Skills 出片。
+
+仓库里走 CLI 技能，不要把内部包 \`remotion-dev/codex-plugin\` 当安装器（README 写明无用户文档）：
+
+\`\`\`bash
+npx create-video --yes --blank my-video
+cd my-video
+npm install
+npx remotion skills add
+npm run dev
+codex
+\`\`\`
+
+技能装进项目 \`.agents/skills\`。更新用 \`npx remotion skills update\`。不要 \`npx skills add remotion-dev/skills\` 当 Codex 插件安装器，那会改检测到的所有客户端。也不要手拷到 \`~/.codex/skills\`。
+
+IDE 扩展没有桌面那种 Plugins 页。0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Remotion。
+
+Studio 的 WebMCP 只有 ChatGPT Codex 能连，用来看时间线和合成，**不是**插件安装器。不要把 \`@remotion/codex-plugin\` npm 包或源仓当 \`plugin add\` 来源。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add remotion@openai-curated\` 或 \`plugin add remotion@remotion\`。
+- 不要抄 Claude 的 \`plugin install remotion@remotion\`。
+- 不要把 Cursor Marketplace / \`.cursor/plugins/local\` 抄进 Codex。
+- 不要 \`npx skills add remotion-dev/skills\` 当插件安装器。
+- 不要一上来 \`--yolo\`。出片、装包、改时间线会改仓库和渲染输出。
+- 不要 \`required = true\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Remotion", "$remotion", "skills"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "skill-installer"],
+    sources: [
+      {
+        label: "Remotion Codex plugin",
+        url: "https://www.remotion.dev/docs/ai/codex-plugin",
+      },
+      {
+        label: "Remotion AI plugins",
+        url: "https://www.remotion.dev/docs/ai/plugins",
+      },
+      {
+        label: "npx remotion skills",
+        url: "https://www.remotion.dev/docs/cli/skills",
+      },
+    ],
+  },
+  {
+    id: "github-copilot-codex",
+    no: 507,
+    title:
+      "GitHub Copilot 官方 Codex：Cloud agent 的 Partner agents 打开 OpenAI Codex，VS Code 用 Sign in with Copilot，不要当成 ChatGPT 登录",
+    summary:
+      "官方 GitHub：Copilot settings → Cloud agent → Partner agents 打开 OpenAI Codex。VS Code Codex 扩展用 Sign in with Copilot（Pro+ / Max）。不要把 ChatGPT 登录当这条，也不要抄 Claude 的 anthropic code agent。",
+    body: `GitHub Copilot 官方 Codex：Cloud agent 的 Partner agents 打开 OpenAI Codex，VS Code 用 Sign in with Copilot，不要当成 ChatGPT 登录。
+
+这是 [GitHub Copilot · OpenAI Codex](https://docs.github.com/en/copilot/concepts/agents/openai-codex) 的公开预览，走 Copilot 订阅和 Codex SDK，**不是** ChatGPT 登录的 Codex CLI / 桌面，也不是 \`codex cloud exec\`。打开 Partner agents 会装 GitHub App \`openai code agent\`；它会出现在审计日志，但**不会**出现在账号的 GitHub App 安装列表。不要抄 Claude 那条 \`anthropic code agent\`。
+
+个人付费账号：
+
+1. GitHub 头像 → Copilot settings → 侧栏 Cloud agent。
+2. Partner agents 里打开 **OpenAI Codex**。仓库范围跟 Copilot cloud agent 的 Repository access 一致。
+3. 组织 / 企业账号改组织或企业策略，不要只改个人开关。
+
+开完之后：Agents 页选 Codex 派任务、把 issue 指给 Codex、在 PR 评论里 \`@\` 代理名迭代。模型可选 Auto、GPT-5.3-Codex、GPT-5.4、GPT-5.4 nano。Auto 走 Copilot 的自动选模。会话吃 GitHub Actions 分钟数和 AI credits。
+
+VS Code 里的 OpenAI Codex 扩展：启动时选 **Sign in with Copilot**。官方写明只给 Copilot **Pro+** 和 **Copilot Max**。进度在 VS Code Insiders 的 Agent Sessions。用量受 GitHub 限额和计费约束。扩展里能看到的模型子集，**不受** Copilot 组织模型策略管。
+
+这些 Partner agents 策略**不管** VS Code 本地 agent。本地开关看 VS Code 的 agent 文档，不要把网页策略抄进 \`config.toml\`。
+
+不要做这些：
+
+- 不要把 ChatGPT / Codex CLI 的登录当成 Sign in with Copilot。
+- 不要抄 \`copilot plugin install\` 或 Copilot CLI marketplace。那是 Copilot CLI 插件，不是这条 Codex 代理。
+- 不要把 \`openai/codex-action\` 的 \`CODEX_API_KEY\` 当成 Copilot 供电。Action 是另一条 CI。
+- 不要把 \`codex cloud exec\` / \`codex apply\` 当成 GitHub Agents 页。
+- 不要给日常生产仓一上来开全仓库 + 自动合 PR。公开预览，先隔离仓。
+- 不要 \`required = true\`。`,
+    category: "cloud",
+    level: "starter",
+    surfaces: ["ide", "cloud"],
+    tags: ["GitHub Copilot", "Sign in with Copilot", "openai code agent", "Partner agents"],
+    related: ["cloud-exec", "github-action-prompt-file", "github-action-no-job-key"],
+    sources: [
+      {
+        label: "GitHub Copilot · OpenAI Codex",
+        url: "https://docs.github.com/en/copilot/concepts/agents/openai-codex",
+      },
+      {
+        label: "About third-party coding agents",
+        url: "https://docs.github.com/en/copilot/concepts/agents/about-third-party-coding-agents",
+      },
+      {
+        label: "Managing Copilot policies as an individual subscriber",
+        url: "https://docs.github.com/en/copilot/how-tos/manage-your-account/manage-policies",
+      },
+    ],
   }
 ];

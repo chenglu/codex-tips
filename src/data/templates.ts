@@ -6009,5 +6009,34 @@ codex plugin list
 codex plugin add canva@canva-skills
 codex mcp login canva
 `,
+  },
+  {
+    id: "remotion-codex-plugin",
+    title: "$remotion 把 Remotion 技能打给 Codex",
+    filename: "terminal",
+    summary:
+      "$remotion 把 Remotion 技能打给 Codex。桌面 Plugins 搜 Remotion。仓库里才 npx remotion skills add。",
+    code: `# ChatGPT desktop → Codex → Plugins → search Remotion
+# new project prompt:
+# $remotion
+
+npx create-video --yes --blank my-video
+cd my-video
+npm install
+npx remotion skills add
+codex
+`,
+  },
+  {
+    id: "github-copilot-codex",
+    title: "Sign in with Copilot 把 Copilot 额度打给 Codex",
+    filename: "terminal",
+    summary:
+      "Sign in with Copilot 把 Copilot 额度打给 Codex。先 Cloud agent 的 Partner agents 打开 OpenAI Codex。不要 ChatGPT 登录。",
+    code: `# GitHub.com → profile → Copilot settings → Cloud agent
+# Partner agents → enable OpenAI Codex
+# VS Code OpenAI Codex extension → Sign in with Copilot
+# Pro+ / Copilot Max only
+`,
   }
 ];

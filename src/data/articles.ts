@@ -7260,5 +7260,65 @@ export const articles: Article[] = [
     tags: ["Canva", "MCP", "mcp.canva.com", "canva@canva-skills", "canva-sdks/canva-skills"],
     summary:
       '插件 MCP 表名 canva，type 是 http，URL 是 https://mcp.canva.com/mcp，必须带 /mcp。插件已登记就不要再 mcp add 叠一张。OAuth 走 mcp login canva。不要抄 Cursor 的 .cursor/mcp.json。',
+  },
+  {
+    title: 'Remotion Codex plugin',
+    url: 'https://www.remotion.dev/docs/ai/codex-plugin',
+    source: 'Remotion',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Codex", "Remotion", "plugins", "$remotion", "npx remotion skills add"],
+    summary:
+      'Remotion 官方 Codex 插件：桌面 Plugins 搜 Remotion，新建项目提示写 $remotion，不要发明 remotion@openai-curated。官方没给 plugin add id。不要抄 Claude 的 plugin install remotion@remotion。',
+  },
+  {
+    title: 'Remotion AI plugins',
+    url: 'https://www.remotion.dev/docs/ai/plugins',
+    source: 'Remotion',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Remotion", "plugins", "Codex", "skills", "$remotion", "npx remotion skills add"],
+    summary:
+      '插件总览把 Codex 写成 ChatGPT 桌面 Plugins。Claude 是 marketplace add remotion-dev/claude-code-plugin 再 install remotion@remotion。Cursor 走 Marketplace。不要把后两条抄进 Codex，也不要发明 remotion@openai-curated。',
+  },
+  {
+    title: 'npx remotion skills',
+    url: 'https://www.remotion.dev/docs/cli/skills',
+    source: 'Remotion',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Remotion", "skills", "Codex", ".agents/skills", "$remotion", "npx remotion skills add"],
+    summary:
+      'CLI 技能安装器是 npx remotion skills add，写入项目 .agents/skills。更新用 npx remotion skills update。这不是桌面 Plugins 搜 Remotion 那条。不要 npx skills add remotion-dev/skills 当 Codex 插件安装器。',
+  },
+  {
+    title: 'GitHub Copilot · OpenAI Codex',
+    url: 'https://docs.github.com/en/copilot/concepts/agents/openai-codex',
+    source: 'GitHub Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["GitHub Copilot", "Codex", "Sign in with Copilot", "VS Code", "openai code agent"],
+    summary:
+      'GitHub Copilot 官方 Codex：Cloud agent 的 Partner agents 打开 OpenAI Codex，VS Code 用 Sign in with Copilot，不要当成 ChatGPT 登录。公开预览。Sign in with Copilot 只给 Pro+ 和 Max。不要抄 copilot plugin install。',
+  },
+  {
+    title: 'About third-party coding agents',
+    url: 'https://docs.github.com/en/copilot/concepts/agents/about-third-party-coding-agents',
+    source: 'GitHub Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["GitHub Copilot", "Codex", "openai code agent", "Partner agents", "Sign in with Copilot"],
+    summary:
+      '第三方代理公开预览。打开 OpenAI Codex 会装 GitHub App openai code agent，审计日志看得到，安装列表看不到。Claude 是 anthropic code agent，不要抄过来。吃 Actions 分钟数和 AI credits。',
+  },
+  {
+    title: 'Managing Copilot policies as an individual subscriber',
+    url: 'https://docs.github.com/en/copilot/how-tos/manage-your-account/manage-policies',
+    source: 'GitHub Docs',
+    lang: '英文',
+    kind: '清单',
+    tags: ["GitHub Copilot", "Partner agents", "Cloud agent", "Codex", "Sign in with Copilot", "openai code agent"],
+    summary:
+      '个人路径是 Copilot settings → Cloud agent → Partner agents 打开 OpenAI Codex。仓库范围跟 Copilot cloud agent 的 Repository access 一致。这些开关不管 VS Code 本地 agent。组织仓走组织策略。',
   }
 ];

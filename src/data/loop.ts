@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-16T11:16:00Z",
+  lastTick: "2026-09-16T12:21:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "11:16 收口。#122 已合入 main（TIP 495–496）。#125 续接：#123–#131 已为 497–504。本轮续重放 #132 为 505 canva-codex-plugin。合入后关 #132。站点 505 技巧。",
+    "12:21 收口。#125 已合入 main（TIP 497–505）。从最新 main 重放 #133 为 506 remotion-codex-plugin、#134 为 507 github-copilot-codex。合入后关 #133–#134。站点 507 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2350,6 +2350,22 @@ export const loopState = {
     "X news: Codex CLI 2026-09-16 11:00",
     'X: ("Codex CLI" OR Codex) (plugin OR marketplace OR Canva)',
     "Codex CLI 技巧 2026 Canva canva@canva-skills plugin marketplace add",
+    "skip leftover 1130-2b7e nylas 1130-fireworks",
+    "skip open #125 TIP 497-503 #131 vercel #132 canva",
+    "site:www.remotion.dev/docs/ai/codex-plugin Plugins $remotion",
+    "site:www.remotion.dev/docs/ai/plugins Codex plugin",
+    "site:www.remotion.dev/docs/cli/skills npx remotion skills add",
+    "X news: Codex CLI 2026-09-16 11:30",
+    'X: ("Codex CLI" OR Codex) (plugin OR marketplace OR Remotion)',
+    "Codex CLI 技巧 2026 Remotion Plugins $remotion npx remotion skills add",
+    "skip leftover 1200-2b7e microsoft-learn 1200-litellm",
+    "skip open #125 TIP 497-503 #131 vercel #132 canva #133 remotion",
+    "site:docs.github.com/en/copilot/concepts/agents/openai-codex Sign in with Copilot",
+    "site:docs.github.com/en/copilot/concepts/agents/about-third-party-coding-agents openai code agent",
+    "site:docs.github.com/en/copilot/how-tos/manage-your-account/manage-policies Partner agents",
+    "X news: Codex CLI 2026-09-16 12:00",
+    'X: ("Codex CLI" OR Codex) (plugin OR Outlook OR Copilot OR marketplace)',
+    "Codex CLI 技巧 2026 GitHub Copilot Sign in with Copilot Partner agents",
   ],
 };
 
