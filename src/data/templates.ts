@@ -5844,5 +5844,65 @@ codex mcp list
 # codex mcp add dart -- dart mcp-server
 # codex mcp login dart-mcp-server
 `,
+  },
+  {
+    id: "kapso-codex-mcp",
+    title: "api.kapso.ai/mcp 把 WhatsApp Project MCP 喂给 kapso",
+    filename: "terminal",
+    summary:
+      "api.kapso.ai/mcp 把 WhatsApp Project MCP 喂给 kapso。主路径是 mcp add kapso --url https://api.kapso.ai/mcp，再 mcp login kapso。",
+    code: `codex mcp add kapso --url https://api.kapso.ai/mcp
+codex mcp login kapso
+
+# 无头：
+# export KAPSO_API_KEY=YOUR_KAPSO_API_KEY
+# codex mcp add kapso --url https://api.kapso.ai/mcp --bearer-token-env-var KAPSO_API_KEY
+
+# X-API-Key（Codex 没有 --header）：
+# [mcp_servers.kapso]
+# url = "https://api.kapso.ai/mcp"
+# env_http_headers = { "X-API-Key" = "KAPSO_API_KEY" }
+
+# 文档另表，不要叠：
+# codex mcp add kapso-docs --url https://docs.kapso.ai/mcp
+
+# 不要：
+# claude mcp add --transport http kapso https://api.kapso.ai/mcp
+# --header "Authorization: Bearer $KAPSO_API_KEY"
+# plugin add kapso@
+# npm install -g @kapso/cli
+# curl -fsSL https://kapso.ai/install.sh | bash
+# export KAPSO_PROJECT_ID
+`,
+  },
+  {
+    id: "stripe-codex-plugin",
+    title: "stripe@openai-curated 把 Stripe 插件喂给 openai-curated",
+    filename: "terminal",
+    summary:
+      "stripe@openai-curated 把 Stripe 插件喂给 openai-curated。主路径是 plugin add stripe@openai-curated，或 stripe agent setup --client codex。",
+    code: `npm install -g @stripe/cli@latest
+stripe agent setup --client codex
+
+# 手动只装 Codex：
+# codex plugin add stripe@openai-curated
+# codex plugin list
+
+# 只要远程 MCP、不要整包：
+# codex mcp add stripe --url https://mcp.stripe.com
+# codex mcp login stripe
+
+# 技能回退（不会自动更新）：
+# npx skills add https://docs.stripe.com
+
+# 不要：
+# claude plugin install stripe@claude-plugins-official
+# /add-plugin stripe
+# grok plugin install stripe --trust
+# plugin install stripe@openai-curated
+# plugin add stripe@stripe
+# plugin marketplace add stripe
+# stripe agent setup --agent codex
+`,
   }
 ];

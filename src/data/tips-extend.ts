@@ -17062,5 +17062,170 @@ codex mcp list
         url: "https://github.com/dart-lang/ai/tree/main/pkgs/dart_mcp_server",
       },
     ],
+  },
+  {
+    id: "kapso-codex-mcp",
+    no: 499,
+    title:
+      "Kapso WhatsApp 官方 Codex MCP：mcp add kapso --url https://api.kapso.ai/mcp，再 mcp login，无头才 KAPSO_API_KEY 不要抄 Claude 的 --transport http",
+    summary:
+      "官方 Codex 专节：先 mcp add kapso --url https://api.kapso.ai/mcp，再 mcp login kapso。无头才 --bearer-token-env-var KAPSO_API_KEY。X-API-Key 写 env_http_headers，不要 --header。不要发明 plugin add，也不要和 kapso-docs 叠一张表。",
+    body: `Kapso WhatsApp 官方 Codex MCP：mcp add kapso --url https://api.kapso.ai/mcp，再 mcp login，无头才 KAPSO_API_KEY 不要抄 Claude 的 --transport http。
+
+这是 [Kapso Project MCP](https://docs.kapso.ai/docs/whatsapp/mcp) 给 Codex 的远程 HTTP 表，不是 Claude 的 \`claude mcp add --transport http\`，也不是 \`npm install -g @kapso/cli\` / \`curl … kapso.ai/install.sh\`。Project MCP 让代理在没有 shell 的情况下操作 WhatsApp 号码：查会话、发消息、管模板、配 webhook、开 setup link。端点是 \`https://api.kapso.ai/mcp\`，**带** \`/mcp\` 后缀。人要先在 Kapso 控制台建好项目，代理才能连。
+
+浏览器登录（本机有交互时走这条）：
+
+\`\`\`bash
+codex mcp add kapso --url https://api.kapso.ai/mcp
+codex mcp login kapso
+\`\`\`
+
+浏览器打开后登录 Kapso，选要交给这台客户端的那个项目。不要发明 \`KAPSO_PROJECT_ID\`。不要把项目 id 拼进 URL。
+
+无头 / CI 才用项目 API key。变量必须在**启动 Codex 的那个进程**里，Codex 不读 \`.env\`：
+
+\`\`\`bash
+export KAPSO_API_KEY=YOUR_KAPSO_API_KEY
+codex mcp add kapso --url https://api.kapso.ai/mcp --bearer-token-env-var KAPSO_API_KEY
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.kapso]
+url = "https://api.kapso.ai/mcp"
+bearer_token_env_var = "KAPSO_API_KEY"
+enabled = true
+\`\`\`
+
+Bearer 这条**不要**再 \`mcp login kapso\`。\`KAPSO_API_KEY\` 填的是变量**名**，不要把密钥字面量写进 \`http_headers\`。
+
+Codex 没有 \`--header\`。要用 \`X-API-Key\` 时写 \`~/.codex/config.toml\`：
+
+\`\`\`toml
+[mcp_servers.kapso]
+url = "https://api.kapso.ai/mcp"
+env_http_headers = { "X-API-Key" = "KAPSO_API_KEY" }
+enabled = true
+\`\`\`
+
+右边仍是变量名。缺变量或空值时这颗头会静默丢掉。不要把密钥写进 \`http_headers\`。不要发明 \`KAPSO_PROJECT_ID\`。
+
+工具是分组的，多数吃 \`action\` + \`params\`。先 \`status\` 看鉴权、客户数、号码数和下一步；分组工具先 \`action: "help"\`。常见组：\`search_docs\`、\`customers\`、\`setup_links\`、\`whatsapp_numbers\`、\`whatsapp_conversations\`、\`whatsapp_messages\`、\`whatsapp_templates\`、\`whatsapp_webhooks\`、\`findings\`。发消息、改 webhook、删号码保持批准。不要一上来 \`--yolo\`。不要 \`required = true\`。
+
+Docs MCP 是**另一张**表，只查文档：
+
+\`\`\`bash
+codex mcp add kapso-docs --url https://docs.kapso.ai/mcp
+\`\`\`
+
+不要和 Project MCP 的 \`kapso\` 叠成一台。不要把 \`https://docs.kapso.ai/mcp\` 当成发 WhatsApp 的入口。
+
+技能是另一条，官方没钉 \`--agent codex\`：
+
+\`\`\`bash
+npx skills add gokapso/agent-skills
+\`\`\`
+
+不要把 \`npx skills add\` 当 Codex MCP 安装器。仓库 README 可能 404，以文档页为准。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`claude mcp add --transport http kapso https://api.kapso.ai/mcp\`。Codex 用 \`--url\`，自己走 HTTP。
+- 不要抄 Claude / Cursor 的 \`--header "Authorization: Bearer $KAPSO_API_KEY"\`。Codex 没有 \`--header\`。
+- 不要发明 \`codex plugin add kapso@\`。官方路径是 \`mcp add\`，不是 marketplace。
+- 不要把 \`@kapso/cli\`、\`kapso login\`、\`kapso setup\` 当成 Codex MCP。CLI 要终端；Project MCP 才是无 shell 操作。
+- 不要发明 Meta WhatsApp MCP URL，也不要把社区 \`wbmcp\` 当主路径。
+- 不要抄 Cursor JSON 的 \`headers.Authorization\` 字面量。
+- 不要 \`npx mcp-remote https://api.kapso.ai/mcp\`。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get kapso\` 看传输是 streamable_http，url 是 \`https://api.kapso.ai/mcp\`。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Kapso", "WhatsApp", "KAPSO_API_KEY", "env_http_headers"],
+    related: ["mcp-add-and-login", "mcp-http-bearer-env", "mcp-http-env-headers"],
+    sources: [
+      {
+        label: "Kapso · Project MCP",
+        url: "https://docs.kapso.ai/docs/whatsapp/mcp",
+      },
+      {
+        label: "Kapso · Build with AI",
+        url: "https://docs.kapso.ai/docs/build-with-ai",
+      },
+      {
+        label: "Kapso · CLI",
+        url: "https://docs.kapso.ai/docs/whatsapp/cli",
+      },
+    ],
+  },
+  {
+    id: "stripe-codex-plugin",
+    no: 500,
+    title:
+      "Stripe 官方 Codex 插件：plugin add stripe@openai-curated，或 stripe agent setup --client codex，不要抄 Claude 的 stripe@claude-plugins-official",
+    summary:
+      "官方 Codex：codex plugin add stripe@openai-curated。CLI 一键是 npm install -g @stripe/cli@latest 再 stripe agent setup --client codex。插件会装 MCP 和技能并自动更新。不要抄 Claude 的 plugin install，也不要和手写 mcp add stripe 叠表。",
+    body: `Stripe 官方 Codex 插件：plugin add stripe@openai-curated，或 stripe agent setup --client codex，不要抄 Claude 的 stripe@claude-plugins-official。
+
+这是 [Agent plugins for Stripe](https://docs.stripe.com/agents/plugin) 给 Codex 的插件路径，不是只连 \`https://mcp.stripe.com\` 的 MCP 专节，也不是 Claude 的 \`claude plugin install stripe@claude-plugins-official\`。插件会登记 Stripe MCP、装官方技能，并随发布更新。人要先有 Stripe 账号；写类工具仍要人点确认。
+
+CLI 自动检测（官方推荐）：
+
+\`\`\`bash
+npm install -g @stripe/cli@latest
+stripe agent setup --client codex
+\`\`\`
+
+\`stripe agent setup\` 不带 \`--client\` 会扫本机已装的 Claude Code / Codex / Cursor。只要 Codex 时钉 \`--client codex\`。\`--force\` 才会重装已装过的。\`--status\` 只看状态。\`-y\` 跳过提示、给检测到的客户端都装。不要发明 \`stripe agent setup --agent codex\`。
+
+手动只装 Codex 插件：
+
+\`\`\`bash
+codex plugin add stripe@openai-curated
+codex plugin list
+\`\`\`
+
+id 就是 \`stripe@openai-curated\`。TUI \`/plugins\` 或桌面 Plugins 搜 Stripe 再装，效果一样。0.154 起先看**当前会话**；当前会话没有再新开。IDE 扩展没有 \`/plugins\`，用 CLI 这条。不要发明 \`codex plugin marketplace add stripe\`。不要写成 \`plugin install stripe@openai-curated\`。不要发明 \`plugin add stripe@stripe\`。
+
+插件已经带 MCP 时，不要再 \`codex mcp add stripe --url https://mcp.stripe.com\` 叠一张用户层表。只要远程 MCP、不要整包插件，才走已收录的 \`mcp-stripe-remote\`：\`mcp add stripe --url https://mcp.stripe.com\` 再 \`mcp login stripe\`。
+
+技能回退（不会随插件自动更新）：
+
+\`\`\`bash
+npx skills add https://docs.stripe.com
+\`\`\`
+
+官方没钉 \`--agent codex\`。之后要自己 \`npx skills update -y\`。这不会登记 MCP，也不会带厂商钩子。不要把 \`npx skills add\` 当 Codex 插件安装器。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`claude plugin install stripe@claude-plugins-official\`。
+- 不要抄 Cursor 的 \`/add-plugin stripe\`。
+- 不要抄 Grok 的 \`grok plugin install stripe --trust\`。
+- 不要抄 Claude 的 \`claude mcp add --transport http stripe https://mcp.stripe.com/\`。
+- 不要把本地 \`npx -y @stripe/mcp --api-key\` 当成这条插件。
+- 不要一上来 \`--yolo\`：退款和出金会要人点确认链接。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex plugin list\` 看 \`stripe@openai-curated\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["plugins", "Stripe", "stripe@openai-curated", "MCP"],
+    related: ["mcp-stripe-remote", "shopify-ai-toolkit", "plugins-vs-skills"],
+    sources: [
+      {
+        label: "Stripe · Agent plugins",
+        url: "https://docs.stripe.com/agents/plugin",
+      },
+      {
+        label: "Stripe CLI · agent setup",
+        url: "https://docs.stripe.com/cli/agent/setup",
+      },
+      {
+        label: "Stripe · Agent skills",
+        url: "https://docs.stripe.com/skills",
+      },
+    ],
   }
 ];

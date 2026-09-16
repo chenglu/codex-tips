@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-16T07:20:00Z",
+  lastTick: "2026-09-16T08:11:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "07:20 收口。#122 已合入 main（TIP 495–496）。本轮从最新 main 重放 #123 为 497 bigtable-codex-plugin、#124 为 498 dart-flutter-codex-plugin。合入后关 #123–#124。站点 498 技巧。",
+    "08:11 收口。#122 已合入 main（TIP 495–496）。#125 续接：#123→497 bigtable、#124→498 dart-flutter 已在本分支。本轮重放 #126 为 499 kapso-codex-mcp、#127 为 500 stripe-codex-plugin。合入后关 #126–#127。站点 500 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2281,6 +2281,26 @@ export const loopState = {
     'X: ("Codex CLI" OR Codex) (Flutter OR Dart OR plugin add OR marketplace)',
     "Codex CLI 技巧 2026 Flutter dart-flutter@dart-flutter plugin add",
     "skip sqlite serverless-spark bigquery-conversational-analytics kapso memorystore for next ticks",
+    "skip leftover 0630-bigtable-2b7e 0700-2b7e 0700-flutter-2b7e 0730-2b7e Nowledge",
+    "skip open #123 bigtable #124 dart-flutter #125 landing",
+    "codex mcp add kapso --url https://api.kapso.ai/mcp KAPSO_API_KEY",
+    "site:docs.kapso.ai/docs/whatsapp/mcp Codex mcp add kapso",
+    "site:docs.kapso.ai/docs/build-with-ai kapso-docs gokapso/agent-skills",
+    "site:docs.kapso.ai/docs/whatsapp/cli KAPSO_API_KEY @kapso/cli",
+    "X news: Codex CLI 2026-09-16 07:30",
+    'X: ("Codex CLI" OR Codex) (WhatsApp OR Kapso OR MCP)',
+    "Codex CLI 技巧 2026 Kapso WhatsApp api.kapso.ai/mcp KAPSO_API_KEY",
+    "skip sqlite serverless-spark bigquery-conversational-analytics Meta WhatsApp MCP for next ticks",
+    "skip leftover 0800-2b7e agentregistry 0730-2b7e Nowledge 0730-kapso-2b7e",
+    "skip open #123 bigtable #124 dart-flutter #125 landing #126 kapso",
+    "codex plugin add stripe@openai-curated stripe agent setup --client codex",
+    "site:docs.stripe.com/agents/plugin Codex plugin add stripe@openai-curated",
+    "site:docs.stripe.com/cli/agent/setup stripe agent setup --client codex",
+    "site:docs.stripe.com/skills npx skills add https://docs.stripe.com",
+    "X news: Codex CLI 2026-09-16 08:00",
+    'X: ("Codex CLI" OR Codex) (MCP OR plugin OR marketplace)',
+    "Codex CLI 技巧 2026 Stripe stripe@openai-curated agent setup",
+    "skip sqlite serverless-spark bigquery-conversational-analytics conductor stitch security for next ticks",
   ],
 };
 

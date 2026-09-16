@@ -7050,5 +7050,65 @@ export const articles: Article[] = [
     tags: ["Dart", "MCP", "stdio", "dart mcp-server", "dart-mcp-server", "dart-flutter@dart-flutter"],
     summary:
       'Dart Tooling MCP 是 stdio：command 是 dart，args 是 mcp-server。手写 JSON 表名常写成 dart，官方 Codex 插件登记的表名是 dart-mcp-server。要 Dart 3.9 预览线以上。页面给的是 Gemini / VS Code JSON，不是 plugin add。不要 mcp login。',
+  },
+  {
+    title: 'MCP server',
+    url: 'https://docs.kapso.ai/docs/whatsapp/mcp',
+    source: 'Kapso',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Codex", "Kapso", "WhatsApp", "MCP", "KAPSO_API_KEY", "api.kapso.ai/mcp"],
+    summary:
+      'Kapso WhatsApp 官方 Codex MCP：mcp add kapso --url https://api.kapso.ai/mcp，再 mcp login，无头才 KAPSO_API_KEY 不要抄 Claude 的 --transport http。浏览器签项目；无头才 --bearer-token-env-var KAPSO_API_KEY。X-API-Key 写 env_http_headers。不要发明 plugin add，也不要和 docs.kapso.ai/mcp 叠一张表。',
+  },
+  {
+    title: 'Build with AI',
+    url: 'https://docs.kapso.ai/docs/build-with-ai',
+    source: 'Kapso',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Codex", "Kapso", "WhatsApp", "MCP", "gokapso/agent-skills", "KAPSO_API_KEY", "api.kapso.ai/mcp"],
+    summary:
+      '给 Codex / Cursor / Claude 的入口页：Project MCP 走 api.kapso.ai/mcp 再 mcp login kapso；文档另起 kapso-docs 表打 docs.kapso.ai/mcp；技能是 npx skills add gokapso/agent-skills，官方没钉 --agent codex。人要先建 Kapso 项目。不要把 install.sh 当 Codex MCP。',
+  },
+  {
+    title: 'CLI',
+    url: 'https://docs.kapso.ai/docs/whatsapp/cli',
+    source: 'Kapso',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Kapso", "CLI", "WhatsApp", "KAPSO_API_KEY", "@kapso/cli", "api.kapso.ai/mcp"],
+    summary:
+      'Kapso CLI 是 npm install -g @kapso/cli，交互 kapso login，无头才 export KAPSO_API_KEY。页面明确：有 MCP 的代理应走 Project MCP，不要把 CLI 当 Codex 安装器。不要发明 KAPSO_PROJECT_ID。会话存在 ~/.kapso/cli/。',
+  },
+  {
+    title: 'Agent plugins for Stripe',
+    url: 'https://docs.stripe.com/agents/plugin',
+    source: 'Stripe',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Codex", "Stripe", "plugins", "stripe@openai-curated", "stripe agent setup"],
+    summary:
+      'Stripe 官方 Codex 插件：plugin add stripe@openai-curated，或 stripe agent setup --client codex，不要抄 Claude 的 stripe@claude-plugins-official。插件会装 MCP 和技能。不要抄 Cursor 的 /add-plugin stripe，也不要发明 plugin add stripe@stripe。',
+  },
+  {
+    title: 'agent setup',
+    url: 'https://docs.stripe.com/cli/agent/setup',
+    source: 'Stripe CLI',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Stripe", "CLI", "@stripe/cli", "codex", "stripe@openai-curated", "stripe agent setup"],
+    summary:
+      'stripe agent setup 会检测 Claude Code / Codex / Cursor 并装对应插件、技能和 MCP。只要 Codex 用 --client codex。先 npm install -g @stripe/cli@latest。--force 才重装。不要发明 --agent codex。这不是手写 mcp add stripe。',
+  },
+  {
+    title: 'Skills for agents',
+    url: 'https://docs.stripe.com/skills',
+    source: 'Stripe',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Stripe", "skills", "npx skills add", "stripe@openai-curated", "stripe agent setup"],
+    summary:
+      '推荐仍走插件。技能回退是 npx skills add https://docs.stripe.com，官方没钉 --agent codex，也不会自动更新，要自己 npx skills update -y。单独装技能不会登记 MCP。不要把这条当 Codex plugin add。',
   }
 ];
