@@ -6058,5 +6058,15 @@ codex plugin list
     code: `codex plugin add outlook-calendar@openai-curated
 codex plugin list
 `,
+  },
+  {
+    id: "teams-codex-plugin",
+    title: "teams@openai-curated 把 Teams 频道打给 Codex",
+    filename: "terminal",
+    summary:
+      "teams@openai-curated 把 Teams 频道打给 Codex。桌面 Plugins 搜 Microsoft Teams，再 Connect Microsoft。",
+    code: `codex plugin add teams@openai-curated
+codex plugin list
+`,
   }
 ];

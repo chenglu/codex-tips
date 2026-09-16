@@ -17778,5 +17778,68 @@ codex plugin list
         url: "https://github.com/openai/plugins/blob/main/plugins/outlook-calendar/.app.json",
       },
     ],
+  },
+  {
+    id: "teams-codex-plugin",
+    no: 510,
+    title:
+      "Microsoft Teams 官方 Codex 插件：桌面 Plugins 搜 Microsoft Teams，CLI 用 plugin add teams@openai-curated，不要当成 Slack",
+    summary:
+      "官方 Codex：codex plugin add teams@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Microsoft Teams，再 Connect Microsoft 账号。这是 Teams 插件，不是 Slack，也不是 Outlook Calendar。发消息先确认。",
+    body: `Microsoft Teams 官方 Codex 插件：桌面 Plugins 搜 Microsoft Teams，CLI 用 plugin add teams@openai-curated，不要当成 Slack。
+
+这是 OpenAI 做的 Microsoft Teams 插件，用来搜已有权限的聊天和频道，并在工作区打开写动作时起草回复、管 Planner 任务。产品页是 [Teams](https://openai.com/business/plugins/microsoft-teams/)。能力边界看 [Microsoft Teams app and setup in ChatGPT](https://help.openai.com/en/articles/12552368-microsoft-teams-app-for-chatgpt)。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/teams/.codex-plugin/plugin.json) 的 name 是 \`teams\`，所以精选 id 是 \`teams@openai-curated\`。
+
+CLI：
+
+\`\`\`bash
+codex plugin add teams@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install teams@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Microsoft Teams 再装，效果一样。装完按提示 Connect Microsoft 工作或学校账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+\`plugin.json\` 把 app 绑到 Microsoft Teams 连接器，**不是**远程 MCP URL。不要再手写 \`mcp add teams\`。也不要和已收录的 \`mcp-slack-remote\` / 精选 \`slack@openai-curated\` 抄成一条。
+
+不要和旁边那几个搞混：
+
+- Slack 是另一条，白名单 id 是 \`slack@openai-curated\`，不是 Teams。
+- Outlook Calendar / Outlook Email 管日程和收件箱，不搜频道消息。
+- SharePoint 是独立插件，不要指望 Teams 插件去拉站点文件。
+
+帮助中心写明：只能读你 Microsoft 账号已经能进的聊天和频道。发消息、建频道、改 Planner 要工作区打开对应 Actions，以及 Microsoft Entra 管理员同意 Graph 权限。企业/Edu 的管理员同步索引是只读的，**不能**发消息，也没有个人自助 sync。会议转写要先有转写；录像动作只给元数据，不给录像文件。未批准前不要发送或改任务。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 Microsoft Teams。ChatGPT 里可以用 \`@Microsoft Teams\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`teams@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Microsoft Teams。
+
+不要做这些：
+
+- 不要当成 Slack 或 Grok Bot 的 Teams 连接。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`teams@claude-plugins-official\`。
+- 不要把第三方 Teams MCP 包装器抄进 Codex。
+- 不要和手写 Slack MCP 叠成同一条。
+- 不要一上来 \`--yolo\`：发消息、建频道、改 Planner 会改别人的工作区。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Microsoft Teams", "teams@openai-curated", "Microsoft"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-slack-remote"],
+    sources: [
+      {
+        label: "OpenAI · Teams",
+        url: "https://openai.com/business/plugins/microsoft-teams/",
+      },
+      {
+        label: "OpenAI Help · Microsoft Teams app",
+        url: "https://help.openai.com/en/articles/12552368-microsoft-teams-app-for-chatgpt",
+      },
+      {
+        label: "openai/plugins · teams plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/teams/.codex-plugin/plugin.json",
+      },
+    ],
   }
 ];

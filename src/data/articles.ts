@@ -7380,5 +7380,35 @@ export const articles: Article[] = [
     tags: ["Outlook Calendar", "plugins", "connector", "outlook-calendar@openai-curated", "microsoft-outlook-calendar"],
     summary:
       '插件 app 键是 outlook-calendar，绑的是 Outlook Calendar 连接器，不是远程 MCP。不要再 mcp add 叠一张。不要和 CalendarBridge 或 Google Calendar 插件抄成一条。',
+  },
+  {
+    title: 'Teams',
+    url: 'https://openai.com/business/plugins/microsoft-teams/',
+    source: 'OpenAI',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Codex", "Microsoft Teams", "plugins", "teams@openai-curated", "microsoft-teams"],
+    summary:
+      'Microsoft Teams 官方 Codex 插件：桌面 Plugins 搜 Microsoft Teams，CLI 用 plugin add teams@openai-curated，不要当成 Slack。产品页只给 @Microsoft Teams 示例，没有 marketplace add。不要和 Outlook Calendar 产品页抄成一条。',
+  },
+  {
+    title: 'Microsoft Teams app and setup in ChatGPT',
+    url: 'https://help.openai.com/en/articles/12552368-microsoft-teams-app-for-chatgpt',
+    source: 'OpenAI Help Center',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Microsoft Teams", "plugins", "Entra", "Planner", "teams@openai-curated", "microsoft-teams"],
+    summary:
+      '帮助中心把实时 Teams app 和管理员同步索引分开。实时连接可搜聊天和频道；发消息要打开 Actions。管理员同步只读，没有个人自助 sync。转写要先存在，录像只给元数据。',
+  },
+  {
+    title: 'teams plugin.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/teams/.codex-plugin/plugin.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "Microsoft Teams", "plugins", "teams@openai-curated", "openai/plugins", "microsoft-teams"],
+    summary:
+      '清单 name 是 teams，所以 CLI id 是 teams@openai-curated。displayName 是 Teams。能力含 Interactive 和 Write。没有给出 MCP URL。不要写成 plugin install。',
   }
 ];

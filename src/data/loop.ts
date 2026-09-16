@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-16T13:11:00Z",
+  lastTick: "2026-09-16T14:08:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "13:11 收口。#125 已合入 main（TIP 497–505）。#135 续接：#133–#134 已为 506–507。本轮重放 #136 为 508 outlook-email-codex-plugin、#137 为 509 outlook-calendar-codex-plugin。合入后关 #136–#137。站点 509 技巧。",
+    "14:08 收口。#125 已合入 main（TIP 497–505）。#135 续接：#133–#134、#136–#137 已为 506–509。本轮重放 #138 为 510 teams-codex-plugin。合入后关 #138。站点 510 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2383,6 +2383,15 @@ export const loopState = {
     "X news: Codex CLI 2026-09-16 13:00",
     'X: ("Codex CLI" OR Codex) (plugin OR marketplace OR Outlook OR Calendar OR Teams)',
     "Codex CLI 技巧 2026 Outlook Calendar outlook-calendar@openai-curated plugin add",
+    "skip leftover 1330-2b7e 1330-nim-2b7e already on main",
+    "skip open #133 remotion #134 copilot #136 outlook-email #137 outlook-calendar",
+    "codex plugin add teams@openai-curated Plugins Microsoft Teams",
+    "site:openai.com/business/plugins/microsoft-teams Teams plugin",
+    "site:help.openai.com/en/articles/12552368-microsoft-teams-app-for-chatgpt",
+    "site:github.com/openai/plugins teams plugin.json",
+    "X news: Codex CLI 2026-09-16 13:30",
+    'X: ("Codex CLI" OR Codex) (plugin OR marketplace OR Teams OR SharePoint OR Gmail)',
+    "Codex CLI 技巧 2026 Microsoft Teams teams@openai-curated plugin add",
   ],
 };
 

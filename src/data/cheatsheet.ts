@@ -489,6 +489,7 @@ export const cheatSections: CheatSection[] = [
       { cmd: "Sign in with Copilot", meaning: "GitHub Copilot 官方 Codex。Cloud agent → Partner agents 打开 OpenAI Codex。不要当成 ChatGPT 登录。不要抄 copilot plugin install。不要当成 codex cloud exec。只给 Pro+ / Max" },
       { cmd: "codex plugin add outlook-email@openai-curated", meaning: "Outlook Email 官方 Codex 插件。桌面 Plugins 搜 Outlook Email。不要当成 Outlook Calendar。不要抄第三方 Outlook MCP。不要写成 plugin install" },
       { cmd: "codex plugin add outlook-calendar@openai-curated", meaning: "Outlook Calendar 官方 Codex 插件。桌面 Plugins 搜 Outlook Calendar。不要当成 Outlook Email。不要叠 CalendarBridge MCP。不要写成 plugin install" },
+      { cmd: "codex plugin add teams@openai-curated", meaning: "Microsoft Teams 官方 Codex 插件。桌面 Plugins 搜 Microsoft Teams。不要当成 Slack。不要叠手写 mcp add teams。不要写成 plugin install" },
       { cmd: "npx skills add ActiveCampaign/postmark-skills", meaning: "博客点名 Codex。官方没钉 --agent codex。示例技能是 postmark-send-email。不要发明 plugin add postmark@。这不是 @activecampaign/postmark-mcp" },
       { cmd: "npx skills add datadog-labs/agent-skills/agent-observability --full-depth -y", meaning: "官方点名 Codex CLI。官方没钉 --agent codex。不要发明 plugin add。不要抄 Restart Claude Code。MCP 仍走 mcp.datadoghq.com/v1/mcp，工具集写 X-Datadog-MCP-Toolsets" },
       { cmd: "npx skills add tavily-ai/skills --all", meaning: "官方点名 Codex。官方没钉 --agent codex。示例技能是 tavily-search。不要发明 plugin add 或 mcp add。不要把 API key 拼进 mcp.tavily.com" },
