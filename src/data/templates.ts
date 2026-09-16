@@ -5785,5 +5785,64 @@ codex mcp list
 # codex mcp login looker
 # command = "./PATH/TO/toolbox"
 `,
+  },
+  {
+    id: "bigtable-codex-plugin",
+    title: "cloud-bigtable-ecosystem marketplace 把 Bigtable 技能喂给 data-agent-kit",
+    filename: "terminal",
+    summary:
+      "cloud-bigtable-ecosystem marketplace 把 Bigtable 技能喂给 data-agent-kit。主路径是 marketplace add GoogleCloudPlatform/data-agent-kit，再 plugin add bigtable@data-agent-kit。",
+    code: `gcloud auth application-default login
+
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add bigtable@data-agent-kit
+codex plugin list
+
+# 可选：
+# codex plugin marketplace upgrade data-agent-kit
+# export BIGTABLE_EMULATOR_HOST=localhost:8086
+
+# 不要：
+# plugin install bigtable@data-agent-kit
+# plugin add bigtable@cloud-bigtable-ecosystem
+# /plugin install bigtable@data-agent-kit
+# gemini extensions install https://github.com/GoogleCloudPlatform/cloud-bigtable-ecosystem
+# git clone https://github.com/GoogleCloudPlatform/cloud-bigtable-ecosystem.git
+# export BIGTABLE_PROJECT
+# export BIGTABLE_PROJECT_ID
+# codex mcp add bigtable --url https://bigtableadmin.googleapis.com/mcp
+# codex mcp login bigtable
+# command = "./PATH/TO/toolbox"
+`,
+  },
+  {
+    id: "dart-flutter-codex-plugin",
+    title: "flutter/agent-plugins marketplace 把 dart-flutter 技能喂给 dart-flutter",
+    filename: "terminal",
+    summary:
+      "flutter/agent-plugins marketplace 把 dart-flutter 技能喂给 dart-flutter。主路径是 marketplace add flutter/agent-plugins，再 plugin add dart-flutter@dart-flutter。",
+    code: `which dart
+
+codex plugin marketplace add flutter/agent-plugins
+codex plugin add dart-flutter@dart-flutter
+codex plugin list
+codex mcp list
+
+# 可选：
+# 把规则拷进 .agent/rules/ 或追加到 CODEX.md
+# codex plugin marketplace upgrade dart-flutter
+
+# 不要：
+# plugin install dart-flutter@dart-flutter
+# npx skills add flutter/agent-plugins --skill '*' --agent universal --yes
+# /plugin install dart-flutter@dart-flutter
+# gemini extensions install https://github.com/gemini-cli-extensions/flutter
+# flutter-mcp-toolkit init codex
+# plugin add flutter-mcp-toolkit@mcp_flutter
+# claude plugin install dart-flutter@dart-flutter
+# /add-plugin dart-flutter
+# codex mcp add dart -- dart mcp-server
+# codex mcp login dart-mcp-server
+`,
   }
 ];

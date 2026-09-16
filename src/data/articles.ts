@@ -6990,5 +6990,65 @@ export const articles: Article[] = [
     tags: ["Looker", "MCP", "ask_data_insights", "LOOKER_LOCATION", "looker-conversational-analytics@looker-conversational-analytics", "LOOKER_PROJECT"],
     summary:
       '工具页写的是 looker-conversational-analytics 类型，参数是 user_query_with_context 和 1 到 5 个 model/explore。页面没有 Codex 专节。Codex 主路径是 plugin add looker-conversational-analytics@looker-conversational-analytics，表名 looker，不要把 YAML 工具定义抄进 config.toml。',
+  },
+  {
+    title: 'GoogleCloudPlatform/cloud-bigtable-ecosystem',
+    url: 'https://github.com/GoogleCloudPlatform/cloud-bigtable-ecosystem',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "Bigtable", "plugins", "cloud-bigtable-ecosystem", "bigtable@data-agent-kit"],
+    summary:
+      'Google Cloud Bigtable 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add bigtable@data-agent-kit，源仓 cloud-bigtable-ecosystem 只要技能不要发明 toolbox。仓内 Codex 节仍写 git clone 加 /plugins；以 Data Agent Kit 的 plugin add 为准。plugin.json 0.0.1 只有 skills，没有 mcpServers。',
+  },
+  {
+    title: 'cloud-bigtable-ecosystem skills/bigtable',
+    url: 'https://github.com/GoogleCloudPlatform/cloud-bigtable-ecosystem/tree/v0.4.0/skills/bigtable',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Bigtable", "skills", "gcloud", "cbt", "cloud-bigtable-ecosystem", "bigtable@data-agent-kit"],
+    summary:
+      'v0.4.0 技能清单：控制面用 gcloud，数据面用 cbt。SQL API 只读，DDL 走 CLI。非模拟器改库要先确认。文档里的 BIGTABLE_PROJECT 是 gcloud 示例变量，不是 Codex 插件必填 env。不要发明 toolbox 预置。',
+  },
+  {
+    title: 'Bigtable Source | MCP Toolbox for Databases',
+    url: 'https://mcp-toolbox.dev/integrations/bigtable/source/',
+    source: 'MCP Toolbox',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Bigtable", "MCP Toolbox", "ADC", "cloud-bigtable-ecosystem", "bigtable@data-agent-kit"],
+    summary:
+      'MCP Toolbox 的 Bigtable source 要 YAML：type 是 bigtable，必填 project 和 instance。这是本机 Toolbox 源，不是 Data Agent Kit 那条 Codex 插件。plugin add bigtable@data-agent-kit 不会登记这台源，也不要抄成 --prebuilt。',
+  },
+  {
+    title: 'Get started developing with AI',
+    url: 'https://docs.flutter.dev/ai/get-started',
+    source: 'Flutter Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Codex", "Flutter", "Dart", "plugins", "dart-flutter@dart-flutter", "dart-mcp-server"],
+    summary:
+      'Dart 和 Flutter 官方 Codex 插件：marketplace 加 flutter/agent-plugins，再 plugin add dart-flutter@dart-flutter，技能和 dart MCP 一起装不要抄 npx skills add。规则要另拷到 .agent/rules 或 CODEX.md。不要写成 plugin install，也不要和 flutter-mcp-toolkit 抄成一条。',
+  },
+  {
+    title: 'flutter/agent-plugins',
+    url: 'https://github.com/flutter/agent-plugins',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Flutter", "plugins", "skills", "dart-flutter@dart-flutter", "MCP", "dart-mcp-server"],
+    summary:
+      'Flutter 团队维护的 agent-plugins。清单 name 是 dart-flutter，插件 name 也是 dart-flutter，plugin.json 1.0.4。技能在 skills/，MCP 走仓根 .mcp.json 的 dart-mcp-server（dart mcp-server）。README 安装细节指向 Flutter AI 入门页。',
+  },
+  {
+    title: 'dart-lang/ai dart_mcp_server',
+    url: 'https://github.com/dart-lang/ai/tree/main/pkgs/dart_mcp_server',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Dart", "MCP", "stdio", "dart mcp-server", "dart-mcp-server", "dart-flutter@dart-flutter"],
+    summary:
+      'Dart Tooling MCP 是 stdio：command 是 dart，args 是 mcp-server。手写 JSON 表名常写成 dart，官方 Codex 插件登记的表名是 dart-mcp-server。要 Dart 3.9 预览线以上。页面给的是 Gemini / VS Code JSON，不是 plugin add。不要 mcp login。',
   }
 ];

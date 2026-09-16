@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-16T06:17:00Z",
+  lastTick: "2026-09-16T07:20:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "06:17 收口。#117 已合入 main（TIP 491–494）。本轮从最新 main 重放 #120 为 495 sqlserver-codex-plugin、#121 为 496 looker-ca-codex-plugin。合入后关 #120–#121。站点 496 技巧。",
+    "07:20 收口。#122 已合入 main（TIP 495–496）。本轮从最新 main 重放 #123 为 497 bigtable-codex-plugin、#124 为 498 dart-flutter-codex-plugin。合入后关 #123–#124。站点 498 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2263,6 +2263,24 @@ export const loopState = {
     'X: ("Codex CLI" OR Codex) (Looker OR plugin add OR conversational)',
     "Codex CLI 技巧 2026 Looker Conversational Analytics LOOKER_LOCATION plugin add",
     "skip sqlite bigtable serverless-spark bigquery-conversational-analytics for next ticks",
+    "skip leftover 0630-2b7e 0630-langfuse-2b7e",
+    "codex plugin add bigtable@data-agent-kit GoogleCloudPlatform/cloud-bigtable-ecosystem",
+    "site:github.com/GoogleCloudPlatform/cloud-bigtable-ecosystem Codex plugin marketplace skills",
+    "site:mcp-toolbox.dev/integrations/bigtable source project instance",
+    "X news: Codex CLI 2026-09-16 06:30",
+    'X: ("Codex CLI" OR Codex) (Bigtable OR plugin add OR marketplace)',
+    "Codex CLI 技巧 2026 Bigtable cloud-bigtable-ecosystem plugin add",
+    "skip sqlite serverless-spark bigquery-conversational-analytics for next ticks",
+    "skip leftover 0700-2b7e JFrog",
+    "skip open #123 bigtable-codex-plugin",
+    "codex plugin add dart-flutter@dart-flutter flutter/agent-plugins",
+    "site:docs.flutter.dev/ai/get-started Codex plugin marketplace",
+    "site:github.com/flutter/agent-plugins dart-mcp-server dart mcp-server",
+    "site:github.com/dart-lang/ai dart_mcp_server Codex stdio",
+    "X news: Codex CLI 2026-09-16 07:00",
+    'X: ("Codex CLI" OR Codex) (Flutter OR Dart OR plugin add OR marketplace)',
+    "Codex CLI 技巧 2026 Flutter dart-flutter@dart-flutter plugin add",
+    "skip sqlite serverless-spark bigquery-conversational-analytics kapso memorystore for next ticks",
   ],
 };
 

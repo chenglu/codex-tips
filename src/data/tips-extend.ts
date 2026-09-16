@@ -16943,5 +16943,124 @@ codex mcp list
         url: "https://mcp-toolbox.dev/integrations/looker/tools/looker-conversational-analytics/",
       },
     ],
+  },
+  {
+    id: "bigtable-codex-plugin",
+    no: 497,
+    title:
+      "Google Cloud Bigtable 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add bigtable@data-agent-kit，源仓 cloud-bigtable-ecosystem 只要技能不要发明 toolbox",
+    summary:
+      "官方 Codex 专节：先 marketplace add GoogleCloudPlatform/data-agent-kit，再 plugin add bigtable@data-agent-kit。源仓 plugin.json 只要 skills，没有 mcpServers。不要把 git clone 加 /plugins 当主路径，也不要发明 toolbox 或 mcp add。",
+    body: `Google Cloud Bigtable 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add bigtable@data-agent-kit，源仓 cloud-bigtable-ecosystem 只要技能不要发明 toolbox。
+
+这是 [Data Agent Kit](https://github.com/GoogleCloudPlatform/data-agent-kit) 产品表里的 Bigtable 行，指向 [GoogleCloudPlatform/cloud-bigtable-ecosystem](https://github.com/GoogleCloudPlatform/cloud-bigtable-ecosystem)。不是 Claude 的 \`/plugin marketplace add GoogleCloudPlatform/cloud-bigtable-ecosystem\`，不是 \`gemini extensions install https://github.com/GoogleCloudPlatform/cloud-bigtable-ecosystem\`，也不是源仓 README Codex 节那套 \`git clone\` 再开 \`/plugins\` 浏览器。官方 Codex 主路径仍是 DAK 的 \`plugin add\`。
+
+要 Codex **v0.117.0+**。本机要有 \`gcloud\` 和 \`cbt\`（控制面 / 数据面），再准备 ADC：
+
+\`\`\`bash
+gcloud auth application-default login
+# 技能走 CLI，不是插件环境变量：不要 export BIGTABLE_PROJECT
+\`\`\`
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`data-agent-kit\`，插件 name 是 \`bigtable\`，source 钉 \`cloud-bigtable-ecosystem.git\` ref \`v0.4.0\`。源仓 \`.codex-plugin/plugin.json\` 是 \`0.0.1\`，只声明 \`skills: "./skills/"\`：**没有** \`mcpServers\`，**没有** \`.codex-plugin/.mcp.json\`。
+
+\`\`\`bash
+codex --version
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add bigtable@data-agent-kit
+codex plugin list
+codex mcp list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install bigtable@data-agent-kit\`。不要写成 \`plugin add bigtable@cloud-bigtable-ecosystem\`。不要 \`agy plugin install\`。IDE 扩展没有 \`/plugins\`。
+
+\`plugin list\` 应看到 \`bigtable@data-agent-kit\`。\`mcp list\` **不会**因为这条插件多出一张 Bigtable 表：plugin.json 没接线。仓根 \`.mcp.json\` 里那条远程 \`https://bigtableadmin.googleapis.com/mcp\` 是给别的客户端看的，**不要**发明 \`codex mcp add bigtable --url https://bigtableadmin.googleapis.com/mcp\`。也不要 \`codex mcp login bigtable\`。
+
+技能 [skills/bigtable](https://github.com/GoogleCloudPlatform/cloud-bigtable-ecosystem/tree/v0.4.0/skills/bigtable) 把活分成两面：\`gcloud\` 管实例 / 集群 / 备份 / IAM / 建表和视图；\`cbt\` 管列族、读写和 GC。SQL API 只读，DDL 走 CLI。非模拟器改库前要先确认。技能文档里的 \`\${BIGTABLE_PROJECT}\` / \`\${BIGTABLE_INSTANCE}\` 是 gcloud 示例变量，**不是** \`plugin add\` 的必填 env，不要发明 \`BIGTABLE_PROJECT_ID\`。
+
+不要抄这些：
+
+- MCP Toolbox 的 Bigtable source YAML（\`type: bigtable\` 加 \`project\` / \`instance\`）。那是另一条本机 Toolbox 源，这份插件没有 \`--prebuilt\`。
+- Cursor / VS Code 的 \`mcpServers\` 加 \`./PATH/TO/toolbox\`。
+- \`firestore-native@data-agent-kit\`、\`dataproc@data-agent-kit\`、AlloyDB 那几条。同仓 marketplace 里插件 id 不同，那些才登记 stdio MCP。
+- GCS 的独立 marketplace \`gemini-cli-extensions/google-cloud-storage\`。DAK 清单里虽有 \`google-cloud-storage\` 行，Codex 主路径不是这条 Bigtable。
+- 本地模拟器才用 \`BIGTABLE_EMULATOR_HOST=localhost:8086\`。那是 gcloud / cbt 的模拟器开关，不是插件安装步骤。模拟器还不支持 GoogleSQL。
+
+可选：\`codex plugin marketplace upgrade data-agent-kit\` 后再 \`plugin add\` 一次。0.154 起先看当前会话的 \`/plugins\`；没有再新开。连接失败先看 ADC、\`gcloud\` / \`cbt\` 是否在 PATH，以及当前项目 / 实例参数是不是你在对话里给的。发行仍是 Beta（pre-v1.0）。不要 \`required = true\`。不要一上来 \`--yolo\`。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Bigtable", "skills", "Google Cloud", "data-agent-kit", "cloud-bigtable-ecosystem"],
+    related: ["firestore-native-codex-plugin", "dak-starter-codex-plugin", "dataproc-codex-plugin"],
+    sources: [
+      {
+        label: "GoogleCloudPlatform/cloud-bigtable-ecosystem",
+        url: "https://github.com/GoogleCloudPlatform/cloud-bigtable-ecosystem",
+      },
+      {
+        label: "GoogleCloudPlatform/data-agent-kit",
+        url: "https://github.com/GoogleCloudPlatform/data-agent-kit",
+      },
+      {
+        label: "cloud-bigtable-ecosystem · skills/bigtable",
+        url: "https://github.com/GoogleCloudPlatform/cloud-bigtable-ecosystem/tree/v0.4.0/skills/bigtable",
+      },
+    ],
+  },
+  {
+    id: "dart-flutter-codex-plugin",
+    no: 498,
+    title:
+      "Dart 和 Flutter 官方 Codex 插件：marketplace 加 flutter/agent-plugins，再 plugin add dart-flutter@dart-flutter，技能和 dart MCP 一起装不要抄 npx skills add",
+    summary:
+      "官方 Codex 专节：先 marketplace add flutter/agent-plugins，再 plugin add dart-flutter@dart-flutter。插件带 Flutter 技能和 stdio 表 dart-mcp-server（command 是 dart mcp-server）。规则要另拷到 .agent/rules 或 CODEX.md。不要用 npx skills add 当安装器，也不要和 flutter-mcp-toolkit 抄成一条。",
+    body: `Dart 和 Flutter 官方 Codex 插件：marketplace 加 flutter/agent-plugins，再 plugin add dart-flutter@dart-flutter，技能和 dart MCP 一起装不要抄 npx skills add。
+
+这是 [Flutter 官方 AI 入门](https://docs.flutter.dev/ai/get-started) 的 Codex 专节，不是 Claude 的 \`claude plugin install dart-flutter@dart-flutter\`，不是 Cursor 的 \`/add-plugin dart-flutter\`，也不是 Gemini CLI 的 \`gemini extensions install https://github.com/gemini-cli-extensions/flutter\`。官方 Codex 主路径是 Flutter 团队的 \`plugin add\`。
+
+本机要有 **Dart / Flutter SDK**（\`dart\` 在 PATH），现行 Codex 能跑 \`plugin marketplace add\`。清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`dart-flutter\`，插件 name 也是 \`dart-flutter\`（\`plugin.json\` 1.0.4）：
+
+\`\`\`bash
+codex --version
+which dart
+codex plugin marketplace add flutter/agent-plugins
+codex plugin add dart-flutter@dart-flutter
+codex plugin list
+codex mcp list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install dart-flutter@dart-flutter\`。不要发明 \`dart-flutter@openai-curated\`。不要 \`agy plugin install\`。IDE 扩展没有 \`/plugins\`。
+
+插件会登记一台 **stdio** MCP，表名是 \`dart-mcp-server\`（不是手写 JSON 里常见的 \`dart\`）。command 是 \`dart\`，args 是 \`mcp-server\`。**不要** \`codex mcp login dart-mcp-server\`。插件已经带 MCP 时，不要再 \`codex mcp add dart -- dart mcp-server\` 叠一张用户层表。这台是分析器、测试、pub、热重载和 Widget Inspector，靠 Dart Tooling Daemon；跑 Flutter 用 debug / profile，不要 \`--no-dds\`。纯 Dart 才加 \`--observe\`。
+
+官方写明：插件会装技能和 MCP，**不会**自动带上规则。要把 \`flutter/agent-plugins\` 的 \`.md\` 规则拷进项目 \`.agent/rules/\`，或追加到 \`CODEX.md\`。不要指望 \`AGENTS.md\` 会自己出现这些规则。
+
+不要抄这些：
+
+- \`npx skills add flutter/agent-plugins --skill '*' --agent universal --yes\`。那是 Antigravity / Copilot 的技能拷贝，**不是** Codex 插件安装器，也不会登记 \`dart-mcp-server\`。
+- 本站已有的 \`flutter-mcp-toolkit init codex\` / \`Arenukvern/mcp_flutter\`。那是盯 debug 应用的社区 toolkit，官方**没有**写出 \`plugin add\` id。
+- Cursor / VS Code 的 \`mcpServers.dart\` JSON，或 Gemini 的 \`.gemini/settings.json\`。
+- \`gemini-cli-extensions/flutter\` 那套 \`/create-app\` 扩展命令。
+
+可选：\`codex plugin marketplace upgrade dart-flutter\` 后再 \`plugin add\` 一次。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex mcp list\` 里应有 \`dart-mcp-server\`。连接失败先看 \`which dart\`，以及当前工程是不是 Flutter / Dart 根。热重载会动真界面，保持工具批准。不要 \`required = true\`。不要一上来 \`--yolo\`。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Flutter", "Dart", "MCP", "dart-flutter@dart-flutter"],
+    related: ["flutter-mcp-toolkit-plugin", "unity-codex-plugin", "google-cloud-developer-plugin"],
+    sources: [
+      {
+        label: "Flutter · Get started developing with AI",
+        url: "https://docs.flutter.dev/ai/get-started",
+      },
+      {
+        label: "flutter/agent-plugins",
+        url: "https://github.com/flutter/agent-plugins",
+      },
+      {
+        label: "dart-lang/ai · dart_mcp_server",
+        url: "https://github.com/dart-lang/ai/tree/main/pkgs/dart_mcp_server",
+      },
+    ],
   }
 ];
