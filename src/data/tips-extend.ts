@@ -16943,5 +16943,607 @@ codex mcp list
         url: "https://mcp-toolbox.dev/integrations/looker/tools/looker-conversational-analytics/",
       },
     ],
+  },
+  {
+    id: "bigtable-codex-plugin",
+    no: 497,
+    title:
+      "Google Cloud Bigtable 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add bigtable@data-agent-kit，源仓 cloud-bigtable-ecosystem 只要技能不要发明 toolbox",
+    summary:
+      "官方 Codex 专节：先 marketplace add GoogleCloudPlatform/data-agent-kit，再 plugin add bigtable@data-agent-kit。源仓 plugin.json 只要 skills，没有 mcpServers。不要把 git clone 加 /plugins 当主路径，也不要发明 toolbox 或 mcp add。",
+    body: `Google Cloud Bigtable 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add bigtable@data-agent-kit，源仓 cloud-bigtable-ecosystem 只要技能不要发明 toolbox。
+
+这是 [Data Agent Kit](https://github.com/GoogleCloudPlatform/data-agent-kit) 产品表里的 Bigtable 行，指向 [GoogleCloudPlatform/cloud-bigtable-ecosystem](https://github.com/GoogleCloudPlatform/cloud-bigtable-ecosystem)。不是 Claude 的 \`/plugin marketplace add GoogleCloudPlatform/cloud-bigtable-ecosystem\`，不是 \`gemini extensions install https://github.com/GoogleCloudPlatform/cloud-bigtable-ecosystem\`，也不是源仓 README Codex 节那套 \`git clone\` 再开 \`/plugins\` 浏览器。官方 Codex 主路径仍是 DAK 的 \`plugin add\`。
+
+要 Codex **v0.117.0+**。本机要有 \`gcloud\` 和 \`cbt\`（控制面 / 数据面），再准备 ADC：
+
+\`\`\`bash
+gcloud auth application-default login
+# 技能走 CLI，不是插件环境变量：不要 export BIGTABLE_PROJECT
+\`\`\`
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`data-agent-kit\`，插件 name 是 \`bigtable\`，source 钉 \`cloud-bigtable-ecosystem.git\` ref \`v0.4.0\`。源仓 \`.codex-plugin/plugin.json\` 是 \`0.0.1\`，只声明 \`skills: "./skills/"\`：**没有** \`mcpServers\`，**没有** \`.codex-plugin/.mcp.json\`。
+
+\`\`\`bash
+codex --version
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add bigtable@data-agent-kit
+codex plugin list
+codex mcp list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install bigtable@data-agent-kit\`。不要写成 \`plugin add bigtable@cloud-bigtable-ecosystem\`。不要 \`agy plugin install\`。IDE 扩展没有 \`/plugins\`。
+
+\`plugin list\` 应看到 \`bigtable@data-agent-kit\`。\`mcp list\` **不会**因为这条插件多出一张 Bigtable 表：plugin.json 没接线。仓根 \`.mcp.json\` 里那条远程 \`https://bigtableadmin.googleapis.com/mcp\` 是给别的客户端看的，**不要**发明 \`codex mcp add bigtable --url https://bigtableadmin.googleapis.com/mcp\`。也不要 \`codex mcp login bigtable\`。
+
+技能 [skills/bigtable](https://github.com/GoogleCloudPlatform/cloud-bigtable-ecosystem/tree/v0.4.0/skills/bigtable) 把活分成两面：\`gcloud\` 管实例 / 集群 / 备份 / IAM / 建表和视图；\`cbt\` 管列族、读写和 GC。SQL API 只读，DDL 走 CLI。非模拟器改库前要先确认。技能文档里的 \`\${BIGTABLE_PROJECT}\` / \`\${BIGTABLE_INSTANCE}\` 是 gcloud 示例变量，**不是** \`plugin add\` 的必填 env，不要发明 \`BIGTABLE_PROJECT_ID\`。
+
+不要抄这些：
+
+- MCP Toolbox 的 Bigtable source YAML（\`type: bigtable\` 加 \`project\` / \`instance\`）。那是另一条本机 Toolbox 源，这份插件没有 \`--prebuilt\`。
+- Cursor / VS Code 的 \`mcpServers\` 加 \`./PATH/TO/toolbox\`。
+- \`firestore-native@data-agent-kit\`、\`dataproc@data-agent-kit\`、AlloyDB 那几条。同仓 marketplace 里插件 id 不同，那些才登记 stdio MCP。
+- GCS 的独立 marketplace \`gemini-cli-extensions/google-cloud-storage\`。DAK 清单里虽有 \`google-cloud-storage\` 行，Codex 主路径不是这条 Bigtable。
+- 本地模拟器才用 \`BIGTABLE_EMULATOR_HOST=localhost:8086\`。那是 gcloud / cbt 的模拟器开关，不是插件安装步骤。模拟器还不支持 GoogleSQL。
+
+可选：\`codex plugin marketplace upgrade data-agent-kit\` 后再 \`plugin add\` 一次。0.154 起先看当前会话的 \`/plugins\`；没有再新开。连接失败先看 ADC、\`gcloud\` / \`cbt\` 是否在 PATH，以及当前项目 / 实例参数是不是你在对话里给的。发行仍是 Beta（pre-v1.0）。不要 \`required = true\`。不要一上来 \`--yolo\`。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Bigtable", "skills", "Google Cloud", "data-agent-kit", "cloud-bigtable-ecosystem"],
+    related: ["firestore-native-codex-plugin", "dak-starter-codex-plugin", "dataproc-codex-plugin"],
+    sources: [
+      {
+        label: "GoogleCloudPlatform/cloud-bigtable-ecosystem",
+        url: "https://github.com/GoogleCloudPlatform/cloud-bigtable-ecosystem",
+      },
+      {
+        label: "GoogleCloudPlatform/data-agent-kit",
+        url: "https://github.com/GoogleCloudPlatform/data-agent-kit",
+      },
+      {
+        label: "cloud-bigtable-ecosystem · skills/bigtable",
+        url: "https://github.com/GoogleCloudPlatform/cloud-bigtable-ecosystem/tree/v0.4.0/skills/bigtable",
+      },
+    ],
+  },
+  {
+    id: "dart-flutter-codex-plugin",
+    no: 498,
+    title:
+      "Dart 和 Flutter 官方 Codex 插件：marketplace 加 flutter/agent-plugins，再 plugin add dart-flutter@dart-flutter，技能和 dart MCP 一起装不要抄 npx skills add",
+    summary:
+      "官方 Codex 专节：先 marketplace add flutter/agent-plugins，再 plugin add dart-flutter@dart-flutter。插件带 Flutter 技能和 stdio 表 dart-mcp-server（command 是 dart mcp-server）。规则要另拷到 .agent/rules 或 CODEX.md。不要用 npx skills add 当安装器，也不要和 flutter-mcp-toolkit 抄成一条。",
+    body: `Dart 和 Flutter 官方 Codex 插件：marketplace 加 flutter/agent-plugins，再 plugin add dart-flutter@dart-flutter，技能和 dart MCP 一起装不要抄 npx skills add。
+
+这是 [Flutter 官方 AI 入门](https://docs.flutter.dev/ai/get-started) 的 Codex 专节，不是 Claude 的 \`claude plugin install dart-flutter@dart-flutter\`，不是 Cursor 的 \`/add-plugin dart-flutter\`，也不是 Gemini CLI 的 \`gemini extensions install https://github.com/gemini-cli-extensions/flutter\`。官方 Codex 主路径是 Flutter 团队的 \`plugin add\`。
+
+本机要有 **Dart / Flutter SDK**（\`dart\` 在 PATH），现行 Codex 能跑 \`plugin marketplace add\`。清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`dart-flutter\`，插件 name 也是 \`dart-flutter\`（\`plugin.json\` 1.0.4）：
+
+\`\`\`bash
+codex --version
+which dart
+codex plugin marketplace add flutter/agent-plugins
+codex plugin add dart-flutter@dart-flutter
+codex plugin list
+codex mcp list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install dart-flutter@dart-flutter\`。不要发明 \`dart-flutter@openai-curated\`。不要 \`agy plugin install\`。IDE 扩展没有 \`/plugins\`。
+
+插件会登记一台 **stdio** MCP，表名是 \`dart-mcp-server\`（不是手写 JSON 里常见的 \`dart\`）。command 是 \`dart\`，args 是 \`mcp-server\`。**不要** \`codex mcp login dart-mcp-server\`。插件已经带 MCP 时，不要再 \`codex mcp add dart -- dart mcp-server\` 叠一张用户层表。这台是分析器、测试、pub、热重载和 Widget Inspector，靠 Dart Tooling Daemon；跑 Flutter 用 debug / profile，不要 \`--no-dds\`。纯 Dart 才加 \`--observe\`。
+
+官方写明：插件会装技能和 MCP，**不会**自动带上规则。要把 \`flutter/agent-plugins\` 的 \`.md\` 规则拷进项目 \`.agent/rules/\`，或追加到 \`CODEX.md\`。不要指望 \`AGENTS.md\` 会自己出现这些规则。
+
+不要抄这些：
+
+- \`npx skills add flutter/agent-plugins --skill '*' --agent universal --yes\`。那是 Antigravity / Copilot 的技能拷贝，**不是** Codex 插件安装器，也不会登记 \`dart-mcp-server\`。
+- 本站已有的 \`flutter-mcp-toolkit init codex\` / \`Arenukvern/mcp_flutter\`。那是盯 debug 应用的社区 toolkit，官方**没有**写出 \`plugin add\` id。
+- Cursor / VS Code 的 \`mcpServers.dart\` JSON，或 Gemini 的 \`.gemini/settings.json\`。
+- \`gemini-cli-extensions/flutter\` 那套 \`/create-app\` 扩展命令。
+
+可选：\`codex plugin marketplace upgrade dart-flutter\` 后再 \`plugin add\` 一次。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex mcp list\` 里应有 \`dart-mcp-server\`。连接失败先看 \`which dart\`，以及当前工程是不是 Flutter / Dart 根。热重载会动真界面，保持工具批准。不要 \`required = true\`。不要一上来 \`--yolo\`。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Flutter", "Dart", "MCP", "dart-flutter@dart-flutter"],
+    related: ["flutter-mcp-toolkit-plugin", "unity-codex-plugin", "google-cloud-developer-plugin"],
+    sources: [
+      {
+        label: "Flutter · Get started developing with AI",
+        url: "https://docs.flutter.dev/ai/get-started",
+      },
+      {
+        label: "flutter/agent-plugins",
+        url: "https://github.com/flutter/agent-plugins",
+      },
+      {
+        label: "dart-lang/ai · dart_mcp_server",
+        url: "https://github.com/dart-lang/ai/tree/main/pkgs/dart_mcp_server",
+      },
+    ],
+  },
+  {
+    id: "kapso-codex-mcp",
+    no: 499,
+    title:
+      "Kapso WhatsApp 官方 Codex MCP：mcp add kapso --url https://api.kapso.ai/mcp，再 mcp login，无头才 KAPSO_API_KEY 不要抄 Claude 的 --transport http",
+    summary:
+      "官方 Codex 专节：先 mcp add kapso --url https://api.kapso.ai/mcp，再 mcp login kapso。无头才 --bearer-token-env-var KAPSO_API_KEY。X-API-Key 写 env_http_headers，不要 --header。不要发明 plugin add，也不要和 kapso-docs 叠一张表。",
+    body: `Kapso WhatsApp 官方 Codex MCP：mcp add kapso --url https://api.kapso.ai/mcp，再 mcp login，无头才 KAPSO_API_KEY 不要抄 Claude 的 --transport http。
+
+这是 [Kapso Project MCP](https://docs.kapso.ai/docs/whatsapp/mcp) 给 Codex 的远程 HTTP 表，不是 Claude 的 \`claude mcp add --transport http\`，也不是 \`npm install -g @kapso/cli\` / \`curl … kapso.ai/install.sh\`。Project MCP 让代理在没有 shell 的情况下操作 WhatsApp 号码：查会话、发消息、管模板、配 webhook、开 setup link。端点是 \`https://api.kapso.ai/mcp\`，**带** \`/mcp\` 后缀。人要先在 Kapso 控制台建好项目，代理才能连。
+
+浏览器登录（本机有交互时走这条）：
+
+\`\`\`bash
+codex mcp add kapso --url https://api.kapso.ai/mcp
+codex mcp login kapso
+\`\`\`
+
+浏览器打开后登录 Kapso，选要交给这台客户端的那个项目。不要发明 \`KAPSO_PROJECT_ID\`。不要把项目 id 拼进 URL。
+
+无头 / CI 才用项目 API key。变量必须在**启动 Codex 的那个进程**里，Codex 不读 \`.env\`：
+
+\`\`\`bash
+export KAPSO_API_KEY=YOUR_KAPSO_API_KEY
+codex mcp add kapso --url https://api.kapso.ai/mcp --bearer-token-env-var KAPSO_API_KEY
+\`\`\`
+
+\`\`\`toml
+[mcp_servers.kapso]
+url = "https://api.kapso.ai/mcp"
+bearer_token_env_var = "KAPSO_API_KEY"
+enabled = true
+\`\`\`
+
+Bearer 这条**不要**再 \`mcp login kapso\`。\`KAPSO_API_KEY\` 填的是变量**名**，不要把密钥字面量写进 \`http_headers\`。
+
+Codex 没有 \`--header\`。要用 \`X-API-Key\` 时写 \`~/.codex/config.toml\`：
+
+\`\`\`toml
+[mcp_servers.kapso]
+url = "https://api.kapso.ai/mcp"
+env_http_headers = { "X-API-Key" = "KAPSO_API_KEY" }
+enabled = true
+\`\`\`
+
+右边仍是变量名。缺变量或空值时这颗头会静默丢掉。不要把密钥写进 \`http_headers\`。不要发明 \`KAPSO_PROJECT_ID\`。
+
+工具是分组的，多数吃 \`action\` + \`params\`。先 \`status\` 看鉴权、客户数、号码数和下一步；分组工具先 \`action: "help"\`。常见组：\`search_docs\`、\`customers\`、\`setup_links\`、\`whatsapp_numbers\`、\`whatsapp_conversations\`、\`whatsapp_messages\`、\`whatsapp_templates\`、\`whatsapp_webhooks\`、\`findings\`。发消息、改 webhook、删号码保持批准。不要一上来 \`--yolo\`。不要 \`required = true\`。
+
+Docs MCP 是**另一张**表，只查文档：
+
+\`\`\`bash
+codex mcp add kapso-docs --url https://docs.kapso.ai/mcp
+\`\`\`
+
+不要和 Project MCP 的 \`kapso\` 叠成一台。不要把 \`https://docs.kapso.ai/mcp\` 当成发 WhatsApp 的入口。
+
+技能是另一条，官方没钉 \`--agent codex\`：
+
+\`\`\`bash
+npx skills add gokapso/agent-skills
+\`\`\`
+
+不要把 \`npx skills add\` 当 Codex MCP 安装器。仓库 README 可能 404，以文档页为准。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`claude mcp add --transport http kapso https://api.kapso.ai/mcp\`。Codex 用 \`--url\`，自己走 HTTP。
+- 不要抄 Claude / Cursor 的 \`--header "Authorization: Bearer $KAPSO_API_KEY"\`。Codex 没有 \`--header\`。
+- 不要发明 \`codex plugin add kapso@\`。官方路径是 \`mcp add\`，不是 marketplace。
+- 不要把 \`@kapso/cli\`、\`kapso login\`、\`kapso setup\` 当成 Codex MCP。CLI 要终端；Project MCP 才是无 shell 操作。
+- 不要发明 Meta WhatsApp MCP URL，也不要把社区 \`wbmcp\` 当主路径。
+- 不要抄 Cursor JSON 的 \`headers.Authorization\` 字面量。
+- 不要 \`npx mcp-remote https://api.kapso.ai/mcp\`。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex mcp get kapso\` 看传输是 streamable_http，url 是 \`https://api.kapso.ai/mcp\`。`,
+    category: "mcp",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["MCP", "Kapso", "WhatsApp", "KAPSO_API_KEY", "env_http_headers"],
+    related: ["mcp-add-and-login", "mcp-http-bearer-env", "mcp-http-env-headers"],
+    sources: [
+      {
+        label: "Kapso · Project MCP",
+        url: "https://docs.kapso.ai/docs/whatsapp/mcp",
+      },
+      {
+        label: "Kapso · Build with AI",
+        url: "https://docs.kapso.ai/docs/build-with-ai",
+      },
+      {
+        label: "Kapso · CLI",
+        url: "https://docs.kapso.ai/docs/whatsapp/cli",
+      },
+    ],
+  },
+  {
+    id: "stripe-codex-plugin",
+    no: 500,
+    title:
+      "Stripe 官方 Codex 插件：plugin add stripe@openai-curated，或 stripe agent setup --client codex，不要抄 Claude 的 stripe@claude-plugins-official",
+    summary:
+      "官方 Codex：codex plugin add stripe@openai-curated。CLI 一键是 npm install -g @stripe/cli@latest 再 stripe agent setup --client codex。插件会装 MCP 和技能并自动更新。不要抄 Claude 的 plugin install，也不要和手写 mcp add stripe 叠表。",
+    body: `Stripe 官方 Codex 插件：plugin add stripe@openai-curated，或 stripe agent setup --client codex，不要抄 Claude 的 stripe@claude-plugins-official。
+
+这是 [Agent plugins for Stripe](https://docs.stripe.com/agents/plugin) 给 Codex 的插件路径，不是只连 \`https://mcp.stripe.com\` 的 MCP 专节，也不是 Claude 的 \`claude plugin install stripe@claude-plugins-official\`。插件会登记 Stripe MCP、装官方技能，并随发布更新。人要先有 Stripe 账号；写类工具仍要人点确认。
+
+CLI 自动检测（官方推荐）：
+
+\`\`\`bash
+npm install -g @stripe/cli@latest
+stripe agent setup --client codex
+\`\`\`
+
+\`stripe agent setup\` 不带 \`--client\` 会扫本机已装的 Claude Code / Codex / Cursor。只要 Codex 时钉 \`--client codex\`。\`--force\` 才会重装已装过的。\`--status\` 只看状态。\`-y\` 跳过提示、给检测到的客户端都装。不要发明 \`stripe agent setup --agent codex\`。
+
+手动只装 Codex 插件：
+
+\`\`\`bash
+codex plugin add stripe@openai-curated
+codex plugin list
+\`\`\`
+
+id 就是 \`stripe@openai-curated\`。TUI \`/plugins\` 或桌面 Plugins 搜 Stripe 再装，效果一样。0.154 起先看**当前会话**；当前会话没有再新开。IDE 扩展没有 \`/plugins\`，用 CLI 这条。不要发明 \`codex plugin marketplace add stripe\`。不要写成 \`plugin install stripe@openai-curated\`。不要发明 \`plugin add stripe@stripe\`。
+
+插件已经带 MCP 时，不要再 \`codex mcp add stripe --url https://mcp.stripe.com\` 叠一张用户层表。只要远程 MCP、不要整包插件，才走已收录的 \`mcp-stripe-remote\`：\`mcp add stripe --url https://mcp.stripe.com\` 再 \`mcp login stripe\`。
+
+技能回退（不会随插件自动更新）：
+
+\`\`\`bash
+npx skills add https://docs.stripe.com
+\`\`\`
+
+官方没钉 \`--agent codex\`。之后要自己 \`npx skills update -y\`。这不会登记 MCP，也不会带厂商钩子。不要把 \`npx skills add\` 当 Codex 插件安装器。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`claude plugin install stripe@claude-plugins-official\`。
+- 不要抄 Cursor 的 \`/add-plugin stripe\`。
+- 不要抄 Grok 的 \`grok plugin install stripe --trust\`。
+- 不要抄 Claude 的 \`claude mcp add --transport http stripe https://mcp.stripe.com/\`。
+- 不要把本地 \`npx -y @stripe/mcp --api-key\` 当成这条插件。
+- 不要一上来 \`--yolo\`：退款和出金会要人点确认链接。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex plugin list\` 看 \`stripe@openai-curated\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["plugins", "Stripe", "stripe@openai-curated", "MCP"],
+    related: ["mcp-stripe-remote", "shopify-ai-toolkit", "plugins-vs-skills"],
+    sources: [
+      {
+        label: "Stripe · Agent plugins",
+        url: "https://docs.stripe.com/agents/plugin",
+      },
+      {
+        label: "Stripe CLI · agent setup",
+        url: "https://docs.stripe.com/cli/agent/setup",
+      },
+      {
+        label: "Stripe · Agent skills",
+        url: "https://docs.stripe.com/skills",
+      },
+    ],
+  },
+  {
+    id: "codex-security-plugin",
+    no: 501,
+    title:
+      "Codex Security 官方插件：plugin add codex-security@openai-curated，CI 跑 $codex-security:security-diff-scan，不要当成 npx @openai/codex-security",
+    summary:
+      "官方 Codex：codex plugin add codex-security@openai-curated。桌面 Plugins 搜 Codex Security。CI 隔离 CODEX_HOME，把 CODEX_SECURITY_API_KEY 映射成 CODEX_API_KEY，再 exec 调 $codex-security:security-diff-scan。结构化 JSON / SARIF 才走已收录的扫描 CLI。",
+    body: `Codex Security 官方插件：plugin add codex-security@openai-curated，CI 跑 $codex-security:security-diff-scan，不要当成 npx @openai/codex-security。
+
+这是 Learn 上 [Codex Security plugin](https://learn.chatgpt.com/docs/security/plugin) 给编码 CLI 的插件路径，不是 \`npx @openai/codex-security scan\` 那套独立扫描产品。插件会在桌面打开 Security 侧栏，并提供 \`$codex-security:security-diff-scan\`、\`$codex-security:fix-finding\` 这类技能。只扫你有权评估的代码。
+
+桌面：Plugins 搜 **Codex Security**，装完启用，再打开 Security。CLI 交互：
+
+\`\`\`bash
+codex
+# /plugins 搜 Codex Security，选 Install plugin
+# 0.154 起先看当前会话；当前会话没有再 /new
+\`\`\`
+
+无头 / CI 才写 marketplace id：
+
+\`\`\`bash
+npm install --global @openai/codex
+codex plugin add codex-security@openai-curated
+codex plugin list
+\`\`\`
+
+id 就是 \`codex-security@openai-curated\`。不要发明 \`codex plugin marketplace add openai/codex-security\`。不要写成 \`plugin install codex-security@openai-curated\`。IDE 扩展没有 \`/plugins\`，用 CLI 这条。装完先看当前会话；没有再新开。桌面改 marketplace 仍要重启应用。
+
+手动审 diff：在会话里让它 \`Use $codex-security:security-diff-scan to review my current uncommitted changes for security regressions.\` 指定提交或分支时，本地要有 base / head；Codex **不会**给你切分支。
+
+CI 用 \`codex exec\` 调同一条技能，**不要**把扫描密钥铺到整个 job。官方例子隔离 \`CODEX_HOME\`，把密钥映射成 \`CODEX_API_KEY\`：
+
+\`\`\`bash
+export CODEX_HOME="$RUNNER_TEMP/codex-home"
+export TMPDIR="$RUNNER_TEMP/codex-security"
+npm install --global @openai/codex
+codex plugin add codex-security@openai-curated
+CODEX_API_KEY="$CODEX_SECURITY_API_KEY" codex exec \\
+  --sandbox workspace-write \\
+  "Use \\$codex-security:security-diff-scan to review changes from $BASE_REVISION to $HEAD_REVISION for security regressions. Do not modify the checkout."
+\`\`\`
+
+\`workspace-write\` 只是让扫描写临时产物；提示仍要求**不要改 checkout**。产物在 \`$TMPDIR/codex-security-scans/\`，入口是 \`report.md\`，另有 \`findings.json\`、\`scan-manifest.json\`、\`coverage.json\`。fork PR 不要带密钥。依赖具体插件能力前先看 [plugin changelog](https://learn.chatgpt.com/docs/security/plugin/changelog)。组织允许 \`openai/codex-action\` 时，仍要先装插件，并把 Action 的 \`codex-home\` 指到同一 \`CODEX_HOME\`。
+
+结构化 JSON、严重级别门禁、SARIF 上传走已收录的 \`codex-security-cli-scan\`（\`npx @openai/codex-security\`），那是另一套二进制，密钥映射成 \`OPENAI_API_KEY\`，**不是**这条插件。
+
+不要做这些：
+
+- 不要把 \`npx @openai/codex-security scan\` 当成 \`plugin add\`。
+- 不要抄 Gemini 的 \`gemini-cli-extensions/security\`。
+- 不要发明 \`codex plugin add security@openai-curated\` 或其他 marketplace id。
+- 不要一上来 \`--yolo\`：扫描产物含漏洞细节，保持工具批准。
+- 不要把密钥写进 \`config.toml\` 的 \`env\` 表。
+
+网页 Cloud 不读你这台 runner 的 \`CODEX_HOME\`。改完用 \`codex plugin list\` 看 \`codex-security@openai-curated\`。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ci"],
+    tags: ["plugins", "Codex Security", "codex-security@openai-curated", "CI"],
+    related: ["codex-security-cli-scan", "plugins-vs-skills", "plugin-session-refresh"],
+    sources: [
+      {
+        label: "OpenAI · Codex Security plugin",
+        url: "https://learn.chatgpt.com/docs/security/plugin",
+      },
+      {
+        label: "OpenAI · Review code changes for security",
+        url: "https://learn.chatgpt.com/docs/security/plugin/code-changes",
+      },
+      {
+        label: "OpenAI · Codex Security plugin changelog",
+        url: "https://learn.chatgpt.com/docs/security/plugin/changelog",
+      },
+    ],
+  },
+  {
+    id: "neon-codex-plugin",
+    no: 502,
+    title:
+      "Neon 官方 Codex 插件：桌面 Plugins 搜 Neon 装 neon-postgres 包，不要发明 plugin add neon@openai-curated",
+    summary:
+      "官方插件页：桌面 Plugins 或 /plugins 搜 Neon。CLI 钉 npx neon@latest plugins --agent codex，装的是 neon-postgres。不要发明 plugin add neon@openai-curated。只要 MCP 仍走 mcp add neon。",
+    body: `Neon 官方 Codex 插件：桌面 Plugins 搜 Neon 装 neon-postgres 包，不要发明 plugin add neon@openai-curated。
+
+这是 Neon 给 Codex 的插件页（docs/ai/ai-codex-plugin），不是已经收录的远程 MCP 专节。插件把 Neon App（走 MCP）、Neon 技能（对应 neon-postgres）和 Neon Egress Optimizer 打成一包。官方**没有**给出 \`codex plugin add neon@openai-curated\` 这种精选 id，不要自己编。
+
+桌面左侧 Plugins，或 TUI 里 \`/plugins\`，搜 Neon，打开后选 Add to Codex。有的插件会在安装时或第一次用时要你登录 Neon，跟着提示走。装完新开线程；用 \`@\` 可以点名 Neon 插件或捆绑技能。IDE 扩展没有 \`/plugins\`。
+
+只要命令行、不点目录时，钉死 Codex：
+
+\`\`\`bash
+npx neon@latest plugins --agent codex
+\`\`\`
+
+这条会把 neon-postgres 插件装进支持 marketplace 的助手。交互安装是 \`npx neon@latest plugins\`。无提示再加 \`-y\`。默认装进当前项目；跨项目才 \`--global\`。不要跑不带 \`--agent\` 的 \`neon plugins -y\`，它会改所有检测到的客户端。
+
+\`npx neon@latest init\` 会按目录情况装插件（或技能加 MCP）、link 项目；空目录还可能脚手架。只要 MCP、不要整包插件时：\`npx neon@latest mcp --agent codex\`，或继续用手写：
+
+\`\`\`bash
+codex mcp add neon --url https://mcp.neon.tech/mcp
+codex mcp login neon
+\`\`\`
+
+已经装了插件就不要再叠一张手写 neon 表指同一台 \`mcp.neon.tech/mcp\`。网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。
+
+插件能建项目、管分支、跑 SQL、校验连接串。生产库不要一上来给写权限。不要 \`required = true\`。不要一上来 \`--yolo\`。
+
+只要技能、不要插件时：\`neon skills -s neon -s neon-postgres\`，或 \`npx skills add neondatabase/agent-skills -s neon -s neon-postgres\`。不要把 \`npx skills add\` 当 Codex 插件安装器。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add neon@openai-curated\` 或 \`neon@neon\`。官方主路径是 Plugins 搜 Neon，或 CLI \`plugins --agent codex\`。
+- 不要把远程 MCP 专节里的 \`mcp add neon\` 当成已经装了技能包。
+- 不要抄 Claude / Cursor 的 mcp JSON 或 \`npx add-mcp\`。
+- 不要抄已弃用的 \`/sse\` 或 \`@neondatabase/mcp-server-neon\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Neon", "MCP", "neon-postgres"],
+    related: ["mcp-neon-remote", "plugins-vs-skills", "plugin-session-refresh"],
+    sources: [
+      {
+        label: "Neon · Codex plugin",
+        url: "https://neon.com/docs/ai/ai-codex-plugin",
+      },
+      {
+        label: "Neon CLI · plugins",
+        url: "https://neon.com/docs/cli/plugins",
+      },
+      {
+        label: "Neon blog · Codex plugin",
+        url: "https://neon.com/blog/neon-codex-plugin",
+      },
+    ],
+  },
+  {
+    id: "posthog-codex-plugin",
+    no: 503,
+    title:
+      "PostHog 官方 Codex 插件：marketplace 加 PostHog/ai-plugin，再 plugin add posthog@posthog，不要发明 posthog@openai-curated",
+    summary:
+      "官方 Codex：先 marketplace add PostHog/ai-plugin，再 plugin add posthog@posthog。README 只写了 /plugins 选 PostHog。清单 name 和插件 name 都是 posthog。不要发明 posthog@openai-curated。只要 MCP 仍走 mcp add posthog。",
+    body: `PostHog 官方 Codex 插件：marketplace 加 PostHog/ai-plugin，再 plugin add posthog@posthog，不要发明 posthog@openai-curated。
+
+这是 [PostHog/ai-plugin](https://github.com/PostHog/ai-plugin) 的 Codex 专节，不是已经收录的远程 MCP 专节。插件把托管 MCP 和 30+ 技能打成一包。官方 README 只写了 \`marketplace add\`，然后 TUI \`/plugins\` 选 PostHog。清单 \`.agents/plugins/marketplace.json\` 的 name 是 posthog，\`plugin.json\` 的 name 也是 posthog，所以 CLI 按清单是 \`posthog@posthog\`。
+
+\`\`\`bash
+codex plugin marketplace add PostHog/ai-plugin
+codex plugin add posthog@posthog
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install posthog@posthog\`。不要发明 \`posthog@openai-curated\`。不要抄 Claude 的 \`claude plugin install posthog\` 或 \`claude plugin install posthog@posthog\`。不要 \`gemini extensions install https://github.com/PostHog/ai-plugin\`。不要 \`grok plugin install PostHog/ai-plugin --trust\`。不要把 \`npx @posthog/wizard mcp add\` 当插件安装器。IDE 扩展没有 \`/plugins\`。
+
+装上策略是 \`ON_INSTALL\`，应弹出 PostHog OAuth。没弹再：
+
+\`\`\`bash
+codex mcp login posthog
+\`\`\`
+
+插件 \`.mcp.json\` 表名是小写 \`posthog\`，URL 仍是 \`https://mcp.posthog.com/mcp\`，还带静态头 \`x-posthog-mcp-consumer: plugin\`。不要把这颗头手抄进用户层当主路径。已经手写过 \`mcp add posthog\` 时，不要再叠一张插件表指同一 URL。只要 MCP、不要技能包时，继续走已收录的 \`mcp add posthog --url https://mcp.posthog.com/mcp\`。
+
+自托管才 \`export POSTHOG_MCP_URL=https://mcp.YOUR_POSTHOG_HOST/mcp\`。不要把 \`phc_\` 或 PAT 写进 \`http_headers\`。日常用 OAuth，CI 才 \`bearer_token_env_var\`。不要叠 OAuth 和 bearer。
+
+桌面先在终端跑完 \`marketplace add\` 和 \`plugin add\`，**彻底重启** Codex 应用。0.154 起先看**当前会话**的 \`/plugins\`，应能看到 \`posthog@posthog\`。没有再新开。Claude 节的 \`POSTHOG_LLMA_CC_ENABLED\` 是 Claude Code 会话上报，不是 Codex 安装器。清单挂了 hooks 文件，当前是空对象；真有钩子再在 \`/hooks\` 另信，不要一上来信任全部。
+
+技能随插件走，含官方 \`skills-store\`。不要用 \`npx skills add\` 当 Codex 插件安装器。部分 MCP 工具会走 PostHog AI 用量，组织还要打开 AI data processing。写开关、改工单要人确认。不要 \`required = true\`。不要一上来 \`--yolo\`。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add posthog@openai-curated\`。官方 id 就是 \`posthog@posthog\`。
+- 不要把远程 MCP 专节里的 \`mcp add posthog\` 当成已经装了技能包。
+- 不要抄 Cursor JSON 或 \`npx add-mcp\`。
+- 不要抄 Claude 的 \`--transport http\` 或 \`mcp-remote\`。
+- 不要把手写 posthog 表和插件那张叠成两台。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。用 \`codex plugin list\` 核对 \`posthog@posthog\`；\`codex mcp get posthog\` 看 url 是 \`https://mcp.posthog.com/mcp\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "PostHog", "MCP", "posthog@posthog"],
+    related: ["mcp-posthog-remote", "plugins-vs-skills", "plugin-session-refresh"],
+    sources: [
+      {
+        label: "PostHog/ai-plugin",
+        url: "https://github.com/PostHog/ai-plugin",
+      },
+      {
+        label: "PostHog · Skills store",
+        url: "https://posthog.com/docs/ai-engineering/skills-store",
+      },
+      {
+        label: "PostHog · AI Observability skills",
+        url: "https://posthog.com/docs/ai-observability/skills",
+      },
+    ],
+  },
+  {
+    id: "vercel-codex-plugin",
+    no: 504,
+    title:
+      "Vercel 官方 Codex 插件：桌面 Plugins 或 TUI /plugins 搜 Vercel，不要发明 plugin add vercel@openai-curated",
+    summary:
+      "官方 Codex：TUI /plugins 或桌面 Plugins 搜 Vercel。不要把 npx plugins add vercel/vercel-plugin 当 Codex 安装器。插件给技能和斜杠，不管账号；部署 MCP 仍是 mcp.vercel.com。不要抄 Cursor 的 /add-plugin vercel。",
+    body: `Vercel 官方 Codex 插件：桌面 Plugins 或 TUI /plugins 搜 Vercel，不要发明 plugin add vercel@openai-curated。
+
+这是 [Vercel plugin for AI coding agents](https://vercel.com/docs/agent-resources/vercel-plugin) 给 Codex 的路径，不是已经收录的 \`mcp add vercel --url https://mcp.vercel.com\`。Changelog 写明：在 Codex 应用或 CLI 里开 \`codex\`，再 \`/plugins\`。桌面 Plugins 搜 Vercel 再装，效果一样。官方**没有**给出 \`codex plugin add vercel@openai-curated\` 这种精选 id，不要自己编。
+
+\`\`\`bash
+codex
+/plugins
+\`\`\`
+
+编码代理说明把三条安装器分开写：Claude 才是 \`npx plugins add vercel/vercel-plugin\`；Cursor 才是 \`/add-plugin vercel\`；OpenAI Codex 是进 \`/plugins\` 选 Vercel。通用文档把 \`npx plugins add\` 写成默认安装器，那条会改所有检测到的客户端，**不是** Codex 专节。不要手拷到 \`~/.codex/skills\`。IDE 扩展没有 \`/plugins\`。
+
+插件给的是平台知识（\`vercel.md\`）、技能和斜杠，**不是** Vercel 账号操作。列项目、触发部署、看日志仍走远程 MCP \`https://mcp.vercel.com\`（没有 \`/mcp\` 后缀）。两套可以同时开，但职责不同：插件塑造怎么写 Vercel 代码，MCP 才动账号。插件已经装上时，不要以为它会自动登记 \`mcp_servers.vercel\`。
+
+会话开始只会在空目录、或检测到 Vercel / Next.js / eve 项目时注入薄上下文。技能默认不在每次提示或每次工具调用里自动塞进去。要对准部署、环境变量、脚手架时，显式调斜杠：
+
+\`\`\`text
+/vercel-plugin:bootstrap
+/vercel-plugin:deploy prod
+/vercel-plugin:env
+/vercel-plugin:status
+/vercel-plugin:marketplace
+\`\`\`
+
+0.154 起先看**当前会话**的 \`/plugins\`；当前会话没有再新开。桌面改 marketplace 文件仍要重启应用。需要 Node.js 18+。关掉日活遥测：启动 Codex 的进程里 \`export VERCEL_PLUGIN_TELEMETRY=off\`。排错才 \`export VERCEL_PLUGIN_LOG_LEVEL=debug\`，或 \`npx vercel-plugin doctor\`。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add vercel@openai-curated\`，也不要发明 \`vercel@vercel-plugin\`。
+- 不要把 \`npx plugins add vercel/vercel-plugin\` 当 Codex 安装器。
+- 不要抄 Cursor 的 \`/add-plugin vercel\`，也不要抄 Claude 的 plugin install。
+- 不要和手写 \`mcp add vercel\` 叠成「插件已经带了 MCP」。插件文档写明它不给账号访问。
+- 不要和 AI Gateway 的 \`[model_providers.vercel]\` 搞混。那是模型供应商，\`wire_api = responses\`。
+- 不要一上来 \`--yolo\`。斜杠 \`deploy prod\` 会打生产。
+- 不要 \`required = true\`。
+
+网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Vercel。改完用 \`codex plugin list\` 看是否已装；账号操作仍用 \`codex mcp get vercel\` 看传输是 streamable_http。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app", "ide"],
+    tags: ["plugins", "Vercel", "Skills", "/plugins"],
+    related: ["mcp-vercel-remote", "plugins-vs-skills", "plugin-session-refresh"],
+    sources: [
+      {
+        label: "Vercel · Plugin for AI coding agents",
+        url: "https://vercel.com/docs/agent-resources/vercel-plugin",
+      },
+      {
+        label: "Vercel · Codex and Codex CLI support",
+        url: "https://vercel.com/changelog/vercel-plugin-openai-codex-and-codex-cli-support",
+      },
+      {
+        label: "Vercel · Plugin across coding agents",
+        url: "https://vercel.com/i/vercel-plugin-coding-agents",
+      },
+    ],
+  },
+  {
+    id: "canva-codex-plugin",
+    no: 505,
+    title:
+      "Canva 官方 Codex 插件：marketplace 加 canva-sdks/canva-skills，再 plugin add canva@canva-skills，不要发明 canva@openai-curated",
+    summary:
+      "官方 Codex：先 marketplace add canva-sdks/canva-skills，再 plugin add canva@canva-skills，再 mcp login canva。插件 MCP 是 mcp.canva.com/mcp。不要抄 Claude 的 /plugin install，也不要把 Cursor marketplace 当 Codex 安装器。",
+    body: `Canva 官方 Codex 插件：marketplace 加 canva-sdks/canva-skills，再 plugin add canva@canva-skills，不要发明 canva@openai-curated。
+
+这是 [canva-sdks/canva-skills](https://github.com/canva-sdks/canva-skills) 的 Codex 专节，不是 Claude 的 \`/plugin marketplace add canva-sdks/canva-skills\` 再 \`/plugin install canva@canva-skills\`，也不是 Cursor 的 \`.cursor-plugin/marketplace.json\`。清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`canva-skills\`，插件 name 是 \`canva\`，所以 CLI id 是 \`canva@canva-skills\`。
+
+\`\`\`bash
+codex --version
+codex plugin marketplace add canva-sdks/canva-skills
+codex plugin add canva@canva-skills
+codex plugin list
+codex mcp login canva
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install canva@canva-skills\`。不要发明 \`canva@openai-curated\`。已经加过这份 marketplace 时，用 \`codex plugin marketplace upgrade canva-skills\`，再视需要 \`plugin add\` 一次。桌面 Plugins 或 TUI \`/plugins\` 搜 Canva 再装，效果一样。IDE 扩展没有 \`/plugins\`。
+
+装上策略是 \`ON_INSTALL\`，应弹出 Canva OAuth。没弹再跑上面的 \`mcp login canva\`。插件 \`.mcp.json\` 表名是 \`canva\`，URL 是 \`https://mcp.canva.com/mcp\`（**有** \`/mcp\` 后缀）。插件已经登记 MCP 时，不要再手写 \`mcp add canva --url https://mcp.canva.com/mcp\` 叠一张。只要 MCP、不要技能包时，才手写那张用户层表，再 \`mcp login canva\`。
+
+技能随插件走：\`resize-for-social-media\`、\`bulk-create\`、\`implement-feedback\`、\`edit-design\`、\`get-design-feedback\`、\`brand-check\`。仓库里 \`inactive-skills/\` 不会被 Codex 注册。\`bulk-create\` 的 autofill 要 Canva Enterprise。改设计要人确认。不要 \`npx skills add\` 当 Codex 安装器，也不要手拷到 \`~/.codex/skills\`。
+
+0.154 起先看**当前会话**的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex plugin list\` 里应看到 \`canva@canva-skills\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Canva。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add canva@openai-curated\`。
+- 不要抄 Claude 的 \`/plugin install canva@canva-skills\` 或 \`canva@claude-plugins-official\`。
+- 不要把 Cursor Marketplace / \`.cursor/mcp.json\` 抄进 Codex。
+- 不要 \`gemini extensions install\`，也不要 \`npx skills add canva-sdks/canva-skills\`。
+- 不要一上来 \`--yolo\`。写设计、回评论、批量出图会改 Canva 账号内容。
+- 不要 \`required = true\`。
+
+改完用 \`codex mcp get canva\` 看传输是 streamable_http。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Canva", "MCP", "canva@canva-skills"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "canva-sdks/canva-skills",
+        url: "https://github.com/canva-sdks/canva-skills",
+      },
+      {
+        label: "Codex marketplace README",
+        url: "https://github.com/canva-sdks/canva-skills/blob/main/.agents/plugins/README.md",
+      },
+      {
+        label: "Canva plugin MCP 表",
+        url: "https://github.com/canva-sdks/canva-skills/blob/main/plugins/canva/.mcp.json",
+      },
+    ],
   }
 ];
