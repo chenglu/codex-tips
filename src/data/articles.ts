@@ -7110,5 +7110,35 @@ export const articles: Article[] = [
     tags: ["Stripe", "skills", "npx skills add", "stripe@openai-curated", "stripe agent setup"],
     summary:
       '推荐仍走插件。技能回退是 npx skills add https://docs.stripe.com，官方没钉 --agent codex，也不会自动更新，要自己 npx skills update -y。单独装技能不会登记 MCP。不要把这条当 Codex plugin add。',
+  },
+  {
+    title: 'Codex Security plugin quickstart',
+    url: 'https://learn.chatgpt.com/docs/security/plugin',
+    source: 'ChatGPT Learn',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Codex Security", "plugins", "codex-security@openai-curated", "桌面", "security-diff-scan"],
+    summary:
+      '官方插件入门。桌面 Plugins 搜 Codex Security，CLI 用 /plugins 安装。本地只读扫描走 Security 侧栏或会话提示。这不是 npx @openai/codex-security 扫描 CLI。',
+  },
+  {
+    title: 'Review code changes for security',
+    url: 'https://learn.chatgpt.com/docs/security/plugin/code-changes',
+    source: 'ChatGPT Learn',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Codex Security", "plugins", "codex-security@openai-curated", "CI", "security-diff-scan"],
+    summary:
+      'Codex Security 官方插件：plugin add codex-security@openai-curated，CI 跑 $codex-security:security-diff-scan，不要当成 npx @openai/codex-security。CI 隔离 CODEX_HOME，把 CODEX_SECURITY_API_KEY 映射成 CODEX_API_KEY。结构化 JSON 才走独立扫描 CLI。',
+  },
+  {
+    title: 'Codex Security plugin changelog',
+    url: 'https://learn.chatgpt.com/docs/security/plugin/changelog',
+    source: 'ChatGPT Learn',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Codex Security", "plugins", "changelog", "codex-security@openai-curated", "security-diff-scan"],
+    summary:
+      '插件版本 changelog，按插件版本号记，不是 npm 扫描包版本。CI 钉能力前先对一下当前环境。可用 npx @openai/codex-security info --json 对照包和捆绑插件版本。',
   }
 ];

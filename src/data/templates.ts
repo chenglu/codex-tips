@@ -5904,5 +5904,31 @@ stripe agent setup --client codex
 # plugin marketplace add stripe
 # stripe agent setup --agent codex
 `,
+  },
+  {
+    id: "codex-security-plugin",
+    title: "codex-security@openai-curated 把 Security 插件喂给 openai-curated",
+    filename: "terminal",
+    summary:
+      "codex-security@openai-curated 把 Security 插件喂给 openai-curated。主路径是 plugin add codex-security@openai-curated，CI 再隔离 CODEX_HOME 跑 security-diff-scan。",
+    code: `npm install --global @openai/codex
+codex plugin add codex-security@openai-curated
+codex plugin list
+
+# 会话里：/plugins 搜 Codex Security；0.154 起先看当前会话
+# Use $codex-security:security-diff-scan to review my current uncommitted changes for security regressions.
+
+# CI 示例（密钥只给这一步）：
+# export CODEX_HOME="$RUNNER_TEMP/codex-home"
+# export TMPDIR="$RUNNER_TEMP/codex-security"
+# CODEX_API_KEY="$CODEX_SECURITY_API_KEY" codex exec --sandbox workspace-write "Use \\$codex-security:security-diff-scan … Do not modify the checkout."
+
+# 不要：
+# plugin install codex-security@openai-curated
+# plugin add security@openai-curated
+# npx @openai/codex-security scan DIR
+# gemini extensions install https://github.com/gemini-cli-extensions/security
+# marketplace add openai/codex-security
+`,
   }
 ];

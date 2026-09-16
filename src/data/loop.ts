@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-16T08:11:00Z",
+  lastTick: "2026-09-16T09:09:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "08:11 收口。#122 已合入 main（TIP 495–496）。#125 续接：#123→497 bigtable、#124→498 dart-flutter 已在本分支。本轮重放 #126 为 499 kapso-codex-mcp、#127 为 500 stripe-codex-plugin。合入后关 #126–#127。站点 500 技巧。",
+    "09:09 收口。#122 已合入 main（TIP 495–496）。#125 续接：#123–#124、#126–#127 已为 497–500。本轮重放 #128 为 501 codex-security-plugin。合入后关 #128。站点 501 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2301,6 +2301,19 @@ export const loopState = {
     'X: ("Codex CLI" OR Codex) (MCP OR plugin OR marketplace)',
     "Codex CLI 技巧 2026 Stripe stripe@openai-curated agent setup",
     "skip sqlite serverless-spark bigquery-conversational-analytics conductor stitch security for next ticks",
+    "skip leftover 0830-2b7e ECC 0830-wandb-2b7e 0800-stripe-2b7e",
+    "skip open #123 bigtable #124 dart-flutter #125 landing #126 kapso #127 stripe",
+    "codex plugin add codex-security@openai-curated $codex-security:security-diff-scan",
+    "site:learn.chatgpt.com/docs/security/plugin Codex plugin add codex-security@openai-curated",
+    "site:learn.chatgpt.com/docs/security/plugin/code-changes security-diff-scan CI CODEX_HOME",
+    "site:learn.chatgpt.com/docs/security/plugin/changelog Codex Security plugin 0.1.20",
+    "site:docs.stripe.com/agents/plugin skip already in #127",
+    "site:neon.com/docs/ai/ai-codex-plugin npx neon plugins --agent already in mcp-neon-remote",
+    "github.com/gemini-cli-extensions genkit angular cicd observability jules Gemini-only",
+    "X news: Codex CLI 2026-09-16 08:30",
+    'X: ("Codex CLI" OR Codex) (plugin OR security OR marketplace)',
+    "Codex CLI 技巧 2026 Codex Security plugin add codex-security@openai-curated",
+    "skip sqlite serverless-spark bigquery-conversational-analytics conductor stitch for next ticks",
   ],
 };
 

@@ -17227,5 +17227,81 @@ npx skills add https://docs.stripe.com
         url: "https://docs.stripe.com/skills",
       },
     ],
+  },
+  {
+    id: "codex-security-plugin",
+    no: 501,
+    title:
+      "Codex Security 官方插件：plugin add codex-security@openai-curated，CI 跑 $codex-security:security-diff-scan，不要当成 npx @openai/codex-security",
+    summary:
+      "官方 Codex：codex plugin add codex-security@openai-curated。桌面 Plugins 搜 Codex Security。CI 隔离 CODEX_HOME，把 CODEX_SECURITY_API_KEY 映射成 CODEX_API_KEY，再 exec 调 $codex-security:security-diff-scan。结构化 JSON / SARIF 才走已收录的扫描 CLI。",
+    body: `Codex Security 官方插件：plugin add codex-security@openai-curated，CI 跑 $codex-security:security-diff-scan，不要当成 npx @openai/codex-security。
+
+这是 Learn 上 [Codex Security plugin](https://learn.chatgpt.com/docs/security/plugin) 给编码 CLI 的插件路径，不是 \`npx @openai/codex-security scan\` 那套独立扫描产品。插件会在桌面打开 Security 侧栏，并提供 \`$codex-security:security-diff-scan\`、\`$codex-security:fix-finding\` 这类技能。只扫你有权评估的代码。
+
+桌面：Plugins 搜 **Codex Security**，装完启用，再打开 Security。CLI 交互：
+
+\`\`\`bash
+codex
+# /plugins 搜 Codex Security，选 Install plugin
+# 0.154 起先看当前会话；当前会话没有再 /new
+\`\`\`
+
+无头 / CI 才写 marketplace id：
+
+\`\`\`bash
+npm install --global @openai/codex
+codex plugin add codex-security@openai-curated
+codex plugin list
+\`\`\`
+
+id 就是 \`codex-security@openai-curated\`。不要发明 \`codex plugin marketplace add openai/codex-security\`。不要写成 \`plugin install codex-security@openai-curated\`。IDE 扩展没有 \`/plugins\`，用 CLI 这条。装完先看当前会话；没有再新开。桌面改 marketplace 仍要重启应用。
+
+手动审 diff：在会话里让它 \`Use $codex-security:security-diff-scan to review my current uncommitted changes for security regressions.\` 指定提交或分支时，本地要有 base / head；Codex **不会**给你切分支。
+
+CI 用 \`codex exec\` 调同一条技能，**不要**把扫描密钥铺到整个 job。官方例子隔离 \`CODEX_HOME\`，把密钥映射成 \`CODEX_API_KEY\`：
+
+\`\`\`bash
+export CODEX_HOME="$RUNNER_TEMP/codex-home"
+export TMPDIR="$RUNNER_TEMP/codex-security"
+npm install --global @openai/codex
+codex plugin add codex-security@openai-curated
+CODEX_API_KEY="$CODEX_SECURITY_API_KEY" codex exec \\
+  --sandbox workspace-write \\
+  "Use \\$codex-security:security-diff-scan to review changes from $BASE_REVISION to $HEAD_REVISION for security regressions. Do not modify the checkout."
+\`\`\`
+
+\`workspace-write\` 只是让扫描写临时产物；提示仍要求**不要改 checkout**。产物在 \`$TMPDIR/codex-security-scans/\`，入口是 \`report.md\`，另有 \`findings.json\`、\`scan-manifest.json\`、\`coverage.json\`。fork PR 不要带密钥。依赖具体插件能力前先看 [plugin changelog](https://learn.chatgpt.com/docs/security/plugin/changelog)。组织允许 \`openai/codex-action\` 时，仍要先装插件，并把 Action 的 \`codex-home\` 指到同一 \`CODEX_HOME\`。
+
+结构化 JSON、严重级别门禁、SARIF 上传走已收录的 \`codex-security-cli-scan\`（\`npx @openai/codex-security\`），那是另一套二进制，密钥映射成 \`OPENAI_API_KEY\`，**不是**这条插件。
+
+不要做这些：
+
+- 不要把 \`npx @openai/codex-security scan\` 当成 \`plugin add\`。
+- 不要抄 Gemini 的 \`gemini-cli-extensions/security\`。
+- 不要发明 \`codex plugin add security@openai-curated\` 或其他 marketplace id。
+- 不要一上来 \`--yolo\`：扫描产物含漏洞细节，保持工具批准。
+- 不要把密钥写进 \`config.toml\` 的 \`env\` 表。
+
+网页 Cloud 不读你这台 runner 的 \`CODEX_HOME\`。改完用 \`codex plugin list\` 看 \`codex-security@openai-curated\`。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app", "ci"],
+    tags: ["plugins", "Codex Security", "codex-security@openai-curated", "CI"],
+    related: ["codex-security-cli-scan", "plugins-vs-skills", "plugin-session-refresh"],
+    sources: [
+      {
+        label: "OpenAI · Codex Security plugin",
+        url: "https://learn.chatgpt.com/docs/security/plugin",
+      },
+      {
+        label: "OpenAI · Review code changes for security",
+        url: "https://learn.chatgpt.com/docs/security/plugin/code-changes",
+      },
+      {
+        label: "OpenAI · Codex Security plugin changelog",
+        url: "https://learn.chatgpt.com/docs/security/plugin/changelog",
+      },
+    ],
   }
 ];
