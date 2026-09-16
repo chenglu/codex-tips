@@ -7710,5 +7710,65 @@ export const articles: Article[] = [
     tags: ["GitHub", "plugins", "github@openai-curated", "openai/plugins", "plugin add github@openai-curated"],
     summary:
       '插件 App 连接器有 github 和 github-enterprise，两份都是 required false。这是 Connect GitHub 那条路径，不是 @codex review，也不是手写 Copilot MCP。',
+  },
+  {
+    title: 'Dropbox',
+    url: 'https://openai.com/business/plugins/dropbox/',
+    source: 'OpenAI',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Codex", "Dropbox", "plugins", "dropbox@openai-curated", "mcp.dropbox.com"],
+    summary:
+      'Dropbox 官方 Codex 插件：桌面 Plugins 搜 Dropbox，CLI 用 plugin add dropbox@openai-curated，不要当成 Google Drive。产品页面向 ChatGPT 的 @Dropbox，用来找文件和出摘要。不要和手写 mcp add 抄成一条。',
+  },
+  {
+    title: 'dropbox plugin.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/dropbox/.codex-plugin/plugin.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "Dropbox", "plugins", "dropbox@openai-curated", "openai/plugins", "mcp.dropbox.com"],
+    summary:
+      '清单 name 是 dropbox，version 是 5.0.1，所以 CLI id 是 dropbox@openai-curated。displayName 是 Dropbox。现行清单挂 apps 和 skills，没有 mcpServers。不要写成 plugin install。',
+  },
+  {
+    title: 'dropbox plugin .mcp.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/dropbox/.mcp.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Dropbox", "MCP", "mcp.dropbox.com", "dropbox@openai-curated", "openai/plugins"],
+    summary:
+      '仓库 MCP 表名 dropbox，type 是 http，URL 是 https://mcp.dropbox.com/mcp，必须带 /mcp。plugin.json 没有挂 mcpServers，不要假设 plugin add 会自动叠表。不要发明 mcp login 当插件安装步骤。',
+  },
+  {
+    title: 'monday-com plugin.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/monday-com/.codex-plugin/plugin.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "monday.com", "plugins", "monday-com@openai-curated", "openai/plugins", "mcp.monday.com"],
+    summary:
+      'monday.com 官方 Codex 插件：桌面 Plugins 搜 monday.com，CLI 用 plugin add monday-com@openai-curated，不要当成 ClickUp。清单 name 是 monday-com，version 是 2.0.0。现行清单只挂 apps，没有 skills 也没有 mcpServers。不要写成 plugin install。',
+  },
+  {
+    title: 'monday-com plugin .mcp.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/monday-com/.mcp.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["monday.com", "MCP", "mcp.monday.com", "monday-com@openai-curated", "openai/plugins"],
+    summary:
+      '仓库 MCP 表名 monday-com，type 是 http，URL 是 https://mcp.monday.com/mcp，必须带 /mcp。plugin.json 没有挂 mcpServers，不要假设 plugin add 会自动叠表。不要发明 mcp login 当插件安装步骤。',
+  },
+  {
+    title: 'monday-com plugin .app.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/monday-com/.app.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["monday.com", "plugins", "monday-com@openai-curated", "openai/plugins", "mcp.monday.com"],
+    summary:
+      '插件 App 连接器 id 写在 .app.json 的 apps.monday-com。这是 Connect monday.com 那条路径，不是 ClickUp，也不是手写 mcp add monday-com。',
   }
 ];

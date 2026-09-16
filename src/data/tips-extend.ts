@@ -18470,5 +18470,130 @@ codex plugin list
         url: "https://github.com/openai/plugins/blob/main/plugins/github/.app.json",
       },
     ],
+  },
+  {
+    id: "dropbox-codex-plugin",
+    no: 521,
+    title:
+      "Dropbox 官方 Codex 插件：桌面 Plugins 搜 Dropbox，CLI 用 plugin add dropbox@openai-curated，不要当成 Google Drive",
+    summary:
+      "官方 Codex：codex plugin add dropbox@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Dropbox，再 Connect Dropbox。这是网盘文件插件，不是 Google Drive，也不要当成会自动叠 MCP 表。",
+    body: `Dropbox 官方 Codex 插件：桌面 Plugins 搜 Dropbox，CLI 用 plugin add dropbox@openai-curated，不要当成 Google Drive。
+
+这是把已连接的 Dropbox 文件接到 Codex，用来找文件、看内容、整理文件夹并生成分享链接。产品页是 [Dropbox](https://openai.com/business/plugins/dropbox/)。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/dropbox/.codex-plugin/plugin.json) 的 name 是 \`dropbox\`、version 是 \`5.0.1\`，所以精选 id 是 \`dropbox@openai-curated\`。现行清单声明 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/dropbox/.app.json) 和 \`skills/\`，**没有** \`mcpServers\` 字段。
+
+CLI：
+
+\`\`\`bash
+codex plugin add dropbox@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install dropbox@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Dropbox 再装，效果一样。装完按提示 Connect Dropbox 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。不要把 ChatGPT 侧栏 Plugins → Connect Dropbox 当成 Codex CLI 安装器。
+
+仓库另有 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/dropbox/.mcp.json)，表名是 \`dropbox\`，type 是 http，URL 是 \`https://mcp.dropbox.com/mcp\`（带 \`/mcp\`）。因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，不要假设 \`plugin add\` 会自动叠这张 MCP 表。只要 MCP、不要技能和 App 时，才手写 \`mcp add dropbox --url https://mcp.dropbox.com/mcp\`。插件已经登记 MCP 时，不要再 \`mcp add\` 叠一张。不要发明 \`mcp login dropbox\` 当插件安装步骤。
+
+技能随插件走：\`find-dropbox-content\`、\`inspect-dropbox-file\`、\`organize-dropbox-folder\`、\`share-dropbox-content\`、\`clean-up-dropbox-content\`、\`collect-files-with-request\`。不要 \`npx skills add\` 当 Codex 安装器，也不要手拷到 \`~/.codex/skills\`。不要发明 \`$dropbox\` 斜杠。
+
+不要和旁边那几条搞混：
+
+- Google Drive 是独立插件，管 Docs / Sheets / Slides，不管 Dropbox 文件夹。
+- 手写 \`mcp add dropbox\` 只登记远程表，不会装 Plugins 目录里的 Dropbox App 和技能。
+- 不要把 ChatGPT Help 里的侧栏 Connect 抄成 Codex \`plugin add\`。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 Dropbox。ChatGPT 里可以用 \`@Dropbox\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`dropbox@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Dropbox。
+
+不要做这些：
+
+- 不要当成 Google Drive。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`dropbox@claude-plugins-official\`。
+- 不要抄 \`/sse\`。
+- 不要发明捆绑技能名以外的斜杠。
+- 不要一上来 \`--yolo\`：改文件、建分享链接、整理文件夹会动真实 Dropbox。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Dropbox", "dropbox@openai-curated"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "OpenAI · Dropbox",
+        url: "https://openai.com/business/plugins/dropbox/",
+      },
+      {
+        label: "openai/plugins · dropbox plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/dropbox/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · dropbox .mcp.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/dropbox/.mcp.json",
+      },
+    ],
+  },
+  {
+    id: "monday-com-codex-plugin",
+    no: 522,
+    title:
+      "monday.com 官方 Codex 插件：桌面 Plugins 搜 monday.com，CLI 用 plugin add monday-com@openai-curated，不要当成 ClickUp",
+    summary:
+      "官方 Codex：codex plugin add monday-com@openai-curated。桌面 Plugins 或 TUI /plugins 搜 monday.com，再 Connect monday.com。这是看板和 CRM 插件，不是 ClickUp，也不要当成会自动叠 MCP 表。",
+    body: `monday.com 官方 Codex 插件：桌面 Plugins 搜 monday.com，CLI 用 plugin add monday-com@openai-curated，不要当成 ClickUp。
+
+这是把 monday.com 看板接到 Codex，用来搜 board、建 item、改列、派负责人和发更新。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/monday-com/.codex-plugin/plugin.json) 的 name 是 \`monday-com\`、version 是 \`2.0.0\`，所以精选 id 是 \`monday-com@openai-curated\`。现行清单只声明 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/monday-com/.app.json)，没有 \`skills\` 字段，也没有 \`mcpServers\` 字段。不要发明捆绑技能名。不要写成 \`monday@openai-curated\`。
+
+CLI：
+
+\`\`\`bash
+codex plugin add monday-com@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install monday-com@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 monday.com 再装，效果一样。装完按提示 Connect monday.com 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+仓库另有 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/monday-com/.mcp.json)，表名是 \`monday-com\`，type 是 http，URL 是 \`https://mcp.monday.com/mcp\`（带 \`/mcp\`）。因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，不要假设 \`plugin add\` 会自动叠这张 MCP 表。只要 MCP、不要 App 时，才手写 \`mcp add monday-com --url https://mcp.monday.com/mcp\`。插件已经登记 MCP 时，不要再 \`mcp add\` 叠一张。不要发明 \`mcp login monday-com\` 当插件安装步骤。
+
+不要和旁边那几条搞混：
+
+- ClickUp 是独立任务插件，不管 monday.com 的 board 和 CRM。
+- Linear 是独立工单插件，不管 monday.com 看板。
+- 手写 MCP 只登记远程表，不会装 Plugins 目录里的 monday.com App。
+- 不要把「Sales 插件」之类的目录别名当成这条 CLI id。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 monday.com。ChatGPT 里可以用 \`@monday.com\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`monday-com@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 monday.com。
+
+不要做这些：
+
+- 不要当成 ClickUp 或 Linear。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`monday-com@claude-plugins-official\`。
+- 不要抄 \`/sse\`。
+- 不要发明捆绑技能名或 \`$monday\` 斜杠。
+- 不要一上来 \`--yolo\`：建 item、改列、派负责人会动真实 monday.com 工作区。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "monday.com", "monday-com@openai-curated"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "openai/plugins · monday-com plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/monday-com/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · monday-com .mcp.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/monday-com/.mcp.json",
+      },
+      {
+        label: "openai/plugins · monday-com .app.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/monday-com/.app.json",
+      },
+    ],
   }
 ];

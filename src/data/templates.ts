@@ -6168,5 +6168,25 @@ codex plugin list
     code: `codex plugin add github@openai-curated
 codex plugin list
 `,
+  },
+  {
+    id: "dropbox-codex-plugin",
+    title: "dropbox@openai-curated 把 Dropbox 文件打给 Codex",
+    filename: "terminal",
+    summary:
+      "dropbox@openai-curated 把 Dropbox 文件打给 Codex。桌面 Plugins 搜 Dropbox，再 Connect Dropbox。",
+    code: `codex plugin add dropbox@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "monday-com-codex-plugin",
+    title: "monday-com@openai-curated 把 monday.com 看板打给 Codex",
+    filename: "terminal",
+    summary:
+      "monday-com@openai-curated 把 monday.com 看板打给 Codex。桌面 Plugins 搜 monday.com，再 Connect monday.com。",
+    code: `codex plugin add monday-com@openai-curated
+codex plugin list
+`,
   }
 ];

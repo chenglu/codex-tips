@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-16T18:14:00Z",
+  lastTick: "2026-09-16T19:12:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "18:14 收口。#125 已合入 main（TIP 497–505）。#135 续接：#133–#146 已为 506–518。本轮重放 #147 为 519 slack-codex-plugin、#148 为 520 github-codex-plugin。合入后关 #147–#148。站点 520 技巧。",
+    "19:12 收口。#125 已合入 main（TIP 497–505）。#135 续接：#133–#148 已为 506–520。本轮重放 #149 为 521 dropbox-codex-plugin、#150 为 522 monday-com-codex-plugin。合入后关 #149–#150。站点 522 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2483,6 +2483,24 @@ export const loopState = {
     "X news: Codex CLI 2026-09-16 18:00",
     'X: ("Codex CLI" OR #CodexCLI) (GitHub OR plugin OR MCP)',
     "Codex CLI 技巧 2026 GitHub github@openai-curated plugin add",
+    "skip leftover 1830-2b7e 1830-helicone already on main",
+    "skip leftover 1800-github open #148 1730-slack open #147 1700-figma open #146",
+    "skip leftover 1630-notion open #145 1600-clickup open #144 1600-linear open #143 1530-gdrive open #142",
+    "skip open #133 remotion #134 copilot #136 outlook-email #137 outlook-calendar #138 teams #139 sharepoint #140 gmail #141 googlecal #142 gdrive #143 linear #144 clickup #145 notion #146 figma #147 slack #148 github",
+    "codex plugin add dropbox@openai-curated Plugins Dropbox",
+    "site:openai.com/business/plugins/dropbox Dropbox plugin",
+    "site:github.com/openai/plugins dropbox plugin.json skills .mcp.json",
+    "X news: Codex CLI 2026-09-16 18:30",
+    'X: ("Codex CLI" OR #CodexCLI) (Dropbox OR plugin OR MCP)',
+    "Codex CLI 技巧 2026 Dropbox dropbox@openai-curated plugin add",
+    "skip leftover 1900-2b7e 1900-minimax already on main",
+    "skip leftover 1830-dropbox open #149 1800-github open #148 1730-slack open #147 1700-figma open #146",
+    "skip open #133 remotion #134 copilot #136-#149 clickup notion figma slack github dropbox",
+    "codex plugin add monday-com@openai-curated Plugins monday.com",
+    "site:github.com/openai/plugins monday-com plugin.json .mcp.json .app.json",
+    "X news: Codex CLI 2026-09-16 19:00",
+    'X: ("Codex CLI" OR #CodexCLI) (monday OR plugin OR MCP)',
+    "Codex CLI 技巧 2026 monday.com monday-com@openai-curated plugin add",
   ],
 };
 
