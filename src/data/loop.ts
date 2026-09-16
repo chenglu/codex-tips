@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-16T00:04:00Z",
+  lastTick: "2026-09-16T01:14:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "00:04 收口。#100 已合入 main（TIP 477–482）。本轮从最新 main 重放 #103 为 483 spanner-codex-plugin、#104 为 484 bigquery-codex-plugin。已关 #103，合入后关 #104。站点 484 技巧。",
+    "01:14 收口。#105 已合入 main（TIP 483–484）。本轮从最新 main 重放 #106 为 485 cloudsql-postgres-codex-plugin、#107 为 486 cloudsql-mysql-codex-plugin。合入后关 #106–#107。站点 486 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2153,6 +2153,22 @@ export const loopState = {
     "Codex CLI 技巧 2026 BigQuery BIGQUERY_PROJECT plugin add bigquery-data-analytics",
     "skip leftover 0000-2b7e Box Codex",
     "skip open #103 spanner-codex-plugin",
+    "codex plugin add cloud-sql-postgresql@data-agent-kit GoogleCloudPlatform/data-agent-kit",
+    "site:github.com/gemini-cli-extensions/cloud-sql-postgresql Codex plugin marketplace",
+    "site:docs.cloud.google.com/sql/docs/postgres MCP Toolbox Codex plugin install vs add",
+    "X news: Codex CLI 2026-09-16 00:30",
+    'X: ("Codex CLI" OR #CodexCLI) (plugin OR marketplace OR Cloud SQL OR MCP)',
+    "Codex CLI 技巧 2026 Cloud SQL PostgreSQL CLOUD_SQL_POSTGRES_PROJECT plugin add",
+    "skip leftover 0030-2b7e Miro X-quota",
+    "skip firestore-native cloud-sql-mysql for next ticks",
+    "codex plugin add cloud-sql-mysql@data-agent-kit GoogleCloudPlatform/data-agent-kit",
+    "site:github.com/gemini-cli-extensions/cloud-sql-mysql Codex plugin marketplace",
+    "site:docs.cloud.google.com/sql/docs/mysql MCP Toolbox Codex plugin install vs add",
+    "X news: Codex CLI 2026-09-16 01:00",
+    'X: ("Codex CLI" OR #CodexCLI) (plugin OR marketplace OR MySQL OR MCP)',
+    "Codex CLI 技巧 2026 Cloud SQL MySQL CLOUD_SQL_MYSQL_PROJECT plugin add",
+    "skip leftover 0100-2b7e smart-vs-mcp",
+    "skip open #106 cloud-sql-postgresql",
   ],
 };
 

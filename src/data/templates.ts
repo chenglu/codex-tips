@@ -5411,5 +5411,69 @@ codex mcp list
 # codex mcp login bigquery
 # command = "./PATH/TO/toolbox"
 `,
+  },
+  {
+    id: "cloudsql-postgres-codex-plugin",
+    title: "cloudsql marketplace 把 Cloud SQL PostgreSQL 插件喂给 data-agent-kit",
+    filename: "terminal",
+    summary:
+      "cloudsql marketplace 把 Cloud SQL PostgreSQL 插件喂给 data-agent-kit。主路径是 marketplace add GoogleCloudPlatform/data-agent-kit，再 plugin add cloud-sql-postgresql@data-agent-kit。",
+    code: `gcloud auth application-default login
+export CLOUD_SQL_POSTGRES_PROJECT=YOUR_CLOUD_SQL_POSTGRES_PROJECT
+export CLOUD_SQL_POSTGRES_REGION=YOUR_CLOUD_SQL_POSTGRES_REGION
+export CLOUD_SQL_POSTGRES_INSTANCE=YOUR_CLOUD_SQL_POSTGRES_INSTANCE
+export CLOUD_SQL_POSTGRES_DATABASE=YOUR_CLOUD_SQL_POSTGRES_DATABASE
+
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add cloud-sql-postgresql@data-agent-kit
+codex mcp list
+
+# 可选：
+# export CLOUD_SQL_POSTGRES_IP_TYPE=PRIVATE
+# codex plugin marketplace upgrade data-agent-kit
+
+# 不要：
+# plugin install cloud-sql-postgresql@data-agent-kit
+# /plugin install cloud-sql-postgresql@claude-plugins-official
+# gemini extensions install https://github.com/gemini-cli-extensions/cloud-sql-postgresql
+# plugin add cloud-sql-mysql@data-agent-kit
+# plugin add alloydb@data-agent-kit
+# plugin add dak@data-agent-kit-starter-pack-marketplace
+# plugin add bigquery-data-analytics@data-agent-kit
+# codex mcp login cloud-sql-postgres
+# command = "./PATH/TO/toolbox"
+`,
+  },
+  {
+    id: "cloudsql-mysql-codex-plugin",
+    title: "cloudsql marketplace 把 Cloud SQL MySQL 插件喂给 data-agent-kit",
+    filename: "terminal",
+    summary:
+      "cloudsql marketplace 把 Cloud SQL MySQL 插件喂给 data-agent-kit。主路径是 marketplace add GoogleCloudPlatform/data-agent-kit，再 plugin add cloud-sql-mysql@data-agent-kit。",
+    code: `gcloud auth application-default login
+export CLOUD_SQL_MYSQL_PROJECT=YOUR_CLOUD_SQL_MYSQL_PROJECT
+export CLOUD_SQL_MYSQL_REGION=YOUR_CLOUD_SQL_MYSQL_REGION
+export CLOUD_SQL_MYSQL_INSTANCE=YOUR_CLOUD_SQL_MYSQL_INSTANCE
+export CLOUD_SQL_MYSQL_DATABASE=YOUR_CLOUD_SQL_MYSQL_DATABASE
+
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add cloud-sql-mysql@data-agent-kit
+codex mcp list
+
+# 可选：
+# export CLOUD_SQL_MYSQL_IP_TYPE=PRIVATE
+# codex plugin marketplace upgrade data-agent-kit
+
+# 不要：
+# plugin install cloud-sql-mysql@data-agent-kit
+# /plugin install cloud-sql-mysql@claude-plugins-official
+# gemini extensions install https://github.com/gemini-cli-extensions/cloud-sql-mysql
+# plugin add cloud-sql-postgresql@data-agent-kit
+# plugin add alloydb@data-agent-kit
+# plugin add dak@data-agent-kit-starter-pack-marketplace
+# plugin add bigquery-data-analytics@data-agent-kit
+# codex mcp login cloud-sql-mysql
+# command = "./PATH/TO/toolbox"
+`,
   }
 ];
