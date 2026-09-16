@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-16T00:04:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "00:04 收口。#100 已合入 main（TIP 477–482）。本轮从最新 main 重放 #103 为 483 spanner-codex-plugin。合入后关 #103。站点 483 技巧。",
+    "00:04 收口。#100 已合入 main（TIP 477–482）。本轮从最新 main 重放 #103 为 483 spanner-codex-plugin、#104 为 484 bigquery-codex-plugin。已关 #103，合入后关 #104。站点 484 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2146,6 +2146,13 @@ export const loopState = {
     "site:docs.cloud.google.com/spanner MCP Toolbox Codex",
     'X: ("Codex CLI" OR #CodexCLI) (plugin OR Spanner OR marketplace OR MCP)',
     "Codex CLI 技巧 2026 Spanner SPANNER_PROJECT plugin add",
+    "codex plugin add bigquery-data-analytics@data-agent-kit GoogleCloudPlatform/data-agent-kit",
+    "site:github.com/gemini-cli-extensions/bigquery-data-analytics Codex plugin marketplace",
+    "site:docs.cloud.google.com/bigquery MCP Toolbox Codex",
+    "X news: Codex CLI 2026-09-16 00:00",
+    "Codex CLI 技巧 2026 BigQuery BIGQUERY_PROJECT plugin add bigquery-data-analytics",
+    "skip leftover 0000-2b7e Box Codex",
+    "skip open #103 spanner-codex-plugin",
   ],
 };
 

@@ -5382,5 +5382,34 @@ codex mcp list
 # codex mcp login spanner
 # command = "./PATH/TO/toolbox"
 `,
+  },
+  {
+    id: "bigquery-codex-plugin",
+    title: "bigquery marketplace 把 BigQuery 插件喂给 data-agent-kit",
+    filename: "terminal",
+    summary:
+      "bigquery marketplace 把 BigQuery 插件喂给 data-agent-kit。主路径是 marketplace add GoogleCloudPlatform/data-agent-kit，再 plugin add bigquery-data-analytics@data-agent-kit。",
+    code: `gcloud auth application-default login
+export BIGQUERY_PROJECT=YOUR_BIGQUERY_PROJECT
+# 可选：export BIGQUERY_LOCATION=YOUR_BIGQUERY_LOCATION
+
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add bigquery-data-analytics@data-agent-kit
+codex mcp list
+
+# 可选：
+# codex plugin marketplace upgrade data-agent-kit
+
+# 不要：
+# plugin add bigquery@data-agent-kit
+# /plugin install bigquery-data-analytics@claude-plugins-official
+# gemini extensions install https://github.com/gemini-cli-extensions/bigquery-data-analytics
+# plugin add dak@data-agent-kit-starter-pack-marketplace
+# plugin add looker@data-agent-kit
+# plugin add alloydb@data-agent-kit
+# plugin add knowledge-catalog@data-agent-kit
+# codex mcp login bigquery
+# command = "./PATH/TO/toolbox"
+`,
   }
 ];

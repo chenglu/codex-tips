@@ -16100,5 +16100,68 @@ codex mcp list
         url: "https://docs.cloud.google.com/spanner/docs/pre-built-tools-with-mcp-toolbox",
       },
     ],
+  },
+  {
+    id: "bigquery-codex-plugin",
+    no: 484,
+    title:
+      "Google Cloud BigQuery 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add bigquery-data-analytics@data-agent-kit，项目用 BIGQUERY_PROJECT 不要写成 plugin add bigquery@",
+    summary:
+      "官方 Codex 专节：先 marketplace add GoogleCloudPlatform/data-agent-kit，再 plugin add bigquery-data-analytics@data-agent-kit。stdio 表名 bigquery，走 npx @toolbox-sdk/server@1.10.0。项目用 BIGQUERY_PROJECT。ADC 用 gcloud，不要 mcp login，也不要写成 plugin add bigquery@。",
+    body: `Google Cloud BigQuery 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add bigquery-data-analytics@data-agent-kit，项目用 BIGQUERY_PROJECT 不要写成 plugin add bigquery@。
+
+这是 [gemini-cli-extensions/bigquery-data-analytics](https://github.com/gemini-cli-extensions/bigquery-data-analytics) 的 Codex 专节，不是 Claude 的 \`/plugin install bigquery-data-analytics@claude-plugins-official\`，也不是 GCP 文档里给 Cursor 抄的 \`./PATH/TO/toolbox --prebuilt bigquery\`。插件把 MCP Toolbox 的预置 \`bigquery\` 打成 Agent Plugin，用 ADC 连项目，去搜表、跑 SQL、做贡献分析和预测。
+
+要 Codex **v0.117.0+**，本机有 Node / npx。先开 BigQuery API，IAM 至少 \`roles/bigquery.user\`。要用内置 AI/ML 技能再开 Vertex AI API，并加 \`roles/bigquery.connectionUser\`、\`roles/aiplatform.user\`。然后准备 ADC：
+
+\`\`\`bash
+gcloud auth application-default login
+export BIGQUERY_PROJECT=YOUR_BIGQUERY_PROJECT
+# 可选：BIGQUERY_LOCATION
+\`\`\`
+
+\`BIGQUERY_PROJECT\` 填 GCP **项目 ID**，不要填项目号。位置可留空。密钥不要写进 \`http_headers\`。
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`data-agent-kit\`。目录条目的 name 写成 \`bigquery\`，指向 \`gemini-cli-extensions/bigquery-data-analytics\`；插件仓 \`plugin.json\` 的 name 才是 \`bigquery-data-analytics\`。Codex 命令跟插件仓 README，**不要**按目录短名写成 \`plugin add bigquery@data-agent-kit\`：
+
+\`\`\`bash
+codex --version
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add bigquery-data-analytics@data-agent-kit
+codex plugin list
+codex mcp list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install bigquery@\`。不要 \`gemini extensions install https://github.com/gemini-cli-extensions/bigquery-data-analytics\`。IDE 扩展没有 \`/plugins\`。
+
+插件会登记一台 **stdio** MCP，表名是 \`bigquery\`。command 是 \`npx\`，args 钉 \`@toolbox-sdk/server@1.10.0 --prebuilt bigquery --stdio\`（这份比 Looker / AlloyDB 的 1.9.0 新一档）。**不要** \`codex mcp login bigquery\`。插件已经带 MCP 时，不要再 \`codex mcp add bigquery -- npx @toolbox-sdk/server\` 叠一张用户层表。
+
+不要抄这些：
+
+- Cursor / VS Code 的 \`mcpServers.bigquery\`，\`command\` 写成 \`./PATH/TO/toolbox --prebuilt bigquery\`。
+- BigQuery 远程 MCP：\`https://bigquery.googleapis.com/mcp\`。那是另一条托管入口，不是这份插件。
+- Starter Pack 的 \`dak@data-agent-kit-starter-pack-marketplace\`、Looker 的 \`looker@data-agent-kit\`、AlloyDB 的 \`alloydb@data-agent-kit\`、Knowledge Catalog 的 \`knowledge-catalog@data-agent-kit\`。同仓 marketplace 里插件 id 不同。
+- 同组织的 [bigquery-conversational-analytics](https://github.com/gemini-cli-extensions/bigquery-conversational-analytics) 是另一份扩展，不要当成这条安装器。
+
+可选：\`codex plugin marketplace upgrade data-agent-kit\` 后再 \`plugin add\` 一次。目录条目可能钉旧 ref（当前常见是 0.2.1），插件仓 \`plugin.json\` 可能已经 0.2.5；升级后再装。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex mcp list\` 里应有 \`bigquery\`。连接失败先看 ADC 和 \`BIGQUERY_PROJECT\` 是不是进了同一进程，以及 npx 能不能拉到 Toolbox 1.10.0。发行仍是 Beta（pre-v1.0）。不要 \`required = true\`。不要一上来 \`--yolo\`。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "BigQuery", "MCP", "Google Cloud", "data-agent-kit"],
+    related: ["alloydb-codex-plugin", "looker-codex-plugin", "knowledge-catalog-codex-plugin"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/bigquery-data-analytics",
+        url: "https://github.com/gemini-cli-extensions/bigquery-data-analytics",
+      },
+      {
+        label: "GoogleCloudPlatform/data-agent-kit",
+        url: "https://github.com/GoogleCloudPlatform/data-agent-kit",
+      },
+      {
+        label: "Google Cloud · Connect LLMs to BigQuery with MCP",
+        url: "https://docs.cloud.google.com/bigquery/docs/pre-built-tools-with-mcp-toolbox",
+      },
+    ],
   }
 ];

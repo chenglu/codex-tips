@@ -6600,5 +6600,35 @@ export const articles: Article[] = [
     tags: ["Spanner", "MCP", "remote", "ADC", "spanner@data-agent-kit", "SPANNER_PROJECT"],
     summary:
       'Spanner 远程 MCP 是 https://spanner.googleapis.com/mcp，开 API 即启用。这不是 Codex 插件那条本机 toolbox stdio。Gemini CLI 还要 x-goog-user-project。不要和 spanner@data-agent-kit 抄成一条。',
+  },
+  {
+    title: 'BigQuery Data Analytics',
+    url: 'https://github.com/gemini-cli-extensions/bigquery-data-analytics',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "BigQuery", "plugins", "bigquery-data-analytics@data-agent-kit", "BIGQUERY_PROJECT"],
+    summary:
+      'Google Cloud BigQuery 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add bigquery-data-analytics@data-agent-kit，项目用 BIGQUERY_PROJECT 不要写成 plugin add bigquery@。Codex 要 v0.117.0+。MCP 表名是 bigquery，Toolbox 钉 1.10.0，不要 mcp login。',
+  },
+  {
+    title: 'Connect LLMs to BigQuery with MCP',
+    url: 'https://docs.cloud.google.com/bigquery/docs/pre-built-tools-with-mcp-toolbox',
+    source: 'Google Cloud Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["BigQuery", "MCP Toolbox", "BIGQUERY_PROJECT", "Cursor", "bigquery-data-analytics@data-agent-kit"],
+    summary:
+      'GCP 这篇讲用 MCP Toolbox 连 BigQuery。主推 Gemini CLI 扩展，Cursor 示例是 mcpServers.bigquery 加本机 toolbox 二进制和 --prebuilt bigquery。没有 Codex 的 plugin add。项目仍是 BIGQUERY_PROJECT，可选 BIGQUERY_LOCATION。',
+  },
+  {
+    title: 'Use the BigQuery MCP server',
+    url: 'https://docs.cloud.google.com/bigquery/docs/use-bigquery-mcp',
+    source: 'Google Cloud Docs',
+    lang: '英文',
+    kind: '官方',
+    tags: ["BigQuery", "MCP", "remote", "ADC", "bigquery-data-analytics@data-agent-kit", "BIGQUERY_PROJECT"],
+    summary:
+      'BigQuery 远程 MCP 是 https://bigquery.googleapis.com/mcp，开 API 即启用。这不是 Codex 插件那条本机 toolbox stdio。客户端用 Google 凭证，不是 mcp login 插件表。不要和 bigquery-data-analytics@data-agent-kit 抄成一条。',
   }
 ];
