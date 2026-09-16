@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-16T16:15:00Z",
+  lastTick: "2026-09-16T17:18:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "16:15 收口。#125 已合入 main（TIP 497–505）。#135 续接：#133–#141 已为 506–513。本轮重放 #142 为 514 google-drive-codex-plugin、#143 为 515 linear-codex-plugin、#144 为 516 clickup-codex-plugin。合入后关 #142–#144。站点 516 技巧。",
+    "17:18 收口。#125 已合入 main（TIP 497–505）。#135 续接：#133–#144 已为 506–516。本轮重放 #145 为 517 notion-codex-plugin、#146 为 518 figma-codex-plugin。合入后关 #145–#146。站点 518 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2446,6 +2446,24 @@ export const loopState = {
     "site:github.com/openai/plugins clickup plugin.json .mcp.json .app.json",
     'X: ("Codex CLI" OR #CodexCLI) (ClickUp OR plugin OR MCP)',
     "Codex CLI 技巧 2026 ClickUp clickup@openai-curated plugin add",
+    "skip leftover 1630-2b7e CDP 收尾 1630-coder already on main",
+    "skip leftover 1600-linear open #143 1600-clickup open #144",
+    "skip open #133 remotion #134 copilot #136 outlook-email #137 outlook-calendar #138 teams #139 sharepoint #140 gmail #141 googlecal #142 gdrive #143 linear #144 clickup",
+    "codex plugin add notion@openai-curated Plugins Notion",
+    "site:openai.com/business/plugins/notion Notion plugin",
+    "site:github.com/openai/plugins notion plugin.json README skills",
+    "X news: Codex CLI 2026-09-16 16:30",
+    'X: ("Codex CLI" OR #CodexCLI) (Notion OR plugin OR MCP)',
+    "Codex CLI 技巧 2026 Notion notion@openai-curated plugin add",
+    "skip leftover 1700-2b7e CDP 收尾 1700-databricks already on main",
+    "skip leftover 1630-notion open #145 1600-clickup open #144 1600-linear open #143",
+    "skip open #133 remotion #134 copilot #136 outlook-email #137 outlook-calendar #138 teams #139 sharepoint #140 gmail #141 googlecal #142 gdrive #143 linear #144 clickup #145 notion",
+    "codex plugin add figma@openai-curated Plugins Figma",
+    "site:openai.com/business/plugins/figma Figma plugin",
+    "site:github.com/openai/plugins figma plugin.json README skills",
+    "X news: Codex CLI 2026-09-16 17:00",
+    'X: ("Codex CLI" OR #CodexCLI) (Figma OR plugin OR MCP)',
+    "Codex CLI 技巧 2026 Figma figma@openai-curated plugin add",
   ],
 };
 

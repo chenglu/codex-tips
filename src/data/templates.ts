@@ -6128,5 +6128,25 @@ codex plugin list
     code: `codex plugin add clickup@openai-curated
 codex plugin list
 `,
+  },
+  {
+    id: "notion-codex-plugin",
+    title: "notion@openai-curated 把 Notion 工作区打给 Codex",
+    filename: "terminal",
+    summary:
+      "notion@openai-curated 把 Notion 工作区打给 Codex。桌面 Plugins 搜 Notion，再 Connect Notion。",
+    code: `codex plugin add notion@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "figma-codex-plugin",
+    title: "figma@openai-curated 把 Figma 设计打给 Codex",
+    filename: "terminal",
+    summary:
+      "figma@openai-curated 把 Figma 设计打给 Codex。桌面 Plugins 搜 Figma，再 Connect Figma。",
+    code: `codex plugin add figma@openai-curated
+codex plugin list
+`,
   }
 ];

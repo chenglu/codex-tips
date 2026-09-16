@@ -7590,5 +7590,65 @@ export const articles: Article[] = [
     tags: ["ClickUp", "MCP", "mcp.clickup.com", "clickup@openai-curated"],
     summary:
       '仓库 MCP 表名 clickup，type 是 http，URL 是 https://mcp.clickup.com/mcp，必须带 /mcp。现行 plugin.json 没挂 mcpServers，不要假设 plugin add 会自动叠表。只要 MCP 才手写 mcp add。',
+  },
+  {
+    title: 'Notion',
+    url: 'https://openai.com/business/plugins/notion/',
+    source: 'OpenAI',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Codex", "Notion", "plugins", "notion@openai-curated", "plugin add notion@openai-curated"],
+    summary:
+      'Notion 官方 Codex 插件：桌面 Plugins 搜 Notion，CLI 用 plugin add notion@openai-curated，不要当成 Notion MCP。产品页搜页面、起草文档并更新数据库。不要和手写 mcp add 抄成一条。',
+  },
+  {
+    title: 'notion plugin.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/notion/.codex-plugin/plugin.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "Notion", "plugins", "notion@openai-curated", "openai/plugins", "plugin add notion@openai-curated"],
+    summary:
+      '清单 name 是 notion，version 是 0.1.7，所以 CLI id 是 notion@openai-curated。displayName 是 Notion。同时引用 .app.json、.mcp.json 和 skills。不要写成 plugin install。',
+  },
+  {
+    title: 'notion plugin README',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/notion/README.md',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Notion", "plugins", "notion@openai-curated", "openai/plugins", "plugin add notion@openai-curated"],
+    summary:
+      '维护说明列出四条技能：notion-spec-to-implementation、notion-research-documentation、notion-meeting-intelligence、notion-knowledge-capture。插件走 App 连接器。不要 npx skills add。',
+  },
+  {
+    title: 'Figma',
+    url: 'https://openai.com/business/plugins/figma/',
+    source: 'OpenAI',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Codex", "Figma", "plugins", "figma@openai-curated", "plugin add figma@openai-curated"],
+    summary:
+      'Figma 官方 Codex 插件：桌面 Plugins 搜 Figma，CLI 用 plugin add figma@openai-curated，不要当成 Figma MCP。产品页面向 ChatGPT 的 @Figma，用来出图、幻灯片和 FigJam。不要和手写 mcp add 抄成一条。',
+  },
+  {
+    title: 'figma plugin.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/figma/.codex-plugin/plugin.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "Figma", "plugins", "figma@openai-curated", "openai/plugins", "plugin add figma@openai-curated"],
+    summary:
+      '清单 name 是 figma，version 是 2.0.20，所以 CLI id 是 figma@openai-curated。displayName 是 Figma。现行清单挂 apps 和 skills，没有 mcpServers。不要写成 plugin install。',
+  },
+  {
+    title: 'figma plugin README',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/figma/README.md',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Figma", "plugins", "figma@openai-curated", "openai/plugins", "plugin add figma@openai-curated"],
+    summary:
+      '维护说明列出七条技能：figma-implement-design、figma-code-connect、figma-create-design-system-rules、figma-create-new-file、figma-generate-design、figma-generate-library、figma-use。插件走 App 连接器。不要 npx skills add。',
   }
 ];

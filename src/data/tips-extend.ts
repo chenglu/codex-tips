@@ -18220,5 +18220,131 @@ codex plugin list
         url: "https://github.com/openai/plugins/blob/main/plugins/clickup/.mcp.json",
       },
     ],
+  },
+  {
+    id: "notion-codex-plugin",
+    no: 517,
+    title:
+      "Notion 官方 Codex 插件：桌面 Plugins 搜 Notion，CLI 用 plugin add notion@openai-curated，不要当成 Notion MCP",
+    summary:
+      "官方 Codex：codex plugin add notion@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Notion，再 Connect Notion。这是带技能和 App 的插件，不是手写 mcp add notion。",
+    body: `Notion 官方 Codex 插件：桌面 Plugins 搜 Notion，CLI 用 plugin add notion@openai-curated，不要当成 Notion MCP。
+
+这是 Notion 工作区插件，用来搜页面、改文档和数据库，并把规格、会议和决策收成结构化输出。产品页是 [Notion](https://openai.com/business/plugins/notion/)。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/notion/.codex-plugin/plugin.json) 的 name 是 \`notion\`、version 是 \`0.1.7\`，所以精选 id 是 \`notion@openai-curated\`。能力含 Interactive、Read、Write。
+
+CLI：
+
+\`\`\`bash
+codex plugin add notion@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install notion@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Notion 再装，效果一样。装完按提示 Connect Notion 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+插件同时登记 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/notion/.app.json)、[\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/notion/.mcp.json) 和 \`skills/\`。MCP 表名是 \`notion\`，type 是 http，URL 是 \`https://mcp.notion.com/mcp\`（带 \`/mcp\`），\`oauth_resource\` 是 \`https://mcp.notion.com\`。插件已经登记 MCP 时，不要再手写 \`mcp add notion --url https://mcp.notion.com/mcp\` 叠一张。只要 MCP、不要技能和 App 时，才走现有的本机 MCP 技巧。
+
+技能随插件走，仓库 [README](https://github.com/openai/plugins/blob/main/plugins/notion/README.md) 列出 \`notion-spec-to-implementation\`、\`notion-research-documentation\`、\`notion-meeting-intelligence\`、\`notion-knowledge-capture\`。不要 \`npx skills add\` 当 Codex 安装器，也不要手拷到 \`~/.codex/skills\`。
+
+不要和旁边那几条搞混：
+
+- 手写 \`mcp add notion\` 只登记远程表，不会装 Plugins 目录里的 Notion App 和技能。
+- Linear 和 ClickUp 是独立任务插件，不管 Notion 页和数据库。
+- 不要把停更的开源 \`notion-mcp-server\` 包当这条精选插件。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 Notion。ChatGPT 里可以用 \`@Notion\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`notion@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Notion。
+
+不要做这些：
+
+- 不要当成手写 Notion MCP。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`notion@claude-plugins-official\`。
+- 不要抄 \`/sse\` 或 \`experimental_use_rmcp_client\`。
+- 不要一上来 \`--yolo\`：改页面、改数据库属性会动真实 Notion 工作区。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Notion", "notion@openai-curated", "MCP"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-notion-remote"],
+    sources: [
+      {
+        label: "OpenAI · Notion",
+        url: "https://openai.com/business/plugins/notion/",
+      },
+      {
+        label: "openai/plugins · notion plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/notion/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · notion README",
+        url: "https://github.com/openai/plugins/blob/main/plugins/notion/README.md",
+      },
+    ],
+  },
+  {
+    id: "figma-codex-plugin",
+    no: 518,
+    title:
+      "Figma 官方 Codex 插件：桌面 Plugins 搜 Figma，CLI 用 plugin add figma@openai-curated，不要当成 Figma MCP",
+    summary:
+      "官方 Codex：codex plugin add figma@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Figma。这是带技能和 App 的设计到代码插件，不是手写 mcp add figma。",
+    body: `Figma 官方 Codex 插件：桌面 Plugins 搜 Figma，CLI 用 plugin add figma@openai-curated，不要当成 Figma MCP。
+
+这是 Figma 做的设计到代码插件，用来看稿、实现界面、写 Code Connect 模板，以及生成项目级设计系统规则。产品页是 [Figma](https://openai.com/business/plugins/figma/)。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/figma/.codex-plugin/plugin.json) 的 name 是 \`figma\`、version 是 \`2.0.20\`，所以精选 id 是 \`figma@openai-curated\`。现行清单声明 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/figma/.app.json) 和 \`skills/\`，能力含 Interactive、Read、Write。**没有** \`mcpServers\` 字段。
+
+CLI：
+
+\`\`\`bash
+codex plugin add figma@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install figma@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Figma 再装，效果一样。装完按提示 Connect Figma 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+仓库另有 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/figma/.mcp.json)，表名是 \`figma\`，type 是 http，URL 是 \`https://mcp.figma.com/mcp\`（带 \`/mcp\`），\`oauth_resource\` 也是 \`https://mcp.figma.com/mcp\`。因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，不要假设 \`plugin add\` 会自动叠这张 MCP 表。只要 MCP、不要技能和 App 时，走现有的远程 MCP 技巧：\`codex mcp add figma --url https://mcp.figma.com/mcp\`，再 \`mcp login figma\`。插件已经登记 MCP 时，不要再 \`mcp add\` 叠一张。不要发明 \`mcp login figma\` 当插件安装步骤。
+
+技能随插件走，仓库 [README](https://github.com/openai/plugins/blob/main/plugins/figma/README.md) 列出 \`figma-implement-design\`、\`figma-code-connect\`、\`figma-create-design-system-rules\`、\`figma-create-new-file\`、\`figma-generate-design\`、\`figma-generate-library\`、\`figma-use\`。不要 \`npx skills add\` 当 Codex 安装器，也不要手拷到 \`~/.codex/skills\`。不要发明 \`$figma\` 斜杠。
+
+不要和旁边那几条搞混：
+
+- 手写 \`mcp add figma\` 只登记远程表，不会装 Plugins 目录里的 Figma App 和技能。
+- 桌面 Plugins 里点 Install Figma 只连 MCP 连接器，不等于这条精选插件。
+- 不要抄 Claude 的 \`claude plugin install figma@claude-plugins-official\`。
+- 不要把本机 Figma 桌面 \`http://127.0.0.1:3845/mcp\` 和企业本地 MCP 抄成这条精选插件。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 Figma。ChatGPT 里可以用 \`@Figma\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`figma@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Figma。
+
+不要做这些：
+
+- 不要当成手写 Figma MCP。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`figma@claude-plugins-official\`。
+- 不要抄 \`/sse\` 或 \`experimental_use_rmcp_client\`。
+- 不要把仓库 clone 进 \`~/.codex/plugins/cache\` 当主安装路径。
+- 不要一上来 \`--yolo\`：改稿、新建文件、写回设计系统会动真实 Figma 文件。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Figma", "figma@openai-curated"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-figma-remote"],
+    sources: [
+      {
+        label: "OpenAI · Figma",
+        url: "https://openai.com/business/plugins/figma/",
+      },
+      {
+        label: "openai/plugins · figma plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/figma/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · figma README",
+        url: "https://github.com/openai/plugins/blob/main/plugins/figma/README.md",
+      },
+    ],
   }
 ];
