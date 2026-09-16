@@ -7500,5 +7500,95 @@ export const articles: Article[] = [
     tags: ["Google Calendar", "MCP", "calendarmcp.googleapis.com", "google-calendar@openai-curated"],
     summary:
       '插件 MCP 表名 google-calendar，type 是 http，URL 是 https://calendarmcp.googleapis.com/mcp/v1，必须带 /mcp/v1。插件已登记就不要再 mcp add 叠一张。OAuth 字段由插件带，不要手抄 client_id，也不要发明 mcp login google-calendar。',
+  },
+  {
+    title: 'Google Drive',
+    url: 'https://openai.com/business/plugins/google-drive/',
+    source: 'OpenAI',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Codex", "Google Drive", "plugins", "google-drive@openai-curated", "drivemcp.googleapis.com"],
+    summary:
+      'Google Drive 官方 Codex 插件：桌面 Plugins 搜 Google Drive，CLI 用 plugin add google-drive@openai-curated，不要当成 Google Calendar。产品页把 Drive、Docs、Sheets、Slides 收成一条，没有 marketplace add。不要和 Calendar 产品页抄成一条。',
+  },
+  {
+    title: 'google-drive plugin.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/google-drive/.codex-plugin/plugin.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "Google Drive", "plugins", "google-drive@openai-curated", "openai/plugins", "drivemcp.googleapis.com"],
+    summary:
+      '清单 name 是 google-drive，version 是 0.1.15，所以 CLI id 是 google-drive@openai-curated。displayName 是 Google Drive。能力含 Interactive 和 Write。技能目录是 google-docs、google-sheets、google-slides。不要写成 plugin install。',
+  },
+  {
+    title: 'google-drive .mcp.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/google-drive/.mcp.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Google Drive", "MCP", "drivemcp.googleapis.com", "google-drive@openai-curated"],
+    summary:
+      '插件 MCP 表名 google-drive，type 是 http，URL 是 https://drivemcp.googleapis.com/mcp/v1，必须带 /mcp/v1。插件已登记就不要再 mcp add 叠一张。OAuth 字段由插件带，不要手抄 client_id，也不要发明 mcp login google-drive。',
+  },
+  {
+    title: 'Linear',
+    url: 'https://openai.com/business/plugins/linear/',
+    source: 'OpenAI',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Codex", "Linear", "plugins", "linear@openai-curated", "plugin add linear@openai-curated"],
+    summary:
+      'Linear 官方 Codex 插件：桌面 Plugins 搜 Linear，CLI 用 plugin add linear@openai-curated，不要当成 Linear MCP。产品页管 issues 和 comments，不含附件。不要和手写 mcp add 抄成一条。',
+  },
+  {
+    title: 'linear plugin.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/linear/.codex-plugin/plugin.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "Linear", "plugins", "linear@openai-curated", "openai/plugins", "plugin add linear@openai-curated"],
+    summary:
+      '清单 name 是 linear，version 是 5.0.1，所以 CLI id 是 linear@openai-curated。displayName 是 Linear。同时引用 .app.json 和 .mcp.json。不要写成 plugin install。',
+  },
+  {
+    title: 'linear plugin README',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/linear/README.md',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Linear", "plugins", "linear@openai-curated", "openai/plugins", "plugin add linear@openai-curated"],
+    summary:
+      '维护说明写明 5.0.1 含 App 连接器和托管 MCP，没有捆绑技能。安装策略 AVAILABLE，认证 ON_INSTALL。不要把旧的 skills/linear 目录当现行包。',
+  },
+  {
+    title: 'ClickUp',
+    url: 'https://openai.com/business/plugins/clickup/',
+    source: 'OpenAI',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Codex", "ClickUp", "plugins", "clickup@openai-curated", "mcp.clickup.com"],
+    summary:
+      'ClickUp 官方 Codex 插件：桌面 Plugins 搜 ClickUp，CLI 用 plugin add clickup@openai-curated，不要当成 Linear。产品页同步 tasks 和 docs，可建改任务、子任务和列表。不要和 Linear 产品页抄成一条。',
+  },
+  {
+    title: 'clickup plugin.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/clickup/.codex-plugin/plugin.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "ClickUp", "plugins", "clickup@openai-curated", "openai/plugins", "mcp.clickup.com"],
+    summary:
+      '清单 name 是 clickup，version 是 1.0.3，所以 CLI id 是 clickup@openai-curated。displayName 是 ClickUp。只声明 .app.json，没有 skills 也没有 mcpServers。不要写成 plugin install。',
+  },
+  {
+    title: 'clickup .mcp.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/clickup/.mcp.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["ClickUp", "MCP", "mcp.clickup.com", "clickup@openai-curated"],
+    summary:
+      '仓库 MCP 表名 clickup，type 是 http，URL 是 https://mcp.clickup.com/mcp，必须带 /mcp。现行 plugin.json 没挂 mcpServers，不要假设 plugin add 会自动叠表。只要 MCP 才手写 mcp add。',
   }
 ];

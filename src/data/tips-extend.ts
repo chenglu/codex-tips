@@ -18032,5 +18032,193 @@ codex plugin list
         url: "https://github.com/openai/plugins/blob/main/plugins/google-calendar/.mcp.json",
       },
     ],
+  },
+  {
+    id: "google-drive-codex-plugin",
+    no: 514,
+    title:
+      "Google Drive 官方 Codex 插件：桌面 Plugins 搜 Google Drive，CLI 用 plugin add google-drive@openai-curated，不要当成 Google Calendar",
+    summary:
+      "官方 Codex：codex plugin add google-drive@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Google Drive，再 Connect Google。这是 Drive 插件，连 Docs / Sheets / Slides，不是 Calendar，也不是 Gmail。改文件先确认。",
+    body: `Google Drive 官方 Codex 插件：桌面 Plugins 搜 Google Drive，CLI 用 plugin add google-drive@openai-curated，不要当成 Google Calendar。
+
+这是 OpenAI 做的 Google Drive 插件，把 Drive、Docs、Sheets、Slides 收成一条入口，用来搜已有权限的文件，并在工作区打开写动作时改文档、表格或幻灯片。产品页是 [Google Drive](https://openai.com/business/plugins/google-drive/)。能力边界看 [Google Drive app and setup in ChatGPT](https://help.openai.com/en/articles/10929079-google-drive-app-and-setup-in-chatgpt)。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/google-drive/.codex-plugin/plugin.json) 的 name 是 \`google-drive\`，所以精选 id 是 \`google-drive@openai-curated\`。
+
+CLI：
+
+\`\`\`bash
+codex plugin add google-drive@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install google-drive@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Google Drive 再装，效果一样。装完按提示 Connect Google 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+插件 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/google-drive/.mcp.json) 表名是 \`google-drive\`，type 是 http，URL 是 \`https://drivemcp.googleapis.com/mcp/v1\`（带 \`/mcp/v1\`）。插件已经登记 MCP 时，不要再手写 \`mcp add google-drive --url https://drivemcp.googleapis.com/mcp/v1\` 叠一张。OAuth 字段由插件带，不要手抄 client_id，也不要发明 \`mcp login google-drive\`。
+
+技能随插件走，仓库 \`skills/\` 目录是 \`google-drive\`、\`google-docs\`、\`google-sheets\`、\`google-slides\`、\`google-drive-comments\`。不要 \`npx skills add\` 当 Codex 安装器，也不要手拷到 \`~/.codex/skills\`。
+
+不要和旁边那几个搞混：
+
+- Google Calendar 是独立插件，管日程和空闲，不负责网盘文件。
+- Gmail 管收件箱，不搜 Drive 库。
+- SharePoint 是 Microsoft 站点插件，不要把个人 Drive 和 SharePoint 抄成一条。
+- Docs / Sheets / Slides 的动作走这条 Drive 插件，不要再发明三条独立精选 id。
+
+帮助中心写明：只能读你授权的那个 Google 账号已经能打开的文件。个人连接是实时访问，**不会**给自己建一份同步索引。企业/Edu 的管理员同步索引是另一条工作区配置。Library 初期只含「我的云端硬盘」和直接分享给你的项，Shared Drives 还不在。未确认前不要改源文件、改共享或删除。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 Google Drive。ChatGPT 里可以用 \`@Google Drive\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`google-drive@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Google Drive。
+
+不要做这些：
+
+- 不要当成 Google Calendar、Gmail 或 SharePoint。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`google-drive@claude-plugins-official\`。
+- 不要把第三方 Google Drive MCP 包装器抄进 Codex。
+- 不要和手写 Gmail MCP 叠成同一条。
+- 不要一上来 \`--yolo\`：改 Docs、改 Sheets、改共享或删除会动真实网盘。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Google Drive", "google-drive@openai-curated", "Google"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "OpenAI · Google Drive",
+        url: "https://openai.com/business/plugins/google-drive/",
+      },
+      {
+        label: "openai/plugins · google-drive plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/google-drive/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · google-drive .mcp.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/google-drive/.mcp.json",
+      },
+    ],
+  },
+  {
+    id: "linear-codex-plugin",
+    no: 515,
+    title:
+      "Linear 官方 Codex 插件：桌面 Plugins 搜 Linear，CLI 用 plugin add linear@openai-curated，不要当成 Linear MCP",
+    summary:
+      "官方 Codex：codex plugin add linear@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Linear，再 Connect Linear。这是工单插件，不是 Cloud 里 issue 指派 @Codex，也不是手写 mcp add。",
+    body: `Linear 官方 Codex 插件：桌面 Plugins 搜 Linear，CLI 用 plugin add linear@openai-curated，不要当成 Linear MCP。
+
+这是 Linear Orbit 做的工单插件，用来搜、建、改 issues / projects / comments，并起草周报或验收标准。产品页是 [Linear](https://openai.com/business/plugins/linear/)。附件、图片和链出去的外部集成不在范围内。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/linear/.codex-plugin/plugin.json) 的 name 是 \`linear\`、version 是 \`5.0.1\`，所以精选 id 是 \`linear@openai-curated\`。
+
+CLI：
+
+\`\`\`bash
+codex plugin add linear@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install linear@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Linear 再装，效果一样。装完按提示 Connect Linear 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。仓库 [README](https://github.com/openai/plugins/blob/main/plugins/linear/README.md) 写明现行 \`5.0.1\` 带 App 连接器和托管 MCP，**没有**捆绑技能；安装策略是 \`AVAILABLE\`，认证是 \`ON_INSTALL\`。不要把旧提交里的 \`skills/linear\` 目录当现行包，也不要 \`npx skills add\`。
+
+插件同时登记 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/linear/.app.json) 和 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/linear/.mcp.json)。MCP 表名是 \`linear\`，type 是 http，URL 是 \`https://mcp.linear.app/mcp\`（带 \`/mcp\`）。插件已经登记 MCP 时，不要再手写 \`mcp add linear --url https://mcp.linear.app/mcp\` 叠一张。只要 MCP、不要 App 时，才走现有的本机 MCP 技巧。
+
+不要和旁边那几条搞混：
+
+- Cloud 里把 issue 指派给 Codex，或评论 \`@Codex\`，走的是另一条 Linear 集成，不是这条本机插件。
+- 手写 MCP 只登记远程表，不会装 Plugins 目录里的 Linear App。
+- ClickUp 和 Notion 是独立插件，管各自的任务和文档，不要把 Linear 工单抄过去。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 Linear。ChatGPT 里可以用 \`@Linear\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`linear@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Linear。
+
+不要做这些：
+
+- 不要当成手写 Linear MCP，也不要当成 Cloud 里的 issue \`@Codex\`。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`linear@claude-plugins-official\`。
+- 不要把第三方 Linear MCP 包装器抄进 Codex。
+- 不要发明捆绑技能名或 \`$linear\` 斜杠。
+- 不要一上来 \`--yolo\`：建工单、改状态、写评论会动真实 Linear 工作区。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Linear", "linear@openai-curated", "MCP"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "linear-mcp-add"],
+    sources: [
+      {
+        label: "OpenAI · Linear",
+        url: "https://openai.com/business/plugins/linear/",
+      },
+      {
+        label: "openai/plugins · linear plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/linear/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · linear README",
+        url: "https://github.com/openai/plugins/blob/main/plugins/linear/README.md",
+      },
+    ],
+  },
+  {
+    id: "clickup-codex-plugin",
+    no: 516,
+    title:
+      "ClickUp 官方 Codex 插件：桌面 Plugins 搜 ClickUp，CLI 用 plugin add clickup@openai-curated，不要当成 Linear",
+    summary:
+      "官方 Codex：codex plugin add clickup@openai-curated。桌面 Plugins 或 TUI /plugins 搜 ClickUp，再 Connect ClickUp。这是任务和文档插件，不是 Linear 工单，也不要当成会自动叠 MCP 表。",
+    body: `ClickUp 官方 Codex 插件：桌面 Plugins 搜 ClickUp，CLI 用 plugin add clickup@openai-curated，不要当成 Linear。
+
+这是 ClickUp 做的任务插件，用已同步的 spaces / lists / tasks / docs 回答进度，并在工作区允许时新建或改任务、子任务和列表。产品页是 [ClickUp](https://openai.com/business/plugins/clickup/)。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/clickup/.codex-plugin/plugin.json) 的 name 是 \`clickup\`、version 是 \`1.0.3\`，所以精选 id 是 \`clickup@openai-curated\`。现行清单只声明 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/clickup/.app.json)，没有 \`skills\` 字段，也没有 \`mcpServers\` 字段。不要发明捆绑技能名。
+
+CLI：
+
+\`\`\`bash
+codex plugin add clickup@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install clickup@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 ClickUp 再装，效果一样。装完按提示 Connect ClickUp 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+仓库另有 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/clickup/.mcp.json)，表名是 \`clickup\`，type 是 http，URL 是 \`https://mcp.clickup.com/mcp\`（带 \`/mcp\`）。因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，不要假设 \`plugin add\` 会自动叠这张 MCP 表。只要 MCP、不要 App 时，才手写 \`mcp add clickup --url https://mcp.clickup.com/mcp\`。不要发明 \`mcp login clickup\` 当插件安装步骤。
+
+不要和旁边那几条搞混：
+
+- Linear 是独立工单插件，不管 ClickUp 的 list 和 Doc。
+- Notion 是独立知识库插件，不要把 ClickUp Doc 和 Notion 页抄成一条。
+- 手写 MCP 只登记远程表，不会装 Plugins 目录里的 ClickUp App。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 ClickUp。ChatGPT 里可以用 \`@ClickUp\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`clickup@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 ClickUp。
+
+不要做这些：
+
+- 不要当成 Linear 或 Notion。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`clickup@claude-plugins-official\`。
+- 不要把第三方 ClickUp MCP 包装器抄进 Codex。
+- 不要发明捆绑技能名或 \`$clickup\` 斜杠。
+- 不要一上来 \`--yolo\`：建任务、改状态、改列表会动真实 ClickUp 工作区。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "ClickUp", "clickup@openai-curated"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "OpenAI · ClickUp",
+        url: "https://openai.com/business/plugins/clickup/",
+      },
+      {
+        label: "openai/plugins · clickup plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/clickup/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · clickup .mcp.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/clickup/.mcp.json",
+      },
+    ],
   }
 ];

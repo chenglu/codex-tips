@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-16T15:12:00Z",
+  lastTick: "2026-09-16T16:15:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "15:12 收口。#125 已合入 main（TIP 497–505）。#135 续接：#133–#138 已为 506–510。本轮重放 #139 为 511 sharepoint-codex-plugin、#140 为 512 gmail-codex-plugin、#141 为 513 google-calendar-codex-plugin。合入后关 #139–#141。站点 513 技巧。",
+    "16:15 收口。#125 已合入 main（TIP 497–505）。#135 续接：#133–#141 已为 506–513。本轮重放 #142 为 514 google-drive-codex-plugin、#143 为 515 linear-codex-plugin、#144 为 516 clickup-codex-plugin。合入后关 #142–#144。站点 516 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2420,6 +2420,32 @@ export const loopState = {
     "X news: Codex CLI 2026-09-16 15:00",
     'X: ("Codex CLI" OR Codex) (plugin OR marketplace OR Calendar OR Drive OR Linear)',
     "Codex CLI 技巧 2026 Google Calendar google-calendar@openai-curated plugin add",
+    "skip leftover 1530-2b7e Asana 1530-sambanova-2b7e already on main",
+    "skip leftover 1500-2b7e Danube 1500-openaidr 1500-googlecal open #141",
+    "skip open #133 remotion #134 copilot #136 outlook-email #137 outlook-calendar #138 teams #139 sharepoint #140 gmail",
+    "codex plugin add google-drive@openai-curated Plugins Google Drive",
+    "site:openai.com/business/plugins/google-drive Google Drive plugin",
+    "site:github.com/openai/plugins google-drive plugin.json .mcp.json skills",
+    "site:help.openai.com/en/articles/10929079-google-drive-app-and-setup-in-chatgpt",
+    "X news: Codex CLI 2026-09-16 15:30",
+    'X: ("Codex CLI" OR Codex) (plugin OR marketplace OR Drive OR Linear OR Figma)',
+    "Codex CLI 技巧 2026 Google Drive google-drive@openai-curated plugin add",
+    "skip leftover 1600-2b7e CDP 收尾 1600-bifrost already on main",
+    "skip leftover 1530-gdrive open #142",
+    "skip open #133 remotion #134 copilot #136 outlook-email #137 outlook-calendar #138 teams #139 sharepoint #140 gmail #141 googlecal #142 gdrive",
+    "codex plugin add linear@openai-curated Plugins Linear",
+    "site:openai.com/business/plugins/linear Linear plugin",
+    "site:github.com/openai/plugins linear plugin.json .mcp.json README",
+    "X news: Codex CLI 2026-09-16 16:00",
+    'X: ("Codex CLI" OR #CodexCLI) (Linear OR plugin OR MCP)',
+    "Codex CLI 技巧 2026 Linear linear@openai-curated plugin add",
+    "skip leftover 1600-linear open #143",
+    "skip open #133 remotion #134 copilot #136 outlook-email #137 outlook-calendar #138 teams #139 sharepoint #140 gmail #141 googlecal #142 gdrive #143 linear",
+    "codex plugin add clickup@openai-curated Plugins ClickUp",
+    "site:openai.com/business/plugins/clickup ClickUp plugin",
+    "site:github.com/openai/plugins clickup plugin.json .mcp.json .app.json",
+    'X: ("Codex CLI" OR #CodexCLI) (ClickUp OR plugin OR MCP)',
+    "Codex CLI 技巧 2026 ClickUp clickup@openai-curated plugin add",
   ],
 };
 

@@ -6098,5 +6098,35 @@ codex plugin list
     code: `codex plugin add google-calendar@openai-curated
 codex plugin list
 `,
+  },
+  {
+    id: "google-drive-codex-plugin",
+    title: "google-drive@openai-curated 把 Google Drive 文件打给 Codex",
+    filename: "terminal",
+    summary:
+      "google-drive@openai-curated 把 Google Drive 文件打给 Codex。桌面 Plugins 搜 Google Drive，再 Connect Google。",
+    code: `codex plugin add google-drive@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "linear-codex-plugin",
+    title: "linear@openai-curated 把 Linear 工单打给 Codex",
+    filename: "terminal",
+    summary:
+      "linear@openai-curated 把 Linear 工单打给 Codex。桌面 Plugins 搜 Linear，再 Connect Linear。",
+    code: `codex plugin add linear@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "clickup-codex-plugin",
+    title: "clickup@openai-curated 把 ClickUp 任务打给 Codex",
+    filename: "terminal",
+    summary:
+      "clickup@openai-curated 把 ClickUp 任务打给 Codex。桌面 Plugins 搜 ClickUp，再 Connect ClickUp。",
+    code: `codex plugin add clickup@openai-curated
+codex plugin list
+`,
   }
 ];
