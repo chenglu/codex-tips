@@ -5606,5 +5606,220 @@ codex mcp list
 # codex mcp login looker
 # command = "./PATH/TO/toolbox"
 `,
+  },
+  {
+    id: "bigtable-codex-plugin",
+    title: "安装 Google Cloud Bigtable 技能插件",
+    filename: "terminal",
+    summary: "从 Data Agent Kit 安装 bigtable@data-agent-kit。插件提供技能，通过 gcloud 和 cbt 操作 Bigtable，不会自动登记 MCP 服务。",
+    code: `gcloud auth application-default login
+
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add bigtable@data-agent-kit
+codex plugin list
+
+# 可选：
+# codex plugin marketplace upgrade data-agent-kit
+# export BIGTABLE_EMULATOR_HOST=localhost:8086
+
+# 不要：
+# plugin install bigtable@data-agent-kit
+# plugin add bigtable@cloud-bigtable-ecosystem
+# /plugin install bigtable@data-agent-kit
+# gemini extensions install https://github.com/GoogleCloudPlatform/cloud-bigtable-ecosystem
+# git clone https://github.com/GoogleCloudPlatform/cloud-bigtable-ecosystem.git
+# export BIGTABLE_PROJECT
+# export BIGTABLE_PROJECT_ID
+# codex mcp add bigtable --url https://bigtableadmin.googleapis.com/mcp
+# codex mcp login bigtable
+# command = "./PATH/TO/toolbox"
+`,
+  },
+  {
+    id: "dart-flutter-codex-plugin",
+    title: "安装 Dart 和 Flutter 插件",
+    filename: "terminal",
+    summary: "从 flutter/agent-plugins 安装 dart-flutter@dart-flutter，包含技能和 dart-mcp-server。项目规则需单独添加，本机需安装 Dart / Flutter SDK。",
+    code: `which dart
+
+codex plugin marketplace add flutter/agent-plugins
+codex plugin add dart-flutter@dart-flutter
+codex plugin list
+codex mcp list
+
+# 可选：
+# 把规则拷进 .agent/rules/ 或追加到 CODEX.md
+# codex plugin marketplace upgrade dart-flutter
+
+# 不要：
+# plugin install dart-flutter@dart-flutter
+# npx skills add flutter/agent-plugins --skill '*' --agent universal --yes
+# /plugin install dart-flutter@dart-flutter
+# gemini extensions install https://github.com/gemini-cli-extensions/flutter
+# flutter-mcp-toolkit init codex
+# plugin add flutter-mcp-toolkit@mcp_flutter
+# claude plugin install dart-flutter@dart-flutter
+# /add-plugin dart-flutter
+# codex mcp add dart -- dart mcp-server
+# codex mcp login dart-mcp-server
+`,
+  },
+  {
+    id: "kapso-codex-mcp",
+    title: "连接 Kapso WhatsApp MCP",
+    filename: "terminal",
+    summary: "连接 https://api.kapso.ai/mcp 并通过 OAuth 选择项目。无头环境可使用 KAPSO_API_KEY，文档查询服务单独配置。",
+    code: `codex mcp add kapso --url https://api.kapso.ai/mcp
+codex mcp login kapso
+
+# 无头：
+# export KAPSO_API_KEY=YOUR_KAPSO_API_KEY
+# codex mcp add kapso --url https://api.kapso.ai/mcp --bearer-token-env-var KAPSO_API_KEY
+
+# X-API-Key（Codex 没有 --header）：
+# [mcp_servers.kapso]
+# url = "https://api.kapso.ai/mcp"
+# env_http_headers = { "X-API-Key" = "KAPSO_API_KEY" }
+
+# 文档另表，不要叠：
+# codex mcp add kapso-docs --url https://docs.kapso.ai/mcp
+
+# 不要：
+# claude mcp add --transport http kapso https://api.kapso.ai/mcp
+# --header "Authorization: Bearer $KAPSO_API_KEY"
+# plugin add kapso@
+# npm install -g @kapso/cli
+# curl -fsSL https://kapso.ai/install.sh | bash
+# export KAPSO_PROJECT_ID
+`,
+  },
+  {
+    id: "stripe-codex-plugin",
+    title: "安装 Stripe 插件",
+    filename: "terminal",
+    summary: "安装 stripe@openai-curated，或运行 stripe agent setup --client codex。插件包含 MCP 和技能；退款、出金等操作仍需确认。",
+    code: `npm install -g @stripe/cli@latest
+stripe agent setup --client codex
+
+# 手动只装 Codex：
+# codex plugin add stripe@openai-curated
+# codex plugin list
+
+# 只要远程 MCP、不要整包：
+# codex mcp add stripe --url https://mcp.stripe.com
+# codex mcp login stripe
+
+# 技能回退（不会自动更新）：
+# npx skills add https://docs.stripe.com
+
+# 不要：
+# claude plugin install stripe@claude-plugins-official
+# /add-plugin stripe
+# grok plugin install stripe --trust
+# plugin install stripe@openai-curated
+# plugin add stripe@stripe
+# plugin marketplace add stripe
+# stripe agent setup --agent codex
+`,
+  },
+  {
+    id: "codex-security-plugin",
+    title: "安装 Codex Security 插件并配置 CI 扫描",
+    filename: "terminal",
+    summary: "安装 codex-security@openai-curated，通过 security-diff-scan 审查代码变更。CI 使用独立 CODEX_HOME，扫描密钥仅传入扫描进程。",
+    code: `npm install --global @openai/codex
+codex plugin add codex-security@openai-curated
+codex plugin list
+
+# 会话里：/plugins 搜 Codex Security；0.154 起先看当前会话
+# Use $codex-security:security-diff-scan to review my current uncommitted changes for security regressions.
+
+# CI 示例（密钥只给这一步）：
+# export CODEX_HOME="$RUNNER_TEMP/codex-home"
+# export TMPDIR="$RUNNER_TEMP/codex-security"
+# CODEX_API_KEY="$CODEX_SECURITY_API_KEY" codex exec --sandbox workspace-write "Use \\$codex-security:security-diff-scan … Do not modify the checkout."
+
+# 不要：
+# plugin install codex-security@openai-curated
+# plugin add security@openai-curated
+# npx @openai/codex-security scan DIR
+# gemini extensions install https://github.com/gemini-cli-extensions/security
+# marketplace add openai/codex-security
+`,
+  },
+  {
+    id: "neon-codex-plugin",
+    title: "安装 Neon 插件",
+    filename: "terminal",
+    summary: "在 Plugins 中搜索 Neon，或运行 npx neon@latest plugins --agent codex。插件包含 Neon 技能和 MCP，默认安装到当前项目。",
+    code: `npx neon@latest plugins --agent codex
+
+# 桌面 / TUI：
+# Plugins 或 /plugins 搜 Neon，再 Add to Codex
+
+# 可选：
+# npx neon@latest init
+# npx neon@latest plugins --agent codex -y
+# npx neon@latest plugins --global --agent codex
+
+# 只要 MCP、不要整包插件：
+# npx neon@latest mcp --agent codex
+# codex mcp add neon --url https://mcp.neon.tech/mcp
+# codex mcp login neon
+
+# 不要：
+# plugin add neon@openai-curated
+# plugin add neon@neon
+# neon plugins -y
+# npx add-mcp https://mcp.neon.tech/mcp
+# npx skills add neondatabase/agent-skills
+`,
+  },
+  {
+    id: "posthog-codex-plugin",
+    title: "安装 PostHog 插件",
+    filename: "terminal",
+    summary: "从 PostHog/ai-plugin 安装 posthog@posthog，通过 OAuth 连接 PostHog MCP。插件包含分析技能，部分工具消耗 PostHog AI 用量。",
+    code: `codex plugin marketplace add PostHog/ai-plugin
+codex plugin add posthog@posthog
+codex plugin list
+
+# 可选：
+# /plugins 选 PostHog
+# codex mcp login posthog
+# export POSTHOG_MCP_URL=https://mcp.YOUR_POSTHOG_HOST/mcp
+
+# 只要 MCP、不要整包插件：
+# codex mcp add posthog --url https://mcp.posthog.com/mcp
+# codex mcp login posthog
+
+# 不要：
+# plugin add posthog@openai-curated
+# plugin install posthog@posthog
+# claude plugin install posthog
+# gemini extensions install https://github.com/PostHog/ai-plugin
+# grok plugin install PostHog/ai-plugin --trust
+# npx @posthog/wizard mcp add
+# POSTHOG_LLMA_CC_ENABLED=true
+`,
+  },
+  {
+    id: "vercel-codex-plugin",
+    title: "安装 Vercel 插件",
+    filename: "terminal",
+    summary: "在桌面 Plugins 或 TUI /plugins 中搜索 Vercel。插件提供开发技能；账号管理和部署需要单独连接 Vercel MCP。",
+    code: `codex
+/plugins
+`,
+  },
+  {
+    id: "canva-codex-plugin",
+    title: "安装 Canva 插件",
+    filename: "terminal",
+    summary: "从 canva-sdks/canva-skills 安装 canva@canva-skills，再通过 mcp login canva 登录。插件包含设计技能和 MCP，批量 autofill 需要 Canva Enterprise。",
+    code: `codex plugin marketplace add canva-sdks/canva-skills
+codex plugin add canva@canva-skills
+codex mcp login canva
+`,
   }
 ];
