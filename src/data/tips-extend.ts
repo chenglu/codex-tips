@@ -16362,5 +16362,68 @@ codex mcp list
         url: "https://docs.cloud.google.com/sql/docs/sqlserver/pre-built-tools-with-mcp-toolbox",
       },
     ],
+  },
+  {
+    id: "firestore-native-codex-plugin",
+    no: 488,
+    title:
+      "Google Cloud Firestore Native 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add firestore-native@data-agent-kit，项目用 FIRESTORE_PROJECT 不要写成 plugin install",
+    summary:
+      "官方 Codex 专节：先 marketplace add GoogleCloudPlatform/data-agent-kit，再 plugin add firestore-native@data-agent-kit。stdio 表名是 firestore，走 npx @toolbox-sdk/server@1.9.0。项目用 FIRESTORE_PROJECT。不要写成 plugin add firestore@，也不要 mcp login。",
+    body: `Google Cloud Firestore Native 官方 Codex 插件：marketplace 加 GoogleCloudPlatform/data-agent-kit，再 plugin add firestore-native@data-agent-kit，项目用 FIRESTORE_PROJECT 不要写成 plugin install。
+
+这是 [gemini-cli-extensions/firestore-native](https://github.com/gemini-cli-extensions/firestore-native) 的 Codex 专节，不是 Claude 的 \`/plugin install firestore-native@claude-plugins-official\`，也不是 GCP 文档里给 Cursor 抄的 \`./PATH/TO/toolbox --prebuilt firestore\`。[GCP 这篇 MCP 页](https://docs.cloud.google.com/firestore/native/docs/connect-ide-using-mcp-toolbox) 只给了 Gemini / Cursor / Claude 的 toolbox 二进制，**没有 Codex 专节**；CLI 动词仍是 \`add\`。插件把 MCP Toolbox 的预置 \`firestore\` 打成 Agent Plugin，用 ADC 连 Firestore Native 库，去列集合、读写文档、查规则。
+
+要 Codex **v0.117.0+**，本机有 Node / npx。先开 Firestore API，库必须是 **Native 模式**（不是 Datastore 模式），IAM 至少 \`roles/datastore.user\`（看规则再加 \`roles/firebaserules.viewer\`），再准备 ADC：
+
+\`\`\`bash
+gcloud auth application-default login
+export FIRESTORE_PROJECT=YOUR_FIRESTORE_PROJECT
+# 可选：FIRESTORE_DATABASE（默认 (default)）
+\`\`\`
+
+不要发明 \`FIRESTORE_PROJECT_ID\`。多库才设 \`FIRESTORE_DATABASE\`，值带括号时加引号。不要把密钥写进 \`http_headers\`。
+
+清单 \`.agents/plugins/marketplace.json\` 的 name 是 \`data-agent-kit\`，插件 name 是 \`firestore-native\`。MCP 表名和 Toolbox 预置都是 \`firestore\`：
+
+\`\`\`bash
+codex --version
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add firestore-native@data-agent-kit
+codex plugin list
+codex mcp list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install firestore-native@data-agent-kit\`。不要写成 \`plugin add firestore@data-agent-kit\`。不要 \`gemini extensions install https://github.com/gemini-cli-extensions/firestore-native\`。IDE 扩展没有 \`/plugins\`。
+
+插件会登记一台 **stdio** MCP，表名是 \`firestore\`。command 是 \`npx\`，args 钉 \`@toolbox-sdk/server@1.9.0 --prebuilt firestore --stdio\`。**不要** \`codex mcp login firestore\`。插件已经带 MCP 时，不要再 \`codex mcp add firestore -- npx @toolbox-sdk/server\` 叠一张用户层表。
+
+不要抄这些：
+
+- Cursor / VS Code 的 \`mcpServers.firestore\`，\`command\` 写成 \`./PATH/TO/toolbox --prebuilt firestore\`。
+- Firestore 远程 MCP：\`https://firestore.googleapis.com/mcp\`。那是另一条托管入口，而且只要 Native 的 Enterprise / Standard 版，不是这份插件。
+- \`cloud-sql-mysql@data-agent-kit\`、\`cloud-sql-postgresql@data-agent-kit\`、AlloyDB 的 \`alloydb@data-agent-kit\`、Starter Pack 的 \`dak@data-agent-kit-starter-pack-marketplace\`。同仓 marketplace 里插件 id 不同。
+- 清单里别的 id：\`bigtable@data-agent-kit\`、\`dataproc@data-agent-kit\`、\`alloydb-omni@data-agent-kit\`、\`google-cloud-storage@data-agent-kit\`、\`oracledb@data-agent-kit\`。
+
+可选：\`codex plugin marketplace upgrade data-agent-kit\` 后再 \`plugin add\` 一次。清单目前钉的是 \`0.3.1\`，插件仓 \`plugin.json\` 已是 \`0.3.4\`。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex mcp list\` 里应有 \`firestore\`。连接失败先看 ADC、\`FIRESTORE_PROJECT\` 是不是进了同一进程，以及 npx 能不能拉到 Toolbox 1.9.0。发行仍是 Beta（pre-v1.0）。不要 \`required = true\`。不要一上来 \`--yolo\`。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Firestore", "MCP", "Google Cloud", "data-agent-kit"],
+    related: ["cloudsql-mysql-codex-plugin", "cloudsql-postgres-codex-plugin", "dak-starter-codex-plugin"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/firestore-native",
+        url: "https://github.com/gemini-cli-extensions/firestore-native",
+      },
+      {
+        label: "GoogleCloudPlatform/data-agent-kit",
+        url: "https://github.com/GoogleCloudPlatform/data-agent-kit",
+      },
+      {
+        label: "Google Cloud · Use Firestore with MCP",
+        url: "https://docs.cloud.google.com/firestore/native/docs/connect-ide-using-mcp-toolbox",
+      },
+    ],
   }
 ];

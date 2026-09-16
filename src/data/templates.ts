@@ -5510,5 +5510,34 @@ codex mcp list
 # codex mcp login cloud-sql-mssql
 # command = "./PATH/TO/toolbox"
 `,
+  },
+  {
+    id: "firestore-native-codex-plugin",
+    title: "dak marketplace 把 Firestore Native 插件喂给 data-agent-kit",
+    filename: "terminal",
+    summary:
+      "dak marketplace 把 Firestore Native 插件喂给 data-agent-kit。主路径是 marketplace add GoogleCloudPlatform/data-agent-kit，再 plugin add firestore-native@data-agent-kit。",
+    code: `gcloud auth application-default login
+export FIRESTORE_PROJECT=YOUR_FIRESTORE_PROJECT
+
+codex plugin marketplace add GoogleCloudPlatform/data-agent-kit
+codex plugin add firestore-native@data-agent-kit
+codex mcp list
+
+# 可选：
+# export FIRESTORE_DATABASE='(default)'
+# codex plugin marketplace upgrade data-agent-kit
+
+# 不要：
+# plugin install firestore-native@data-agent-kit
+# plugin add firestore@data-agent-kit
+# /plugin install firestore-native@claude-plugins-official
+# gemini extensions install https://github.com/gemini-cli-extensions/firestore-native
+# plugin add dak@data-agent-kit-starter-pack-marketplace
+# plugin add cloud-sql-mysql@data-agent-kit
+# export FIRESTORE_PROJECT_ID
+# codex mcp login firestore
+# command = "./PATH/TO/toolbox"
+`,
   }
 ];

@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-16T02:05:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "02:05 收口。#108 已合入 main（TIP 485–486）。本轮从最新 main 重放 #109 为 487 cloudsql-sqlserver-codex-plugin。合入后关 #109。站点 487 技巧。",
+    "02:05 收口。#108 已合入 main（TIP 485–486）。本轮从最新 main 重放 #109 为 487 cloudsql-sqlserver-codex-plugin、#110 为 488 firestore-native-codex-plugin。已关 #109，合入后关 #110。站点 488 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2177,6 +2177,15 @@ export const loopState = {
     "Codex CLI 技巧 2026 Cloud SQL SQL Server CLOUD_SQL_MSSQL_PROJECT plugin add",
     "skip leftover 0130-2b7e Compound Engineering",
     "skip firestore-native bigtable dataproc for next ticks",
+    "codex plugin add firestore-native@data-agent-kit GoogleCloudPlatform/data-agent-kit",
+    "site:github.com/gemini-cli-extensions/firestore-native Codex plugin marketplace",
+    "site:docs.cloud.google.com/firestore/native MCP Toolbox Codex plugin add",
+    "X news: Codex CLI 2026-09-16 02:00",
+    'X: ("Codex CLI" OR #CodexCLI) (plugin OR marketplace OR Firestore OR MCP)',
+    "Codex CLI 技巧 2026 Firestore Native FIRESTORE_PROJECT plugin add",
+    "skip leftover 0200-2b7e Sentry",
+    "skip open #109 cloud-sql-sqlserver",
+    "skip bigtable dataproc alloydb-omni gcs oracledb for next ticks",
   ],
 };
 
