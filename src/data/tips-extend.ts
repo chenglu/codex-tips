@@ -16681,5 +16681,134 @@ codex mcp list
         url: "https://docs.cloud.google.com/storage/docs/use-cloud-storage-mcp",
       },
     ],
+  },
+  {
+    id: "postgres-codex-plugin",
+    no: 493,
+    title:
+      "通用 PostgreSQL 官方 Codex 插件：marketplace 加 gemini-cli-extensions/postgres，再 plugin add postgres@postgres，库名用 POSTGRES_DATABASE，可选 POSTGRES_QUERY_PARAMS 不要加成 data-agent-kit",
+    summary:
+      "官方 Codex 专节：先 marketplace add gemini-cli-extensions/postgres，再 plugin add postgres@postgres。stdio 表名是 postgresql，走 npx @toolbox-sdk/server@1.10.0。库名用 POSTGRES_DATABASE。不要加成 GoogleCloudPlatform/data-agent-kit，也不要 mcp login。",
+    body: `通用 PostgreSQL 官方 Codex 插件：marketplace 加 gemini-cli-extensions/postgres，再 plugin add postgres@postgres，库名用 POSTGRES_DATABASE，可选 POSTGRES_QUERY_PARAMS 不要加成 data-agent-kit。
+
+这是 [gemini-cli-extensions/postgres](https://github.com/gemini-cli-extensions/postgres) 的 Codex 专节，不是 Claude 的 \`claude plugin install postgres@postgres\`，也不是 Cursor 里抄的 \`./PATH/TO/toolbox --prebuilt postgres\`。插件把 MCP Toolbox 的预置 \`postgres\` 打成 Agent Plugin，用数据库用户连任意 PostgreSQL 实例，去探 schema、跑 SQL。认证是库用户，**不是** GCP ADC。
+
+要 Codex **v0.150.0+**，本机有 Node / npx。先有一台能连的 PostgreSQL，再在启动 Codex 的同一 shell 里导出：
+
+\`\`\`bash
+export POSTGRES_DATABASE=YOUR_POSTGRES_DATABASE
+export POSTGRES_USER=YOUR_POSTGRES_USER
+export POSTGRES_PASSWORD=YOUR_POSTGRES_PASSWORD
+# 可选：POSTGRES_HOST（默认 localhost）、POSTGRES_PORT（默认 5432）、POSTGRES_QUERY_PARAMS
+\`\`\`
+
+不要发明 \`POSTGRES_PROJECT\`。不要把密码写进 \`http_headers\`。这台 stdio **不要** \`mcp login\`。
+
+清单 \`.claude-plugin/marketplace.json\` 的 name 是 \`postgres\`，插件 name 也是 \`postgres\`（\`plugin.json\` 0.2.3）。Toolbox 预置是 \`postgres\`，MCP 表名却是 \`postgresql\`：
+
+\`\`\`bash
+codex --version
+codex plugin marketplace add gemini-cli-extensions/postgres
+codex plugin add postgres@postgres
+codex plugin list
+codex mcp list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install postgres@postgres\`。不要写成 \`plugin add postgres@data-agent-kit\`。不要 \`gemini extensions install https://github.com/gemini-cli-extensions/postgres\`。不要 \`agy plugin install\`。IDE 扩展没有 \`/plugins\`。
+
+插件会登记一台 **stdio** MCP，表名是 \`postgresql\`。command 是 \`npx\`，args 钉 \`@toolbox-sdk/server@1.10.0 --prebuilt postgres --stdio\`。**不要** \`codex mcp login postgresql\`。插件已经带 MCP 时，不要再 \`codex mcp add postgresql -- npx @toolbox-sdk/server\` 叠一张用户层表。
+
+不要抄这些：
+
+- Cursor / VS Code 的 \`mcpServers.postgres\`，\`command\` 写成 \`./PATH/TO/toolbox --prebuilt postgres\`。
+- Cloud SQL PostgreSQL 的 \`cloud-sql-postgresql@data-agent-kit\`（坐标是 \`CLOUD_SQL_POSTGRES_*\`，表名 \`cloud-sql-postgres\`）。
+- AlloyDB 的 \`alloydb@data-agent-kit\`（\`ALLOYDB_POSTGRES_*\`）和 Omni 的 \`alloydb-omni@data-agent-kit\`（\`ALLOYDB_OMNI_*\`）。
+- Data Agent Kit 产品索引 \`GoogleCloudPlatform/data-agent-kit\`。官方 Codex 主路径是这份独立 marketplace，不要加成 \`data-agent-kit\`。
+
+可选：\`codex plugin marketplace upgrade postgres\` 后再 \`plugin add\` 一次。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex mcp list\` 里应有 \`postgresql\`。连接失败先看 \`POSTGRES_DATABASE\` / \`POSTGRES_USER\` / \`POSTGRES_PASSWORD\` 是不是进了同一进程，以及 npx 能不能拉到 Toolbox 1.10.0。发行仍是 Beta（pre-v1.0）。\`execute_sql\` 能改数据，不要一上来 \`--yolo\`。不要 \`required = true\`。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "PostgreSQL", "MCP", "postgres@postgres"],
+    related: ["cloudsql-postgres-codex-plugin", "alloydb-codex-plugin", "alloydb-omni-codex-plugin"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/postgres",
+        url: "https://github.com/gemini-cli-extensions/postgres",
+      },
+      {
+        label: "MCP Toolbox · PostgreSQL prebuilt",
+        url: "https://mcp-toolbox.dev/integrations/postgres/prebuilt-configs/postgresql/",
+      },
+      {
+        label: "MCP Toolbox · PostgreSQL using MCP",
+        url: "https://mcp-toolbox.dev/documentation/connect-to/ides/postgres_mcp/",
+      },
+    ],
+  },
+  {
+    id: "mysql-codex-plugin",
+    no: 494,
+    title:
+      "通用 MySQL 官方 Codex 插件：marketplace 加 gemini-cli-extensions/mysql，再 plugin add mysql@mysql，库名用 MYSQL_DATABASE 不要加成 data-agent-kit",
+    summary:
+      "官方 Codex 专节：先 marketplace add gemini-cli-extensions/mysql，再 plugin add mysql@mysql。stdio 表名是 mysql，走 npx @toolbox-sdk/server@1.9.0。库名用 MYSQL_DATABASE。不要加成 GoogleCloudPlatform/data-agent-kit，也不要 mcp login。",
+    body: `通用 MySQL 官方 Codex 插件：marketplace 加 gemini-cli-extensions/mysql，再 plugin add mysql@mysql，库名用 MYSQL_DATABASE 不要加成 data-agent-kit。
+
+这是 [gemini-cli-extensions/mysql](https://github.com/gemini-cli-extensions/mysql) 的 Codex 专节，不是 Claude 的 \`claude plugin install mysql@mysql\`，也不是 Cursor 里抄的 \`./PATH/TO/toolbox --prebuilt mysql\`。插件把 MCP Toolbox 的预置 \`mysql\` 打成 Agent Plugin，用数据库用户连任意 MySQL 实例，去探 schema、跑 SQL。认证是库用户，**不是** GCP ADC。
+
+要 Codex **v0.150.0+**，本机有 Node / npx。先有一台能连的 MySQL，再在启动 Codex 的同一 shell 里导出：
+
+\`\`\`bash
+export MYSQL_DATABASE=YOUR_MYSQL_DATABASE
+export MYSQL_USER=YOUR_MYSQL_USER
+export MYSQL_PASSWORD=YOUR_MYSQL_PASSWORD
+# 可选：MYSQL_HOST（默认 localhost）、MYSQL_PORT（默认 3306）
+\`\`\`
+
+不要发明 \`MYSQL_PROJECT\`。不要把密码写进 \`http_headers\`。这台 stdio **不要** \`mcp login\`。
+
+清单 \`.claude-plugin/marketplace.json\` 的 name 是 \`mysql\`，插件 name 也是 \`mysql\`（\`plugin.json\` 0.1.6）。Toolbox 预置和 MCP 表名都是 \`mysql\`：
+
+\`\`\`bash
+codex --version
+codex plugin marketplace add gemini-cli-extensions/mysql
+codex plugin add mysql@mysql
+codex plugin list
+codex mcp list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install mysql@mysql\`。不要写成 \`plugin add mysql@data-agent-kit\`。不要 \`gemini extensions install https://github.com/gemini-cli-extensions/mysql\`。不要 \`agy plugin install\`。IDE 扩展没有 \`/plugins\`。
+
+插件会登记一台 **stdio** MCP，表名是 \`mysql\`。command 是 \`npx\`，args 钉 \`@toolbox-sdk/server@1.9.0 --prebuilt mysql --stdio\`。**不要** \`codex mcp login mysql\`。插件已经带 MCP 时，不要再 \`codex mcp add mysql -- npx @toolbox-sdk/server\` 叠一张用户层表。
+
+不要抄这些：
+
+- Cursor / VS Code 的 \`mcpServers.mysql\`，\`command\` 写成 \`./PATH/TO/toolbox --prebuilt mysql\`。
+- Cloud SQL MySQL 的 \`cloud-sql-mysql@data-agent-kit\`（坐标是 \`CLOUD_SQL_MYSQL_*\`，表名 \`cloud-sql-mysql\`）。
+- Cloud SQL PostgreSQL 的 \`cloud-sql-postgresql@data-agent-kit\` 和 AlloyDB 的 \`alloydb@data-agent-kit\`。
+- Data Agent Kit 产品索引 \`GoogleCloudPlatform/data-agent-kit\`。官方 Codex 主路径是这份独立 marketplace，不要加成 \`data-agent-kit\`。
+- 同组织的 \`cloud-sql-mysql-observability\` 扩展，不要当成这条安装器。
+
+可选：\`codex plugin marketplace upgrade mysql\` 后再 \`plugin add\` 一次。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex mcp list\` 里应有 \`mysql\`。连接失败先看 \`MYSQL_DATABASE\` / \`MYSQL_USER\` / \`MYSQL_PASSWORD\` 是不是进了同一进程，以及 npx 能不能拉到 Toolbox 1.9.0。发行仍是 Beta（pre-v1.0）。\`execute_sql\` 能改数据，不要一上来 \`--yolo\`。不要 \`required = true\`。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "MySQL", "MCP", "mysql@mysql"],
+    related: ["cloudsql-mysql-codex-plugin", "cloudsql-postgres-codex-plugin", "alloydb-codex-plugin"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/mysql",
+        url: "https://github.com/gemini-cli-extensions/mysql",
+      },
+      {
+        label: "MCP Toolbox · MySQL prebuilt",
+        url: "https://mcp-toolbox.dev/integrations/mysql/prebuilt-configs/mysql/",
+      },
+      {
+        label: "MCP Toolbox · MySQL using MCP",
+        url: "https://mcp-toolbox.dev/documentation/connect-to/ides/mysql_mcp/",
+      },
+    ],
   }
 ];

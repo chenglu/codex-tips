@@ -6870,5 +6870,65 @@ export const articles: Article[] = [
     tags: ["Cloud Storage", "MCP", "remote", "ADC", "google-cloud-storage@google-cloud-storage", "CLOUD_STORAGE_PROJECT"],
     summary:
       'GCS 远程 MCP 是 https://storage.googleapis.com/storage/mcp，开 Cloud Storage API 即启用。这不是 Codex 插件那条本机 toolbox stdio。客户端用 Google 凭证，不是 mcp login 插件表。不要和 google-cloud-storage@google-cloud-storage 抄成一条。',
+  },
+  {
+    title: 'Gemini CLI Extension - PostgreSQL',
+    url: 'https://github.com/gemini-cli-extensions/postgres',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "PostgreSQL", "plugins", "postgres@postgres", "POSTGRES_DATABASE", "POSTGRES_QUERY_PARAMS"],
+    summary:
+      '通用 PostgreSQL 官方 Codex 插件：marketplace 加 gemini-cli-extensions/postgres，再 plugin add postgres@postgres，库名用 POSTGRES_DATABASE，可选 POSTGRES_QUERY_PARAMS 不要加成 data-agent-kit。Codex 要 v0.150.0+。MCP 表名是 postgresql，不要 mcp login，也不要写成 plugin add postgres@data-agent-kit。',
+  },
+  {
+    title: 'PostgreSQL prebuilt configuration',
+    url: 'https://mcp-toolbox.dev/integrations/postgres/prebuilt-configs/postgresql/',
+    source: 'MCP Toolbox',
+    lang: '英文',
+    kind: '官方',
+    tags: ["PostgreSQL", "MCP Toolbox", "POSTGRES_DATABASE", "POSTGRES_QUERY_PARAMS", "postgres@postgres"],
+    summary:
+      'MCP Toolbox 预置 postgres：--prebuilt postgres，库名 POSTGRES_DATABASE，用户 POSTGRES_USER。可选 POSTGRES_HOST / POSTGRES_PORT / POSTGRES_QUERY_PARAMS。这是本机 stdio，不是 Cloud SQL 的 CLOUD_SQL_POSTGRES_*。Codex 插件 npx 钉 @toolbox-sdk/server@1.10.0。',
+  },
+  {
+    title: 'PostgreSQL using MCP',
+    url: 'https://mcp-toolbox.dev/documentation/connect-to/ides/postgres_mcp/',
+    source: 'MCP Toolbox',
+    lang: '英文',
+    kind: '教程',
+    tags: ["PostgreSQL", "MCP", "Cursor", "Claude", "POSTGRES_DATABASE", "postgres@postgres", "POSTGRES_QUERY_PARAMS"],
+    summary:
+      '这篇 IDE 对照写的是 Cursor / Claude / Gemini 的 mcpServers.postgres 加 ./PATH/TO/toolbox --prebuilt postgres。页面没有 Codex 专节。Codex 主路径是 plugin add postgres@postgres，表名 postgresql，不要把这份 JSON 抄进 config.toml。',
+  },
+  {
+    title: 'Gemini CLI Extension - MySQL',
+    url: 'https://github.com/gemini-cli-extensions/mysql',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "MySQL", "plugins", "mysql@mysql", "MYSQL_DATABASE", "list_tables_missing_unique_indexes"],
+    summary:
+      '通用 MySQL 官方 Codex 插件：marketplace 加 gemini-cli-extensions/mysql，再 plugin add mysql@mysql，库名用 MYSQL_DATABASE 不要加成 data-agent-kit。Codex 要 v0.150.0+。MCP 表名是 mysql，不要 mcp login，也不要写成 plugin add mysql@data-agent-kit。',
+  },
+  {
+    title: 'MySQL prebuilt configuration',
+    url: 'https://mcp-toolbox.dev/integrations/mysql/prebuilt-configs/mysql/',
+    source: 'MCP Toolbox',
+    lang: '英文',
+    kind: '官方',
+    tags: ["MySQL", "MCP Toolbox", "MYSQL_DATABASE", "mysql@mysql", "list_tables_missing_unique_indexes"],
+    summary:
+      'MCP Toolbox 预置 mysql：--prebuilt mysql，库名 MYSQL_DATABASE，用户 MYSQL_USER。工具含 list_tables_missing_unique_indexes 和 list_table_fragmentation。这是本机 stdio，不是 Cloud SQL 的 CLOUD_SQL_MYSQL_*。Codex 插件 npx 钉 @toolbox-sdk/server@1.9.0。',
+  },
+  {
+    title: 'MySQL using MCP',
+    url: 'https://mcp-toolbox.dev/documentation/connect-to/ides/mysql_mcp/',
+    source: 'MCP Toolbox',
+    lang: '英文',
+    kind: '教程',
+    tags: ["MySQL", "MCP", "Cursor", "Claude", "MYSQL_DATABASE", "mysql@mysql", "list_tables_missing_unique_indexes"],
+    summary:
+      '这篇 IDE 对照写的是 Cursor / Claude / Gemini 的 mcpServers.mysql 加 ./PATH/TO/toolbox --prebuilt mysql。页面没有 Codex 专节。Codex 主路径是 plugin add mysql@mysql，表名 mysql，不要把这份 JSON 抄进 config.toml。',
   }
 ];

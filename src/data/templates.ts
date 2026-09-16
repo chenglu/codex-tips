@@ -5659,5 +5659,69 @@ codex mcp list
 # codex mcp login cloud-storage
 # command = "./PATH/TO/toolbox"
 `,
+  },
+  {
+    id: "postgres-codex-plugin",
+    title: "postgres marketplace 把通用 PostgreSQL 插件喂给 postgres",
+    filename: "terminal",
+    summary:
+      "postgres marketplace 把通用 PostgreSQL 插件喂给 postgres。主路径是 marketplace add gemini-cli-extensions/postgres，再 plugin add postgres@postgres。",
+    code: `export POSTGRES_DATABASE=YOUR_POSTGRES_DATABASE
+export POSTGRES_USER=YOUR_POSTGRES_USER
+export POSTGRES_PASSWORD=YOUR_POSTGRES_PASSWORD
+
+codex plugin marketplace add gemini-cli-extensions/postgres
+codex plugin add postgres@postgres
+codex mcp list
+
+# 可选：
+# export POSTGRES_HOST=YOUR_POSTGRES_HOST
+# export POSTGRES_PORT=YOUR_POSTGRES_PORT
+# export POSTGRES_QUERY_PARAMS=YOUR_POSTGRES_QUERY_PARAMS
+# codex plugin marketplace upgrade postgres
+
+# 不要：
+# plugin install postgres@postgres
+# plugin add postgres@data-agent-kit
+# /plugin install postgres@postgres
+# gemini extensions install https://github.com/gemini-cli-extensions/postgres
+# plugin add cloud-sql-postgresql@data-agent-kit
+# plugin add alloydb@data-agent-kit
+# export POSTGRES_PROJECT
+# export CLOUD_SQL_POSTGRES_PROJECT
+# codex mcp login postgresql
+# command = "./PATH/TO/toolbox"
+`,
+  },
+  {
+    id: "mysql-codex-plugin",
+    title: "mysql marketplace 把通用 MySQL 插件喂给 mysql",
+    filename: "terminal",
+    summary:
+      "mysql marketplace 把通用 MySQL 插件喂给 mysql。主路径是 marketplace add gemini-cli-extensions/mysql，再 plugin add mysql@mysql。",
+    code: `export MYSQL_DATABASE=YOUR_MYSQL_DATABASE
+export MYSQL_USER=YOUR_MYSQL_USER
+export MYSQL_PASSWORD=YOUR_MYSQL_PASSWORD
+
+codex plugin marketplace add gemini-cli-extensions/mysql
+codex plugin add mysql@mysql
+codex mcp list
+
+# 可选：
+# export MYSQL_HOST=YOUR_MYSQL_HOST
+# export MYSQL_PORT=YOUR_MYSQL_PORT
+# codex plugin marketplace upgrade mysql
+
+# 不要：
+# plugin install mysql@mysql
+# plugin add mysql@data-agent-kit
+# /plugin install mysql@mysql
+# gemini extensions install https://github.com/gemini-cli-extensions/mysql
+# plugin add cloud-sql-mysql@data-agent-kit
+# export MYSQL_PROJECT
+# export CLOUD_SQL_MYSQL_PROJECT
+# codex mcp login mysql
+# command = "./PATH/TO/toolbox"
+`,
   }
 ];

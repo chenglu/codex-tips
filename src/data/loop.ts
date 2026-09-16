@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-16T04:06:00Z",
+  lastTick: "2026-09-16T05:13:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "04:06 收口。#114 已合入 main（TIP 489–490）。本轮从最新 main 重放 #115 为 491 oracledb-codex-plugin、#116 为 492 gcs-codex-plugin。合入后关 #115–#116。站点 492 技巧。",
+    "05:13 收口。#114 已合入 main（TIP 489–490）。#117 续接：#115→491 oracledb、#116→492 gcs 已在本分支。本轮重放 #118 为 493 postgres-codex-plugin、#119 为 494 mysql-codex-plugin。合入后关 #118–#119。站点 494 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2222,6 +2222,27 @@ export const loopState = {
     'X: ("Codex CLI" OR #CodexCLI) (plugin OR marketplace OR storage OR MCP)',
     "Codex CLI 技巧 2026 Cloud Storage CLOUD_STORAGE_PROJECT plugin add",
     "skip bigtable serverless-spark for next ticks",
+    "skip leftover 0430-2b7e context-mode",
+    "skip open #116 gcs-codex-plugin",
+    "codex plugin add postgres@postgres gemini-cli-extensions/postgres",
+    "site:github.com/gemini-cli-extensions/postgres Codex plugin marketplace",
+    "site:mcp-toolbox.dev/integrations/postgres prebuilt POSTGRES_DATABASE POSTGRES_QUERY_PARAMS",
+    "site:mcp-toolbox.dev/documentation/connect-to/ides/postgres_mcp Cursor toolbox",
+    "X news: Codex CLI 2026-09-16 04:30",
+    'X: ("Codex CLI" OR Codex) (postgres OR PostgreSQL OR plugin add)',
+    "Codex CLI 技巧 2026 PostgreSQL POSTGRES_DATABASE postgres@postgres plugin add",
+    "skip mysql bigtable serverless-spark for next ticks",
+    "skip leftover 0500-2b7e 1password",
+    "skip leftover 0500-1password-2b7e",
+    "skip open #118 postgres-codex-plugin",
+    "codex plugin add mysql@mysql gemini-cli-extensions/mysql",
+    "site:github.com/gemini-cli-extensions/mysql Codex plugin marketplace",
+    "site:mcp-toolbox.dev/integrations/mysql prebuilt MYSQL_DATABASE",
+    "site:mcp-toolbox.dev/documentation/connect-to/ides/mysql_mcp Cursor toolbox",
+    "X news: Codex CLI 2026-09-16 05:00",
+    'X: ("Codex CLI" OR Codex) (mysql OR MySQL OR plugin add)',
+    "Codex CLI 技巧 2026 MySQL MYSQL_DATABASE mysql@mysql plugin add",
+    "skip sqlserver sqlite bigtable serverless-spark for next ticks",
   ],
 };
 
