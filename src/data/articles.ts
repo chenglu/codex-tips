@@ -7650,5 +7650,65 @@ export const articles: Article[] = [
     tags: ["Figma", "plugins", "figma@openai-curated", "openai/plugins", "plugin add figma@openai-curated"],
     summary:
       '维护说明列出七条技能：figma-implement-design、figma-code-connect、figma-create-design-system-rules、figma-create-new-file、figma-generate-design、figma-generate-library、figma-use。插件走 App 连接器。不要 npx skills add。',
+  },
+  {
+    title: 'slack plugin.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/slack/.codex-plugin/plugin.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "Slack", "plugins", "slack@openai-curated", "openai/plugins", "plugin add slack@openai-curated"],
+    summary:
+      'Slack 官方 Codex 插件：桌面 Plugins 搜 Slack，CLI 用 plugin add slack@openai-curated，不要当成 Slack MCP。清单 name 是 slack，version 是 0.1.7。现行清单只挂 apps，没有 skills 也没有 mcpServers。不要写成 plugin install。',
+  },
+  {
+    title: 'slack plugin .mcp.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/slack/.mcp.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Slack", "MCP", "mcp.slack.com", "slack@openai-curated", "openai/plugins", "plugin add slack@openai-curated"],
+    summary:
+      '仓库 MCP 表名 slack，type 是 http，URL 是 https://mcp.slack.com/mcp，带预填 oauth.client_id。plugin.json 没有挂 mcpServers，不要假设 plugin add 会自动叠表。手写 MCP 用你自己 Slack 应用的 client ID。',
+  },
+  {
+    title: 'slack plugin .app.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/slack/.app.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Slack", "plugins", "slack@openai-curated", "openai/plugins", "plugin add slack@openai-curated"],
+    summary:
+      '插件 App 连接器 id 写在 .app.json 的 apps.slack。这是 Connect Slack 那条路径，不是 Cloud 频道 @Codex，也不是手写 mcp add slack。',
+  },
+  {
+    title: 'github plugin.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/github/.codex-plugin/plugin.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "GitHub", "plugins", "github@openai-curated", "openai/plugins", "plugin add github@openai-curated"],
+    summary:
+      'GitHub 官方 Codex 插件：桌面 Plugins 搜 GitHub，CLI 用 plugin add github@openai-curated，不要当成 GitHub MCP。清单 name 是 github，version 是 0.1.11。现行清单只挂 apps，没有 skills 也没有 mcpServers。不要写成 plugin install。',
+  },
+  {
+    title: 'github plugin .mcp.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/github/.mcp.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["GitHub", "MCP", "api.githubcopilot.com", "github@openai-curated", "openai/plugins", "plugin add github@openai-curated"],
+    summary:
+      '仓库 MCP 表名 github，type 是 http，URL 是 https://api.githubcopilot.com/mcp/，bearer 变量名是 GITHUB_PAT_TOKEN。plugin.json 没有挂 mcpServers，不要假设 plugin add 会自动叠表。这是 Bearer，不要 mcp login。',
+  },
+  {
+    title: 'github plugin .app.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/github/.app.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["GitHub", "plugins", "github@openai-curated", "openai/plugins", "plugin add github@openai-curated"],
+    summary:
+      '插件 App 连接器有 github 和 github-enterprise，两份都是 required false。这是 Connect GitHub 那条路径，不是 @codex review，也不是手写 Copilot MCP。',
   }
 ];

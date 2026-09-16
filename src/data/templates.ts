@@ -6148,5 +6148,25 @@ codex plugin list
     code: `codex plugin add figma@openai-curated
 codex plugin list
 `,
+  },
+  {
+    id: "slack-codex-plugin",
+    title: "slack@openai-curated 把 Slack 频道打给 Codex",
+    filename: "terminal",
+    summary:
+      "slack@openai-curated 把 Slack 频道打给 Codex。桌面 Plugins 搜 Slack，再 Connect Slack。",
+    code: `codex plugin add slack@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "github-codex-plugin",
+    title: "github@openai-curated 把 GitHub 工单打给 Codex",
+    filename: "terminal",
+    summary:
+      "github@openai-curated 把 GitHub 工单打给 Codex。桌面 Plugins 搜 GitHub，再 Connect GitHub。",
+    code: `codex plugin add github@openai-curated
+codex plugin list
+`,
   }
 ];

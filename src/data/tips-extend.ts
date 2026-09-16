@@ -18346,5 +18346,129 @@ codex plugin list
         url: "https://github.com/openai/plugins/blob/main/plugins/figma/README.md",
       },
     ],
+  },
+  {
+    id: "slack-codex-plugin",
+    no: 519,
+    title:
+      "Slack 官方 Codex 插件：桌面 Plugins 搜 Slack，CLI 用 plugin add slack@openai-curated，不要当成 Slack MCP",
+    summary:
+      "官方 Codex：codex plugin add slack@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Slack，再 Connect Slack。这是频道摘要和草稿插件，不是手写 mcp add slack，也不是 Cloud @Codex。",
+    body: `Slack 官方 Codex 插件：桌面 Plugins 搜 Slack，CLI 用 plugin add slack@openai-curated，不要当成 Slack MCP。
+
+这是把已连接的 Slack 工作区接到 Codex，用来摘要频道、起草回复和整理会话。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/slack/.codex-plugin/plugin.json) 的 name 是 \`slack\`、version 是 \`0.1.7\`，所以精选 id 是 \`slack@openai-curated\`。现行清单只声明 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/slack/.app.json)，没有 \`skills\` 字段，也没有 \`mcpServers\` 字段。不要发明捆绑技能名。
+
+CLI：
+
+\`\`\`bash
+codex plugin add slack@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install slack@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Slack 再装，效果一样。装完按提示 Connect Slack 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+仓库另有 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/slack/.mcp.json)，表名是 \`slack\`，type 是 http，URL 是 \`https://mcp.slack.com/mcp\`（带 \`/mcp\`），并带预填 \`oauth.client_id\`。因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，不要假设 \`plugin add\` 会自动叠这张 MCP 表。不要把这份连接器 \`client_id\` 抄进手写 \`mcp add\`。只要 MCP、不要 App 时，走现有的远程 MCP 技巧：\`codex mcp add slack --url https://mcp.slack.com/mcp --oauth-client-id YOUR_SLACK_CLIENT_ID\`，再 \`mcp login slack\`。Slack 不支持 DCR，必须用你自己 Slack 应用的 client ID。插件已经登记 MCP 时，不要再 \`mcp add\` 叠一张。不要发明 \`mcp login slack\` 当插件安装步骤。
+
+不要和旁边那几条搞混：
+
+- 手写 \`mcp add slack\` 只登记远程表，不会装 Plugins 目录里的 Slack App。
+- Cloud 频道里的 \`@Codex\` 是云任务入口，不是这条精选插件。
+- Teams 是独立插件，不管 Slack 频道。
+- 不要抄第三方 \`npx codex-marketplace add openai/plugins/plugins/slack --plugin\`。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 Slack。ChatGPT 里可以用 \`@Slack\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`slack@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Slack。
+
+不要做这些：
+
+- 不要当成手写 Slack MCP 或 Cloud \`@Codex\`。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`slack@claude-plugins-official\`。
+- 不要抄 \`--transport http\` 或 \`/sse\`。
+- 不要发明捆绑技能名或 \`$slack\` 斜杠。
+- 不要一上来 \`--yolo\`：发消息、改频道内容会动真实 Slack 工作区。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Slack", "slack@openai-curated"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-slack-remote"],
+    sources: [
+      {
+        label: "openai/plugins · slack plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/slack/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · slack .mcp.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/slack/.mcp.json",
+      },
+      {
+        label: "openai/plugins · slack .app.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/slack/.app.json",
+      },
+    ],
+  },
+  {
+    id: "github-codex-plugin",
+    no: 520,
+    title:
+      "GitHub 官方 Codex 插件：桌面 Plugins 搜 GitHub，CLI 用 plugin add github@openai-curated，不要当成 GitHub MCP",
+    summary:
+      "官方 Codex：codex plugin add github@openai-curated。桌面 Plugins 或 TUI /plugins 搜 GitHub，再 Connect GitHub。这是工单、PR 和 CI 插件，不是手写 Copilot MCP，也不是 @codex review。",
+    body: `GitHub 官方 Codex 插件：桌面 Plugins 搜 GitHub，CLI 用 plugin add github@openai-curated，不要当成 GitHub MCP。
+
+这是把 GitHub 仓库接到 Codex，用来看 PR、分诊 issue、查失败的 Actions，并准备改动。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/github/.codex-plugin/plugin.json) 的 name 是 \`github\`、version 是 \`0.1.11\`，所以精选 id 是 \`github@openai-curated\`。现行清单只声明 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/github/.app.json)，没有 \`skills\` 字段，也没有 \`mcpServers\` 字段。不要发明捆绑技能名。不要写成 \`github@openai-curated-remote\`。
+
+CLI：
+
+\`\`\`bash
+codex plugin add github@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install github@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 GitHub 再装，效果一样。装完按提示 Connect GitHub 账号。企业实例才再连 GitHub Enterprise，两份连接器在清单里都是 \`required: false\`。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+仓库另有 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/github/.mcp.json)，表名是 \`github\`，type 是 http，URL 是 \`https://api.githubcopilot.com/mcp/\`（**有**尾斜杠），\`bearer_token_env_var\` 是 \`GITHUB_PAT_TOKEN\`。因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，不要假设 \`plugin add\` 会自动叠这张 MCP 表。只要 MCP、不要 App 时，走现有的托管 MCP 技巧：启动进程里先 \`export GITHUB_PAT_TOKEN\`，再 \`codex mcp add github --url https://api.githubcopilot.com/mcp/ --bearer-token-env-var GITHUB_PAT_TOKEN\`。这是 Bearer，**不要** \`mcp login github\`。插件已经登记 MCP 时，不要再 \`mcp add\` 叠一张。不要发明 \`mcp login github\` 当插件安装步骤。
+
+不要和旁边那几条搞混：
+
+- 手写 Copilot MCP 只登记远程表，不会装 Plugins 目录里的 GitHub App。
+- Cloud 评论里的 \`@codex review\` 是 PR 机器人，不是这条精选插件。
+- 配置示例里的 \`github@openai-curated-remote\` 不是这条 CLI id。
+- 不要把 PAT 写进 TOML 或 \`http_headers\`。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 GitHub。ChatGPT 里可以用 \`@GitHub\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`github@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 GitHub。
+
+不要做这些：
+
+- 不要当成手写 GitHub MCP 或 \`@codex review\`。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`github@claude-plugins-official\`。
+- 不要抄 \`/sse\` 或对这台跑 \`mcp login\`。
+- 不要发明捆绑技能名或 \`$github\` 斜杠。
+- 不要一上来 \`--yolo\`：改 issue、推提交、合并 PR 会动真实仓库。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "GitHub", "github@openai-curated"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-github-hosted"],
+    sources: [
+      {
+        label: "openai/plugins · github plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/github/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · github .mcp.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/github/.mcp.json",
+      },
+      {
+        label: "openai/plugins · github .app.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/github/.app.json",
+      },
+    ],
   }
 ];

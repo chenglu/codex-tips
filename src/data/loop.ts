@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-16T17:18:00Z",
+  lastTick: "2026-09-16T18:14:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "17:18 收口。#125 已合入 main（TIP 497–505）。#135 续接：#133–#144 已为 506–516。本轮重放 #145 为 517 notion-codex-plugin、#146 为 518 figma-codex-plugin。合入后关 #145–#146。站点 518 技巧。",
+    "18:14 收口。#125 已合入 main（TIP 497–505）。#135 续接：#133–#146 已为 506–518。本轮重放 #147 为 519 slack-codex-plugin、#148 为 520 github-codex-plugin。合入后关 #147–#148。站点 520 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2464,6 +2464,25 @@ export const loopState = {
     "X news: Codex CLI 2026-09-16 17:00",
     'X: ("Codex CLI" OR #CodexCLI) (Figma OR plugin OR MCP)',
     "Codex CLI 技巧 2026 Figma figma@openai-curated plugin add",
+    "skip leftover 1730-2b7e 1730-deepseek already on main",
+    "skip leftover 1700-figma open #146 1630-notion open #145 1600-clickup open #144 1600-linear open #143",
+    "skip open #133 remotion #134 copilot #136 outlook-email #137 outlook-calendar #138 teams #139 sharepoint #140 gmail #141 googlecal #142 gdrive #143 linear #144 clickup #145 notion #146 figma",
+    "codex plugin add slack@openai-curated Plugins Slack",
+    "site:github.com/openai/plugins slack plugin.json .mcp.json .app.json",
+    "site:docs.slack.dev ai slack-mcp-server already in mcp-slack-remote",
+    "X news: Codex CLI 2026-09-16 17:30",
+    'X: ("Codex CLI" OR #CodexCLI) (Slack OR plugin OR MCP)',
+    "Codex CLI 技巧 2026 Slack slack@openai-curated plugin add",
+    "skip leftover 1800-2b7e 1800-truefoundry already on main",
+    "skip leftover 1730-slack open #147 1700-figma open #146 1630-notion open #145",
+    "skip leftover 1600-clickup open #144 1600-linear open #143 1530-gdrive open #142",
+    "skip open #133 remotion #134 copilot #136 outlook-email #137 outlook-calendar #138 teams #139 sharepoint #140 gmail #141 googlecal #142 gdrive #143 linear #144 clickup #145 notion #146 figma #147 slack",
+    "codex plugin add github@openai-curated Plugins GitHub",
+    "site:github.com/openai/plugins github plugin.json .mcp.json .app.json",
+    "site:github.com/github/github-mcp-server install-codex already in mcp-github-hosted",
+    "X news: Codex CLI 2026-09-16 18:00",
+    'X: ("Codex CLI" OR #CodexCLI) (GitHub OR plugin OR MCP)',
+    "Codex CLI 技巧 2026 GitHub github@openai-curated plugin add",
   ],
 };
 
