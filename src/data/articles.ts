@@ -7950,5 +7950,95 @@ export const articles: Article[] = [
     tags: ["Lovable", "MCP", "mcp.lovable.dev", "lovable@openai-curated"],
     summary:
       '厂商远程是 https://mcp.lovable.dev，没有 /mcp 后缀。页面点名 ChatGPT、Claude、Cursor、VS Code，没有 Codex 专节。不要抄 claude mcp add --transport http，也不要把 Cursor 的 CLIENT_ID 抄进 Codex。',
+  },
+  {
+    title: 'circleci plugin.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/circleci/.codex-plugin/plugin.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "CircleCI", "plugins", "circleci@openai-curated", "openai/plugins", "plugin add circleci@openai-curated"],
+    summary:
+      'CircleCI 官方 Codex 插件：桌面 Plugins 搜 CircleCI，CLI 用 plugin add circleci@openai-curated，不要当成 Circle 支付 MCP。清单 name 是 circleci，version 是 1.0.4。现行清单只挂 skills，没有 mcpServers。不要写成 plugin install。',
+  },
+  {
+    title: 'circleci-builds SKILL.md',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/circleci/skills/builds/SKILL.md',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["CircleCI", "plugins", "circleci-builds", "circleci@openai-curated", "openai/plugins", "plugin add circleci@openai-curated"],
+    summary:
+      '技能 name 是 circleci-builds，用来诊断失败构建。同包还有 chunk、circleci-cli、circleci-config。不要发明 $circleci，也不要把 npx skills add 当 Codex 安装器。',
+  },
+  {
+    title: 'CircleCI-Public/skills',
+    url: 'https://github.com/CircleCI-Public/skills',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["CircleCI", "plugins", "circleci@openai-curated", "Codex", "plugin add circleci@openai-curated"],
+    summary:
+      '源仓说 plugins/circleci 兼容现有 Codex marketplace。本地 marketplace 只给作者评测，不是安装器。不要发明 plugin add circleci@skills，也不要把源仓里额外的 testsuite 技能当成精选包已装。',
+  },
+  {
+    title: 'cloudflare plugin.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/cloudflare/.codex-plugin/plugin.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "Cloudflare", "plugins", "cloudflare@openai-curated", "openai/plugins", "cloudflare-api"],
+    summary:
+      'Cloudflare 官方 Codex 插件：桌面 Plugins 搜 Cloudflare，CLI 用 plugin add cloudflare@openai-curated，不要当成 cloudflare@cloudflare。清单 name 是 cloudflare，version 是 0.1.2。现行清单挂 skills 和 mcpServers。不要写成 plugin install。',
+  },
+  {
+    title: 'cloudflare plugin .mcp.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/cloudflare/.mcp.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Cloudflare", "MCP", "cloudflare-api", "mcp.cloudflare.com", "cloudflare@openai-curated"],
+    summary:
+      '精选包 MCP 表名是 cloudflare-api，type 是 http，URL 是 https://mcp.cloudflare.com/mcp，必须带 /mcp。插件已登记就不要再 mcp add cloudflare 叠一张。那张用户层表名是 cloudflare。不要发明 mcp login cloudflare-api。',
+  },
+  {
+    title: 'wrangler SKILL.md',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/cloudflare/skills/wrangler/SKILL.md',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Cloudflare", "plugins", "wrangler", "cloudflare@openai-curated", "openai/plugins", "cloudflare-api"],
+    summary:
+      '技能 name 是 wrangler，部署前先核对 CLI 语法。同包还有 agents-sdk、cloudflare、durable-objects、workers-best-practices。不要发明 $cloudflare，也不要把 npx skills add 当 Codex 安装器。',
+  },
+  {
+    title: 'coderabbit plugin.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/coderabbit/.codex-plugin/plugin.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "CodeRabbit", "plugins", "coderabbit@openai-curated", "openai/plugins", "coderabbit-review"],
+    summary:
+      'CodeRabbit 官方 Codex 插件：桌面 Plugins 搜 CodeRabbit，CLI 用 plugin add coderabbit@openai-curated，不要当成 GitHub 插件。清单 name 是 coderabbit，version 是 1.1.4。现行清单只挂 skills，没有 mcpServers。不要写成 plugin install。',
+  },
+  {
+    title: 'code-review SKILL.md',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/coderabbit/skills/coderabbit-review/SKILL.md',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["CodeRabbit", "plugins", "code-review", "coderabbit@openai-curated", "openai/plugins", "coderabbit-review"],
+    summary:
+      '技能 name 是 code-review，目录是 coderabbit-review。审查命令是 coderabbit review --agent。缺 CLI 才 curl 安装脚本，再 auth login --agent。不要发明 $coderabbit，也不要把 npx skills add 当 Codex 安装器。',
+  },
+  {
+    title: 'CodeRabbit Codex integration',
+    url: 'https://docs.coderabbit.ai/cli/codex-integration',
+    source: 'CodeRabbit',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Codex", "CodeRabbit", "plugins", "coderabbit@openai-curated", "@coderabbit", "coderabbit-review"],
+    summary:
+      '官方 Codex 安装是桌面 Plugins 或 TUI /plugins 搜 coderabbit。点名插件用 @coderabbit。CLI 要先 coderabbit auth login。不要把 curl 安装脚本或 brew install coderabbit 当成 plugin add。卸插件不会卸 CLI。',
   }
 ];

@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-16T22:07:00Z",
+  lastTick: "2026-09-16T23:17:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "22:07 收口。#125 已合入 main（TIP 497–505）。#135 续接：#133–#153 已为 506–525。本轮重放 #154 为 526 supabase-codex-plugin、#155 为 527 granola-codex-plugin、#156 为 528 lovable-codex-plugin。合入后关 #154–#156。站点 528 技巧。",
+    "23:17 收口。#125 已合入 main（TIP 497–505）。#135 续接：#133–#156 已为 506–528。本轮重放 #157 为 529 circleci-codex-plugin、#158 为 530 cloudflare-openai-curated-plugin、#159 为 531 coderabbit-codex-plugin。合入后关 #157–#159。站点 531 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2552,6 +2552,31 @@ export const loopState = {
     "X news: Codex CLI 2026-09-16 22:00",
     'X: ("Codex CLI" OR Codex) (Lovable OR plugin OR MCP)',
     "Codex CLI 技巧 2026 Lovable lovable@openai-curated plugin add",
+    "skip leftover 2230-2b7e 2230-looker-2b7e",
+    "skip leftover 2200-lovable open #156 2130-granola open #155 2100-supabase open #154",
+    "skip open #133 remotion #134 copilot #136-#156 lovable granola supabase adobe atlassian zoom monday clickup notion figma slack github dropbox",
+    "codex plugin add circleci@openai-curated Plugins CircleCI",
+    "site:github.com/openai/plugins circleci plugin.json skills circleci-builds",
+    "site:github.com/CircleCI-Public/skills Codex marketplace plugins/circleci",
+    "X news: Codex CLI 2026-09-16 22:30",
+    'X: ("Codex CLI" OR Codex) (CircleCI OR plugin OR MCP)',
+    "Codex CLI 技巧 2026 CircleCI circleci@openai-curated plugin add",
+    "site:github.com/openai/plugins plugins/cloudflare .codex-plugin plugin.json",
+    "site:github.com/openai/plugins plugins/cloudflare .mcp.json cloudflare-api",
+    "site:github.com/openai/plugins plugins/cloudflare/skills/wrangler SKILL.md",
+    "site:developers.cloudflare.com/agent-setup/codex already in cloudflare-skills-plugin",
+    "X news: Codex CLI 2026-09-16 23:00",
+    'X: ("Codex CLI" OR Codex) (Cloudflare OR plugin OR marketplace OR Wrangler)',
+    "Codex CLI 技巧 2026 Cloudflare cloudflare@openai-curated plugin add",
+    "skip leftover 2300-2b7e 2300-alloydb-2b7e 2230-circleci-2b7e",
+    "skip open #133 Remotion #134 Copilot #136-#157 plugins, this tick cloudflare openai-curated",
+    "site:github.com/openai/plugins plugins/coderabbit .codex-plugin plugin.json",
+    "site:github.com/openai/plugins plugins/coderabbit/skills/coderabbit-review SKILL.md",
+    "site:docs.coderabbit.ai/cli/codex-integration plugin /plugins",
+    'X: ("Codex CLI" OR Codex) (CodeRabbit OR plugin OR review OR marketplace)',
+    "Codex CLI 技巧 2026 CodeRabbit coderabbit@openai-curated plugin add",
+    "skip leftover 2300-2b7e 2300-alloydb-2b7e 2300-cloudflare-2b7e",
+    "skip open #133-#158 plugins, this tick coderabbit openai-curated",
   ],
 };
 

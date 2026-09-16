@@ -6248,5 +6248,35 @@ codex plugin list
     code: `codex plugin add lovable@openai-curated
 codex plugin list
 `,
+  },
+  {
+    id: "circleci-codex-plugin",
+    title: "circleci@openai-curated 把 CI 技能打给 Codex",
+    filename: "terminal",
+    summary:
+      "circleci@openai-curated 把 CI 技能打给 Codex。桌面 Plugins 搜 CircleCI，再 circleci auth login。",
+    code: `codex plugin add circleci@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "cloudflare-openai-curated-plugin",
+    title: "cloudflare@openai-curated 把 Workers 技能打给 Codex",
+    filename: "terminal",
+    summary:
+      "cloudflare@openai-curated 把 Workers 技能打给 Codex。桌面 Plugins 搜 Cloudflare，再核 plugin list 的 id。",
+    code: `codex plugin add cloudflare@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "coderabbit-codex-plugin",
+    title: "coderabbit@openai-curated 把代码审查打给 Codex",
+    filename: "terminal",
+    summary:
+      "coderabbit@openai-curated 把代码审查打给 Codex。桌面 Plugins 搜 CodeRabbit，再 coderabbit auth login。",
+    code: `codex plugin add coderabbit@openai-curated
+codex plugin list
+`,
   }
 ];

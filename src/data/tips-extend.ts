@@ -18972,5 +18972,191 @@ codex plugin list
         url: "https://docs.lovable.dev/integrations/lovable-mcp-server",
       },
     ],
+  },
+  {
+    id: "circleci-codex-plugin",
+    no: 529,
+    title:
+      "CircleCI 官方 Codex 插件：桌面 Plugins 搜 CircleCI，CLI 用 plugin add circleci@openai-curated，不要当成 Circle 支付 MCP",
+    summary:
+      "官方 Codex：codex plugin add circleci@openai-curated。桌面 Plugins 或 TUI /plugins 搜 CircleCI。现行 plugin.json 只挂 skills，没有 mcpServers。只要托管 MCP 仍走 mcp.circleci.com/v1/mcp。不要当成 Circle 支付。",
+    body: `CircleCI 官方 Codex 插件：桌面 Plugins 搜 CircleCI，CLI 用 plugin add circleci@openai-curated，不要当成 Circle 支付 MCP。
+
+这是把失败构建诊断、CLI 操作和 \`.circleci/config.yml\` 优化接到 Codex。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/circleci/.codex-plugin/plugin.json) 的 name 是 \`circleci\`、version 是 \`1.0.4\`，所以精选 id 是 \`circleci@openai-curated\`。现行清单只声明 \`skills\`，没有 \`apps\`，也没有 \`mcpServers\`。仓库里没有 \`.mcp.json\`。不要发明 \`$circleci\`。
+
+CLI：
+
+\`\`\`bash
+codex plugin add circleci@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install circleci@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。不要发明 \`plugin add circleci@skills\`。TUI \`/plugins\` 或桌面 Plugins 搜 CircleCI 再装，效果一样；已收录的 \`mcp-circleci-remote\` 写的也是这条 Plugins 路径。IDE 扩展没有 \`/plugins\`，用 CLI 这条。装完先 \`circleci auth login\`，技能要新开会话才加载。
+
+技能随插件走，SKILL.md 的 name 是 \`circleci-builds\`、\`chunk\`、\`circleci-cli\`、\`circleci-config\`。不要发明 \`$circleci\` 斜杠。不要把 CircleCI-Public/skills 源仓里尚未打进这份精选包的 \`circleci-testsuite\` 当成已装技能。不要 \`npx skills add\` 当 Codex 安装器，也不要手拷到 \`~/.codex/skills\`。源仓 README 的本地 marketplace 只给作者评测用，**不是** Codex 安装步骤。
+
+因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，不要假设 \`plugin add\` 会自动叠 MCP 表。只要远程 MCP、不要技能包时，才走已收录的 \`mcp-circleci-remote\`：\`mcp add circleci --url https://mcp.circleci.com/v1/mcp\` 再 \`mcp login circleci\`。不要发明 \`mcp login circleci\` 当插件安装步骤。不要装已弃用的 \`npx @circleci/mcp-server-circleci\`。
+
+不要和旁边那几条搞混：
+
+- 已收录的 \`mcp-circleci-remote\` 管托管 MCP 和 \`circleci auth login\`，本条补的是精选 CLI id。
+- Circle 支付 MCP 是 \`api.circle.com/v1/codegen/mcp\`，表名 \`circle\`，不是 CircleCI。
+- GitHub 官方插件是 \`github@openai-curated\`，不管 CircleCI pipeline。
+- 手写 MCP 不会装 \`circleci-builds\` 这些技能。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`circleci@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 CircleCI。
+
+不要做这些：
+
+- 不要当成 Circle 支付或 GitHub Actions。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`circleci@claude-plugins-official\`。
+- 不要抄 \`/sse\`。
+- 不要发明 \`$circleci\` 斜杠。
+- 不要一上来 \`--yolo\`：重跑 pipeline、改配置会动真实项目。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "CircleCI", "circleci@openai-curated"],
+    related: ["mcp-circleci-remote", "plugins-vs-skills", "plugin-session-refresh"],
+    sources: [
+      {
+        label: "openai/plugins · circleci plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/circleci/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · circleci-builds",
+        url: "https://github.com/openai/plugins/blob/main/plugins/circleci/skills/builds/SKILL.md",
+      },
+      {
+        label: "CircleCI-Public/skills",
+        url: "https://github.com/CircleCI-Public/skills",
+      },
+    ],
+  },
+  {
+    id: "cloudflare-openai-curated-plugin",
+    no: 530,
+    title:
+      "Cloudflare 官方 Codex 插件：桌面 Plugins 搜 Cloudflare，CLI 用 plugin add cloudflare@openai-curated，不要当成 cloudflare@cloudflare",
+    summary:
+      "官方 Codex：codex plugin add cloudflare@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Cloudflare。现行 plugin.json 挂 skills 和 mcpServers。插件 MCP 表名 cloudflare-api。不要当成 cloudflare@cloudflare。",
+    body: `Cloudflare 官方 Codex 插件：桌面 Plugins 搜 Cloudflare，CLI 用 plugin add cloudflare@openai-curated，不要当成 cloudflare@cloudflare。
+
+这是把 Workers、Wrangler 和 Cloudflare API 接到 Codex。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/cloudflare/.codex-plugin/plugin.json) 的 name 是 \`cloudflare\`、version 是 \`0.1.2\`，所以精选 id 是 \`cloudflare@openai-curated\`。现行清单声明 \`skills\` 和 \`mcpServers\`，没有 \`apps\`。仓库根有 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/cloudflare/.mcp.json)，没有 \`.app.json\`。不要发明 \`$cloudflare\`。
+
+CLI：
+
+\`\`\`bash
+codex plugin add cloudflare@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install cloudflare@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。不要写成 \`plugin add cloudflare@cloudflare\`：那是已收录的 \`cloudflare-skills-plugin\`，走 \`marketplace add cloudflare/skills\`。TUI \`/plugins\` 或桌面 Plugins 搜 Cloudflare 时，两份清单都可能叫 Cloudflare，以 \`codex plugin list\` 的 id 为准。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+技能随这份精选包走，目录名是 \`agents-sdk\`、\`building-ai-agent-on-cloudflare\`、\`building-mcp-server-on-cloudflare\`、\`cloudflare\`、\`durable-objects\`、\`sandbox-sdk\`、\`web-perf\`、\`workers-best-practices\`、\`wrangler\`。斜杠命令是 \`/cloudflare:build-agent\` 和 \`/cloudflare:build-mcp\`。不要发明 \`$cloudflare\`。不要把厂商仓 cloudflare/skills 或官方 Codex 页里尚未打进这份精选包的 \`cloudflare-email-service\`、\`cloudflare-one\`、\`nextjs-on-cloudflare\`、\`sandbox-next\`、\`turnstile-spin\` 当成已装技能。不要 \`npx skills add\` 当 Codex 安装器，也不要手拷到 \`~/.codex/skills\`。openai/plugins 这份 README 仍写 npx skills / Clone Copy，那是纯技能回退，**不是** \`plugin add cloudflare@openai-curated\`。
+
+现行 \`plugin.json\` **有**挂 \`mcpServers\`，\`plugin add\` 会登记 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/cloudflare/.mcp.json) 里的表：表名是 \`cloudflare-api\`，type 是 \`http\`，URL 是 \`https://mcp.cloudflare.com/mcp\`（**有** \`/mcp\` 后缀）。第一次连 MCP 走 OAuth。不要发明 \`mcp login cloudflare-api\` 当安装步骤。插件已经登记时，不要再手写 \`mcp add cloudflare --url https://mcp.cloudflare.com/mcp\` 叠一张：那张用户层表名是 \`cloudflare\`，精选包表名是 \`cloudflare-api\`。只要手写 MCP、不要技能包时，才走已收录的 \`mcp-cloudflare-remote\`。
+
+不要和旁边那几条搞混：
+
+- 已收录的 \`cloudflare-skills-plugin\` 是 \`cloudflare@cloudflare\`，先 \`marketplace add cloudflare/skills\`。
+- 已收录的 \`mcp-cloudflare-remote\` 管手写 \`cloudflare\` 表和 Code Mode，本条补的是精选 CLI id。
+- 不要抄 Claude 的 \`claude plugin marketplace add cloudflare/skills\` 再 \`claude plugin install cloudflare@cloudflare\`。
+- 文档排错里的十几台产品 MCP（docs / bindings / builds）不是这份精选包默认带的，不要一次性 \`required = true\`。
+- 手写 MCP 不会装 \`wrangler\` 这些技能。
+
+0.154 起先看**当前会话**的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex plugin list\` 里应看到 \`cloudflare@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Cloudflare，再核 id。
+
+不要做这些：
+
+- 不要当成 \`cloudflare@cloudflare\` 或 Cloudflare AI Gateway 自定义 provider。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`cloudflare@claude-plugins-official\`。
+- 不要抄 \`/sse\`。
+- 不要发明 \`$cloudflare\` 斜杠。
+- 不要一上来 \`--yolo\`：部署 Worker、改 DNS、写账号资源会动真实项目。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Cloudflare", "cloudflare@openai-curated", "MCP"],
+    related: ["cloudflare-skills-plugin", "mcp-cloudflare-remote", "plugin-session-refresh"],
+    sources: [
+      {
+        label: "openai/plugins · cloudflare plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/cloudflare/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · cloudflare .mcp.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/cloudflare/.mcp.json",
+      },
+      {
+        label: "openai/plugins · wrangler SKILL.md",
+        url: "https://github.com/openai/plugins/blob/main/plugins/cloudflare/skills/wrangler/SKILL.md",
+      },
+    ],
+  },
+  {
+    id: "coderabbit-codex-plugin",
+    no: 531,
+    title:
+      "CodeRabbit 官方 Codex 插件：桌面 Plugins 搜 CodeRabbit，CLI 用 plugin add coderabbit@openai-curated，不要当成 GitHub 插件",
+    summary:
+      "官方 Codex：codex plugin add coderabbit@openai-curated。桌面 Plugins 或 TUI /plugins 搜 CodeRabbit。现行 plugin.json 只挂 skills，没有 mcpServers。技能 name 是 code-review。审查走 CodeRabbit CLI，不要当成 GitHub 插件。",
+    body: `CodeRabbit 官方 Codex 插件：桌面 Plugins 搜 CodeRabbit，CLI 用 plugin add coderabbit@openai-curated，不要当成 GitHub 插件。
+
+这是把当前改动的 AI 审查接到 Codex。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/coderabbit/.codex-plugin/plugin.json) 的 name 是 \`coderabbit\`、version 是 \`1.1.4\`，所以精选 id 是 \`coderabbit@openai-curated\`。现行清单只声明 \`skills\`，没有 \`apps\`，也没有 \`mcpServers\`。仓库里没有 \`.mcp.json\`。不要发明 \`$coderabbit\`。
+
+CLI：
+
+\`\`\`bash
+codex plugin add coderabbit@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install coderabbit@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。不要发明 \`plugin add coderabbit@coderabbit\`。TUI \`/plugins\` 或桌面 Plugins 搜 CodeRabbit 再装，效果一样；厂商 [Codex 集成页](https://docs.coderabbit.ai/cli/codex-integration) 写的也是这条 Plugins 路径。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+技能目录是 \`coderabbit-review\`，SKILL.md 的 name 是 \`code-review\`。官方文档用 \`@coderabbit\` 点名插件，例如 \`@coderabbit Review my current changes\`。不要发明 \`$coderabbit\` 斜杠。不要 \`npx skills add\` 当 Codex 安装器，也不要手拷到 \`~/.codex/skills\`。厂商仓 coderabbitai/codex-plugin 的 \`.agents/plugins\` 只给作者评测用，**不是** Codex 安装步骤。
+
+因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，不要假设 \`plugin add\` 会叠 MCP 表，也不要发明 \`mcp login coderabbit\` 或 \`mcp add coderabbit\`。审查跑的是本机 CodeRabbit CLI：缺命令时技能会走 \`curl -fsSL https://cli.coderabbit.ai/install.sh | sh\`，再 \`coderabbit auth login --agent\`。EU 账号才加 \`--region eu\`。不要把这条 curl / \`brew install coderabbit\` 当成 Codex 插件安装器。卸掉插件不会卸 CLI。
+
+不要和旁边那几条搞混：
+
+- GitHub 官方插件管仓库 Apps / MCP，不管 CodeRabbit 审查。
+- 已收录的 Codex Security 是 \`codex-security@openai-curated\`，跑的是安全 diff 扫描，不是 CodeRabbit。
+- 手写 \`coderabbit review --agent\` 不会装 \`code-review\` 技能。
+- 不要抄 Claude Code 的 CodeRabbit 插件工作流。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`coderabbit@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 CodeRabbit。
+
+不要做这些：
+
+- 不要当成 GitHub 插件或 Codex Security。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`coderabbit@claude-plugins-official\`。
+- 不要发明 \`$coderabbit\` 斜杠。
+- 不要一上来 \`--yolo\`：审查本身只读，但让 Codex 按 finding 改代码会动工作区。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "CodeRabbit", "coderabbit@openai-curated"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "openai/plugins · coderabbit plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/coderabbit/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · code-review SKILL.md",
+        url: "https://github.com/openai/plugins/blob/main/plugins/coderabbit/skills/coderabbit-review/SKILL.md",
+      },
+      {
+        label: "CodeRabbit · Codex integration",
+        url: "https://docs.coderabbit.ai/cli/codex-integration",
+      },
+    ],
   }
 ];
