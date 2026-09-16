@@ -18784,5 +18784,193 @@ codex plugin list
         url: "https://github.com/openai/plugins/blob/main/plugins/adobe/skills/adobe-retouch-portraits/SKILL.md",
       },
     ],
+  },
+  {
+    id: "supabase-codex-plugin",
+    no: 526,
+    title:
+      "Supabase 官方 Codex 插件：桌面 Plugins 搜 Supabase，CLI 用 plugin add supabase@openai-curated，不要当成 Supabase MCP",
+    summary:
+      "官方 Codex：codex plugin add supabase@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Supabase，再 Connect Supabase。现行 plugin.json 没有 mcpServers，不要当成会自动叠 MCP。只要远程 MCP 仍走 mcp add supabase。",
+    body: `Supabase 官方 Codex 插件：桌面 Plugins 搜 Supabase，CLI 用 plugin add supabase@openai-curated，不要当成 Supabase MCP。
+
+这是把托管 Postgres 项目、Auth、Edge Functions 和迁移接到 Codex，用来查库、改 schema、审 RLS。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/supabase/.codex-plugin/plugin.json) 的 name 是 \`supabase\`、version 是 \`1.0.0\`，所以精选 id 是 \`supabase@openai-curated\`。现行清单声明 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/supabase/.app.json) 和 \`skills\`，没有 \`mcpServers\` 字段。不要发明 \`$supabase\`。不要把 \`.app.json\` 里的 connector id 抄进手写配置。
+
+CLI：
+
+\`\`\`bash
+codex plugin add supabase@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install supabase@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。不要发明 \`plugin add supabase@supabase\`。TUI \`/plugins\` 或桌面 Plugins 搜 Supabase 再装，效果一样。装完按提示 Connect Supabase 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+README 写明插件带远程 MCP 和 [supabase/agent-skills](https://github.com/supabase/agent-skills) 里的技能（示例是 \`postgres-best-practices\`）。仓库里的 \`git submodule update\` 是插件作者克隆后拉共享技能用的，**不是** Codex 安装步骤。不要 \`git clone\` 再 \`/plugins\`，也不要把子模块命令抄进会话。
+
+技能随插件走，目录和 SKILL.md 的 name 是 \`supabase\`、\`supabase-postgres-best-practices\`。不要发明 \`$supabase\` 斜杠。不要 \`npx skills add\` 当 Codex 安装器，也不要手拷到 \`~/.codex/skills\`。
+
+仓库另有 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/supabase/.mcp.json)，表名是 \`supabase\`，type 是 http，URL 是 \`https://mcp.supabase.com/mcp\`。因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，不要假设 \`plugin add\` 会自动叠这张 MCP 表。只要 MCP、不要 App 和技能时，才走已收录的 \`mcp-supabase-remote\`：\`mcp add supabase --url https://mcp.supabase.com/mcp\` 再 \`mcp login supabase\`。插件已经登记 MCP 时，不要再 \`mcp add\` 叠一张。不要发明 \`mcp login supabase\` 当插件安装步骤。查询参数 \`read_only\`、\`project_ref\`、\`features\` 仍写进那条 MCP \`url\`，不要写进 \`plugin add\`。
+
+不要和旁边那几条搞混：
+
+- 已收录的 \`mcp-supabase-remote\` 只登记远程表，不会装 Plugins 目录里的 Supabase App 和技能。
+- Neon 是另一份 Postgres 插件，桌面走 Plugins 搜 Neon，不要发明 \`plugin add neon@openai-curated\`。
+- 通用 PostgreSQL 插件是 \`postgres@postgres\`，先 \`marketplace add gemini-cli-extensions/postgres\`，不管托管项目。
+- 手写 MCP 不会带 \`supabase-postgres-best-practices\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`supabase@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Supabase。
+
+不要做这些：
+
+- 不要当成只连 \`mcp.supabase.com/mcp\` 的 MCP 专节。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`supabase@claude-plugins-official\`。
+- 不要抄 \`/sse\`。
+- 不要发明 \`$supabase\` 斜杠。
+- 不要把 \`git submodule update --init --recursive\` 当安装器。
+- 不要一上来 \`--yolo\`：执行 SQL、改 schema、部署 Edge Functions 会动真实项目。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Supabase", "supabase@openai-curated"],
+    related: ["mcp-supabase-remote", "plugins-vs-skills", "plugin-session-refresh"],
+    sources: [
+      {
+        label: "openai/plugins · supabase plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/supabase/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · supabase README",
+        url: "https://github.com/openai/plugins/blob/main/plugins/supabase/README.md",
+      },
+      {
+        label: "openai/plugins · supabase .mcp.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/supabase/.mcp.json",
+      },
+    ],
+  },
+  {
+    id: "granola-codex-plugin",
+    no: 527,
+    title:
+      "Granola 官方 Codex 插件：桌面 Plugins 搜 Granola，CLI 用 plugin add granola@openai-curated，不要当成 Zoom",
+    summary:
+      "官方 Codex：codex plugin add granola@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Granola，再 Connect Granola。现行 plugin.json 只挂 apps，没有 skills 也没有 mcpServers，不要当成会自动叠 MCP。",
+    body: `Granola 官方 Codex 插件：桌面 Plugins 搜 Granola，CLI 用 plugin add granola@openai-curated，不要当成 Zoom。
+
+这是把 Granola 会议纪要接到 Codex，用来按话题、人、公司或时间范围搜会，并引用具体对话。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/granola/.codex-plugin/plugin.json) 的 name 是 \`granola\`、version 是 \`1.0.0\`，所以精选 id 是 \`granola@openai-curated\`。现行清单只声明 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/granola/.app.json)，没有 \`skills\` 字段，也没有 \`mcpServers\` 字段。不要发明捆绑技能名。不要发明 \`$granola\`。不要把 \`.app.json\` 里的 connector id 抄进手写配置。
+
+CLI：
+
+\`\`\`bash
+codex plugin add granola@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install granola@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Granola 再装，效果一样。装完按提示 Connect Granola 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+仓库另有 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/granola/.mcp.json)，表名是 \`granola\`，type 是 http，URL 是 \`https://mcp.granola.ai/mcp\`。因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，不要假设 \`plugin add\` 会自动叠这张 MCP 表。只要 MCP、不要 App 时，才手写 \`mcp add granola --url https://mcp.granola.ai/mcp\`。插件已经登记 MCP 时，不要再 \`mcp add\` 叠一张。不要发明 \`mcp login granola\` 当插件安装步骤。不要抄 Claude 的 \`claude mcp add granola --transport http\`。不要抄 Cursor 的 \`.cursor/mcp.json\`。
+
+不要和旁边那几条搞混：
+
+- Zoom 是独立会议插件，管会议、转写和 SDK，不管 Granola 笔记库。
+- Slack 和 Microsoft Teams 是聊天/会议插件，不是这条 CLI id。
+- 手写 MCP 只登记远程表，不会装 Plugins 目录里的 Granola App。
+- Granola 厂商文档的主路径是 Claude / ChatGPT 连接器，不是 \`plugin add granola@openai-curated\`。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 Granola。ChatGPT 里可以用 \`@Granola\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`granola@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Granola。
+
+不要做这些：
+
+- 不要当成 Zoom、Slack 或 Teams。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`granola@claude-plugins-official\`。
+- 不要抄 \`/sse\`。
+- 不要发明 \`$granola\` 斜杠。
+- 不要一上来 \`--yolo\`：搜纪要、拉转写会动真实 Granola 工作区。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Granola", "granola@openai-curated"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "openai/plugins · granola plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/granola/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · granola .mcp.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/granola/.mcp.json",
+      },
+      {
+        label: "openai/plugins · granola .app.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/granola/.app.json",
+      },
+    ],
+  },
+  {
+    id: "lovable-codex-plugin",
+    no: 528,
+    title:
+      "Lovable 官方 Codex 插件：桌面 Plugins 搜 Lovable，CLI 用 plugin add lovable@openai-curated，不要抄 Claude 的 lovable@claude-plugins-official",
+    summary:
+      "官方 Codex：codex plugin add lovable@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Lovable，再 Connect Lovable。现行 plugin.json 只挂 apps，没有 skills 也没有 mcpServers。不要当成会自动叠 MCP。",
+    body: `Lovable 官方 Codex 插件：桌面 Plugins 搜 Lovable，CLI 用 plugin add lovable@openai-curated，不要抄 Claude 的 lovable@claude-plugins-official。
+
+这是把 Lovable 应用搭建接到 Codex，用来在对话里起项目、改功能和部署。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/lovable/.codex-plugin/plugin.json) 的 name 是 \`lovable\`、version 是 \`2.0.1\`，所以精选 id 是 \`lovable@openai-curated\`。现行清单只声明 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/lovable/.app.json)，没有 \`skills\` 字段，也没有 \`mcpServers\` 字段。仓库里也没有 \`.mcp.json\`。不要发明捆绑技能名。不要发明 \`$lovable\`。不要把 \`.app.json\` 里的 connector id 抄进手写配置。
+
+CLI：
+
+\`\`\`bash
+codex plugin add lovable@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install lovable@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Lovable 再装，效果一样。装完按提示 Connect Lovable 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，也不存在 \`.mcp.json\`，不要假设 \`plugin add\` 会自动叠 MCP 表。厂商 MCP 页点名 ChatGPT / Claude / Cursor / VS Code，URL 是 \`https://mcp.lovable.dev\`（**没有** \`/mcp\` 后缀）。只要远程 MCP、不要 App 时，才手写 \`mcp add lovable --url https://mcp.lovable.dev\`。插件已经登记 MCP 时，不要再 \`mcp add\` 叠一张。不要发明 \`mcp login lovable\` 当插件安装步骤。不要抄 Claude 的 \`claude mcp add --transport http lovable\`。不要抄 Cursor 的 \`.cursor/mcp.json\`，也不要把文档里的 \`CLIENT_ID\` 字面量抄进 Codex。
+
+不要和旁边那几条搞混：
+
+- Vercel 是独立部署插件，桌面走 Plugins 搜 Vercel，不管 Lovable 项目。
+- Canva 是独立设计插件，要先 \`marketplace add canva-sdks/canva-skills\`。
+- Claude 的 \`/plugin install lovable@claude-plugins-official\` 和 Cursor 的 \`/lovable-new\` 不是 Codex 安装器。
+- 第三方 \`10K-Digital\` marketplace 不是这条精选 id。
+- 手写 MCP 只登记远程表，不会装 Plugins 目录里的 Lovable App。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`lovable@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Lovable。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`/plugin install lovable@claude-plugins-official\`。
+- 不要抄 \`npx skills add\` 或把 \`mcp.lovable.dev/skill.md\` 手拷到 \`~/.codex/skills\`。
+- 不要抄 \`/sse\`。
+- 不要发明 \`$lovable\` 斜杠。
+- 不要一上来 \`--yolo\`：建项目、改库、\`deploy_project\` 会动真实 Lovable 账号和额度。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Lovable", "lovable@openai-curated"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "openai/plugins · lovable plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/lovable/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · lovable .app.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/lovable/.app.json",
+      },
+      {
+        label: "Lovable · MCP server",
+        url: "https://docs.lovable.dev/integrations/lovable-mcp-server",
+      },
+    ],
   }
 ];

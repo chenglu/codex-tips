@@ -6218,5 +6218,35 @@ codex plugin list
     code: `codex plugin add adobe@openai-curated
 codex plugin list
 `,
+  },
+  {
+    id: "supabase-codex-plugin",
+    title: "supabase@openai-curated 把 Postgres 项目打给 Codex",
+    filename: "terminal",
+    summary:
+      "supabase@openai-curated 把 Postgres 项目打给 Codex。桌面 Plugins 搜 Supabase，再 Connect Supabase。",
+    code: `codex plugin add supabase@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "granola-codex-plugin",
+    title: "granola@openai-curated 把会议纪要打给 Codex",
+    filename: "terminal",
+    summary:
+      "granola@openai-curated 把会议纪要打给 Codex。桌面 Plugins 搜 Granola，再 Connect Granola。",
+    code: `codex plugin add granola@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "lovable-codex-plugin",
+    title: "lovable@openai-curated 把应用搭建打给 Codex",
+    filename: "terminal",
+    summary:
+      "lovable@openai-curated 把应用搭建打给 Codex。桌面 Plugins 搜 Lovable，再 Connect Lovable。",
+    code: `codex plugin add lovable@openai-curated
+codex plugin list
+`,
   }
 ];

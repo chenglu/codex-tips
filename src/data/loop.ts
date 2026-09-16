@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-16T21:08:00Z",
+  lastTick: "2026-09-16T22:07:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "21:08 收口。#125 已合入 main（TIP 497–505）。#135 续接：#133–#152 已为 506–524。本轮重放 #153 为 525 adobe-codex-plugin。合入后关 #153。站点 525 技巧。",
+    "22:07 收口。#125 已合入 main（TIP 497–505）。#135 续接：#133–#153 已为 506–525。本轮重放 #154 为 526 supabase-codex-plugin、#155 为 527 granola-codex-plugin、#156 为 528 lovable-codex-plugin。合入后关 #154–#156。站点 528 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2525,6 +2525,33 @@ export const loopState = {
     "X news: Codex CLI 2026-09-16 20:30",
     'X: ("Codex CLI" OR Codex) (Adobe OR Granola OR plugin OR MCP)',
     "Codex CLI 技巧 2026 Adobe adobe@openai-curated plugin add",
+    "skip leftover 2100-2b7e 2100-tokenhub-2b7e",
+    "skip leftover 2030-adobe open #153 2000-atlassian open #152 1930-zoom open #151",
+    "skip open #133 remotion #134 copilot #136-#153 adobe atlassian zoom monday clickup notion figma slack github dropbox",
+    "codex plugin add supabase@openai-curated Plugins Supabase",
+    "site:github.com/openai/plugins supabase plugin.json skills supabase-postgres-best-practices",
+    "site:github.com/openai/plugins supabase .mcp.json mcp.supabase.com",
+    "X news: Codex CLI 2026-09-16 21:00",
+    'X: ("Codex CLI" OR Codex) (Supabase OR Granola OR plugin OR MCP)',
+    "Codex CLI 技巧 2026 Supabase supabase@openai-curated plugin add",
+    "skip leftover 2130-2b7e 2130-dak-2b7e",
+    "skip leftover 2100-supabase open #154 2030-adobe open #153 2000-atlassian open #152",
+    "skip open #133 remotion #134 copilot #136-#154 supabase adobe atlassian zoom monday clickup notion figma slack github dropbox",
+    "codex plugin add granola@openai-curated Plugins Granola",
+    "site:github.com/openai/plugins granola plugin.json .mcp.json mcp.granola.ai",
+    "site:docs.granola.ai Granola MCP Claude transport skip copy",
+    "X news: Codex CLI 2026-09-16 21:30",
+    'X: ("Codex CLI" OR Codex) (Granola OR plugin OR MCP)',
+    "Codex CLI 技巧 2026 Granola granola@openai-curated plugin add",
+    "skip leftover 2200-2b7e 2200-starter-2b7e",
+    "skip leftover 2130-granola open #155 2100-supabase open #154 2030-adobe open #153",
+    "skip open #133 remotion #134 copilot #136-#155 granola supabase adobe atlassian zoom monday clickup notion figma slack github dropbox",
+    "codex plugin add lovable@openai-curated Plugins Lovable",
+    "site:github.com/openai/plugins lovable plugin.json .app.json",
+    "site:docs.lovable.dev integrations lovable-mcp-server mcp.lovable.dev",
+    "X news: Codex CLI 2026-09-16 22:00",
+    'X: ("Codex CLI" OR Codex) (Lovable OR plugin OR MCP)',
+    "Codex CLI 技巧 2026 Lovable lovable@openai-curated plugin add",
   ],
 };
 
