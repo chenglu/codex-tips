@@ -5723,5 +5723,67 @@ codex mcp list
 # codex mcp login mysql
 # command = "./PATH/TO/toolbox"
 `,
+  },
+  {
+    id: "sqlserver-codex-plugin",
+    title: "sql-server marketplace 把通用 SQL Server 插件喂给 sql-server",
+    filename: "terminal",
+    summary:
+      "sql-server marketplace 把通用 SQL Server 插件喂给 sql-server。主路径是 marketplace add gemini-cli-extensions/sql-server，再 plugin add sql-server@sql-server。",
+    code: `export MSSQL_DATABASE=YOUR_MSSQL_DATABASE
+export MSSQL_USER=YOUR_MSSQL_USER
+export MSSQL_PASSWORD=YOUR_MSSQL_PASSWORD
+
+codex plugin marketplace add gemini-cli-extensions/sql-server
+codex plugin add sql-server@sql-server
+codex mcp list
+
+# 可选：
+# export MSSQL_HOST=YOUR_MSSQL_HOST
+# export MSSQL_PORT=YOUR_MSSQL_PORT
+# codex plugin marketplace upgrade sql-server
+
+# 不要：
+# plugin install sql-server@sql-server
+# plugin add sql-server@data-agent-kit
+# /plugin install sql-server@sql-server
+# gemini extensions install https://github.com/gemini-cli-extensions/sql-server
+# plugin add cloud-sql-sqlserver@data-agent-kit
+# export MSSQL_PROJECT
+# export CLOUD_SQL_MSSQL_PROJECT
+# codex mcp login sql_server
+# command = "./PATH/TO/toolbox"
+`,
+  },
+  {
+    id: "looker-ca-codex-plugin",
+    title: "looker-conversational-analytics marketplace 把对话分析插件喂给 looker",
+    filename: "terminal",
+    summary:
+      "looker-conversational-analytics marketplace 把对话分析插件喂给 looker。主路径是 marketplace add gemini-cli-extensions/looker-conversational-analytics，再 plugin add looker-conversational-analytics@looker-conversational-analytics。",
+    code: `gcloud auth application-default login
+export LOOKER_BASE_URL=YOUR_LOOKER_BASE_URL
+export LOOKER_CLIENT_ID=YOUR_LOOKER_CLIENT_ID
+export LOOKER_CLIENT_SECRET=YOUR_LOOKER_CLIENT_SECRET
+export LOOKER_PROJECT=YOUR_LOOKER_PROJECT
+export LOOKER_LOCATION=YOUR_LOOKER_LOCATION
+
+codex plugin marketplace add gemini-cli-extensions/looker-conversational-analytics
+codex plugin add looker-conversational-analytics@looker-conversational-analytics
+codex mcp list
+
+# 可选：
+# export LOOKER_VERIFY_SSL=true
+# codex plugin marketplace upgrade looker-conversational-analytics
+
+# 不要：
+# plugin install looker-conversational-analytics@looker-conversational-analytics
+# plugin add looker@data-agent-kit
+# /plugin install looker-conversational-analytics@looker-conversational-analytics
+# gemini extensions install https://github.com/gemini-cli-extensions/looker-conversational-analytics
+# export LOOKER_PROJECT_ID
+# codex mcp login looker
+# command = "./PATH/TO/toolbox"
+`,
   }
 ];
