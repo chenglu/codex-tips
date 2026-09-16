@@ -6,7 +6,7 @@ export const loopState = {
   lastTick: "2026-09-16T09:09:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "09:09 收口。#122 已合入 main（TIP 495–496）。#125 续接：#123–#124、#126–#127 已为 497–500。本轮重放 #128 为 501 codex-security-plugin。合入后关 #128。站点 501 技巧。",
+    "09:09 收口。#122 已合入 main（TIP 495–496）。#125 续接：#123–#128 已为 497–501。本轮续重放 #129 为 502 neon-codex-plugin。合入后关 #129。站点 502 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2314,6 +2314,16 @@ export const loopState = {
     'X: ("Codex CLI" OR Codex) (plugin OR security OR marketplace)',
     "Codex CLI 技巧 2026 Codex Security plugin add codex-security@openai-curated",
     "skip sqlite serverless-spark bigquery-conversational-analytics conductor stitch for next ticks",
+    "skip leftover 0900-2b7e MATLAB 0900-phoenix Arize",
+    "skip open #125 landing bigtable flutter kapso stripe, #128 security",
+    "skip gemini-cli-extensions observability cloud-sql-postgresql-observability alloydb-observability Gemini-only",
+    "site:neon.com/docs/ai/ai-codex-plugin neon-postgres Plugins",
+    "site:neon.com/docs/cli/plugins neon-postgres --agent codex",
+    "site:neon.com/blog/neon-codex-plugin OpenAI Codex Plugin",
+    "site:neon.com/docs/cli/init neon init --agent codex",
+    "X news: Codex CLI 2026-09-16 09:00",
+    'X: ("Codex CLI" OR Codex) (plugin OR Neon OR marketplace)',
+    "Codex CLI 技巧 2026 Neon neon-postgres plugin Plugins 搜 Neon",
   ],
 };
 

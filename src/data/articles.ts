@@ -7140,5 +7140,35 @@ export const articles: Article[] = [
     tags: ["Codex Security", "plugins", "changelog", "codex-security@openai-curated", "security-diff-scan"],
     summary:
       '插件版本 changelog，按插件版本号记，不是 npm 扫描包版本。CI 钉能力前先对一下当前环境。可用 npx @openai/codex-security info --json 对照包和捆绑插件版本。',
+  },
+  {
+    title: 'Codex plugin for Neon',
+    url: 'https://neon.com/docs/ai/ai-codex-plugin',
+    source: 'Neon',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Codex", "Neon", "plugins", "neon-postgres", "MCP", "Plugins 搜 Neon", "npx neon@latest plugins"],
+    summary:
+      'Neon 官方 Codex 插件：桌面 Plugins 搜 Neon 装 neon-postgres 包，不要发明 plugin add neon@openai-curated。页面路径是 docs/ai/ai-codex-plugin。CLI 对照 npx neon@latest plugins --agent codex。不要和只接线的 mcp add neon 搞成已经装了技能包。',
+  },
+  {
+    title: 'Neon CLI command: plugins',
+    url: 'https://neon.com/docs/cli/plugins',
+    source: 'Neon',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Neon", "CLI", "plugins", "neon-postgres", "Codex", "Plugins 搜 Neon", "npx neon@latest plugins"],
+    summary:
+      'neon plugins 把 neon-postgres 插件装进支持 marketplace 的助手，捆绑技能和 MCP。钉 Codex 用 --agent codex。无提示加 -y。默认项目级，跨项目才 --global。不要跑不带 --agent 的 neon plugins -y。只要 MCP 才 neon mcp，全量向导才 neon init。',
+  },
+  {
+    title: 'Neon is now available as an OpenAI Codex Plugin',
+    url: 'https://neon.com/blog/neon-codex-plugin',
+    source: 'Neon',
+    lang: '英文',
+    kind: '教程',
+    tags: ["Neon", "Codex", "plugins", "MCP", "Plugins 搜 Neon", "neon-postgres", "npx neon@latest plugins"],
+    summary:
+      '2026-04-16 产品博文：Codex marketplace 上有官方 Neon 插件。桌面 Plugins 搜 Neon 再装。捆绑 Neon App、Neon 技能和 Egress Optimizer。没有给出 plugin add 的精选 id。建库、开分支、跑迁移都可以在会话里做，生产写权限仍要人批。',
   }
 ];

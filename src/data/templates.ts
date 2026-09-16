@@ -5930,5 +5930,34 @@ codex plugin list
 # gemini extensions install https://github.com/gemini-cli-extensions/security
 # marketplace add openai/codex-security
 `,
+  },
+  {
+    id: "neon-codex-plugin",
+    title: "neon-postgres 插件包把 Neon 技能和 MCP 打给 Codex",
+    filename: "terminal",
+    summary:
+      "neon-postgres 插件包把 Neon 技能和 MCP 打给 Codex。桌面 Plugins 搜 Neon；CLI 钉 npx neon@latest plugins --agent codex。",
+    code: `npx neon@latest plugins --agent codex
+
+# 桌面 / TUI：
+# Plugins 或 /plugins 搜 Neon，再 Add to Codex
+
+# 可选：
+# npx neon@latest init
+# npx neon@latest plugins --agent codex -y
+# npx neon@latest plugins --global --agent codex
+
+# 只要 MCP、不要整包插件：
+# npx neon@latest mcp --agent codex
+# codex mcp add neon --url https://mcp.neon.tech/mcp
+# codex mcp login neon
+
+# 不要：
+# plugin add neon@openai-curated
+# plugin add neon@neon
+# neon plugins -y
+# npx add-mcp https://mcp.neon.tech/mcp
+# npx skills add neondatabase/agent-skills
+`,
   }
 ];

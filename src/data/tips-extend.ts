@@ -17303,5 +17303,65 @@ CODEX_API_KEY="$CODEX_SECURITY_API_KEY" codex exec \\
         url: "https://learn.chatgpt.com/docs/security/plugin/changelog",
       },
     ],
+  },
+  {
+    id: "neon-codex-plugin",
+    no: 502,
+    title:
+      "Neon 官方 Codex 插件：桌面 Plugins 搜 Neon 装 neon-postgres 包，不要发明 plugin add neon@openai-curated",
+    summary:
+      "官方插件页：桌面 Plugins 或 /plugins 搜 Neon。CLI 钉 npx neon@latest plugins --agent codex，装的是 neon-postgres。不要发明 plugin add neon@openai-curated。只要 MCP 仍走 mcp add neon。",
+    body: `Neon 官方 Codex 插件：桌面 Plugins 搜 Neon 装 neon-postgres 包，不要发明 plugin add neon@openai-curated。
+
+这是 Neon 给 Codex 的插件页（docs/ai/ai-codex-plugin），不是已经收录的远程 MCP 专节。插件把 Neon App（走 MCP）、Neon 技能（对应 neon-postgres）和 Neon Egress Optimizer 打成一包。官方**没有**给出 \`codex plugin add neon@openai-curated\` 这种精选 id，不要自己编。
+
+桌面左侧 Plugins，或 TUI 里 \`/plugins\`，搜 Neon，打开后选 Add to Codex。有的插件会在安装时或第一次用时要你登录 Neon，跟着提示走。装完新开线程；用 \`@\` 可以点名 Neon 插件或捆绑技能。IDE 扩展没有 \`/plugins\`。
+
+只要命令行、不点目录时，钉死 Codex：
+
+\`\`\`bash
+npx neon@latest plugins --agent codex
+\`\`\`
+
+这条会把 neon-postgres 插件装进支持 marketplace 的助手。交互安装是 \`npx neon@latest plugins\`。无提示再加 \`-y\`。默认装进当前项目；跨项目才 \`--global\`。不要跑不带 \`--agent\` 的 \`neon plugins -y\`，它会改所有检测到的客户端。
+
+\`npx neon@latest init\` 会按目录情况装插件（或技能加 MCP）、link 项目；空目录还可能脚手架。只要 MCP、不要整包插件时：\`npx neon@latest mcp --agent codex\`，或继续用手写：
+
+\`\`\`bash
+codex mcp add neon --url https://mcp.neon.tech/mcp
+codex mcp login neon
+\`\`\`
+
+已经装了插件就不要再叠一张手写 neon 表指同一台 \`mcp.neon.tech/mcp\`。网页 Cloud 不读 \`~/.codex/config.toml\`。改完新开会话。0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。
+
+插件能建项目、管分支、跑 SQL、校验连接串。生产库不要一上来给写权限。不要 \`required = true\`。不要一上来 \`--yolo\`。
+
+只要技能、不要插件时：\`neon skills -s neon -s neon-postgres\`，或 \`npx skills add neondatabase/agent-skills -s neon -s neon-postgres\`。不要把 \`npx skills add\` 当 Codex 插件安装器。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add neon@openai-curated\` 或 \`neon@neon\`。官方主路径是 Plugins 搜 Neon，或 CLI \`plugins --agent codex\`。
+- 不要把远程 MCP 专节里的 \`mcp add neon\` 当成已经装了技能包。
+- 不要抄 Claude / Cursor 的 mcp JSON 或 \`npx add-mcp\`。
+- 不要抄已弃用的 \`/sse\` 或 \`@neondatabase/mcp-server-neon\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Neon", "MCP", "neon-postgres"],
+    related: ["mcp-neon-remote", "plugins-vs-skills", "plugin-session-refresh"],
+    sources: [
+      {
+        label: "Neon · Codex plugin",
+        url: "https://neon.com/docs/ai/ai-codex-plugin",
+      },
+      {
+        label: "Neon CLI · plugins",
+        url: "https://neon.com/docs/cli/plugins",
+      },
+      {
+        label: "Neon blog · Codex plugin",
+        url: "https://neon.com/blog/neon-codex-plugin",
+      },
+    ],
   }
 ];
