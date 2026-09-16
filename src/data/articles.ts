@@ -7830,5 +7830,35 @@ export const articles: Article[] = [
     tags: ["Atlassian Rovo", "plugins", "atlassian-rovo@openai-curated", "Jira", "Confluence", "plugin add atlassian-rovo@openai-curated"],
     summary:
       '产品页是 Jira 和 Confluence 连接器。ChatGPT 用 @Atlassian Rovo。这是 Connect Atlassian 那条路径，不是 Linear，也不是手写 mcp add atlassian。',
+  },
+  {
+    title: 'adobe plugin.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/adobe/.codex-plugin/plugin.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "Adobe", "plugins", "adobe@openai-curated", "openai/plugins", "adobe-retouch-portraits"],
+    summary:
+      'Adobe 官方 Codex 插件：桌面 Plugins 搜 Adobe，CLI 用 plugin add adobe@openai-curated，不要当成 Canva。清单 name 是 adobe，version 是 8.0.0。现行清单挂 apps 和 skills，没有 mcpServers。不要写成 plugin install。',
+  },
+  {
+    title: 'OpenAI Adobe plugin',
+    url: 'https://openai.com/business/plugins/adobe/',
+    source: 'OpenAI',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Adobe", "plugins", "adobe@openai-curated", "Creative Cloud", "adobe-retouch-portraits"],
+    summary:
+      '产品页是 Creative Cloud 连接器。ChatGPT 用 @Adobe。访客可试用，登录 Adobe 账号才能把作品存进 Creative Cloud。这不是 Canva，也不是 marketplace add canva-sdks/canva-skills。',
+  },
+  {
+    title: 'adobe-retouch-portraits SKILL.md',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/adobe/skills/adobe-retouch-portraits/SKILL.md',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Adobe", "plugins", "adobe-retouch-portraits", "adobe@openai-curated", "openai/plugins"],
+    summary:
+      '技能 name 是 adobe-retouch-portraits，compatibility 写明 Codex。默认走控件，Codex 没有控件时用文本回退。不要发明 $adobe，也不要把 npx skills add 当 Codex 安装器。',
   }
 ];

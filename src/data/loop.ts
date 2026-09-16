@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-16T20:21:00Z",
+  lastTick: "2026-09-16T21:08:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "20:21 收口。#125 已合入 main（TIP 497–505）。#135 续接：#133–#150 已为 506–522。本轮重放 #151 为 523 zoom-codex-plugin、#152 为 524 atlassian-rovo-codex-plugin。合入后关 #151–#152。站点 524 技巧。",
+    "21:08 收口。#125 已合入 main（TIP 497–505）。#135 续接：#133–#152 已为 506–524。本轮重放 #153 为 525 adobe-codex-plugin。合入后关 #153。站点 525 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2517,6 +2517,14 @@ export const loopState = {
     "X news: Codex CLI 2026-09-16 20:00",
     'X: ("Codex CLI" OR Codex) (Atlassian OR Rovo OR plugin OR MCP)',
     "Codex CLI 技巧 2026 Atlassian Rovo atlassian-rovo@openai-curated plugin add",
+    "skip leftover 2030-2b7e 2030-byteplus already stale",
+    "skip leftover 2000-atlassian open #152 1930-zoom open #151 1900-monday open #150",
+    "skip open #133 remotion #134 copilot #136-#152 atlassian zoom monday clickup notion figma slack github dropbox",
+    "codex plugin add adobe@openai-curated Plugins Adobe",
+    "site:github.com/openai/plugins adobe plugin.json skills adobe-retouch-portraits",
+    "X news: Codex CLI 2026-09-16 20:30",
+    'X: ("Codex CLI" OR Codex) (Adobe OR Granola OR plugin OR MCP)',
+    "Codex CLI 技巧 2026 Adobe adobe@openai-curated plugin add",
   ],
 };
 

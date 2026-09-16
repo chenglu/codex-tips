@@ -18721,5 +18721,68 @@ codex plugin list
         url: "https://openai.com/business/plugins/atlassian-rovo/",
       },
     ],
+  },
+  {
+    id: "adobe-codex-plugin",
+    no: 525,
+    title:
+      "Adobe 官方 Codex 插件：桌面 Plugins 搜 Adobe，CLI 用 plugin add adobe@openai-curated，不要当成 Canva",
+    summary:
+      "官方 Codex：codex plugin add adobe@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Adobe，再 Connect Adobe。这是 Creative Cloud 连接器，不是 Canva，也不要发明 mcp login adobe。",
+    body: `Adobe 官方 Codex 插件：桌面 Plugins 搜 Adobe，CLI 用 plugin add adobe@openai-curated，不要当成 Canva。
+
+这是把 Photoshop、Express、Acrobat 等 Creative Cloud 能力接到 Codex，用来修图、出社交稿、剪短视频和转 PDF。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/adobe/.codex-plugin/plugin.json) 的 name 是 \`adobe\`、version 是 \`8.0.0\`，所以精选 id 是 \`adobe@openai-curated\`。现行清单声明 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/adobe/.app.json) 和 \`skills\`，没有 \`mcpServers\` 字段。仓库里也没有 \`.mcp.json\`。不要发明 \`$adobe\`。
+
+CLI：
+
+\`\`\`bash
+codex plugin add adobe@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install adobe@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。不要抄 Canva 那条 \`marketplace add canva-sdks/canva-skills\`。TUI \`/plugins\` 或桌面 Plugins 搜 Adobe 再装，效果一样。装完按提示 Connect Adobe 账号；也可以先以访客试用，登录后才能把作品存进 Creative Cloud。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+技能随插件走，目录名是 \`adobe-retouch-portraits\`、\`adobe-batch-edit-photos\`、\`adobe-create-mockups\`、\`adobe-create-social-variations\`、\`adobe-design-from-template\`、\`adobe-edit-quick-cut\`。不要发明 \`$adobe\`。不要 \`npx skills add\` 当 Codex 安装器，也不要手拷到 \`~/.codex/skills\`。
+
+因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，也不存在 \`.mcp.json\`，不要发明 \`mcp add adobe\` 或 \`mcp login adobe\` 当插件安装步骤。
+
+不要和旁边那几条搞混：
+
+- Canva 是独立设计插件，CLI id 是 \`canva@canva-skills\`，要先加 marketplace。
+- Figma 是独立设计插件，不管 Creative Cloud 资产。
+- 手写 MCP 不会装 Plugins 目录里的 Adobe App 和技能。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 Adobe。ChatGPT 里可以用 \`@Adobe\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`adobe@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Adobe。
+
+不要做这些：
+
+- 不要当成 Canva 或 Figma。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`adobe@claude-plugins-official\`。
+- 不要抄 \`/sse\`。
+- 不要发明 \`$adobe\` 斜杠。
+- 不要一上来 \`--yolo\`：修图、出稿、转 PDF 会动真实 Adobe 账号内容。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Adobe", "adobe@openai-curated"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "openai/plugins · adobe plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/adobe/.codex-plugin/plugin.json",
+      },
+      {
+        label: "OpenAI · Adobe plugin",
+        url: "https://openai.com/business/plugins/adobe/",
+      },
+      {
+        label: "openai/plugins · adobe-retouch-portraits",
+        url: "https://github.com/openai/plugins/blob/main/plugins/adobe/skills/adobe-retouch-portraits/SKILL.md",
+      },
+    ],
   }
 ];

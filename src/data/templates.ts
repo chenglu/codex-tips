@@ -6208,5 +6208,15 @@ codex plugin list
     code: `codex plugin add atlassian-rovo@openai-curated
 codex plugin list
 `,
+  },
+  {
+    id: "adobe-codex-plugin",
+    title: "adobe@openai-curated 把 Creative Cloud 打给 Codex",
+    filename: "terminal",
+    summary:
+      "adobe@openai-curated 把 Creative Cloud 打给 Codex。桌面 Plugins 搜 Adobe，再 Connect Adobe。",
+    code: `codex plugin add adobe@openai-curated
+codex plugin list
+`,
   }
 ];
