@@ -6930,5 +6930,65 @@ export const articles: Article[] = [
     tags: ["MySQL", "MCP", "Cursor", "Claude", "MYSQL_DATABASE", "mysql@mysql", "list_tables_missing_unique_indexes"],
     summary:
       '这篇 IDE 对照写的是 Cursor / Claude / Gemini 的 mcpServers.mysql 加 ./PATH/TO/toolbox --prebuilt mysql。页面没有 Codex 专节。Codex 主路径是 plugin add mysql@mysql，表名 mysql，不要把这份 JSON 抄进 config.toml。',
+  },
+  {
+    title: 'Gemini CLI Extension - SQL Server',
+    url: 'https://github.com/gemini-cli-extensions/sql-server',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "SQL Server", "plugins", "sql-server@sql-server", "MSSQL_DATABASE", "sql_server"],
+    summary:
+      '通用 SQL Server 官方 Codex 插件：marketplace 加 gemini-cli-extensions/sql-server，再 plugin add sql-server@sql-server，库名用 MSSQL_DATABASE，表名是 sql_server 不要加成 data-agent-kit。Codex 要 v0.150.0+。不要 mcp login，也不要写成 plugin add sql-server@data-agent-kit。',
+  },
+  {
+    title: 'Microsoft SQL Server prebuilt configuration',
+    url: 'https://mcp-toolbox.dev/integrations/mssql/prebuilt-configs/microsoft-sql-server/',
+    source: 'MCP Toolbox',
+    lang: '英文',
+    kind: '官方',
+    tags: ["SQL Server", "MCP Toolbox", "MSSQL_DATABASE", "sql-server@sql-server", "sql_server"],
+    summary:
+      'MCP Toolbox 预置 mssql：--prebuilt mssql，库名 MSSQL_DATABASE，用户 MSSQL_USER。这是本机 stdio，不是 Cloud SQL 的 CLOUD_SQL_MSSQL_*。Codex 插件 npx 钉 @toolbox-sdk/server@1.9.0，表名却是 sql_server。',
+  },
+  {
+    title: 'SQL Server using MCP',
+    url: 'https://mcp-toolbox.dev/documentation/connect-to/ides/mssql_mcp/',
+    source: 'MCP Toolbox',
+    lang: '英文',
+    kind: '教程',
+    tags: ["SQL Server", "MCP", "Cursor", "Claude", "MSSQL_DATABASE", "sql-server@sql-server", "sql_server"],
+    summary:
+      '这篇 IDE 对照写的是 Cursor / Claude / Gemini 的 mcpServers.sqlserver 加 ./PATH/TO/toolbox --prebuilt mssql。页面没有 Codex 专节。Codex 主路径是 plugin add sql-server@sql-server，表名 sql_server，不要把这份 JSON 抄进 config.toml。',
+  },
+  {
+    title: 'Gemini CLI Extension - Looker Conversational Analytics',
+    url: 'https://github.com/gemini-cli-extensions/looker-conversational-analytics',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "Looker", "plugins", "looker-conversational-analytics@looker-conversational-analytics", "LOOKER_PROJECT", "LOOKER_LOCATION"],
+    summary:
+      'Looker Conversational Analytics 官方 Codex 插件：marketplace 加 gemini-cli-extensions/looker-conversational-analytics，再 plugin add looker-conversational-analytics@looker-conversational-analytics，项目用 LOOKER_PROJECT 不要加成 data-agent-kit。Codex 要 v0.150.0+。MCP 表名是 looker，预置是 looker-conversational-analytics，不要 mcp login，也不要写成 plugin add looker@data-agent-kit。',
+  },
+  {
+    title: 'Looker Conversational Analytics prebuilt configuration',
+    url: 'https://mcp-toolbox.dev/integrations/looker/prebuilt-configs/looker-conversational-analytics/',
+    source: 'MCP Toolbox',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Looker", "MCP Toolbox", "LOOKER_PROJECT", "LOOKER_LOCATION", "looker-conversational-analytics@looker-conversational-analytics"],
+    summary:
+      'MCP Toolbox 预置 looker-conversational-analytics：--prebuilt looker-conversational-analytics，项目 LOOKER_PROJECT，区域 LOOKER_LOCATION。工具是 ask_data_insights、get_models、get_explores。这是本机 stdio，不是 looker@data-agent-kit 的 looker / looker-dev。Codex 插件 npx 钉 @toolbox-sdk/server@1.9.0。',
+  },
+  {
+    title: 'looker-conversational-analytics tool',
+    url: 'https://mcp-toolbox.dev/integrations/looker/tools/looker-conversational-analytics/',
+    source: 'MCP Toolbox',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Looker", "MCP", "ask_data_insights", "LOOKER_LOCATION", "looker-conversational-analytics@looker-conversational-analytics", "LOOKER_PROJECT"],
+    summary:
+      '工具页写的是 looker-conversational-analytics 类型，参数是 user_query_with_context 和 1 到 5 个 model/explore。页面没有 Codex 专节。Codex 主路径是 plugin add looker-conversational-analytics@looker-conversational-analytics，表名 looker，不要把 YAML 工具定义抄进 config.toml。',
   }
 ];

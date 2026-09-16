@@ -16810,5 +16810,138 @@ codex mcp list
         url: "https://mcp-toolbox.dev/documentation/connect-to/ides/mysql_mcp/",
       },
     ],
+  },
+  {
+    id: "sqlserver-codex-plugin",
+    no: 495,
+    title:
+      "通用 SQL Server 官方 Codex 插件：marketplace 加 gemini-cli-extensions/sql-server，再 plugin add sql-server@sql-server，库名用 MSSQL_DATABASE，表名是 sql_server 不要加成 data-agent-kit",
+    summary:
+      "官方 Codex 专节：先 marketplace add gemini-cli-extensions/sql-server，再 plugin add sql-server@sql-server。stdio 表名是 sql_server，走 npx @toolbox-sdk/server@1.9.0 --prebuilt mssql。库名用 MSSQL_DATABASE。不要加成 GoogleCloudPlatform/data-agent-kit，也不要 mcp login。",
+    body: `通用 SQL Server 官方 Codex 插件：marketplace 加 gemini-cli-extensions/sql-server，再 plugin add sql-server@sql-server，库名用 MSSQL_DATABASE，表名是 sql_server 不要加成 data-agent-kit。
+
+这是 [gemini-cli-extensions/sql-server](https://github.com/gemini-cli-extensions/sql-server) 的 Codex 专节，不是 Claude 的 \`claude plugin install sql-server@sql-server\`，也不是 Cursor 里抄的 \`./PATH/TO/toolbox --prebuilt mssql\`。插件把 MCP Toolbox 的预置 \`mssql\` 打成 Agent Plugin，用数据库用户连任意 SQL Server 实例，去探 schema、跑 SQL。认证是库用户，**不是** GCP ADC。
+
+要 Codex **v0.150.0+**，本机有 Node / npx。先有一台能连的 SQL Server，再在启动 Codex 的同一 shell 里导出：
+
+\`\`\`bash
+export MSSQL_DATABASE=YOUR_MSSQL_DATABASE
+export MSSQL_USER=YOUR_MSSQL_USER
+export MSSQL_PASSWORD=YOUR_MSSQL_PASSWORD
+# 可选：MSSQL_HOST（默认 localhost）、MSSQL_PORT（默认 1433）
+\`\`\`
+
+不要发明 \`MSSQL_PROJECT\`。不要把密码写进 \`http_headers\`。这台 stdio **不要** \`mcp login\`。不要把 \`CLOUD_SQL_MSSQL_*\` 抄过来。
+
+清单 \`.claude-plugin/marketplace.json\` 的 name 是 \`sql-server\`，插件 name 也是 \`sql-server\`（\`plugin.json\` 0.1.6）。Toolbox 预置是 \`mssql\`，MCP 表名却是 \`sql_server\`：
+
+\`\`\`bash
+codex --version
+codex plugin marketplace add gemini-cli-extensions/sql-server
+codex plugin add sql-server@sql-server
+codex plugin list
+codex mcp list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install sql-server@sql-server\`。不要写成 \`plugin add sql-server@data-agent-kit\`。不要 \`gemini extensions install https://github.com/gemini-cli-extensions/sql-server\`。不要 \`agy plugin install\`。IDE 扩展没有 \`/plugins\`。
+
+插件会登记一台 **stdio** MCP，表名是 \`sql_server\`。command 是 \`npx\`，args 钉 \`@toolbox-sdk/server@1.9.0 --prebuilt mssql --stdio\`。**不要** \`codex mcp login sql_server\`。插件已经带 MCP 时，不要再 \`codex mcp add sql_server -- npx @toolbox-sdk/server\` 叠一张用户层表。
+
+不要抄这些：
+
+- Cursor / VS Code 的 \`mcpServers.sqlserver\`，\`command\` 写成 \`./PATH/TO/toolbox --prebuilt mssql\`。
+- Cloud SQL SQL Server 的 \`cloud-sql-sqlserver@data-agent-kit\`（坐标是 \`CLOUD_SQL_MSSQL_*\`，表名 \`cloud-sql-mssql\`）。
+- Cloud SQL MySQL / PostgreSQL 的 \`cloud-sql-mysql@data-agent-kit\`、\`cloud-sql-postgresql@data-agent-kit\`。
+- Data Agent Kit 产品索引 \`GoogleCloudPlatform/data-agent-kit\`。官方 Codex 主路径是这份独立 marketplace，不要加成 \`data-agent-kit\`。
+
+可选：\`codex plugin marketplace upgrade sql-server\` 后再 \`plugin add\` 一次。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex mcp list\` 里应有 \`sql_server\`。连接失败先看 \`MSSQL_DATABASE\` / \`MSSQL_USER\` / \`MSSQL_PASSWORD\` 是不是进了同一进程，以及 npx 能不能拉到 Toolbox 1.9.0。发行仍是 Beta（pre-v1.0）。\`execute_sql\` 能改数据，不要一上来 \`--yolo\`。不要 \`required = true\`。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "SQL Server", "MCP", "sql-server@sql-server"],
+    related: ["cloudsql-sqlserver-codex-plugin", "cloudsql-mysql-codex-plugin", "cloudsql-postgres-codex-plugin"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/sql-server",
+        url: "https://github.com/gemini-cli-extensions/sql-server",
+      },
+      {
+        label: "MCP Toolbox · Microsoft SQL Server prebuilt",
+        url: "https://mcp-toolbox.dev/integrations/mssql/prebuilt-configs/microsoft-sql-server/",
+      },
+      {
+        label: "MCP Toolbox · SQL Server using MCP",
+        url: "https://mcp-toolbox.dev/documentation/connect-to/ides/mssql_mcp/",
+      },
+    ],
+  },
+  {
+    id: "looker-ca-codex-plugin",
+    no: 496,
+    title:
+      "Looker Conversational Analytics 官方 Codex 插件：marketplace 加 gemini-cli-extensions/looker-conversational-analytics，再 plugin add looker-conversational-analytics@looker-conversational-analytics，项目用 LOOKER_PROJECT 不要加成 data-agent-kit",
+    summary:
+      "官方 Codex 专节：先 marketplace add gemini-cli-extensions/looker-conversational-analytics，再 plugin add looker-conversational-analytics@looker-conversational-analytics。stdio 表名是 looker，走 npx @toolbox-sdk/server@1.9.0 --prebuilt looker-conversational-analytics。项目用 LOOKER_PROJECT，区域用 LOOKER_LOCATION。不要加成 GoogleCloudPlatform/data-agent-kit，也不要 mcp login。",
+    body: `Looker Conversational Analytics 官方 Codex 插件：marketplace 加 gemini-cli-extensions/looker-conversational-analytics，再 plugin add looker-conversational-analytics@looker-conversational-analytics，项目用 LOOKER_PROJECT 不要加成 data-agent-kit。
+
+这是 [gemini-cli-extensions/looker-conversational-analytics](https://github.com/gemini-cli-extensions/looker-conversational-analytics) 的 Codex 专节，不是 Claude 的 \`claude plugin install looker-conversational-analytics@looker-conversational-analytics\`，也不是 Cursor 里抄的 \`./PATH/TO/toolbox --prebuilt looker\`。插件把 MCP Toolbox 的预置 \`looker-conversational-analytics\` 打成 Agent Plugin，用 Looker API 客户端密钥加上 GCP Conversational Analytics API，去列 LookML 模型 / Explore，再用 \`ask_data_insights\` 问数。认证是 Looker 客户端密钥 **加上** ADC，不是只靠库用户。
+
+要 Codex **v0.150.0+**，本机有 Node / npx。先开 Conversational Analytics 相关 API，IAM 至少 \`roles/looker.instanceUser\`、\`roles/cloudaicompanion.user\`、\`roles/geminidataanalytics.dataAgentStatelessUser\`，再准备 ADC 和 Looker 客户端：
+
+\`\`\`bash
+gcloud auth application-default login
+gcloud services enable geminidataanalytics.googleapis.com cloudaicompanion.googleapis.com --project=YOUR_LOOKER_PROJECT
+export LOOKER_BASE_URL=YOUR_LOOKER_BASE_URL
+export LOOKER_CLIENT_ID=YOUR_LOOKER_CLIENT_ID
+export LOOKER_CLIENT_SECRET=YOUR_LOOKER_CLIENT_SECRET
+export LOOKER_PROJECT=YOUR_LOOKER_PROJECT
+export LOOKER_LOCATION=YOUR_LOOKER_LOCATION
+# 可选：LOOKER_VERIFY_SSL（默认 true）、LOOKER_SHOW_HIDDEN_MODELS / EXPLORES / FIELDS
+\`\`\`
+
+不要发明 \`LOOKER_PROJECT_ID\`。不要把 Client Secret 写进 \`http_headers\`。这台 stdio **不要** \`mcp login\`。\`LOOKER_LOCATION\` 在 Toolbox 源里默认是 \`us\`，仍应显式导出，别指望插件替你填。
+
+清单 \`.claude-plugin/marketplace.json\` 的 name 是 \`looker-conversational-analytics\`，插件 name 也是 \`looker-conversational-analytics\`（\`plugin.json\` 0.3.8）。Toolbox 预置是 \`looker-conversational-analytics\`，MCP 表名却是 \`looker\`：
+
+\`\`\`bash
+codex --version
+codex plugin marketplace add gemini-cli-extensions/looker-conversational-analytics
+codex plugin add looker-conversational-analytics@looker-conversational-analytics
+codex plugin list
+codex mcp list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install looker-conversational-analytics@looker-conversational-analytics\`。不要写成 \`plugin add looker@data-agent-kit\`。不要 \`gemini extensions install https://github.com/gemini-cli-extensions/looker-conversational-analytics\`。不要 \`agy plugin install\`。IDE 扩展没有 \`/plugins\`。
+
+插件会登记一台 **stdio** MCP，表名是 \`looker\`。command 是 \`npx\`，args 钉 \`@toolbox-sdk/server@1.9.0 --prebuilt looker-conversational-analytics --stdio\`。**不要** \`codex mcp login looker\`。插件已经带 MCP 时，不要再 \`codex mcp add looker -- npx @toolbox-sdk/server\` 叠一张用户层表。已经装了 \`looker@data-agent-kit\` 时，那份插件也占用表名 \`looker\`（外加 \`looker-dev\`），不要两台叠一张。
+
+不要抄这些：
+
+- Cursor / VS Code 的 \`mcpServers.looker-toolbox\`，\`command\` 写成 \`./PATH/TO/toolbox --prebuilt looker\`。那是 Looker 数据 / LookML 预置，不是 \`looker-conversational-analytics\`。
+- Data Agent Kit 的 \`looker@data-agent-kit\`（预置 \`looker\` / \`looker-dev\`，没有 \`LOOKER_PROJECT\` / \`LOOKER_LOCATION\`）。
+- Looker 托管 MCP：实例路径 \`YOUR_LOOKER_BASE_URL/mcp\` + OAuth。那是另一条预览通道。
+- Data Agent Kit 产品索引 \`GoogleCloudPlatform/data-agent-kit\`。官方 Codex 主路径是这份独立 marketplace，不要加成 \`data-agent-kit\`。
+- 同组织的 \`looker\` 扩展（仪表板 / LookML）和 \`bigquery-conversational-analytics\`（Gemini-only，没有 Codex \`plugin add\`）。
+
+可选：\`codex plugin marketplace upgrade looker-conversational-analytics\` 后再 \`plugin add\` 一次。0.154 起先看当前会话的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex mcp list\` 里应有 \`looker\`。连接失败先看 \`LOOKER_PROJECT\` / \`LOOKER_LOCATION\` / \`LOOKER_CLIENT_ID\` 是不是进了同一进程，ADC 是否有效，以及 npx 能不能拉到 Toolbox 1.9.0。发行仍是 Beta（pre-v1.0）。\`ask_data_insights\` 会打 Conversational Analytics API，不要一上来 \`--yolo\`。不要 \`required = true\`。`,
+    category: "skills",
+    level: "intermediate",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Looker", "MCP", "LOOKER_LOCATION", "looker-conversational-analytics@looker-conversational-analytics"],
+    related: ["looker-codex-plugin", "bigquery-codex-plugin", "dak-starter-codex-plugin"],
+    sources: [
+      {
+        label: "gemini-cli-extensions/looker-conversational-analytics",
+        url: "https://github.com/gemini-cli-extensions/looker-conversational-analytics",
+      },
+      {
+        label: "MCP Toolbox · Looker Conversational Analytics prebuilt",
+        url: "https://mcp-toolbox.dev/integrations/looker/prebuilt-configs/looker-conversational-analytics/",
+      },
+      {
+        label: "MCP Toolbox · looker-conversational-analytics tool",
+        url: "https://mcp-toolbox.dev/integrations/looker/tools/looker-conversational-analytics/",
+      },
+    ],
   }
 ];

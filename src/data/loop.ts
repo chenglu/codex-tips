@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-16T05:13:00Z",
+  lastTick: "2026-09-16T06:17:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "05:13 收口。#114 已合入 main（TIP 489–490）。#117 续接：#115→491 oracledb、#116→492 gcs 已在本分支。本轮重放 #118 为 493 postgres-codex-plugin、#119 为 494 mysql-codex-plugin。合入后关 #118–#119。站点 494 技巧。",
+    "06:17 收口。#117 已合入 main（TIP 491–494）。本轮从最新 main 重放 #120 为 495 sqlserver-codex-plugin、#121 为 496 looker-ca-codex-plugin。合入后关 #120–#121。站点 496 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2243,6 +2243,26 @@ export const loopState = {
     'X: ("Codex CLI" OR Codex) (mysql OR MySQL OR plugin add)',
     "Codex CLI 技巧 2026 MySQL MYSQL_DATABASE mysql@mysql plugin add",
     "skip sqlserver sqlite bigtable serverless-spark for next ticks",
+    "skip leftover 0530-2b7e",
+    "skip open #119 mysql-codex-plugin",
+    "codex plugin add sql-server@sql-server gemini-cli-extensions/sql-server",
+    "site:github.com/gemini-cli-extensions/sql-server Codex plugin marketplace",
+    "site:mcp-toolbox.dev/integrations/mssql prebuilt MSSQL_DATABASE sql_server",
+    "site:mcp-toolbox.dev/documentation/connect-to/ides/mssql_mcp Cursor toolbox",
+    "X news: Codex CLI 2026-09-16 05:30",
+    'X: ("Codex CLI" OR Codex) (mssql OR SQL Server OR plugin add)',
+    "Codex CLI 技巧 2026 SQL Server MSSQL_DATABASE sql-server@sql-server plugin add",
+    "skip sqlite bigtable serverless-spark for next ticks",
+    "skip leftover 0600-2b7e 0600-aws-2b7e",
+    "skip open #120 sqlserver-codex-plugin",
+    "codex plugin add looker-conversational-analytics@looker-conversational-analytics gemini-cli-extensions/looker-conversational-analytics",
+    "site:github.com/gemini-cli-extensions/looker-conversational-analytics Codex plugin marketplace",
+    "site:mcp-toolbox.dev/integrations/looker prebuilt LOOKER_PROJECT LOOKER_LOCATION",
+    "site:mcp-toolbox.dev/integrations/looker/tools/looker-conversational-analytics ask_data_insights",
+    "X news: Codex CLI 2026-09-16 06:00",
+    'X: ("Codex CLI" OR Codex) (Looker OR plugin add OR conversational)',
+    "Codex CLI 技巧 2026 Looker Conversational Analytics LOOKER_LOCATION plugin add",
+    "skip sqlite bigtable serverless-spark bigquery-conversational-analytics for next ticks",
   ],
 };
 
