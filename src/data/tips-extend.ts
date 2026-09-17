@@ -17545,5 +17545,1744 @@ codex mcp login canva
         url: "https://github.com/canva-sdks/canva-skills/blob/main/plugins/canva/.mcp.json",
       },
     ],
+  },
+  {
+    id: "remotion-codex-plugin",
+    no: 506,
+    title:
+      "Remotion 官方 Codex 插件：桌面 Plugins 搜 Remotion，新建项目提示写 $remotion，不要发明 remotion@openai-curated",
+    summary:
+      "官方 Codex：ChatGPT 桌面 Plugins 搜 Remotion。新建项目提示写 $remotion 再接受插件。CLI 仓库里用 npx remotion skills add。不要抄 Claude 的 plugin install remotion@remotion，也不要发明 remotion@openai-curated。",
+    body: `Remotion 官方 Codex 插件：桌面 Plugins 搜 Remotion，新建项目提示写 $remotion，不要发明 remotion@openai-curated。
+
+这是 [Remotion Codex plugin](https://www.remotion.dev/docs/ai/codex-plugin) 的桌面专节，不是 Claude 的 \`claude plugin marketplace add remotion-dev/claude-code-plugin\` 再 \`claude plugin install remotion@remotion\`，也不是 Cursor Marketplace 或 \`git clone\` 进 \`~/.cursor/plugins/local/remotion\`。官方没给出 \`codex plugin add remotion@…\` 那种 marketplace id，不要自己编 \`remotion@openai-curated\` 或把 Claude 的 \`remotion@remotion\` 抄进 Codex。
+
+桌面：打开 ChatGPT 桌面，切到 Codex，Plugins 搜 Remotion，安装或打开。新建项目，提示里写 \`$remotion\`，弹出建议时接受 Remotion 插件。之后可以继续用其他 Agent Skills 出片。
+
+仓库里走 CLI 技能，不要把内部包 \`remotion-dev/codex-plugin\` 当安装器（README 写明无用户文档）：
+
+\`\`\`bash
+npx create-video --yes --blank my-video
+cd my-video
+npm install
+npx remotion skills add
+npm run dev
+codex
+\`\`\`
+
+技能装进项目 \`.agents/skills\`。更新用 \`npx remotion skills update\`。不要 \`npx skills add remotion-dev/skills\` 当 Codex 插件安装器，那会改检测到的所有客户端。也不要手拷到 \`~/.codex/skills\`。
+
+IDE 扩展没有桌面那种 Plugins 页。0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Remotion。
+
+Studio 的 WebMCP 只有 ChatGPT Codex 能连，用来看时间线和合成，**不是**插件安装器。不要把 \`@remotion/codex-plugin\` npm 包或源仓当 \`plugin add\` 来源。
+
+不要做这些：
+
+- 不要发明 \`codex plugin add remotion@openai-curated\` 或 \`plugin add remotion@remotion\`。
+- 不要抄 Claude 的 \`plugin install remotion@remotion\`。
+- 不要把 Cursor Marketplace / \`.cursor/plugins/local\` 抄进 Codex。
+- 不要 \`npx skills add remotion-dev/skills\` 当插件安装器。
+- 不要一上来 \`--yolo\`。出片、装包、改时间线会改仓库和渲染输出。
+- 不要 \`required = true\`。`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Remotion", "$remotion", "skills"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "skill-installer"],
+    sources: [
+      {
+        label: "Remotion Codex plugin",
+        url: "https://www.remotion.dev/docs/ai/codex-plugin",
+      },
+      {
+        label: "Remotion AI plugins",
+        url: "https://www.remotion.dev/docs/ai/plugins",
+      },
+      {
+        label: "npx remotion skills",
+        url: "https://www.remotion.dev/docs/cli/skills",
+      },
+    ],
+  },
+  {
+    id: "github-copilot-codex",
+    no: 507,
+    title:
+      "GitHub Copilot 官方 Codex：Cloud agent 的 Partner agents 打开 OpenAI Codex，VS Code 用 Sign in with Copilot，不要当成 ChatGPT 登录",
+    summary:
+      "官方 GitHub：Copilot settings → Cloud agent → Partner agents 打开 OpenAI Codex。VS Code Codex 扩展用 Sign in with Copilot（Pro+ / Max）。不要把 ChatGPT 登录当这条，也不要抄 Claude 的 anthropic code agent。",
+    body: `GitHub Copilot 官方 Codex：Cloud agent 的 Partner agents 打开 OpenAI Codex，VS Code 用 Sign in with Copilot，不要当成 ChatGPT 登录。
+
+这是 [GitHub Copilot · OpenAI Codex](https://docs.github.com/en/copilot/concepts/agents/openai-codex) 的公开预览，走 Copilot 订阅和 Codex SDK，**不是** ChatGPT 登录的 Codex CLI / 桌面，也不是 \`codex cloud exec\`。打开 Partner agents 会装 GitHub App \`openai code agent\`；它会出现在审计日志，但**不会**出现在账号的 GitHub App 安装列表。不要抄 Claude 那条 \`anthropic code agent\`。
+
+个人付费账号：
+
+1. GitHub 头像 → Copilot settings → 侧栏 Cloud agent。
+2. Partner agents 里打开 **OpenAI Codex**。仓库范围跟 Copilot cloud agent 的 Repository access 一致。
+3. 组织 / 企业账号改组织或企业策略，不要只改个人开关。
+
+开完之后：Agents 页选 Codex 派任务、把 issue 指给 Codex、在 PR 评论里 \`@\` 代理名迭代。模型可选 Auto、GPT-5.3-Codex、GPT-5.4、GPT-5.4 nano。Auto 走 Copilot 的自动选模。会话吃 GitHub Actions 分钟数和 AI credits。
+
+VS Code 里的 OpenAI Codex 扩展：启动时选 **Sign in with Copilot**。官方写明只给 Copilot **Pro+** 和 **Copilot Max**。进度在 VS Code Insiders 的 Agent Sessions。用量受 GitHub 限额和计费约束。扩展里能看到的模型子集，**不受** Copilot 组织模型策略管。
+
+这些 Partner agents 策略**不管** VS Code 本地 agent。本地开关看 VS Code 的 agent 文档，不要把网页策略抄进 \`config.toml\`。
+
+不要做这些：
+
+- 不要把 ChatGPT / Codex CLI 的登录当成 Sign in with Copilot。
+- 不要抄 \`copilot plugin install\` 或 Copilot CLI marketplace。那是 Copilot CLI 插件，不是这条 Codex 代理。
+- 不要把 \`openai/codex-action\` 的 \`CODEX_API_KEY\` 当成 Copilot 供电。Action 是另一条 CI。
+- 不要把 \`codex cloud exec\` / \`codex apply\` 当成 GitHub Agents 页。
+- 不要给日常生产仓一上来开全仓库 + 自动合 PR。公开预览，先隔离仓。
+- 不要 \`required = true\`。`,
+    category: "cloud",
+    level: "starter",
+    surfaces: ["ide", "cloud"],
+    tags: ["GitHub Copilot", "Sign in with Copilot", "openai code agent", "Partner agents"],
+    related: ["cloud-exec", "github-action-prompt-file", "github-action-no-job-key"],
+    sources: [
+      {
+        label: "GitHub Copilot · OpenAI Codex",
+        url: "https://docs.github.com/en/copilot/concepts/agents/openai-codex",
+      },
+      {
+        label: "About third-party coding agents",
+        url: "https://docs.github.com/en/copilot/concepts/agents/about-third-party-coding-agents",
+      },
+      {
+        label: "Managing Copilot policies as an individual subscriber",
+        url: "https://docs.github.com/en/copilot/how-tos/manage-your-account/manage-policies",
+      },
+    ],
+  },
+  {
+    id: "outlook-email-codex-plugin",
+    no: 508,
+    title:
+      "Outlook Email 官方 Codex 插件：桌面 Plugins 搜 Outlook Email，CLI 用 plugin add outlook-email@openai-curated，不要当成 Outlook Calendar",
+    summary:
+      "官方 Codex：codex plugin add outlook-email@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Outlook Email，再 Connect Microsoft 账号。这是邮箱插件，不是 Outlook Calendar，也不是 Gmail。不要抄第三方 Outlook MCP，也不要 plugin install。",
+    body: `Outlook Email 官方 Codex 插件：桌面 Plugins 搜 Outlook Email，CLI 用 plugin add outlook-email@openai-curated，不要当成 Outlook Calendar。
+
+这是 OpenAI 做的 Outlook Email 插件，用来搜、引用、整理已连接的 Outlook 邮箱，并在你明确要求时起草回复。产品页是 [Outlook Email](https://openai.com/business/plugins/microsoft-outlook-email/)，能力边界看 [Outlook Email and Calendar apps in ChatGPT](https://help.openai.com/en/articles/12512241-outlook-email-and-calendar-apps-in-chatgpt)。收件箱工作流示例在 [Get your email to inbox zero](https://learn.chatgpt.com/use-cases/manage-your-inbox)，那页同时列了 Gmail 和 Outlook Email，这里只装 Outlook 这条。
+
+CLI：
+
+\`\`\`bash
+codex plugin add outlook-email@openai-curated
+codex plugin list
+\`\`\`
+
+id 来自 Codex 源码里的精选发现白名单，就是 \`outlook-email@openai-curated\`。动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install outlook-email@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Outlook Email 再装，效果一样。装完按提示 Connect Microsoft 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+不要和旁边那几个搞混：
+
+- Outlook Calendar 是另一条，白名单 id 是 \`outlook-calendar@openai-curated\`，管日程不是收件箱。
+- Gmail 是 \`gmail@openai-curated\`，不是 Outlook。
+- 已收录的 Nylas MCP 走 \`mcp.us.nylas.com\`，那是邮箱聚合 MCP，不是这条官方插件。
+
+帮助中心写明：搜邮件支持 \`from:\`、\`subject:\` 和日期过滤。共享或委派邮箱要给出**完整邮箱地址**；附件目前只能从登录者自己的邮箱取。组织账号往往要 Microsoft Entra 管理员同意 Graph 权限，工作区管理员还要在 Actions 里打开对应读写动作，光点 Connect 不够。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 Outlook Email。ChatGPT 里可以用 \`@Outlook Email\`。未批准前不要让它发送、归档或进 Trash。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`outlook-email@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Outlook Email。
+
+不要做这些：
+
+- 不要当成 Outlook Calendar 或 Teams / SharePoint 插件。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`outlook-email@claude-plugins-official\`。
+- 不要把第三方 Outlook MCP / inbox 包装器抄进 Codex。
+- 不要和手写 Gmail 插件或 Nylas MCP 叠成同一条。
+- 不要一上来 \`--yolo\`：发信、移动、Trash 会改邮箱。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Outlook Email", "outlook-email@openai-curated", "Microsoft"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "nylas-codex-mcp"],
+    sources: [
+      {
+        label: "OpenAI · Outlook Email",
+        url: "https://openai.com/business/plugins/microsoft-outlook-email/",
+      },
+      {
+        label: "OpenAI Help · Outlook Email and Calendar apps",
+        url: "https://help.openai.com/en/articles/12512241-outlook-email-and-calendar-apps-in-chatgpt",
+      },
+      {
+        label: "ChatGPT Learn · Get your email to inbox zero",
+        url: "https://learn.chatgpt.com/use-cases/manage-your-inbox",
+      },
+    ],
+  },
+  {
+    id: "outlook-calendar-codex-plugin",
+    no: 509,
+    title:
+      "Outlook Calendar 官方 Codex 插件：桌面 Plugins 搜 Outlook Calendar，CLI 用 plugin add outlook-calendar@openai-curated，不要当成 Outlook Email",
+    summary:
+      "官方 Codex：codex plugin add outlook-calendar@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Outlook Calendar，再 Connect Microsoft 账号。这是日程插件，不是 Outlook Email，也不是 CalendarBridge MCP。改会议先确认。",
+    body: `Outlook Calendar 官方 Codex 插件：桌面 Plugins 搜 Outlook Calendar，CLI 用 plugin add outlook-calendar@openai-curated，不要当成 Outlook Email。
+
+这是 OpenAI 做的 Outlook Calendar 插件，用来看日程、比空闲、准备会议，并在你明确要求时改、改期或取消事件。产品页是 [Outlook Calendar](https://openai.com/business/plugins/microsoft-outlook-calendar/)。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/outlook-calendar/.codex-plugin/plugin.json) 的 name 是 \`outlook-calendar\`，所以精选 id 是 \`outlook-calendar@openai-curated\`。描述写明 daily briefs、event prep 和 safe meeting changes。
+
+CLI：
+
+\`\`\`bash
+codex plugin add outlook-calendar@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install outlook-calendar@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Outlook Calendar 再装，效果一样。装完按提示 Connect Microsoft 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+[\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/outlook-calendar/.app.json) 把 app 键 \`outlook-calendar\` 绑到 Outlook Calendar 连接器，**不是**远程 MCP URL。不要再手写 \`mcp add outlook-calendar\`。也不要和已收录的 CalendarBridge MCP 抄成一条。
+
+不要和旁边那几个搞混：
+
+- Outlook Email 是另一条，白名单 id 是 \`outlook-email@openai-curated\`，管收件箱不是日程。
+- Google Calendar 是 \`google-calendar@openai-curated\`，不是 Outlook。
+- Teams / SharePoint 也是独立插件，不要指望日历插件去搜频道消息。
+
+共享或委派日历要指出目标日历；写操作往往还要工作区打开对应 Actions，以及 Microsoft Entra 同意 Graph 权限。未批准前不要创建、移动或取消会议。Outlook 状态 \`Busy\` / \`Tentative\` / \`Free\` / \`Out of Office\` / \`Working Elsewhere\` 不是同一回事，不要把 Free 当成空档硬插会。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 Outlook Calendar。ChatGPT 里可以用 \`@Outlook Calendar\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`outlook-calendar@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Outlook Calendar。
+
+不要做这些：
+
+- 不要当成 Outlook Email 或 Google Calendar。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`outlook-calendar@claude-plugins-official\`。
+- 不要把第三方 Outlook MCP / inbox 包装器抄进 Codex。
+- 不要和 CalendarBridge 那条 \`mcp add calendarbridge\` 叠成同一条。
+- 不要一上来 \`--yolo\`：改期、取消、写共享日历会改别人的会。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Outlook Calendar", "outlook-calendar@openai-curated", "Microsoft"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "calendarbridge-codex-mcp"],
+    sources: [
+      {
+        label: "OpenAI · Outlook Calendar",
+        url: "https://openai.com/business/plugins/microsoft-outlook-calendar/",
+      },
+      {
+        label: "openai/plugins · outlook-calendar plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/outlook-calendar/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · outlook-calendar .app.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/outlook-calendar/.app.json",
+      },
+    ],
+  },
+  {
+    id: "teams-codex-plugin",
+    no: 510,
+    title:
+      "Microsoft Teams 官方 Codex 插件：桌面 Plugins 搜 Microsoft Teams，CLI 用 plugin add teams@openai-curated，不要当成 Slack",
+    summary:
+      "官方 Codex：codex plugin add teams@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Microsoft Teams，再 Connect Microsoft 账号。这是 Teams 插件，不是 Slack，也不是 Outlook Calendar。发消息先确认。",
+    body: `Microsoft Teams 官方 Codex 插件：桌面 Plugins 搜 Microsoft Teams，CLI 用 plugin add teams@openai-curated，不要当成 Slack。
+
+这是 OpenAI 做的 Microsoft Teams 插件，用来搜已有权限的聊天和频道，并在工作区打开写动作时起草回复、管 Planner 任务。产品页是 [Teams](https://openai.com/business/plugins/microsoft-teams/)。能力边界看 [Microsoft Teams app and setup in ChatGPT](https://help.openai.com/en/articles/12552368-microsoft-teams-app-for-chatgpt)。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/teams/.codex-plugin/plugin.json) 的 name 是 \`teams\`，所以精选 id 是 \`teams@openai-curated\`。
+
+CLI：
+
+\`\`\`bash
+codex plugin add teams@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install teams@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Microsoft Teams 再装，效果一样。装完按提示 Connect Microsoft 工作或学校账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+\`plugin.json\` 把 app 绑到 Microsoft Teams 连接器，**不是**远程 MCP URL。不要再手写 \`mcp add teams\`。也不要和已收录的 \`mcp-slack-remote\` / 精选 \`slack@openai-curated\` 抄成一条。
+
+不要和旁边那几个搞混：
+
+- Slack 是另一条，白名单 id 是 \`slack@openai-curated\`，不是 Teams。
+- Outlook Calendar / Outlook Email 管日程和收件箱，不搜频道消息。
+- SharePoint 是独立插件，不要指望 Teams 插件去拉站点文件。
+
+帮助中心写明：只能读你 Microsoft 账号已经能进的聊天和频道。发消息、建频道、改 Planner 要工作区打开对应 Actions，以及 Microsoft Entra 管理员同意 Graph 权限。企业/Edu 的管理员同步索引是只读的，**不能**发消息，也没有个人自助 sync。会议转写要先有转写；录像动作只给元数据，不给录像文件。未批准前不要发送或改任务。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 Microsoft Teams。ChatGPT 里可以用 \`@Microsoft Teams\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`teams@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Microsoft Teams。
+
+不要做这些：
+
+- 不要当成 Slack 或 Grok Bot 的 Teams 连接。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`teams@claude-plugins-official\`。
+- 不要把第三方 Teams MCP 包装器抄进 Codex。
+- 不要和手写 Slack MCP 叠成同一条。
+- 不要一上来 \`--yolo\`：发消息、建频道、改 Planner 会改别人的工作区。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Microsoft Teams", "teams@openai-curated", "Microsoft"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-slack-remote"],
+    sources: [
+      {
+        label: "OpenAI · Teams",
+        url: "https://openai.com/business/plugins/microsoft-teams/",
+      },
+      {
+        label: "OpenAI Help · Microsoft Teams app",
+        url: "https://help.openai.com/en/articles/12552368-microsoft-teams-app-for-chatgpt",
+      },
+      {
+        label: "openai/plugins · teams plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/teams/.codex-plugin/plugin.json",
+      },
+    ],
+  },
+  {
+    id: "sharepoint-codex-plugin",
+    no: 511,
+    title:
+      "SharePoint 官方 Codex 插件：桌面 Plugins 搜 SharePoint，CLI 用 plugin add sharepoint@openai-curated，不要当成 Microsoft Teams",
+    summary:
+      "官方 Codex：codex plugin add sharepoint@openai-curated。桌面 Plugins 或 TUI /plugins 搜 SharePoint，再 Connect Microsoft 工作或学校账号。这是 SharePoint 插件，不是 Teams，也不是个人 OneDrive。写动作先确认。",
+    body: `SharePoint 官方 Codex 插件：桌面 Plugins 搜 SharePoint，CLI 用 plugin add sharepoint@openai-curated，不要当成 Microsoft Teams。
+
+这是 OpenAI 做的 SharePoint 插件，用来搜已有权限的站点、页面和文件，并在工作区打开写动作时建文件夹、更新文件、管共享链接。产品页是 [SharePoint](https://openai.com/business/plugins/microsoft-sharepoint/)。能力边界看 [SharePoint app and setup in ChatGPT](https://help.openai.com/en/articles/12143177-sharepoint-synced-connectors-setup)。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/sharepoint/.codex-plugin/plugin.json) 的 name 是 \`sharepoint\`，所以精选 id 是 \`sharepoint@openai-curated\`。
+
+CLI：
+
+\`\`\`bash
+codex plugin add sharepoint@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install sharepoint@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 SharePoint 再装，效果一样。装完按提示 Connect Microsoft 工作或学校账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+\`plugin.json\` 把 app 绑到 Microsoft SharePoint 连接器，**不是**远程 MCP URL。不要再手写 \`mcp add sharepoint\`。仓库根目录 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/sharepoint/.app.json) 的 app 键是 \`sharepoint\`。
+
+不要和旁边那几个搞混：
+
+- Microsoft Teams 是独立插件，搜聊天和频道，不拉站点文件。
+- Outlook Email / Outlook Calendar 管收件箱和日程，不搜 SharePoint 库。
+- Google Drive 是另一条精选插件，不要把个人 Drive 和 SharePoint 抄成一条。
+- 个人 OneDrive 账号不被支持；工作/学校 OneDrive 只有管理员在同步索引里勾选全部受支持内容时才会纳入。
+
+帮助中心写明：只能读你 Microsoft 账号已经能打开的站点文件。建文件夹、上传或改文件、管共享链接、改列表和页面，要工作区打开对应 Actions，以及 Microsoft Entra 管理员同意 Graph 权限。企业/Edu 的管理员同步索引是只读的，**不能**当个人自助 sync，也没有成员自己建索引。\`Sites.FullControl.All\` 用来评估权限层级，不代表成员能看到自己本来打不开的文件。未批准前不要改库里的文件。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 SharePoint。ChatGPT 里可以用 \`@SharePoint\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`sharepoint@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 SharePoint。
+
+不要做这些：
+
+- 不要当成 Microsoft Teams、Slack 或 Google Drive。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`sharepoint@claude-plugins-official\`。
+- 不要把第三方 SharePoint MCP 包装器抄进 Codex。
+- 不要和手写 Slack MCP 叠成同一条。
+- 不要一上来 \`--yolo\`：建文件夹、改文件、管共享链接会改别人的站点。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "SharePoint", "sharepoint@openai-curated", "Microsoft"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-slack-remote"],
+    sources: [
+      {
+        label: "OpenAI · SharePoint",
+        url: "https://openai.com/business/plugins/microsoft-sharepoint/",
+      },
+      {
+        label: "OpenAI Help · SharePoint app",
+        url: "https://help.openai.com/en/articles/12143177-sharepoint-synced-connectors-setup",
+      },
+      {
+        label: "openai/plugins · sharepoint plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/sharepoint/.codex-plugin/plugin.json",
+      },
+    ],
+  },
+  {
+    id: "gmail-codex-plugin",
+    no: 512,
+    title:
+      "Gmail 官方 Codex 插件：桌面 Plugins 搜 Gmail，CLI 用 plugin add gmail@openai-curated，不要当成 Outlook Email",
+    summary:
+      "官方 Codex：codex plugin add gmail@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Gmail，再 Connect Google。这是 Gmail 插件，不是 Outlook Email，也不是 Google Drive。发信先确认。",
+    body: `Gmail 官方 Codex 插件：桌面 Plugins 搜 Gmail，CLI 用 plugin add gmail@openai-curated，不要当成 Outlook Email。
+
+这是 OpenAI 做的 Gmail 插件，用来搜已连接收件箱里的邮件和会话，并在工作区打开写动作时起草回复、整理线程。产品页是 [Gmail](https://openai.com/business/plugins/gmail/)。Google 权限边界看 [Google app data controls FAQ](https://help.openai.com/en/articles/10408842-google-app-data-controls-faq)。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/gmail/.codex-plugin/plugin.json) 的 name 是 \`gmail\`，所以精选 id 是 \`gmail@openai-curated\`。仓库 README 写明本包没有随附技能。
+
+CLI：
+
+\`\`\`bash
+codex plugin add gmail@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install gmail@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Gmail 再装，效果一样。装完按提示 Connect Google 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+插件 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/gmail/.mcp.json) 表名是 \`gmail\`，type 是 http，URL 是 \`https://gmailmcp.googleapis.com/mcp/v1\`（带 \`/mcp/v1\`）。插件已经登记 MCP 时，不要再手写 \`mcp add gmail --url https://gmailmcp.googleapis.com/mcp/v1\` 叠一张。OAuth 字段由插件带，不要手抄 client_id，也不要发明 \`mcp login gmail\`。
+
+不要和旁边那几个搞混：
+
+- Outlook Email 是独立插件，管 Outlook 邮箱，不读 Gmail。
+- Google Calendar / Google Drive 是另两条精选插件，不要把日程和网盘抄进收件箱这条。
+- Nylas 远程 MCP 可以挂多种邮箱 grant，不是这条精选 Gmail 插件。
+
+帮助中心写明：只能读你授权的那个 Google 账号已经能打开的邮件。Gmail 动作对应的管理端 scope 是 \`gmail.modify\`。工作区没打开写动作、或 Google Workspace 没批准对应 scope 时，连接或发信会失败。ChatGPT Work 里「新邮件触发任务」是网页事件触发，不能拿来代替这条 Codex 插件安装。未确认前不要发送。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 Gmail。ChatGPT 里可以用 \`@Gmail\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`gmail@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Gmail。
+
+不要做这些：
+
+- 不要当成 Outlook Email、Google Drive 或第三方收件箱包装器。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`gmail@claude-plugins-official\`。
+- 不要把 usecarly 或 Composio 的安装句抄进 Codex。
+- 不要和手写 Nylas MCP 叠成同一条。
+- 不要一上来 \`--yolo\`：起草回复、改标签、归档会动真实邮箱。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Gmail", "gmail@openai-curated", "Google"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "OpenAI · Gmail",
+        url: "https://openai.com/business/plugins/gmail/",
+      },
+      {
+        label: "openai/plugins · gmail plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/gmail/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · gmail .mcp.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/gmail/.mcp.json",
+      },
+    ],
+  },
+  {
+    id: "google-calendar-codex-plugin",
+    no: 513,
+    title:
+      "Google Calendar 官方 Codex 插件：桌面 Plugins 搜 Google Calendar，CLI 用 plugin add google-calendar@openai-curated，不要当成 Outlook Calendar",
+    summary:
+      "官方 Codex：codex plugin add google-calendar@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Google Calendar，再 Connect Google。这是 Google Calendar 插件，不是 Outlook Calendar，也不是 Gmail。改日程先确认。",
+    body: `Google Calendar 官方 Codex 插件：桌面 Plugins 搜 Google Calendar，CLI 用 plugin add google-calendar@openai-curated，不要当成 Outlook Calendar。
+
+这是 OpenAI 做的 Google Calendar 插件，用来看已连接日历里的日程和空闲，并在工作区打开写动作时起草或改事件。产品页是 [Google Calendar](https://openai.com/business/plugins/google-calendar/)。Google 权限边界看 [Google app data controls FAQ](https://help.openai.com/en/articles/10408842-google-app-data-controls-faq)。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/google-calendar/.codex-plugin/plugin.json) 的 name 是 \`google-calendar\`，所以精选 id 是 \`google-calendar@openai-curated\`。
+
+CLI：
+
+\`\`\`bash
+codex plugin add google-calendar@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install google-calendar@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Google Calendar 再装，效果一样。装完按提示 Connect Google 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+插件 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/google-calendar/.mcp.json) 表名是 \`google-calendar\`，type 是 http，URL 是 \`https://calendarmcp.googleapis.com/mcp/v1\`（带 \`/mcp/v1\`）。插件已经登记 MCP 时，不要再手写 \`mcp add google-calendar --url https://calendarmcp.googleapis.com/mcp/v1\` 叠一张。OAuth 字段由插件带，不要手抄 client_id，也不要发明 \`mcp login google-calendar\`。
+
+不要和旁边那几个搞混：
+
+- Outlook Calendar 是独立插件，管 Outlook 日程，不读 Google 日历。
+- Gmail 管收件箱，不负责空闲和事件。
+- Google Drive 是另一条精选插件，不要把网盘文件抄进日程这条。
+- Google Meet 的部分动作挂在 Calendar 这条下，对应 FAQ 里的 \`calendar.events\` 和 \`meetings.space.readonly\`，不是单独再装一条 Meet 插件。
+
+帮助中心写明：只能读你授权的那个 Google 账号已经能打开的日历。工作区没打开写动作、或 Google Workspace 没批准对应 scope 时，连接或改事件会失败。未确认前不要创建、改期或删除会议。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 Google Calendar。ChatGPT 里可以用 \`@Google Calendar\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`google-calendar@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Google Calendar。
+
+不要做这些：
+
+- 不要当成 Outlook Calendar、Gmail 或第三方日历包装器。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`google-calendar@claude-plugins-official\`。
+- 不要把第三方 Google Calendar MCP 包装器抄进 Codex。
+- 不要和手写 Gmail MCP 叠成同一条。
+- 不要一上来 \`--yolo\`：创建、改期、删除事件会动真实日历。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Google Calendar", "google-calendar@openai-curated", "Google"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "OpenAI · Google Calendar",
+        url: "https://openai.com/business/plugins/google-calendar/",
+      },
+      {
+        label: "openai/plugins · google-calendar plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/google-calendar/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · google-calendar .mcp.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/google-calendar/.mcp.json",
+      },
+    ],
+  },
+  {
+    id: "google-drive-codex-plugin",
+    no: 514,
+    title:
+      "Google Drive 官方 Codex 插件：桌面 Plugins 搜 Google Drive，CLI 用 plugin add google-drive@openai-curated，不要当成 Google Calendar",
+    summary:
+      "官方 Codex：codex plugin add google-drive@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Google Drive，再 Connect Google。这是 Drive 插件，连 Docs / Sheets / Slides，不是 Calendar，也不是 Gmail。改文件先确认。",
+    body: `Google Drive 官方 Codex 插件：桌面 Plugins 搜 Google Drive，CLI 用 plugin add google-drive@openai-curated，不要当成 Google Calendar。
+
+这是 OpenAI 做的 Google Drive 插件，把 Drive、Docs、Sheets、Slides 收成一条入口，用来搜已有权限的文件，并在工作区打开写动作时改文档、表格或幻灯片。产品页是 [Google Drive](https://openai.com/business/plugins/google-drive/)。能力边界看 [Google Drive app and setup in ChatGPT](https://help.openai.com/en/articles/10929079-google-drive-app-and-setup-in-chatgpt)。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/google-drive/.codex-plugin/plugin.json) 的 name 是 \`google-drive\`，所以精选 id 是 \`google-drive@openai-curated\`。
+
+CLI：
+
+\`\`\`bash
+codex plugin add google-drive@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install google-drive@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Google Drive 再装，效果一样。装完按提示 Connect Google 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+插件 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/google-drive/.mcp.json) 表名是 \`google-drive\`，type 是 http，URL 是 \`https://drivemcp.googleapis.com/mcp/v1\`（带 \`/mcp/v1\`）。插件已经登记 MCP 时，不要再手写 \`mcp add google-drive --url https://drivemcp.googleapis.com/mcp/v1\` 叠一张。OAuth 字段由插件带，不要手抄 client_id，也不要发明 \`mcp login google-drive\`。
+
+技能随插件走，仓库 \`skills/\` 目录是 \`google-drive\`、\`google-docs\`、\`google-sheets\`、\`google-slides\`、\`google-drive-comments\`。不要 \`npx skills add\` 当 Codex 安装器，也不要手拷到 \`~/.codex/skills\`。
+
+不要和旁边那几个搞混：
+
+- Google Calendar 是独立插件，管日程和空闲，不负责网盘文件。
+- Gmail 管收件箱，不搜 Drive 库。
+- SharePoint 是 Microsoft 站点插件，不要把个人 Drive 和 SharePoint 抄成一条。
+- Docs / Sheets / Slides 的动作走这条 Drive 插件，不要再发明三条独立精选 id。
+
+帮助中心写明：只能读你授权的那个 Google 账号已经能打开的文件。个人连接是实时访问，**不会**给自己建一份同步索引。企业/Edu 的管理员同步索引是另一条工作区配置。Library 初期只含「我的云端硬盘」和直接分享给你的项，Shared Drives 还不在。未确认前不要改源文件、改共享或删除。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 Google Drive。ChatGPT 里可以用 \`@Google Drive\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`google-drive@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Google Drive。
+
+不要做这些：
+
+- 不要当成 Google Calendar、Gmail 或 SharePoint。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`google-drive@claude-plugins-official\`。
+- 不要把第三方 Google Drive MCP 包装器抄进 Codex。
+- 不要和手写 Gmail MCP 叠成同一条。
+- 不要一上来 \`--yolo\`：改 Docs、改 Sheets、改共享或删除会动真实网盘。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Google Drive", "google-drive@openai-curated", "Google"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "OpenAI · Google Drive",
+        url: "https://openai.com/business/plugins/google-drive/",
+      },
+      {
+        label: "openai/plugins · google-drive plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/google-drive/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · google-drive .mcp.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/google-drive/.mcp.json",
+      },
+    ],
+  },
+  {
+    id: "linear-codex-plugin",
+    no: 515,
+    title:
+      "Linear 官方 Codex 插件：桌面 Plugins 搜 Linear，CLI 用 plugin add linear@openai-curated，不要当成 Linear MCP",
+    summary:
+      "官方 Codex：codex plugin add linear@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Linear，再 Connect Linear。这是工单插件，不是 Cloud 里 issue 指派 @Codex，也不是手写 mcp add。",
+    body: `Linear 官方 Codex 插件：桌面 Plugins 搜 Linear，CLI 用 plugin add linear@openai-curated，不要当成 Linear MCP。
+
+这是 Linear Orbit 做的工单插件，用来搜、建、改 issues / projects / comments，并起草周报或验收标准。产品页是 [Linear](https://openai.com/business/plugins/linear/)。附件、图片和链出去的外部集成不在范围内。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/linear/.codex-plugin/plugin.json) 的 name 是 \`linear\`、version 是 \`5.0.1\`，所以精选 id 是 \`linear@openai-curated\`。
+
+CLI：
+
+\`\`\`bash
+codex plugin add linear@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install linear@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Linear 再装，效果一样。装完按提示 Connect Linear 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。仓库 [README](https://github.com/openai/plugins/blob/main/plugins/linear/README.md) 写明现行 \`5.0.1\` 带 App 连接器和托管 MCP，**没有**捆绑技能；安装策略是 \`AVAILABLE\`，认证是 \`ON_INSTALL\`。不要把旧提交里的 \`skills/linear\` 目录当现行包，也不要 \`npx skills add\`。
+
+插件同时登记 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/linear/.app.json) 和 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/linear/.mcp.json)。MCP 表名是 \`linear\`，type 是 http，URL 是 \`https://mcp.linear.app/mcp\`（带 \`/mcp\`）。插件已经登记 MCP 时，不要再手写 \`mcp add linear --url https://mcp.linear.app/mcp\` 叠一张。只要 MCP、不要 App 时，才走现有的本机 MCP 技巧。
+
+不要和旁边那几条搞混：
+
+- Cloud 里把 issue 指派给 Codex，或评论 \`@Codex\`，走的是另一条 Linear 集成，不是这条本机插件。
+- 手写 MCP 只登记远程表，不会装 Plugins 目录里的 Linear App。
+- ClickUp 和 Notion 是独立插件，管各自的任务和文档，不要把 Linear 工单抄过去。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 Linear。ChatGPT 里可以用 \`@Linear\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`linear@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Linear。
+
+不要做这些：
+
+- 不要当成手写 Linear MCP，也不要当成 Cloud 里的 issue \`@Codex\`。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`linear@claude-plugins-official\`。
+- 不要把第三方 Linear MCP 包装器抄进 Codex。
+- 不要发明捆绑技能名或 \`$linear\` 斜杠。
+- 不要一上来 \`--yolo\`：建工单、改状态、写评论会动真实 Linear 工作区。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Linear", "linear@openai-curated", "MCP"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "linear-mcp-add"],
+    sources: [
+      {
+        label: "OpenAI · Linear",
+        url: "https://openai.com/business/plugins/linear/",
+      },
+      {
+        label: "openai/plugins · linear plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/linear/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · linear README",
+        url: "https://github.com/openai/plugins/blob/main/plugins/linear/README.md",
+      },
+    ],
+  },
+  {
+    id: "clickup-codex-plugin",
+    no: 516,
+    title:
+      "ClickUp 官方 Codex 插件：桌面 Plugins 搜 ClickUp，CLI 用 plugin add clickup@openai-curated，不要当成 Linear",
+    summary:
+      "官方 Codex：codex plugin add clickup@openai-curated。桌面 Plugins 或 TUI /plugins 搜 ClickUp，再 Connect ClickUp。这是任务和文档插件，不是 Linear 工单，也不要当成会自动叠 MCP 表。",
+    body: `ClickUp 官方 Codex 插件：桌面 Plugins 搜 ClickUp，CLI 用 plugin add clickup@openai-curated，不要当成 Linear。
+
+这是 ClickUp 做的任务插件，用已同步的 spaces / lists / tasks / docs 回答进度，并在工作区允许时新建或改任务、子任务和列表。产品页是 [ClickUp](https://openai.com/business/plugins/clickup/)。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/clickup/.codex-plugin/plugin.json) 的 name 是 \`clickup\`、version 是 \`1.0.3\`，所以精选 id 是 \`clickup@openai-curated\`。现行清单只声明 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/clickup/.app.json)，没有 \`skills\` 字段，也没有 \`mcpServers\` 字段。不要发明捆绑技能名。
+
+CLI：
+
+\`\`\`bash
+codex plugin add clickup@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install clickup@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 ClickUp 再装，效果一样。装完按提示 Connect ClickUp 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+仓库另有 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/clickup/.mcp.json)，表名是 \`clickup\`，type 是 http，URL 是 \`https://mcp.clickup.com/mcp\`（带 \`/mcp\`）。因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，不要假设 \`plugin add\` 会自动叠这张 MCP 表。只要 MCP、不要 App 时，才手写 \`mcp add clickup --url https://mcp.clickup.com/mcp\`。不要发明 \`mcp login clickup\` 当插件安装步骤。
+
+不要和旁边那几条搞混：
+
+- Linear 是独立工单插件，不管 ClickUp 的 list 和 Doc。
+- Notion 是独立知识库插件，不要把 ClickUp Doc 和 Notion 页抄成一条。
+- 手写 MCP 只登记远程表，不会装 Plugins 目录里的 ClickUp App。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 ClickUp。ChatGPT 里可以用 \`@ClickUp\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`clickup@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 ClickUp。
+
+不要做这些：
+
+- 不要当成 Linear 或 Notion。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`clickup@claude-plugins-official\`。
+- 不要把第三方 ClickUp MCP 包装器抄进 Codex。
+- 不要发明捆绑技能名或 \`$clickup\` 斜杠。
+- 不要一上来 \`--yolo\`：建任务、改状态、改列表会动真实 ClickUp 工作区。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "ClickUp", "clickup@openai-curated"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "OpenAI · ClickUp",
+        url: "https://openai.com/business/plugins/clickup/",
+      },
+      {
+        label: "openai/plugins · clickup plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/clickup/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · clickup .mcp.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/clickup/.mcp.json",
+      },
+    ],
+  },
+  {
+    id: "notion-codex-plugin",
+    no: 517,
+    title:
+      "Notion 官方 Codex 插件：桌面 Plugins 搜 Notion，CLI 用 plugin add notion@openai-curated，不要当成 Notion MCP",
+    summary:
+      "官方 Codex：codex plugin add notion@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Notion，再 Connect Notion。这是带技能和 App 的插件，不是手写 mcp add notion。",
+    body: `Notion 官方 Codex 插件：桌面 Plugins 搜 Notion，CLI 用 plugin add notion@openai-curated，不要当成 Notion MCP。
+
+这是 Notion 工作区插件，用来搜页面、改文档和数据库，并把规格、会议和决策收成结构化输出。产品页是 [Notion](https://openai.com/business/plugins/notion/)。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/notion/.codex-plugin/plugin.json) 的 name 是 \`notion\`、version 是 \`0.1.7\`，所以精选 id 是 \`notion@openai-curated\`。能力含 Interactive、Read、Write。
+
+CLI：
+
+\`\`\`bash
+codex plugin add notion@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install notion@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Notion 再装，效果一样。装完按提示 Connect Notion 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+插件同时登记 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/notion/.app.json)、[\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/notion/.mcp.json) 和 \`skills/\`。MCP 表名是 \`notion\`，type 是 http，URL 是 \`https://mcp.notion.com/mcp\`（带 \`/mcp\`），\`oauth_resource\` 是 \`https://mcp.notion.com\`。插件已经登记 MCP 时，不要再手写 \`mcp add notion --url https://mcp.notion.com/mcp\` 叠一张。只要 MCP、不要技能和 App 时，才走现有的本机 MCP 技巧。
+
+技能随插件走，仓库 [README](https://github.com/openai/plugins/blob/main/plugins/notion/README.md) 列出 \`notion-spec-to-implementation\`、\`notion-research-documentation\`、\`notion-meeting-intelligence\`、\`notion-knowledge-capture\`。不要 \`npx skills add\` 当 Codex 安装器，也不要手拷到 \`~/.codex/skills\`。
+
+不要和旁边那几条搞混：
+
+- 手写 \`mcp add notion\` 只登记远程表，不会装 Plugins 目录里的 Notion App 和技能。
+- Linear 和 ClickUp 是独立任务插件，不管 Notion 页和数据库。
+- 不要把停更的开源 \`notion-mcp-server\` 包当这条精选插件。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 Notion。ChatGPT 里可以用 \`@Notion\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`notion@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Notion。
+
+不要做这些：
+
+- 不要当成手写 Notion MCP。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`notion@claude-plugins-official\`。
+- 不要抄 \`/sse\` 或 \`experimental_use_rmcp_client\`。
+- 不要一上来 \`--yolo\`：改页面、改数据库属性会动真实 Notion 工作区。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Notion", "notion@openai-curated", "MCP"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-notion-remote"],
+    sources: [
+      {
+        label: "OpenAI · Notion",
+        url: "https://openai.com/business/plugins/notion/",
+      },
+      {
+        label: "openai/plugins · notion plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/notion/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · notion README",
+        url: "https://github.com/openai/plugins/blob/main/plugins/notion/README.md",
+      },
+    ],
+  },
+  {
+    id: "figma-codex-plugin",
+    no: 518,
+    title:
+      "Figma 官方 Codex 插件：桌面 Plugins 搜 Figma，CLI 用 plugin add figma@openai-curated，不要当成 Figma MCP",
+    summary:
+      "官方 Codex：codex plugin add figma@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Figma。这是带技能和 App 的设计到代码插件，不是手写 mcp add figma。",
+    body: `Figma 官方 Codex 插件：桌面 Plugins 搜 Figma，CLI 用 plugin add figma@openai-curated，不要当成 Figma MCP。
+
+这是 Figma 做的设计到代码插件，用来看稿、实现界面、写 Code Connect 模板，以及生成项目级设计系统规则。产品页是 [Figma](https://openai.com/business/plugins/figma/)。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/figma/.codex-plugin/plugin.json) 的 name 是 \`figma\`、version 是 \`2.0.20\`，所以精选 id 是 \`figma@openai-curated\`。现行清单声明 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/figma/.app.json) 和 \`skills/\`，能力含 Interactive、Read、Write。**没有** \`mcpServers\` 字段。
+
+CLI：
+
+\`\`\`bash
+codex plugin add figma@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install figma@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Figma 再装，效果一样。装完按提示 Connect Figma 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+仓库另有 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/figma/.mcp.json)，表名是 \`figma\`，type 是 http，URL 是 \`https://mcp.figma.com/mcp\`（带 \`/mcp\`），\`oauth_resource\` 也是 \`https://mcp.figma.com/mcp\`。因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，不要假设 \`plugin add\` 会自动叠这张 MCP 表。只要 MCP、不要技能和 App 时，走现有的远程 MCP 技巧：\`codex mcp add figma --url https://mcp.figma.com/mcp\`，再 \`mcp login figma\`。插件已经登记 MCP 时，不要再 \`mcp add\` 叠一张。不要发明 \`mcp login figma\` 当插件安装步骤。
+
+技能随插件走，仓库 [README](https://github.com/openai/plugins/blob/main/plugins/figma/README.md) 列出 \`figma-implement-design\`、\`figma-code-connect\`、\`figma-create-design-system-rules\`、\`figma-create-new-file\`、\`figma-generate-design\`、\`figma-generate-library\`、\`figma-use\`。不要 \`npx skills add\` 当 Codex 安装器，也不要手拷到 \`~/.codex/skills\`。不要发明 \`$figma\` 斜杠。
+
+不要和旁边那几条搞混：
+
+- 手写 \`mcp add figma\` 只登记远程表，不会装 Plugins 目录里的 Figma App 和技能。
+- 桌面 Plugins 里点 Install Figma 只连 MCP 连接器，不等于这条精选插件。
+- 不要抄 Claude 的 \`claude plugin install figma@claude-plugins-official\`。
+- 不要把本机 Figma 桌面 \`http://127.0.0.1:3845/mcp\` 和企业本地 MCP 抄成这条精选插件。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 Figma。ChatGPT 里可以用 \`@Figma\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`figma@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Figma。
+
+不要做这些：
+
+- 不要当成手写 Figma MCP。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`figma@claude-plugins-official\`。
+- 不要抄 \`/sse\` 或 \`experimental_use_rmcp_client\`。
+- 不要把仓库 clone 进 \`~/.codex/plugins/cache\` 当主安装路径。
+- 不要一上来 \`--yolo\`：改稿、新建文件、写回设计系统会动真实 Figma 文件。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Figma", "figma@openai-curated"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-figma-remote"],
+    sources: [
+      {
+        label: "OpenAI · Figma",
+        url: "https://openai.com/business/plugins/figma/",
+      },
+      {
+        label: "openai/plugins · figma plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/figma/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · figma README",
+        url: "https://github.com/openai/plugins/blob/main/plugins/figma/README.md",
+      },
+    ],
+  },
+  {
+    id: "slack-codex-plugin",
+    no: 519,
+    title:
+      "Slack 官方 Codex 插件：桌面 Plugins 搜 Slack，CLI 用 plugin add slack@openai-curated，不要当成 Slack MCP",
+    summary:
+      "官方 Codex：codex plugin add slack@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Slack，再 Connect Slack。这是频道摘要和草稿插件，不是手写 mcp add slack，也不是 Cloud @Codex。",
+    body: `Slack 官方 Codex 插件：桌面 Plugins 搜 Slack，CLI 用 plugin add slack@openai-curated，不要当成 Slack MCP。
+
+这是把已连接的 Slack 工作区接到 Codex，用来摘要频道、起草回复和整理会话。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/slack/.codex-plugin/plugin.json) 的 name 是 \`slack\`、version 是 \`0.1.7\`，所以精选 id 是 \`slack@openai-curated\`。现行清单只声明 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/slack/.app.json)，没有 \`skills\` 字段，也没有 \`mcpServers\` 字段。不要发明捆绑技能名。
+
+CLI：
+
+\`\`\`bash
+codex plugin add slack@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install slack@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Slack 再装，效果一样。装完按提示 Connect Slack 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+仓库另有 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/slack/.mcp.json)，表名是 \`slack\`，type 是 http，URL 是 \`https://mcp.slack.com/mcp\`（带 \`/mcp\`），并带预填 \`oauth.client_id\`。因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，不要假设 \`plugin add\` 会自动叠这张 MCP 表。不要把这份连接器 \`client_id\` 抄进手写 \`mcp add\`。只要 MCP、不要 App 时，走现有的远程 MCP 技巧：\`codex mcp add slack --url https://mcp.slack.com/mcp --oauth-client-id YOUR_SLACK_CLIENT_ID\`，再 \`mcp login slack\`。Slack 不支持 DCR，必须用你自己 Slack 应用的 client ID。插件已经登记 MCP 时，不要再 \`mcp add\` 叠一张。不要发明 \`mcp login slack\` 当插件安装步骤。
+
+不要和旁边那几条搞混：
+
+- 手写 \`mcp add slack\` 只登记远程表，不会装 Plugins 目录里的 Slack App。
+- Cloud 频道里的 \`@Codex\` 是云任务入口，不是这条精选插件。
+- Teams 是独立插件，不管 Slack 频道。
+- 不要抄第三方 \`npx codex-marketplace add openai/plugins/plugins/slack --plugin\`。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 Slack。ChatGPT 里可以用 \`@Slack\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`slack@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Slack。
+
+不要做这些：
+
+- 不要当成手写 Slack MCP 或 Cloud \`@Codex\`。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`slack@claude-plugins-official\`。
+- 不要抄 \`--transport http\` 或 \`/sse\`。
+- 不要发明捆绑技能名或 \`$slack\` 斜杠。
+- 不要一上来 \`--yolo\`：发消息、改频道内容会动真实 Slack 工作区。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Slack", "slack@openai-curated"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-slack-remote"],
+    sources: [
+      {
+        label: "openai/plugins · slack plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/slack/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · slack .mcp.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/slack/.mcp.json",
+      },
+      {
+        label: "openai/plugins · slack .app.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/slack/.app.json",
+      },
+    ],
+  },
+  {
+    id: "github-codex-plugin",
+    no: 520,
+    title:
+      "GitHub 官方 Codex 插件：桌面 Plugins 搜 GitHub，CLI 用 plugin add github@openai-curated，不要当成 GitHub MCP",
+    summary:
+      "官方 Codex：codex plugin add github@openai-curated。桌面 Plugins 或 TUI /plugins 搜 GitHub，再 Connect GitHub。这是工单、PR 和 CI 插件，不是手写 Copilot MCP，也不是 @codex review。",
+    body: `GitHub 官方 Codex 插件：桌面 Plugins 搜 GitHub，CLI 用 plugin add github@openai-curated，不要当成 GitHub MCP。
+
+这是把 GitHub 仓库接到 Codex，用来看 PR、分诊 issue、查失败的 Actions，并准备改动。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/github/.codex-plugin/plugin.json) 的 name 是 \`github\`、version 是 \`0.1.11\`，所以精选 id 是 \`github@openai-curated\`。现行清单只声明 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/github/.app.json)，没有 \`skills\` 字段，也没有 \`mcpServers\` 字段。不要发明捆绑技能名。不要写成 \`github@openai-curated-remote\`。
+
+CLI：
+
+\`\`\`bash
+codex plugin add github@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install github@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 GitHub 再装，效果一样。装完按提示 Connect GitHub 账号。企业实例才再连 GitHub Enterprise，两份连接器在清单里都是 \`required: false\`。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+仓库另有 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/github/.mcp.json)，表名是 \`github\`，type 是 http，URL 是 \`https://api.githubcopilot.com/mcp/\`（**有**尾斜杠），\`bearer_token_env_var\` 是 \`GITHUB_PAT_TOKEN\`。因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，不要假设 \`plugin add\` 会自动叠这张 MCP 表。只要 MCP、不要 App 时，走现有的托管 MCP 技巧：启动进程里先 \`export GITHUB_PAT_TOKEN\`，再 \`codex mcp add github --url https://api.githubcopilot.com/mcp/ --bearer-token-env-var GITHUB_PAT_TOKEN\`。这是 Bearer，**不要** \`mcp login github\`。插件已经登记 MCP 时，不要再 \`mcp add\` 叠一张。不要发明 \`mcp login github\` 当插件安装步骤。
+
+不要和旁边那几条搞混：
+
+- 手写 Copilot MCP 只登记远程表，不会装 Plugins 目录里的 GitHub App。
+- Cloud 评论里的 \`@codex review\` 是 PR 机器人，不是这条精选插件。
+- 配置示例里的 \`github@openai-curated-remote\` 不是这条 CLI id。
+- 不要把 PAT 写进 TOML 或 \`http_headers\`。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 GitHub。ChatGPT 里可以用 \`@GitHub\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`github@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 GitHub。
+
+不要做这些：
+
+- 不要当成手写 GitHub MCP 或 \`@codex review\`。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`github@claude-plugins-official\`。
+- 不要抄 \`/sse\` 或对这台跑 \`mcp login\`。
+- 不要发明捆绑技能名或 \`$github\` 斜杠。
+- 不要一上来 \`--yolo\`：改 issue、推提交、合并 PR 会动真实仓库。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "GitHub", "github@openai-curated"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-github-hosted"],
+    sources: [
+      {
+        label: "openai/plugins · github plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/github/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · github .mcp.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/github/.mcp.json",
+      },
+      {
+        label: "openai/plugins · github .app.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/github/.app.json",
+      },
+    ],
+  },
+  {
+    id: "dropbox-codex-plugin",
+    no: 521,
+    title:
+      "Dropbox 官方 Codex 插件：桌面 Plugins 搜 Dropbox，CLI 用 plugin add dropbox@openai-curated，不要当成 Google Drive",
+    summary:
+      "官方 Codex：codex plugin add dropbox@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Dropbox，再 Connect Dropbox。这是网盘文件插件，不是 Google Drive，也不要当成会自动叠 MCP 表。",
+    body: `Dropbox 官方 Codex 插件：桌面 Plugins 搜 Dropbox，CLI 用 plugin add dropbox@openai-curated，不要当成 Google Drive。
+
+这是把已连接的 Dropbox 文件接到 Codex，用来找文件、看内容、整理文件夹并生成分享链接。产品页是 [Dropbox](https://openai.com/business/plugins/dropbox/)。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/dropbox/.codex-plugin/plugin.json) 的 name 是 \`dropbox\`、version 是 \`5.0.1\`，所以精选 id 是 \`dropbox@openai-curated\`。现行清单声明 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/dropbox/.app.json) 和 \`skills/\`，**没有** \`mcpServers\` 字段。
+
+CLI：
+
+\`\`\`bash
+codex plugin add dropbox@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install dropbox@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Dropbox 再装，效果一样。装完按提示 Connect Dropbox 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。不要把 ChatGPT 侧栏 Plugins → Connect Dropbox 当成 Codex CLI 安装器。
+
+仓库另有 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/dropbox/.mcp.json)，表名是 \`dropbox\`，type 是 http，URL 是 \`https://mcp.dropbox.com/mcp\`（带 \`/mcp\`）。因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，不要假设 \`plugin add\` 会自动叠这张 MCP 表。只要 MCP、不要技能和 App 时，才手写 \`mcp add dropbox --url https://mcp.dropbox.com/mcp\`。插件已经登记 MCP 时，不要再 \`mcp add\` 叠一张。不要发明 \`mcp login dropbox\` 当插件安装步骤。
+
+技能随插件走：\`find-dropbox-content\`、\`inspect-dropbox-file\`、\`organize-dropbox-folder\`、\`share-dropbox-content\`、\`clean-up-dropbox-content\`、\`collect-files-with-request\`。不要 \`npx skills add\` 当 Codex 安装器，也不要手拷到 \`~/.codex/skills\`。不要发明 \`$dropbox\` 斜杠。
+
+不要和旁边那几条搞混：
+
+- Google Drive 是独立插件，管 Docs / Sheets / Slides，不管 Dropbox 文件夹。
+- 手写 \`mcp add dropbox\` 只登记远程表，不会装 Plugins 目录里的 Dropbox App 和技能。
+- 不要把 ChatGPT Help 里的侧栏 Connect 抄成 Codex \`plugin add\`。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 Dropbox。ChatGPT 里可以用 \`@Dropbox\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`dropbox@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Dropbox。
+
+不要做这些：
+
+- 不要当成 Google Drive。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`dropbox@claude-plugins-official\`。
+- 不要抄 \`/sse\`。
+- 不要发明捆绑技能名以外的斜杠。
+- 不要一上来 \`--yolo\`：改文件、建分享链接、整理文件夹会动真实 Dropbox。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Dropbox", "dropbox@openai-curated"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "OpenAI · Dropbox",
+        url: "https://openai.com/business/plugins/dropbox/",
+      },
+      {
+        label: "openai/plugins · dropbox plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/dropbox/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · dropbox .mcp.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/dropbox/.mcp.json",
+      },
+    ],
+  },
+  {
+    id: "monday-com-codex-plugin",
+    no: 522,
+    title:
+      "monday.com 官方 Codex 插件：桌面 Plugins 搜 monday.com，CLI 用 plugin add monday-com@openai-curated，不要当成 ClickUp",
+    summary:
+      "官方 Codex：codex plugin add monday-com@openai-curated。桌面 Plugins 或 TUI /plugins 搜 monday.com，再 Connect monday.com。这是看板和 CRM 插件，不是 ClickUp，也不要当成会自动叠 MCP 表。",
+    body: `monday.com 官方 Codex 插件：桌面 Plugins 搜 monday.com，CLI 用 plugin add monday-com@openai-curated，不要当成 ClickUp。
+
+这是把 monday.com 看板接到 Codex，用来搜 board、建 item、改列、派负责人和发更新。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/monday-com/.codex-plugin/plugin.json) 的 name 是 \`monday-com\`、version 是 \`2.0.0\`，所以精选 id 是 \`monday-com@openai-curated\`。现行清单只声明 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/monday-com/.app.json)，没有 \`skills\` 字段，也没有 \`mcpServers\` 字段。不要发明捆绑技能名。不要写成 \`monday@openai-curated\`。
+
+CLI：
+
+\`\`\`bash
+codex plugin add monday-com@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install monday-com@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 monday.com 再装，效果一样。装完按提示 Connect monday.com 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+仓库另有 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/monday-com/.mcp.json)，表名是 \`monday-com\`，type 是 http，URL 是 \`https://mcp.monday.com/mcp\`（带 \`/mcp\`）。因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，不要假设 \`plugin add\` 会自动叠这张 MCP 表。只要 MCP、不要 App 时，才手写 \`mcp add monday-com --url https://mcp.monday.com/mcp\`。插件已经登记 MCP 时，不要再 \`mcp add\` 叠一张。不要发明 \`mcp login monday-com\` 当插件安装步骤。
+
+不要和旁边那几条搞混：
+
+- ClickUp 是独立任务插件，不管 monday.com 的 board 和 CRM。
+- Linear 是独立工单插件，不管 monday.com 看板。
+- 手写 MCP 只登记远程表，不会装 Plugins 目录里的 monday.com App。
+- 不要把「Sales 插件」之类的目录别名当成这条 CLI id。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 monday.com。ChatGPT 里可以用 \`@monday.com\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`monday-com@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 monday.com。
+
+不要做这些：
+
+- 不要当成 ClickUp 或 Linear。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`monday-com@claude-plugins-official\`。
+- 不要抄 \`/sse\`。
+- 不要发明捆绑技能名或 \`$monday\` 斜杠。
+- 不要一上来 \`--yolo\`：建 item、改列、派负责人会动真实 monday.com 工作区。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "monday.com", "monday-com@openai-curated"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "openai/plugins · monday-com plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/monday-com/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · monday-com .mcp.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/monday-com/.mcp.json",
+      },
+      {
+        label: "openai/plugins · monday-com .app.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/monday-com/.app.json",
+      },
+    ],
+  },
+  {
+    id: "zoom-codex-plugin",
+    no: 523,
+    title:
+      "Zoom 官方 Codex 插件：桌面 Plugins 搜 Zoom，CLI 用 plugin add zoom@openai-curated，不要当成 Slack",
+    summary:
+      "官方 Codex：codex plugin add zoom@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Zoom，再 Connect Zoom。这是会议和应用连接器插件，不是 Slack，也不要当成会自动叠 MCP 表。",
+    body: `Zoom 官方 Codex 插件：桌面 Plugins 搜 Zoom，CLI 用 plugin add zoom@openai-curated，不要当成 Slack。
+
+这是把 Zoom 会议接到 Codex，用来搜会议、拉纪要、转写和录像，并走 REST / SDK / webhook 开发工作流。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/zoom/.codex-plugin/plugin.json) 的 name 是 \`zoom\`、version 是 \`1.0.0\`，所以精选 id 是 \`zoom@openai-curated\`。现行清单声明 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/zoom/.app.json) 和 \`skills\`，没有 \`mcpServers\` 字段。不要发明 \`$zoom\`。
+
+CLI：
+
+\`\`\`bash
+codex plugin add zoom@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install zoom@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Zoom 再装，效果一样。装完按提示 Connect Zoom 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+README 写明：装完可用 \`@Zoom\`，确定性流程走 \`/setup-zoom-oauth\`、\`/plan-zoom-product\`、\`/debug-zoom-webhook\` 这类斜杠。开发技能是 explicit-only，要显式调用 \`$start\` 或 \`$setup-zoom-oauth\`，不要指望普通任务措辞会自动选中。
+
+仓库另有 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/zoom/.mcp.json)，表名是 \`zoom\`，type 是 http，URL 是 \`https://mcp.zoom.us/mcp/meeting/streamable\`。因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，不要假设 \`plugin add\` 会自动叠这张 MCP 表。只要 MCP、不要 App 时，才手写 \`mcp add zoom --url https://mcp.zoom.us/mcp/meeting/streamable\`。插件已经登记 MCP 时，不要再 \`mcp add\` 叠一张。不要发明 \`mcp login zoom\` 当插件安装步骤。不要抄 \`.mcp.json\` 里的 OAuth client_id 占位符。
+
+不要和旁边那几条搞混：
+
+- Slack 是独立聊天插件，不管 Zoom 会议纪要和 SDK。
+- Microsoft Teams 是独立会议插件，不管 Zoom。
+- Granola 是另一份会议笔记插件，不是这条 CLI id。
+- 手写 MCP 只登记远程表，不会装 Plugins 目录里的 Zoom App、技能和斜杠。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 Zoom。ChatGPT 里可以用 \`@Zoom\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`zoom@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Zoom。
+
+不要做这些：
+
+- 不要当成 Slack、Teams 或 Granola。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`zoom@claude-plugins-official\`。
+- 不要抄 \`/sse\`。
+- 不要发明 \`$zoom\` 斜杠。
+- 不要一上来 \`--yolo\`：搜会议、改 Docs、建集成会动真实 Zoom 工作区。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Zoom", "zoom@openai-curated"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "openai/plugins · zoom plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/zoom/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · zoom README",
+        url: "https://github.com/openai/plugins/blob/main/plugins/zoom/README.md",
+      },
+      {
+        label: "openai/plugins · zoom .mcp.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/zoom/.mcp.json",
+      },
+    ],
+  },
+  {
+    id: "atlassian-rovo-codex-plugin",
+    no: 524,
+    title:
+      "Atlassian Rovo 官方 Codex 插件：桌面 Plugins 搜 Atlassian Rovo，CLI 用 plugin add atlassian-rovo@openai-curated，不要当成 Linear",
+    summary:
+      "官方 Codex：codex plugin add atlassian-rovo@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Atlassian Rovo，再 Connect。这是 Jira 和 Confluence 插件，不是 Linear，也不要把仓库里的 authv2 表当成现行 MCP 安装步骤。",
+    body: `Atlassian Rovo 官方 Codex 插件：桌面 Plugins 搜 Atlassian Rovo，CLI 用 plugin add atlassian-rovo@openai-curated，不要当成 Linear。
+
+这是把 Jira 和 Confluence 接到 Codex，用来搜 issue、建任务、拉 Confluence 决策。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/atlassian-rovo/.codex-plugin/plugin.json) 的 name 是 \`atlassian-rovo\`、version 是 \`1.0.6\`，所以精选 id 是 \`atlassian-rovo@openai-curated\`。现行清单只声明 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/atlassian-rovo/.app.json)，没有 \`skills\` 字段，也没有 \`mcpServers\` 字段。不要发明捆绑技能名。不要写成 \`atlassian@openai-curated\` 或 \`rovo@openai-curated\`。
+
+CLI：
+
+\`\`\`bash
+codex plugin add atlassian-rovo@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install atlassian-rovo@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Atlassian Rovo 再装，效果一样。装完按提示 Connect Atlassian 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。官方入门页给桌面的也是 Plugins / Connectors 里找 Atlassian Rovo。
+
+仓库另有 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/atlassian-rovo/.mcp.json)，表名是 \`atlassian-rovo\`，type 是 http，URL 是 \`https://mcp.atlassian.com/v1/mcp/authv2\`。因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，不要假设 \`plugin add\` 会自动叠这张 MCP 表。这条 authv2 是 2026-05 切 DCR 时的过渡地址，**不要**把它当成现行 MCP 安装步骤。只要 MCP、不要 App 时，仍走已有的 \`mcp add atlassian --url https://mcp.atlassian.com/v2/mcp\`，再 \`mcp login atlassian\`。插件已经登记 MCP 时，不要再 \`mcp add\` 叠一张。不要发明 \`mcp login atlassian-rovo\` 当插件安装步骤。
+
+不要和旁边那几条搞混：
+
+- Linear 是独立工单插件，不管 Jira 和 Confluence。
+- ClickUp / monday.com 是独立任务看板，不是 Atlassian。
+- 手写 MCP 表名是 \`atlassian\`，不是 \`atlassian-rovo\`。
+- Bitbucket Agentic Pipelines 那条流水线 MCP 是另一条路，不要叠进来。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 Atlassian Rovo。ChatGPT 里可以用 \`@Atlassian Rovo\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`atlassian-rovo@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Atlassian Rovo。
+
+不要做这些：
+
+- 不要当成 Linear、ClickUp 或 monday.com。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`atlassian-rovo@claude-plugins-official\`。
+- 不要抄 \`/sse\`，也不要把 authv2 写成现行唯一 MCP 地址。
+- 不要发明 \`$rovo\` 或 \`$atlassian\` 斜杠。
+- 不要一上来 \`--yolo\`：建 Jira 任务、改 Confluence 会动真实云站点。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Atlassian Rovo", "atlassian-rovo@openai-curated"],
+    related: ["mcp-atlassian-remote", "plugins-vs-skills", "plugin-session-refresh"],
+    sources: [
+      {
+        label: "openai/plugins · atlassian-rovo plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/atlassian-rovo/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · atlassian-rovo .mcp.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/atlassian-rovo/.mcp.json",
+      },
+      {
+        label: "OpenAI · Atlassian Rovo plugin",
+        url: "https://openai.com/business/plugins/atlassian-rovo/",
+      },
+    ],
+  },
+  {
+    id: "adobe-codex-plugin",
+    no: 525,
+    title:
+      "Adobe 官方 Codex 插件：桌面 Plugins 搜 Adobe，CLI 用 plugin add adobe@openai-curated，不要当成 Canva",
+    summary:
+      "官方 Codex：codex plugin add adobe@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Adobe，再 Connect Adobe。这是 Creative Cloud 连接器，不是 Canva，也不要发明 mcp login adobe。",
+    body: `Adobe 官方 Codex 插件：桌面 Plugins 搜 Adobe，CLI 用 plugin add adobe@openai-curated，不要当成 Canva。
+
+这是把 Photoshop、Express、Acrobat 等 Creative Cloud 能力接到 Codex，用来修图、出社交稿、剪短视频和转 PDF。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/adobe/.codex-plugin/plugin.json) 的 name 是 \`adobe\`、version 是 \`8.0.0\`，所以精选 id 是 \`adobe@openai-curated\`。现行清单声明 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/adobe/.app.json) 和 \`skills\`，没有 \`mcpServers\` 字段。仓库里也没有 \`.mcp.json\`。不要发明 \`$adobe\`。
+
+CLI：
+
+\`\`\`bash
+codex plugin add adobe@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install adobe@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。不要抄 Canva 那条 \`marketplace add canva-sdks/canva-skills\`。TUI \`/plugins\` 或桌面 Plugins 搜 Adobe 再装，效果一样。装完按提示 Connect Adobe 账号；也可以先以访客试用，登录后才能把作品存进 Creative Cloud。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+技能随插件走，目录名是 \`adobe-retouch-portraits\`、\`adobe-batch-edit-photos\`、\`adobe-create-mockups\`、\`adobe-create-social-variations\`、\`adobe-design-from-template\`、\`adobe-edit-quick-cut\`。不要发明 \`$adobe\`。不要 \`npx skills add\` 当 Codex 安装器，也不要手拷到 \`~/.codex/skills\`。
+
+因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，也不存在 \`.mcp.json\`，不要发明 \`mcp add adobe\` 或 \`mcp login adobe\` 当插件安装步骤。
+
+不要和旁边那几条搞混：
+
+- Canva 是独立设计插件，CLI id 是 \`canva@canva-skills\`，要先加 marketplace。
+- Figma 是独立设计插件，不管 Creative Cloud 资产。
+- 手写 MCP 不会装 Plugins 目录里的 Adobe App 和技能。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 Adobe。ChatGPT 里可以用 \`@Adobe\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`adobe@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Adobe。
+
+不要做这些：
+
+- 不要当成 Canva 或 Figma。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`adobe@claude-plugins-official\`。
+- 不要抄 \`/sse\`。
+- 不要发明 \`$adobe\` 斜杠。
+- 不要一上来 \`--yolo\`：修图、出稿、转 PDF 会动真实 Adobe 账号内容。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Adobe", "adobe@openai-curated"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "openai/plugins · adobe plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/adobe/.codex-plugin/plugin.json",
+      },
+      {
+        label: "OpenAI · Adobe plugin",
+        url: "https://openai.com/business/plugins/adobe/",
+      },
+      {
+        label: "openai/plugins · adobe-retouch-portraits",
+        url: "https://github.com/openai/plugins/blob/main/plugins/adobe/skills/adobe-retouch-portraits/SKILL.md",
+      },
+    ],
+  },
+  {
+    id: "supabase-codex-plugin",
+    no: 526,
+    title:
+      "Supabase 官方 Codex 插件：桌面 Plugins 搜 Supabase，CLI 用 plugin add supabase@openai-curated，不要当成 Supabase MCP",
+    summary:
+      "官方 Codex：codex plugin add supabase@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Supabase，再 Connect Supabase。现行 plugin.json 没有 mcpServers，不要当成会自动叠 MCP。只要远程 MCP 仍走 mcp add supabase。",
+    body: `Supabase 官方 Codex 插件：桌面 Plugins 搜 Supabase，CLI 用 plugin add supabase@openai-curated，不要当成 Supabase MCP。
+
+这是把托管 Postgres 项目、Auth、Edge Functions 和迁移接到 Codex，用来查库、改 schema、审 RLS。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/supabase/.codex-plugin/plugin.json) 的 name 是 \`supabase\`、version 是 \`1.0.0\`，所以精选 id 是 \`supabase@openai-curated\`。现行清单声明 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/supabase/.app.json) 和 \`skills\`，没有 \`mcpServers\` 字段。不要发明 \`$supabase\`。不要把 \`.app.json\` 里的 connector id 抄进手写配置。
+
+CLI：
+
+\`\`\`bash
+codex plugin add supabase@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install supabase@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。不要发明 \`plugin add supabase@supabase\`。TUI \`/plugins\` 或桌面 Plugins 搜 Supabase 再装，效果一样。装完按提示 Connect Supabase 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+README 写明插件带远程 MCP 和 [supabase/agent-skills](https://github.com/supabase/agent-skills) 里的技能（示例是 \`postgres-best-practices\`）。仓库里的 \`git submodule update\` 是插件作者克隆后拉共享技能用的，**不是** Codex 安装步骤。不要 \`git clone\` 再 \`/plugins\`，也不要把子模块命令抄进会话。
+
+技能随插件走，目录和 SKILL.md 的 name 是 \`supabase\`、\`supabase-postgres-best-practices\`。不要发明 \`$supabase\` 斜杠。不要 \`npx skills add\` 当 Codex 安装器，也不要手拷到 \`~/.codex/skills\`。
+
+仓库另有 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/supabase/.mcp.json)，表名是 \`supabase\`，type 是 http，URL 是 \`https://mcp.supabase.com/mcp\`。因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，不要假设 \`plugin add\` 会自动叠这张 MCP 表。只要 MCP、不要 App 和技能时，才走已收录的 \`mcp-supabase-remote\`：\`mcp add supabase --url https://mcp.supabase.com/mcp\` 再 \`mcp login supabase\`。插件已经登记 MCP 时，不要再 \`mcp add\` 叠一张。不要发明 \`mcp login supabase\` 当插件安装步骤。查询参数 \`read_only\`、\`project_ref\`、\`features\` 仍写进那条 MCP \`url\`，不要写进 \`plugin add\`。
+
+不要和旁边那几条搞混：
+
+- 已收录的 \`mcp-supabase-remote\` 只登记远程表，不会装 Plugins 目录里的 Supabase App 和技能。
+- Neon 是另一份 Postgres 插件，桌面走 Plugins 搜 Neon，不要发明 \`plugin add neon@openai-curated\`。
+- 通用 PostgreSQL 插件是 \`postgres@postgres\`，先 \`marketplace add gemini-cli-extensions/postgres\`，不管托管项目。
+- 手写 MCP 不会带 \`supabase-postgres-best-practices\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`supabase@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Supabase。
+
+不要做这些：
+
+- 不要当成只连 \`mcp.supabase.com/mcp\` 的 MCP 专节。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`supabase@claude-plugins-official\`。
+- 不要抄 \`/sse\`。
+- 不要发明 \`$supabase\` 斜杠。
+- 不要把 \`git submodule update --init --recursive\` 当安装器。
+- 不要一上来 \`--yolo\`：执行 SQL、改 schema、部署 Edge Functions 会动真实项目。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Supabase", "supabase@openai-curated"],
+    related: ["mcp-supabase-remote", "plugins-vs-skills", "plugin-session-refresh"],
+    sources: [
+      {
+        label: "openai/plugins · supabase plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/supabase/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · supabase README",
+        url: "https://github.com/openai/plugins/blob/main/plugins/supabase/README.md",
+      },
+      {
+        label: "openai/plugins · supabase .mcp.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/supabase/.mcp.json",
+      },
+    ],
+  },
+  {
+    id: "granola-codex-plugin",
+    no: 527,
+    title:
+      "Granola 官方 Codex 插件：桌面 Plugins 搜 Granola，CLI 用 plugin add granola@openai-curated，不要当成 Zoom",
+    summary:
+      "官方 Codex：codex plugin add granola@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Granola，再 Connect Granola。现行 plugin.json 只挂 apps，没有 skills 也没有 mcpServers，不要当成会自动叠 MCP。",
+    body: `Granola 官方 Codex 插件：桌面 Plugins 搜 Granola，CLI 用 plugin add granola@openai-curated，不要当成 Zoom。
+
+这是把 Granola 会议纪要接到 Codex，用来按话题、人、公司或时间范围搜会，并引用具体对话。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/granola/.codex-plugin/plugin.json) 的 name 是 \`granola\`、version 是 \`1.0.0\`，所以精选 id 是 \`granola@openai-curated\`。现行清单只声明 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/granola/.app.json)，没有 \`skills\` 字段，也没有 \`mcpServers\` 字段。不要发明捆绑技能名。不要发明 \`$granola\`。不要把 \`.app.json\` 里的 connector id 抄进手写配置。
+
+CLI：
+
+\`\`\`bash
+codex plugin add granola@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install granola@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Granola 再装，效果一样。装完按提示 Connect Granola 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+仓库另有 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/granola/.mcp.json)，表名是 \`granola\`，type 是 http，URL 是 \`https://mcp.granola.ai/mcp\`。因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，不要假设 \`plugin add\` 会自动叠这张 MCP 表。只要 MCP、不要 App 时，才手写 \`mcp add granola --url https://mcp.granola.ai/mcp\`。插件已经登记 MCP 时，不要再 \`mcp add\` 叠一张。不要发明 \`mcp login granola\` 当插件安装步骤。不要抄 Claude 的 \`claude mcp add granola --transport http\`。不要抄 Cursor 的 \`.cursor/mcp.json\`。
+
+不要和旁边那几条搞混：
+
+- Zoom 是独立会议插件，管会议、转写和 SDK，不管 Granola 笔记库。
+- Slack 和 Microsoft Teams 是聊天/会议插件，不是这条 CLI id。
+- 手写 MCP 只登记远程表，不会装 Plugins 目录里的 Granola App。
+- Granola 厂商文档的主路径是 Claude / ChatGPT 连接器，不是 \`plugin add granola@openai-curated\`。
+
+在支持的 Codex 任务视图里，打开 Sources → Use plugins，再搜已安装的 Granola。ChatGPT 里可以用 \`@Granola\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`granola@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Granola。
+
+不要做这些：
+
+- 不要当成 Zoom、Slack 或 Teams。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`granola@claude-plugins-official\`。
+- 不要抄 \`/sse\`。
+- 不要发明 \`$granola\` 斜杠。
+- 不要一上来 \`--yolo\`：搜纪要、拉转写会动真实 Granola 工作区。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Granola", "granola@openai-curated"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "openai/plugins · granola plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/granola/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · granola .mcp.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/granola/.mcp.json",
+      },
+      {
+        label: "openai/plugins · granola .app.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/granola/.app.json",
+      },
+    ],
+  },
+  {
+    id: "lovable-codex-plugin",
+    no: 528,
+    title:
+      "Lovable 官方 Codex 插件：桌面 Plugins 搜 Lovable，CLI 用 plugin add lovable@openai-curated，不要抄 Claude 的 lovable@claude-plugins-official",
+    summary:
+      "官方 Codex：codex plugin add lovable@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Lovable，再 Connect Lovable。现行 plugin.json 只挂 apps，没有 skills 也没有 mcpServers。不要当成会自动叠 MCP。",
+    body: `Lovable 官方 Codex 插件：桌面 Plugins 搜 Lovable，CLI 用 plugin add lovable@openai-curated，不要抄 Claude 的 lovable@claude-plugins-official。
+
+这是把 Lovable 应用搭建接到 Codex，用来在对话里起项目、改功能和部署。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/lovable/.codex-plugin/plugin.json) 的 name 是 \`lovable\`、version 是 \`2.0.1\`，所以精选 id 是 \`lovable@openai-curated\`。现行清单只声明 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/lovable/.app.json)，没有 \`skills\` 字段，也没有 \`mcpServers\` 字段。仓库里也没有 \`.mcp.json\`。不要发明捆绑技能名。不要发明 \`$lovable\`。不要把 \`.app.json\` 里的 connector id 抄进手写配置。
+
+CLI：
+
+\`\`\`bash
+codex plugin add lovable@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install lovable@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Lovable 再装，效果一样。装完按提示 Connect Lovable 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，也不存在 \`.mcp.json\`，不要假设 \`plugin add\` 会自动叠 MCP 表。厂商 MCP 页点名 ChatGPT / Claude / Cursor / VS Code，URL 是 \`https://mcp.lovable.dev\`（**没有** \`/mcp\` 后缀）。只要远程 MCP、不要 App 时，才手写 \`mcp add lovable --url https://mcp.lovable.dev\`。插件已经登记 MCP 时，不要再 \`mcp add\` 叠一张。不要发明 \`mcp login lovable\` 当插件安装步骤。不要抄 Claude 的 \`claude mcp add --transport http lovable\`。不要抄 Cursor 的 \`.cursor/mcp.json\`，也不要把文档里的 \`CLIENT_ID\` 字面量抄进 Codex。
+
+不要和旁边那几条搞混：
+
+- Vercel 是独立部署插件，桌面走 Plugins 搜 Vercel，不管 Lovable 项目。
+- Canva 是独立设计插件，要先 \`marketplace add canva-sdks/canva-skills\`。
+- Claude 的 \`/plugin install lovable@claude-plugins-official\` 和 Cursor 的 \`/lovable-new\` 不是 Codex 安装器。
+- 第三方 \`10K-Digital\` marketplace 不是这条精选 id。
+- 手写 MCP 只登记远程表，不会装 Plugins 目录里的 Lovable App。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`lovable@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Lovable。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`/plugin install lovable@claude-plugins-official\`。
+- 不要抄 \`npx skills add\` 或把 \`mcp.lovable.dev/skill.md\` 手拷到 \`~/.codex/skills\`。
+- 不要抄 \`/sse\`。
+- 不要发明 \`$lovable\` 斜杠。
+- 不要一上来 \`--yolo\`：建项目、改库、\`deploy_project\` 会动真实 Lovable 账号和额度。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Lovable", "lovable@openai-curated"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "openai/plugins · lovable plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/lovable/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · lovable .app.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/lovable/.app.json",
+      },
+      {
+        label: "Lovable · MCP server",
+        url: "https://docs.lovable.dev/integrations/lovable-mcp-server",
+      },
+    ],
+  },
+  {
+    id: "circleci-codex-plugin",
+    no: 529,
+    title:
+      "CircleCI 官方 Codex 插件：桌面 Plugins 搜 CircleCI，CLI 用 plugin add circleci@openai-curated，不要当成 Circle 支付 MCP",
+    summary:
+      "官方 Codex：codex plugin add circleci@openai-curated。桌面 Plugins 或 TUI /plugins 搜 CircleCI。现行 plugin.json 只挂 skills，没有 mcpServers。只要托管 MCP 仍走 mcp.circleci.com/v1/mcp。不要当成 Circle 支付。",
+    body: `CircleCI 官方 Codex 插件：桌面 Plugins 搜 CircleCI，CLI 用 plugin add circleci@openai-curated，不要当成 Circle 支付 MCP。
+
+这是把失败构建诊断、CLI 操作和 \`.circleci/config.yml\` 优化接到 Codex。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/circleci/.codex-plugin/plugin.json) 的 name 是 \`circleci\`、version 是 \`1.0.4\`，所以精选 id 是 \`circleci@openai-curated\`。现行清单只声明 \`skills\`，没有 \`apps\`，也没有 \`mcpServers\`。仓库里没有 \`.mcp.json\`。不要发明 \`$circleci\`。
+
+CLI：
+
+\`\`\`bash
+codex plugin add circleci@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install circleci@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。不要发明 \`plugin add circleci@skills\`。TUI \`/plugins\` 或桌面 Plugins 搜 CircleCI 再装，效果一样；已收录的 \`mcp-circleci-remote\` 写的也是这条 Plugins 路径。IDE 扩展没有 \`/plugins\`，用 CLI 这条。装完先 \`circleci auth login\`，技能要新开会话才加载。
+
+技能随插件走，SKILL.md 的 name 是 \`circleci-builds\`、\`chunk\`、\`circleci-cli\`、\`circleci-config\`。不要发明 \`$circleci\` 斜杠。不要把 CircleCI-Public/skills 源仓里尚未打进这份精选包的 \`circleci-testsuite\` 当成已装技能。不要 \`npx skills add\` 当 Codex 安装器，也不要手拷到 \`~/.codex/skills\`。源仓 README 的本地 marketplace 只给作者评测用，**不是** Codex 安装步骤。
+
+因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，不要假设 \`plugin add\` 会自动叠 MCP 表。只要远程 MCP、不要技能包时，才走已收录的 \`mcp-circleci-remote\`：\`mcp add circleci --url https://mcp.circleci.com/v1/mcp\` 再 \`mcp login circleci\`。不要发明 \`mcp login circleci\` 当插件安装步骤。不要装已弃用的 \`npx @circleci/mcp-server-circleci\`。
+
+不要和旁边那几条搞混：
+
+- 已收录的 \`mcp-circleci-remote\` 管托管 MCP 和 \`circleci auth login\`，本条补的是精选 CLI id。
+- Circle 支付 MCP 是 \`api.circle.com/v1/codegen/mcp\`，表名 \`circle\`，不是 CircleCI。
+- GitHub 官方插件是 \`github@openai-curated\`，不管 CircleCI pipeline。
+- 手写 MCP 不会装 \`circleci-builds\` 这些技能。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`circleci@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 CircleCI。
+
+不要做这些：
+
+- 不要当成 Circle 支付或 GitHub Actions。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`circleci@claude-plugins-official\`。
+- 不要抄 \`/sse\`。
+- 不要发明 \`$circleci\` 斜杠。
+- 不要一上来 \`--yolo\`：重跑 pipeline、改配置会动真实项目。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "CircleCI", "circleci@openai-curated"],
+    related: ["mcp-circleci-remote", "plugins-vs-skills", "plugin-session-refresh"],
+    sources: [
+      {
+        label: "openai/plugins · circleci plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/circleci/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · circleci-builds",
+        url: "https://github.com/openai/plugins/blob/main/plugins/circleci/skills/builds/SKILL.md",
+      },
+      {
+        label: "CircleCI-Public/skills",
+        url: "https://github.com/CircleCI-Public/skills",
+      },
+    ],
+  },
+  {
+    id: "cloudflare-openai-curated-plugin",
+    no: 530,
+    title:
+      "Cloudflare 官方 Codex 插件：桌面 Plugins 搜 Cloudflare，CLI 用 plugin add cloudflare@openai-curated，不要当成 cloudflare@cloudflare",
+    summary:
+      "官方 Codex：codex plugin add cloudflare@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Cloudflare。现行 plugin.json 挂 skills 和 mcpServers。插件 MCP 表名 cloudflare-api。不要当成 cloudflare@cloudflare。",
+    body: `Cloudflare 官方 Codex 插件：桌面 Plugins 搜 Cloudflare，CLI 用 plugin add cloudflare@openai-curated，不要当成 cloudflare@cloudflare。
+
+这是把 Workers、Wrangler 和 Cloudflare API 接到 Codex。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/cloudflare/.codex-plugin/plugin.json) 的 name 是 \`cloudflare\`、version 是 \`0.1.2\`，所以精选 id 是 \`cloudflare@openai-curated\`。现行清单声明 \`skills\` 和 \`mcpServers\`，没有 \`apps\`。仓库根有 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/cloudflare/.mcp.json)，没有 \`.app.json\`。不要发明 \`$cloudflare\`。
+
+CLI：
+
+\`\`\`bash
+codex plugin add cloudflare@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install cloudflare@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。不要写成 \`plugin add cloudflare@cloudflare\`：那是已收录的 \`cloudflare-skills-plugin\`，走 \`marketplace add cloudflare/skills\`。TUI \`/plugins\` 或桌面 Plugins 搜 Cloudflare 时，两份清单都可能叫 Cloudflare，以 \`codex plugin list\` 的 id 为准。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+技能随这份精选包走，目录名是 \`agents-sdk\`、\`building-ai-agent-on-cloudflare\`、\`building-mcp-server-on-cloudflare\`、\`cloudflare\`、\`durable-objects\`、\`sandbox-sdk\`、\`web-perf\`、\`workers-best-practices\`、\`wrangler\`。斜杠命令是 \`/cloudflare:build-agent\` 和 \`/cloudflare:build-mcp\`。不要发明 \`$cloudflare\`。不要把厂商仓 cloudflare/skills 或官方 Codex 页里尚未打进这份精选包的 \`cloudflare-email-service\`、\`cloudflare-one\`、\`nextjs-on-cloudflare\`、\`sandbox-next\`、\`turnstile-spin\` 当成已装技能。不要 \`npx skills add\` 当 Codex 安装器，也不要手拷到 \`~/.codex/skills\`。openai/plugins 这份 README 仍写 npx skills / Clone Copy，那是纯技能回退，**不是** \`plugin add cloudflare@openai-curated\`。
+
+现行 \`plugin.json\` **有**挂 \`mcpServers\`，\`plugin add\` 会登记 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/cloudflare/.mcp.json) 里的表：表名是 \`cloudflare-api\`，type 是 \`http\`，URL 是 \`https://mcp.cloudflare.com/mcp\`（**有** \`/mcp\` 后缀）。第一次连 MCP 走 OAuth。不要发明 \`mcp login cloudflare-api\` 当安装步骤。插件已经登记时，不要再手写 \`mcp add cloudflare --url https://mcp.cloudflare.com/mcp\` 叠一张：那张用户层表名是 \`cloudflare\`，精选包表名是 \`cloudflare-api\`。只要手写 MCP、不要技能包时，才走已收录的 \`mcp-cloudflare-remote\`。
+
+不要和旁边那几条搞混：
+
+- 已收录的 \`cloudflare-skills-plugin\` 是 \`cloudflare@cloudflare\`，先 \`marketplace add cloudflare/skills\`。
+- 已收录的 \`mcp-cloudflare-remote\` 管手写 \`cloudflare\` 表和 Code Mode，本条补的是精选 CLI id。
+- 不要抄 Claude 的 \`claude plugin marketplace add cloudflare/skills\` 再 \`claude plugin install cloudflare@cloudflare\`。
+- 文档排错里的十几台产品 MCP（docs / bindings / builds）不是这份精选包默认带的，不要一次性 \`required = true\`。
+- 手写 MCP 不会装 \`wrangler\` 这些技能。
+
+0.154 起先看**当前会话**的 \`/plugins\` 和 \`/mcp\`；没有再新开。\`codex plugin list\` 里应看到 \`cloudflare@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Cloudflare，再核 id。
+
+不要做这些：
+
+- 不要当成 \`cloudflare@cloudflare\` 或 Cloudflare AI Gateway 自定义 provider。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`cloudflare@claude-plugins-official\`。
+- 不要抄 \`/sse\`。
+- 不要发明 \`$cloudflare\` 斜杠。
+- 不要一上来 \`--yolo\`：部署 Worker、改 DNS、写账号资源会动真实项目。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Cloudflare", "cloudflare@openai-curated", "MCP"],
+    related: ["cloudflare-skills-plugin", "mcp-cloudflare-remote", "plugin-session-refresh"],
+    sources: [
+      {
+        label: "openai/plugins · cloudflare plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/cloudflare/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · cloudflare .mcp.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/cloudflare/.mcp.json",
+      },
+      {
+        label: "openai/plugins · wrangler SKILL.md",
+        url: "https://github.com/openai/plugins/blob/main/plugins/cloudflare/skills/wrangler/SKILL.md",
+      },
+    ],
+  },
+  {
+    id: "coderabbit-codex-plugin",
+    no: 531,
+    title:
+      "CodeRabbit 官方 Codex 插件：桌面 Plugins 搜 CodeRabbit，CLI 用 plugin add coderabbit@openai-curated，不要当成 GitHub 插件",
+    summary:
+      "官方 Codex：codex plugin add coderabbit@openai-curated。桌面 Plugins 或 TUI /plugins 搜 CodeRabbit。现行 plugin.json 只挂 skills，没有 mcpServers。技能 name 是 code-review。审查走 CodeRabbit CLI，不要当成 GitHub 插件。",
+    body: `CodeRabbit 官方 Codex 插件：桌面 Plugins 搜 CodeRabbit，CLI 用 plugin add coderabbit@openai-curated，不要当成 GitHub 插件。
+
+这是把当前改动的 AI 审查接到 Codex。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/coderabbit/.codex-plugin/plugin.json) 的 name 是 \`coderabbit\`、version 是 \`1.1.4\`，所以精选 id 是 \`coderabbit@openai-curated\`。现行清单只声明 \`skills\`，没有 \`apps\`，也没有 \`mcpServers\`。仓库里没有 \`.mcp.json\`。不要发明 \`$coderabbit\`。
+
+CLI：
+
+\`\`\`bash
+codex plugin add coderabbit@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install coderabbit@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。不要发明 \`plugin add coderabbit@coderabbit\`。TUI \`/plugins\` 或桌面 Plugins 搜 CodeRabbit 再装，效果一样；厂商 [Codex 集成页](https://docs.coderabbit.ai/cli/codex-integration) 写的也是这条 Plugins 路径。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+技能目录是 \`coderabbit-review\`，SKILL.md 的 name 是 \`code-review\`。官方文档用 \`@coderabbit\` 点名插件，例如 \`@coderabbit Review my current changes\`。不要发明 \`$coderabbit\` 斜杠。不要 \`npx skills add\` 当 Codex 安装器，也不要手拷到 \`~/.codex/skills\`。厂商仓 coderabbitai/codex-plugin 的 \`.agents/plugins\` 只给作者评测用，**不是** Codex 安装步骤。
+
+因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，不要假设 \`plugin add\` 会叠 MCP 表，也不要发明 \`mcp login coderabbit\` 或 \`mcp add coderabbit\`。审查跑的是本机 CodeRabbit CLI：缺命令时技能会走 \`curl -fsSL https://cli.coderabbit.ai/install.sh | sh\`，再 \`coderabbit auth login --agent\`。EU 账号才加 \`--region eu\`。不要把这条 curl / \`brew install coderabbit\` 当成 Codex 插件安装器。卸掉插件不会卸 CLI。
+
+不要和旁边那几条搞混：
+
+- GitHub 官方插件管仓库 Apps / MCP，不管 CodeRabbit 审查。
+- 已收录的 Codex Security 是 \`codex-security@openai-curated\`，跑的是安全 diff 扫描，不是 CodeRabbit。
+- 手写 \`coderabbit review --agent\` 不会装 \`code-review\` 技能。
+- 不要抄 Claude Code 的 CodeRabbit 插件工作流。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`coderabbit@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 CodeRabbit。
+
+不要做这些：
+
+- 不要当成 GitHub 插件或 Codex Security。
+- 不要抄 Claude 的 \`/plugin install\`，也不要发明 \`coderabbit@claude-plugins-official\`。
+- 不要发明 \`$coderabbit\` 斜杠。
+- 不要一上来 \`--yolo\`：审查本身只读，但让 Codex 按 finding 改代码会动工作区。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "CodeRabbit", "coderabbit@openai-curated"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "openai/plugins · coderabbit plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/coderabbit/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · code-review SKILL.md",
+        url: "https://github.com/openai/plugins/blob/main/plugins/coderabbit/skills/coderabbit-review/SKILL.md",
+      },
+      {
+        label: "CodeRabbit · Codex integration",
+        url: "https://docs.coderabbit.ai/cli/codex-integration",
+      },
+    ],
+  },
+  {
+    id: "superpowers-codex-plugin",
+    no: 532,
+    title:
+      "Superpowers 官方 Codex 插件：桌面 Plugins 搜 Superpowers，CLI 用 plugin add superpowers@openai-curated，不要抄 Claude 的 superpowers@claude-plugins-official",
+    summary:
+      "官方 Codex：codex plugin add superpowers@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Superpowers。现行 plugin.json 只挂 skills，没有 mcpServers，也没有 slash 命令。不要抄 Claude 的 /plugin install。",
+    body: `Superpowers 官方 Codex 插件：桌面 Plugins 搜 Superpowers，CLI 用 plugin add superpowers@openai-curated，不要抄 Claude 的 superpowers@claude-plugins-official。
+
+这是把 brainstorming、TDD 和 git worktree 工作流接到 Codex。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/superpowers/.codex-plugin/plugin.json) 的 name 是 \`superpowers\`、version 是 \`6.3.0\`，所以精选 id 是 \`superpowers@openai-curated\`。现行清单只声明 \`skills\`，没有 \`apps\`，也没有 \`mcpServers\`。仓库里没有 \`commands/\`，也没有 \`.mcp.json\`。不要发明 \`$superpowers\`，也不要发明 \`/brainstorming\`。
+
+CLI：
+
+\`\`\`bash
+codex plugin add superpowers@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install superpowers@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。不要发明 \`plugin add superpowers@superpowers\`。TUI \`/plugins\` 或桌面 Plugins 搜 Superpowers 再装，效果一样；[源仓 README](https://github.com/obra/superpowers) 的 Codex 节写的也是这条 Plugins 路径。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+技能随这份精选包走，目录名是 \`using-superpowers\`、\`brainstorming\`、\`writing-plans\`、\`executing-plans\`、\`subagent-driven-development\`、\`test-driven-development\`、\`using-git-worktrees\`、\`systematic-debugging\`、\`verification-before-completion\`、\`requesting-code-review\`、\`receiving-code-review\`、\`dispatching-parallel-agents\`、\`finishing-a-development-branch\`、\`writing-skills\`。用自然语言点名技能，例如「用 brainstorming 技能先出设计」。不要发明 \`$superpowers\` 或 \`/brainstorming\`：Codex 这份插件是 **skills-only**。不要 \`npx skills add\` 当 Codex 安装器，也不要手拷到 \`~/.codex/skills\`。不要把旧的 clone 到 \`~/.codex/superpowers\` 再跑 \`superpowers-codex bootstrap\` 当成现行安装。
+
+因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，不要发明 \`mcp login superpowers\` 或 \`mcp add superpowers\`。不要把 \`npx superpowers-manager install\` 当成这条：那会装 \`superpowers@superpowers-manager\`，还要先 \`plugin remove superpowers@openai-curated\`，不是精选目录路径。
+
+不要和旁边那几条搞混：
+
+- Claude 才是 \`/plugin install superpowers@claude-plugins-official\` 或 \`superpowers@superpowers-marketplace\`。
+- Cursor 才是 \`/add-plugin superpowers\`。
+- Grok 才是 \`grok plugin install superpowers@xai-official --trust\`。
+- 已收录的 Codex Security 管安全 diff 扫描，不是这套 TDD / 规划技能。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`superpowers@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Superpowers。
+
+不要做这些：
+
+- 不要抄 Claude / Cursor / Grok / Gemini 的安装器。
+- 不要发明 \`$superpowers\` 或 \`/brainstorming\`。
+- 不要一上来 \`--yolo\`：TDD 和工作树会改仓库。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Superpowers", "superpowers@openai-curated"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "openai/plugins · superpowers plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/superpowers/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · using-superpowers",
+        url: "https://github.com/openai/plugins/blob/main/plugins/superpowers/skills/using-superpowers/SKILL.md",
+      },
+      {
+        label: "obra/superpowers",
+        url: "https://github.com/obra/superpowers",
+      },
+    ],
+  },
+  {
+    id: "consensus-codex-plugin",
+    no: 533,
+    title:
+      "Consensus 官方 Codex 插件：桌面 Plugins 搜 Consensus，CLI 用 plugin add consensus@openai-curated，不要抄 Claude 的多模型 consensus 插件",
+    summary:
+      "官方 Codex：codex plugin add consensus@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Consensus。现行 plugin.json 只挂 apps，没有 skills 也没有 mcpServers。不要抄 Claude 的多模型 consensus 插件，也不要把 vendor 的 mcp add 当插件安装器。",
+    body: `Consensus 官方 Codex 插件：桌面 Plugins 搜 Consensus，CLI 用 plugin add consensus@openai-curated，不要抄 Claude 的多模型 consensus 插件。
+
+这是把 Consensus.app 的同行评议论文检索接到 Codex，用来搜 PubMed、Semantic Scholar、ArXiv 上的证据并生成带引用的综述。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/consensus/.codex-plugin/plugin.json) 的 name 是 \`consensus\`、version 是 \`4.0.0\`，所以精选 id 是 \`consensus@openai-curated\`。现行清单只声明 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/consensus/.app.json)，没有 \`skills\` 字段，也没有 \`mcpServers\` 字段。不要发明捆绑技能名。不要发明 \`$consensus\`。不要把 \`.app.json\` 里的 connector id 抄进手写配置。
+
+CLI：
+
+\`\`\`bash
+codex plugin add consensus@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install consensus@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Consensus 再装，效果一样。装完按提示 Connect Consensus 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+仓库另有 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/consensus/.mcp.json)，表名是 \`consensus\`，type 是 http，URL 是 \`https://mcp.consensus.app/mcp\`（**必须**带 \`/mcp\` 后缀）。因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，不要假设 \`plugin add\` 会自动叠这张 MCP 表。只要 MCP、不要 App 时，才按 [Consensus MCP 文档](https://docs.consensus.app/consensus-mcp) 手写：
+
+\`\`\`bash
+codex mcp add consensus --url https://mcp.consensus.app/mcp
+codex mcp login consensus
+\`\`\`
+
+插件已经登记 MCP 时，不要再 \`mcp add\` 叠一张。不要发明 \`mcp login consensus\` 当插件安装步骤。不要抄 Claude 的 \`--transport http\` 或 \`-- --transport http\`。不要抄 Cursor 的 \`.cursor/mcp.json\`。OAuth 过期才 \`codex mcp logout consensus\`，再 \`mcp login consensus\`。检索额度看 Consensus 套餐，不是 ChatGPT / Codex 订阅。
+
+不要和旁边那几条搞混：
+
+- Claude Code 的多模型 consensus 插件（例如 \`/plugin marketplace add AltimateAI/claude-consensus\` 再 \`/plugin install consensus\`，或 \`consensus@kahidreamers-marketplace\`）是多家模型投票，不是 Consensus.app 论文库。
+- ChatGPT App Store 里的 Consensus App 是网页 ChatGPT 连接器，不是这条 CLI id。
+- 手写 MCP 只登记远程表，不会装 Plugins 目录里的 Consensus App。
+- 厂商文档的 Codex 专节写的是上面那条 \`mcp add\`，不是 \`plugin add consensus@openai-curated\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`consensus@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Consensus。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`/plugin install consensus\` 或 \`consensus@claude-plugin-directory\`。
+- 不要抄 \`/sse\`，也不要把 URL 写成不带 \`/mcp\` 的 \`https://mcp.consensus.app\`。
+- 不要发明 \`$consensus\` 斜杠。
+- 不要一上来 \`--yolo\`：搜论文会打 Consensus 套餐的月度调用。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Consensus", "consensus@openai-curated"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "openai/plugins · consensus plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/consensus/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · consensus .mcp.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/consensus/.mcp.json",
+      },
+      {
+        label: "Consensus · MCP 入门",
+        url: "https://docs.consensus.app/consensus-mcp",
+      },
+    ],
   }
 ];

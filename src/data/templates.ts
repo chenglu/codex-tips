@@ -6009,5 +6009,294 @@ codex plugin list
 codex plugin add canva@canva-skills
 codex mcp login canva
 `,
+  },
+  {
+    id: "remotion-codex-plugin",
+    title: "$remotion 把 Remotion 技能打给 Codex",
+    filename: "terminal",
+    summary:
+      "$remotion 把 Remotion 技能打给 Codex。桌面 Plugins 搜 Remotion。仓库里才 npx remotion skills add。",
+    code: `# ChatGPT desktop → Codex → Plugins → search Remotion
+# new project prompt:
+# $remotion
+
+npx create-video --yes --blank my-video
+cd my-video
+npm install
+npx remotion skills add
+codex
+`,
+  },
+  {
+    id: "github-copilot-codex",
+    title: "Sign in with Copilot 把 Copilot 额度打给 Codex",
+    filename: "terminal",
+    summary:
+      "Sign in with Copilot 把 Copilot 额度打给 Codex。先 Cloud agent 的 Partner agents 打开 OpenAI Codex。不要 ChatGPT 登录。",
+    code: `# GitHub.com → profile → Copilot settings → Cloud agent
+# Partner agents → enable OpenAI Codex
+# VS Code OpenAI Codex extension → Sign in with Copilot
+# Pro+ / Copilot Max only
+`,
+  },
+  {
+    id: "outlook-email-codex-plugin",
+    title: "outlook-email@openai-curated 把 Outlook 收件箱打给 Codex",
+    filename: "terminal",
+    summary:
+      "outlook-email@openai-curated 把 Outlook 收件箱打给 Codex。桌面 Plugins 搜 Outlook Email，再 Connect Microsoft。",
+    code: `codex plugin add outlook-email@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "outlook-calendar-codex-plugin",
+    title: "outlook-calendar@openai-curated 把 Outlook 日程打给 Codex",
+    filename: "terminal",
+    summary:
+      "outlook-calendar@openai-curated 把 Outlook 日程打给 Codex。桌面 Plugins 搜 Outlook Calendar，再 Connect Microsoft。",
+    code: `codex plugin add outlook-calendar@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "teams-codex-plugin",
+    title: "teams@openai-curated 把 Teams 频道打给 Codex",
+    filename: "terminal",
+    summary:
+      "teams@openai-curated 把 Teams 频道打给 Codex。桌面 Plugins 搜 Microsoft Teams，再 Connect Microsoft。",
+    code: `codex plugin add teams@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "sharepoint-codex-plugin",
+    title: "sharepoint@openai-curated 把 SharePoint 站点打给 Codex",
+    filename: "terminal",
+    summary:
+      "sharepoint@openai-curated 把 SharePoint 站点打给 Codex。桌面 Plugins 搜 SharePoint，再 Connect Microsoft 工作或学校账号。",
+    code: `codex plugin add sharepoint@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "gmail-codex-plugin",
+    title: "gmail@openai-curated 把 Gmail 收件箱打给 Codex",
+    filename: "terminal",
+    summary:
+      "gmail@openai-curated 把 Gmail 收件箱打给 Codex。桌面 Plugins 搜 Gmail，再 Connect Google。",
+    code: `codex plugin add gmail@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "google-calendar-codex-plugin",
+    title: "google-calendar@openai-curated 把 Google 日程打给 Codex",
+    filename: "terminal",
+    summary:
+      "google-calendar@openai-curated 把 Google 日程打给 Codex。桌面 Plugins 搜 Google Calendar，再 Connect Google。",
+    code: `codex plugin add google-calendar@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "google-drive-codex-plugin",
+    title: "google-drive@openai-curated 把 Google Drive 文件打给 Codex",
+    filename: "terminal",
+    summary:
+      "google-drive@openai-curated 把 Google Drive 文件打给 Codex。桌面 Plugins 搜 Google Drive，再 Connect Google。",
+    code: `codex plugin add google-drive@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "linear-codex-plugin",
+    title: "linear@openai-curated 把 Linear 工单打给 Codex",
+    filename: "terminal",
+    summary:
+      "linear@openai-curated 把 Linear 工单打给 Codex。桌面 Plugins 搜 Linear，再 Connect Linear。",
+    code: `codex plugin add linear@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "clickup-codex-plugin",
+    title: "clickup@openai-curated 把 ClickUp 任务打给 Codex",
+    filename: "terminal",
+    summary:
+      "clickup@openai-curated 把 ClickUp 任务打给 Codex。桌面 Plugins 搜 ClickUp，再 Connect ClickUp。",
+    code: `codex plugin add clickup@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "notion-codex-plugin",
+    title: "notion@openai-curated 把 Notion 工作区打给 Codex",
+    filename: "terminal",
+    summary:
+      "notion@openai-curated 把 Notion 工作区打给 Codex。桌面 Plugins 搜 Notion，再 Connect Notion。",
+    code: `codex plugin add notion@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "figma-codex-plugin",
+    title: "figma@openai-curated 把 Figma 设计打给 Codex",
+    filename: "terminal",
+    summary:
+      "figma@openai-curated 把 Figma 设计打给 Codex。桌面 Plugins 搜 Figma，再 Connect Figma。",
+    code: `codex plugin add figma@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "slack-codex-plugin",
+    title: "slack@openai-curated 把 Slack 频道打给 Codex",
+    filename: "terminal",
+    summary:
+      "slack@openai-curated 把 Slack 频道打给 Codex。桌面 Plugins 搜 Slack，再 Connect Slack。",
+    code: `codex plugin add slack@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "github-codex-plugin",
+    title: "github@openai-curated 把 GitHub 工单打给 Codex",
+    filename: "terminal",
+    summary:
+      "github@openai-curated 把 GitHub 工单打给 Codex。桌面 Plugins 搜 GitHub，再 Connect GitHub。",
+    code: `codex plugin add github@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "dropbox-codex-plugin",
+    title: "dropbox@openai-curated 把 Dropbox 文件打给 Codex",
+    filename: "terminal",
+    summary:
+      "dropbox@openai-curated 把 Dropbox 文件打给 Codex。桌面 Plugins 搜 Dropbox，再 Connect Dropbox。",
+    code: `codex plugin add dropbox@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "monday-com-codex-plugin",
+    title: "monday-com@openai-curated 把 monday.com 看板打给 Codex",
+    filename: "terminal",
+    summary:
+      "monday-com@openai-curated 把 monday.com 看板打给 Codex。桌面 Plugins 搜 monday.com，再 Connect monday.com。",
+    code: `codex plugin add monday-com@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "zoom-codex-plugin",
+    title: "zoom@openai-curated 把 Zoom 会议打给 Codex",
+    filename: "terminal",
+    summary:
+      "zoom@openai-curated 把 Zoom 会议打给 Codex。桌面 Plugins 搜 Zoom，再 Connect Zoom。",
+    code: `codex plugin add zoom@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "atlassian-rovo-codex-plugin",
+    title: "atlassian-rovo@openai-curated 把 Jira 和 Confluence 打给 Codex",
+    filename: "terminal",
+    summary:
+      "atlassian-rovo@openai-curated 把 Jira 和 Confluence 打给 Codex。桌面 Plugins 搜 Atlassian Rovo，再 Connect。",
+    code: `codex plugin add atlassian-rovo@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "adobe-codex-plugin",
+    title: "adobe@openai-curated 把 Creative Cloud 打给 Codex",
+    filename: "terminal",
+    summary:
+      "adobe@openai-curated 把 Creative Cloud 打给 Codex。桌面 Plugins 搜 Adobe，再 Connect Adobe。",
+    code: `codex plugin add adobe@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "supabase-codex-plugin",
+    title: "supabase@openai-curated 把 Postgres 项目打给 Codex",
+    filename: "terminal",
+    summary:
+      "supabase@openai-curated 把 Postgres 项目打给 Codex。桌面 Plugins 搜 Supabase，再 Connect Supabase。",
+    code: `codex plugin add supabase@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "granola-codex-plugin",
+    title: "granola@openai-curated 把会议纪要打给 Codex",
+    filename: "terminal",
+    summary:
+      "granola@openai-curated 把会议纪要打给 Codex。桌面 Plugins 搜 Granola，再 Connect Granola。",
+    code: `codex plugin add granola@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "lovable-codex-plugin",
+    title: "lovable@openai-curated 把应用搭建打给 Codex",
+    filename: "terminal",
+    summary:
+      "lovable@openai-curated 把应用搭建打给 Codex。桌面 Plugins 搜 Lovable，再 Connect Lovable。",
+    code: `codex plugin add lovable@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "circleci-codex-plugin",
+    title: "circleci@openai-curated 把 CI 技能打给 Codex",
+    filename: "terminal",
+    summary:
+      "circleci@openai-curated 把 CI 技能打给 Codex。桌面 Plugins 搜 CircleCI，再 circleci auth login。",
+    code: `codex plugin add circleci@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "cloudflare-openai-curated-plugin",
+    title: "cloudflare@openai-curated 把 Workers 技能打给 Codex",
+    filename: "terminal",
+    summary:
+      "cloudflare@openai-curated 把 Workers 技能打给 Codex。桌面 Plugins 搜 Cloudflare，再核 plugin list 的 id。",
+    code: `codex plugin add cloudflare@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "coderabbit-codex-plugin",
+    title: "coderabbit@openai-curated 把代码审查打给 Codex",
+    filename: "terminal",
+    summary:
+      "coderabbit@openai-curated 把代码审查打给 Codex。桌面 Plugins 搜 CodeRabbit，再 coderabbit auth login。",
+    code: `codex plugin add coderabbit@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "superpowers-codex-plugin",
+    title: "superpowers@openai-curated 把开发方法论打给 Codex",
+    filename: "terminal",
+    summary:
+      "superpowers@openai-curated 把开发方法论打给 Codex。桌面 Plugins 搜 Superpowers，不要抄 Claude 的 /plugin install。",
+    code: `codex plugin add superpowers@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "consensus-codex-plugin",
+    title: "consensus@openai-curated 把论文检索打给 Codex",
+    filename: "terminal",
+    summary:
+      "consensus@openai-curated 把论文检索打给 Codex。桌面 Plugins 搜 Consensus，再 Connect Consensus。",
+    code: `codex plugin add consensus@openai-curated
+codex plugin list
+`,
   }
 ];
