@@ -5821,5 +5821,266 @@ codex plugin list
 codex plugin add canva@canva-skills
 codex mcp login canva
 `,
+  },
+  {
+    id: "remotion-codex-plugin",
+    title: "安装 Remotion 插件",
+    filename: "terminal",
+    summary: "在桌面 Plugins 中搜索 Remotion，新建项目时使用 $remotion。已有仓库可通过 npx remotion skills add 安装项目技能。",
+    code: `# ChatGPT desktop → Codex → Plugins → search Remotion
+# new project prompt:
+# $remotion
+
+npx create-video --yes --blank my-video
+cd my-video
+npm install
+npx remotion skills add
+codex
+`,
+  },
+  {
+    id: "github-copilot-codex",
+    title: "通过 GitHub Copilot 使用 Codex",
+    filename: "terminal",
+    summary: "在 GitHub Copilot 的 Partner agents 中启用 OpenAI Codex。VS Code 扩展可使用 Sign in with Copilot，适用订阅和用量按 GitHub 的规则执行。",
+    code: `# GitHub.com → profile → Copilot settings → Cloud agent
+# Partner agents → enable OpenAI Codex
+# VS Code OpenAI Codex extension → Sign in with Copilot
+# Pro+ / Copilot Max only
+`,
+  },
+  {
+    id: "outlook-email-codex-plugin",
+    title: "安装 Outlook Email 插件",
+    filename: "terminal",
+    summary: "安装 outlook-email@openai-curated 并连接 Microsoft 账号，用于检索邮件、整理收件箱和起草回复。发送或移动邮件前确认操作范围。",
+    code: `codex plugin add outlook-email@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "outlook-calendar-codex-plugin",
+    title: "安装 Outlook Calendar 插件",
+    filename: "terminal",
+    summary: "安装 outlook-calendar@openai-curated 并连接 Microsoft 账号，用于查看日程、准备会议和管理事件。修改会议需要相应权限和确认。",
+    code: `codex plugin add outlook-calendar@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "teams-codex-plugin",
+    title: "安装 Microsoft Teams 插件",
+    filename: "terminal",
+    summary: "安装 teams@openai-curated 并连接 Microsoft 账号，检索有权访问的聊天和频道。发送消息及修改任务前确认内容。",
+    code: `codex plugin add teams@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "sharepoint-codex-plugin",
+    title: "安装 SharePoint 插件",
+    filename: "terminal",
+    summary: "安装 sharepoint@openai-curated 并连接 Microsoft 工作或学校账号，访问授权的 SharePoint 内容。写入操作受账号及工作区权限限制。",
+    code: `codex plugin add sharepoint@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "gmail-codex-plugin",
+    title: "安装 Gmail 插件",
+    filename: "terminal",
+    summary: "安装 gmail@openai-curated 并连接 Google 账号，用于检索邮件和起草回复。发送邮件前确认收件人及内容。",
+    code: `codex plugin add gmail@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "google-calendar-codex-plugin",
+    title: "安装 Google Calendar 插件",
+    filename: "terminal",
+    summary: "安装 google-calendar@openai-curated 并连接 Google 账号，查看和管理日程。创建、改期或取消事件前确认目标日历。",
+    code: `codex plugin add google-calendar@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "google-drive-codex-plugin",
+    title: "安装 Google Drive 插件",
+    filename: "terminal",
+    summary: "安装 google-drive@openai-curated 并连接 Google 账号，访问 Drive、Docs、Sheets 和 Slides。修改文件前确认目标及操作范围。",
+    code: `codex plugin add google-drive@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "linear-codex-plugin",
+    title: "安装 Linear 插件",
+    filename: "terminal",
+    summary: "安装 linear@openai-curated 并连接 Linear，查询和管理工单。插件连接、远程 MCP 与云端任务指派分别配置。",
+    code: `codex plugin add linear@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "clickup-codex-plugin",
+    title: "安装 ClickUp 插件",
+    filename: "terminal",
+    summary: "安装 clickup@openai-curated 并连接 ClickUp，用于任务和文档工作流。可用操作以账号权限和插件提供的工具为准。",
+    code: `codex plugin add clickup@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "notion-codex-plugin",
+    title: "安装 Notion 插件",
+    filename: "terminal",
+    summary: "安装 notion@openai-curated 并连接 Notion，使用插件提供的技能和 App 访问工作区内容。",
+    code: `codex plugin add notion@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "figma-codex-plugin",
+    title: "安装 Figma 插件",
+    filename: "terminal",
+    summary: "安装 figma@openai-curated，使用设计到代码技能和 App。连接账号后按权限访问设计文件。",
+    code: `codex plugin add figma@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "slack-codex-plugin",
+    title: "安装 Slack 插件",
+    filename: "terminal",
+    summary: "安装 slack@openai-curated 并连接 Slack，用于频道摘要和消息草稿。发送消息前确认目标频道及内容。",
+    code: `codex plugin add slack@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "github-codex-plugin",
+    title: "安装 GitHub 插件",
+    filename: "terminal",
+    summary: "安装 github@openai-curated 并连接 GitHub，处理工单、PR 和 CI。仓库访问和写入操作受授权范围限制。",
+    code: `codex plugin add github@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "dropbox-codex-plugin",
+    title: "安装 Dropbox 插件",
+    filename: "terminal",
+    summary: "安装 dropbox@openai-curated 并连接 Dropbox，访问授权的网盘文件。",
+    code: `codex plugin add dropbox@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "monday-com-codex-plugin",
+    title: "安装 monday.com 插件",
+    filename: "terminal",
+    summary: "安装 monday-com@openai-curated 并连接 monday.com，使用看板和 CRM 工作流。",
+    code: `codex plugin add monday-com@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "zoom-codex-plugin",
+    title: "安装 Zoom 插件",
+    filename: "terminal",
+    summary: "安装 zoom@openai-curated 并连接 Zoom，访问会议相关功能。",
+    code: `codex plugin add zoom@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "atlassian-rovo-codex-plugin",
+    title: "安装 Atlassian Rovo 插件",
+    filename: "terminal",
+    summary: "安装 atlassian-rovo@openai-curated 并连接账号，访问 Jira 和 Confluence。",
+    code: `codex plugin add atlassian-rovo@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "adobe-codex-plugin",
+    title: "安装 Adobe 插件",
+    filename: "terminal",
+    summary: "安装 adobe@openai-curated 并连接 Adobe，使用 Creative Cloud 连接器。",
+    code: `codex plugin add adobe@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "supabase-codex-plugin",
+    title: "安装 Supabase 插件",
+    filename: "terminal",
+    summary: "安装 supabase@openai-curated 并连接 Supabase。当前插件清单未声明 mcpServers，远程 MCP 可按需单独配置。",
+    code: `codex plugin add supabase@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "granola-codex-plugin",
+    title: "安装 Granola 插件",
+    filename: "terminal",
+    summary: "安装 granola@openai-curated 并连接 Granola。当前插件通过 App 提供功能，未声明独立技能或 MCP 服务。",
+    code: `codex plugin add granola@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "lovable-codex-plugin",
+    title: "安装 Lovable 插件",
+    filename: "terminal",
+    summary: "安装 lovable@openai-curated 并连接 Lovable。当前插件通过 App 提供功能，未声明独立技能或 MCP 服务。",
+    code: `codex plugin add lovable@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "circleci-codex-plugin",
+    title: "安装 CircleCI 插件",
+    filename: "terminal",
+    summary: "安装 circleci@openai-curated，使用 CI 相关技能。当前插件未声明 MCP，托管 MCP 可按需单独连接。",
+    code: `codex plugin add circleci@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "cloudflare-openai-curated-plugin",
+    title: "安装 Cloudflare 插件",
+    filename: "terminal",
+    summary: "安装 cloudflare@openai-curated，包含开发技能和 cloudflare-api MCP。部署、DNS 和账号资源变更前确认目标。",
+    code: `codex plugin add cloudflare@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "coderabbit-codex-plugin",
+    title: "安装 CodeRabbit 插件",
+    filename: "terminal",
+    summary: "安装 coderabbit@openai-curated，通过 code-review 技能调用本地 CodeRabbit CLI 审查改动。CLI 需单独登录，插件未声明 MCP。",
+    code: `codex plugin add coderabbit@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "superpowers-codex-plugin",
+    title: "安装 Superpowers 插件",
+    filename: "terminal",
+    summary: "安装 superpowers@openai-curated，使用规划、TDD、调试和工作树技能。当前插件仅提供技能，可通过自然语言点名使用。",
+    code: `codex plugin add superpowers@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "consensus-codex-plugin",
+    title: "安装 Consensus 插件",
+    filename: "terminal",
+    summary: "安装 consensus@openai-curated 并连接 Consensus，检索研究论文。当前插件通过 App 提供功能，检索额度按 Consensus 套餐计算。",
+    code: `codex plugin add consensus@openai-curated
+codex plugin list
+`,
   }
 ];
