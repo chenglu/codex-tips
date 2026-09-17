@@ -511,6 +511,8 @@ export const cheatSections: CheatSection[] = [
       { cmd: "codex plugin add circleci@openai-curated", meaning: "CircleCI 官方 Codex 插件。桌面 Plugins 搜 CircleCI。现行 plugin.json 只挂 skills，没有 mcpServers。不要当成 Circle 支付。只要 MCP 仍走 mcp.circleci.com/v1/mcp。不要发明 $circleci" },
       { cmd: "codex plugin add cloudflare@openai-curated", meaning: "Cloudflare 精选 Codex 插件。桌面 Plugins 搜 Cloudflare。MCP 表名 cloudflare-api。不要当成 cloudflare@cloudflare。不要叠手写 mcp add cloudflare。不要发明 $cloudflare" },
       { cmd: "codex plugin add coderabbit@openai-curated", meaning: "CodeRabbit 官方 Codex 插件。桌面 Plugins 搜 CodeRabbit。技能 name 是 code-review。不要当成 GitHub 插件。不要发明 $coderabbit。不要把 curl 安装脚本当 plugin add" },
+      { cmd: "codex plugin add superpowers@openai-curated", meaning: "Superpowers 官方 Codex 插件。桌面 Plugins 搜 Superpowers。只挂 skills，没有 slash 命令。不要抄 Claude 的 superpowers@claude-plugins-official。不要发明 $superpowers 或 /brainstorming" },
+      { cmd: "codex plugin add consensus@openai-curated", meaning: "Consensus 官方 Codex 插件。桌面 Plugins 搜 Consensus。现行 plugin.json 只挂 apps，没有 mcpServers。不要抄 Claude 的多模型 consensus 插件。不要假设 plugin add 会自动叠 MCP。不要发明 $consensus" },
       { cmd: "npx skills add ActiveCampaign/postmark-skills", meaning: "博客点名 Codex。官方没钉 --agent codex。示例技能是 postmark-send-email。不要发明 plugin add postmark@。这不是 @activecampaign/postmark-mcp" },
       { cmd: "npx skills add datadog-labs/agent-skills/agent-observability --full-depth -y", meaning: "官方点名 Codex CLI。官方没钉 --agent codex。不要发明 plugin add。不要抄 Restart Claude Code。MCP 仍走 mcp.datadoghq.com/v1/mcp，工具集写 X-Datadog-MCP-Toolsets" },
       { cmd: "npx skills add tavily-ai/skills --all", meaning: "官方点名 Codex。官方没钉 --agent codex。示例技能是 tavily-search。不要发明 plugin add 或 mcp add。不要把 API key 拼进 mcp.tavily.com" },

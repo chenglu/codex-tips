@@ -6278,5 +6278,25 @@ codex plugin list
     code: `codex plugin add coderabbit@openai-curated
 codex plugin list
 `,
+  },
+  {
+    id: "superpowers-codex-plugin",
+    title: "superpowers@openai-curated 把开发方法论打给 Codex",
+    filename: "terminal",
+    summary:
+      "superpowers@openai-curated 把开发方法论打给 Codex。桌面 Plugins 搜 Superpowers，不要抄 Claude 的 /plugin install。",
+    code: `codex plugin add superpowers@openai-curated
+codex plugin list
+`,
+  },
+  {
+    id: "consensus-codex-plugin",
+    title: "consensus@openai-curated 把论文检索打给 Codex",
+    filename: "terminal",
+    summary:
+      "consensus@openai-curated 把论文检索打给 Codex。桌面 Plugins 搜 Consensus，再 Connect Consensus。",
+    code: `codex plugin add consensus@openai-curated
+codex plugin list
+`,
   }
 ];

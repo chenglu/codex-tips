@@ -8040,5 +8040,65 @@ export const articles: Article[] = [
     tags: ["Codex", "CodeRabbit", "plugins", "coderabbit@openai-curated", "@coderabbit", "coderabbit-review"],
     summary:
       '官方 Codex 安装是桌面 Plugins 或 TUI /plugins 搜 coderabbit。点名插件用 @coderabbit。CLI 要先 coderabbit auth login。不要把 curl 安装脚本或 brew install coderabbit 当成 plugin add。卸插件不会卸 CLI。',
+  },
+  {
+    title: 'superpowers plugin.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/superpowers/.codex-plugin/plugin.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "Superpowers", "plugins", "superpowers@openai-curated", "openai/plugins", "using-superpowers"],
+    summary:
+      'Superpowers 官方 Codex 插件：桌面 Plugins 搜 Superpowers，CLI 用 plugin add superpowers@openai-curated，不要抄 Claude 的 superpowers@claude-plugins-official。清单 name 是 superpowers，version 是 6.3.0。现行清单只挂 skills，没有 mcpServers。不要写成 plugin install。',
+  },
+  {
+    title: 'using-superpowers SKILL.md',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/superpowers/skills/using-superpowers/SKILL.md',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Superpowers", "plugins", "using-superpowers", "superpowers@openai-curated", "brainstorming"],
+    summary:
+      '技能 name 是 using-superpowers，会话开始先核技能。同包还有 brainstorming、writing-plans、test-driven-development。不要发明 $superpowers 或 /brainstorming，也不要把 npx skills add 当 Codex 安装器。',
+  },
+  {
+    title: 'obra/superpowers',
+    url: 'https://github.com/obra/superpowers',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "Superpowers", "plugins", "superpowers@openai-curated", "/plugins", "using-superpowers"],
+    summary:
+      '源仓 Codex 节是桌面 Plugins 或 TUI /plugins 搜 Superpowers。Claude 才是 /plugin install superpowers@claude-plugins-official。不要抄 Cursor 的 /add-plugin superpowers，也不要把 npx superpowers-manager 当成精选 id。',
+  },
+  {
+    title: 'consensus plugin.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/consensus/.codex-plugin/plugin.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Codex", "Consensus", "plugins", "consensus@openai-curated", "openai/plugins", "mcp.consensus.app"],
+    summary:
+      'Consensus 官方 Codex 插件：桌面 Plugins 搜 Consensus，CLI 用 plugin add consensus@openai-curated，不要抄 Claude 的多模型 consensus 插件。清单 name 是 consensus，version 是 4.0.0。现行清单只挂 apps，没有 skills 也没有 mcpServers。不要写成 plugin install。',
+  },
+  {
+    title: 'consensus plugin .mcp.json',
+    url: 'https://github.com/openai/plugins/blob/main/plugins/consensus/.mcp.json',
+    source: 'GitHub',
+    lang: '英文',
+    kind: '仓库',
+    tags: ["Consensus", "MCP", "mcp.consensus.app", "consensus@openai-curated", "openai/plugins"],
+    summary:
+      '仓库 MCP 表名 consensus，type 是 http，URL 是 https://mcp.consensus.app/mcp，必须带 /mcp。plugin.json 没有挂 mcpServers，不要假设 plugin add 会自动叠表。不要抄 Claude 的 --transport http，也不要发明 mcp login 当插件安装步骤。',
+  },
+  {
+    title: 'Get started with Consensus MCP',
+    url: 'https://docs.consensus.app/consensus-mcp',
+    source: 'Consensus',
+    lang: '英文',
+    kind: '官方',
+    tags: ["Consensus", "MCP", "mcp.consensus.app", "Codex", "OAuth", "consensus@openai-curated"],
+    summary:
+      '厂商 Codex 专节是 mcp add consensus --url https://mcp.consensus.app/mcp，再 mcp login consensus。这是手写远程表，不是 plugin add consensus@openai-curated。不要省略 /mcp，也不要写成 -- --transport http。检索额度看 Consensus 套餐。',
   }
 ];

@@ -19158,5 +19158,131 @@ codex plugin list
         url: "https://docs.coderabbit.ai/cli/codex-integration",
       },
     ],
+  },
+  {
+    id: "superpowers-codex-plugin",
+    no: 532,
+    title:
+      "Superpowers 官方 Codex 插件：桌面 Plugins 搜 Superpowers，CLI 用 plugin add superpowers@openai-curated，不要抄 Claude 的 superpowers@claude-plugins-official",
+    summary:
+      "官方 Codex：codex plugin add superpowers@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Superpowers。现行 plugin.json 只挂 skills，没有 mcpServers，也没有 slash 命令。不要抄 Claude 的 /plugin install。",
+    body: `Superpowers 官方 Codex 插件：桌面 Plugins 搜 Superpowers，CLI 用 plugin add superpowers@openai-curated，不要抄 Claude 的 superpowers@claude-plugins-official。
+
+这是把 brainstorming、TDD 和 git worktree 工作流接到 Codex。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/superpowers/.codex-plugin/plugin.json) 的 name 是 \`superpowers\`、version 是 \`6.3.0\`，所以精选 id 是 \`superpowers@openai-curated\`。现行清单只声明 \`skills\`，没有 \`apps\`，也没有 \`mcpServers\`。仓库里没有 \`commands/\`，也没有 \`.mcp.json\`。不要发明 \`$superpowers\`，也不要发明 \`/brainstorming\`。
+
+CLI：
+
+\`\`\`bash
+codex plugin add superpowers@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install superpowers@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。不要发明 \`plugin add superpowers@superpowers\`。TUI \`/plugins\` 或桌面 Plugins 搜 Superpowers 再装，效果一样；[源仓 README](https://github.com/obra/superpowers) 的 Codex 节写的也是这条 Plugins 路径。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+技能随这份精选包走，目录名是 \`using-superpowers\`、\`brainstorming\`、\`writing-plans\`、\`executing-plans\`、\`subagent-driven-development\`、\`test-driven-development\`、\`using-git-worktrees\`、\`systematic-debugging\`、\`verification-before-completion\`、\`requesting-code-review\`、\`receiving-code-review\`、\`dispatching-parallel-agents\`、\`finishing-a-development-branch\`、\`writing-skills\`。用自然语言点名技能，例如「用 brainstorming 技能先出设计」。不要发明 \`$superpowers\` 或 \`/brainstorming\`：Codex 这份插件是 **skills-only**。不要 \`npx skills add\` 当 Codex 安装器，也不要手拷到 \`~/.codex/skills\`。不要把旧的 clone 到 \`~/.codex/superpowers\` 再跑 \`superpowers-codex bootstrap\` 当成现行安装。
+
+因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，不要发明 \`mcp login superpowers\` 或 \`mcp add superpowers\`。不要把 \`npx superpowers-manager install\` 当成这条：那会装 \`superpowers@superpowers-manager\`，还要先 \`plugin remove superpowers@openai-curated\`，不是精选目录路径。
+
+不要和旁边那几条搞混：
+
+- Claude 才是 \`/plugin install superpowers@claude-plugins-official\` 或 \`superpowers@superpowers-marketplace\`。
+- Cursor 才是 \`/add-plugin superpowers\`。
+- Grok 才是 \`grok plugin install superpowers@xai-official --trust\`。
+- 已收录的 Codex Security 管安全 diff 扫描，不是这套 TDD / 规划技能。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`superpowers@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Superpowers。
+
+不要做这些：
+
+- 不要抄 Claude / Cursor / Grok / Gemini 的安装器。
+- 不要发明 \`$superpowers\` 或 \`/brainstorming\`。
+- 不要一上来 \`--yolo\`：TDD 和工作树会改仓库。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Superpowers", "superpowers@openai-curated"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "openai/plugins · superpowers plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/superpowers/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · using-superpowers",
+        url: "https://github.com/openai/plugins/blob/main/plugins/superpowers/skills/using-superpowers/SKILL.md",
+      },
+      {
+        label: "obra/superpowers",
+        url: "https://github.com/obra/superpowers",
+      },
+    ],
+  },
+  {
+    id: "consensus-codex-plugin",
+    no: 533,
+    title:
+      "Consensus 官方 Codex 插件：桌面 Plugins 搜 Consensus，CLI 用 plugin add consensus@openai-curated，不要抄 Claude 的多模型 consensus 插件",
+    summary:
+      "官方 Codex：codex plugin add consensus@openai-curated。桌面 Plugins 或 TUI /plugins 搜 Consensus。现行 plugin.json 只挂 apps，没有 skills 也没有 mcpServers。不要抄 Claude 的多模型 consensus 插件，也不要把 vendor 的 mcp add 当插件安装器。",
+    body: `Consensus 官方 Codex 插件：桌面 Plugins 搜 Consensus，CLI 用 plugin add consensus@openai-curated，不要抄 Claude 的多模型 consensus 插件。
+
+这是把 Consensus.app 的同行评议论文检索接到 Codex，用来搜 PubMed、Semantic Scholar、ArXiv 上的证据并生成带引用的综述。清单 [\`plugin.json\`](https://github.com/openai/plugins/blob/main/plugins/consensus/.codex-plugin/plugin.json) 的 name 是 \`consensus\`、version 是 \`4.0.0\`，所以精选 id 是 \`consensus@openai-curated\`。现行清单只声明 [\`.app.json\`](https://github.com/openai/plugins/blob/main/plugins/consensus/.app.json)，没有 \`skills\` 字段，也没有 \`mcpServers\` 字段。不要发明捆绑技能名。不要发明 \`$consensus\`。不要把 \`.app.json\` 里的 connector id 抄进手写配置。
+
+CLI：
+
+\`\`\`bash
+codex plugin add consensus@openai-curated
+codex plugin list
+\`\`\`
+
+动词是 \`add\` 不是 \`install\`。不要写成 \`plugin install consensus@openai-curated\`。不要发明 \`codex plugin marketplace add openai/plugins\`。TUI \`/plugins\` 或桌面 Plugins 搜 Consensus 再装，效果一样。装完按提示 Connect Consensus 账号。IDE 扩展没有 \`/plugins\`，用 CLI 这条。
+
+仓库另有 [\`.mcp.json\`](https://github.com/openai/plugins/blob/main/plugins/consensus/.mcp.json)，表名是 \`consensus\`，type 是 http，URL 是 \`https://mcp.consensus.app/mcp\`（**必须**带 \`/mcp\` 后缀）。因为现行 \`plugin.json\` **没有**挂 \`mcpServers\`，不要假设 \`plugin add\` 会自动叠这张 MCP 表。只要 MCP、不要 App 时，才按 [Consensus MCP 文档](https://docs.consensus.app/consensus-mcp) 手写：
+
+\`\`\`bash
+codex mcp add consensus --url https://mcp.consensus.app/mcp
+codex mcp login consensus
+\`\`\`
+
+插件已经登记 MCP 时，不要再 \`mcp add\` 叠一张。不要发明 \`mcp login consensus\` 当插件安装步骤。不要抄 Claude 的 \`--transport http\` 或 \`-- --transport http\`。不要抄 Cursor 的 \`.cursor/mcp.json\`。OAuth 过期才 \`codex mcp logout consensus\`，再 \`mcp login consensus\`。检索额度看 Consensus 套餐，不是 ChatGPT / Codex 订阅。
+
+不要和旁边那几条搞混：
+
+- Claude Code 的多模型 consensus 插件（例如 \`/plugin marketplace add AltimateAI/claude-consensus\` 再 \`/plugin install consensus\`，或 \`consensus@kahidreamers-marketplace\`）是多家模型投票，不是 Consensus.app 论文库。
+- ChatGPT App Store 里的 Consensus App 是网页 ChatGPT 连接器，不是这条 CLI id。
+- 手写 MCP 只登记远程表，不会装 Plugins 目录里的 Consensus App。
+- 厂商文档的 Codex 专节写的是上面那条 \`mcp add\`，不是 \`plugin add consensus@openai-curated\`。
+
+0.154 起先看**当前会话**的 \`/plugins\`；没有再新开。\`codex plugin list\` 里应看到 \`consensus@openai-curated\`。网页 Cloud 不读 \`~/.codex/config.toml\`。Cloud 用 Plugins 搜 Consensus。
+
+不要做这些：
+
+- 不要抄 Claude 的 \`/plugin install consensus\` 或 \`consensus@claude-plugin-directory\`。
+- 不要抄 \`/sse\`，也不要把 URL 写成不带 \`/mcp\` 的 \`https://mcp.consensus.app\`。
+- 不要发明 \`$consensus\` 斜杠。
+- 不要一上来 \`--yolo\`：搜论文会打 Consensus 套餐的月度调用。
+- 不要 \`required = true\`。
+`,
+    category: "skills",
+    level: "starter",
+    surfaces: ["cli", "app"],
+    tags: ["plugins", "Consensus", "consensus@openai-curated"],
+    related: ["plugins-vs-skills", "plugin-session-refresh", "mcp-add-and-login"],
+    sources: [
+      {
+        label: "openai/plugins · consensus plugin.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/consensus/.codex-plugin/plugin.json",
+      },
+      {
+        label: "openai/plugins · consensus .mcp.json",
+        url: "https://github.com/openai/plugins/blob/main/plugins/consensus/.mcp.json",
+      },
+      {
+        label: "Consensus · MCP 入门",
+        url: "https://docs.consensus.app/consensus-mcp",
+      },
+    ],
   }
 ];

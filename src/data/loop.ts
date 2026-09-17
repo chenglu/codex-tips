@@ -3,10 +3,10 @@ import { community } from "./community";
 
 /** 循环任务用来跳过已收录链接。下一轮先扫这里，再搜网和 X。 */
 export const loopState = {
-  lastTick: "2026-09-16T23:17:00Z",
+  lastTick: "2026-09-17T00:19:00Z",
   intervalSeconds: 1800,
   xCreditsNote:
-    "23:17 收口。#125 已合入 main（TIP 497–505）。#135 续接：#133–#156 已为 506–528。本轮重放 #157 为 529 circleci-codex-plugin、#158 为 530 cloudflare-openai-curated-plugin、#159 为 531 coderabbit-codex-plugin。合入后关 #157–#159。站点 531 技巧。",
+    "00:19 收口。#125 已合入 main（TIP 497–505）。#135 续接：#133–#159 已为 506–531。本轮重放 #160 为 532 superpowers-codex-plugin、#161 为 533 consensus-codex-plugin。合入后关 #160–#161。站点 533 技巧。",
   queriesTried: [
     "Codex CLI tips 2026",
     "Codex CLI AGENTS.md skills hooks exec",
@@ -2577,6 +2577,23 @@ export const loopState = {
     "Codex CLI 技巧 2026 CodeRabbit coderabbit@openai-curated plugin add",
     "skip leftover 2300-2b7e 2300-alloydb-2b7e 2300-cloudflare-2b7e",
     "skip open #133-#158 plugins, this tick coderabbit openai-curated",
+    "site:github.com/openai/plugins plugins/superpowers .codex-plugin plugin.json",
+    "site:github.com/openai/plugins plugins/superpowers/skills/using-superpowers SKILL.md",
+    "site:github.com/obra/superpowers Codex /plugins Superpowers",
+    "X news: Codex CLI 2026-09-16 23:30",
+    'X: ("Codex CLI" OR Codex) (Superpowers OR plugin OR skills OR marketplace)',
+    "Codex CLI 技巧 2026 Superpowers superpowers@openai-curated plugin add",
+    "skip leftover 2330-2b7e 2330-spanner-2b7e 2300-cloudflare 2300-coderabbit",
+    "skip open #133-#159 plugins, this tick superpowers openai-curated",
+    "skip leftover 0000-2b7e 0000-bigquery-2b7e 2330-superpowers-2b7e",
+    "skip leftover 2300-coderabbit 2300-cloudflare 2230-circleci 2200-lovable",
+    "skip open #133 remotion #134 copilot #136-#160 superpowers coderabbit cloudflare circleci lovable granola supabase adobe",
+    "codex plugin add consensus@openai-curated Plugins Consensus",
+    "site:github.com/openai/plugins consensus plugin.json .mcp.json mcp.consensus.app",
+    "site:docs.consensus.app consensus-mcp Codex mcp add consensus",
+    "X news: Codex CLI 2026-09-17 00:00",
+    'X: ("Codex CLI" OR Codex) (Consensus OR HyperFrames OR plugin)',
+    "Codex CLI 技巧 2026 Consensus consensus@openai-curated plugin add",
   ],
 };
 
