@@ -212,3 +212,5 @@ export const updates: UpdateArticle[] = [
 ];
 
 export const updateMap = new Map(updates.map((item) => [item.id, item]));
+
+export const updateVersionCount = new Set(updates.flatMap((item) => item.versions)).size;

@@ -3,7 +3,7 @@ import { categories, categoryMap } from "../data/categories";
 import { cheatSections } from "../data/cheatsheet";
 import { community } from "../data/community";
 import { templates } from "../data/templates";
-import { updateMap, updates } from "../data/updates";
+import { updateMap, updateVersionCount, updates } from "../data/updates";
 import { tipMap, tips } from "../data/tips";
 import { siteFaqs } from "./faq";
 import { levelLabel, surfaceLabel } from "./labels";
@@ -406,7 +406,7 @@ export function seoForRoute(route: Route, ctx: SiteContext): SeoDoc {
     }
     case "updates": {
       const title = `更新 · ${SITE_NAME}`;
-      const description = `Codex CLI 近 ${updates.reduce((n, item) => n + item.versions.length, 0) || 100} 个稳定版对照：实测 --help / features list，按版本区间写成系列更新文章，共 ${updates.length} 篇。`;
+      const description = `Codex CLI 近 ${updateVersionCount} 个稳定版对照：实测 --help / features list，按版本区间写成系列更新文章，共 ${updates.length} 篇。`;
       const canonical = canonicalUrl(route, ctx);
       return {
         title,
