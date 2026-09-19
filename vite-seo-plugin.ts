@@ -6,6 +6,7 @@ import { articles } from "./src/data/articles";
 import { community } from "./src/data/community";
 import { templates } from "./src/data/templates";
 import { tips } from "./src/data/tips";
+import { updates } from "./src/data/updates";
 import { escapeAttr, escapeHtml } from "./src/lib/html";
 import type { Route } from "./src/lib/routes";
 import { appPath, hrefWith } from "./src/lib/routes";
@@ -231,6 +232,7 @@ ${link("封面", "/", "手册入口")}
 ${link("目录", "/tips/", `${tips.length} 条技巧`)}
 ${link("速查表", "/cheatsheet/", "CLI、斜杠命令与 exec")}
 ${link("模板", "/templates/", `${templates.length} 份可复制骨架`)}
+${link("更新", "/updates/", `${updates.length} 篇 CLI 版本对照`)}
 ${link("文章", "/articles/", `${articles.length} 篇外链阅读清单`)}
 ${link("社区", "/community/", `${community.length} 条社区动态`)}
 ${link("关于", "/about/", "用法与来源")}
@@ -242,6 +244,10 @@ ${tips.map((tip) => link(tip.title, `/tips/${tip.id}/`, tip.summary)).join("\n")
 ## 模板
 
 ${templates.map((item) => link(item.title, `/templates/${item.id}/`, item.summary)).join("\n")}
+
+## 更新
+
+${updates.map((item) => link(item.title, `/updates/${item.id}/`, item.summary)).join("\n")}
 
 ## Optional
 
@@ -257,28 +263,45 @@ function buildLlmsFull(): string {
   return `# ${SITE_NAME} · 完整正文
 
 ${tips
-  .map((tip) => {
-    const md = markdownForRoute({ name: "tip", id: tip.id });
-    return md ?? "";
-  })
-  .filter(Boolean)
-  .join("\n\n---\n\n")}
+    .map((tip) => {
+      const md = markdownForRoute({ name: "tip", id: tip.id });
+      return md ?? "";
+    })
+    .filter(Boolean)
+    .join("\n\n---\n\n")}
+
+${updates
+    .map((item) => {
+      const md = markdownForRoute({ name: "update", id: item.id });
+      return md ?? "";
+    })
+    .filter(Boolean)
+    .join("\n\n---\n\n")}
 `;
 }
 
 function buildFeed(ctx: SiteContext): string {
-  const items = tips
-    .map((tip) => {
-      const url = absoluteUrl(`/tips/${tip.id}/`, ctx);
-      return `    <item>
+  const tipItems = tips.map((tip) => {
+    const url = absoluteUrl(`/tips/${tip.id}/`, ctx);
+    return `    <item>
       <title>${xmlEscape(tip.title)}</title>
       <link>${xmlEscape(url)}</link>
       <guid>${xmlEscape(url)}</guid>
       <description>${xmlEscape(tip.summary)}</description>
       <category>${xmlEscape(tip.category)}</category>
     </item>`;
-    })
-    .join("\n");
+  });
+  const updateItems = updates.map((item) => {
+    const url = absoluteUrl(`/updates/${item.id}/`, ctx);
+    return `    <item>
+      <title>${xmlEscape(item.title)}</title>
+      <link>${xmlEscape(url)}</link>
+      <guid>${xmlEscape(url)}</guid>
+      <description>${xmlEscape(item.summary)}</description>
+      <category>updates</category>
+    </item>`;
+  });
+  const items = [...updateItems, ...tipItems].join("\n");
   return `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
   <channel>
@@ -303,6 +326,7 @@ function buildCatalog(ctx: SiteContext) {
       { name: "tips", url: absoluteUrl("/tips/", ctx), markdown: absoluteUrl("/tips.md", ctx) },
       { name: "cheatsheet", url: absoluteUrl("/cheatsheet/", ctx), markdown: absoluteUrl("/cheatsheet.md", ctx) },
       { name: "templates", url: absoluteUrl("/templates/", ctx), markdown: absoluteUrl("/templates.md", ctx) },
+      { name: "updates", url: absoluteUrl("/updates/", ctx), markdown: absoluteUrl("/updates.md", ctx) },
       { name: "articles", url: absoluteUrl("/articles/", ctx), markdown: absoluteUrl("/articles.md", ctx) },
       { name: "community", url: absoluteUrl("/community/", ctx), markdown: absoluteUrl("/community.md", ctx) },
       { name: "about", url: absoluteUrl("/about/", ctx), markdown: absoluteUrl("/about.md", ctx) },
@@ -327,6 +351,17 @@ function buildCatalog(ctx: SiteContext) {
       summary: item.summary,
       url: absoluteUrl(`/templates/${item.id}/`, ctx),
       markdown: absoluteUrl(`/templates/${item.id}.md`, ctx),
+    })),
+    updates: updates.map((item) => ({
+      id: item.id,
+      no: item.no,
+      title: item.title,
+      summary: item.summary,
+      from: item.from,
+      to: item.to,
+      versions: item.versions,
+      url: absoluteUrl(`/updates/${item.id}/`, ctx),
+      markdown: absoluteUrl(`/updates/${item.id}.md`, ctx),
     })),
   };
 }
@@ -376,10 +411,12 @@ export function seoPlugin(): Plugin {
         { name: "cheatsheet" },
         { name: "templates" },
         { name: "articles" },
+        { name: "updates" },
         { name: "community" },
         { name: "about" },
         ...tips.map((tip): Route => ({ name: "tip", id: tip.id })),
         ...templates.map((item): Route => ({ name: "templates", id: item.id })),
+        ...updates.map((item): Route => ({ name: "update", id: item.id })),
       ];
       for (const route of markdownRoutes) {
         const md = markdownForRoute(route);

@@ -116,7 +116,7 @@ export function SearchModal({
             aria-expanded="true"
             aria-controls="search-results"
             aria-activedescendant={results[active] ? `search-opt-${active}` : undefined}
-            placeholder="搜索技巧、模板、文章、社区动态…"
+            placeholder="搜索技巧、模板、更新、文章、社区动态…"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
           />
