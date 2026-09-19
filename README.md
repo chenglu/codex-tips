@@ -26,7 +26,7 @@ SITE_BASE=/ SITE_URL=https://example.com npm run build
 
 ## URL
 
-页面使用路径地址，例如 `/tips/teammate-not-chatbot/`。旧的 hash 地址（`#/tips/...`）会在浏览器里改写到对应路径。
+页面使用路径地址，例如 `/tips/teammate-not-chatbot/`、`/updates/cli-100-overview/`。旧的 hash 地址（`#/tips/...`）会在浏览器里改写到对应路径。
 
 构建时会生成：
 
@@ -43,6 +43,7 @@ SITE_BASE=/ SITE_URL=https://example.com npm run build
 - `src/data/cheatsheet.ts` — 速查表
 - `src/data/templates.ts` — 可复制模板
 - `src/data/categories.ts` — 章节
+- `src/data/updates.ts` — CLI 稳定版对照文章
 - `src/data/articles.ts` — 官方文档、教程、清单、示例仓库目录
 - `src/data/community.ts` — X、论坛和话题摘要
 - `src/data/loop.ts` — 收录循环用的已见链接

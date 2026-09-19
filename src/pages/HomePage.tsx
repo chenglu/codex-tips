@@ -2,6 +2,7 @@ import { categories } from "../data/categories";
 import { articles } from "../data/articles";
 import { community } from "../data/community";
 import { featuredTips, tips } from "../data/tips";
+import { updates } from "../data/updates";
 import { siteFaqs } from "../lib/faq";
 import { href } from "../lib/routes";
 import { TipCard } from "../components/TipCard";
@@ -35,12 +36,13 @@ export function HomePage() {
             <a className="btn" href={href({ name: "browse", search: "" })}>
               打开目录
             </a>
-            <a className="btn btn-ghost" href={href({ name: "cheatsheet" })}>
-              打开速查
+            <a className="btn btn-ghost" href={href({ name: "updates" })}>
+              版本对照
             </a>
           </div>
           <div className="meta-row">
             <span>{tips.length} 条技巧</span>
+            <span>{updates.length} 篇更新</span>
             <span>{articles.length} 篇文章</span>
             <span>{community.length} 条社区动态</span>
             <span>按 / 或 ⌘K 检索</span>
@@ -102,6 +104,27 @@ export function HomePage() {
           ))}
         </div>
       </div>
+
+      {updates.length > 0 ? (
+      <div className="section-block">
+        <div className="section-head">
+          <h2>CLI 版本对照</h2>
+          <a href={href({ name: "updates" })}>全部更新 →</a>
+        </div>
+        <div className="feed">
+          {updates.slice(0, 4).map((item) => (
+            <FeedItem
+              key={item.id}
+              href={href({ name: "update", id: item.id })}
+              kicker={`第 ${String(item.no).padStart(2, "0")} 篇 · ${item.from} → ${item.to}`}
+              title={item.title}
+              summary={item.summary}
+              tags={item.tags}
+            />
+          ))}
+        </div>
+      </div>
+      ) : null}
 
       <div className="section-block">
         <div className="section-head">

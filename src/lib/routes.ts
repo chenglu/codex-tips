@@ -12,6 +12,8 @@ export type Route =
   | { name: "cheatsheet"; search?: string }
   | { name: "templates"; id?: string }
   | { name: "articles" }
+  | { name: "updates" }
+  | { name: "update"; id: string }
   | { name: "community" }
   | { name: "about" }
   | { name: "notfound" };
@@ -43,6 +45,10 @@ export function appPath(route: Route): string {
       return route.id ? `/templates/${route.id}/` : "/templates/";
     case "articles":
       return "/articles/";
+    case "updates":
+      return "/updates/";
+    case "update":
+      return `/updates/${route.id}/`;
     case "community":
       return "/community/";
     case "about":
@@ -85,6 +91,8 @@ export function parseAppPath(pathname: string, search = ""): Route {
   if (parts[0] === "cheatsheet") return { name: "cheatsheet", search: query };
   if (parts[0] === "templates") return { name: "templates", id: parts[1] };
   if (parts[0] === "articles") return { name: "articles" };
+  if (parts[0] === "updates" && parts[1]) return { name: "update", id: parts[1] };
+  if (parts[0] === "updates") return { name: "updates" };
   if (parts[0] === "community") return { name: "community" };
   if (parts[0] === "about") return { name: "about" };
   if (parts[0] === "404") return { name: "notfound" };
@@ -116,6 +124,8 @@ export function routeScrollKey(route: Route): string {
       return `tip:${route.id}`;
     case "templates":
       return `templates:${route.id ?? ""}`;
+    case "update":
+      return `update:${route.id}`;
     case "browse":
       return "browse";
     case "cheatsheet":

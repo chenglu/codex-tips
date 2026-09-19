@@ -5,6 +5,7 @@ import { cheatSections } from "../data/cheatsheet";
 import { community } from "../data/community";
 import { templates } from "../data/templates";
 import { featuredTips, relatedTips, tipMap, tips } from "../data/tips";
+import { updateMap, updates } from "../data/updates";
 import { siteFaqs } from "./faq";
 import { escapeHtml } from "./html";
 import { navItems } from "./nav";
@@ -24,6 +25,7 @@ function md(source: string): string {
 
 function navActive(route: Route, name: (typeof navItems)[number]["name"]): boolean {
   if (name === "browse") return route.name === "browse" || route.name === "tip";
+  if (name === "updates") return route.name === "updates" || route.name === "update";
   return route.name === name;
 }
 
@@ -68,7 +70,7 @@ function tipArticle(id: string, ctx: SiteContext): string {
     return `<article class="article">
 <div class="brand-kicker">Missing leaf</div>
 <h1 class="page-title">没有这条技巧</h1>
-<p class="lede">它可能换了编号，或还没写进这本手册。</p>
+<p class="lede">该文章可能已移动或尚未发布。</p>
 <p><a class="btn" href="${escapeHtml(hrefWith({ name: "browse", search: "" }, ctx))}">回到目录</a></p>
 </article>`;
   }
@@ -132,7 +134,7 @@ function homeInner(ctx: SiteContext): string {
 <div class="brand-kicker">Field Manual · 2026 Edition</div>
 <h1>OpenAI Codex<br/>实用技巧 <em>手册</em></h1>
 <p class="lede">按使用场景整理 CLI、桌面端、IDE 与 Cloud 的常用技巧，涵盖提示、配置、Skills、MCP 与自动化。查找操作方法、复制模板，或阅读相关资料。</p>
-<p class="meta-row"><span>${tips.length} 条技巧</span><span>${articles.length} 篇文章</span><span>${community.length} 条社区动态</span></p>
+<p class="meta-row"><span>${tips.length} 条技巧</span><span>${updates.length} 篇更新</span><span>${articles.length} 篇文章</span><span>${community.length} 条社区动态</span></p>
 </div>
 </section>
 <div class="section-block">
@@ -143,6 +145,20 @@ function homeInner(ctx: SiteContext): string {
 <div class="section-head"><h2>先读这几条</h2></div>
 <div class="grid">${cards}</div>
 </div>
+${
+  updates.length
+    ? `<div class="section-block">
+<div class="section-head"><h2>CLI 版本对照</h2></div>
+<div class="feed">${updates
+        .slice(0, 4)
+        .map(
+          (item) =>
+            `<a class="feed-item" href="${escapeHtml(hrefWith({ name: "update", id: item.id }, ctx))}"><div class="kicker">第 ${String(item.no).padStart(2, "0")} 篇 · ${escapeHtml(item.from)} → ${escapeHtml(item.to)}</div><h2>${escapeHtml(item.title)}</h2><p>${escapeHtml(item.summary)}</p></a>`,
+        )
+        .join("")}</div>
+</div>`
+    : ""
+}
 <div class="section-block">
 <div class="section-head"><h2>常见问题</h2></div>
 <dl class="faq">${siteFaqs
@@ -221,6 +237,52 @@ function templatesInner(id: string | undefined, ctx: SiteContext): string {
 </div>`;
 }
 
+function updatesInner(ctx: SiteContext): string {
+  const items = updates
+    .map(
+      (item) =>
+        `<a class="feed-item" href="${escapeHtml(hrefWith({ name: "update", id: item.id }, ctx))}"><div class="kicker">第 ${String(item.no).padStart(2, "0")} 篇 · ${escapeHtml(item.from)} → ${escapeHtml(item.to)}</div><h2>${escapeHtml(item.title)}</h2><p>${escapeHtml(item.summary)}</p></a>`,
+    )
+    .join("");
+  return `<div class="article catalog-page">
+<div class="brand-kicker">Release notes</div>
+<h1 class="page-title">更新</h1>
+<p class="note">对照 npm 上0.69.0–0.155.1 的 100 个稳定版 @openai/codex。文章根据上游记录的各版本二进制 --help / features list，再对照 GitHub rust-v* 发行说明。</p>
+<div class="feed">${items}</div>
+</div>`;
+}
+
+function updateArticle(id: string, ctx: SiteContext): string {
+  const article = updateMap.get(id);
+  if (!article) {
+    return `<article class="article">
+<div class="brand-kicker">Missing leaf</div>
+<h1 class="page-title">没有这篇更新</h1>
+<p class="lede">该文章可能已移动或尚未发布。</p>
+<p><a class="btn" href="${escapeHtml(hrefWith({ name: "updates" }, ctx))}">回到更新</a></p>
+</article>`;
+  }
+  const sources = article.sources
+    .map(
+      (source) =>
+        `<li><a href="${escapeHtml(source.url)}" target="_blank" rel="noreferrer">${escapeHtml(source.label)} ↗</a></li>`,
+    )
+    .join("");
+  return `<article class="article">
+<header>
+<nav class="crumbs" aria-label="面包屑">
+<a href="${escapeHtml(hrefWith({ name: "updates" }, ctx))}">更新</a>
+<span aria-hidden="true">/</span>
+<span>${escapeHtml(article.from)} → ${escapeHtml(article.to)}</span>
+</nav>
+<h1>${escapeHtml(article.title)}</h1>
+<p class="lede">${escapeHtml(article.summary)}</p>
+</header>
+${md(article.body)}
+<section class="sources"><h2>来源</h2><ul>${sources}</ul></section>
+</article>`;
+}
+
 function articlesInner(): string {
   const items = articles
     .map(
@@ -260,9 +322,10 @@ function aboutInner(): string {
 <p>不同版本的命令和配置可能有所变化，使用时请参考 <a href="https://developers.openai.com/codex" target="_blank" rel="noreferrer">developers.openai.com/codex</a> 和本机 <code>/help</code> 为准。</p>
 <h2>怎么用</h2>
 <ul>
-<li>按 <kbd>/</kbd> 或 <kbd>⌘K</kbd> 检索技巧、模板、文章和社区动态</li>
+<li>按 <kbd>/</kbd> 或 <kbd>⌘K</kbd> 检索技巧、模板、文章、更新和社区动态</li>
 <li>目录可按章节、难度、入口过滤；点技巧卡片进入正文</li>
-<li>文章页是外链阅读清单，社区页跟踪 X 和论坛里刚出现的用法</li>
+<li>更新页是CLI 100 个稳定版的命令与功能对照文章；文章页是外链阅读清单</li>
+<li>社区页跟踪 X 和论坛里刚出现的用法</li>
 <li>速查表可按关键字过滤，点命令即可复制</li>
 <li>模板页可按类型筛选，复制 AGENTS.md、config、skill、子代理骨架</li>
 </ul>
@@ -289,6 +352,12 @@ export function snapshotHtml(route: Route, ctx: SiteContext): string {
       break;
     case "articles":
       inner = articlesInner();
+      break;
+    case "updates":
+      inner = updatesInner(ctx);
+      break;
+    case "update":
+      inner = updateArticle(route.id, ctx);
       break;
     case "community":
       inner = communityInner();
@@ -321,6 +390,7 @@ title: Codex Tips · 现场手册
 - [目录](tips.md)
 - [速查表](cheatsheet.md)
 - [模板](templates.md)
+- [更新](updates.md)
 - [文章](articles.md)
 - [社区](community.md)
 - [关于](about.md)
@@ -398,6 +468,36 @@ ${current.code}
 
 ${articles.map((article) => `- [${article.title}](${article.url})（${article.source} · ${article.kind} · ${article.lang}）：${article.summary}`).join("\n")}
 `;
+    case "updates":
+      return `# 更新
+
+对照 npm 上0.69.0–0.155.1 的 100 个稳定版 Codex CLI。
+
+${updates.map((item) => `- [${item.title}](updates/${item.id}.md)（${item.from} → ${item.to}）：${item.summary}`).join("\n")}
+`;
+    case "update": {
+      const article = updateMap.get(route.id);
+      if (!article) return undefined;
+      return `---
+title: ${yamlQuote(article.title)}
+summary: ${yamlQuote(article.summary)}
+from: ${article.from}
+to: ${article.to}
+tags: [${article.tags.map((tag) => yamlQuote(tag)).join(", ")}]
+canonical: /updates/${article.id}/
+---
+
+# ${article.title}
+
+${article.summary}
+
+${article.body}
+
+## 来源
+
+${article.sources.map((source) => `- [${source.label}](${source.url})`).join("\n")}
+`;
+    }
     case "community":
       return `# 社区
 
