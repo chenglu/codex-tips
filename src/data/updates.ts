@@ -52,9 +52,9 @@ export const updates: UpdateArticle[] = [
   {
     id: "cli-100-overview",
     no: 1,
-    title: "Codex CLI 100 个稳定版：范围与对照方法",
+    title: "Codex CLI 版本更新日志：0.69–0.155.1",
     summary:
-      "把 npm 上 0.69.0–0.155.1 的 100 个稳定版 @openai/codex 的 linux-x64 二进制跑一遍 --help 和 features list。命令从 13 个增加到 25 个，特性开关从 16 个增加到 142 个。下面 10 篇按区间写差别。",
+      "按版本倒序整理新增功能、修复和兼容性变化，涵盖工作树、插件、Hooks、MCP、会话管理与命令调整。",
     from: "0.69.0",
     to: "0.155.1",
     versions: [
