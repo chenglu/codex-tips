@@ -82,9 +82,8 @@ export const updates: UpdateArticle[] = [
   {
     id: "cli-069-079",
     no: 2,
-    title: "0.69–0.79：技能注入、项目层配置和 exec 子命令参数",
-    summary:
-      "顶层仍是 13 个命令。这一段把 Skills、项目层 .codex/config.toml、/experimental 和 exec resume/review 的全局参数纳入常用工作流。",
+    title: "0.69–0.79：Skills、项目配置与 exec 参数",
+    summary: "新增 Skills 会话加载、项目层配置、外部编辑器入口，以及 exec resume/review 全局参数支持。",
     from: "0.69.0",
     to: "0.79.0",
     versions: ["0.69.0", "0.71.0", "0.72.0", "0.73.0", "0.74.0", "0.75.0", "0.76.0", "0.77.0", "0.78.0", "0.79.0"],
@@ -95,9 +94,8 @@ export const updates: UpdateArticle[] = [
   {
     id: "cli-080-091",
     no: 3,
-    title: "0.80–0.91：fork 进 CLI，默认模型换成 gpt-5.2-codex",
-    summary:
-      "0.81 增加 codex fork 和 --no-alt-screen。协作、连接器和网络沙箱代理在 TUI / app-server 里铺开，子代理数量被收紧。",
+    title: "0.80–0.91：会话分支、登录与协作模式",
+    summary: "新增 codex fork、设备码登录和连接器支持，调整技能元数据、权限入口及子代理数量上限。",
     from: "0.80.0",
     to: "0.91.0",
     versions: ["0.80.0", "0.81.0", "0.84.0", "0.85.0", "0.86.0", "0.87.0", "0.88.0", "0.89.0", "0.90.0", "0.91.0"],
@@ -108,9 +106,8 @@ export const updates: UpdateArticle[] = [
   {
     id: "cli-092-101",
     no: 4,
-    title: "0.92–0.101：debug 独立、--ephemeral，以及 Plan / Steer 默认开",
-    summary:
-      "0.95 把 debug 从 sandbox 的别名里拆出来。0.99 给 exec 加上 --ephemeral。Skills 目录迁到 .agents/skills，personality 和 unified_exec 陆续标成 stable。",
+    title: "0.92–0.101：Plan、debug 与临时会话",
+    summary: "新增独立 debug 命令、临时会话和 TUI 配置入口；调整技能目录与 Plan、Steer 的默认行为。",
     from: "0.92.0",
     to: "0.101.0",
     versions: ["0.92.0", "0.93.0", "0.94.0", "0.95.0", "0.96.0", "0.97.0", "0.98.0", "0.99.0", "0.100.0", "0.101.0"],
@@ -121,9 +118,8 @@ export const updates: UpdateArticle[] = [
   {
     id: "cli-102-113",
     no: 5,
-    title: "0.102–0.113：插件、memories、Guardian 和 request_permissions",
-    summary:
-      "命令表没动，特性开关从 32 涨到 46。插件系统、/fast、语音转写和运行时要权限的工具都在这一段进 features list。",
+    title: "0.102–0.113：插件、记忆与权限请求",
+    summary: "新增插件系统、记忆、语音输入和运行时权限请求，改进 TUI 编辑及多代理工作流。",
     from: "0.102.0",
     to: "0.113.0",
     versions: ["0.102.0", "0.103.0", "0.104.0", "0.105.0", "0.106.0", "0.107.0", "0.110.0", "0.111.0", "0.112.0", "0.113.0"],
@@ -134,9 +130,8 @@ export const updates: UpdateArticle[] = [
   {
     id: "cli-114-123",
     no: 6,
-    title: "0.114–0.123：Hooks、远程 TUI，以及 marketplace 改名为 plugin",
-    summary:
-      "0.119 增加 exec-server，0.121 的 marketplace 在 0.122 改成 plugin。根命令出现 --remote。plugins 和 multi_agent 标成 stable。",
+    title: "0.114–0.123：Hooks、远程连接与插件命令",
+    summary: "新增 Hooks、远程 TUI 和 exec-server；marketplace 更名为 plugin，支持忽略用户配置和规则。",
     from: "0.114.0",
     to: "0.123.0",
     versions: ["0.114.0", "0.115.0", "0.116.0", "0.117.0", "0.118.0", "0.119.0", "0.120.0", "0.121.0", "0.122.0", "0.123.0"],
@@ -147,9 +142,8 @@ export const updates: UpdateArticle[] = [
   {
     id: "cli-124-135",
     no: 7,
-    title: "0.124–0.135：update / doctor / remote-control，移除 --full-auto",
-    summary:
-      "自更新、诊断和远程控制进顶层命令。0.128 去掉 --full-auto。0.131 短暂出现 --profile-v2，0.134 又收回，只留 --profile。",
+    title: "0.124–0.135：自更新、诊断与配置迁移",
+    summary: "新增 update、doctor 和 remote-control；Hooks 稳定，移除 --full-auto，并调整 profile 与登录参数。",
     from: "0.124.0",
     to: "0.135.0",
     versions: ["0.124.0", "0.125.0", "0.128.0", "0.129.0", "0.130.0", "0.131.0", "0.132.0", "0.133.0", "0.134.0", "0.135.0"],
@@ -160,9 +154,8 @@ export const updates: UpdateArticle[] = [
   {
     id: "cli-136-142",
     no: 8,
-    title: "0.136–0.142：archive / delete、/import，以及会话管理",
-    summary:
-      "会话从 resume/fork，变成可以归档、恢复和永久删除。0.140 的 /import 开始从 Claude Code 迁配置。plugin 子命令补上 --json。",
+    title: "0.136–0.142.3：会话管理与配置导入",
+    summary: "新增会话归档、恢复、删除和配置导入；插件命令支持 JSON 输出，改进远程控制与任务切换。",
     from: "0.136.0",
     to: "0.142.3",
     versions: ["0.136.0", "0.137.0", "0.138.0", "0.139.0", "0.140.0", "0.141.0", "0.142.0", "0.142.1", "0.142.2", "0.142.3"],
@@ -173,9 +166,8 @@ export const updates: UpdateArticle[] = [
   {
     id: "cli-142-144",
     no: 9,
-    title: "0.142.4–0.144.6：remote-control pair，以及补丁更新",
-    summary:
-      "顶层命令数量保持不变。主要的 CLI 变化在 0.143：remote-control pair，sandbox 参数改名。后面六个 0.144.x 多半是安装、Guardian 和模型元数据补丁。",
+    title: "0.142.4–0.144.6：远程配对与修复更新",
+    summary: "新增远程控制配对和系统代理支持；修复安装器、Guardian 审批及模型元数据问题。",
     from: "0.142.4",
     to: "0.144.6",
     versions: ["0.142.4", "0.142.5", "0.143.0", "0.144.0", "0.144.1", "0.144.2", "0.144.3", "0.144.4", "0.144.5", "0.144.6"],
@@ -186,9 +178,8 @@ export const updates: UpdateArticle[] = [
   {
     id: "cli-145-151",
     no: 10,
-    title: "0.145–0.151：agents / queue / --approve-for-me，从 --help 移除 untrusted",
-    summary:
-      "0.147 增加自动审批参数，0.148 增加 exec fork 和 migrate-rollouts，0.149 增加 agents 与 queue。审批策略里的 untrusted 从此不再出现在 --help。",
+    title: "0.145–0.151：自动审批、任务管理与队列",
+    summary: "新增自动审批、agents 仪表盘、消息队列及会话导出，扩展 Hooks、插件和 MCP 支持。",
     from: "0.145.0",
     to: "0.151.0",
     versions: ["0.145.0", "0.146.0", "0.146.1", "0.147.0", "0.148.0", "0.149.0", "0.149.1", "0.150.0", "0.150.1", "0.151.0"],
@@ -199,9 +190,8 @@ export const updates: UpdateArticle[] = [
   {
     id: "cli-152-155",
     no: 11,
-    title: "0.152–0.155：--worktree、MCP 包名，以及 移除 mcp-server",
-    summary:
-      "0.154 给根命令加上 --worktree，同时去掉顶层 mcp-server。0.152 起 MCP 名称允许 : @ / .。0.155 把实验性 /voice 放进 /experimental。",
+    title: "0.152–0.155.1：工作树、语音与 MCP 变更",
+    summary: "新增托管工作树、语音和 Touch ID 支持；调整 MCP 命名、工具输出限制及 reasoning summaries 默认值。",
     from: "0.152.0",
     to: "0.155.1",
     versions: ["0.152.0", "0.152.1", "0.153.0", "0.153.1", "0.153.2", "0.153.3", "0.153.4", "0.154.0", "0.155.0", "0.155.1"],

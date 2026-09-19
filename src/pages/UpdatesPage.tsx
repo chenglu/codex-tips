@@ -19,11 +19,7 @@ export function UpdatesPage() {
     <div className="article catalog-page">
       <div className="brand-kicker">Release notes</div>
       <h1 className="page-title">更新</h1>
-      <p className="note">
-        对照 npm 上0.69.0–0.155.1 的 100 个稳定版 <code>@openai/codex</code>。文章根据上游记录的各版本二进制{" "}
-        <code>--help</code> / <code>features list</code>，再对照 GitHub <code>rust-v*</code>{" "}
-        发行说明。动手前仍以本机 <code>/help</code> 为准。
-      </p>
+      <p className="note">整理 Codex CLI 0.69.0–0.155.1 的版本更新，按版本列出新增功能、改进、修复和兼容性变化。</p>
       <div className="filters">
         <label>
           检索

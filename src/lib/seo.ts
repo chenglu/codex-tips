@@ -406,7 +406,7 @@ export function seoForRoute(route: Route, ctx: SiteContext): SeoDoc {
     }
     case "updates": {
       const title = `更新 · ${SITE_NAME}`;
-      const description = `Codex CLI 近 ${updateVersionCount} 个稳定版对照：实测 --help / features list，按版本区间写成系列更新文章，共 ${updates.length} 篇。`;
+      const description = `Codex CLI 版本更新日志：涵盖 ${updateVersionCount} 个稳定版的新增功能、改进、修复和兼容性变化，共 ${updates.length} 篇。`;
       const canonical = canonicalUrl(route, ctx);
       return {
         title,

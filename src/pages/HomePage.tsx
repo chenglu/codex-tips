@@ -37,7 +37,7 @@ export function HomePage() {
               打开目录
             </a>
             <a className="btn btn-ghost" href={href({ name: "updates" })}>
-              版本对照
+              版本更新
             </a>
           </div>
           <div className="meta-row">
@@ -108,7 +108,7 @@ export function HomePage() {
       {updates.length > 0 ? (
       <div className="section-block">
         <div className="section-head">
-          <h2>CLI 版本对照</h2>
+          <h2>CLI 版本更新</h2>
           <a href={href({ name: "updates" })}>全部更新 →</a>
         </div>
         <div className="feed">

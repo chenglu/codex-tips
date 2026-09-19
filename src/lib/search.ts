@@ -117,7 +117,7 @@ const pageHits: SearchHit[] = [
   {
     kind: "page",
     title: "更新",
-    summary: "近 100 个 Codex CLI 稳定版对照",
+    summary: "Codex CLI 版本更新日志",
     href: href({ name: "updates" }),
     kicker: "页面",
   },

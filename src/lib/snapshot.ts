@@ -148,7 +148,7 @@ function homeInner(ctx: SiteContext): string {
 ${
   updates.length
     ? `<div class="section-block">
-<div class="section-head"><h2>CLI 版本对照</h2></div>
+<div class="section-head"><h2>CLI 版本更新</h2></div>
 <div class="feed">${updates
         .slice(0, 4)
         .map(
@@ -247,7 +247,7 @@ function updatesInner(ctx: SiteContext): string {
   return `<div class="article catalog-page">
 <div class="brand-kicker">Release notes</div>
 <h1 class="page-title">更新</h1>
-<p class="note">对照 npm 上0.69.0–0.155.1 的 100 个稳定版 @openai/codex。文章根据上游记录的各版本二进制 --help / features list，再对照 GitHub rust-v* 发行说明。</p>
+<p class="note">整理 Codex CLI 0.69.0–0.155.1 的版本更新，按版本列出新增功能、改进、修复和兼容性变化。</p>
 <div class="feed">${items}</div>
 </div>`;
 }
@@ -324,7 +324,7 @@ function aboutInner(): string {
 <ul>
 <li>按 <kbd>/</kbd> 或 <kbd>⌘K</kbd> 检索技巧、模板、文章、更新和社区动态</li>
 <li>目录可按章节、难度、入口过滤；点技巧卡片进入正文</li>
-<li>更新页是CLI 100 个稳定版的命令与功能对照文章；文章页是外链阅读清单</li>
+<li>更新页按版本整理 CLI 功能变化；文章页是外链阅读清单</li>
 <li>社区页跟踪 X 和论坛里刚出现的用法</li>
 <li>速查表可按关键字过滤，点命令即可复制</li>
 <li>模板页可按类型筛选，复制 AGENTS.md、config、skill、子代理骨架</li>
@@ -471,7 +471,7 @@ ${articles.map((article) => `- [${article.title}](${article.url})（${article.so
     case "updates":
       return `# 更新
 
-对照 npm 上0.69.0–0.155.1 的 100 个稳定版 Codex CLI。
+整理 Codex CLI 0.69.0–0.155.1 的版本更新，按版本列出新增功能、改进、修复和兼容性变化。
 
 ${updates.map((item) => `- [${item.title}](updates/${item.id}.md)（${item.from} → ${item.to}）：${item.summary}`).join("\n")}
 `;
