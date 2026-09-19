@@ -3,6 +3,7 @@ import { categories, categoryMap } from "../data/categories";
 import { cheatSections } from "../data/cheatsheet";
 import { community } from "../data/community";
 import { templates } from "../data/templates";
+import { updateMap, updates } from "../data/updates";
 import { tipMap, tips } from "../data/tips";
 import { siteFaqs } from "./faq";
 import { levelLabel, surfaceLabel } from "./labels";
@@ -118,6 +119,10 @@ export function markdownAppPath(route: Route): string | undefined {
       return route.id ? `/templates/${route.id}.md` : "/templates.md";
     case "articles":
       return "/articles.md";
+    case "updates":
+      return "/updates.md";
+    case "update":
+      return `/updates/${route.id}.md`;
     case "community":
       return "/community.md";
     case "about":
@@ -399,6 +404,103 @@ export function seoForRoute(route: Route, ctx: SiteContext): SeoDoc {
         ],
       };
     }
+    case "updates": {
+      const title = `更新 · ${SITE_NAME}`;
+      const description = `Codex CLI 近 ${updates.reduce((n, item) => n + item.versions.length, 0) || 100} 个稳定版对照：实测 --help / features list，按版本区间写成系列更新文章，共 ${updates.length} 篇。`;
+      const canonical = canonicalUrl(route, ctx);
+      return {
+        title,
+        description,
+        canonical,
+        robots: ROBOTS_INDEX,
+        ogType: "website",
+        image,
+        keywords: `${DEFAULT_KEYWORDS}, changelog, 版本, 更新`,
+        markdownUrl,
+        jsonLd: [
+          ...graphBase,
+          webpage(route, { title, description }, ctx, {
+            "@type": ["WebPage", "CollectionPage"],
+            breadcrumb: { "@id": `${canonical}#breadcrumb` },
+          }),
+          {
+            ...breadcrumbs(
+              [
+                { name: SITE_NAME, path: "/" },
+                { name: "更新", path: "/updates/" },
+              ],
+              ctx,
+            ),
+            "@id": `${canonical}#breadcrumb`,
+          },
+        ],
+      };
+    }
+    case "update": {
+      const article = updateMap.get(route.id);
+      if (!article) {
+        return seoForRoute({ name: "notfound" }, ctx);
+      }
+      const title = `${article.title} · ${SITE_NAME}`;
+      const description = article.summary;
+      const canonical = canonicalUrl(route, ctx);
+      const keywords = [...new Set([...article.tags, "Codex CLI", "changelog", article.from, article.to])].join(", ");
+      return {
+        title,
+        description,
+        canonical,
+        robots: ROBOTS_INDEX,
+        ogType: "article",
+        image,
+        keywords,
+        markdownUrl: absoluteUrl(`/updates/${article.id}.md`, ctx),
+        articleSection: "更新",
+        articleTags: article.tags,
+        jsonLd: [
+          ...graphBase,
+          {
+            "@type": "TechArticle",
+            "@id": `${canonical}#article`,
+            headline: article.title,
+            description: article.summary,
+            inLanguage: SITE_LANG,
+            url: canonical,
+            mainEntityOfPage: canonical,
+            author: { "@id": `${ctx.siteUrl}/#author` },
+            publisher: { "@id": `${ctx.siteUrl}/#publisher` },
+            image,
+            keywords: article.tags,
+            articleSection: "更新",
+            about: {
+              "@type": "SoftwareApplication",
+              name: "Codex CLI",
+              softwareVersion: `${article.from}–${article.to}`,
+            },
+            citation: article.sources.map((source) => ({
+              "@type": "CreativeWork",
+              name: source.label,
+              url: source.url,
+            })),
+            isPartOf: { "@id": `${ctx.siteUrl}/#website` },
+          },
+          webpage(route, { title, description }, ctx, {
+            breadcrumb: { "@id": `${canonical}#breadcrumb` },
+            mainEntity: { "@id": `${canonical}#article` },
+          }),
+          {
+            ...breadcrumbs(
+              [
+                { name: SITE_NAME, path: "/" },
+                { name: "更新", path: "/updates/" },
+                { name: article.title, path: `/updates/${article.id}/` },
+              ],
+              ctx,
+            ),
+            "@id": `${canonical}#breadcrumb`,
+          },
+        ],
+      };
+    }
     case "community": {
       const title = `社区 · ${SITE_NAME}`;
       const description = `Codex 社区动态：X、论坛和刚出现的用法、版本变化与踩坑，共 ${community.length} 条。操作前仍以官方文档为准。`;
@@ -499,6 +601,12 @@ export function documentTitle(route: Route): string {
     }
     case "articles":
       return `文章 · ${SITE_NAME}`;
+    case "updates":
+      return `更新 · ${SITE_NAME}`;
+    case "update": {
+      const article = updateMap.get(route.id);
+      return article ? `${article.title} · ${SITE_NAME}` : `未找到 · ${SITE_NAME}`;
+    }
     case "community":
       return `社区 · ${SITE_NAME}`;
     case "about":
@@ -515,11 +623,13 @@ export function listPrerenderRoutes(): Route[] {
     { name: "cheatsheet" },
     { name: "templates" },
     { name: "articles" },
+    { name: "updates" },
     { name: "community" },
     { name: "about" },
   ];
   for (const tip of tips) routes.push({ name: "tip", id: tip.id });
   for (const template of templates) routes.push({ name: "templates", id: template.id });
+  for (const article of updates) routes.push({ name: "update", id: article.id });
   return routes;
 }
 
@@ -530,6 +640,7 @@ export function sitemapEntries(ctx: SiteContext): { loc: string; changefreq: str
     { loc: absoluteUrl("/cheatsheet/", ctx), changefreq: "weekly", priority: "0.8" },
     { loc: absoluteUrl("/templates/", ctx), changefreq: "weekly", priority: "0.8" },
     { loc: absoluteUrl("/articles/", ctx), changefreq: "weekly", priority: "0.7" },
+    { loc: absoluteUrl("/updates/", ctx), changefreq: "weekly", priority: "0.8" },
     { loc: absoluteUrl("/community/", ctx), changefreq: "weekly", priority: "0.7" },
     { loc: absoluteUrl("/about/", ctx), changefreq: "monthly", priority: "0.5" },
   ];
@@ -545,6 +656,13 @@ export function sitemapEntries(ctx: SiteContext): { loc: string; changefreq: str
       loc: absoluteUrl(`/templates/${template.id}/`, ctx),
       changefreq: "monthly",
       priority: "0.5",
+    });
+  }
+  for (const article of updates) {
+    entries.push({
+      loc: absoluteUrl(`/updates/${article.id}/`, ctx),
+      changefreq: "monthly",
+      priority: "0.7",
     });
   }
   return entries;

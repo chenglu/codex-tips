@@ -15,6 +15,8 @@ import {
 import { AboutPage } from "./pages/AboutPage";
 import { ArticlesPage } from "./pages/ArticlesPage";
 import { BrowsePage } from "./pages/BrowsePage";
+import { UpdatePage } from "./pages/UpdatePage";
+import { UpdatesPage } from "./pages/UpdatesPage";
 import { CheatsheetPage } from "./pages/CheatsheetPage";
 import { CommunityPage } from "./pages/CommunityPage";
 import { HomePage } from "./pages/HomePage";
@@ -76,6 +78,7 @@ function usePathRoute(): Route {
 
 function navActive(route: Route, name: Route["name"]): boolean {
   if (name === "browse") return route.name === "browse" || route.name === "tip";
+  if (name === "updates") return route.name === "updates" || route.name === "update";
   return route.name === name;
 }
 
@@ -189,6 +192,8 @@ export function App() {
             {route.name === "cheatsheet" && <CheatsheetPage search={route.search} />}
             {route.name === "templates" && <TemplatesPage id={route.id} />}
             {route.name === "articles" && <ArticlesPage />}
+            {route.name === "updates" && <UpdatesPage />}
+            {route.name === "update" && <UpdatePage id={route.id} />}
             {route.name === "community" && <CommunityPage />}
             {route.name === "about" && <AboutPage />}
             {route.name === "notfound" && <NotFoundPage />}

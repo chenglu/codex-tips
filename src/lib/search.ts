@@ -1,6 +1,7 @@
 import { articles } from "../data/articles";
 import { community } from "../data/community";
 import { templates } from "../data/templates";
+import { updates } from "../data/updates";
 import { href } from "./routes";
 import type { CategoryId, Level, Surface, Tip } from "../types";
 
@@ -77,7 +78,7 @@ export function searchTips(tips: Tip[], filters: Filters): Tip[] {
 }
 
 export type SearchHit = {
-  kind: "tip" | "article" | "community" | "page";
+  kind: "tip" | "article" | "community" | "page" | "update";
   title: string;
   summary: string;
   href: string;
@@ -111,6 +112,13 @@ const pageHits: SearchHit[] = [
     title: "文章",
     summary: "官方文档、教程、清单与示例仓库",
     href: href({ name: "articles" }),
+    kicker: "页面",
+  },
+  {
+    kind: "page",
+    title: "更新",
+    summary: "近 100 个 Codex CLI 稳定版对照",
+    href: href({ name: "updates" }),
     kicker: "页面",
   },
   {
@@ -190,6 +198,18 @@ export function searchCatalog(query: string, tips: Tip[], limit = 12): SearchHit
       summary: article.summary,
       href: article.url,
       kicker: `文章 · ${article.source}`,
+    });
+  }
+
+  for (const item of updates) {
+    const text = `${item.title} ${item.summary} ${item.from} ${item.to} ${item.tags.join(" ")} ${item.versions.join(" ")} ${item.body}`.toLowerCase();
+    if (!text.includes(needle)) continue;
+    hits.push({
+      kind: "update",
+      title: item.title,
+      summary: item.summary,
+      href: href({ name: "update", id: item.id }),
+      kicker: `更新 · ${item.from} → ${item.to}`,
     });
   }
 
