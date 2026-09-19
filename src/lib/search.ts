@@ -162,6 +162,18 @@ export function searchCatalog(query: string, tips: Tip[], limit = 12): SearchHit
     if (text.includes(needle)) hits.push(page);
   }
 
+  for (const item of updates) {
+    const text = `${item.title} ${item.summary} ${item.from} ${item.to} ${item.tags.join(" ")} ${item.versions.join(" ")} ${item.body}`.toLowerCase();
+    if (!text.includes(needle)) continue;
+    hits.push({
+      kind: "update",
+      title: item.title,
+      summary: item.summary,
+      href: href({ name: "update", id: item.id }),
+      kicker: `更新 · ${item.from} → ${item.to}`,
+    });
+  }
+
   for (const tip of searchTips(tips, {
     query,
     category: "all",
@@ -198,18 +210,6 @@ export function searchCatalog(query: string, tips: Tip[], limit = 12): SearchHit
       summary: article.summary,
       href: article.url,
       kicker: `文章 · ${article.source}`,
-    });
-  }
-
-  for (const item of updates) {
-    const text = `${item.title} ${item.summary} ${item.from} ${item.to} ${item.tags.join(" ")} ${item.versions.join(" ")} ${item.body}`.toLowerCase();
-    if (!text.includes(needle)) continue;
-    hits.push({
-      kind: "update",
-      title: item.title,
-      summary: item.summary,
-      href: href({ name: "update", id: item.id }),
-      kicker: `更新 · ${item.from} → ${item.to}`,
     });
   }
 
